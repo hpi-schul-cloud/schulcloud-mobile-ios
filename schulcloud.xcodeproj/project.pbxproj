@@ -1,0 +1,556 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C3A5A9031EBCC17600825DBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9021EBCC17600825DBF /* AppDelegate.swift */; };
+		C3A5A9051EBCC17600825DBF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9041EBCC17600825DBF /* ViewController.swift */; };
+		C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3A5A9061EBCC17600825DBF /* Main.storyboard */; };
+		C3A5A90B1EBCC17600825DBF /* schulcloud.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9091EBCC17600825DBF /* schulcloud.xcdatamodeld */; };
+		C3A5A90D1EBCC17600825DBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3A5A90C1EBCC17600825DBF /* Assets.xcassets */; };
+		C3A5A9101EBCC17600825DBF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3A5A90E1EBCC17600825DBF /* LaunchScreen.storyboard */; };
+		C3A5A91B1EBCC17600825DBF /* schulcloudTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A91A1EBCC17600825DBF /* schulcloudTests.swift */; };
+		C3A5A9261EBCC17600825DBF /* schulcloudUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9251EBCC17600825DBF /* schulcloudUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C3A5A9171EBCC17600825DBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C3A5A8F71EBCC17600825DBF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C3A5A8FE1EBCC17600825DBF;
+			remoteInfo = schulcloud;
+		};
+		C3A5A9221EBCC17600825DBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C3A5A8F71EBCC17600825DBF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C3A5A8FE1EBCC17600825DBF;
+			remoteInfo = schulcloud;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		C3A5A8FF1EBCC17600825DBF /* schulcloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = schulcloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3A5A9021EBCC17600825DBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C3A5A9041EBCC17600825DBF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C3A5A9071EBCC17600825DBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C3A5A90A1EBCC17600825DBF /* schulcloud.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = schulcloud.xcdatamodel; sourceTree = "<group>"; };
+		C3A5A90C1EBCC17600825DBF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C3A5A90F1EBCC17600825DBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C3A5A9111EBCC17600825DBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C3A5A9161EBCC17600825DBF /* schulcloudTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = schulcloudTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3A5A91A1EBCC17600825DBF /* schulcloudTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = schulcloudTests.swift; sourceTree = "<group>"; };
+		C3A5A91C1EBCC17600825DBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C3A5A9211EBCC17600825DBF /* schulcloudUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = schulcloudUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3A5A9251EBCC17600825DBF /* schulcloudUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = schulcloudUITests.swift; sourceTree = "<group>"; };
+		C3A5A9271EBCC17600825DBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C3A5A8FC1EBCC17600825DBF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3A5A9131EBCC17600825DBF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3A5A91E1EBCC17600825DBF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C3A5A8F61EBCC17600825DBF = {
+			isa = PBXGroup;
+			children = (
+				C3A5A9011EBCC17600825DBF /* schulcloud */,
+				C3A5A9191EBCC17600825DBF /* schulcloudTests */,
+				C3A5A9241EBCC17600825DBF /* schulcloudUITests */,
+				C3A5A9001EBCC17600825DBF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C3A5A9001EBCC17600825DBF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C3A5A8FF1EBCC17600825DBF /* schulcloud.app */,
+				C3A5A9161EBCC17600825DBF /* schulcloudTests.xctest */,
+				C3A5A9211EBCC17600825DBF /* schulcloudUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C3A5A9011EBCC17600825DBF /* schulcloud */ = {
+			isa = PBXGroup;
+			children = (
+				C3A5A9021EBCC17600825DBF /* AppDelegate.swift */,
+				C3A5A9041EBCC17600825DBF /* ViewController.swift */,
+				C3A5A9061EBCC17600825DBF /* Main.storyboard */,
+				C3A5A90C1EBCC17600825DBF /* Assets.xcassets */,
+				C3A5A90E1EBCC17600825DBF /* LaunchScreen.storyboard */,
+				C3A5A9111EBCC17600825DBF /* Info.plist */,
+				C3A5A9091EBCC17600825DBF /* schulcloud.xcdatamodeld */,
+			);
+			path = schulcloud;
+			sourceTree = "<group>";
+		};
+		C3A5A9191EBCC17600825DBF /* schulcloudTests */ = {
+			isa = PBXGroup;
+			children = (
+				C3A5A91A1EBCC17600825DBF /* schulcloudTests.swift */,
+				C3A5A91C1EBCC17600825DBF /* Info.plist */,
+			);
+			path = schulcloudTests;
+			sourceTree = "<group>";
+		};
+		C3A5A9241EBCC17600825DBF /* schulcloudUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C3A5A9251EBCC17600825DBF /* schulcloudUITests.swift */,
+				C3A5A9271EBCC17600825DBF /* Info.plist */,
+			);
+			path = schulcloudUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C3A5A8FE1EBCC17600825DBF /* schulcloud */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C3A5A92A1EBCC17600825DBF /* Build configuration list for PBXNativeTarget "schulcloud" */;
+			buildPhases = (
+				C3A5A8FB1EBCC17600825DBF /* Sources */,
+				C3A5A8FC1EBCC17600825DBF /* Frameworks */,
+				C3A5A8FD1EBCC17600825DBF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = schulcloud;
+			productName = schulcloud;
+			productReference = C3A5A8FF1EBCC17600825DBF /* schulcloud.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C3A5A9151EBCC17600825DBF /* schulcloudTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C3A5A92D1EBCC17600825DBF /* Build configuration list for PBXNativeTarget "schulcloudTests" */;
+			buildPhases = (
+				C3A5A9121EBCC17600825DBF /* Sources */,
+				C3A5A9131EBCC17600825DBF /* Frameworks */,
+				C3A5A9141EBCC17600825DBF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C3A5A9181EBCC17600825DBF /* PBXTargetDependency */,
+			);
+			name = schulcloudTests;
+			productName = schulcloudTests;
+			productReference = C3A5A9161EBCC17600825DBF /* schulcloudTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C3A5A9201EBCC17600825DBF /* schulcloudUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C3A5A9301EBCC17600825DBF /* Build configuration list for PBXNativeTarget "schulcloudUITests" */;
+			buildPhases = (
+				C3A5A91D1EBCC17600825DBF /* Sources */,
+				C3A5A91E1EBCC17600825DBF /* Frameworks */,
+				C3A5A91F1EBCC17600825DBF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C3A5A9231EBCC17600825DBF /* PBXTargetDependency */,
+			);
+			name = schulcloudUITests;
+			productName = schulcloudUITests;
+			productReference = C3A5A9211EBCC17600825DBF /* schulcloudUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C3A5A8F71EBCC17600825DBF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "Hasso-Plattner-Institut";
+				TargetAttributes = {
+					C3A5A8FE1EBCC17600825DBF = {
+						CreatedOnToolsVersion = 8.3;
+						DevelopmentTeam = WP53SSE8S6;
+						ProvisioningStyle = Automatic;
+					};
+					C3A5A9151EBCC17600825DBF = {
+						CreatedOnToolsVersion = 8.3;
+						DevelopmentTeam = WP53SSE8S6;
+						ProvisioningStyle = Automatic;
+						TestTargetID = C3A5A8FE1EBCC17600825DBF;
+					};
+					C3A5A9201EBCC17600825DBF = {
+						CreatedOnToolsVersion = 8.3;
+						DevelopmentTeam = WP53SSE8S6;
+						ProvisioningStyle = Automatic;
+						TestTargetID = C3A5A8FE1EBCC17600825DBF;
+					};
+				};
+			};
+			buildConfigurationList = C3A5A8FA1EBCC17600825DBF /* Build configuration list for PBXProject "schulcloud" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C3A5A8F61EBCC17600825DBF;
+			productRefGroup = C3A5A9001EBCC17600825DBF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C3A5A8FE1EBCC17600825DBF /* schulcloud */,
+				C3A5A9151EBCC17600825DBF /* schulcloudTests */,
+				C3A5A9201EBCC17600825DBF /* schulcloudUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C3A5A8FD1EBCC17600825DBF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C3A5A9101EBCC17600825DBF /* LaunchScreen.storyboard in Resources */,
+				C3A5A90D1EBCC17600825DBF /* Assets.xcassets in Resources */,
+				C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3A5A9141EBCC17600825DBF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3A5A91F1EBCC17600825DBF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C3A5A8FB1EBCC17600825DBF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C3A5A9051EBCC17600825DBF /* ViewController.swift in Sources */,
+				C3A5A9031EBCC17600825DBF /* AppDelegate.swift in Sources */,
+				C3A5A90B1EBCC17600825DBF /* schulcloud.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3A5A9121EBCC17600825DBF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C3A5A91B1EBCC17600825DBF /* schulcloudTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3A5A91D1EBCC17600825DBF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C3A5A9261EBCC17600825DBF /* schulcloudUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C3A5A9181EBCC17600825DBF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C3A5A8FE1EBCC17600825DBF /* schulcloud */;
+			targetProxy = C3A5A9171EBCC17600825DBF /* PBXContainerItemProxy */;
+		};
+		C3A5A9231EBCC17600825DBF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C3A5A8FE1EBCC17600825DBF /* schulcloud */;
+			targetProxy = C3A5A9221EBCC17600825DBF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C3A5A9061EBCC17600825DBF /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C3A5A9071EBCC17600825DBF /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		C3A5A90E1EBCC17600825DBF /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C3A5A90F1EBCC17600825DBF /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C3A5A9281EBCC17600825DBF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C3A5A9291EBCC17600825DBF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C3A5A92B1EBCC17600825DBF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = WP53SSE8S6;
+				INFOPLIST_FILE = schulcloud/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.schul-cloud.schulcloud";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		C3A5A92C1EBCC17600825DBF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = WP53SSE8S6;
+				INFOPLIST_FILE = schulcloud/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.schul-cloud.schulcloud";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		C3A5A92E1EBCC17600825DBF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = WP53SSE8S6;
+				INFOPLIST_FILE = schulcloudTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.schul-cloud.schulcloudTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/schulcloud.app/schulcloud";
+			};
+			name = Debug;
+		};
+		C3A5A92F1EBCC17600825DBF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = WP53SSE8S6;
+				INFOPLIST_FILE = schulcloudTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.schul-cloud.schulcloudTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/schulcloud.app/schulcloud";
+			};
+			name = Release;
+		};
+		C3A5A9311EBCC17600825DBF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = WP53SSE8S6;
+				INFOPLIST_FILE = schulcloudUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.schul-cloud.schulcloudUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = schulcloud;
+			};
+			name = Debug;
+		};
+		C3A5A9321EBCC17600825DBF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = WP53SSE8S6;
+				INFOPLIST_FILE = schulcloudUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.schul-cloud.schulcloudUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = schulcloud;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C3A5A8FA1EBCC17600825DBF /* Build configuration list for PBXProject "schulcloud" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C3A5A9281EBCC17600825DBF /* Debug */,
+				C3A5A9291EBCC17600825DBF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C3A5A92A1EBCC17600825DBF /* Build configuration list for PBXNativeTarget "schulcloud" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C3A5A92B1EBCC17600825DBF /* Debug */,
+				C3A5A92C1EBCC17600825DBF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		C3A5A92D1EBCC17600825DBF /* Build configuration list for PBXNativeTarget "schulcloudTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C3A5A92E1EBCC17600825DBF /* Debug */,
+				C3A5A92F1EBCC17600825DBF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		C3A5A9301EBCC17600825DBF /* Build configuration list for PBXNativeTarget "schulcloudUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C3A5A9311EBCC17600825DBF /* Debug */,
+				C3A5A9321EBCC17600825DBF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		C3A5A9091EBCC17600825DBF /* schulcloud.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C3A5A90A1EBCC17600825DBF /* schulcloud.xcdatamodel */,
+			);
+			currentVersion = C3A5A90A1EBCC17600825DBF /* schulcloud.xcdatamodel */;
+			path = schulcloud.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = C3A5A8F71EBCC17600825DBF /* Project object */;
+}
