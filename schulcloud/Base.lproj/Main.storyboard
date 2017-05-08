@@ -70,15 +70,23 @@
                                     <color key="titleColor" red="0.69411764710000001" green="0.015686274510000001" blue="0.21960784310000001" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                             </button>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fehler: Falsche Login-Daten!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aPI-Lp-32F">
+                                <rect key="frame" x="16" y="380" width="343" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.75741851329803467" green="0.11769980937242508" blue="0.28206241130828857" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.90196078431372551" green="0.88627450980392153" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="0tD-mH-BRy" firstAttribute="top" secondItem="43F-ld-yjw" secondAttribute="bottom" constant="8" symbolic="YES" id="2yI-vH-xPO"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="aPI-Lp-32F" secondAttribute="trailing" id="AcO-hk-twD"/>
                             <constraint firstItem="0tD-mH-BRy" firstAttribute="trailing" secondItem="43F-ld-yjw" secondAttribute="trailing" id="AnH-cn-af6"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="hOD-W6-0fz" secondAttribute="bottom" priority="750" constant="60" id="BD6-ti-HkK"/>
                             <constraint firstItem="0tD-mH-BRy" firstAttribute="height" secondItem="43F-ld-yjw" secondAttribute="height" id="BG4-So-ptz"/>
                             <constraint firstItem="hOD-W6-0fz" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="ETA-ak-ucl"/>
                             <constraint firstItem="XG1-FZ-L49" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="64" id="FNW-LW-t4y"/>
+                            <constraint firstItem="aPI-Lp-32F" firstAttribute="top" secondItem="DUS-lf-mhE" secondAttribute="bottom" constant="16" id="GdN-hI-eQy"/>
                             <constraint firstItem="DUS-lf-mhE" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="JxC-oR-9pa"/>
                             <constraint firstItem="XG1-FZ-L49" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="KeI-GF-cdU"/>
                             <constraint firstItem="XG1-FZ-L49" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="LRb-Ub-oZU"/>
@@ -86,6 +94,7 @@
                             <constraint firstItem="43F-ld-yjw" firstAttribute="top" secondItem="XG1-FZ-L49" secondAttribute="bottom" constant="64" id="YT7-LX-0PX"/>
                             <constraint firstItem="DUS-lf-mhE" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="aBJ-E4-YTh"/>
                             <constraint firstItem="hOD-W6-0fz" firstAttribute="top" relation="greaterThanOrEqual" secondItem="DUS-lf-mhE" secondAttribute="bottom" constant="22" id="aMr-U7-0tA"/>
+                            <constraint firstItem="aPI-Lp-32F" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="c0t-O0-KSX"/>
                             <constraint firstItem="43F-ld-yjw" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="fEg-nK-PMs"/>
                             <constraint firstItem="DUS-lf-mhE" firstAttribute="height" secondItem="43F-ld-yjw" secondAttribute="height" id="lpB-HQ-tDj"/>
                             <constraint firstAttribute="trailingMargin" secondItem="hOD-W6-0fz" secondAttribute="trailing" id="nz6-nw-Afm"/>
@@ -95,6 +104,7 @@
                     </view>
                     <connections>
                         <outlet property="loginButton" destination="DUS-lf-mhE" id="Yjb-og-fta"/>
+                        <outlet property="loginErrorLabel" destination="aPI-Lp-32F" id="OCb-qc-mLP"/>
                         <outlet property="passwordTextArea" destination="0tD-mH-BRy" id="bDo-WK-fbo"/>
                         <outlet property="usernameTextArea" destination="43F-ld-yjw" id="KJP-WZ-ySA"/>
                         <segue destination="zYs-hl-34H" kind="show" identifier="showLoginSuccess" id="2u9-88-07H"/>
