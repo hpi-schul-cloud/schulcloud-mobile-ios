@@ -46,12 +46,17 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="go" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DUS-lf-mhE">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DUS-lf-mhE" customClass="SimpleRoundedButton" customModule="SimpleRoundedButton">
                                 <rect key="frame" x="16" y="320" width="343" height="44"/>
                                 <color key="backgroundColor" red="0.69411764710000001" green="0.015686274510000001" blue="0.21960784310000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Anmelden">
                                     <color key="titleColor" name="alternateSelectedControlTextColor" catalog="System" colorSpace="catalog"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="login" destination="BYZ-38-t0r" eventType="touchUpInside" id="Rge-wD-DE9"/>
                                 </connections>
@@ -89,6 +94,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="loginButton" destination="DUS-lf-mhE" id="Yjb-og-fta"/>
                         <outlet property="passwordTextArea" destination="0tD-mH-BRy" id="bDo-WK-fbo"/>
                         <outlet property="usernameTextArea" destination="43F-ld-yjw" id="KJP-WZ-ySA"/>
                         <segue destination="zYs-hl-34H" kind="show" identifier="showLoginSuccess" id="2u9-88-07H"/>

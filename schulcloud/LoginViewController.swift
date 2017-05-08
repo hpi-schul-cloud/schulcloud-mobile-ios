@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import SimpleRoundedButton
 
 class LoginViewController: UIViewController {
 
@@ -21,7 +22,9 @@ class LoginViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    @IBOutlet var loginButton: SimpleRoundedButton!
     @IBAction func login() {
+        loginButton.startAnimating()
         let username = usernameTextArea.text
         let password = passwordTextArea.text
         

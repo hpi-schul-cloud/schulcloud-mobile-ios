@@ -10,6 +10,7 @@ target 'schulcloud' do
   # pod 'ProcedureKit', '4.1.0'
   # pod 'ProcedureKit/Network', '4.0.0'
   # pod 'ProcedureKit/Mobile', '4.0.0'
+  pod "SimpleRoundedButton"
   # pod 'Spine', :git => 'https://github.com/wvteijlingen/Spine.git', :commit => 'bc82a5d'
   pod 'SwiftyBeaver', '1.1.0'
 

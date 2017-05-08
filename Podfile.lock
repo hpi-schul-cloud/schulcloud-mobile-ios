@@ -3,19 +3,22 @@ PODS:
   - BrightFutures (5.2.0):
     - Result (~> 3.2)
   - Result (3.2.1)
+  - SimpleRoundedButton (1.0)
   - SwiftyBeaver (1.1.0)
 
 DEPENDENCIES:
   - Alamofire (= 4.4.0)
   - BrightFutures (= 5.2.0)
+  - SimpleRoundedButton
   - SwiftyBeaver (= 1.1.0)
 
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
   BrightFutures: 8681dbb9fa831b69b6e7dc4a498b9e081d5daeb5
   Result: 2453a22e5c5b11c0c3a478736e82cd02f763b781
+  SimpleRoundedButton: d7f2be107afb25c56149f4c0df541169ca6af48c
   SwiftyBeaver: af90fecea02b46fe073dc8e622362da06886c039
 
-PODFILE CHECKSUM: 6d7f2429b2398fd583f8790dfe1bf825a2968e89
+PODFILE CHECKSUM: 758c650e2763ee46fc92ab50e7096229a6cfe2ae
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.2.1
