@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import Locksmith
 import SimpleRoundedButton
 
 class LoginViewController: UIViewController {
@@ -15,11 +16,23 @@ class LoginViewController: UIViewController {
     @IBOutlet var usernameTextArea: UITextField!
     @IBOutlet var passwordTextArea: UITextField!
     
+    let defaults = UserDefaults.standard
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        log.info("Hello there!")
+        if let username = defaults.string(forKey: "username") {
+            var account = SchulCloudAccount(username: username, userId: nil, accessToken: nil)
+            account.loadAccessTokenFromKeychain()
+            guard account.accessToken != nil else {
+                log.error("Could not load account from Keychain!")
+                return
+            }
+            self.performSegue(withIdentifier: "showLoginSuccess", sender: account)
+        }
+        
     }
     
     @IBOutlet var loginButton: SimpleRoundedButton!
@@ -42,7 +55,7 @@ class LoginViewController: UIViewController {
             
             if let json = response.result.value as? [String: Any] {
                 if let accessToken = json["accessToken"] as? String {
-                    self.performSegue(withIdentifier: "showLoginSuccess", sender: accessToken)
+                    self.saveLoginAndContinue(username: username!, accessToken: accessToken)
                 } else if let errorMessage = json["message"] as? String, errorMessage != "Error" {
                     let error = LoginError.loginFailed(errorMessage)
                     self.show(error: error)
@@ -66,15 +79,23 @@ class LoginViewController: UIViewController {
         loginErrorLabel.isHidden = false
     }
     
+    func saveLoginAndContinue(username: String, accessToken: String) {
+        let account = SchulCloudAccount(username: username, userId: nil, accessToken: accessToken)
+        defaults.set(account.username, forKey: "username")
+        try! account.createInSecureStore()
+        
+        performSegue(withIdentifier: "showLoginSuccess", sender: account)
+    }
+    
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "showLoginSuccess") {
-            let message = sender as! String
-            
-            let successVC = segue.destination
-            let label = successVC.view.viewWithTag(1) as! UILabel
-            label.text = message
+//            let message = sender as! String
+//            
+//            let successVC = segue.destination
+//            let label = successVC.view.viewWithTag(1) as! UILabel
+//            label.text = message
         }
     }
     
