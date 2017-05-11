@@ -25,7 +25,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let console = ConsoleDestination()  // log to Xcode Console
         log.addDestination(console)
         
+        
+        let initialViewController = selectInitialViewController()
+        self.window?.rootViewController = initialViewController
         return true
+    }
+    
+    /// Check for existing login credentials and return appropriate view controller
+    func selectInitialViewController() -> UIViewController {
+        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+        let defaults = UserDefaults.standard
+        
+        if let accountId = defaults.string(forKey: "accountId"),
+            let userId = defaults.string(forKey: "userId") {
+            var account = SchulCloudAccount(userId: userId, accountId: accountId, accessToken: nil)
+            account.loadAccessTokenFromKeychain()
+            if account.accessToken != nil {
+                Globals.account = account
+                let initialViewController = storyboard.instantiateInitialViewController()!
+                return initialViewController
+            } else {
+                log.error("Could not load account from Keychain!")
+            }
+        }
+        log.info("Could not find existing login credentials, proceeding to login")
+        return storyboard.instantiateViewController(withIdentifier: "login")
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

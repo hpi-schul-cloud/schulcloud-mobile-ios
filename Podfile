@@ -6,8 +6,10 @@ target 'schulcloud' do
   # Pods for schulcloud
   pod 'Alamofire', '4.4.0'
   pod 'BrightFutures', '5.2.0'
+  pod 'JWTDecode'
   # pod 'LNRSimpleNotifications', '0.6.1'
   pod 'Locksmith'
+  pod 'ObjectMapper', '~> 2.2'
   # pod 'ProcedureKit', '4.1.0'
   # pod 'ProcedureKit/Network', '4.0.0'
   # pod 'ProcedureKit/Mobile', '4.0.0'

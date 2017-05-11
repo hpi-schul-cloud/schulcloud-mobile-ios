@@ -20,6 +20,8 @@
 		C3A5A9341EBCCE3B00825DBF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */; };
 		C3A5A9391EBCD0C600825DBF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9381EBCD0C600825DBF /* Constants.swift */; };
 		C3A5A93B1EC0766F00825DBF /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A93A1EC0766F00825DBF /* Account.swift */; };
+		C3C2AC221EC3A7E90060AECA /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */; };
+		C3C2AC241EC3AAA80060AECA /* LoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C2AC231EC3AAA80060AECA /* LoginHelper.swift */; };
 		C63FB1F9B25BA375BFE83DFB /* Pods_schulcloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09D7CC393E1856DD7EF9B21F /* Pods_schulcloud.framework */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +69,8 @@
 		C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C3A5A9381EBCD0C600825DBF /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C3A5A93A1EC0766F00825DBF /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
+		C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		C3C2AC231EC3AAA80060AECA /* LoginHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +153,7 @@
 				C3A5A9351EBCD03600825DBF /* Controllers */,
 				C3A5A9361EBCD06200825DBF /* Views */,
 				C3A5A9091EBCC17600825DBF /* schulcloud.xcdatamodeld */,
+				C3C2AC251EC3B3980060AECA /* Helper */,
 			);
 			path = schulcloud;
 			sourceTree = "<group>";
@@ -176,6 +181,7 @@
 			children = (
 				C3A5A9041EBCC17600825DBF /* ViewController.swift */,
 				C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */,
+				C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -199,6 +205,14 @@
 				C3A5A93A1EC0766F00825DBF /* Account.swift */,
 			);
 			name = Application;
+			sourceTree = "<group>";
+		};
+		C3C2AC251EC3B3980060AECA /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				C3C2AC231EC3AAA80060AECA /* LoginHelper.swift */,
+			);
+			name = Helper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -491,6 +505,8 @@
 				C3A5A9031EBCC17600825DBF /* AppDelegate.swift in Sources */,
 				C3A5A90B1EBCC17600825DBF /* schulcloud.xcdatamodeld in Sources */,
 				C3A5A93B1EC0766F00825DBF /* Account.swift in Sources */,
+				C3C2AC221EC3A7E90060AECA /* SettingsViewController.swift in Sources */,
+				C3C2AC241EC3AAA80060AECA /* LoginHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -649,7 +665,7 @@
 				DEVELOPMENT_TEAM = WP53SSE8S6;
 				INFOPLIST_FILE = schulcloud/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.schul-cloud.schulcloud";
+				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -664,7 +680,7 @@
 				DEVELOPMENT_TEAM = WP53SSE8S6;
 				INFOPLIST_FILE = schulcloud/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.schul-cloud.schulcloud";
+				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

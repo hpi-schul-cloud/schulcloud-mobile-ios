@@ -9,16 +9,18 @@
 import Foundation
 import Locksmith
 
+
+
 struct SchulCloudAccount: CreateableSecureStorable, ReadableSecureStorable, DeleteableSecureStorable, GenericPasswordSecureStorable, SecureStorableResultType {
 
-    let username: String
-    var userId: String?
+    var userId: String
+    var accountId: String
     
     var accessToken: String?
     
     // Required by GenericPasswordSecureStorable
     let service = "Schul-Cloud"
-    var account: String { return username }
+    var account: String { return userId }
     
     // Required by CreateableSecureStorable
     var data: [String: Any] {
@@ -29,4 +31,8 @@ struct SchulCloudAccount: CreateableSecureStorable, ReadableSecureStorable, Dele
         let result = readFromSecureStore()
         accessToken = result?.data?["accessToken"] as? String
     }
+}
+
+class Globals {
+    static var account: SchulCloudAccount! = nil
 }
