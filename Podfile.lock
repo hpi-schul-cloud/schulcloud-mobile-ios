@@ -2,6 +2,7 @@ PODS:
   - Alamofire (4.4.0)
   - BrightFutures (5.2.0):
     - Result (~> 3.2)
+  - FileBrowser (0.2.0)
   - JWTDecode (2.0.0)
   - Locksmith (3.0.0)
   - ObjectMapper (2.2.6)
@@ -12,15 +13,27 @@ PODS:
 DEPENDENCIES:
   - Alamofire (= 4.4.0)
   - BrightFutures (= 5.2.0)
+  - FileBrowser (from `https://github.com/MasterCarl/FileBrowser.git`, commit `afa9126`)
   - JWTDecode
   - Locksmith
   - ObjectMapper (~> 2.2)
   - SimpleRoundedButton
   - SwiftyBeaver (= 1.1.0)
 
+EXTERNAL SOURCES:
+  FileBrowser:
+    :commit: afa9126
+    :git: https://github.com/MasterCarl/FileBrowser.git
+
+CHECKOUT OPTIONS:
+  FileBrowser:
+    :commit: afa9126
+    :git: https://github.com/MasterCarl/FileBrowser.git
+
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
   BrightFutures: 8681dbb9fa831b69b6e7dc4a498b9e081d5daeb5
+  FileBrowser: af8abc035daca66a6066351ae162c4af4c6b24dd
   JWTDecode: 178e47e5d28d3abcff778bacced8342858cd6cb5
   Locksmith: 310b4cc5031af5728bf4db5d4de547a5100c6a3b
   ObjectMapper: 042708195cc46c20871cbcbec0453826398273fd
@@ -28,6 +41,6 @@ SPEC CHECKSUMS:
   SimpleRoundedButton: d7f2be107afb25c56149f4c0df541169ca6af48c
   SwiftyBeaver: af90fecea02b46fe073dc8e622362da06886c039
 
-PODFILE CHECKSUM: ace09c28cc01d1b220b225933aee0f7eaecbd290
+PODFILE CHECKSUM: 7c76b29be394993328045472c9ed282268cf8c63
 
 COCOAPODS: 1.2.1

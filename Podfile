@@ -6,6 +6,8 @@ target 'schulcloud' do
   # Pods for schulcloud
   pod 'Alamofire', '4.4.0'
   pod 'BrightFutures', '5.2.0'
+  pod 'FileBrowser', :git => 'https://github.com/MasterCarl/FileBrowser.git', :commit => 'afa9126'
+  # pod 'FileBrowser', :path => '~/Developer/FileBrowser/'
   pod 'JWTDecode'
   # pod 'LNRSimpleNotifications', '0.6.1'
   pod 'Locksmith'
