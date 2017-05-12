@@ -9,11 +9,17 @@
 import UIKit
 import CoreData
 
+// firebase messaging
+import UserNotifications
+import Firebase
+import FirebaseInstanceID
+import FirebaseMessaging
+
 import SwiftyBeaver
 let log = SwiftyBeaver.self
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, FIRMessagingDelegate {
 
     var window: UIWindow?
     
@@ -28,6 +34,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let initialViewController = selectInitialViewController()
         self.window?.rootViewController = initialViewController
+        
+        initializeMessaging(application: application)
+        
         return true
     }
     
@@ -74,6 +83,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
+    }
+    
+    // MARK: - Messaging
+    
+    // The callback to handle data message received via FCM for devices running iOS 10 or above.
+    func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
+        print(remoteMessage.appData)
+    }
+    
+    func initializeMessaging(application: UIApplication) {
+        UNUserNotificationCenter.current().delegate = self
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: {_, _ in })
+        FIRMessaging.messaging().remoteMessageDelegate = self
+        
+        application.registerForRemoteNotifications()
+        
+        FIRApp.configure()
+        
+        SCNotifications.checkRegistration().onFailure { error in
+            log.error(error.localizedDescription)
+        }
     }
 
     // MARK: - Core Data stack

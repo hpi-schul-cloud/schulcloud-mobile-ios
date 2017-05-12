@@ -1,19 +1,66 @@
 PODS:
   - Alamofire (4.4.0)
+  - AlamofireObjectMapper (4.1.0):
+    - Alamofire (~> 4.1)
+    - ObjectMapper (~> 2.0)
   - BrightFutures (5.2.0):
     - Result (~> 3.2)
   - FileBrowser (0.2.0)
+  - Firebase/Auth (3.17.0):
+    - Firebase/Core
+    - FirebaseAuth (= 3.1.1)
+  - Firebase/Core (3.17.0):
+    - FirebaseAnalytics (= 3.9.0)
+    - FirebaseCore (= 3.6.0)
+  - Firebase/Messaging (3.17.0):
+    - Firebase/Core
+    - FirebaseMessaging (= 1.2.3)
+  - FirebaseAnalytics (3.9.0):
+    - FirebaseCore (~> 3.6)
+    - FirebaseInstanceID (~> 1.0)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+  - FirebaseAuth (3.1.1):
+    - FirebaseAnalytics (~> 3.7)
+    - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - FirebaseCore (3.6.0):
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+  - FirebaseInstanceID (1.0.10):
+    - FirebaseCore (~> 3.6)
+  - FirebaseMessaging (1.2.3):
+    - FirebaseAnalytics (~> 3.8)
+    - FirebaseInstanceID (~> 1.0)
+    - GoogleToolboxForMac/Logger (~> 2.1)
+    - Protobuf (~> 3.1)
+  - GoogleToolboxForMac/DebugUtils (2.1.1):
+    - GoogleToolboxForMac/Defines (= 2.1.1)
+  - GoogleToolboxForMac/Defines (2.1.1)
+  - GoogleToolboxForMac/Logger (2.1.1):
+    - GoogleToolboxForMac/Defines (= 2.1.1)
+  - GoogleToolboxForMac/NSData+zlib (2.1.1):
+    - GoogleToolboxForMac/Defines (= 2.1.1)
+  - GoogleToolboxForMac/NSDictionary+URLArguments (2.1.1):
+    - GoogleToolboxForMac/DebugUtils (= 2.1.1)
+    - GoogleToolboxForMac/Defines (= 2.1.1)
+    - GoogleToolboxForMac/NSString+URLArguments (= 2.1.1)
+  - GoogleToolboxForMac/NSString+URLArguments (2.1.1)
+  - GTMSessionFetcher/Core (1.1.9)
   - JWTDecode (2.0.0)
   - Locksmith (3.0.0)
   - ObjectMapper (2.2.6)
+  - Protobuf (3.3.0)
   - Result (3.2.1)
   - SimpleRoundedButton (1.0)
   - SwiftyBeaver (1.1.0)
 
 DEPENDENCIES:
   - Alamofire (= 4.4.0)
+  - AlamofireObjectMapper (~> 4.0)
   - BrightFutures (= 5.2.0)
   - FileBrowser (from `https://github.com/MasterCarl/FileBrowser.git`, commit `afa9126`)
+  - Firebase/Auth
+  - Firebase/Core
+  - Firebase/Messaging
   - JWTDecode
   - Locksmith
   - ObjectMapper (~> 2.2)
@@ -32,15 +79,25 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
+  AlamofireObjectMapper: 435adc82f5b367679bd9e71c4974a54efd0b2521
   BrightFutures: 8681dbb9fa831b69b6e7dc4a498b9e081d5daeb5
   FileBrowser: af8abc035daca66a6066351ae162c4af4c6b24dd
+  Firebase: 4b66b5b59c43edac745b87f0c87e42cdd0279c13
+  FirebaseAnalytics: e5fe8486efc01bec33f6bf82e2fa9fce4b124052
+  FirebaseAuth: cc8a1824170adbd351edb7f994490a3fb5c18be6
+  FirebaseCore: 9691ee2ade70c098d7cf92440f4303f16d83ca75
+  FirebaseInstanceID: b9eedd6846fb5e1f0f7279e1deaa7a7e4cf8392e
+  FirebaseMessaging: 753d05a925e9eb8eadd09a0ffc9b808578b72fac
+  GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
+  GTMSessionFetcher: 5c046c76a1f859bc9c187e918f18e4fc7bb57b5e
   JWTDecode: 178e47e5d28d3abcff778bacced8342858cd6cb5
   Locksmith: 310b4cc5031af5728bf4db5d4de547a5100c6a3b
   ObjectMapper: 042708195cc46c20871cbcbec0453826398273fd
+  Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
   Result: 2453a22e5c5b11c0c3a478736e82cd02f763b781
   SimpleRoundedButton: d7f2be107afb25c56149f4c0df541169ca6af48c
   SwiftyBeaver: af90fecea02b46fe073dc8e622362da06886c039
 
-PODFILE CHECKSUM: 7c76b29be394993328045472c9ed282268cf8c63
+PODFILE CHECKSUM: 21024ea08da28389d07fa539e22be34ccd93568a
 
 COCOAPODS: 1.2.1

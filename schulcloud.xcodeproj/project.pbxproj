@@ -23,6 +23,9 @@
 		C3A5A93D1EC0B3B200825DBF /* SCFilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A93C1EC0B3B200825DBF /* SCFilesViewController.swift */; };
 		C3C2AC221EC3A7E90060AECA /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */; };
 		C3C2AC241EC3AAA80060AECA /* LoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C2AC231EC3AAA80060AECA /* LoginHelper.swift */; };
+		C3C2AC291EC45B380060AECA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3C2AC281EC45B380060AECA /* GoogleService-Info.plist */; };
+		C3C2AC361EC5AC460060AECA /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C2AC351EC5AC460060AECA /* Notifications.swift */; };
+		C3C2AC381EC5AC750060AECA /* ApiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C2AC371EC5AC750060AECA /* ApiHelper.swift */; };
 		C63FB1F9B25BA375BFE83DFB /* Pods_schulcloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09D7CC393E1856DD7EF9B21F /* Pods_schulcloud.framework */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +76,10 @@
 		C3A5A93C1EC0B3B200825DBF /* SCFilesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCFilesViewController.swift; sourceTree = "<group>"; };
 		C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		C3C2AC231EC3AAA80060AECA /* LoginHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHelper.swift; sourceTree = "<group>"; };
+		C3C2AC281EC45B380060AECA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C3C2AC341EC59F0E0060AECA /* schulcloud.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = schulcloud.entitlements; sourceTree = "<group>"; };
+		C3C2AC351EC5AC460060AECA /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		C3C2AC371EC5AC750060AECA /* ApiHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,11 +158,12 @@
 		C3A5A9011EBCC17600825DBF /* schulcloud */ = {
 			isa = PBXGroup;
 			children = (
+				C3C2AC341EC59F0E0060AECA /* schulcloud.entitlements */,
 				C3A5A9371EBCD07B00825DBF /* Application */,
 				C3A5A9351EBCD03600825DBF /* Controllers */,
 				C3A5A9361EBCD06200825DBF /* Views */,
 				C3A5A9091EBCC17600825DBF /* schulcloud.xcdatamodeld */,
-				C3C2AC251EC3B3980060AECA /* Helper */,
+				C3C2AC251EC3B3980060AECA /* API */,
 			);
 			path = schulcloud;
 			sourceTree = "<group>";
@@ -206,16 +214,19 @@
 				C3A5A9111EBCC17600825DBF /* Info.plist */,
 				C3A5A9381EBCD0C600825DBF /* Constants.swift */,
 				C3A5A93A1EC0766F00825DBF /* Account.swift */,
+				C3C2AC281EC45B380060AECA /* GoogleService-Info.plist */,
 			);
 			name = Application;
 			sourceTree = "<group>";
 		};
-		C3C2AC251EC3B3980060AECA /* Helper */ = {
+		C3C2AC251EC3B3980060AECA /* API */ = {
 			isa = PBXGroup;
 			children = (
+				C3C2AC351EC5AC460060AECA /* Notifications.swift */,
 				C3C2AC231EC3AAA80060AECA /* LoginHelper.swift */,
+				C3C2AC371EC5AC750060AECA /* ApiHelper.swift */,
 			);
-			name = Helper;
+			name = API;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -297,6 +308,11 @@
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = WP53SSE8S6;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					C3A5A9151EBCC17600825DBF = {
 						CreatedOnToolsVersion = 8.3;
@@ -338,6 +354,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3A5A9101EBCC17600825DBF /* LaunchScreen.storyboard in Resources */,
+				C3C2AC291EC45B380060AECA /* GoogleService-Info.plist in Resources */,
 				C3A5A90D1EBCC17600825DBF /* Assets.xcassets in Resources */,
 				C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */,
 			);
@@ -502,9 +519,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3C2AC361EC5AC460060AECA /* Notifications.swift in Sources */,
 				C3A5A9391EBCD0C600825DBF /* Constants.swift in Sources */,
 				C3A5A9341EBCCE3B00825DBF /* LoginViewController.swift in Sources */,
 				C3A5A9051EBCC17600825DBF /* ViewController.swift in Sources */,
+				C3C2AC381EC5AC750060AECA /* ApiHelper.swift in Sources */,
 				C3A5A9031EBCC17600825DBF /* AppDelegate.swift in Sources */,
 				C3A5A90B1EBCC17600825DBF /* schulcloud.xcdatamodeld in Sources */,
 				C3A5A93B1EC0766F00825DBF /* Account.swift in Sources */,
@@ -666,6 +685,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = schulcloud/schulcloud.entitlements;
 				DEVELOPMENT_TEAM = WP53SSE8S6;
 				INFOPLIST_FILE = schulcloud/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -681,6 +701,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = schulcloud/schulcloud.entitlements;
 				DEVELOPMENT_TEAM = WP53SSE8S6;
 				INFOPLIST_FILE = schulcloud/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
