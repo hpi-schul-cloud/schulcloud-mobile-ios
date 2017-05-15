@@ -19,14 +19,14 @@ class ApiHelper {
         method: HTTPMethod = .get,
         parameters: Parameters? = nil,
         encoding: ParameterEncoding = URLEncoding.default,
-        headers: HTTPHeaders? = nil) -> Future<T, NSError> {
-        let promise = Promise<T, NSError>()
+        headers: HTTPHeaders? = nil) -> Future<T, SCError> {
+        let promise = Promise<T, SCError>()
         Alamofire.request(url, method: method, parameters: parameters, encoding: encoding, headers: headers).responseObject { (response: DataResponse<T>) in
             
             if let value = response.result.value {
                 promise.success(value)
             } else {
-                promise.failure(response.error! as NSError)
+                promise.failure(SCError.network(response.error!))
             }
         }
         
@@ -39,7 +39,7 @@ class ApiHelper {
         parameters: Parameters? = nil,
         encoding: ParameterEncoding = URLEncoding.default,
         additionalHeaders: HTTPHeaders? = nil,
-        authenticated: Bool = true) -> Future<T, NSError> {
+        authenticated: Bool = true) -> Future<T, SCError> {
         
         let urlString = Constants.backend.url.absoluteString.appending(endpoint)
         var headers = authenticated ? ["Authorization": Globals.account.accessToken!] : HTTPHeaders()
@@ -58,7 +58,7 @@ class ApiHelper {
         parameters: Parameters? = nil,
         encoding: ParameterEncoding = URLEncoding.default,
         additionalHeaders: HTTPHeaders? = nil,
-        authenticated: Bool = true) -> Future<DefaultDataResponse, NSError> {
+        authenticated: Bool = true) -> Future<DefaultDataResponse, SCError> {
         
         let urlString = Constants.backend.url.absoluteString.appending(endpoint)
         var headers = authenticated ? ["Authorization": Globals.account.accessToken!] : HTTPHeaders()
@@ -69,7 +69,7 @@ class ApiHelper {
             }
         }
         
-        let promise = Promise<DefaultDataResponse, NSError>()
+        let promise = Promise<DefaultDataResponse, SCError>()
         Alamofire.request(urlString, method: method, parameters: parameters, encoding: encoding, headers: headers).response { (response: DefaultDataResponse) in
             promise.success(response)
         }

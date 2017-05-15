@@ -8,18 +8,14 @@
 
 import UIKit
 import CoreData
-
-// firebase messaging
 import UserNotifications
 import Firebase
-import FirebaseInstanceID
-import FirebaseMessaging
 
 import SwiftyBeaver
 let log = SwiftyBeaver.self
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, FIRMessagingDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
     
@@ -31,17 +27,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let console = ConsoleDestination()  // log to Xcode Console
         log.addDestination(console)
         
+        FIRApp.configure()
         
-        let initialViewController = selectInitialViewController()
+        let initialViewController = selectInitialViewController(application: application)
         self.window?.rootViewController = initialViewController
-        
-        initializeMessaging(application: application)
         
         return true
     }
     
     /// Check for existing login credentials and return appropriate view controller
-    func selectInitialViewController() -> UIViewController {
+    func selectInitialViewController(application: UIApplication) -> UIViewController {
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
         let defaults = UserDefaults.standard
         
@@ -52,6 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             if account.accessToken != nil {
                 Globals.account = account
                 let initialViewController = storyboard.instantiateInitialViewController()!
+                SCNotifications.initializeMessaging()
                 return initialViewController
             } else {
                 log.error("Could not load account from Keychain!")
@@ -60,6 +56,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         log.info("Could not find existing login credentials, proceeding to login")
         return storyboard.instantiateViewController(withIdentifier: "login")
     }
+    
+    
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -85,29 +83,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         self.saveContext()
     }
     
-    // MARK: - Messaging
     
-    // The callback to handle data message received via FCM for devices running iOS 10 or above.
-    func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
-        print(remoteMessage.appData)
-    }
-    
-    func initializeMessaging(application: UIApplication) {
-        UNUserNotificationCenter.current().delegate = self
-        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-        UNUserNotificationCenter.current().requestAuthorization(
-            options: authOptions,
-            completionHandler: {_, _ in })
-        FIRMessaging.messaging().remoteMessageDelegate = self
-        
-        application.registerForRemoteNotifications()
-        
-        FIRApp.configure()
-        
-        SCNotifications.checkRegistration().onFailure { error in
-            log.error(error.localizedDescription)
-        }
-    }
 
     // MARK: - Core Data stack
 
