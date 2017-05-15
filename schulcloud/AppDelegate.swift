@@ -25,6 +25,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         // set up SwiftyBeaver
         let console = ConsoleDestination()  // log to Xcode Console
+        console.levelColor.warning = "❗️ "
+        console.levelColor.debug = "🔍 "
+        console.levelColor.error = "❌ "
+        console.levelColor.info = "👉 "
         log.addDestination(console)
         
         FIRApp.configure()
