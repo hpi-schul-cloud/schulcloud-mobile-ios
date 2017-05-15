@@ -54,7 +54,11 @@ open class LoginHelper {
                 let account = SchulCloudAccount(userId: userId, accountId: accountId, accessToken: accessToken)
                 defaults.set(account.accountId, forKey: "accountId")
                 defaults.set(account.userId, forKey: "userId")
+                do {
                     try account.createInSecureStore()
+                } catch {
+                    try account.updateInSecureStore()
+                }
                 log.info("Successfully saved login data for user \(userId) with account \(accountId)")
                 Globals.account = account
                 SCNotifications.initializeMessaging()
