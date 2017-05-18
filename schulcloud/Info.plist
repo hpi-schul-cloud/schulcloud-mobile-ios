@@ -40,6 +40,11 @@
 	<false/>
 	<key>FIREBASE_ANALYTICS_COLLECTION_DEACTIVATED</key>
 	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>PT_Sans-Web-Regular.ttf</string>
+		<string>PT_Sans-Web-Bold.tt</string>
+	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

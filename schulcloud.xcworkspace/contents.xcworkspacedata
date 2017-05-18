@@ -4,6 +4,10 @@
    <FileRef
       location = "group:schulcloud.xcodeproj">
    </FileRef>
+   <Group
+      location = "container:"
+      name = "fonts">
+   </Group>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>

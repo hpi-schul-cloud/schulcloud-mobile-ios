@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		3DD868F81ECE35A900814392 /* icon-folder-30.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD868F61ECE35A900814392 /* icon-folder-30.png */; };
 		3DD868F91ECE35A900814392 /* icon-home-30.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD868F71ECE35A900814392 /* icon-home-30.png */; };
+		3DD869141ECE3F6100814392 /* PT_Sans-Web-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DD869101ECE3F6100814392 /* PT_Sans-Web-Bold.ttf */; };
+		3DD869151ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DD869111ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf */; };
+		3DD869161ECE3F6100814392 /* PT_Sans-Web-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DD869121ECE3F6100814392 /* PT_Sans-Web-Italic.ttf */; };
+		3DD869171ECE3F6100814392 /* PT_Sans-Web-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DD869131ECE3F6100814392 /* PT_Sans-Web-Regular.ttf */; };
 		449EE059739B56D7AD66808C /* Pods_schulcloudTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A95051FD2A0A46DC119427B /* Pods_schulcloudTests.framework */; };
 		8E095EB2D17A96B29951D85A /* Pods_schulcloudUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 270BA83590B5166B5A30D6B3 /* Pods_schulcloudUITests.framework */; };
 		C36C23381EC9DE0700D4163E /* SCError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36C23371EC9DE0700D4163E /* SCError.swift */; };
@@ -26,7 +30,6 @@
 		C3A5A93D1EC0B3B200825DBF /* SCFilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A93C1EC0B3B200825DBF /* SCFilesViewController.swift */; };
 		C3C2AC221EC3A7E90060AECA /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */; };
 		C3C2AC241EC3AAA80060AECA /* LoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C2AC231EC3AAA80060AECA /* LoginHelper.swift */; };
-		C3C2AC291EC45B380060AECA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3C2AC281EC45B380060AECA /* GoogleService-Info.plist */; };
 		C3C2AC361EC5AC460060AECA /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C2AC351EC5AC460060AECA /* Notifications.swift */; };
 		C3C2AC381EC5AC750060AECA /* ApiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C2AC371EC5AC750060AECA /* ApiHelper.swift */; };
 		C63FB1F9B25BA375BFE83DFB /* Pods_schulcloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09D7CC393E1856DD7EF9B21F /* Pods_schulcloud.framework */; };
@@ -55,6 +58,10 @@
 		389B64CA22013634E6CFD243 /* Pods-schulcloudUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudUITests/Pods-schulcloudUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		3DD868F61ECE35A900814392 /* icon-folder-30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-folder-30.png"; path = "schulcloud/images/icon-folder-30.png"; sourceTree = "<group>"; };
 		3DD868F71ECE35A900814392 /* icon-home-30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-home-30.png"; path = "schulcloud/images/icon-home-30.png"; sourceTree = "<group>"; };
+		3DD869101ECE3F6100814392 /* PT_Sans-Web-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PT_Sans-Web-Bold.ttf"; path = "schulcloud/fonts/PT_Sans-Web-Bold.ttf"; sourceTree = "<group>"; };
+		3DD869111ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PT_Sans-Web-BoldItalic.ttf"; path = "schulcloud/fonts/PT_Sans-Web-BoldItalic.ttf"; sourceTree = "<group>"; };
+		3DD869121ECE3F6100814392 /* PT_Sans-Web-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PT_Sans-Web-Italic.ttf"; path = "schulcloud/fonts/PT_Sans-Web-Italic.ttf"; sourceTree = "<group>"; };
+		3DD869131ECE3F6100814392 /* PT_Sans-Web-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PT_Sans-Web-Regular.ttf"; path = "schulcloud/fonts/PT_Sans-Web-Regular.ttf"; sourceTree = "<group>"; };
 		545C97A8DFD815A5CDCD6C3F /* Pods-schulcloud.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloud.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloud/Pods-schulcloud.release.xcconfig"; sourceTree = "<group>"; };
 		6202C4172802EF2A0B49B22E /* Pods-schulcloudTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudTests/Pods-schulcloudTests.release.xcconfig"; sourceTree = "<group>"; };
 		6A95051FD2A0A46DC119427B /* Pods_schulcloudTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloudTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,7 +89,6 @@
 		C3A5A93C1EC0B3B200825DBF /* SCFilesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCFilesViewController.swift; sourceTree = "<group>"; };
 		C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		C3C2AC231EC3AAA80060AECA /* LoginHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHelper.swift; sourceTree = "<group>"; };
-		C3C2AC281EC45B380060AECA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C3C2AC341EC59F0E0060AECA /* schulcloud.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = schulcloud.entitlements; sourceTree = "<group>"; };
 		C3C2AC351EC5AC460060AECA /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		C3C2AC371EC5AC750060AECA /* ApiHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiHelper.swift; sourceTree = "<group>"; };
@@ -129,6 +135,26 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		3DD869181ECE3F7C00814392 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				3DD869101ECE3F6100814392 /* PT_Sans-Web-Bold.ttf */,
+				3DD869111ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf */,
+				3DD869121ECE3F6100814392 /* PT_Sans-Web-Italic.ttf */,
+				3DD869131ECE3F6100814392 /* PT_Sans-Web-Regular.ttf */,
+			);
+			name = fonts;
+			sourceTree = "<group>";
+		};
+		3DD869191ECE3F8B00814392 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				3DD868F61ECE35A900814392 /* icon-folder-30.png */,
+				3DD868F71ECE35A900814392 /* icon-home-30.png */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
 		7EDF8CE117CA0B1F9E1A25E7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -142,8 +168,8 @@
 		C3A5A8F61EBCC17600825DBF = {
 			isa = PBXGroup;
 			children = (
-				3DD868F61ECE35A900814392 /* icon-folder-30.png */,
-				3DD868F71ECE35A900814392 /* icon-home-30.png */,
+				3DD869181ECE3F7C00814392 /* fonts */,
+				3DD869191ECE3F8B00814392 /* images */,
 				C3A5A9011EBCC17600825DBF /* schulcloud */,
 				C3A5A9191EBCC17600825DBF /* schulcloudTests */,
 				C3A5A9241EBCC17600825DBF /* schulcloudUITests */,
@@ -223,7 +249,6 @@
 				C3A5A9111EBCC17600825DBF /* Info.plist */,
 				C3A5A9381EBCD0C600825DBF /* Constants.swift */,
 				C3A5A93A1EC0766F00825DBF /* Account.swift */,
-				C3C2AC281EC45B380060AECA /* GoogleService-Info.plist */,
 			);
 			name = Application;
 			sourceTree = "<group>";
@@ -362,10 +387,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DD869161ECE3F6100814392 /* PT_Sans-Web-Italic.ttf in Resources */,
 				3DD868F81ECE35A900814392 /* icon-folder-30.png in Resources */,
+				3DD869141ECE3F6100814392 /* PT_Sans-Web-Bold.ttf in Resources */,
 				C3A5A9101EBCC17600825DBF /* LaunchScreen.storyboard in Resources */,
-				C3C2AC291EC45B380060AECA /* GoogleService-Info.plist in Resources */,
 				C3A5A90D1EBCC17600825DBF /* Assets.xcassets in Resources */,
+				3DD869171ECE3F6100814392 /* PT_Sans-Web-Regular.ttf in Resources */,
+				3DD869151ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf in Resources */,
 				3DD868F91ECE35A900814392 /* icon-home-30.png in Resources */,
 				C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */,
 			);
@@ -698,11 +726,14 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = schulcloud/schulcloud.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = WP53SSE8S6;
 				INFOPLIST_FILE = schulcloud/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "fa5335e8-5b9d-48ac-a945-d57172dcae86";
+				PROVISIONING_PROFILE_SPECIFIER = SchulCloud_DistrProfile;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
