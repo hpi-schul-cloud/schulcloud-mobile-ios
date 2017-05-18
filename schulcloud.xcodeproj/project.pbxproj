@@ -310,7 +310,7 @@
 					C3A5A8FE1EBCC17600825DBF = {
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = WP53SSE8S6;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
