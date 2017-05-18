@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16B2548a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="H3U-6P-sHm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="H3U-6P-sHm">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -127,7 +127,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Dateien" image="icon-folder-30.png" selectedImage="icon-folder-30.png" id="H5n-eG-Tdi"/>
+                    <tabBarItem key="tabBarItem" title="Dateien" image="folder" selectedImage="folder" id="H5n-eG-Tdi"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mrf-HU-TfS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -160,7 +160,7 @@
                             </collectionViewCell>
                         </cells>
                     </collectionView>
-                    <tabBarItem key="tabBarItem" title="Dashboard" image="icon-home-30.png" selectedImage="icon-home-30.png" id="ola-2d-5oY"/>
+                    <tabBarItem key="tabBarItem" title="Dashboard" image="home" selectedImage="home" id="ola-2d-5oY"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="56A-11-2pp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -316,7 +316,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="icon-folder-30.png" width="30" height="30"/>
-        <image name="icon-home-30.png" width="30" height="30"/>
+        <image name="folder" width="30" height="30"/>
+        <image name="home" width="30" height="30"/>
     </resources>
 </document>
