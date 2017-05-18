@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="H3U-6P-sHm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16B2548a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="H3U-6P-sHm">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -127,11 +127,30 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Dateien" image="file" id="H5n-eG-Tdi"/>
+                    <tabBarItem key="tabBarItem" title="Dateien" image="icon-folder-30.png" selectedImage="icon-folder-30.png" id="H5n-eG-Tdi"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mrf-HU-TfS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2164" y="139"/>
+        </scene>
+        <!--Dashboard-->
+        <scene sceneID="ULO-PG-Vbk">
+            <objects>
+                <viewController title="Dashboard" id="5aa-GM-Mgp" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="FnU-KH-pIm"/>
+                        <viewControllerLayoutGuide type="bottom" id="C0k-zo-xDx"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5MJ-Tk-bzC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Dashboard" image="home.png" selectedImage="icon-home-30.png" id="ola-2d-5oY"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="56A-11-2pp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2102" y="-517"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="Mvw-99-LRO">
@@ -145,7 +164,7 @@
                             <tableViewSection headerTitle="Benutzer" id="wIV-A3-QKf">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="O1j-vZ-XkG" style="IBUITableViewCellStyleDefault" id="Xa9-1w-OVR">
-                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Xa9-1w-OVR" id="XXs-nT-5Yd">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -166,7 +185,7 @@
                             <tableViewSection id="9yp-67-2y2">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="Dr4-DO-ctd" style="IBUITableViewCellStyleDefault" id="w9S-GC-AOQ">
-                                        <rect key="frame" x="0.0" y="136" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="135.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="w9S-GC-AOQ" id="jos-rY-ggu">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
@@ -253,6 +272,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
+                        <segue destination="5aa-GM-Mgp" kind="relationship" relationship="viewControllers" id="ljb-jZ-CfE"/>
                         <segue destination="6rc-dp-kkC" kind="relationship" relationship="viewControllers" id="u8I-uz-vEg"/>
                         <segue destination="B0G-dG-Hpj" kind="relationship" relationship="viewControllers" id="d23-SF-7ID"/>
                     </connections>
@@ -282,6 +302,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="file" width="38" height="38"/>
+        <image name="home.png" width="30" height="30"/>
+        <image name="icon-folder-30.png" width="30" height="30"/>
+        <image name="icon-home-30.png" width="30" height="30"/>
     </resources>
 </document>
