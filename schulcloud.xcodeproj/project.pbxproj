@@ -10,6 +10,7 @@
 		449EE059739B56D7AD66808C /* Pods_schulcloudTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A95051FD2A0A46DC119427B /* Pods_schulcloudTests.framework */; };
 		8E095EB2D17A96B29951D85A /* Pods_schulcloudUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 270BA83590B5166B5A30D6B3 /* Pods_schulcloudUITests.framework */; };
 		C3418B601ECDAB9F00280E62 /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3418B5F1ECDAB9F00280E62 /* FileHelper.swift */; };
+		C3418B621ECEE6FB00280E62 /* FilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3418B611ECEE6FB00280E62 /* FilesViewController.swift */; };
 		C36C23381EC9DE0700D4163E /* SCError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36C23371EC9DE0700D4163E /* SCError.swift */; };
 		C36C233B1ECC965400D4163E /* CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36C233A1ECC965400D4163E /* CoreData.swift */; };
 		C378D2C41ECC976800AE8CEA /* schulcloud.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C378D2C21ECC976800AE8CEA /* schulcloud.xcdatamodeld */; };
@@ -61,6 +62,7 @@
 		9425546F91D107FCBF633B36 /* Pods-schulcloudUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudUITests/Pods-schulcloudUITests.release.xcconfig"; sourceTree = "<group>"; };
 		C00572D0E333691EC3007D54 /* Pods-schulcloudTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudTests/Pods-schulcloudTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C3418B5F1ECDAB9F00280E62 /* FileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileHelper.swift; sourceTree = "<group>"; };
+		C3418B611ECEE6FB00280E62 /* FilesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilesViewController.swift; sourceTree = "<group>"; };
 		C36C23371EC9DE0700D4163E /* SCError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCError.swift; sourceTree = "<group>"; };
 		C36C233A1ECC965400D4163E /* CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreData.swift; sourceTree = "<group>"; };
 		C378D2C31ECC976800AE8CEA /* schulcloud.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = schulcloud.xcdatamodel; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 		C3A5A9351EBCD03600825DBF /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				C3418B611ECEE6FB00280E62 /* FilesViewController.swift */,
 				C3A5A9041EBCC17600825DBF /* ViewController.swift */,
 				C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */,
 				C3A5A93C1EC0B3B200825DBF /* SCFilesViewController.swift */,
@@ -545,6 +548,7 @@
 				C3A5A9051EBCC17600825DBF /* ViewController.swift in Sources */,
 				C36C23381EC9DE0700D4163E /* SCError.swift in Sources */,
 				C378D2C41ECC976800AE8CEA /* schulcloud.xcdatamodeld in Sources */,
+				C3418B621ECEE6FB00280E62 /* FilesViewController.swift in Sources */,
 				C3C2AC381EC5AC750060AECA /* ApiHelper.swift in Sources */,
 				C3A5A9031EBCC17600825DBF /* AppDelegate.swift in Sources */,
 				C3A5A93B1EC0766F00825DBF /* Account.swift in Sources */,
