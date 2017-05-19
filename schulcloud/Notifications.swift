@@ -58,14 +58,14 @@ class SCNotifications {
                 "service": "firebase",
                 "type": "mobile",
                 "name": "iOS device",
-                "token": Globals.account.userId,
+                "token": Globals.account!.userId,
                 "device_token": deviceToken,
                 "OS": "ios"
             ]
             return ApiHelper.requestBasic("notification/devices", method: .post, parameters: parameters, encoding: JSONEncoding.default)
                 .flatMap { response -> Future<Void, SCError> in
                     if let response = response.response, response.statusCode < 300 {
-                        Globals.account.didRegisterForPushNotifications = true
+                        Globals.account!.didRegisterForPushNotifications = true
                         log.debug("Successfully registered device to receive notifications")
                         
                         return Future(value: Void())
