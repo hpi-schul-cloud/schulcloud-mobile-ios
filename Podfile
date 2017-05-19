@@ -22,6 +22,7 @@ target 'schulcloud' do
   pod 'SimpleRoundedButton'
   # pod 'Spine', :git => 'https://github.com/wvteijlingen/Spine.git', :commit => 'bc82a5d'
   pod 'SwiftyBeaver', '1.1.0'
+  pod 'SwiftyJSON', '~> 3'
 
   target 'schulcloudTests' do
     inherit! :search_paths
