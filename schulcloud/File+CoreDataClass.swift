@@ -18,6 +18,7 @@ public class File: NSManagedObject {
         return NSFetchRequest<File>(entityName: "File")
     }
     
+    @NSManaged public var cacheUrlString: String?
     @NSManaged public var displayName: String
     @NSManaged public var isDirectory: Bool
     @NSManaged public var pathString: String
