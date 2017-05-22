@@ -112,14 +112,25 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        switch(segue.identifier) {
+        case .some("filePreview"):
+            let destination = segue.destination as! LoadingViewController
+            break
+        case .some("subfolder"):
+            let destination = segue.destination as! FilesViewController
+            let selectedCell = sender as! UITableViewCell
+            guard let indexPath = tableView.indexPath(for: selectedCell) else { break }
+            let selectedItem = fetchedResultsController.object(at: indexPath)
+            destination.currentFolder = selectedItem
+        default:
+            break
+        }
     }
-    */
+    
 
 }

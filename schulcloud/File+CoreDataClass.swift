@@ -46,7 +46,10 @@ extension File {
 
 extension File {
     
-    
+    var path: URL {
+        let encoded = pathString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+        return URL(string: encoded)!
+    }
     
     
 }

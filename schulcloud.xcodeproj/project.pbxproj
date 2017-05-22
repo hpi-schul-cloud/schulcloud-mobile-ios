@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		449EE059739B56D7AD66808C /* Pods_schulcloudTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A95051FD2A0A46DC119427B /* Pods_schulcloudTests.framework */; };
 		8E095EB2D17A96B29951D85A /* Pods_schulcloudUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 270BA83590B5166B5A30D6B3 /* Pods_schulcloudUITests.framework */; };
+		C31C84271ECF546E00FA070C /* WebviewPreviewViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31C84261ECF546E00FA070C /* WebviewPreviewViewContoller.swift */; };
+		C31C842A1ECF553700FA070C /* PreviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31C84291ECF553700FA070C /* PreviewManager.swift */; };
+		C31C842C1ECF55A000FA070C /* PreviewTransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31C842B1ECF55A000FA070C /* PreviewTransitionViewController.swift */; };
+		C31C842E1ECF586500FA070C /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31C842D1ECF586500FA070C /* LoadingViewController.swift */; };
 		C3418B601ECDAB9F00280E62 /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3418B5F1ECDAB9F00280E62 /* FileHelper.swift */; };
 		C3418B621ECEE6FB00280E62 /* FilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3418B611ECEE6FB00280E62 /* FilesViewController.swift */; };
 		C36C23381EC9DE0700D4163E /* SCError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36C23371EC9DE0700D4163E /* SCError.swift */; };
@@ -61,6 +65,10 @@
 		8311124C4B68A962896AF291 /* Pods-schulcloud.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloud.debug.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloud/Pods-schulcloud.debug.xcconfig"; sourceTree = "<group>"; };
 		9425546F91D107FCBF633B36 /* Pods-schulcloudUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudUITests/Pods-schulcloudUITests.release.xcconfig"; sourceTree = "<group>"; };
 		C00572D0E333691EC3007D54 /* Pods-schulcloudTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudTests/Pods-schulcloudTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C31C84261ECF546E00FA070C /* WebviewPreviewViewContoller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebviewPreviewViewContoller.swift; sourceTree = "<group>"; };
+		C31C84291ECF553700FA070C /* PreviewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewManager.swift; sourceTree = "<group>"; };
+		C31C842B1ECF55A000FA070C /* PreviewTransitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewTransitionViewController.swift; sourceTree = "<group>"; };
+		C31C842D1ECF586500FA070C /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		C3418B5F1ECDAB9F00280E62 /* FileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileHelper.swift; sourceTree = "<group>"; };
 		C3418B611ECEE6FB00280E62 /* FilesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilesViewController.swift; sourceTree = "<group>"; };
 		C36C23371EC9DE0700D4163E /* SCError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCError.swift; sourceTree = "<group>"; };
@@ -143,6 +151,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C31C84281ECF550C00FA070C /* File Preview */ = {
+			isa = PBXGroup;
+			children = (
+				C31C84261ECF546E00FA070C /* WebviewPreviewViewContoller.swift */,
+				C31C84291ECF553700FA070C /* PreviewManager.swift */,
+				C31C842B1ECF55A000FA070C /* PreviewTransitionViewController.swift */,
+				C31C842D1ECF586500FA070C /* LoadingViewController.swift */,
+			);
+			name = "File Preview";
+			sourceTree = "<group>";
+		};
 		C3A5A8F61EBCC17600825DBF = {
 			isa = PBXGroup;
 			children = (
@@ -199,6 +218,7 @@
 		C3A5A9351EBCD03600825DBF /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				C31C84281ECF550C00FA070C /* File Preview */,
 				C3418B611ECEE6FB00280E62 /* FilesViewController.swift */,
 				C3A5A9041EBCC17600825DBF /* ViewController.swift */,
 				C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */,
@@ -544,15 +564,19 @@
 			files = (
 				C3C2AC361EC5AC460060AECA /* Notifications.swift in Sources */,
 				C3A5A9391EBCD0C600825DBF /* Constants.swift in Sources */,
+				C31C842A1ECF553700FA070C /* PreviewManager.swift in Sources */,
+				C31C842C1ECF55A000FA070C /* PreviewTransitionViewController.swift in Sources */,
 				C3A5A9341EBCCE3B00825DBF /* LoginViewController.swift in Sources */,
 				C3A5A9051EBCC17600825DBF /* ViewController.swift in Sources */,
 				C36C23381EC9DE0700D4163E /* SCError.swift in Sources */,
+				C31C842E1ECF586500FA070C /* LoadingViewController.swift in Sources */,
 				C378D2C41ECC976800AE8CEA /* schulcloud.xcdatamodeld in Sources */,
 				C3418B621ECEE6FB00280E62 /* FilesViewController.swift in Sources */,
 				C3C2AC381EC5AC750060AECA /* ApiHelper.swift in Sources */,
 				C3A5A9031EBCC17600825DBF /* AppDelegate.swift in Sources */,
 				C3A5A93B1EC0766F00825DBF /* Account.swift in Sources */,
 				C3A5A93D1EC0B3B200825DBF /* SCFilesViewController.swift in Sources */,
+				C31C84271ECF546E00FA070C /* WebviewPreviewViewContoller.swift in Sources */,
 				C3C2AC221EC3A7E90060AECA /* SettingsViewController.swift in Sources */,
 				C3C2AC241EC3AAA80060AECA /* LoginHelper.swift in Sources */,
 				C36C233B1ECC965400D4163E /* CoreData.swift in Sources */,
