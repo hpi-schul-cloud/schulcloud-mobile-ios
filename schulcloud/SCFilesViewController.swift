@@ -41,7 +41,7 @@ class SCFileBrowserDataSource: FileBrowserDataSource {
     let fileStorageRoot = Constants.backend.url.appendingPathComponent("fileStorage", isDirectory: false)
     
     public var rootDirectory: FBFile {
-        let userId = Globals.account.userId
+        let userId = Globals.account!.userId
         let rootUrl = URL(string: "/users/\(userId)/")!
         let file = FBFile(path: rootUrl)
         file.displayName = "Meine Dateien"
@@ -53,7 +53,7 @@ class SCFileBrowserDataSource: FileBrowserDataSource {
         
         let path = fileStorageRoot.absoluteString + "?path=\(directory.path.absoluteString)"
         let headers: HTTPHeaders = [
-            "Authorization": Globals.account.accessToken!
+            "Authorization": Globals.account!.accessToken!
         ]
         Alamofire.request(path, headers: headers).responseJSON { response in
             if let json = response.result.value as? [String: Any] {
@@ -125,7 +125,7 @@ class SCFileDownloadDelegate: FileBrowserDownloadDelegate {
     }
 
     func willPerformDownloadTask(for file: FBFile, using request: inout URLRequest) {
-        request.allHTTPHeaderFields = ["Authorization": Globals.account.accessToken!]
+        request.allHTTPHeaderFields = ["Authorization": Globals.account!.accessToken!]
     }
     
     func didFinishDownloading(data: Data, for file: FBFile, for task: URLSessionDownloadTask) throws {

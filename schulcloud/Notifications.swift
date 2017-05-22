@@ -19,16 +19,28 @@ import FirebaseMessaging
 class SCNotifications {
     
     static func checkRegistration() -> Future<Void, SCError> {
-        if Globals.account.didRegisterForPushNotifications {
-            log.debug("Device was already registered to receive push notifications for this account")
-            return connectFirMessaging().flatMap { _ in return Future(value: Void()) }
-        } else {
-            return registerDevice()
+        var deviceToken: String!
+        
+        return connectFirMessaging()
+            .flatMap { token -> Future<DefaultDataResponse, SCError> in
+                deviceToken = token
+                return ApiHelper.requestBasic("notification/devices")
+            }
+            .flatMap { response -> Future<Void, SCError> in
+                if let data = response.data,
+                let string = String(data: data, encoding: .utf8),  // low-effort JSON parsing
+                string.range(of: deviceToken) != nil {
+                    log.debug("Device was already registered to receive push notifications for this account")
+                    return connectFirMessaging().flatMap { _ in return Future(value: Void()) }
+                } else {
+                    return registerDevice(with: deviceToken)
+                }
         }
     }
     
     static internal func connectFirMessaging() -> Future<String, SCError> {
         let promise = Promise<String, SCError>()
+        FIRMessaging.messaging().disconnect()
         FIRMessaging.messaging().connect { error in
             if let error = error {
                 promise.failure(SCError.firebase(error))
@@ -40,23 +52,22 @@ class SCNotifications {
         return promise.future
     }
     
-    static func registerDevice() -> Future<Void, SCError> {
-        return connectFirMessaging().flatMap { deviceToken -> Future<Void, SCError> in
+    static func registerDevice(with deviceToken: String) -> Future<Void, SCError> {
             log.debug("Registering the device with the notification service...")
             let parameters = [
                 "service": "firebase",
                 "type": "mobile",
                 "name": "iOS device",
-                "token": Globals.account.userId,
+                "token": Globals.account!.userId,
                 "device_token": deviceToken,
                 "OS": "ios"
             ]
             return ApiHelper.requestBasic("notification/devices", method: .post, parameters: parameters, encoding: JSONEncoding.default)
                 .flatMap { response -> Future<Void, SCError> in
-                
                     if let response = response.response, response.statusCode < 300 {
-                        Globals.account.didRegisterForPushNotifications = true
+                        Globals.account!.didRegisterForPushNotifications = true
                         log.debug("Successfully registered device to receive notifications")
+                        
                         return Future(value: Void())
                     } else if let scError = SCError(apiResponse: response.data) {
                         return Future<Void, SCError>(error: scError)
@@ -64,7 +75,7 @@ class SCNotifications {
                         return Future<Void, SCError>(error: SCError.network(response.error))
                     }
             }
-        }
+        
     }
     
     static func initializeMessaging() {
@@ -83,21 +94,51 @@ class SCNotifications {
         
         UIApplication.shared.registerForRemoteNotifications()
         
-        
-        
         SCNotifications.checkRegistration().onFailure { error in
             log.error(error.localizedDescription)
         }
+        
+        UNUserNotificationCenter.current().delegate = RemoteMessageDelegate.shared
     }
     
     
 }
 
-class RemoteMessageDelegate: NSObject, FIRMessagingDelegate {
+class RemoteMessageDelegate: NSObject, FIRMessagingDelegate, UNUserNotificationCenterDelegate {
     static let shared = RemoteMessageDelegate()
     
     public func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
-        print(remoteMessage.appData)
+        
+        let content = UNMutableNotificationContent()
+        
+        if let newsString = remoteMessage.appData["news"] as? String,
+            let newsData = newsString.data(using: .utf8),
+            let parsed = try? JSONSerialization.jsonObject(with: newsData, options: []) as? [String: Any] {
+            content.title = parsed?["title"] as? String ?? "Schul-Cloud-Benachrichtigung"
+            content.body = parsed?["body"] as? String ?? ""
+            
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.2, repeats: false)
+            // Create the request object.
+            let request = UNNotificationRequest(identifier: "LocalFIRMessagingNotification", content: content, trigger: trigger)
+            
+            // dispatch the notification
+            let center = UNUserNotificationCenter.current()
+            center.add(request) { (error : Error?) in
+                if let theError = error {
+                    log.error(theError.localizedDescription)
+                }
+            }
+            
+        } else {
+            log.error("Could not read remote message \(remoteMessage.appData)")
+        }
+        
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler(UNNotificationPresentationOptions.alert)
     }
 }
 

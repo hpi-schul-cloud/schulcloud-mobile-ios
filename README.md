@@ -7,7 +7,7 @@ Regel ein Apple Mac benötigt.
 
 - Repository lokal clonen
 - Cocoapods installieren (https://cocoapods.org)
-- Die Pods des Projektes lokal installieren (```pod install```)
+- Die Pods des Projektes lokal installieren (`pod repo update` und `pod install`)
 
 ## APIs
 

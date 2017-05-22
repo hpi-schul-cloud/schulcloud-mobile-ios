@@ -34,5 +34,5 @@ struct SchulCloudAccount: CreateableSecureStorable, ReadableSecureStorable, Dele
 }
 
 class Globals {
-    static var account: SchulCloudAccount! = nil
+    static var account: SchulCloudAccount? = nil
 }

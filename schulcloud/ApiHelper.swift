@@ -42,7 +42,7 @@ class ApiHelper {
         authenticated: Bool = true) -> Future<T, SCError> {
         
         let urlString = Constants.backend.url.absoluteString.appending(endpoint)
-        var headers = authenticated ? ["Authorization": Globals.account.accessToken!] : HTTPHeaders()
+        var headers = authenticated ? ["Authorization": Globals.account!.accessToken!] : HTTPHeaders()
         
         if let additionalHeaders = additionalHeaders {
             for (key, value) in additionalHeaders {
@@ -61,7 +61,7 @@ class ApiHelper {
         authenticated: Bool = true) -> Future<DefaultDataResponse, SCError> {
         
         let urlString = Constants.backend.url.absoluteString.appending(endpoint)
-        var headers = authenticated ? ["Authorization": Globals.account.accessToken!] : HTTPHeaders()
+        var headers = authenticated ? ["Authorization": Globals.account!.accessToken!] : HTTPHeaders()
         
         if let additionalHeaders = additionalHeaders {
             for (key, value) in additionalHeaders {

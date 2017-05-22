@@ -73,7 +73,7 @@ open class LoginHelper {
         defaults.set(nil, forKey: "accountId")
         defaults.set(nil, forKey: "userId")
         do {
-            try Globals.account.deleteFromSecureStore()
+            try Globals.account!.deleteFromSecureStore()
         } catch let error {
             log.error(error.localizedDescription)
         }
