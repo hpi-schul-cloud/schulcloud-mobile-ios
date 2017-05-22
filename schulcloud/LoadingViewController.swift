@@ -29,20 +29,20 @@
 //    SOFTWARE.
 //
 
-
+import Alamofire
 import Foundation
 import QuickLook
 
 
-class LoadingViewController: UIViewController, URLSessionDownloadDelegate, URLSessionDataDelegate {
+class LoadingViewController: UIViewController  {
     //MARK: Lifecycle
     
     @IBOutlet var progressView: UIProgressView!
     @IBOutlet var errorLabel: UILabel!
     @IBOutlet var cancelButton: UIButton!
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
     var downloadTask: URLSessionDownloadTask?
-    var session: URLSession!
     
     var file: File!
     
@@ -50,9 +50,7 @@ class LoadingViewController: UIViewController, URLSessionDownloadDelegate, URLSe
     override func viewDidLoad() {
         super.viewDidLoad()
         progressView.setProgress(0, animated: false)
- 
-        downloadTask = session.downloadTask(with: file.path)
-        downloadTask!.resume()
+        startDownload()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -65,9 +63,41 @@ class LoadingViewController: UIViewController, URLSessionDownloadDelegate, URLSe
         navigationController?.popViewController(animated: true)
     }
     
-    func showFile(data: Data?) {
-        let previewManager = PreviewManager()
-        let controller = previewManager.previewViewControllerForFile(self.file, data: data, fromNavigation: true)
+    func startDownload() {
+        FileHelper.getSignedUrl(forFile: file)
+            .onSuccess { url in
+                DispatchQueue.main.async {
+                    //self.activityIndicator.stopAnimating()
+                    //self.progressView.isHidden = false
+                }
+                
+                // TODO: save files to disk insead of memory
+                Alamofire.request(url)
+                    .downloadProgress { progress in
+                        self.progressView.setProgress(Float(progress.fractionCompleted), animated: true)
+                    }
+                    .responseData { response in
+                    log.debug("All Response Info: \(response)")
+                    
+                    if let data = response.result.value {
+                        if let string = String(data: data, encoding: .utf8) {
+                            log.debug("Got file response \(string)")
+                        }
+                        self.showFile(data: data)
+                    } else {
+                        self.show(error: response.error ?? SCError.unknown)
+                    }
+                }
+        }
+            .onFailure { error in
+                self.show(error: error)
+        }
+        
+    }
+    
+    func showFile(data: Data) {
+        let previewManager = PreviewManager(file: file, data: data)
+        let controller = previewManager.previewViewController
         DispatchQueue.main.async {
             if let nav = self.navigationController {
                 // TODO: add as subview
@@ -95,36 +125,5 @@ class LoadingViewController: UIViewController, URLSessionDownloadDelegate, URLSe
         }
     }
     
-    //MARK: URLSession
-
-    func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
-        if let error = error {
-            show(error: error)
-        }
-    }
-    
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        do {
-            let data = try Data(contentsOf: location)
-            self.showFile(data: data)
-        } catch let error {
-            print(error)
-            show(error: error)
-        }
-    }
-    
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
-        let progress = Float(totalBytesWritten / totalBytesExpectedToWrite)
-        DispatchQueue.main.async {
-            self.progressView.setProgress(progress, animated: true)
-        }
-    }
-    
-    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        if let error = error, (error as? NSError)?.code != NSURLErrorCancelled {
-            show(error: error)
-        }
-        session.finishTasksAndInvalidate()
-    }
 }
 

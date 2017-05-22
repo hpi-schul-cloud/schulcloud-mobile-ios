@@ -8,8 +8,10 @@
 
 import Foundation
 import Alamofire
+import AlamofireObjectMapper
 import BrightFutures
 import CoreData
+import ObjectMapper
 import SwiftyJSON
 
 class FileHelper {
@@ -54,6 +56,18 @@ class FileHelper {
         return nil
     }
     
+    static func getSignedUrl(forFile file: File) -> Future<URL, SCError> {
+        let parameters: Parameters = [
+            "path": file.path.absoluteString.removingPercentEncoding!,
+            //"fileType": mime.lookup(file),
+            "action": "getObject"
+        ]
+        let request: Future<SignedUrl, SCError> = ApiHelper.request("fileStorage/signedUrl", method: .post, parameters: parameters, encoding: JSONEncoding.default)
+        
+        return request.flatMap { signedUrl -> Future<URL, SCError> in
+            return Future(value: signedUrl.url)
+        }
+    }
     static func updateDatabase(forFolder parentFolder: File) -> Future<Void, SCError> {
         let path = "fileStorage?path=\(parentFolder.path.absoluteString)"
         
@@ -159,5 +173,19 @@ class FileHelper {
         }
         
         saveContext()
+    }
+    
+    struct SignedUrl: Mappable {
+        var url: URL!
+        
+        init?(map: Map) {
+            if map.JSON["url"] == nil {
+                return nil
+            }
+        }
+        
+        mutating func mapping(map: Map) {
+            url   <- (map["url"], URLTransform(shouldEncodeURLString: false))
+        }
     }
 }

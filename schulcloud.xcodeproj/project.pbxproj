@@ -16,6 +16,8 @@
 		C3418B601ECDAB9F00280E62 /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3418B5F1ECDAB9F00280E62 /* FileHelper.swift */; };
 		C3418B621ECEE6FB00280E62 /* FilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3418B611ECEE6FB00280E62 /* FilesViewController.swift */; };
 		C3418B641ED2E89F00280E62 /* FileListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3418B631ED2E89F00280E62 /* FileListCell.swift */; };
+		C3418B671ED335F400280E62 /* PreviewTransitionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */; };
+		C3418B681ED335F400280E62 /* WebviewPreviewViewContoller.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */; };
 		C36C23381EC9DE0700D4163E /* SCError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36C23371EC9DE0700D4163E /* SCError.swift */; };
 		C36C233B1ECC965400D4163E /* CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36C233A1ECC965400D4163E /* CoreData.swift */; };
 		C378D2C41ECC976800AE8CEA /* schulcloud.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C378D2C21ECC976800AE8CEA /* schulcloud.xcdatamodeld */; };
@@ -73,6 +75,8 @@
 		C3418B5F1ECDAB9F00280E62 /* FileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileHelper.swift; sourceTree = "<group>"; };
 		C3418B611ECEE6FB00280E62 /* FilesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilesViewController.swift; sourceTree = "<group>"; };
 		C3418B631ED2E89F00280E62 /* FileListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileListCell.swift; sourceTree = "<group>"; };
+		C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreviewTransitionViewController.xib; sourceTree = "<group>"; };
+		C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebviewPreviewViewContoller.xib; sourceTree = "<group>"; };
 		C36C23371EC9DE0700D4163E /* SCError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCError.swift; sourceTree = "<group>"; };
 		C36C233A1ECC965400D4163E /* CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreData.swift; sourceTree = "<group>"; };
 		C378D2C31ECC976800AE8CEA /* schulcloud.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = schulcloud.xcdatamodel; sourceTree = "<group>"; };
@@ -164,6 +168,16 @@
 			name = "File Preview";
 			sourceTree = "<group>";
 		};
+		C3418B691ED3360B00280E62 /* Files */ = {
+			isa = PBXGroup;
+			children = (
+				C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */,
+				C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */,
+				C3418B631ED2E89F00280E62 /* FileListCell.swift */,
+			);
+			name = Files;
+			sourceTree = "<group>";
+		};
 		C3A5A8F61EBCC17600825DBF = {
 			isa = PBXGroup;
 			children = (
@@ -233,10 +247,10 @@
 		C3A5A9361EBCD06200825DBF /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C3418B691ED3360B00280E62 /* Files */,
 				C3A5A9061EBCC17600825DBF /* Main.storyboard */,
 				C3A5A90C1EBCC17600825DBF /* Assets.xcassets */,
 				C3A5A90E1EBCC17600825DBF /* LaunchScreen.storyboard */,
-				C3418B631ED2E89F00280E62 /* FileListCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -399,8 +413,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3418B681ED335F400280E62 /* WebviewPreviewViewContoller.xib in Resources */,
 				C3A5A9101EBCC17600825DBF /* LaunchScreen.storyboard in Resources */,
 				C3C2AC291EC45B380060AECA /* GoogleService-Info.plist in Resources */,
+				C3418B671ED335F400280E62 /* PreviewTransitionViewController.xib in Resources */,
 				C3A5A90D1EBCC17600825DBF /* Assets.xcassets in Resources */,
 				C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */,
 			);

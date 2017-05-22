@@ -36,7 +36,7 @@ class WebviewPreviewViewContoller: UIViewController {
     
     var webView = WKWebView()
 
-    var file: FBFile? {
+    var file: File? {
         didSet {
             self.title = file?.displayName
             self.processForDisplay()
@@ -71,7 +71,7 @@ class WebviewPreviewViewContoller: UIViewController {
         let activityItems: [Any]
         if let data = fileData {
             activityItems = [data]
-        } else if let url = file.fileLocation {
+        } else if let url = file.cacheUrl {
             activityItems = [url]
         } else {
             return
@@ -93,7 +93,7 @@ class WebviewPreviewViewContoller: UIViewController {
         let data: Data
         if let fileData = fileData {
             data = fileData
-        } else if let localFileUrl = file.fileLocation,
+        } else if let localFileUrl = file.cacheUrl,
             localFileUrl.scheme == "file",
             let fileData = try? Data(contentsOf: localFileUrl) {
             data = fileData
@@ -105,7 +105,7 @@ class WebviewPreviewViewContoller: UIViewController {
         var rawString: String?
         
         // Prepare plist for display
-        if file.type == .PLIST {
+        if file.path.pathExtension.lowercased() == "plist" {
             do {
                 if let plistDescription = try (PropertyListSerialization.propertyList(from: data, options: [], format: nil) as AnyObject).description {
                     rawString = plistDescription
@@ -114,7 +114,7 @@ class WebviewPreviewViewContoller: UIViewController {
         }
         
         // Prepare json file for display
-        else if file.type == .JSON {
+        else if file.path.pathExtension.lowercased() == "json" {
             do {
                 let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
                 if JSONSerialization.isValidJSONObject(jsonObject) {

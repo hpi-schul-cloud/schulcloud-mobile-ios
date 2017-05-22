@@ -35,36 +35,29 @@ import QuickLook
 
 class PreviewManager: NSObject, QLPreviewControllerDataSource {
     
-    var file: File?
-    var fileData: Data?
+    let file: File
+    let fileData: Data
     
     init(file: File, data: Data) {
         self.file = file
         self.fileData = data
     }
     
-    func previewViewControllerForFile(_ file: File, data: Data?, fromNavigation: Bool) -> UIViewController {
+    lazy var previewViewController: UIViewController = {
         
-        switch(file.path.pathExtension) {
-            case "plist", "json":
-                let webviewPreviewViewContoller = WebviewPreviewViewContoller(nibName: "WebviewPreviewViewContoller", bundle: Bundle(for: WebviewPreviewViewContoller.self))
-                webviewPreviewViewContoller.fileData = data
-                webviewPreviewViewContoller.file = file
-                return webviewPreviewViewContoller
+        switch(self.file.path.pathExtension) {
+        case "plist", "json":
+            let webviewPreviewViewContoller = WebviewPreviewViewContoller(nibName: "WebviewPreviewViewContoller", bundle: Bundle(for: WebviewPreviewViewContoller.self))
+            webviewPreviewViewContoller.fileData = self.fileData
+            webviewPreviewViewContoller.file = self.file
+            return webviewPreviewViewContoller
         default:
             let previewTransitionViewController = PreviewTransitionViewController(nibName: "PreviewTransitionViewController", bundle: Bundle(for: PreviewTransitionViewController.self))
-            self.file = file
-            self.fileData = data
-            
             previewTransitionViewController.quickLookPreviewController.dataSource = self
-            
-            if fromNavigation == true {
-                return previewTransitionViewController.quickLookPreviewController
-            }
             return previewTransitionViewController
         }
         
-    }
+    }()
     
     // MARK: delegate methods
     func numberOfPreviewItems(in controller: QLPreviewController) -> Int {
@@ -74,21 +67,16 @@ class PreviewManager: NSObject, QLPreviewControllerDataSource {
     func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
         let item = PreviewItem()
         
-        if let file = file,
-            let fileData = fileData,
-            let url = copyDataToTemporaryDirectory(fileData, file: file) {
-            item.filePath = url
-        } else if let file = file, let url = file.path, url.scheme == "file" {
-            item.filePath = url
+        if let url = file.cacheUrl ?? copyDataToTemporaryDirectory(fileData, file: file) {
+            item.previewItemURL = url
         }
-        
         return item
     }
     
     func copyDataToTemporaryDirectory(_ data: Data, file: File) -> URL?
     {
         let tempDirectoryURL = NSURL.fileURL(withPath: NSTemporaryDirectory(), isDirectory: true)
-        let fileExtension = file.fileExtension ?? file.type.rawValue
+        let fileExtension = file.path.pathExtension
         let targetURL = tempDirectoryURL.appendingPathComponent("\(file.displayName).\(fileExtension)")  // TODO: better file extensions
         
         // Copy the file.
@@ -96,7 +84,7 @@ class PreviewManager: NSObject, QLPreviewControllerDataSource {
             try data.write(to: targetURL)
             return targetURL
         } catch let error {
-            print("Unable to copy file: \(error)")
+            log.error("Unable to copy file: \(error)")
             return nil
         }
     }
@@ -109,12 +97,6 @@ class PreviewItem: NSObject, QLPreviewItem {
      * @discussion The URL must be a file URL.
      */
     
-    var filePath: URL?
-    public var previewItemURL: URL? {
-        if let filePath = filePath {
-            return filePath
-        }
-        return nil
-    }
+    public var previewItemURL: URL?
     
 }
