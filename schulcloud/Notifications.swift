@@ -69,10 +69,10 @@ class SCNotifications {
                         log.debug("Successfully registered device to receive notifications")
                         
                         return Future(value: Void())
-                    } else if let scError = SCError(apiResponse: response.data) {
-                        return Future<Void, SCError>(error: scError)
+                    } else if let afError = response.error {
+                        return Future<Void, SCError>(error: SCError.network(afError))
                     } else {
-                        return Future<Void, SCError>(error: SCError.network(response.error))
+                        return Future<Void, SCError>(error: SCError(apiResponse: response.data))
                     }
             }
         

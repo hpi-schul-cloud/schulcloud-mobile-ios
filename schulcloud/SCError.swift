@@ -14,13 +14,13 @@ enum SCError: Error {
     case unknown
     case firebase(Error)
     
-    init?(apiResponse: Data?) {
+    init(apiResponse: Data?) {
         if let data = apiResponse,
             let deserialized = try? JSONSerialization.jsonObject(with: data, options: []),
             let errorJson = deserialized as? [String: Any] {
             self = .apiError(errorJson)
         } else {
-            return nil
+            self = .unknown
         }
     }
 }

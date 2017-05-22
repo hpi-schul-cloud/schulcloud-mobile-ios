@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import FileBrowser
 import ObjectMapper
+import SwiftyJSON
 
 class SCFilesViewController: UIViewController {
 
@@ -40,6 +41,8 @@ class SCFileBrowserDataSource: FileBrowserDataSource {
     
     let fileStorageRoot = Constants.backend.url.appendingPathComponent("fileStorage", isDirectory: false)
     
+    let rootFolder = FileHelper.rootFolder
+    
     public var rootDirectory: FBFile {
         let userId = Globals.account!.userId
         let rootUrl = URL(string: "/users/\(userId)/")!
@@ -49,7 +52,7 @@ class SCFileBrowserDataSource: FileBrowserDataSource {
     }
     
     open func provideContents(ofDirectory directory: FBFile, callback: @escaping (FBResult<[FBFile]>) -> ()) {
-        //typealias JSON = [String: Any]
+        
         
         let path = fileStorageRoot.absoluteString + "?path=\(directory.path.absoluteString)"
         let headers: HTTPHeaders = [
@@ -57,6 +60,11 @@ class SCFileBrowserDataSource: FileBrowserDataSource {
         ]
         Alamofire.request(path, headers: headers).responseJSON { response in
             if let json = response.result.value as? [String: Any] {
+                if let currentFolder = FileHelper.getFolder(withPath: directory.path.absoluteString.removingPercentEncoding!) {
+                    //FileHelper.updateDatabase(contentsOf: currentFolder, using: JSON(json))
+                } else {
+                    log.error("Could not find folder in database")
+                }
                 let filesJson = json["files"] as? [[String: Any]] ?? [[String: Any]]()
                 let files = filesJson.map { fileJson -> FBFile in
                     let relativePath = (fileJson["key"] as! String).addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
@@ -110,7 +118,7 @@ class SCFileDownloadDelegate: FileBrowserDownloadDelegate {
             //"fileType": mime.lookup(file),
             "action": "getObject"
         ]
-        Alamofire.request(signedUrlEndpoint, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: ["Authorization": Globals.account.accessToken!]).responseJSON { response in
+        Alamofire.request(signedUrlEndpoint, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: ["Authorization": Globals.account!.accessToken!]).responseJSON { response in
             if let json = response.result.value as? [String: Any] {
                 if let urlString = json["url"] as? String,
                     let url = URL(string: urlString) {
@@ -137,5 +145,6 @@ class SCFileDownloadDelegate: FileBrowserDownloadDelegate {
 
 enum SCFileError: Error {
     case couldNotSerializeJson
+    case folderNotFound
     case badRequest(String?)
 }

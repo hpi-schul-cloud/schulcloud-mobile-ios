@@ -14,7 +14,7 @@ import ObjectMapper
 
 class ApiHelper {
     
-    static func mappedObjectAFRequest<T: Mappable>(
+    internal static func mappedObjectAFRequest<T: Mappable>(
         _ url: URLConvertible,
         method: HTTPMethod = .get,
         parameters: Parameters? = nil,
