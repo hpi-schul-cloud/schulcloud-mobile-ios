@@ -124,11 +124,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="file" id="KW0-wj-iUH">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="file" id="KW0-wj-iUH" customClass="FileListCell" customModule="schulcloud" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KW0-wj-iUH" id="HC4-jZ-1tN">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="compasses" translatesAutoresizingMaskIntoConstraints="NO" id="kFV-Qi-C2Z">
@@ -169,14 +169,16 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="subtitleLabel" destination="txv-8K-r4K" id="t38-NV-v2R"/>
+                                    <outlet property="titleLabel" destination="6fS-OG-CfD" id="gLN-Gg-tvg"/>
                                     <segue destination="Wm1-IG-qsV" kind="showDetail" identifier="filePreview" action="showViewController:sender:" id="BZO-Kw-nrc"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="folder" id="biP-sZ-Chj">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="folder" id="biP-sZ-Chj" customClass="FileListCell" customModule="schulcloud" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="biP-sZ-Chj" id="Pfd-il-ohm">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="folder colored" translatesAutoresizingMaskIntoConstraints="NO" id="FOS-WQ-ca0">
@@ -217,6 +219,8 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="subtitleLabel" destination="YgY-bh-inR" id="xfd-8O-PnU"/>
+                                    <outlet property="titleLabel" destination="gmj-0c-Cbr" id="Pm5-m4-hNo"/>
                                     <segue destination="3G1-PP-kq0" kind="show" identifier="subfolder" id="tTo-Zo-gTn"/>
                                 </connections>
                             </tableViewCell>
@@ -257,22 +261,51 @@
                                     <constraint firstAttribute="height" constant="2" id="Tdh-78-Zfb"/>
                                 </constraints>
                             </progressView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="2Ww-GF-3Pv">
-                                <rect key="frame" x="177" y="323" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="2Ww-GF-3Pv">
+                                <rect key="frame" x="177" y="323.5" width="20" height="20"/>
                             </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error: The operation could not be completed" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GId-t6-UD9">
+                                <rect key="frame" x="16" y="375.5" width="343" height="275.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LGL-Y4-kAJ">
+                                <rect key="frame" x="16" y="375.5" width="343" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="GjQ-Rb-D1i"/>
+                                </constraints>
+                                <state key="normal" title="Abbrechen"/>
+                                <connections>
+                                    <action selector="cancelButtonTapped:" destination="Wm1-IG-qsV" eventType="touchUpInside" id="9no-oI-PAQ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="xx1-tq-1yU" firstAttribute="centerY" secondItem="Lbv-af-4EZ" secondAttribute="centerY" id="7SY-wG-OpN"/>
+                            <constraint firstItem="2Ww-GF-3Pv" firstAttribute="centerX" secondItem="Lbv-af-4EZ" secondAttribute="centerX" id="IJd-2I-gyy"/>
+                            <constraint firstItem="GId-t6-UD9" firstAttribute="trailing" secondItem="Lbv-af-4EZ" secondAttribute="trailingMargin" id="Mww-ge-IOh"/>
+                            <constraint firstItem="LGL-Y4-kAJ" firstAttribute="top" secondItem="2Ww-GF-3Pv" secondAttribute="bottom" constant="32" id="Ne6-Jc-3QA"/>
+                            <constraint firstItem="2Ww-GF-3Pv" firstAttribute="centerY" secondItem="Lbv-af-4EZ" secondAttribute="centerY" id="XK3-n9-Us5"/>
                             <constraint firstItem="xx1-tq-1yU" firstAttribute="leading" secondItem="Lbv-af-4EZ" secondAttribute="leadingMargin" constant="16" id="bQd-kq-PNU"/>
+                            <constraint firstItem="LGL-Y4-kAJ" firstAttribute="leading" secondItem="Lbv-af-4EZ" secondAttribute="leadingMargin" id="caR-P8-Rso"/>
+                            <constraint firstItem="GId-t6-UD9" firstAttribute="top" secondItem="2Ww-GF-3Pv" secondAttribute="bottom" constant="32" id="eC6-F7-o3p"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="LGL-Y4-kAJ" secondAttribute="trailing" id="iQO-ts-1hD"/>
+                            <constraint firstItem="GId-t6-UD9" firstAttribute="leading" secondItem="Lbv-af-4EZ" secondAttribute="leadingMargin" id="k43-jk-RfR"/>
                             <constraint firstAttribute="trailingMargin" secondItem="xx1-tq-1yU" secondAttribute="trailing" constant="16" id="whc-7h-Dw8"/>
+                            <constraint firstItem="3Ds-Pl-pHP" firstAttribute="top" secondItem="GId-t6-UD9" secondAttribute="bottom" constant="16" id="x3d-Qq-irm"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="cancelButton" destination="LGL-Y4-kAJ" id="8uh-JO-MJX"/>
+                        <outlet property="errorLabel" destination="GId-t6-UD9" id="Wou-Pn-3cB"/>
+                        <outlet property="progressView" destination="xx1-tq-1yU" id="TJq-bx-I1b"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qUe-aC-Vf7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4076" y="167"/>
+            <point key="canvasLocation" x="4076" y="166.8665667166417"/>
         </scene>
         <!--Dashboard-->
         <scene sceneID="ULO-PG-Vbk">
@@ -319,7 +352,7 @@
                             <tableViewSection headerTitle="Benutzer" id="wIV-A3-QKf">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="O1j-vZ-XkG" style="IBUITableViewCellStyleDefault" id="Xa9-1w-OVR">
-                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Xa9-1w-OVR" id="XXs-nT-5Yd">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -340,7 +373,7 @@
                             <tableViewSection id="9yp-67-2y2">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="Dr4-DO-ctd" style="IBUITableViewCellStyleDefault" id="w9S-GC-AOQ">
-                                        <rect key="frame" x="0.0" y="135.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="136" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="w9S-GC-AOQ" id="jos-rY-ggu">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>

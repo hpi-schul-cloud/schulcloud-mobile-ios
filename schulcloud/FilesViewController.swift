@@ -80,13 +80,13 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "file", for: indexPath)
-        
         let object = fetchedResultsController.object(at: indexPath)
         
-        cell.textLabel?.text = object.displayName
-        cell.detailTextLabel?.text = object.pathString
-        cell.imageView?.image = object.isDirectory ? nil : #imageLiteral(resourceName: "compasses")
+        let reuseIdentifier = object.isDirectory ? "folder" : "file"
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! FileListCell
+        
+        cell.titleLabel.text = object.displayName
+        cell.subtitleLabel.text = object.pathString
 
         return cell
     }
@@ -117,15 +117,17 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let selectedCell = sender as! UITableViewCell
+        guard let indexPath = tableView.indexPath(for: selectedCell) else { return }
+        let selectedItem = fetchedResultsController.object(at: indexPath)
+        
         switch(segue.identifier) {
         case .some("filePreview"):
             let destination = segue.destination as! LoadingViewController
+            destination.file = selectedItem
             break
         case .some("subfolder"):
             let destination = segue.destination as! FilesViewController
-            let selectedCell = sender as! UITableViewCell
-            guard let indexPath = tableView.indexPath(for: selectedCell) else { break }
-            let selectedItem = fetchedResultsController.object(at: indexPath)
             destination.currentFolder = selectedItem
         default:
             break
