@@ -44,18 +44,26 @@ extension File {
     
 }
 
+// MARK: computed properties
 extension File {
     
     var path: URL {
-        let encoded = pathString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
-        return URL(string: encoded)!
+        get {
+            let encoded = pathString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+            return URL(string: encoded)!
+        }
+        set {
+            self.pathString = newValue.absoluteString
+        }
     }
     
-    
+    var cacheUrl: URL? {
+        get {
+            guard let urlString = cacheUrlString else { return nil }
+            return URL(string: urlString)!
+        }
+        set {
+            cacheUrlString = newValue?.absoluteString
+        }
+    }
 }
-
-//extension File: FBFile {
-//    var path: URL {
-//        return URL(string: pathString)!
-//    }
-//}

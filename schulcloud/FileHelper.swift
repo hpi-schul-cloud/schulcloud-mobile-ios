@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import Alamofire
+import BrightFutures
 import CoreData
 import SwiftyJSON
 
@@ -52,14 +54,34 @@ class FileHelper {
         return nil
     }
     
-    static func updateDatabase(contentsOf parentFolder: File, using contents: JSON) {
+    static func updateDatabase(forFolder parentFolder: File) -> Future<Void, SCError> {
+        let path = "fileStorage?path=\(parentFolder.path.absoluteString)"
+        
+        return ApiHelper.requestBasic(path)
+            .flatMap { response -> Future<Void, SCError> in
+                if let data = response.data, data.count > 0 {
+                    let json = JSON(data: data)
+                    updateDatabase(contentsOf: parentFolder, using: json)
+                    return Future(value: Void())
+                } else {
+                    return Future<Void, SCError>(error: SCError(apiResponse: response.data))
+                }
+        }
+    }
+    
+    fileprivate static func updateDatabase(contentsOf parentFolder: File, using contents: JSON) {
         
         let fetchRequest = NSFetchRequest<File>(entityName: "File")
         let fileDescription = NSEntityDescription.entity(forEntityName: "File", in: managedObjectContext)!
         var foundPaths = [String]()
         
+        guard let files = contents["files"].array,
+            let folders = contents["directories"].array else {
+                log.error("Could not parse directory contents: \(contents.rawString() ?? "nil")")
+                return
+        }
         // insert or update files
-        for fileJson in contents["files"].arrayValue {
+        for fileJson in files {
             guard let name = fileJson["name"].string else {
                 log.error("Could not parse name for \(fileJson)")
                 continue
@@ -90,7 +112,7 @@ class FileHelper {
         }
         
         // insert or update folders
-        for folderJson in contents["directories"].arrayValue {
+        for folderJson in folders {
             guard let name = folderJson["name"].string else {
                 log.error("Could not parse name for \(folderJson)")
                 continue
@@ -121,11 +143,15 @@ class FileHelper {
             }
         }
         
+        saveContext()
+        
         // remove deleted files or folders
         let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
-        let notOnServerPredicate = NSPredicate(format: "NOT (pathString in %@)", foundPaths)
+        let notOnServerPredicate = NSPredicate(format: "NOT (pathString IN %@)", foundPaths)
         fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [notOnServerPredicate, parentFolderPredicate])
         do {
+            let result = try managedObjectContext.fetch(fetchRequest)
+            print("About to delete " + String(describing: result))
             let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest as! NSFetchRequest<NSFetchRequestResult>)
             try managedObjectContext.execute(deleteRequest)
         } catch let error {

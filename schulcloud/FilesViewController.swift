@@ -31,8 +31,16 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
     }
     
     @IBAction func didTriggerRefresh() {
-        tableView.reloadData()
-        refreshControl?.endRefreshing()
+        FileHelper.updateDatabase(forFolder: currentFolder)
+            .onSuccess { _ in
+                self.performFetch()
+            }
+            .onFailure { error in
+                log.error(error)
+            }
+            .onComplete { _ in
+                self.refreshControl?.endRefreshing()
+            }
     }
 
     // MARK: - Table view data source

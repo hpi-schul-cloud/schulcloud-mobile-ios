@@ -61,7 +61,7 @@ class SCFileBrowserDataSource: FileBrowserDataSource {
         Alamofire.request(path, headers: headers).responseJSON { response in
             if let json = response.result.value as? [String: Any] {
                 if let currentFolder = FileHelper.getFolder(withPath: directory.path.absoluteString.removingPercentEncoding!) {
-                    FileHelper.updateDatabase(contentsOf: currentFolder, using: JSON(json))
+                    //FileHelper.updateDatabase(contentsOf: currentFolder, using: JSON(json))
                 } else {
                     log.error("Could not find folder in database")
                 }
