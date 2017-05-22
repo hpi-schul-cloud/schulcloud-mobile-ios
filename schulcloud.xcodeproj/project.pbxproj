@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3DD868F81ECE35A900814392 /* icon-folder-30.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD868F61ECE35A900814392 /* icon-folder-30.png */; };
-		3DD868F91ECE35A900814392 /* icon-home-30.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD868F71ECE35A900814392 /* icon-home-30.png */; };
+		3DCFC9F31ED3632C00167B82 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCFC9F21ED3632C00167B82 /* DashboardViewController.swift */; };
 		3DD869141ECE3F6100814392 /* PT_Sans-Web-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DD869101ECE3F6100814392 /* PT_Sans-Web-Bold.ttf */; };
 		3DD869151ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DD869111ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf */; };
 		3DD869161ECE3F6100814392 /* PT_Sans-Web-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DD869121ECE3F6100814392 /* PT_Sans-Web-Italic.ttf */; };
@@ -68,8 +67,7 @@
 		09D7CC393E1856DD7EF9B21F /* Pods_schulcloud.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloud.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		270BA83590B5166B5A30D6B3 /* Pods_schulcloudUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloudUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		389B64CA22013634E6CFD243 /* Pods-schulcloudUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudUITests/Pods-schulcloudUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		3DD868F61ECE35A900814392 /* icon-folder-30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-folder-30.png"; path = "schulcloud/images/icon-folder-30.png"; sourceTree = "<group>"; };
-		3DD868F71ECE35A900814392 /* icon-home-30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-home-30.png"; path = "schulcloud/images/icon-home-30.png"; sourceTree = "<group>"; };
+		3DCFC9F21ED3632C00167B82 /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		3DD869101ECE3F6100814392 /* PT_Sans-Web-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PT_Sans-Web-Bold.ttf"; path = "schulcloud/fonts/PT_Sans-Web-Bold.ttf"; sourceTree = "<group>"; };
 		3DD869111ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PT_Sans-Web-BoldItalic.ttf"; path = "schulcloud/fonts/PT_Sans-Web-BoldItalic.ttf"; sourceTree = "<group>"; };
 		3DD869121ECE3F6100814392 /* PT_Sans-Web-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PT_Sans-Web-Italic.ttf"; path = "schulcloud/fonts/PT_Sans-Web-Italic.ttf"; sourceTree = "<group>"; };
@@ -170,15 +168,6 @@
 			name = fonts;
 			sourceTree = "<group>";
 		};
-		3DD869191ECE3F8B00814392 /* images */ = {
-			isa = PBXGroup;
-			children = (
-				3DD868F61ECE35A900814392 /* icon-folder-30.png */,
-				3DD868F71ECE35A900814392 /* icon-home-30.png */,
-			);
-			name = images;
-			sourceTree = "<group>";
-		};
 		7EDF8CE117CA0B1F9E1A25E7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -214,7 +203,6 @@
 			isa = PBXGroup;
 			children = (
 				3DD869181ECE3F7C00814392 /* fonts */,
-				3DD869191ECE3F8B00814392 /* images */,
 				C3A5A9011EBCC17600825DBF /* schulcloud */,
 				C3A5A9191EBCC17600825DBF /* schulcloudTests */,
 				C3A5A9241EBCC17600825DBF /* schulcloudUITests */,
@@ -274,6 +262,7 @@
 				C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */,
 				C3A5A93C1EC0B3B200825DBF /* SCFilesViewController.swift */,
 				C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */,
+				3DCFC9F21ED3632C00167B82 /* DashboardViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -449,7 +438,6 @@
 			files = (
 				C3418B681ED335F400280E62 /* WebviewPreviewViewContoller.xib in Resources */,
 				3DD869161ECE3F6100814392 /* PT_Sans-Web-Italic.ttf in Resources */,
-				3DD868F81ECE35A900814392 /* icon-folder-30.png in Resources */,
 				3DD869141ECE3F6100814392 /* PT_Sans-Web-Bold.ttf in Resources */,
 				C3A5A9101EBCC17600825DBF /* LaunchScreen.storyboard in Resources */,
 				C3C2AC291EC45B380060AECA /* GoogleService-Info.plist in Resources */,
@@ -457,7 +445,6 @@
 				C3A5A90D1EBCC17600825DBF /* Assets.xcassets in Resources */,
 				3DD869171ECE3F6100814392 /* PT_Sans-Web-Regular.ttf in Resources */,
 				3DD869151ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf in Resources */,
-				3DD868F91ECE35A900814392 /* icon-home-30.png in Resources */,
 				C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -640,6 +627,7 @@
 				C3C2AC221EC3A7E90060AECA /* SettingsViewController.swift in Sources */,
 				C3C2AC241EC3AAA80060AECA /* LoginHelper.swift in Sources */,
 				C36C233B1ECC965400D4163E /* CoreData.swift in Sources */,
+				3DCFC9F31ED3632C00167B82 /* DashboardViewController.swift in Sources */,
 				C3C2AC311EC4902F0060AECA /* File+CoreDataClass.swift in Sources */,
 				C3418B601ECDAB9F00280E62 /* FileHelper.swift in Sources */,
 			);
@@ -798,14 +786,14 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = schulcloud/schulcloud.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = WP53SSE8S6;
 				INFOPLIST_FILE = schulcloud/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "75af342e-6316-4716-83e2-c5f08f24b153";
-				PROVISIONING_PROFILE_SPECIFIER = SchulCloud_DevProfile;
+				PROVISIONING_PROFILE = "fa5335e8-5b9d-48ac-a945-d57172dcae86";
+				PROVISIONING_PROFILE_SPECIFIER = SchulCloud_DistrProfile;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
