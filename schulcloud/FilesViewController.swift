@@ -23,6 +23,7 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
         }
         
         performFetch()
+        didTriggerRefresh()
     }
 
     override func didReceiveMemoryWarning() {

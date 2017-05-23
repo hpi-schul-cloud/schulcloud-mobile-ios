@@ -17,11 +17,14 @@ class LoginViewController: UIViewController {
     @IBOutlet var usernameTextArea: UITextField!
     @IBOutlet var passwordTextArea: UITextField!
     
-    
+    let defaults = UserDefaults.standard
+    let usernameKey = "lastLoggedInUsername"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        usernameTextArea.delegate = self
+        passwordTextArea.delegate = self
+        usernameTextArea.text = defaults.string(forKey: usernameKey)
     }
     
     @IBOutlet var loginButton: SimpleRoundedButton!
@@ -32,6 +35,8 @@ class LoginViewController: UIViewController {
         loginErrorLabel.isHidden = true
         let username = usernameTextArea.text
         let password = passwordTextArea.text
+        
+        defaults.set(username, forKey: usernameKey)
         
         LoginHelper.login(username: username, password: password)
             .onSuccess {
@@ -50,4 +55,14 @@ class LoginViewController: UIViewController {
     
 }
 
-
+extension LoginViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        if textField == usernameTextArea { // Switch focus to other text field
+            passwordTextArea.becomeFirstResponder()
+        } else if textField == passwordTextArea {
+            login()
+        }
+        return true
+    }
+}

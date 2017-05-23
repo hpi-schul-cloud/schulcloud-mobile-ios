@@ -37,7 +37,7 @@
                                 <color key="textColor" red="0.69411764705882351" green="0.015686274509803921" blue="0.2196078431372549" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email-Adresse oder Nutzername" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="43F-ld-yjw">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email-Adresse oder Nutzername" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="43F-ld-yjw">
                                 <rect key="frame" x="16" y="208" width="343" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="mci-Z4-1J1"/>
@@ -46,7 +46,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" returnKeyType="next"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Passwort" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0tD-mH-BRy">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Passwort" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="0tD-mH-BRy">
                                 <rect key="frame" x="16" y="260" width="343" height="44"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -570,7 +570,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="B0G-dG-Hpj" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="more" id="hv4-8e-B8p"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="aat-jY-cvf">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="aat-jY-cvf">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -589,7 +589,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5dB-T7-7EP" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Dateien" image="open folder" id="msr-I1-ZjH"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Dd9-Gw-2Sh">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Dd9-Gw-2Sh">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
