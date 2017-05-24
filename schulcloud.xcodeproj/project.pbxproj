@@ -23,6 +23,8 @@
 		C3418B641ED2E89F00280E62 /* FileListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3418B631ED2E89F00280E62 /* FileListCell.swift */; };
 		C3418B671ED335F400280E62 /* PreviewTransitionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */; };
 		C3418B681ED335F400280E62 /* WebviewPreviewViewContoller.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */; };
+		C3418B6C1ED5CB3400280E62 /* Homework+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3418B6A1ED5CB3400280E62 /* Homework+CoreDataClass.swift */; };
+		C3418B6F1ED5CF1F00280E62 /* Date+Marshal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3418B6E1ED5CF1F00280E62 /* Date+Marshal.swift */; };
 		C36C23381EC9DE0700D4163E /* SCError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36C23371EC9DE0700D4163E /* SCError.swift */; };
 		C36C233B1ECC965400D4163E /* CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36C233A1ECC965400D4163E /* CoreData.swift */; };
 		C378D2C41ECC976800AE8CEA /* schulcloud.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C378D2C21ECC976800AE8CEA /* schulcloud.xcdatamodeld */; };
@@ -86,6 +88,8 @@
 		C3418B631ED2E89F00280E62 /* FileListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileListCell.swift; sourceTree = "<group>"; };
 		C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreviewTransitionViewController.xib; sourceTree = "<group>"; };
 		C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebviewPreviewViewContoller.xib; sourceTree = "<group>"; };
+		C3418B6A1ED5CB3400280E62 /* Homework+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Homework+CoreDataClass.swift"; sourceTree = "<group>"; };
+		C3418B6E1ED5CF1F00280E62 /* Date+Marshal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Marshal.swift"; sourceTree = "<group>"; };
 		C36C23371EC9DE0700D4163E /* SCError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCError.swift; sourceTree = "<group>"; };
 		C36C233A1ECC965400D4163E /* CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreData.swift; sourceTree = "<group>"; };
 		C378D2C31ECC976800AE8CEA /* schulcloud.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = schulcloud.xcdatamodel; sourceTree = "<group>"; };
@@ -304,7 +308,9 @@
 				C3C2AC2F1EC4902F0060AECA /* File+CoreDataClass.swift */,
 				C36C233A1ECC965400D4163E /* CoreData.swift */,
 				C378D2C21ECC976800AE8CEA /* schulcloud.xcdatamodeld */,
+				C3418B6A1ED5CB3400280E62 /* Homework+CoreDataClass.swift */,
 				C3418B5F1ECDAB9F00280E62 /* FileHelper.swift */,
+				C3418B6E1ED5CF1F00280E62 /* Date+Marshal.swift */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -606,9 +612,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3C2AC361EC5AC460060AECA /* Notifications.swift in Sources */,
+				C3418B6C1ED5CB3400280E62 /* Homework+CoreDataClass.swift in Sources */,
 				C3A5A9391EBCD0C600825DBF /* Constants.swift in Sources */,
 				C31C842A1ECF553700FA070C /* PreviewManager.swift in Sources */,
 				C31C842C1ECF55A000FA070C /* PreviewTransitionViewController.swift in Sources */,
+				C3418B6F1ED5CF1F00280E62 /* Date+Marshal.swift in Sources */,
 				C3A5A9341EBCCE3B00825DBF /* LoginViewController.swift in Sources */,
 				C3A5A9051EBCC17600825DBF /* ViewController.swift in Sources */,
 				C36C23381EC9DE0700D4163E /* SCError.swift in Sources */,

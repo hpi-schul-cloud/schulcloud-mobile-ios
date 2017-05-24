@@ -9,7 +9,19 @@
         <relationship name="contents" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="File" inverseName="parentDirectory" inverseEntity="File" syncable="YES"/>
         <relationship name="parentDirectory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="File" inverseName="contents" inverseEntity="File" syncable="YES"/>
     </entity>
+    <entity name="Homework" representedClassName="Homework" syncable="YES">
+        <attribute name="availableDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="courseId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="descriptionText" attributeType="String" syncable="YES"/>
+        <attribute name="dueDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="id" attributeType="String" syncable="YES"/>
+        <attribute name="isPrivate" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="publicSubmissions" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="teacherId" attributeType="String" syncable="YES"/>
+    </entity>
     <elements>
-        <element name="File" positionX="-63" positionY="-18" width="128" height="150"/>
+        <element name="File" positionX="124" positionY="45" width="128" height="150"/>
+        <element name="Homework" positionX="-54" positionY="45" width="128" height="180"/>
     </elements>
 </model>
