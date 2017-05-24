@@ -5,7 +5,6 @@ PODS:
     - ObjectMapper (~> 2.0)
   - BrightFutures (5.2.0):
     - Result (~> 3.2)
-  - FileBrowser (0.2.0)
   - Firebase/Auth (3.17.0):
     - Firebase/Core
     - FirebaseAuth (= 3.1.1)
@@ -58,7 +57,6 @@ DEPENDENCIES:
   - Alamofire (= 4.4.0)
   - AlamofireObjectMapper (~> 4.0)
   - BrightFutures (= 5.2.0)
-  - FileBrowser (from `https://github.com/MasterCarl/FileBrowser.git`, commit `afa9126`)
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Messaging
@@ -69,21 +67,10 @@ DEPENDENCIES:
   - SwiftyBeaver (= 1.1.0)
   - SwiftyJSON (~> 3)
 
-EXTERNAL SOURCES:
-  FileBrowser:
-    :commit: afa9126
-    :git: https://github.com/MasterCarl/FileBrowser.git
-
-CHECKOUT OPTIONS:
-  FileBrowser:
-    :commit: afa9126
-    :git: https://github.com/MasterCarl/FileBrowser.git
-
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
   AlamofireObjectMapper: 435adc82f5b367679bd9e71c4974a54efd0b2521
   BrightFutures: 8681dbb9fa831b69b6e7dc4a498b9e081d5daeb5
-  FileBrowser: af8abc035daca66a6066351ae162c4af4c6b24dd
   Firebase: 4b66b5b59c43edac745b87f0c87e42cdd0279c13
   FirebaseAnalytics: e5fe8486efc01bec33f6bf82e2fa9fce4b124052
   FirebaseAuth: cc8a1824170adbd351edb7f994490a3fb5c18be6
@@ -101,6 +88,6 @@ SPEC CHECKSUMS:
   SwiftyBeaver: af90fecea02b46fe073dc8e622362da06886c039
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: f204c13f755fa579d4e90b3df551928278105213
+PODFILE CHECKSUM: 524eb61d3933f6b702310b41a253cc443d352e10
 
 COCOAPODS: 1.2.1

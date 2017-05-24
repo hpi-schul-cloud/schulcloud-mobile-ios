@@ -7,7 +7,6 @@ target 'schulcloud' do
   pod 'Alamofire', '4.4.0'
   pod 'AlamofireObjectMapper', '~> 4.0'
   pod 'BrightFutures', '5.2.0'
-  pod 'FileBrowser', :git => 'https://github.com/MasterCarl/FileBrowser.git', :commit => 'afa9126'
   pod 'Firebase/Auth'
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
