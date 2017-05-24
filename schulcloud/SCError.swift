@@ -8,11 +8,12 @@
 
 import Foundation
 
-enum SCError: Error {
+public enum SCError: Error {
     case apiError([String: Any])
     case network(Error?)
     case unknown
     case firebase(Error)
+    case jsonDeserialization(Error?)
     
     init(apiResponse: Data?) {
         if let data = apiResponse,

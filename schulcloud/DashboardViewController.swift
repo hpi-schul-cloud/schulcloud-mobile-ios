@@ -10,8 +10,7 @@
 import UIKit
 import BrightFutures
 import Alamofire
-import AlamofireObjectMapper
-import ObjectMapper
+import Marshal
 
 
 
@@ -127,32 +126,28 @@ class DashboardViewController: UITableViewController {
     }
     
     var notifications = [SCNotification]()
+    
     func getNotifications(){
-       let url = Constants.backend.url.absoluteString + "notification?$limit=50"
-        let headers: HTTPHeaders = [
-            "Authorization": Globals.account!.accessToken!
-        ]
-        Alamofire.request(url, headers: headers).responseArray(keyPath: "data") {(response: DataResponse<[SCNotification]>) in
-            if let notifications = response.result.value{
-                self.notifications = notifications
-                self.tableView.reloadData()
-            }
+        let request: Future<[SCNotification], SCError> = ApiHelper.request("notification?$limit=50").deserialize(keyPath: "data")
+        request.onSuccess { (notifications: [SCNotification]) in
+            self.notifications = notifications
+            self.tableView.reloadData()
         }
+        
     }
     
     
 }
 
-struct SCNotification: Mappable {
-    var body:String!
-    var title:String!
-    var action:URL!
+struct SCNotification: Unmarshaling {
+    let body: String
+    let title: String?
+    let action: URL?
     
-    init?(map: Map) {
-    }
-    mutating func mapping(map: Map) {
-      body  <- map["message.body"]
-      title <- map["message.title"]
-      action <- (map["message.action"], URLTransform(shouldEncodeURLString: false ))
+    init(object: MarshaledObject) throws {
+        let message = try object.value(for: "message") as JSONObject
+        body = try message.value(for: "body")
+        title = try? message.value(for: "title")
+        action = try? message.value(for: "action")
     }
 }

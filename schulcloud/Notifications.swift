@@ -22,13 +22,12 @@ class SCNotifications {
         var deviceToken: String!
         
         return connectFirMessaging()
-            .flatMap { token -> Future<DefaultDataResponse, SCError> in
+            .flatMap { token -> Future<Data, SCError> in
                 deviceToken = token
-                return ApiHelper.requestBasic("notification/devices")
+                return ApiHelper.request("notification/devices").dataFuture()
             }
-            .flatMap { response -> Future<Void, SCError> in
-                if let data = response.data,
-                let string = String(data: data, encoding: .utf8),  // low-effort JSON parsing
+            .flatMap { data -> Future<Void, SCError> in
+                if let string = String(data: data, encoding: .utf8),  // low-effort JSON parsing
                 string.range(of: deviceToken) != nil {
                     log.debug("Device was already registered to receive push notifications for this account")
                     return connectFirMessaging().flatMap { _ in return Future(value: Void()) }

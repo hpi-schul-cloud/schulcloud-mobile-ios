@@ -8,10 +8,9 @@
 
 import Foundation
 import Alamofire
-import AlamofireObjectMapper
 import BrightFutures
 import CoreData
-import ObjectMapper
+import Marshal
 import SwiftyJSON
 
 class FileHelper {
@@ -62,23 +61,24 @@ class FileHelper {
             //"fileType": mime.lookup(file),
             "action": "getObject"
         ]
-        let request: Future<SignedUrl, SCError> = ApiHelper.request("fileStorage/signedUrl", method: .post, parameters: parameters, encoding: JSONEncoding.default)
+        let request: Future<SignedUrl, SCError> = ApiHelper.request("fileStorage/signedUrl", method: .post, parameters: parameters, encoding: JSONEncoding.default).deserialize(keyPath: "")
         
         return request.flatMap { signedUrl -> Future<URL, SCError> in
             return Future(value: signedUrl.url)
         }
     }
+    
     static func updateDatabase(forFolder parentFolder: File) -> Future<Void, SCError> {
         let path = "fileStorage?path=\(parentFolder.path.absoluteString)"
         
-        return ApiHelper.requestBasic(path)
-            .flatMap { response -> Future<Void, SCError> in
-                if let data = response.data, data.count > 0 {
+        return ApiHelper.request(path).dataFuture()
+            .flatMap { data -> Future<Void, SCError> in
+                if data.count > 0 {
                     let json = JSON(data: data)
                     updateDatabase(contentsOf: parentFolder, using: json)
                     return Future(value: Void())
                 } else {
-                    return Future<Void, SCError>(error: SCError(apiResponse: response.data))
+                    return Future<Void, SCError>(error: SCError(apiResponse: data))
                 }
         }
     }
@@ -175,17 +175,11 @@ class FileHelper {
         saveContext()
     }
     
-    struct SignedUrl: Mappable {
-        var url: URL!
+    struct SignedUrl: Unmarshaling {
+        let url: URL
         
-        init?(map: Map) {
-            if map.JSON["url"] == nil {
-                return nil
-            }
-        }
-        
-        mutating func mapping(map: Map) {
-            url   <- (map["url"], URLTransform(shouldEncodeURLString: false))
+        init(object: MarshaledObject) throws {
+            url = try object.value(for: "url")
         }
     }
 }

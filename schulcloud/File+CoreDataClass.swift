@@ -8,7 +8,6 @@
 
 import Foundation
 import CoreData
-import FileBrowser
 import SwiftyJSON
 
 @objc(File)
