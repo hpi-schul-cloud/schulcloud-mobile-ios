@@ -1,4 +1,4 @@
-//
+    //
 //  AppDelegate.swift
 //  schulcloud
 //
@@ -35,6 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         let initialViewController = selectInitialViewController(application: application)
         self.window?.rootViewController = initialViewController
+        
+        observeChanges()
         
         return true
     }

@@ -92,10 +92,7 @@ class FileHelper {
             let fetchRequest = NSFetchRequest<File>(entityName: "File")
             fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [notOnServerPredicate, parentFolderPredicate])
             
-            let result = try managedObjectContext.fetch(fetchRequest)
-            print("About to delete " + String(describing: result))
-            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest as! NSFetchRequest<NSFetchRequestResult>)
-            try managedObjectContext.execute(deleteRequest)
+            try CoreDataHelper.delete(fetchRequest: fetchRequest)
         } catch let error {
             log.error(error)
         }

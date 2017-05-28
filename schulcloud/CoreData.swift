@@ -57,8 +57,6 @@ func saveContext () {
 
 struct CoreDataHelper {
     public static func delete<T>(fetchRequest: NSFetchRequest<T>) throws {
-        let result = try managedObjectContext.fetch(fetchRequest)
-        log.debug("Deleting " + String(describing: result))
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest as! NSFetchRequest<NSFetchRequestResult>)
         try managedObjectContext.execute(deleteRequest)
     }

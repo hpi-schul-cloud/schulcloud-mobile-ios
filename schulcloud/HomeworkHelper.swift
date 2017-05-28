@@ -20,6 +20,7 @@ public class HomeworkHelper {
                     let deleteRequest: NSFetchRequest<Homework> = Homework.fetchRequest()
                     deleteRequest.predicate = NSPredicate(format: "NOT (id IN %@)", ids)
                     try CoreDataHelper.delete(fetchRequest: deleteRequest)
+                    saveContext()
                     return Future(value: Void())
                 } catch let error {
                     return Future(error: .database(error.localizedDescription))
