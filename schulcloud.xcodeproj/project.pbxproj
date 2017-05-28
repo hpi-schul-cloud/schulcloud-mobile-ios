@@ -38,6 +38,9 @@
 		C3A5A9341EBCCE3B00825DBF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */; };
 		C3A5A9391EBCD0C600825DBF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9381EBCD0C600825DBF /* Constants.swift */; };
 		C3A5A93B1EC0766F00825DBF /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A93A1EC0766F00825DBF /* Account.swift */; };
+		C3AB489A1EDAE8A800692505 /* HomeworkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB48991EDAE8A800692505 /* HomeworkViewController.swift */; };
+		C3AB489C1EDAE97600692505 /* HomeworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB489B1EDAE97600692505 /* HomeworkHelper.swift */; };
+		C3AB489E1EDB260E00692505 /* Alamofire+BrightFutures.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB489D1EDB260E00692505 /* Alamofire+BrightFutures.swift */; };
 		C3C2AC221EC3A7E90060AECA /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */; };
 		C3C2AC241EC3AAA80060AECA /* LoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C2AC231EC3AAA80060AECA /* LoginHelper.swift */; };
 		C3C2AC291EC45B380060AECA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3C2AC281EC45B380060AECA /* GoogleService-Info.plist */; };
@@ -109,6 +112,9 @@
 		C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C3A5A9381EBCD0C600825DBF /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C3A5A93A1EC0766F00825DBF /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
+		C3AB48991EDAE8A800692505 /* HomeworkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeworkViewController.swift; sourceTree = "<group>"; };
+		C3AB489B1EDAE97600692505 /* HomeworkHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeworkHelper.swift; sourceTree = "<group>"; };
+		C3AB489D1EDB260E00692505 /* Alamofire+BrightFutures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Alamofire+BrightFutures.swift"; sourceTree = "<group>"; };
 		C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		C3C2AC231EC3AAA80060AECA /* LoginHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHelper.swift; sourceTree = "<group>"; };
 		C3C2AC281EC45B380060AECA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -260,6 +266,7 @@
 			children = (
 				C31C84281ECF550C00FA070C /* File Preview */,
 				C3418B611ECEE6FB00280E62 /* FilesViewController.swift */,
+				C3AB48991EDAE8A800692505 /* HomeworkViewController.swift */,
 				C3A5A9041EBCC17600825DBF /* ViewController.swift */,
 				C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */,
 				C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */,
@@ -298,6 +305,7 @@
 				C3C2AC351EC5AC460060AECA /* Notifications.swift */,
 				C3C2AC231EC3AAA80060AECA /* LoginHelper.swift */,
 				C3C2AC371EC5AC750060AECA /* ApiHelper.swift */,
+				C3AB489D1EDB260E00692505 /* Alamofire+BrightFutures.swift */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -309,6 +317,7 @@
 				C36C233A1ECC965400D4163E /* CoreData.swift */,
 				C378D2C21ECC976800AE8CEA /* schulcloud.xcdatamodeld */,
 				C3418B6A1ED5CB3400280E62 /* Homework+CoreDataClass.swift */,
+				C3AB489B1EDAE97600692505 /* HomeworkHelper.swift */,
 				C3418B5F1ECDAB9F00280E62 /* FileHelper.swift */,
 				C3418B6E1ED5CF1F00280E62 /* Date+Marshal.swift */,
 			);
@@ -612,7 +621,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3C2AC361EC5AC460060AECA /* Notifications.swift in Sources */,
+				C3AB489E1EDB260E00692505 /* Alamofire+BrightFutures.swift in Sources */,
 				C3418B6C1ED5CB3400280E62 /* Homework+CoreDataClass.swift in Sources */,
+				C3AB489A1EDAE8A800692505 /* HomeworkViewController.swift in Sources */,
 				C3A5A9391EBCD0C600825DBF /* Constants.swift in Sources */,
 				C31C842A1ECF553700FA070C /* PreviewManager.swift in Sources */,
 				C31C842C1ECF55A000FA070C /* PreviewTransitionViewController.swift in Sources */,
@@ -630,6 +641,7 @@
 				C31C84271ECF546E00FA070C /* WebviewPreviewViewContoller.swift in Sources */,
 				C3C2AC221EC3A7E90060AECA /* SettingsViewController.swift in Sources */,
 				C3C2AC241EC3AAA80060AECA /* LoginHelper.swift in Sources */,
+				C3AB489C1EDAE97600692505 /* HomeworkHelper.swift in Sources */,
 				C36C233B1ECC965400D4163E /* CoreData.swift in Sources */,
 				3DCFC9F31ED3632C00167B82 /* DashboardViewController.swift in Sources */,
 				C3C2AC311EC4902F0060AECA /* File+CoreDataClass.swift in Sources */,

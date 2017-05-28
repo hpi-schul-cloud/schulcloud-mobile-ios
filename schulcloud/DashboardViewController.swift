@@ -16,6 +16,10 @@ import Marshal
 
 class DashboardViewController: UITableViewController {
 
+    enum Sections: Int {
+        case today, tasks, notifications
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.getNotifications()
@@ -28,9 +32,13 @@ class DashboardViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case 2:
+        case Sections.notifications.rawValue:
             //we are in notification section
             return notifications.count
         default:
@@ -45,8 +53,9 @@ class DashboardViewController: UITableViewController {
     //handle click
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
-        case 2:
-            //we are in notification section
+        case Sections.tasks.rawValue:
+            break
+        case Sections.notifications.rawValue:
             let notification = self.notifications[indexPath.row]
             let alertController = UIAlertController(title: notification.title, message: notification.body, preferredStyle: UIAlertControllerStyle.alert)
             
@@ -59,7 +68,6 @@ class DashboardViewController: UITableViewController {
             self.present(alertController, animated: true, completion: nil)
         default:
             //we are in notification section
-            let notification = self.notifications[indexPath.row]
             let alertController = UIAlertController(title: "Ups", message: "No action here yet", preferredStyle: UIAlertControllerStyle.alert)
             
             let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default)
@@ -72,6 +80,7 @@ class DashboardViewController: UITableViewController {
             
         }
     }
+    
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
@@ -94,22 +103,20 @@ class DashboardViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.section {
-        case 0:
+        switch Sections(rawValue: indexPath.section)! {
+        case .today:
             let cell = tableView.dequeueReusableCell(withIdentifier: "currentLesson")!
             return cell
-        case 1:
+        case .tasks:
             let cell = tableView.dequeueReusableCell(withIdentifier: "tasks")!
             return cell
-        case 2:
+        case .notifications:
             //we are in notification section
             let cell = tableView.dequeueReusableCell(withIdentifier: "notification")!
             let label = cell.viewWithTag(1) as! UILabel
             let notification = notifications[indexPath.row]
             label.text = notification.title
             return cell
-        default:
-            fatalError("unknown Section Index")
         }
     
     }

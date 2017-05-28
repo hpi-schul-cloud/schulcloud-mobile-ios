@@ -24,7 +24,7 @@ class SCNotifications {
         return connectFirMessaging()
             .flatMap { token -> Future<Data, SCError> in
                 deviceToken = token
-                return ApiHelper.request("notification/devices").dataFuture()
+                return ApiHelper.request("notification/devices").responseDataFuture()
             }
             .flatMap { data -> Future<Void, SCError> in
                 if let string = String(data: data, encoding: .utf8),  // low-effort JSON parsing

@@ -11,7 +11,6 @@ import Alamofire
 import BrightFutures
 import CoreData
 import Marshal
-import SwiftyJSON
 
 class FileHelper {
     static var rootUrl: URL {
@@ -71,99 +70,28 @@ class FileHelper {
     static func updateDatabase(forFolder parentFolder: File) -> Future<Void, SCError> {
         let path = "fileStorage?path=\(parentFolder.path.absoluteString)"
         
-        return ApiHelper.request(path).dataFuture()
-            .flatMap { data -> Future<Void, SCError> in
-                if data.count > 0 {
-                    let json = JSON(data: data)
+        return ApiHelper.request(path).jsonObjectFuture()
+            .flatMap { json -> Future<Void, SCError> in
                     updateDatabase(contentsOf: parentFolder, using: json)
                     return Future(value: Void())
-                } else {
-                    return Future<Void, SCError>(error: SCError(apiResponse: data))
                 }
-        }
     }
     
-    fileprivate static func updateDatabase(contentsOf parentFolder: File, using contents: JSON) {
-        
-        let fetchRequest = NSFetchRequest<File>(entityName: "File")
-        let fileDescription = NSEntityDescription.entity(forEntityName: "File", in: managedObjectContext)!
-        var foundPaths = [String]()
-        
-        guard let files = contents["files"].array,
-            let folders = contents["directories"].array else {
-                log.error("Could not parse directory contents: \(contents.rawString() ?? "nil")")
-                return
-        }
-        // insert or update files
-        for fileJson in files {
-            guard let name = fileJson["name"].string else {
-                log.error("Could not parse name for \(fileJson)")
-                continue
-            }
-            let path = parentFolder.pathString + name
-            foundPaths.append(path)
-            
-            let pathPredicate = NSPredicate(format: "pathString == %@", path)
-            let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
-            fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [pathPredicate, parentFolderPredicate])
-            
-            do {
-                let result = try managedObjectContext.fetch(fetchRequest)
-                let file = result.first ?? File(entity: fileDescription, insertInto: managedObjectContext)
-                if result.count > 1 {
-                    log.error("Found more than one result for \(fetchRequest)")
-                }
-                
-                file.displayName = name
-                file.isDirectory = false
-                file.pathString = path
-                file.typeString = fileJson["type"].stringValue
-                file.parentDirectory = parentFolder
-                
-            } catch let error {
-                log.error(error)
-            }
-        }
-        
-        // insert or update folders
-        for folderJson in folders {
-            guard let name = folderJson["name"].string else {
-                log.error("Could not parse name for \(folderJson)")
-                continue
-            }
-            let path = parentFolder.pathString + name + "/"
-            foundPaths.append(path)
-            
-            let pathPredicate = NSPredicate(format: "pathString == %@", path)
-            let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
-            fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [pathPredicate, parentFolderPredicate])
-            
-            do {
-                let result = try managedObjectContext.fetch(fetchRequest)
-                let folder = result.first ?? File(entity: fileDescription, insertInto: managedObjectContext)
-                if result.count > 1 {
-                    log.error("Found more than one result for \(fetchRequest)")
-                }
-                
-                folder.displayName = name
-                folder.isDirectory = true
-                folder.pathString = path
-                folder.typeString = "directory"
-                folder.parentDirectory = parentFolder
-                folder.contents = folder.contents ?? NSSet()
-                
-            } catch let error {
-                log.error(error)
-            }
-        }
-        
-        saveContext()
-        
-        // remove deleted files or folders
-        let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
-        let notOnServerPredicate = NSPredicate(format: "NOT (pathString IN %@)", foundPaths)
-        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [notOnServerPredicate, parentFolderPredicate])
+    fileprivate static func updateDatabase(contentsOf parentFolder: File, using contents: [String: Any]) {
         do {
+            let files: [[String: Any]] = try contents.value(for: "files")
+            let folders: [[String: Any]] = try contents.value(for: "directories")
+            
+            let createdFiles = try files.map({ try File.createOrUpdate(inContext: managedObjectContext, parentFolder: parentFolder, isDirectory: false, data: $0) })
+            let createdFolders = try folders.map({ try File.createOrUpdate(inContext: managedObjectContext, parentFolder: parentFolder, isDirectory: true, data: $0) })
+            
+            // remove deleted files or folders
+            let foundPaths = createdFiles.map({$0.pathString}) + createdFolders.map({$0.pathString})
+            let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
+            let notOnServerPredicate = NSPredicate(format: "NOT (pathString IN %@)", foundPaths)
+            let fetchRequest = NSFetchRequest<File>(entityName: "File")
+            fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [notOnServerPredicate, parentFolderPredicate])
+            
             let result = try managedObjectContext.fetch(fetchRequest)
             print("About to delete " + String(describing: result))
             let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest as! NSFetchRequest<NSFetchRequestResult>)

@@ -13,7 +13,8 @@ public enum SCError: Error {
     case network(Error?)
     case unknown
     case firebase(Error)
-    case jsonDeserialization(Error?)
+    case jsonDeserialization(String)
+    case database(String)
     
     init(apiResponse: Data?) {
         if let data = apiResponse,

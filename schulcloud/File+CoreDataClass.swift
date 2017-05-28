@@ -8,7 +8,7 @@
 
 import Foundation
 import CoreData
-import SwiftyJSON
+import Marshal
 
 @objc(File)
 public class File: NSManagedObject {
@@ -42,6 +42,33 @@ extension File {
     @objc(removeContents:)
     @NSManaged public func removeFromContents(_ values: NSSet)
     
+}
+
+extension File {
+    static func createOrUpdate(inContext context: NSManagedObjectContext, parentFolder: File, isDirectory: Bool, data: MarshaledObject) throws -> File {
+        let name: String = try data.value(for: "name")
+        let path = parentFolder.pathString + name + (isDirectory ? "/" : "")
+        
+        let fetchRequest = NSFetchRequest<File>(entityName: "File")
+        let fileDescription = NSEntityDescription.entity(forEntityName: "File", in: context)!
+        let pathPredicate = NSPredicate(format: "pathString == %@", path)
+        let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [pathPredicate, parentFolderPredicate])
+        
+        let result = try context.fetch(fetchRequest)
+        let file = result.first ?? File(entity: fileDescription, insertInto: context)
+        if result.count > 1 {
+            throw SCError.database("Found more than one result for \(fetchRequest)")
+        }
+        
+        file.displayName = name
+        file.isDirectory = isDirectory
+        file.pathString = path
+        file.typeString = isDirectory ? "directory" : try data.value(for: "type")
+        file.parentDirectory = parentFolder
+        
+        return file
+    }
 }
 
 // MARK: computed properties

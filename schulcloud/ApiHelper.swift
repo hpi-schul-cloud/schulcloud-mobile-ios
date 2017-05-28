@@ -53,20 +53,31 @@ class ApiHelper {
 
 extension Alamofire.DataRequest {
     
-    public func dataFuture(queue: DispatchQueue? = nil) -> Future<Data, SCError> {
-        let promise = Promise<Data, SCError>()
-        
-        let completionHandler: ((DefaultDataResponse) -> Void) = { (response: DefaultDataResponse) -> Void in
-            guard let data = response.data else {
-                promise.failure(SCError.network(response.error))
-                return
+    public func jsonArrayFuture(keyPath: String?) -> Future<[[String: Any]], SCError> {
+        return self.responseJSONFuture().flatMap { json -> Future<[[String: Any]], SCError> in
+            let array: [[String: Any]]?
+            if let keyPath = keyPath {
+                array = (json as? [String: Any])?[keyPath] as? [[String : Any]]
+            } else {
+                array = json as? [[String : Any]]
             }
-            promise.success(data)
-        } 
-        
-        response(queue: queue, completionHandler: completionHandler)
-        
-        return promise.future
+            
+            if let array = array {
+                return Future(value: array)
+            } else {
+                return Future(error: .jsonDeserialization("Could not find array at keyPath \(keyPath ?? "nil")"))
+            }
+        }
+    }
+    
+    public func jsonObjectFuture() -> Future<[String: Any], SCError> {
+        return self.responseJSONFuture().flatMap { json -> Future<[String: Any], SCError> in
+            if let object = json as? [String: Any] {
+                return Future(value: object)
+            } else {
+                return Future(error: .jsonDeserialization("Could not cast \(json) to JSON object"))
+            }
+        }
     }
     
     public func deserialize<T: Unmarshaling>(keyPath: String, queue: DispatchQueue? = nil) -> Future<T, SCError> {
@@ -79,14 +90,14 @@ extension Alamofire.DataRequest {
             }
             guard let deserialized = try? JSONSerialization.jsonObject(with: data, options: []),
                 let json = deserialized as? [String: Any] else {
-                promise.failure(.jsonDeserialization(nil))
+                promise.failure(.jsonDeserialization("Not a dictionary"))
                 return
             }
             do {
                 let object: T = try json.value(for: keyPath)
                 promise.success(object)
             } catch let error {
-                promise.failure(.jsonDeserialization(error))
+                promise.failure(.jsonDeserialization(error.localizedDescription))
             }
         }
         
@@ -105,14 +116,14 @@ extension Alamofire.DataRequest {
             }
             guard let deserialized = try? JSONSerialization.jsonObject(with: data, options: []),
                 let json = deserialized as? [String: Any] else {
-                    promise.failure(.jsonDeserialization(nil))
+                    promise.failure(.jsonDeserialization("Not a dictionary"))
                     return
             }
             do {
                 let object: [T] = try json.value(for: keyPath)
                 promise.success(object)
             } catch let error {
-                promise.failure(.jsonDeserialization(error))
+                promise.failure(.jsonDeserialization(error.localizedDescription))
             }
         }
         

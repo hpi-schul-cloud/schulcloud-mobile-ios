@@ -42,4 +42,29 @@ public class Homework: NSManagedObject, Unmarshaling {
         isPrivate = try object.value(for: "private")
     }
     
+    static func createOrUpdate(inContext context: NSManagedObjectContext, object: MarshaledObject) throws -> Homework {
+        let description = NSEntityDescription.entity(forEntityName: "Homework", in: context)!
+        
+        let fetchRequest = NSFetchRequest<Homework>(entityName: "Homework")
+        let id: String = try object.value(for: "_id")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        
+        let result = try context.fetch(fetchRequest)
+        let homework = result.first ?? Homework(entity: description, insertInto: context)
+        if result.count > 1 {
+            throw SCError.database("Found more than one result for \(fetchRequest)")
+        }
+        
+        homework.id = try object.value(for: "_id")
+        homework.teacherId = try object.value(for: "teacherId")
+        homework.name = try object.value(for: "name")
+        homework.descriptionText = try object.value(for: "description")
+        homework.availableDate = try object.value(for: "availableDate")
+        homework.dueDate = try object.value(for: "dueDate")
+        homework.publicSubmissions = (try? object.value(for: "publicSubmissions")) ?? false
+        homework.courseId = try? object.value(for: "courseId")
+        homework.isPrivate = try object.value(for: "private")
+        return homework
+    }
+    
 }
