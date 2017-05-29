@@ -7,12 +7,16 @@
 //
 
 import Foundation
+import Alamofire
 import BrightFutures
 import CoreData
 
 public class HomeworkHelper {
     static func fetchFromServer() -> Future<Void, SCError> {
-        return ApiHelper.request("homework").jsonArrayFuture(keyPath: "data")
+        let parameters: Parameters = [
+            "$populate": "courseId"
+        ]
+        return ApiHelper.request("homework", parameters: parameters).jsonArrayFuture(keyPath: "data")
             .flatMap { items -> Future<Void, SCError> in
                 do {
                     let dbItems = try items.map {try Homework.createOrUpdate(inContext: managedObjectContext, object: $0)}

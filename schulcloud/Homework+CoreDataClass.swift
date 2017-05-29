@@ -38,8 +38,8 @@ public class Homework: NSManagedObject, Unmarshaling {
         availableDate = try object.value(for: "availableDate")
         dueDate = try object.value(for: "dueDate")
         publicSubmissions = (try? object.value(for: "publicSubmissions")) ?? false
-        courseId = try? object.value(for: "courseId")
-        isPrivate = try object.value(for: "private")
+        courseId = try? object.value(for: "courseId._id")
+        isPrivate = (try? object.value(for: "private")) ?? false
     }
     
     static func createOrUpdate(inContext context: NSManagedObjectContext, object: MarshaledObject) throws -> Homework {
@@ -62,8 +62,8 @@ public class Homework: NSManagedObject, Unmarshaling {
         homework.availableDate = try object.value(for: "availableDate")
         homework.dueDate = try object.value(for: "dueDate")
         homework.publicSubmissions = (try? object.value(for: "publicSubmissions")) ?? false
-        homework.courseId = try? object.value(for: "courseId")
-        homework.isPrivate = try object.value(for: "private")
+        homework.courseId = try? object.value(for: "courseId._id")
+        homework.isPrivate = (try? object.value(for: "private")) ?? false
         return homework
     }
     
