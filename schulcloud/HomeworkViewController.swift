@@ -128,7 +128,7 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
         let selectedItem = fetchedResultsController.object(at: indexPath)
         
         switch(segue.identifier) {
-        case .some("newTask"):
+        case .some("addTask"):
             break
         default:
             break
