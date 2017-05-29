@@ -23,4 +23,12 @@ extension NSMutableAttributedString {
         
         self.init(attributedString: attributedString)
     }
+    
+    var trailingNewlineChopped: NSAttributedString {
+        if self.string.hasSuffix("\n") {
+            return self.attributedSubstring(from: NSMakeRange(0, length - 1))
+        } else {
+            return self
+        }
+    }
 }

@@ -462,7 +462,7 @@
                                             <rect key="frame" x="2" y="2" width="371" height="116"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MATHEMATIK" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="uvb-bj-t3J">
-                                                    <rect key="frame" x="13" y="2" width="350" height="12"/>
+                                                    <rect key="frame" x="13" y="8" width="350" height="12"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="12" id="noc-AA-wKt"/>
                                                     </constraints>
@@ -477,15 +477,15 @@
                                                         <constraint firstAttribute="width" constant="5" id="c9M-SU-U2r"/>
                                                     </constraints>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HIQ-W1-jid">
-                                                    <rect key="frame" x="13" y="51" width="350" height="57"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HIQ-W1-jid">
+                                                    <rect key="frame" x="13" y="57" width="350" height="51"/>
                                                     <string key="text">Activated charcoal deep v typewriter, cupidatat tousled pinterest kitsch chicharrones. Assumenda eu 8-bit tofu ramps reprehenderit disrupt, pour-over nostrud organic paleo. 3 wolf moon commodo vaporware, next level williamsburg farm-to-table delectus deep v wayfarers leggings intelligentsia excepteur lyft.</string>
                                                     <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hier könnte Ihre Hausaufgabe stehen!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="Aty-AM-78h">
-                                                    <rect key="frame" x="13" y="22" width="350" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hier könnte Ihre Hausaufgabe stehen!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="Aty-AM-78h">
+                                                    <rect key="frame" x="13" y="28" width="350" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="Ubs-JB-9js"/>
                                                     </constraints>
@@ -502,7 +502,7 @@
                                                 <constraint firstItem="YHs-iw-Fvx" firstAttribute="top" secondItem="wEY-IE-rsV" secondAttribute="top" id="UEw-Xn-xpd"/>
                                                 <constraint firstItem="HIQ-W1-jid" firstAttribute="leading" secondItem="YHs-iw-Fvx" secondAttribute="trailing" constant="8" id="WOj-TU-1cZ"/>
                                                 <constraint firstItem="Aty-AM-78h" firstAttribute="leading" secondItem="YHs-iw-Fvx" secondAttribute="trailing" constant="8" id="Wlp-XQ-6yq"/>
-                                                <constraint firstItem="uvb-bj-t3J" firstAttribute="top" secondItem="wEY-IE-rsV" secondAttribute="top" constant="2" id="cId-4e-ant"/>
+                                                <constraint firstItem="uvb-bj-t3J" firstAttribute="top" secondItem="wEY-IE-rsV" secondAttribute="top" constant="8" id="cId-4e-ant"/>
                                                 <constraint firstItem="HIQ-W1-jid" firstAttribute="top" secondItem="Aty-AM-78h" secondAttribute="bottom" constant="8" id="diZ-q9-kqI"/>
                                                 <constraint firstAttribute="trailing" secondItem="uvb-bj-t3J" secondAttribute="trailing" constant="8" id="eaQ-Ng-PQ9"/>
                                                 <constraint firstItem="uvb-bj-t3J" firstAttribute="leading" secondItem="YHs-iw-Fvx" secondAttribute="trailing" constant="8" id="fn5-YQ-wiB"/>

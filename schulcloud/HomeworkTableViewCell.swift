@@ -25,9 +25,10 @@ class HomeworkTableViewCell: UITableViewCell {
         subjectLabel.text = homework.courseId?.uppercased()
         titleLabel.text = homework.name
 //        coloredStrip.backgroundColor = homework.subject.color
-        
-        if let attributedString = NSMutableAttributedString(html: homework.descriptionText) {
-            contentLabel.attributedText = attributedString
+        let descriptionWithEndTrimmed = homework.descriptionText.replacingOccurrences(of: "\\s+$", with: "", options: .regularExpression)
+        if let attributedString = NSMutableAttributedString(html: descriptionWithEndTrimmed) {
+            
+            contentLabel.attributedText = attributedString.trailingNewlineChopped
         } else {
             contentLabel.text = homework.descriptionText
         }
