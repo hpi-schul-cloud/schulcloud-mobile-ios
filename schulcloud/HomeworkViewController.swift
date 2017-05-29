@@ -14,10 +14,14 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 140
+        
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
         performFetch()
         updateData()
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -83,15 +87,13 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
         return count
     }
     
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let object = fetchedResultsController.object(at: indexPath)
-        
+    override func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let reuseIdentifier = "dueTask"
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! HomeworkTableViewCell
         
-        cell.textLabel?.text = object.name
-        
+        let homework = fetchedResultsController.object(at: indexPath)
+        cell.configure(for: homework)
         return cell
     }
     
@@ -126,7 +128,7 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
         let selectedItem = fetchedResultsController.object(at: indexPath)
         
         switch(segue.identifier) {
-        case .some("newTasj"):
+        case .some("newTask"):
             break
         default:
             break

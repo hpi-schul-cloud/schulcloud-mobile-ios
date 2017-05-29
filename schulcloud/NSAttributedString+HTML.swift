@@ -1,0 +1,26 @@
+//
+//  NSAttributedString+HTML.swift
+//  schulcloud
+//
+//  Created by Carl Gödecken on 29.05.17.
+//  Copyright © 2017 Hasso-Plattner-Institut. All rights reserved.
+//
+
+import Foundation
+import UIKit
+
+extension NSMutableAttributedString {
+    
+    internal convenience init?(html: String) {
+        let modifiedFont = "<style>body{font-family: 'PT Sans', '-apple-system'; font-size: 17px;}</style>\(html)"    // TODO: fix bold and italic not working with custom font
+        guard let data = modifiedFont.data(using: String.Encoding.utf16, allowLossyConversion: false) else {
+            return nil
+        }
+        
+        guard let attributedString = try? NSMutableAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil) else {
+            return nil
+        }
+        
+        self.init(attributedString: attributedString)
+    }
+}
