@@ -1,0 +1,30 @@
+//
+//  UserGroup+.swift
+//  schulcloud
+//
+//  Created by Carl Julius Gödecken on 30.05.17.
+//  Copyright © 2017 Hasso-Plattner-Institut. All rights reserved.
+//
+
+import Foundation
+import CoreData
+import Marshal
+
+extension Course {
+    static func upsert(data: MarshaledObject) throws -> Self {
+        do {
+            let course = try self.findOrCreateWithId(data: data)
+            
+            course.name = try data.value(for: "name")
+            course.schoolId = try data.value(for: "schoolId")
+            course.descriptionText = try data.value(for: "description")
+            course.colorString = try data.value(for: "color")
+            
+            return course
+        } catch let error {
+            throw error
+        }
+    }
+}
+
+extension Course: IdObject {}

@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import Marshal
 
 // MARK: - Core Data stack
 
@@ -59,5 +60,34 @@ struct CoreDataHelper {
     public static func delete<T>(fetchRequest: NSFetchRequest<T>) throws {
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest as! NSFetchRequest<NSFetchRequestResult>)
         try managedObjectContext.execute(deleteRequest)
+    }
+}
+
+@objc protocol IdObject {
+    var id: String { get set }
+}
+
+extension IdObject where Self: NSManagedObject {
+    
+    static func findOrCreateWithId(data: MarshaledObject) throws -> Self {
+        let id: String = try data.value(for: "_id")
+        if let object = try self.find(by: id) {
+            return object
+        } else {
+            let object = self.init(context: context)
+            object.id = id
+            return object
+        }
+    }
+    
+    static func find(by id: String) throws -> Self? {
+        let fetchRequest = self.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        let result = try context.fetch(fetchRequest)
+        if result.count > 1 {
+            log.error("Found more than one result for \(fetchRequest): \(result)")
+//            throw SCError.database("Found more than one result for \(fetchRequest)")
+        }
+        return result.first as? Self
     }
 }

@@ -23,7 +23,7 @@ class FileHelper {
         fetchRequest.predicate = NSPredicate(format: "pathString == %@", rootUrl.absoluteString)
         
         do {
-            let result = try managedObjectContext.fetch(fetchRequest)
+            let result = try context.fetch(fetchRequest)
             if let file = result.first {
                 return file
             }

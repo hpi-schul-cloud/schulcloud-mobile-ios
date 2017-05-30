@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16E195" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16F73" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Course" representedClassName="Course" parentEntity="UserGroup" syncable="YES">
+        <attribute name="colorString" attributeType="String" syncable="YES"/>
+        <attribute name="descriptionText" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="includedHomeworks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Homework" inverseName="course" inverseEntity="Homework" syncable="YES"/>
+        <relationship name="teachers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="taughtCourses" inverseEntity="User" syncable="YES"/>
+    </entity>
     <entity name="File" representedClassName="File" syncable="YES">
         <attribute name="cacheUrlString" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="displayName" attributeType="String" syncable="YES"/>
@@ -11,17 +17,36 @@
     </entity>
     <entity name="Homework" representedClassName="Homework" syncable="YES">
         <attribute name="availableDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="courseId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="descriptionText" attributeType="String" syncable="YES"/>
         <attribute name="dueDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="isPrivate" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="publicSubmissions" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="teacherId" attributeType="String" syncable="YES"/>
+        <relationship name="course" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Course" inverseName="includedHomeworks" inverseEntity="Course" syncable="YES"/>
+        <relationship name="teacher" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="assignedHomeworks" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="User" representedClassName="User" syncable="YES">
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="firstName" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="lastName" attributeType="String" syncable="YES"/>
+        <attribute name="schoolId" attributeType="String" syncable="YES"/>
+        <relationship name="assignedHomeworks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Homework" inverseName="teacher" inverseEntity="Homework" syncable="YES"/>
+        <relationship name="groups" toMany="YES" deletionRule="Nullify" destinationEntity="UserGroup" inverseName="users" inverseEntity="UserGroup" syncable="YES"/>
+        <relationship name="taughtCourses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Course" inverseName="teachers" inverseEntity="Course" syncable="YES"/>
+    </entity>
+    <entity name="UserGroup" representedClassName="UserGroup" syncable="YES">
+        <attribute name="id" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="schoolId" attributeType="String" syncable="YES"/>
+        <relationship name="users" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="groups" inverseEntity="User" syncable="YES"/>
     </entity>
     <elements>
-        <element name="File" positionX="124" positionY="45" width="128" height="150"/>
-        <element name="Homework" positionX="-54" positionY="45" width="128" height="180"/>
+        <element name="Course" positionX="-99" positionY="144" width="128" height="103"/>
+        <element name="File" positionX="-342" positionY="291" width="128" height="150"/>
+        <element name="Homework" positionX="-99" positionY="288" width="128" height="178"/>
+        <element name="User" positionX="205" positionY="225" width="137" height="165"/>
+        <element name="UserGroup" positionX="-9" positionY="-18" width="128" height="105"/>
     </elements>
 </model>

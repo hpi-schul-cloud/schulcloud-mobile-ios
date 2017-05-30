@@ -22,7 +22,7 @@ class HomeworkTableViewCell: UITableViewCell {
     @IBOutlet var coloredStrip: UIView!
     
     func configure(for homework: Homework) {
-        subjectLabel.text = homework.courseId?.uppercased() ?? "PERSÖNLICH"
+        subjectLabel.text = homework.course?.name.uppercased() ?? "PERSÖNLICH"
         titleLabel.text = homework.name
 //        coloredStrip.backgroundColor = homework.subject.color
         let descriptionWithEndTrimmed = homework.descriptionText.replacingOccurrences(of: "\\s+$", with: "", options: .regularExpression)

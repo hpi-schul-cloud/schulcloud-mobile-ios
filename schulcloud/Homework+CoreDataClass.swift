@@ -7,64 +7,51 @@
 //
 
 import Foundation
+import BrightFutures
 import CoreData
 import Marshal
 
 let context = managedObjectContext
 
 @objc(Homework)
-public class Homework: NSManagedObject, Unmarshaling {
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Homework> {
-        return NSFetchRequest<Homework>(entityName: "Homework")
-    }
+public class Homework: NSManagedObject {
     
-    @NSManaged public var id: String
-    @NSManaged public var teacherId: String // TODO: convert to relationship
-    @NSManaged public var name: String
-    @NSManaged public var descriptionText: String
-    @NSManaged public var availableDate: NSDate
-    @NSManaged public var dueDate: NSDate
-    @NSManaged public var publicSubmissions: Bool
-    @NSManaged public var courseId: String? // TODO: convert to relationship
-    @NSManaged public var isPrivate: Bool
-    
-    convenience required public init(object: MarshaledObject) throws {
-        let description = NSEntityDescription.entity(forEntityName: "Homework", in: context)!
-        self.init(entity: description, insertInto: context)
-        id = try object.value(for: "_id")
-        teacherId = try object.value(for: "teacherId")
-        name = try object.value(for: "name")
-        descriptionText = try object.value(for: "description")
-        availableDate = try object.value(for: "availableDate")
-        dueDate = try object.value(for: "dueDate")
-        publicSubmissions = (try? object.value(for: "publicSubmissions")) ?? false
-        courseId = try? object.value(for: "courseId._id")
-        isPrivate = (try? object.value(for: "private")) ?? false
-    }
-    
-    static func createOrUpdate(inContext context: NSManagedObjectContext, object: MarshaledObject) throws -> Homework {
-        let description = NSEntityDescription.entity(forEntityName: "Homework", in: context)!
+    static func upsert(inContext context: NSManagedObjectContext, object: MarshaledObject) -> Future<Homework, SCError> {
+        do {            
+            let fetchRequest = NSFetchRequest<Homework>(entityName: "Homework")
+            let id: String = try object.value(for: "_id")
+            fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+            
+            let result = try context.fetch(fetchRequest)
+            let homework = result.first ?? Homework(context: context)
+            if result.count > 1 {
+                throw SCError.database("Found more than one result for \(fetchRequest)")
+            }
+            
+            homework.id = try object.value(for: "_id")
+            homework.name = try object.value(for: "name")
+            homework.descriptionText = try object.value(for: "description")
+            homework.availableDate = try object.value(for: "availableDate")
+            homework.dueDate = try object.value(for: "dueDate")
+            homework.publicSubmissions = (try? object.value(for: "publicSubmissions")) ?? false
+            homework.isPrivate = (try? object.value(for: "private")) ?? false
+            
+            if let courseData: MarshalDictionary? = try? object.value(for: "courseId"),
+                let unwrapped = courseData {
+                homework.course = try Course.upsert(data: unwrapped)
+            }
+            let teacherId: String = try object.value(for: "teacherId")
         
-        let fetchRequest = NSFetchRequest<Homework>(entityName: "Homework")
-        let id: String = try object.value(for: "_id")
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
         
-        let result = try context.fetch(fetchRequest)
-        let homework = result.first ?? Homework(entity: description, insertInto: context)
-        if result.count > 1 {
-            throw SCError.database("Found more than one result for \(fetchRequest)")
+            return User.fetch(by: teacherId).flatMap { teacher -> Future<Homework, SCError> in
+                homework.teacher = teacher
+                return Future(value: homework)
+            }
+        } catch let error as MarshalError {
+            return Future(error: .jsonDeserialization(error.description))
+        } catch let error {
+            return Future(error: .database(error.localizedDescription))
         }
-        
-        homework.id = try object.value(for: "_id")
-        homework.teacherId = try object.value(for: "teacherId")
-        homework.name = try object.value(for: "name")
-        homework.descriptionText = try object.value(for: "description")
-        homework.availableDate = try object.value(for: "availableDate")
-        homework.dueDate = try object.value(for: "dueDate")
-        homework.publicSubmissions = (try? object.value(for: "publicSubmissions")) ?? false
-        homework.courseId = try? object.value(for: "courseId._id")
-        homework.isPrivate = (try? object.value(for: "private")) ?? false
-        return homework
     }
     
 }

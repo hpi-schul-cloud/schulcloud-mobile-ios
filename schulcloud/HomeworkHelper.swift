@@ -12,14 +12,17 @@ import BrightFutures
 import CoreData
 
 public class HomeworkHelper {
-    static func fetchFromServer() -> Future<Void, SCError> {
+    
+    typealias FetchResult = Future<Void, SCError>
+    
+    static func fetchFromServer() -> FetchResult {
         let parameters: Parameters = [
             "$populate": "courseId"
         ]
         return ApiHelper.request("homework", parameters: parameters).jsonArrayFuture(keyPath: "data")
-            .flatMap { items -> Future<Void, SCError> in
+            .flatMap { $0.map({Homework.upsert(inContext: managedObjectContext, object: $0)}).sequence() }
+            .flatMap { dbItems -> FetchResult in
                 do {
-                    let dbItems = try items.map {try Homework.createOrUpdate(inContext: managedObjectContext, object: $0)}
                     let ids = dbItems.map({$0.id})
                     let deleteRequest: NSFetchRequest<Homework> = Homework.fetchRequest()
                     deleteRequest.predicate = NSPredicate(format: "NOT (id IN %@)", ids)
@@ -31,4 +34,5 @@ public class HomeworkHelper {
                 }
         }
     }
+    
 }
