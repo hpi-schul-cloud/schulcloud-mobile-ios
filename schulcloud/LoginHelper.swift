@@ -16,8 +16,8 @@ open class LoginHelper {
     
     static let defaults = UserDefaults.standard
 
-    internal static func getAccessToken(username: String?, password: String?) -> Future<String, LoginError> {
-        let promise = Promise<String, LoginError>()
+    internal static func getAccessToken(username: String?, password: String?) -> Future<String, SCError> {
+        let promise = Promise<String, SCError>()
         
         let parameters: Parameters = [
             "username": username as Any,
@@ -45,27 +45,40 @@ open class LoginHelper {
         return promise.future
     }
     
-    static func login(username: String?, password: String?) -> Future<Void, LoginError> {
-        return getAccessToken(username: username, password: password).flatMap { accessToken -> Future<Void, LoginError> in
+    static func login(username: String?, password: String?) -> Future<Void, SCError> {
+        return getAccessToken(username: username, password: password).flatMap(saveToken)
+    }
+    
+    static func saveToken(accessToken: String) -> Future<Void, SCError> {
+        do {
+            let jwt = try decode(jwt: accessToken)
+            let accountId = jwt.body["accountId"] as! String
+            let userId = jwt.body["userId"] as! String
+            let account = SchulCloudAccount(userId: userId, accountId: accountId, accessToken: accessToken)
+            defaults.set(account.accountId, forKey: "accountId")
+            defaults.set(account.userId, forKey: "userId")
             do {
-                let jwt = try decode(jwt: accessToken)
-                let accountId = jwt.body["accountId"] as! String
-                let userId = jwt.body["userId"] as! String
-                let account = SchulCloudAccount(userId: userId, accountId: accountId, accessToken: accessToken)
-                defaults.set(account.accountId, forKey: "accountId")
-                defaults.set(account.userId, forKey: "userId")
-                do {
-                    try account.createInSecureStore()
-                } catch {
-                    try account.updateInSecureStore()
-                }
-                log.info("Successfully saved login data for user \(userId) with account \(accountId)")
-                Globals.account = account
-                SCNotifications.initializeMessaging()
-                return Future(value: Void())
-            } catch let error {
-                return Future(error: LoginError.loginFailed(error.localizedDescription))
+                try account.createInSecureStore()
+            } catch {
+                try account.updateInSecureStore()
             }
+            log.info("Successfully saved login data for user \(userId) with account \(accountId)")
+            Globals.account = account
+            SCNotifications.initializeMessaging()
+            return Future(value: Void())
+        } catch let error {
+            return Future(error: SCError.loginFailed(error.localizedDescription))
+        }
+    }
+    
+    static func renewAccessToken() -> Future<Void, SCError> {
+        return ApiHelper.request("authentication", method: .post).jsonObjectFuture()
+            .flatMap { response -> Future<Void, SCError> in
+                if let accessToken = response["accessToken"] as? String {
+                    return saveToken(accessToken: accessToken)
+                } else {
+                    return Future(error: SCError(json: response))
+                }
         }
     }
     
@@ -79,23 +92,4 @@ open class LoginHelper {
         }
     }
     
-}
-
-enum LoginError: Error {
-    case loginFailed(String)
-    case wrongCredentials
-    case unknown
-}
-
-extension LoginError: LocalizedError {
-    public var errorDescription: String? {
-        switch self {
-        case .loginFailed(let message):
-            return "Fehler: \(message)"
-        case .wrongCredentials:
-            return "Fehler: Falsche Anmeldedaten"
-        case .unknown:
-            return "Unbekannter Fehler"
-        }
-    }
 }

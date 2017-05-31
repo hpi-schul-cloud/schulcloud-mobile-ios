@@ -37,6 +37,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         self.window?.rootViewController = initialViewController
         
         observeChanges()
+        DispatchQueue.global(qos: .utility).async {
+            LoginHelper.renewAccessToken()
+                .onFailure { log.error($0) }
+        }
         
         return true
     }
