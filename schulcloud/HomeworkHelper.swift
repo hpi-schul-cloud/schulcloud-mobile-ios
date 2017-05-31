@@ -20,8 +20,8 @@ public class HomeworkHelper {
             "$populate": "courseId"
         ]
         return ApiHelper.request("homework", parameters: parameters).jsonArrayFuture(keyPath: "data")
-            .flatMap { $0.map({Homework.upsert(inContext: managedObjectContext, object: $0)}).sequence() }
-            .flatMap { dbItems -> FetchResult in
+            .flatMap(DispatchQueue.main.context, f: { $0.map({Homework.upsert(inContext: managedObjectContext, object: $0)}).sequence() })
+            .flatMap(DispatchQueue.main.context, f: { dbItems -> FetchResult in
                 do {
                     let ids = dbItems.map({$0.id})
                     let deleteRequest: NSFetchRequest<Homework> = Homework.fetchRequest()
@@ -33,7 +33,7 @@ public class HomeworkHelper {
                 } catch let error {
                     return Future(error: .database(error.localizedDescription))
                 }
-        }
+        })
     }
     
 }
