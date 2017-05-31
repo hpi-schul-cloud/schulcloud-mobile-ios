@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import BrightFutures
 import CoreData
 import Marshal
 
@@ -56,6 +57,26 @@ func saveContext () {
     }
 }
 
+func save(privateContext privateMoc: NSManagedObjectContext) -> Future<Void, SCError> {
+    let promise = Promise<Void, SCError>()
+    privateMoc.perform {
+        do {
+            try privateMoc.save()
+            managedObjectContext.performAndWait {
+                do {
+                    try managedObjectContext.save()
+                    promise.success(Void())
+                } catch {
+                    fatalError("Failure to save context: \(error)")
+                }
+            }
+        } catch {
+            fatalError("Failure to save context: \(error)")
+        }
+    }
+    return promise.future
+}
+
 struct CoreDataHelper {
     public static func delete<T>(fetchRequest: NSFetchRequest<T>) throws {
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest as! NSFetchRequest<NSFetchRequestResult>)
@@ -69,9 +90,9 @@ struct CoreDataHelper {
 
 extension IdObject where Self: NSManagedObject {
     
-    static func findOrCreateWithId(data: MarshaledObject) throws -> Self {
+    static func findOrCreateWithId(data: MarshaledObject, context: NSManagedObjectContext) throws -> Self {
         let id: String = try data.value(for: "_id")
-        if let object = try self.find(by: id) {
+        if let object = try self.find(by: id, context: context) {
             return object
         } else {
             let object = self.init(context: context)
@@ -80,7 +101,7 @@ extension IdObject where Self: NSManagedObject {
         }
     }
     
-    static func find(by id: String) throws -> Self? {
+    static func find(by id: String, context: NSManagedObjectContext) throws -> Self? {
         let fetchRequest = self.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
         let result = try context.fetch(fetchRequest)

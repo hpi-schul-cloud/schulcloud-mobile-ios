@@ -49,8 +49,8 @@ class LoginViewController: UIViewController {
             }
     }
 
-    func show(error: Error) {
-        loginErrorLabel.text = error.localizedDescription
+    func show(error: SCError) {
+        loginErrorLabel.text = error.description
         loginErrorLabel.isHidden = false
     }
     

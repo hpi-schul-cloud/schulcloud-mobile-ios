@@ -39,12 +39,12 @@ public class Homework: NSManagedObject {
             
             if let courseData: MarshalDictionary? = try? object.value(for: "courseId"),
                 let unwrapped = courseData {
-                homework.course = try Course.upsert(data: unwrapped)
+                homework.course = try Course.upsert(data: unwrapped, context: context)
             }
             let teacherId: String = try object.value(for: "teacherId")
         
         
-            return User.fetch(by: teacherId).flatMap { teacher -> Future<Homework, SCError> in
+            return User.fetch(by: teacherId, inContext: context).flatMap { teacher -> Future<Homework, SCError> in
                 homework.teacher = teacher
                 return Future(value: homework)
             }

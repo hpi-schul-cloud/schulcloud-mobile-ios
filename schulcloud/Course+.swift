@@ -11,9 +11,9 @@ import CoreData
 import Marshal
 
 extension Course {
-    static func upsert(data: MarshaledObject) throws -> Self {
+    static func upsert(data: MarshaledObject, context: NSManagedObjectContext) throws -> Self {
         do {
-            let course = try self.findOrCreateWithId(data: data)
+            let course = try self.findOrCreateWithId(data: data, context: context)
             
             course.name = try data.value(for: "name")
             course.schoolId = try data.value(for: "schoolId")
