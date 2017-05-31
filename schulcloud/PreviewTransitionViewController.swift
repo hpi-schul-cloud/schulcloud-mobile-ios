@@ -39,13 +39,28 @@ class PreviewTransitionViewController: UIViewController {
     @IBOutlet weak var containerView: UIView!
     
     let quickLookPreviewController = QLPreviewController()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addChildViewController(quickLookPreviewController)
         containerView.addSubview(quickLookPreviewController.view)
         quickLookPreviewController.view.frame = containerView.bounds
         quickLookPreviewController.didMove(toParentViewController: self)
+        
+        // Add share button
+        let shareButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(PreviewTransitionViewController.shareFile))
+        self.navigationItem.rightBarButtonItem = shareButton
     }
+    //MARK: Share
+    
+    func shareFile() {
+
+        let activityItems: [Any]
+        activityItems = [quickLookPreviewController.currentPreviewItem?.previewItemURL]
+        let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        self.present(activityViewController, animated: true, completion: nil)
+        
+    }
+
 
 }
