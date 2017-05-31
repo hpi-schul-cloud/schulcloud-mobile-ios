@@ -30,6 +30,7 @@
 		C32870A51EDDBCB000ABA348 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C328709E1EDDBCB000ABA348 /* User+CoreDataClass.swift */; };
 		C32870A61EDDBCB000ABA348 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C328709F1EDDBCB000ABA348 /* User+CoreDataProperties.swift */; };
 		C32870A91EDDD3D100ABA348 /* Course+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870A81EDDD3D100ABA348 /* Course+.swift */; };
+		C32870AD1EDED1D200ABA348 /* DashboardHomeworkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870AC1EDED1D200ABA348 /* DashboardHomeworkCell.swift */; };
 		C3418B601ECDAB9F00280E62 /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3418B5F1ECDAB9F00280E62 /* FileHelper.swift */; };
 		C3418B621ECEE6FB00280E62 /* FilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3418B611ECEE6FB00280E62 /* FilesViewController.swift */; };
 		C3418B641ED2E89F00280E62 /* FileListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3418B631ED2E89F00280E62 /* FileListCell.swift */; };
@@ -110,6 +111,7 @@
 		C328709E1EDDBCB000ABA348 /* User+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
 		C328709F1EDDBCB000ABA348 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		C32870A81EDDD3D100ABA348 /* Course+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Course+.swift"; sourceTree = "<group>"; };
+		C32870AC1EDED1D200ABA348 /* DashboardHomeworkCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardHomeworkCell.swift; sourceTree = "<group>"; };
 		C3418B5F1ECDAB9F00280E62 /* FileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileHelper.swift; sourceTree = "<group>"; };
 		C3418B611ECEE6FB00280E62 /* FilesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilesViewController.swift; sourceTree = "<group>"; };
 		C3418B631ED2E89F00280E62 /* FileListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileListCell.swift; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 				C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */,
 				C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */,
 				3DCFC9F21ED3632C00167B82 /* DashboardViewController.swift */,
+				C32870AC1EDED1D200ABA348 /* DashboardHomeworkCell.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -675,6 +678,7 @@
 				C31C842A1ECF553700FA070C /* PreviewManager.swift in Sources */,
 				C31C842C1ECF55A000FA070C /* PreviewTransitionViewController.swift in Sources */,
 				C3418B6F1ED5CF1F00280E62 /* Date+Marshal.swift in Sources */,
+				C32870AD1EDED1D200ABA348 /* DashboardHomeworkCell.swift in Sources */,
 				C3A5A9341EBCCE3B00825DBF /* LoginViewController.swift in Sources */,
 				C32870A01EDDBCB000ABA348 /* UserGroup+CoreDataClass.swift in Sources */,
 				C32870A21EDDBCB000ABA348 /* Course+CoreDataClass.swift in Sources */,

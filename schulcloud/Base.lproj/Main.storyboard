@@ -376,7 +376,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="tasks" rowHeight="103" id="hRq-41-ddc">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="tasks" rowHeight="103" id="hRq-41-ddc" customClass="DashboardHomeworkCell" customModule="schulcloud" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="191.5" width="375" height="103"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hRq-41-ddc" id="3fT-cJ-KwN">
@@ -408,6 +408,8 @@
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="numberOfOpenTasksLabel" destination="h4U-AZ-jGK" id="Ja2-aa-2Dl"/>
+                                    <outlet property="subtitleLabel" destination="mxD-0B-Hgl" id="CwS-br-L4J"/>
                                     <segue destination="UKp-u4-ZHA" kind="show" identifier="tasks" id="n03-vy-AQx"/>
                                 </connections>
                             </tableViewCell>
@@ -560,7 +562,6 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Aufgaben" id="cns-N4-enP">
-                        <barButtonItem key="backBarButtonItem" title="Ciao" id="dvn-VT-edx"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="XrE-iE-dkO">
                             <connections>
                                 <segue destination="K0h-RL-bLH" kind="show" identifier="addTask" id="uBm-kJ-588"/>

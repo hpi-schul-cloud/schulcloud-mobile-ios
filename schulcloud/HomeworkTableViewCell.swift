@@ -39,7 +39,7 @@ class HomeworkTableViewCell: UITableViewCell {
         
         setDueLabelVisible(true)
 
-        let minutesLeft = -homework.dueDate.timeIntervalSinceNow / 60
+        let minutesLeft = homework.dueDate.timeIntervalSinceNow / 60
         switch minutesLeft {
         case -Double.infinity..<0 as Range:
             dueLabel.text = "⚐ Überfällig"

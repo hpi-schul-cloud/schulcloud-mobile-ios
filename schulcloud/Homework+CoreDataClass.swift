@@ -15,6 +15,7 @@ let context = managedObjectContext
 
 @objc(Homework)
 public class Homework: NSManagedObject {
+    static let changeNotificationName = "didChangeHomework"
     
     static func upsert(inContext context: NSManagedObjectContext, object: MarshaledObject) -> Future<Homework, SCError> {
         do {            
