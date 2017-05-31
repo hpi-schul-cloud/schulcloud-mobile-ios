@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="H3U-6P-sHm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="H3U-6P-sHm">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -446,20 +446,20 @@
         <scene sceneID="lkj-Q4-e7E">
             <objects>
                 <tableViewController title="Aufgaben" hidesBottomBarWhenPushed="YES" id="UKp-u4-ZHA" customClass="HomeworkViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="120" sectionHeaderHeight="28" sectionFooterHeight="28" id="fR4-pr-O74">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="150" sectionHeaderHeight="28" sectionFooterHeight="28" id="fR4-pr-O74">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.9370916485786438" green="0.93694382905960083" blue="0.95754462480545044" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="dueTask" id="i26-W3-gIh" customClass="HomeworkTableViewCell" customModule="schulcloud" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="120"/>
+                                <rect key="frame" x="0.0" y="28" width="375" height="150"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="i26-W3-gIh" id="fxb-r2-R0r" userLabel="Transparent background">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wEY-IE-rsV" userLabel="Card">
-                                            <rect key="frame" x="4" y="2" width="367" height="116"/>
+                                            <rect key="frame" x="4" y="2" width="367" height="146"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MATHEMATIK" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="uvb-bj-t3J">
                                                     <rect key="frame" x="13" y="8" width="346" height="12"/>
@@ -471,14 +471,14 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YHs-iw-Fvx">
-                                                    <rect key="frame" x="0.0" y="0.0" width="5" height="116"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="5" height="146"/>
                                                     <color key="backgroundColor" red="0.69411764710000001" green="0.015686274510000001" blue="0.21960784310000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="5" id="c9M-SU-U2r"/>
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HIQ-W1-jid">
-                                                    <rect key="frame" x="13" y="57" width="346" height="51"/>
+                                                    <rect key="frame" x="13" y="57" width="346" height="48"/>
                                                     <string key="text">Activated charcoal deep v typewriter, cupidatat tousled pinterest kitsch chicharrones. Assumenda eu 8-bit tofu ramps reprehenderit disrupt, pour-over nostrud organic paleo. 3 wolf moon commodo vaporware, next level williamsburg farm-to-table delectus deep v wayfarers leggings intelligentsia excepteur lyft.</string>
                                                     <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -493,9 +493,25 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="⚐ In 2 Stunden fällig" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mEC-Kb-BZM">
+                                                    <rect key="frame" x="197" y="113" width="146" height="25"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="25" id="fIt-Ti-ObF"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="16"/>
+                                                    <color key="textColor" red="1" green="0.1764705882352941" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="2"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
+                                                <constraint firstItem="mEC-Kb-BZM" firstAttribute="top" secondItem="HIQ-W1-jid" secondAttribute="bottom" constant="8" id="0i6-W7-3R2"/>
                                                 <constraint firstAttribute="bottom" secondItem="YHs-iw-Fvx" secondAttribute="bottom" id="39j-ro-I2z"/>
                                                 <constraint firstItem="Aty-AM-78h" firstAttribute="top" secondItem="uvb-bj-t3J" secondAttribute="bottom" constant="8" id="5kf-Ag-OWq"/>
                                                 <constraint firstAttribute="trailing" secondItem="Aty-AM-78h" secondAttribute="trailing" constant="8" id="FN4-KQ-iTc"/>
@@ -508,7 +524,9 @@
                                                 <constraint firstItem="uvb-bj-t3J" firstAttribute="leading" secondItem="YHs-iw-Fvx" secondAttribute="trailing" constant="8" id="fn5-YQ-wiB"/>
                                                 <constraint firstItem="YHs-iw-Fvx" firstAttribute="leading" secondItem="wEY-IE-rsV" secondAttribute="leading" id="kKJ-cg-9Lo"/>
                                                 <constraint firstAttribute="trailing" secondItem="HIQ-W1-jid" secondAttribute="trailing" constant="8" id="pXC-R2-M5P"/>
-                                                <constraint firstAttribute="bottom" secondItem="HIQ-W1-jid" secondAttribute="bottom" constant="8" id="pzm-Ub-qw5"/>
+                                                <constraint firstAttribute="bottom" secondItem="HIQ-W1-jid" secondAttribute="bottom" priority="500" constant="8" id="pzm-Ub-qw5"/>
+                                                <constraint firstAttribute="trailing" secondItem="mEC-Kb-BZM" secondAttribute="trailing" constant="24" id="sMH-No-GGO"/>
+                                                <constraint firstAttribute="bottom" secondItem="mEC-Kb-BZM" secondAttribute="bottom" constant="8" id="sT4-8M-6Re"/>
                                             </constraints>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -528,6 +546,8 @@
                                 <connections>
                                     <outlet property="coloredStrip" destination="YHs-iw-Fvx" id="d0v-Y8-CQM"/>
                                     <outlet property="contentLabel" destination="HIQ-W1-jid" id="7Mx-Kt-9Vh"/>
+                                    <outlet property="contentLabelDueAlertSpacing" destination="0i6-W7-3R2" id="2I7-QN-fvz"/>
+                                    <outlet property="dueLabel" destination="mEC-Kb-BZM" id="ZEm-Se-zTT"/>
                                     <outlet property="subjectLabel" destination="uvb-bj-t3J" id="0LO-Ij-IaK"/>
                                     <outlet property="titleLabel" destination="Aty-AM-78h" id="5Vv-Xm-RMQ"/>
                                 </connections>
@@ -539,7 +559,8 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="cns-N4-enP">
+                    <navigationItem key="navigationItem" title="Aufgaben" id="cns-N4-enP">
+                        <barButtonItem key="backBarButtonItem" title="Ciao" id="dvn-VT-edx"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="XrE-iE-dkO">
                             <connections>
                                 <segue destination="K0h-RL-bLH" kind="show" identifier="addTask" id="uBm-kJ-588"/>

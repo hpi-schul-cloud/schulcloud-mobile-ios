@@ -123,17 +123,22 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let selectedCell = sender as! UITableViewCell
-        guard let indexPath = tableView.indexPath(for: selectedCell) else { return }
-        let selectedItem = fetchedResultsController.object(at: indexPath)
         
         switch(segue.identifier) {
         case .some("addTask"):
             break
+        case .some("cellAction"):
+            let selectedCell = sender as! UITableViewCell
+            guard let indexPath = tableView.indexPath(for: selectedCell) else { return }
+            let selectedItem = fetchedResultsController.object(at: indexPath)
         default:
             break
         }
     }
 
-
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.setSelected(false, animated: true)
+    }
 }
