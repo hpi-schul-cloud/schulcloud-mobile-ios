@@ -38,30 +38,27 @@ class HomeworkTableViewCell: UITableViewCell {
         }
         
         setDueLabelVisible(true)
-
-        let minutesLeft = homework.dueDate.timeIntervalSinceNow / 60
-        switch minutesLeft {
-        case -Double.infinity..<0 as Range:
+        
+        let timeDifference = Calendar.current.dateComponents([.day, .hour], from: Date(), to: homework.dueDate as Date)
+        switch timeDifference.day! {
+        case Int.min..<0:
             dueLabel.text = "⚐ Überfällig"
             setDueLabelHighlighted(true)
-        case 0..<(12 * 60):
-            let timeDifference = Calendar.current.dateComponents([.hour], from: homework.dueDate as Date, to: Date())
+        case 0..<1:
             dueLabel.text = "⚐ In \(timeDifference.hour!) Stunden fällig"
             setDueLabelHighlighted(true)
-        case (12 * 60)...(24 * 60):
+        case 1:
             dueLabel.text = "⚐ Morgen fällig"
             setDueLabelHighlighted(true)
-        case (24 * 60)...(48 * 60):
+        case 2:
             dueLabel.text = "Übermorgen"
             setDueLabelHighlighted(false)
-        case (48 * 60)..<(7 * 24 * 60):
-            let timeDifference = Calendar.current.dateComponents([.day], from: homework.dueDate as Date, to: Date())
+        case 3...7:
             dueLabel.text = "In \(timeDifference.day!) Tagen"
             setDueLabelHighlighted(false)
         default:
             setDueLabelVisible(false)
         }
-        
     }
     
     func setDueLabelHighlighted(_ highlighted: Bool) {

@@ -30,9 +30,28 @@ class DashboardHomeworkCell: UITableViewCell {
         let oneWeek = DateComponents(day: 8)
         let inOneWeek = Calendar.current.date(byAdding: oneWeek, to: Date())!
         fetchRequest.predicate = NSPredicate(format: "dueDate >= %@ && dueDate <= %@ ", argumentArray: [Date() as NSDate, inOneWeek as NSDate])
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dueDate", ascending: true)]
         do {
             let resultsInNextWeek = try managedObjectContext.fetch(fetchRequest)
             numberOfOpenTasksLabel.text = String(resultsInNextWeek.count)
+            if let nextTask = resultsInNextWeek.first {
+                subtitleLabel.isHidden = false
+                let timeDifference = Calendar.current.dateComponents([.day, .hour], from: Date(), to: nextTask.dueDate as Date)
+                switch timeDifference.day! {
+                case 0..<1:
+                    subtitleLabel.text = "Nächste in \(timeDifference.hour!) Stunden fällig"
+                case 1:
+                    subtitleLabel.text = "Nächste morgen fällig"
+                case 2:
+                    subtitleLabel.text = "Nächste übermorgen fällig"
+                case 3...7:
+                    subtitleLabel.text = "Nächste in \(timeDifference.day!) Tagen fällig"
+                default:
+                    subtitleLabel.isHidden = true
+                }
+            } else {
+                subtitleLabel.isHidden = true
+            }
         } catch let error {
             log.error(error)
         }

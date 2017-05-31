@@ -313,6 +313,7 @@
 				C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */,
 				3DCFC9F21ED3632C00167B82 /* DashboardViewController.swift */,
 				C32870AC1EDED1D200ABA348 /* DashboardHomeworkCell.swift */,
+				C3165F1C1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -324,7 +325,6 @@
 				C3A5A9061EBCC17600825DBF /* Main.storyboard */,
 				C3A5A90C1EBCC17600825DBF /* Assets.xcassets */,
 				C3A5A90E1EBCC17600825DBF /* LaunchScreen.storyboard */,
-				C3165F1C1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
