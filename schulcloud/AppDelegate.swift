@@ -39,6 +39,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         observeChanges()
         DispatchQueue.global(qos: .utility).async {
             LoginHelper.renewAccessToken()
+                .flatMap {
+                    HomeworkHelper.fetchFromServer()
+                }
                 .onFailure { log.error($0) }
         }
         
