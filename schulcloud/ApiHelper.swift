@@ -49,6 +49,16 @@ class ApiHelper {
         return promise.future
     }
     
+    static func updateData(includingAuthorization authorize: Bool = true) {
+        DispatchQueue.global(qos: .utility).async {
+            (authorize ? LoginHelper.renewAccessToken() : Future(value: Void()))
+                .flatMap {
+                    HomeworkHelper.fetchFromServer()
+                }
+                .onFailure { log.error($0) }
+        }
+    }
+    
 }
 
 extension Alamofire.DataRequest {

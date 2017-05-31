@@ -37,13 +37,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         self.window?.rootViewController = initialViewController
         
         observeChanges()
-        DispatchQueue.global(qos: .utility).async {
-            LoginHelper.renewAccessToken()
-                .flatMap {
-                    HomeworkHelper.fetchFromServer()
-                }
-                .onFailure { log.error($0) }
-        }
         
         return true
     }
@@ -61,6 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 Globals.account = account
                 let initialViewController = storyboard.instantiateInitialViewController()!
                 SCNotifications.initializeMessaging()
+                ApiHelper.updateData()
                 return initialViewController
             } else {
                 log.error("Could not load account from Keychain!")
