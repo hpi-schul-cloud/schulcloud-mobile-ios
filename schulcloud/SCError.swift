@@ -16,6 +16,12 @@ public enum SCError: Error {
     case firebase(Error)
     case jsonDeserialization(String)
     case database(String)
+    case loginFailed(String)
+    case wrongCredentials
+    
+    init(value: SCError) {
+        self = value
+    }
     
     init(otherError error: Error) {
         if let marshalError = error as? MarshalError {
@@ -28,10 +34,17 @@ public enum SCError: Error {
     init(apiResponse: Data?) {
         if let data = apiResponse,
             let deserialized = try? JSONSerialization.jsonObject(with: data, options: []),
-            let object = deserialized as? [String: Any],
-            let errorCode: Int = try? object.value(for: "code"),
-            let errorMessage: String = try? object.value(for: "message")
+            let object = deserialized as? [String: Any]
         {
+            self.init(json: object)
+        } else {
+            self.init(value: .unknown)
+        }
+    }
+    
+    init(json: [String: Any]) {
+        if let errorCode: Int = try? json.value(for: "code"),
+            let errorMessage: String = try? json.value(for: "message"){
             self = .apiError(errorCode, errorMessage)
         } else {
             self = .unknown
@@ -44,6 +57,12 @@ extension SCError: CustomStringConvertible {
         switch self {
         case .apiError(let code, let message):
             return "API error \(code): \(message)"
+        case .loginFailed(let message):
+            return "Error: \(message)"
+        case .wrongCredentials:
+            return "Error: Wrong credentials"
+        case .unknown:
+            return "Unknown error"
         default:
             return self.localizedDescription
         }
