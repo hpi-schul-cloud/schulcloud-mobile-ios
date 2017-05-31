@@ -22,6 +22,7 @@ public class File: NSManagedObject {
     @NSManaged public var isDirectory: Bool
     @NSManaged public var pathString: String
     @NSManaged public var typeString: String
+    @NSManaged public var size: NSNumber?
     @NSManaged public var parentDirectory: File?
     @NSManaged public var contents: NSSet?
     
@@ -65,6 +66,9 @@ extension File {
         file.isDirectory = isDirectory
         file.pathString = path
         file.typeString = isDirectory ? "directory" : try data.value(for: "type")
+        if let sizeString = try? data.value(for: "size") as String {
+            file.size = Int64(sizeString) as NSNumber?
+        }
         file.parentDirectory = parentFolder
         
         return file

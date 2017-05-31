@@ -11,6 +11,7 @@
         <attribute name="displayName" attributeType="String" syncable="YES"/>
         <attribute name="isDirectory" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="pathString" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="size" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="typeString" attributeType="String" syncable="YES"/>
         <relationship name="contents" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="File" inverseName="parentDirectory" inverseEntity="File" syncable="YES"/>
         <relationship name="parentDirectory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="File" inverseName="contents" inverseEntity="File" syncable="YES"/>
@@ -44,7 +45,7 @@
     </entity>
     <elements>
         <element name="Course" positionX="-99" positionY="144" width="128" height="103"/>
-        <element name="File" positionX="-342" positionY="291" width="128" height="150"/>
+        <element name="File" positionX="-342" positionY="291" width="128" height="165"/>
         <element name="Homework" positionX="-99" positionY="288" width="128" height="178"/>
         <element name="User" positionX="205" positionY="225" width="137" height="165"/>
         <element name="UserGroup" positionX="-9" positionY="-18" width="128" height="105"/>

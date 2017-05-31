@@ -95,7 +95,11 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! FileListCell
         
         cell.titleLabel.text = object.displayName
-        cell.subtitleLabel.text = object.pathString
+        if let size = object.size {
+            cell.subtitleLabel.text = ByteCountFormatter.string(fromByteCount: Int64(size), countStyle: .binary)
+        } else {
+            cell.subtitleLabel.text = nil
+        }
 
         return cell
     }
