@@ -104,9 +104,9 @@ class LoadingViewController: UIViewController  {
                 var viewControllers = nav.viewControllers
                 viewControllers.removeLast(1)
                 viewControllers.append(controller)
-                nav.setViewControllers(viewControllers, animated: true)
+                nav.setViewControllers(viewControllers, animated: false)
             } else {
-                self.present(controller, animated: true, completion: nil)
+                self.present(controller, animated: false, completion: nil)
             }
             if let ql = (controller as? QLPreviewController) ?? (controller as? PreviewTransitionViewController)?.quickLookPreviewController {
                 // fix for dataSource magically disappearing because hey let's store it in a weak variable in QLPreviewController
