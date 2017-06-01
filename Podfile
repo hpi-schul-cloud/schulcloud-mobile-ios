@@ -6,6 +6,7 @@ target 'schulcloud' do
   # Pods for schulcloud
   pod 'Alamofire', '4.4.0'
   pod 'BrightFutures', '5.2.0'
+  pod 'CalendarKit'
   pod 'Firebase/Auth'
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'

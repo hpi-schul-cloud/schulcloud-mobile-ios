@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="H3U-6P-sHm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16B2548a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="H3U-6P-sHm">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -375,6 +375,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="FJo-Pn-cOy" kind="show" identifier="calendar" id="C88-ed-DM8"/>
+                                </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="tasks" rowHeight="103" id="hRq-41-ddc" customClass="DashboardHomeworkCell" customModule="schulcloud" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="191.5" width="375" height="103"/>
@@ -443,6 +446,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p4N-WM-aHZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3092" y="-648"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="eLa-fj-MSm">
+            <objects>
+                <viewController id="FJo-Pn-cOy" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1lX-2Y-nQy"/>
+                        <viewControllerLayoutGuide type="bottom" id="vy0-fY-4he"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ahb-V9-2NX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="waB-M2-h6k" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4076" y="-1321"/>
         </scene>
         <!--Aufgaben-->
         <scene sceneID="lkj-Q4-e7E">
@@ -759,7 +780,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="B0G-dG-Hpj" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="more" id="hv4-8e-B8p"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="aat-jY-cvf">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="aat-jY-cvf">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -778,7 +799,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5dB-T7-7EP" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Dateien" image="open folder" id="msr-I1-ZjH"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Dd9-Gw-2Sh">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Dd9-Gw-2Sh">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -797,7 +818,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ANt-pc-ZSG" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Dashboard" image="home" id="Vu8-uZ-0Pl"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="akZ-45-scn">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="akZ-45-scn">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
