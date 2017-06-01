@@ -107,9 +107,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         if let updates = userInfo[NSUpdatedObjectsKey] as? Set<NSManagedObject>, updates.count > 0 {
             print("--- UPDATES ---")
+            var unchanged = 0
             for update in updates {
-                print(update.changedValues())
+                let changed = update.changedValues()
+                if changed.count > 0 {
+                    print(changed)
+                } else {
+                    unchanged += 1
+                }
             }
+            print("\(unchanged) unchanged")
             print("+++++++++++++++")
         }
         
