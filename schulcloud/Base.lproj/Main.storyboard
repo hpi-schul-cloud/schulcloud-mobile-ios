@@ -447,10 +447,10 @@
             </objects>
             <point key="canvasLocation" x="3092" y="-648"/>
         </scene>
-        <!--View Controller-->
+        <!--Calendar View Controller-->
         <scene sceneID="eLa-fj-MSm">
             <objects>
-                <viewController id="FJo-Pn-cOy" sceneMemberID="viewController">
+                <viewController id="FJo-Pn-cOy" customClass="CalendarViewController" customModule="schulcloud" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1lX-2Y-nQy"/>
                         <viewControllerLayoutGuide type="bottom" id="vy0-fY-4he"/>
@@ -780,7 +780,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="B0G-dG-Hpj" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="more" id="hv4-8e-B8p"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="aat-jY-cvf">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="aat-jY-cvf">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -799,7 +799,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5dB-T7-7EP" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Dateien" image="open folder" id="msr-I1-ZjH"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Dd9-Gw-2Sh">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Dd9-Gw-2Sh">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -818,7 +818,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ANt-pc-ZSG" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Dashboard" image="home" id="Vu8-uZ-0Pl"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="akZ-45-scn">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="akZ-45-scn">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

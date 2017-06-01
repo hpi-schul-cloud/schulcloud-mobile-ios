@@ -67,16 +67,7 @@ class DashboardViewController: UITableViewController {
             alertController.addAction(okAction)
             self.present(alertController, animated: true, completion: nil)
         default:
-            //we are in notification section
-            let alertController = UIAlertController(title: "Ups", message: "No action here yet", preferredStyle: UIAlertControllerStyle.alert)
-            
-            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default)
-            {
-                (result : UIAlertAction) -> Void in
-                //print("You pressed OK")
-            }
-            alertController.addAction(okAction)
-            self.present(alertController, animated: true, completion: nil)
+            break
             
         }
     }

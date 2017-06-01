@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D45737B1EE02065009A30E2 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D45737A1EE02065009A30E2 /* CalendarViewController.swift */; };
 		3DCFC9F31ED3632C00167B82 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCFC9F21ED3632C00167B82 /* DashboardViewController.swift */; };
 		3DD869141ECE3F6100814392 /* PT_Sans-Web-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DD869101ECE3F6100814392 /* PT_Sans-Web-Bold.ttf */; };
 		3DD869151ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DD869111ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf */; };
@@ -84,6 +85,7 @@
 		09D7CC393E1856DD7EF9B21F /* Pods_schulcloud.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloud.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		270BA83590B5166B5A30D6B3 /* Pods_schulcloudUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloudUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		389B64CA22013634E6CFD243 /* Pods-schulcloudUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudUITests/Pods-schulcloudUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		3D45737A1EE02065009A30E2 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		3DCFC9F21ED3632C00167B82 /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		3DD869101ECE3F6100814392 /* PT_Sans-Web-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PT_Sans-Web-Bold.ttf"; path = "schulcloud/fonts/PT_Sans-Web-Bold.ttf"; sourceTree = "<group>"; };
 		3DD869111ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PT_Sans-Web-BoldItalic.ttf"; path = "schulcloud/fonts/PT_Sans-Web-BoldItalic.ttf"; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 				3DCFC9F21ED3632C00167B82 /* DashboardViewController.swift */,
 				C32870AC1EDED1D200ABA348 /* DashboardHomeworkCell.swift */,
 				C3165F1C1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift */,
+				3D45737A1EE02065009A30E2 /* CalendarViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -667,6 +670,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D45737B1EE02065009A30E2 /* CalendarViewController.swift in Sources */,
 				C3165F1F1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift in Sources */,
 				C3C2AC361EC5AC460060AECA /* Notifications.swift in Sources */,
 				C3AB489E1EDB260E00692505 /* Alamofire+BrightFutures.swift in Sources */,
