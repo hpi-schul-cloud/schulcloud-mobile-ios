@@ -1,5 +1,5 @@
 //
-//  CoursesViewController.swift
+//  LessonsViewController.swift
 //  schulcloud
 //
 //  Created by Carl Julius Gödecken on 31.05.17.
@@ -9,26 +9,30 @@
 import UIKit
 import CoreData
 
-class CoursesViewController: UITableViewController, NSFetchedResultsControllerDelegate {
-
+class LessonsViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+    
+    var course: Course!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
+        
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        self.title = course.name
         performFetch()
         updateData()
     }
-
+    
     @IBAction func didTriggerRefresh() {
         updateData()
     }
     
     func updateData() {
-        CourseHelper.fetchFromServer()
+        LessonHelper.fetchFromServer(belongingTo: course)
             .onSuccess { _ in
                 self.performFetch()
             }
@@ -42,11 +46,12 @@ class CoursesViewController: UITableViewController, NSFetchedResultsControllerDe
     
     // MARK: - Table view data source
     
-    fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Course> = {
+    fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Lesson> = {
         // Create Fetch Request
-        let fetchRequest: NSFetchRequest<Course> = Course.fetchRequest()
+        let fetchRequest: NSFetchRequest<Lesson> = Lesson.fetchRequest()
         
         // Configure Fetch Request
+        fetchRequest.predicate = NSPredicate(format: "course == %@", self.course)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         
         // Create Fetched Results Controller
@@ -83,12 +88,12 @@ class CoursesViewController: UITableViewController, NSFetchedResultsControllerDe
     
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let reuseIdentifier = "courseCell"
+        let reuseIdentifier = "lessonCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
         
-        let course = fetchedResultsController.object(at: indexPath)
-        cell.textLabel?.text = course.name
-        cell.detailTextLabel?.text = course.descriptionText
+        let lesson = fetchedResultsController.object(at: indexPath)
+        cell.textLabel?.text = lesson.name
+        cell.detailTextLabel?.text = lesson.descriptionString
         return cell
     }
     
@@ -120,15 +125,13 @@ class CoursesViewController: UITableViewController, NSFetchedResultsControllerDe
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         switch(segue.identifier) {
-        case .some("courseDetail"):
+        case .some("cellAction"):
             let selectedCell = sender as! UITableViewCell
             guard let indexPath = tableView.indexPath(for: selectedCell) else { return }
-            let selectedCourse = fetchedResultsController.object(at: indexPath)
-            let destination = segue.destination as! LessonsViewController
-            destination.course = selectedCourse
+            let selectedItem = fetchedResultsController.object(at: indexPath)
         default:
             break
         }
     }
-
+    
 }

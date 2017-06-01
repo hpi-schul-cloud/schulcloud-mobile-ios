@@ -40,6 +40,8 @@
 		C32870B91EDF2E1E00ABA348 /* Content+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870B81EDF2E1E00ABA348 /* Content+.swift */; };
 		C32870BC1EDF32C600ABA348 /* CoursesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870BB1EDF32C600ABA348 /* CoursesViewController.swift */; };
 		C32870BE1EDF356800ABA348 /* CourseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870BD1EDF356800ABA348 /* CourseHelper.swift */; };
+		C32870C01EE0228600ABA348 /* LessonHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870BF1EE0228600ABA348 /* LessonHelper.swift */; };
+		C32870C21EE0250500ABA348 /* LessonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870C11EE0250500ABA348 /* LessonsViewController.swift */; };
 		C3418B601ECDAB9F00280E62 /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3418B5F1ECDAB9F00280E62 /* FileHelper.swift */; };
 		C3418B621ECEE6FB00280E62 /* FilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3418B611ECEE6FB00280E62 /* FilesViewController.swift */; };
 		C3418B641ED2E89F00280E62 /* FileListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3418B631ED2E89F00280E62 /* FileListCell.swift */; };
@@ -130,6 +132,8 @@
 		C32870B81EDF2E1E00ABA348 /* Content+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Content+.swift"; sourceTree = "<group>"; };
 		C32870BB1EDF32C600ABA348 /* CoursesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursesViewController.swift; sourceTree = "<group>"; };
 		C32870BD1EDF356800ABA348 /* CourseHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseHelper.swift; sourceTree = "<group>"; };
+		C32870BF1EE0228600ABA348 /* LessonHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonHelper.swift; sourceTree = "<group>"; };
+		C32870C11EE0250500ABA348 /* LessonsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonsViewController.swift; sourceTree = "<group>"; };
 		C3418B5F1ECDAB9F00280E62 /* FileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileHelper.swift; sourceTree = "<group>"; };
 		C3418B611ECEE6FB00280E62 /* FilesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilesViewController.swift; sourceTree = "<group>"; };
 		C3418B631ED2E89F00280E62 /* FileListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileListCell.swift; sourceTree = "<group>"; };
@@ -345,6 +349,7 @@
 				C3165F201EDC6774005F5B8E /* NewHomeworkViewController.swift */,
 				C3A5A9041EBCC17600825DBF /* ViewController.swift */,
 				C32870BB1EDF32C600ABA348 /* CoursesViewController.swift */,
+				C32870C11EE0250500ABA348 /* LessonsViewController.swift */,
 				C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */,
 				C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */,
 				3DCFC9F21ED3632C00167B82 /* DashboardViewController.swift */,
@@ -401,6 +406,7 @@
 				C3418B6A1ED5CB3400280E62 /* Homework+CoreDataClass.swift */,
 				C3AB489B1EDAE97600692505 /* HomeworkHelper.swift */,
 				C32870BD1EDF356800ABA348 /* CourseHelper.swift */,
+				C32870BF1EE0228600ABA348 /* LessonHelper.swift */,
 				C3418B5F1ECDAB9F00280E62 /* FileHelper.swift */,
 			);
 			name = Data;
@@ -704,9 +710,11 @@
 			files = (
 				3D45737B1EE02065009A30E2 /* CalendarViewController.swift in Sources */,
 				C3165F1F1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift in Sources */,
+				C32870C01EE0228600ABA348 /* LessonHelper.swift in Sources */,
 				C32870B91EDF2E1E00ABA348 /* Content+.swift in Sources */,
 				C3C2AC361EC5AC460060AECA /* Notifications.swift in Sources */,
 				C3AB489E1EDB260E00692505 /* Alamofire+BrightFutures.swift in Sources */,
+				C32870C21EE0250500ABA348 /* LessonsViewController.swift in Sources */,
 				C3418B6C1ED5CB3400280E62 /* Homework+CoreDataClass.swift in Sources */,
 				C32870A41EDDBCB000ABA348 /* Homework+CoreDataProperties.swift in Sources */,
 				C3AB489A1EDAE8A800692505 /* HomeworkViewController.swift in Sources */,

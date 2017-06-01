@@ -829,6 +829,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="KDG-Bw-Fbj" kind="show" identifier="courseDetail" id="ijS-QQ-tFW"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -848,6 +851,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vgc-SE-yso" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3060" y="1089"/>
+        </scene>
+        <!--Fach-->
+        <scene sceneID="sR9-Eg-97n">
+            <objects>
+                <tableViewController title="Fach" id="KDG-Bw-Fbj" customClass="LessonsViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="OaM-kp-iRq">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="lessonCell" id="yIM-GF-WlY">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yIM-GF-WlY" id="gnY-bE-dIl">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="KDG-Bw-Fbj" id="NPh-lT-vh5"/>
+                            <outlet property="delegate" destination="KDG-Bw-Fbj" id="EIq-dB-yJA"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pi5-5e-d31" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4076" y="1089"/>
         </scene>
         <!--Dashboard-->
         <scene sceneID="veP-qh-yeJ">

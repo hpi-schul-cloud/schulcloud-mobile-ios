@@ -1,5 +1,5 @@
 //
-//  CourseHelper.swift
+//  LessonHelper.swift
 //  schulcloud
 //
 //  Created by Carl Julius Gödecken on 31.05.17.
@@ -11,30 +11,29 @@ import Alamofire
 import BrightFutures
 import CoreData
 
-public class CourseHelper {
+public class LessonHelper {
     
     typealias FetchResult = Future<Void, SCError>
     
-    static func fetchFromServer() -> FetchResult {
+    static func fetchFromServer(belongingTo course: Course) -> FetchResult {
         
         let privateMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         privateMOC.parent = managedObjectContext
         
-        let keyPath: String? = "data"
-        
         let parameters: Parameters = [
-            "userIds": Globals.account!.userId
+            "courseId": course.id
         ]
-        return ApiHelper.request("courses", parameters: parameters).jsonArrayFuture(keyPath: keyPath)
+        return ApiHelper.request("lessons", parameters: parameters).jsonArrayFuture(keyPath: "data")
             .flatMap(privateMOC.perform, f: { json -> FetchResult in
                 do {
-                    let updatedCourses = try json.map{ try Course.upsert(data: $0, context: privateMOC) }
-                    let ids = updatedCourses.map({$0.id})
-                    let deleteRequest: NSFetchRequest<Course> = Course.fetchRequest()
-                    deleteRequest.predicate = NSPredicate(format: "NOT (id IN %@)", ids)
+                    let updatedLessons = try json.map{ try Lesson.upsert(data: $0, context: privateMOC) }
+                    let ids = updatedLessons.map({$0.id})
+                    let deleteRequest: NSFetchRequest<Lesson> = Lesson.fetchRequest()
+                    deleteRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
+                        NSPredicate(format: "NOT (id IN %@)", ids),
+                        NSPredicate(format: "course == %@", course)
+                    ])
                     try CoreDataHelper.delete(fetchRequest: deleteRequest, context: privateMOC)
-                    saveContext()
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Homework.changeNotificationName), object: nil)
                     return Future(value: Void())
                 } catch let error {
                     return Future(error: .database(error.localizedDescription))

@@ -12,8 +12,7 @@ import CoreData
 import Marshal
 
 extension Lesson {
-    static func upsert(data: MarshaledObject, context: NSManagedObjectContext) -> Future<Lesson, SCError> {
-        do {
+    static func upsert(data: MarshaledObject, context: NSManagedObjectContext) throws -> Lesson {
             let lesson = try self.findOrCreateWithId(data: data, context: context)
             
             lesson.name = try? data.value(for: "name")
@@ -27,10 +26,7 @@ extension Lesson {
             let courseId: String = try data.value(for: "courseId")
             lesson.course = try Course.find(by: courseId, context: context)
             
-            return Future(value: lesson)
-        } catch let error {
-            return Future(error: .database(error.description))
-        }
+            return lesson
     }
 }
 
