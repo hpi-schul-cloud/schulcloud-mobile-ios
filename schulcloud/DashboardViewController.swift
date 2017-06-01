@@ -23,6 +23,7 @@ class DashboardViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.getNotifications()
+        title = "Schul-Cloud"
         // Do any additional setup after loading the view, typically from a nib.
         
     }
