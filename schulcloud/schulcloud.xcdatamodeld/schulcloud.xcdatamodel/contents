@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16F73" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Content" representedClassName="Content" syncable="YES">
+        <attribute name="component" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hidden" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="id" attributeType="String" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="lesson" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Lesson" inverseName="contents" inverseEntity="Lesson" syncable="YES"/>
+    </entity>
     <entity name="Course" representedClassName="Course" parentEntity="UserGroup" syncable="YES">
         <attribute name="colorString" attributeType="String" syncable="YES"/>
         <attribute name="descriptionText" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="includedHomeworks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Homework" inverseName="course" inverseEntity="Homework" syncable="YES"/>
+        <relationship name="lessons" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Lesson" inverseName="course" inverseEntity="Lesson" syncable="YES"/>
         <relationship name="teachers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="taughtCourses" inverseEntity="User" syncable="YES"/>
     </entity>
     <entity name="File" representedClassName="File" syncable="YES">
@@ -27,6 +36,15 @@
         <relationship name="course" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Course" inverseName="includedHomeworks" inverseEntity="Course" syncable="YES"/>
         <relationship name="teacher" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="assignedHomeworks" inverseEntity="User" syncable="YES"/>
     </entity>
+    <entity name="Lesson" representedClassName="Lesson" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="descriptionString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hidden" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="contents" toMany="YES" deletionRule="Nullify" destinationEntity="Content" inverseName="lesson" inverseEntity="Content" syncable="YES"/>
+        <relationship name="course" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Course" inverseName="lessons" inverseEntity="Course" syncable="YES"/>
+    </entity>
     <entity name="User" representedClassName="User" syncable="YES">
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="firstName" attributeType="String" syncable="YES"/>
@@ -44,9 +62,11 @@
         <relationship name="users" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="groups" inverseEntity="User" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Course" positionX="-99" positionY="144" width="128" height="103"/>
+        <element name="Content" positionX="-99" positionY="171" width="128" height="135"/>
+        <element name="Course" positionX="-99" positionY="144" width="128" height="120"/>
         <element name="File" positionX="-342" positionY="291" width="128" height="165"/>
         <element name="Homework" positionX="-99" positionY="288" width="128" height="178"/>
+        <element name="Lesson" positionX="-108" positionY="162" width="128" height="150"/>
         <element name="User" positionX="205" positionY="225" width="137" height="165"/>
         <element name="UserGroup" positionX="-9" positionY="-18" width="128" height="105"/>
     </elements>

@@ -78,9 +78,9 @@ func save(privateContext privateMoc: NSManagedObjectContext) -> Future<Void, SCE
 }
 
 struct CoreDataHelper {
-    public static func delete<T>(fetchRequest: NSFetchRequest<T>) throws {
+    public static func delete<T>(fetchRequest: NSFetchRequest<T>, context: NSManagedObjectContext = managedObjectContext) throws {
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest as! NSFetchRequest<NSFetchRequestResult>)
-        try managedObjectContext.execute(deleteRequest)
+        try context.execute(deleteRequest)
     }
 }
 

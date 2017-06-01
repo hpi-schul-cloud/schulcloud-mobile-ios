@@ -30,15 +30,17 @@ public class HomeworkHelper {
                     let ids = dbItems.map({$0.id})
                     let deleteRequest: NSFetchRequest<Homework> = Homework.fetchRequest()
                     deleteRequest.predicate = NSPredicate(format: "NOT (id IN %@)", ids)
-                    try CoreDataHelper.delete(fetchRequest: deleteRequest)
-                    saveContext()
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Homework.changeNotificationName), object: nil)
+                    try CoreDataHelper.delete(fetchRequest: deleteRequest, context: privateMOC)
                     return Future(value: Void())
                 } catch let error {
                     return Future(error: .database(error.localizedDescription))
                 }
             })
             .flatMap { save(privateContext: privateMOC) }
+            .flatMap { _ -> FetchResult in
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: Homework.changeNotificationName), object: nil)
+                return Future(value: Void())
+        }
     }
     
 }

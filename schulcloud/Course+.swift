@@ -11,8 +11,7 @@ import CoreData
 import Marshal
 
 extension Course {
-    static func upsert(data: MarshaledObject, context: NSManagedObjectContext) throws -> Self {
-        do {
+    static func upsert(data: MarshaledObject, context: NSManagedObjectContext) throws -> Course {
             let course = try self.findOrCreateWithId(data: data, context: context)
             
             course.name = try data.value(for: "name")
@@ -21,9 +20,6 @@ extension Course {
             course.colorString = try data.value(for: "color")
             
             return course
-        } catch let error {
-            throw error
-        }
     }
 }
 
