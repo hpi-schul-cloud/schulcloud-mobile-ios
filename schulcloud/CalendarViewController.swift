@@ -54,8 +54,12 @@ class CalendarViewController: DayViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Mein Kalendar"
-        navigationController?.navigationBar.isTranslucent = false
         reloadData()
+        //get hour
+        let date = Date()
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: date)
+        dayView.scrollTo(hour24: Float(hour))
     }
     
         // MARK: DayViewDataSource
