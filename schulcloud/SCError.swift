@@ -68,3 +68,9 @@ extension SCError: CustomStringConvertible {
         }
     }
 }
+
+extension Error {
+    var description: String {
+        return (self as CustomStringConvertible).description
+    }
+}
