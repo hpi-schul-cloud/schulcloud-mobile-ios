@@ -33,9 +33,13 @@ class DashboardHomeworkCell: UITableViewCell {
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dueDate", ascending: true)]
         do {
             let resultsInNextWeek = try managedObjectContext.fetch(fetchRequest)
-            numberOfOpenTasksLabel.text = String(resultsInNextWeek.count)
+            DispatchQueue.main.async {
+                self.numberOfOpenTasksLabel.text = String(resultsInNextWeek.count)
+            }
             if let nextTask = resultsInNextWeek.first {
-                subtitleLabel.isHidden = false
+                DispatchQueue.main.async {
+                    self.subtitleLabel.isHidden = false
+                }
                 let timeDifference = Calendar.current.dateComponents([.day, .hour], from: Date(), to: nextTask.dueDate as Date)
                 switch timeDifference.day! {
                 case 0..<1:
@@ -50,7 +54,10 @@ class DashboardHomeworkCell: UITableViewCell {
                     subtitleLabel.isHidden = true
                 }
             } else {
-                subtitleLabel.isHidden = true
+                DispatchQueue.main.async {
+                    self.subtitleLabel.isHidden = true
+                }
+                
             }
         } catch let error {
             log.error(error)
