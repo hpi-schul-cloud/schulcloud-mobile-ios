@@ -23,7 +23,8 @@ public class CourseHelper {
         let keyPath: String? = "data"
         
         let parameters: Parameters = [
-            "userIds": Globals.account!.userId
+            "$or[0][userIds]": Globals.account!.userId,
+            "$or[1][teacherIds]": Globals.account!.userId
         ]
         return ApiHelper.request("courses", parameters: parameters).jsonArrayFuture(keyPath: keyPath)
             .flatMap(privateMOC.perform, f: { json -> FetchResult in
