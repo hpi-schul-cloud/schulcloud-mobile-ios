@@ -23,7 +23,6 @@ class DashboardViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.getNotifications()
-        title = "Schul-Cloud"
         // Do any additional setup after loading the view, typically from a nib.
         
     }
@@ -31,10 +30,6 @@ class DashboardViewController: UITableViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    override var prefersStatusBarHidden: Bool {
-        return true
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

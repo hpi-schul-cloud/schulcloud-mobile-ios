@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16B2548a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="H3U-6P-sHm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.17" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="H3U-6P-sHm">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.14"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -440,8 +440,7 @@
                             <outlet property="delegate" destination="Jwq-4H-qBX" id="TiE-Rj-h0Y"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="5e5-Kq-0uk"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <navigationItem key="navigationItem" title="Schul-Cloud" largeTitleDisplayMode="always" id="5e5-Kq-0uk"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p4N-WM-aHZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -456,10 +455,13 @@
                         <viewControllerLayoutGuide type="bottom" id="vy0-fY-4he"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ahb-V9-2NX">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="waB-M2-h6k" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -664,7 +666,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Ausloggen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="O1j-vZ-XkG">
-                                                    <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                                    <rect key="frame" x="16" y="0.0" width="344" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.69411764710000001" green="0.015686274510000001" blue="0.21960784310000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -685,7 +687,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Danksagungen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Dr4-DO-ctd">
-                                                    <rect key="frame" x="15" y="0.0" width="325" height="43.5"/>
+                                                    <rect key="frame" x="16" y="0.0" width="324" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -762,7 +764,7 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" id="G7G-HC-vi1">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
                         <segue destination="ANt-pc-ZSG" kind="relationship" relationship="viewControllers" id="0dY-xP-L0c"/>
@@ -781,7 +783,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="B0G-dG-Hpj" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="more" id="hv4-8e-B8p"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="aat-jY-cvf">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="aat-jY-cvf">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -800,7 +802,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5dB-T7-7EP" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Dateien" image="open folder" id="msr-I1-ZjH"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Dd9-Gw-2Sh">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Dd9-Gw-2Sh">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -913,9 +915,10 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ANt-pc-ZSG" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Dashboard" image="home" id="Vu8-uZ-0Pl"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="akZ-45-scn">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="akZ-45-scn">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -932,13 +935,13 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="aZG-dk-61Q" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Fächer" image="course" selectedImage="course" id="qxc-8V-Mzg"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="AeA-C6-UqC">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="AeA-C6-UqC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="UFk-sJ-45s" kind="relationship" relationship="rootViewController" id="rBb-eP-eQG"/>
+                        <segue destination="fw2-jq-qYw" kind="relationship" relationship="rootViewController" id="Bg6-Mr-KZP"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nmj-a6-0fA" userLabel="First Responder" sceneMemberID="firstResponder"/>
