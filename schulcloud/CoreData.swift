@@ -67,11 +67,13 @@ func save(privateContext privateMoc: NSManagedObjectContext) -> Future<Void, SCE
                     try managedObjectContext.save()
                     promise.success(Void())
                 } catch {
-                    fatalError("Failure to save context: \(error)")
+                    log.error("Failure to save context: \(error)")
+                    promise.failure(.database(error.description))
                 }
             }
         } catch {
-            fatalError("Failure to save context: \(error)")
+            log.error("Failure to save context: \(error)")
+            promise.failure(.database(error.description))
         }
     }
     return promise.future
