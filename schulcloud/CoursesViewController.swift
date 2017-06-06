@@ -9,11 +9,11 @@
 import UIKit
 import CoreData
 
-class CoursesViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class CoursesViewController: UICollectionViewController, NSFetchedResultsControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -35,9 +35,6 @@ class CoursesViewController: UITableViewController, NSFetchedResultsControllerDe
             .onFailure { error in
                 log.error(error)
             }
-            .onComplete { _ in
-                self.refreshControl?.endRefreshing()
-        }
     }
     
     // MARK: - Table view data source
@@ -64,14 +61,14 @@ class CoursesViewController: UITableViewController, NSFetchedResultsControllerDe
         } catch let fetchError as NSError {
             log.error("Unable to Perform Fetch Request: \(fetchError), \(fetchError.localizedDescription)")
         }
-        tableView.reloadData()
+        collectionView?.reloadData()
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         guard let sec = fetchedResultsController.sections?[section],
             let count = sec.objects?.count else {
@@ -81,21 +78,29 @@ class CoursesViewController: UITableViewController, NSFetchedResultsControllerDe
         return count
     }
     
-    override func tableView(_ tableView: UITableView,
-                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func collectionView(_ collectionView: UICollectionView,
+                            cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let reuseIdentifier = "courseCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CourseCell
         
         let course = fetchedResultsController.object(at: indexPath)
-        cell.textLabel?.text = course.name
-        cell.detailTextLabel?.text = course.descriptionText
+        cell.configure(for: course)
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let cellsAcross: CGFloat = 2
+        let spaceBetweenCells: CGFloat = 1
+        let dim = (collectionView.bounds.width - (cellsAcross - 1) * spaceBetweenCells) / cellsAcross
+        
+        return CGSize(width: dim, height: dim)
     }
     
     
     /*
      // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+     override func collectionView(_ collectionView: UIcollectionView, canEditRowAt indexPath: IndexPath) -> Bool {
      // Return false if you do not want the specified item to be editable.
      return true
      }
@@ -103,10 +108,10 @@ class CoursesViewController: UITableViewController, NSFetchedResultsControllerDe
     
     /*
      // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+     override func collectionView(_ collectionView: UIcollectionView, commit editingStyle: UIcollectionViewCellEditingStyle, forRowAt indexPath: IndexPath) {
      if editingStyle == .delete {
      // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
+     collectionView.deleteRows(at: [indexPath], with: .fade)
      } else if editingStyle == .insert {
      // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
      }
@@ -121,8 +126,8 @@ class CoursesViewController: UITableViewController, NSFetchedResultsControllerDe
         
         switch(segue.identifier) {
         case .some("courseDetail"):
-            let selectedCell = sender as! UITableViewCell
-            guard let indexPath = tableView.indexPath(for: selectedCell) else { return }
+            let selectedCell = sender as! UICollectionViewCell
+            guard let indexPath = self.collectionView!.indexPath(for: selectedCell) else { return }
             let selectedCourse = fetchedResultsController.object(at: indexPath)
             let destination = segue.destination as! LessonsViewController
             destination.course = selectedCourse

@@ -65,6 +65,7 @@
 		C3AB489A1EDAE8A800692505 /* HomeworkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB48991EDAE8A800692505 /* HomeworkViewController.swift */; };
 		C3AB489C1EDAE97600692505 /* HomeworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB489B1EDAE97600692505 /* HomeworkHelper.swift */; };
 		C3AB489E1EDB260E00692505 /* Alamofire+BrightFutures.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB489D1EDB260E00692505 /* Alamofire+BrightFutures.swift */; };
+		C3C080551EE607F6005FA7C3 /* CourseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C080541EE607F6005FA7C3 /* CourseCell.swift */; };
 		C3C2AC221EC3A7E90060AECA /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */; };
 		C3C2AC241EC3AAA80060AECA /* LoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C2AC231EC3AAA80060AECA /* LoginHelper.swift */; };
 		C3C2AC291EC45B380060AECA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3C2AC281EC45B380060AECA /* GoogleService-Info.plist */; };
@@ -163,6 +164,7 @@
 		C3AB48991EDAE8A800692505 /* HomeworkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeworkViewController.swift; sourceTree = "<group>"; };
 		C3AB489B1EDAE97600692505 /* HomeworkHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeworkHelper.swift; sourceTree = "<group>"; };
 		C3AB489D1EDB260E00692505 /* Alamofire+BrightFutures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Alamofire+BrightFutures.swift"; sourceTree = "<group>"; };
+		C3C080541EE607F6005FA7C3 /* CourseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCell.swift; sourceTree = "<group>"; };
 		C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		C3C2AC231EC3AAA80060AECA /* LoginHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHelper.swift; sourceTree = "<group>"; };
 		C3C2AC281EC45B380060AECA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -349,6 +351,7 @@
 				C3165F201EDC6774005F5B8E /* NewHomeworkViewController.swift */,
 				C3A5A9041EBCC17600825DBF /* ViewController.swift */,
 				C32870BB1EDF32C600ABA348 /* CoursesViewController.swift */,
+				C3C080541EE607F6005FA7C3 /* CourseCell.swift */,
 				C32870C11EE0250500ABA348 /* LessonsViewController.swift */,
 				C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */,
 				C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */,
@@ -720,6 +723,7 @@
 				C3AB489A1EDAE8A800692505 /* HomeworkViewController.swift in Sources */,
 				C3165F211EDC6774005F5B8E /* NewHomeworkViewController.swift in Sources */,
 				C3A5A9391EBCD0C600825DBF /* Constants.swift in Sources */,
+				C3C080551EE607F6005FA7C3 /* CourseCell.swift in Sources */,
 				C31C842A1ECF553700FA070C /* PreviewManager.swift in Sources */,
 				C31C842C1ECF55A000FA070C /* PreviewTransitionViewController.swift in Sources */,
 				C3418B6F1ED5CF1F00280E62 /* Date+Marshal.swift in Sources */,
