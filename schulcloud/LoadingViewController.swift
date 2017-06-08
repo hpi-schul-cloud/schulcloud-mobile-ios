@@ -67,13 +67,13 @@ class LoadingViewController: UIViewController  {
         FileHelper.getSignedUrl(forFile: file)
             .onSuccess { url in
                 DispatchQueue.main.async {
-                    //self.activityIndicator.stopAnimating()
-                    //self.progressView.isHidden = false
+                    self.activityIndicator.stopAnimating()
+                    self.progressView.isHidden = false
                 }
                 
                 // TODO: save files to disk insead of memory
                 Alamofire.request(url)
-                    .downloadProgress { progress in
+                    .downloadProgress(queue: DispatchQueue.main) { progress in
                         self.progressView.setProgress(Float(progress.fractionCompleted), animated: true)
                     }
                     .responseData { response in
@@ -122,6 +122,7 @@ class LoadingViewController: UIViewController  {
             self.progressView.isHidden = true
             self.errorLabel.text = error.localizedDescription
             self.errorLabel.isHidden = false
+            self.activityIndicator.stopAnimating()
         }
     }
     
