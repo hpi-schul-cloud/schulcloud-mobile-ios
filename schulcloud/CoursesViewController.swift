@@ -9,13 +9,10 @@
 import UIKit
 import CoreData
 
-class CoursesViewController: UICollectionViewController, NSFetchedResultsControllerDelegate {
+class CoursesViewController: UICollectionViewController, NSFetchedResultsControllerDelegate, UICollectionViewDelegateFlowLayout {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
@@ -88,13 +85,15 @@ class CoursesViewController: UICollectionViewController, NSFetchedResultsControl
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let cellsAcross: CGFloat = 2
         let spaceBetweenCells: CGFloat = 1
-        let dim = (collectionView.bounds.width - (cellsAcross - 1) * spaceBetweenCells) / cellsAcross
+        let width = (collectionView.bounds.width - (cellsAcross - 1) * spaceBetweenCells) / cellsAcross
         
-        return CGSize(width: dim, height: dim)
+        return CGSize(width: width, height: width * 1.3)
     }
     
     
