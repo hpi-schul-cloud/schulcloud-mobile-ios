@@ -18,6 +18,7 @@ public enum SCError: Error {
     case database(String)
     case loginFailed(String)
     case wrongCredentials
+    case other(String)
     
     init(value: SCError) {
         self = value

@@ -43,9 +43,10 @@ class SCNotifications {
         FIRMessaging.messaging().connect { error in
             if let error = error {
                 promise.failure(SCError.firebase(error))
-            } else {
-                let token = FIRInstanceID.instanceID().token()!
+            } else if let token = FIRInstanceID.instanceID().token() {
                 promise.success(token)
+            } else {
+                promise.failure(SCError.other("No token obtained"))
             }
         }
         return promise.future
