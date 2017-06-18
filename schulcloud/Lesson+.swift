@@ -21,7 +21,7 @@ extension Lesson {
             
             let contentData: [MarshaledObject] = (try? data.value(for: "contents")) ?? [MarshaledObject]()
             let contents = try contentData.map{ try Content.upsert(data: $0, context: context, containingLesson: lesson) }
-            lesson.contents = NSSet(array: contents)
+            lesson.contents = NSOrderedSet(array: contents)
             
             let courseId: String = try data.value(for: "courseId")
             lesson.course = try Course.find(by: courseId, context: context)

@@ -22,6 +22,7 @@ class LessonsViewController: UITableViewController, NSFetchedResultsControllerDe
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
+        tableView.rowHeight = UITableViewAutomaticDimension
         self.title = course.name
         performFetch()
         updateData()
@@ -125,10 +126,12 @@ class LessonsViewController: UITableViewController, NSFetchedResultsControllerDe
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         switch(segue.identifier) {
-        case .some("cellAction"):
+        case .some("singleLesson"):
             let selectedCell = sender as! UITableViewCell
             guard let indexPath = tableView.indexPath(for: selectedCell) else { return }
-            let selectedItem = fetchedResultsController.object(at: indexPath)
+            let selectedLesson = fetchedResultsController.object(at: indexPath)
+            let destination = (segue.destination as! UINavigationController).viewControllers.first! as! SingleLessonViewController
+            destination.lesson = selectedLesson
         default:
             break
         }

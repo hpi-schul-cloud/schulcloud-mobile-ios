@@ -16,7 +16,7 @@ extension Content {
             
             content.component = try? data.value(for: "component")
             content.title = try? data.value(for: "title")
-            content.text = try? data.value(for: "text")
+            content.text = try? data.value(for: "content.text")
             content.hidden = (try? data.value(for: "hidden")) ?? false
             content.lesson = lesson
             
@@ -25,3 +25,14 @@ extension Content {
 }
 
 extension Content: IdObject {}
+
+extension Content {
+    enum ContentType: String {
+        case text
+        case other
+    }
+    
+    var type: ContentType {
+        return ContentType(rawValue: self.component ?? "") ?? .other
+    }
+}
