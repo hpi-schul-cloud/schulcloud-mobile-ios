@@ -7,18 +7,29 @@
 //
 
 import UIKit
-import CoreData
+import WebKit
 
-class SingleLessonViewController: UITableViewController {
+class SingleLessonViewController: UIViewController, WKUIDelegate {
     
     var lesson: Lesson!
+    
+    var webView: WKWebView!
+    
+    override func loadView() {
+        let webConfiguration = WKWebViewConfiguration()
+        webView = WKWebView(frame: .zero, configuration: webConfiguration)
+        webView.uiDelegate = self
+        view = webView
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 100
         self.title = lesson.name
+        
+        if let contents = lesson.contents {
+            self.loadContents(contents)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -34,26 +45,23 @@ class SingleLessonViewController: UITableViewController {
         navigationController?.hidesBarsOnTap = false
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+    func loadContents(_ contents: NSOrderedSet) {
+        let rendered = (contents.array as! [Content]).map(htmlForElement)
+        let concatenated = "<html><head>\(Constants.textStyleHtml)<meta name=\"viewport\" content=\"initial-scale=1.0\"></head>" + rendered.joined(separator: "<hr>") + "</body></html>"
+        webView.loadHTMLString(concatenated, baseURL: nil)
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return lesson.contents?.count ?? 0
-    }
-    
-    override func tableView(_ tableView: UITableView,
-                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let content = lesson.contents![indexPath.row] as! Content
+    func htmlForElement(_ content: Content) -> String {
         switch(content.type) {
         case .text:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "html", for: indexPath) as! HtmlTableViewCell
-            cell.setContent(content, inTableView: tableView)
-            return cell
+            var rendered = ""
+            if let title = content.title, !title.isEmpty {
+                rendered += "<h1>\(title)</h1>"
+            }
+            rendered += content.text ?? ""
+            return rendered
         case .other:
-            log.debug("Unsupported content type \(content.component ?? "nil")")
-            let cell = tableView.dequeueReusableCell(withIdentifier: "default", for: indexPath)
-            return cell
+            return "Dieser Typ wird leider noch nicht unterstützt"
         }
     }
     
