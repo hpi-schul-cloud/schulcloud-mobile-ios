@@ -12,7 +12,7 @@ import UIKit
 extension NSMutableAttributedString {
     
     internal convenience init?(html: String) {
-        let modifiedFont = "<style>body{font-family: 'PT Sans', '-apple-system'; font-size: 17px;}</style>\(html)"    // TODO: fix bold and italic not working with custom font
+        let modifiedFont = Constants.textStyleHtml + html    // TODO: fix bold and italic not working with custom font
         guard let data = modifiedFont.data(using: String.Encoding.utf16, allowLossyConversion: false) else {
             return nil
         }

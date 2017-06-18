@@ -64,6 +64,8 @@ extension SCError: CustomStringConvertible {
             return "Error: Wrong credentials"
         case .unknown:
             return "Unknown error"
+        case .jsonDeserialization(let reason):
+            return "Failure to parse JSON: \(reason)"
         default:
             return self.localizedDescription
         }
