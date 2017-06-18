@@ -90,8 +90,9 @@ class CoursesViewController: UICollectionViewController, NSFetchedResultsControl
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let cellsAcross: CGFloat = 2
-        let spaceBetweenCells: CGFloat = 1
-        let width = (collectionView.bounds.width - (cellsAcross - 1) * spaceBetweenCells) / cellsAcross
+        let spaceBetweenCells: CGFloat = 16
+        let padding: CGFloat = 8
+        let width = (collectionView.bounds.width - (cellsAcross - 1) * spaceBetweenCells - 2 * padding) / cellsAcross
         
         return CGSize(width: width, height: width * 1.3)
     }
