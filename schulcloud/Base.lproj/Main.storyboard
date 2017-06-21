@@ -179,7 +179,7 @@
                                 <connections>
                                     <outlet property="subtitleLabel" destination="txv-8K-r4K" id="t38-NV-v2R"/>
                                     <outlet property="titleLabel" destination="6fS-OG-CfD" id="gLN-Gg-tvg"/>
-                                    <segue destination="Wm1-IG-qsV" kind="showDetail" identifier="filePreview" action="showViewController:sender:" id="BZO-Kw-nrc"/>
+                                    <segue destination="i8b-h7-jiM" kind="showDetail" identifier="filePreview" id="Vsz-dA-zSV"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="folder" id="biP-sZ-Chj" customClass="FileListCell" customModule="schulcloud" customModuleProvider="target">
@@ -305,6 +305,7 @@
                             <constraint firstItem="3Ds-Pl-pHP" firstAttribute="top" secondItem="GId-t6-UD9" secondAttribute="bottom" constant="16" id="x3d-Qq-irm"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="s2k-uf-O4v"/>
                     <connections>
                         <outlet property="activityIndicator" destination="2Ww-GF-3Pv" id="0nC-C3-eNI"/>
                         <outlet property="cancelButton" destination="LGL-Y4-kAJ" id="8uh-JO-MJX"/>
@@ -314,7 +315,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qUe-aC-Vf7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4076" y="166.8665667166417"/>
+            <point key="canvasLocation" x="5015.1999999999998" y="166.8665667166417"/>
         </scene>
         <!--Schul-Cloud-->
         <scene sceneID="LoZ-Fp-L7C">
@@ -869,16 +870,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="172" height="214"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mathematik" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="dWp-6I-2yY">
-                                            <rect key="frame" x="20" y="20" width="132" height="39"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mathematik" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="dWp-6I-2yY">
+                                            <rect key="frame" x="20" y="20" width="132" height="78"/>
                                             <fontDescription key="fontDescription" name="PTSans-Bold" family="PT Sans" pointSize="30"/>
-                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="±" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fxi-9A-gvf">
-                                            <rect key="frame" x="104" y="145" width="48" height="49"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="53"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -1037,6 +1031,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aty-da-8sR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="7151" y="1274"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="ZUq-4H-0Gg">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="i8b-h7-jiM" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="AFI-C1-9eU">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Wm1-IG-qsV" kind="relationship" relationship="rootViewController" id="qYh-6M-dXc"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yJs-DI-LjR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4076" y="166.8665667166417"/>
         </scene>
     </scenes>
     <resources>

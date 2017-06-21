@@ -54,6 +54,7 @@ class PreviewManager: NSObject, QLPreviewControllerDataSource {
         default:
             let previewTransitionViewController = PreviewTransitionViewController(nibName: "PreviewTransitionViewController", bundle: Bundle(for: PreviewTransitionViewController.self))
             previewTransitionViewController.quickLookPreviewController.dataSource = self
+            previewTransitionViewController.title = self.file.displayName
             return previewTransitionViewController
         }
         
