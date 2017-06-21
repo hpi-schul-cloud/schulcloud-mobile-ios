@@ -55,13 +55,7 @@ open class LoginHelper {
             let accountId = jwt.body["accountId"] as! String
             let userId = jwt.body["userId"] as! String
             let account = SchulCloudAccount(userId: userId, accountId: accountId, accessToken: accessToken)
-            defaults.set(account.accountId, forKey: "accountId")
-            defaults.set(account.userId, forKey: "userId")
-            do {
-                try account.createInSecureStore()
-            } catch {
-                try account.updateInSecureStore()
-            }
+            try account.saveCredentials()
             log.info("Successfully saved login data for user \(userId) with account \(accountId)")
             Globals.account = account
             SCNotifications.initializeMessaging()

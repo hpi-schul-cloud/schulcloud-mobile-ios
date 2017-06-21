@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>schulcloud-FileProvider.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>16</integer>
+		</dict>
 		<key>schulcloud.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -12,6 +17,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>C3957B971EE768B6009FFD0C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>C3A5A8FE1EBCC17600825DBF</key>
 		<dict>
 			<key>primary</key>

@@ -31,6 +31,19 @@ struct SchulCloudAccount: CreateableSecureStorable, ReadableSecureStorable, Dele
         let result = readFromSecureStore()
         accessToken = result?.data?["accessToken"] as? String
     }
+    
+    func saveCredentials() throws {
+        let defaults = UserDefaults.standard
+        
+        defaults.set(accountId, forKey: "accountId")
+        defaults.set(userId, forKey: "userId")
+        
+        do {
+            try createInSecureStore()
+        } catch {
+            try updateInSecureStore()
+        }
+    }
 }
 
 class Globals {
