@@ -98,6 +98,9 @@ class LoadingViewController: UIViewController  {
     func showFile(data: Data) {
         let previewManager = PreviewManager(file: file, data: data)
         let controller = previewManager.previewViewController
+        controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
+        controller.navigationItem.leftItemsSupplementBackButton = true
+        
         DispatchQueue.main.async {
             if let nav = self.navigationController {
                 // TODO: add as subview
