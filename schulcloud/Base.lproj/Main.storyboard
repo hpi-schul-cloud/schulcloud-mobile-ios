@@ -333,48 +333,72 @@
                                     <rect key="frame" x="0.0" y="0.0" width="342" height="135.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Mathe " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iTD-Jz-uZC">
-                                            <rect key="frame" x="15" y="0.0" width="201" height="57"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Mathe " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iTD-Jz-uZC">
+                                            <rect key="frame" x="16" y="16" width="245.5" height="34"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="34" id="Gfi-ad-kQo"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="26"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Kunst" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q5h-lZ-TlA">
-                                            <rect key="frame" x="15" y="78" width="201" height="57"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Kunst" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q5h-lZ-TlA">
+                                            <rect key="frame" x="16" y="93.5" width="63.5" height="34"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="34" id="T2Y-ey-bDD"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="26"/>
                                             <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Raum 12" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iFb-oQ-FvO">
-                                            <rect key="frame" x="166" y="0.0" width="201" height="57"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Raum 12" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iFb-oQ-FvO">
+                                            <rect key="frame" x="269.5" y="8" width="64.5" height="34"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="34" id="6jQ-lG-1wC"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="danach:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lDv-gU-6uN">
-                                            <rect key="frame" x="15" y="65" width="201" height="20"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="danach:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lDv-gU-6uN">
+                                            <rect key="frame" x="16" y="73.5" width="63.5" height="20"/>
                                             <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="15"/>
                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kzT-Py-Dsf">
-                                            <rect key="frame" x="15" y="55" width="352" height="2"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kzT-Py-Dsf">
+                                            <rect key="frame" x="16" y="58" width="318" height="2"/>
                                             <color key="progressTintColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="trackTintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                         </progressView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Raum 64" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zKV-q9-4LW">
-                                            <rect key="frame" x="166" y="78" width="201" height="57"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Raum 64" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zKV-q9-4LW">
+                                            <rect key="frame" x="79.5" y="94" width="254.5" height="34"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="34" id="SoE-54-1IK"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="17"/>
                                             <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="zKV-q9-4LW" secondAttribute="bottom" constant="8" id="01k-ul-R8m"/>
+                                        <constraint firstItem="lDv-gU-6uN" firstAttribute="leading" secondItem="q5h-lZ-TlA" secondAttribute="leading" id="4He-BQ-hMt"/>
+                                        <constraint firstAttribute="bottom" secondItem="q5h-lZ-TlA" secondAttribute="bottom" constant="8" id="5pB-CB-me6"/>
+                                        <constraint firstItem="iFb-oQ-FvO" firstAttribute="leading" secondItem="iTD-Jz-uZC" secondAttribute="trailing" constant="8" id="BJg-TZ-Euq"/>
+                                        <constraint firstItem="zKV-q9-4LW" firstAttribute="leading" secondItem="q5h-lZ-TlA" secondAttribute="trailing" id="Bd5-TJ-qmw"/>
+                                        <constraint firstItem="kzT-Py-Dsf" firstAttribute="trailing" secondItem="iFb-oQ-FvO" secondAttribute="trailing" id="DV0-eI-dbw"/>
+                                        <constraint firstItem="kzT-Py-Dsf" firstAttribute="top" secondItem="iTD-Jz-uZC" secondAttribute="bottom" constant="8" id="I9U-Cd-1Jm"/>
+                                        <constraint firstItem="lDv-gU-6uN" firstAttribute="trailing" secondItem="q5h-lZ-TlA" secondAttribute="trailing" id="JGU-Hf-bar"/>
+                                        <constraint firstItem="iTD-Jz-uZC" firstAttribute="top" secondItem="9Ze-7W-nO9" secondAttribute="topMargin" constant="8" id="SMz-QK-k9E"/>
+                                        <constraint firstItem="q5h-lZ-TlA" firstAttribute="top" secondItem="lDv-gU-6uN" secondAttribute="bottom" id="YcW-YY-6tA"/>
+                                        <constraint firstItem="iFb-oQ-FvO" firstAttribute="top" secondItem="9Ze-7W-nO9" secondAttribute="top" constant="8" id="ZjV-un-Gds"/>
+                                        <constraint firstItem="zKV-q9-4LW" firstAttribute="trailing" secondItem="iFb-oQ-FvO" secondAttribute="trailing" id="jZ1-ML-Obd"/>
+                                        <constraint firstItem="iTD-Jz-uZC" firstAttribute="leading" secondItem="9Ze-7W-nO9" secondAttribute="leadingMargin" constant="8" id="tY4-nC-wPP"/>
+                                        <constraint firstAttribute="trailing" secondItem="iFb-oQ-FvO" secondAttribute="trailing" constant="8" id="tuP-E5-63O"/>
+                                        <constraint firstItem="q5h-lZ-TlA" firstAttribute="leading" secondItem="iTD-Jz-uZC" secondAttribute="leading" id="unA-ZA-v61"/>
+                                        <constraint firstItem="kzT-Py-Dsf" firstAttribute="leading" secondItem="iTD-Jz-uZC" secondAttribute="leading" id="y4P-zM-U96"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <segue destination="FJo-Pn-cOy" kind="show" identifier="calendar" id="C88-ed-DM8"/>
@@ -445,7 +469,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p4N-WM-aHZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3092" y="-648"/>
+            <point key="canvasLocation" x="3092" y="-648.12593703148434"/>
         </scene>
         <!--Calendar View Controller-->
         <scene sceneID="eLa-fj-MSm">
@@ -816,7 +840,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="B0G-dG-Hpj" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="more" id="hv4-8e-B8p"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="aat-jY-cvf">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="aat-jY-cvf">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -835,7 +859,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5dB-T7-7EP" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Dateien" image="open folder" id="msr-I1-ZjH"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Dd9-Gw-2Sh">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Dd9-Gw-2Sh">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -852,7 +876,7 @@
         <scene sceneID="4t3-5N-VkU">
             <objects>
                 <collectionViewController id="fw2-jq-qYw" customClass="CoursesViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="9b5-Lb-i2y">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="9b5-Lb-i2y">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -944,7 +968,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ANt-pc-ZSG" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Dashboard" image="home" id="Vu8-uZ-0Pl"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="akZ-45-scn">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="akZ-45-scn">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -964,7 +988,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="aZG-dk-61Q" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Fächer" image="course" selectedImage="course" id="qxc-8V-Mzg"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="AeA-C6-UqC">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="AeA-C6-UqC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -982,7 +1006,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="8Z6-2L-Ua7" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="HDr-7T-VKx">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="HDr-7T-VKx">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1000,7 +1024,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6x2-XI-hzb" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="RMw-db-NEp">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="RMw-db-NEp">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1037,7 +1061,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="i8b-h7-jiM" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="AFI-C1-9eU">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="AFI-C1-9eU">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
