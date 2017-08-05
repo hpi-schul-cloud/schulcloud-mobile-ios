@@ -9,12 +9,14 @@ Regel ein Apple Mac benötigt.
 - [Cocoapods](https://cocoapods.org) installieren
 - Die Pods des Projektes lokal installieren (`pod repo update` und `pod install`)
 
-### Unlocking the configuration files
+### Konfigurationsdateien entschlüsseln
 Wir nutzen Firebase Messaging für Push-Benachrichtigungen. Die API-Schlüssel in der Datei `GoogleService-Info.plist` sind mit `git-crypt` gesichert.
 - Entsperren mit `git-crypt unlock schulcloud-mobile-ios.key`
 - Falls kein Zugriff auf den Schlüssel vorhanden ist, können Standardwerte benutzt werden. Dazu einfach `GoogleService-Info.plist` durch `GoogleService-Info-dummy.plist` ersetzen.
-```mv schulcloud/GoogleService-Info.plist schulcloud/GoogleService-Info.plist.bak
-mv schulcloud/GoogleService-Info-dummy.plist schulcloud/GoogleService-Info.plist```
+```
+mv schulcloud/GoogleService-Info.plist schulcloud/GoogleService-Info.plist.bak
+mv schulcloud/GoogleService-Info-dummy.plist schulcloud/GoogleService-Info.plist
+```
 
 ## APIs
 
