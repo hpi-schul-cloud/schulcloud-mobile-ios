@@ -66,8 +66,8 @@ extension File {
         file.isDirectory = isDirectory
         file.pathString = path
         file.typeString = isDirectory ? "directory" : try data.value(for: "type")
-        if let sizeString = try? data.value(for: "size") as String {
-            file.size = Int64(sizeString) as NSNumber?
+        if let size = try? data.value(for: "size") as Int64 {
+            file.size = size as NSNumber?
         }
         file.parentDirectory = parentFolder
         
