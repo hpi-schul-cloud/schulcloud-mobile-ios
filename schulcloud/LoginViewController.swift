@@ -25,6 +25,10 @@ class LoginViewController: UIViewController {
         usernameTextArea.delegate = self
         passwordTextArea.delegate = self
         usernameTextArea.text = defaults.string(forKey: usernameKey)
+        
+        DispatchQueue.global(qos: .default).sync {
+            recreatePersistentContainer()
+        }
     }
     
     @IBOutlet var loginButton: SimpleRoundedButton!

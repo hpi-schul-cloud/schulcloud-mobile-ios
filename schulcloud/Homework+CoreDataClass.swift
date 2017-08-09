@@ -11,7 +11,6 @@ import BrightFutures
 import CoreData
 import Marshal
 
-let context = managedObjectContext
 @objc(Homework)
 public class Homework: NSManagedObject {
     static let changeNotificationName = "didChangeHomework"
