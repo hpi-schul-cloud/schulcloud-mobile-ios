@@ -12,6 +12,7 @@ class Constants {
     enum Servers: String {
         case staging = "https://schul.tech:3030/"
         case production = "https://schul-cloud.org:8080/"
+        case web = "https://schul-cloud.org/"
         
         var url: URL {
             return URL(string: self.rawValue)!

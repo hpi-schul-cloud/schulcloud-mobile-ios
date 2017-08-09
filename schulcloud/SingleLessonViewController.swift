@@ -16,7 +16,12 @@ class SingleLessonViewController: UIViewController, WKUIDelegate {
     var webView: WKWebView!
     
     override func loadView() {
+        let userContentController = WKUserContentController()
+        let cookieScriptSource = "document.cookie = 'jwt=\(Globals.account!.accessToken!)'"
+        let cookieScript = WKUserScript(source: cookieScriptSource, injectionTime: .atDocumentStart, forMainFrameOnly: false)
+        userContentController.addUserScript(cookieScript)
         let webConfiguration = WKWebViewConfiguration()
+        webConfiguration.userContentController = userContentController
         webView = WKWebView(frame: .zero, configuration: webConfiguration)
         webView.uiDelegate = self
         view = webView
@@ -26,29 +31,16 @@ class SingleLessonViewController: UIViewController, WKUIDelegate {
         super.viewDidLoad()
         
         self.title = lesson.name
-        
+
         if let contents = lesson.contents {
             self.loadContents(contents)
         }
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        navigationController?.hidesBarsOnSwipe = true
-        navigationController?.hidesBarsOnTap = true
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.hidesBarsOnSwipe = false
-        navigationController?.hidesBarsOnTap = false
-    }
-    
+
     func loadContents(_ contents: NSOrderedSet) {
         let rendered = (contents.array as! [Content]).map(htmlForElement)
         let concatenated = "<html><head>\(Constants.textStyleHtml)<meta name=\"viewport\" content=\"initial-scale=1.0\"></head>" + rendered.joined(separator: "<hr>") + "</body></html>"
-        webView.loadHTMLString(concatenated, baseURL: nil)
+        webView.loadHTMLString(concatenated, baseURL: Constants.Servers.web.url)
     }
     
     func htmlForElement(_ content: Content) -> String {
