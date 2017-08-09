@@ -18,7 +18,7 @@ class Constants {
         }
     }
     
-    static let backend = Servers.staging
+    static let backend = Servers.production
     
     static let textStyleHtml = "<style>body{font-family: 'PT Sans', '-apple-system'; font-size: 17px;}a {color: #b10438; text-decoration: none}</style>"
 }

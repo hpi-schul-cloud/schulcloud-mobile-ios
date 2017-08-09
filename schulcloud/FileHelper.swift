@@ -15,7 +15,7 @@ import Marshal
 class FileHelper {
     static var rootUrl: URL {
         let userId = Globals.account?.userId ?? "0"
-        return URL(string: "/users/\(userId)/")!
+        return URL(string: "users/\(userId)/")!
     }
     
     static var rootFolder: File = {
@@ -25,6 +25,8 @@ class FileHelper {
         do {
             let result = try context.fetch(fetchRequest)
             if let file = result.first {
+                file.pathString = rootUrl.absoluteString
+                saveContext()
                 return file
             }
             let file = File(context: managedObjectContext)
