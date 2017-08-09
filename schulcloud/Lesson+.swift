@@ -30,4 +30,6 @@ extension Lesson {
     }
 }
 
-extension Lesson: IdObject {}
+extension Lesson: IdObject {
+    static let entityName = "Lesson"
+}
