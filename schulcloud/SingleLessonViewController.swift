@@ -53,7 +53,7 @@ class SingleLessonViewController: UIViewController, WKUIDelegate {
             rendered += content.text ?? ""
             return rendered
         case .other:
-            return "Dieser Typ wird leider noch nicht unterstützt"
+            return "<span class=\"not-supported\">Dieser Typ wird leider noch nicht unterstützt.</span>"
         }
     }
     
