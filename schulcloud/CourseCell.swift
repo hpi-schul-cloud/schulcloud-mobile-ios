@@ -10,12 +10,18 @@ import UIKit
 
 class CourseCell: UICollectionViewCell {
     
-    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet weak var colorView: UIView!
+    @IBOutlet weak var titleLabel: UILabel!
     
     func configure(for course: Course) {
-        titleLabel.text = course.name
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = 4.0
+        self.layer.borderWidth = 0.5
+        self.layer.borderColor = UIColor(white: 0.7, alpha: 1.0).cgColor
+
+        self.titleLabel.text = course.name
         if let color = course.colorString {
-            backgroundColor = UIColor(hexString: color)
+            self.colorView.backgroundColor = UIColor(hexString: color)
         }
     }
 }

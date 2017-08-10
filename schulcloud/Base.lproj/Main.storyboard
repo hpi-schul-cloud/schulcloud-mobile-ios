@@ -5,9 +5,12 @@
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13156.2"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Baseline standard spacing" minToolsVersion="9.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -879,42 +882,45 @@
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="9b5-Lb-i2y">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="16" minimumInteritemSpacing="16" id="IdX-2a-3MC">
-                            <size key="itemSize" width="172" height="214"/>
+                            <size key="itemSize" width="140" height="140"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="8" minY="8" maxX="8" maxY="8"/>
+                            <inset key="sectionInset" minX="16" minY="8" maxX="16" maxY="8"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="courseCell" id="baD-kA-Obi" customClass="CourseCell" customModule="schulcloud" customModuleProvider="target">
-                                <rect key="frame" x="101.5" y="8" width="172" height="214"/>
+                                <rect key="frame" x="16" y="8" width="140" height="140"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="172" height="214"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="140" height="140"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mathematik" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="dWp-6I-2yY">
-                                            <rect key="frame" x="20" y="20" width="132" height="78"/>
-                                            <fontDescription key="fontDescription" name="PTSans-Bold" family="PT Sans" pointSize="30"/>
-                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tT9-jM-G6q">
+                                            <rect key="frame" x="0.0" y="0.0" width="140" height="46.5"/>
+                                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </view>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mathematik" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="dWp-6I-2yY">
+                                            <rect key="frame" x="8" y="55" width="124" height="22"/>
+                                            <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                 </view>
-                                <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="dWp-6I-2yY" firstAttribute="leading" secondItem="baD-kA-Obi" secondAttribute="leadingMargin" constant="12" id="6bX-Xi-iFp"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="dWp-6I-2yY" secondAttribute="trailing" constant="12" id="A0E-HX-P4H"/>
-                                    <constraint firstItem="dWp-6I-2yY" firstAttribute="top" secondItem="baD-kA-Obi" secondAttribute="topMargin" constant="12" id="emT-U4-XBA"/>
+                                    <constraint firstItem="tT9-jM-G6q" firstAttribute="height" secondItem="baD-kA-Obi" secondAttribute="height" multiplier="1/3" id="A9t-l8-tfw"/>
+                                    <constraint firstItem="dWp-6I-2yY" firstAttribute="leading" secondItem="baD-kA-Obi" secondAttribute="leading" constant="8" id="CxK-Lq-GHG"/>
+                                    <constraint firstAttribute="trailing" secondItem="tT9-jM-G6q" secondAttribute="trailing" id="MVX-qm-gWe"/>
+                                    <constraint firstItem="tT9-jM-G6q" firstAttribute="leading" secondItem="baD-kA-Obi" secondAttribute="leading" id="Vyk-wu-4qU"/>
+                                    <constraint firstItem="tT9-jM-G6q" firstAttribute="top" secondItem="baD-kA-Obi" secondAttribute="top" id="bZh-LM-2vR"/>
+                                    <constraint firstAttribute="trailing" secondItem="dWp-6I-2yY" secondAttribute="trailing" constant="8" id="jZv-EQ-Xe6"/>
+                                    <constraint firstItem="dWp-6I-2yY" firstAttribute="firstBaseline" secondItem="tT9-jM-G6q" secondAttribute="baseline" constant="35.5" symbolType="layoutAnchor" id="zKH-Iz-h7M"/>
                                 </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="5"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                                 <connections>
+                                    <outlet property="colorView" destination="tT9-jM-G6q" id="kWg-Uz-7e1"/>
                                     <outlet property="titleLabel" destination="dWp-6I-2yY" id="wVm-r3-gyI"/>
                                     <segue destination="KDG-Bw-Fbj" kind="show" identifier="courseDetail" id="bNT-8B-G99"/>
                                 </connections>
