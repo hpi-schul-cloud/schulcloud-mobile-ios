@@ -10,14 +10,20 @@ import UIKit
 
 class SettingsViewController: UITableViewController {
 
+    @IBOutlet var logoutCell: UITableViewCell!
+    @IBOutlet weak var userNameLabel: UILabel!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+
+        guard let userId = Globals.account?.userId else { return }
+        User.fetch(by: userId, inContext: managedObjectContext).onSuccess { user in
+            self.userNameLabel.text = "\(user.firstName) \(user.lastName)"
+        }.onFailure { error in
+            self.userNameLabel.text = ""
+        }
     }
-    
-    @IBOutlet var logoutCell: UITableViewCell!
-    
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCell = tableView.cellForRow(at: indexPath)
         if selectedCell == logoutCell {
