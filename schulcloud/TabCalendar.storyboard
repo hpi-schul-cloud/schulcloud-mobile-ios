@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Kalendar-->
+        <!--Kalender-->
         <scene sceneID="3Fa-Vj-YFA">
             <objects>
                 <viewController id="re4-Up-KXD" customClass="CalendarViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
@@ -21,18 +21,18 @@
                         <viewLayoutGuide key="safeArea" id="uBC-bU-6zX"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Kalendar" id="W5a-j8-VqL"/>
+                    <navigationItem key="navigationItem" title="Kalender" id="W5a-j8-VqL"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="anG-7n-P5t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4415.1999999999998" y="-1321.8890554722639"/>
         </scene>
-        <!--Kalendar-->
+        <!--Kalender-->
         <scene sceneID="8oF-e7-E4U">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1hg-XE-FNG" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <tabBarItem key="tabBarItem" title="Kalendar" image="calendar" id="uv6-0j-xtD"/>
+                    <tabBarItem key="tabBarItem" title="Kalender" image="calendar" id="uv6-0j-xtD"/>
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
@@ -51,6 +51,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="calendar" width="28" height="28"/>
+        <image name="calendar" width="25" height="25"/>
     </resources>
 </document>
