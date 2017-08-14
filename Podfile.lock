@@ -54,7 +54,7 @@ PODS:
   - Protobuf (3.3.0)
   - Result (3.2.1)
   - SimpleRoundedButton (1.0)
-  - SwiftyBeaver (1.1.0)
+  - SwiftyBeaver (1.4.0)
   - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
@@ -68,8 +68,18 @@ DEPENDENCIES:
   - Locksmith
   - Marshal
   - SimpleRoundedButton
-  - SwiftyBeaver (= 1.1.0)
+  - SwiftyBeaver (from `https://github.com/SwiftyBeaver/SwiftyBeaver.git`, commit `e4563d1`)
   - SwiftyJSON (~> 3)
+
+EXTERNAL SOURCES:
+  SwiftyBeaver:
+    :commit: e4563d1
+    :git: https://github.com/SwiftyBeaver/SwiftyBeaver.git
+
+CHECKOUT OPTIONS:
+  SwiftyBeaver:
+    :commit: e4563d1
+    :git: https://github.com/SwiftyBeaver/SwiftyBeaver.git
 
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
@@ -92,9 +102,9 @@ SPEC CHECKSUMS:
   Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
   Result: 2453a22e5c5b11c0c3a478736e82cd02f763b781
   SimpleRoundedButton: d7f2be107afb25c56149f4c0df541169ca6af48c
-  SwiftyBeaver: af90fecea02b46fe073dc8e622362da06886c039
+  SwiftyBeaver: 6d10886c590bc0c7bd42f8c6f54c6bfea71c49d6
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: db2a7bc447fb0d5e18bd25e3375c6c0edb4f608a
+PODFILE CHECKSUM: 43f512e319e30e9014299a656b15b901d3da4e02
 
 COCOAPODS: 1.2.1
