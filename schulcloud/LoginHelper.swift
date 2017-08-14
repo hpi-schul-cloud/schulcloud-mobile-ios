@@ -80,6 +80,7 @@ open class LoginHelper {
         defaults.set(nil, forKey: "accountId")
         defaults.set(nil, forKey: "userId")
         do {
+            recreatePersistentContainer()
             try Globals.account!.deleteFromSecureStore()
         } catch let error {
             log.error(error.localizedDescription)
