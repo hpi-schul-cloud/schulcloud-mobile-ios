@@ -49,6 +49,7 @@ fileprivate func createPersistentContainer() -> NSPersistentContainer {
 
 func recreatePersistentContainer() {
     log.debug("Dropping database - recreating persistent container")
+    CoreDataObserver.shared.removeObserver(on: managedObjectContext)
     
     let coordinator = persistentContainer.persistentStoreCoordinator
     let stores = coordinator.persistentStores
@@ -66,6 +67,7 @@ func recreatePersistentContainer() {
     }
     
     persistentContainer = createPersistentContainer()
+    CoreDataObserver.shared.observeChanges(on: managedObjectContext)
 }
 
 // MARK: - Core Data Saving support
@@ -103,6 +105,50 @@ func save(privateContext privateMoc: NSManagedObjectContext) -> Future<Void, SCE
         }
     }
     return promise.future
+}
+
+class CoreDataObserver {
+    
+    static let shared = CoreDataObserver()
+    
+    let notificationCenter = NotificationCenter.default
+    
+    // MARK: temp core data observer
+    func observeChanges(on managedObjectContext: NSManagedObjectContext) {
+        notificationCenter.addObserver(self, selector: #selector(managedObjectContextObjectsDidChange), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: managedObjectContext)
+    }
+    
+    func removeObserver(on managedObjectContext: NSManagedObjectContext) {
+        notificationCenter.removeObserver(self, name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: managedObjectContext)
+    }
+    
+    @objc func managedObjectContextObjectsDidChange(notification: NSNotification) {
+        guard let userInfo = notification.userInfo else { return }
+        
+        if let inserts = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject>, inserts.count > 0 {
+            print("--- INSERTS ---")
+            print(inserts)
+        }
+        
+        if let updates = userInfo[NSUpdatedObjectsKey] as? Set<NSManagedObject>, updates.count > 0 {
+            print("--- UPDATES ---")
+            var unchanged = 0
+            for update in updates {
+                let changed = update.changedValues()
+                if changed.count > 0 {
+                    print(changed)
+                } else {
+                    unchanged += 1
+                }
+            }
+            print("\(unchanged) unchanged")
+        }
+        
+        if let deletes = userInfo[NSDeletedObjectsKey] as? Set<NSManagedObject>, deletes.count > 0 {
+            print("--- DELETES ---")
+            print(deletes)
+        }
+    }
 }
 
 struct CoreDataHelper {
