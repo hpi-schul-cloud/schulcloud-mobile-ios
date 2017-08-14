@@ -24,7 +24,6 @@
 		C3165F1F1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3165F1E1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift */; };
 		C31C84271ECF546E00FA070C /* WebviewPreviewViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31C84261ECF546E00FA070C /* WebviewPreviewViewContoller.swift */; };
 		C31C842A1ECF553700FA070C /* PreviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31C84291ECF553700FA070C /* PreviewManager.swift */; };
-		C31C842C1ECF55A000FA070C /* PreviewTransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31C842B1ECF55A000FA070C /* PreviewTransitionViewController.swift */; };
 		C31C842E1ECF586500FA070C /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31C842D1ECF586500FA070C /* LoadingViewController.swift */; };
 		C328708D1EDD58C700ABA348 /* User+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C328708B1EDD58C700ABA348 /* User+.swift */; };
 		C32870A01EDDBCB000ABA348 /* UserGroup+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870991EDDBCB000ABA348 /* UserGroup+CoreDataClass.swift */; };
@@ -124,7 +123,6 @@
 		C3165F1E1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+HTML.swift"; sourceTree = "<group>"; };
 		C31C84261ECF546E00FA070C /* WebviewPreviewViewContoller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebviewPreviewViewContoller.swift; sourceTree = "<group>"; };
 		C31C84291ECF553700FA070C /* PreviewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewManager.swift; sourceTree = "<group>"; };
-		C31C842B1ECF55A000FA070C /* PreviewTransitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewTransitionViewController.swift; sourceTree = "<group>"; };
 		C31C842D1ECF586500FA070C /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		C328708B1EDD58C700ABA348 /* User+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+.swift"; sourceTree = "<group>"; };
 		C32870991EDDBCB000ABA348 /* UserGroup+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserGroup+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -255,7 +253,6 @@
 			children = (
 				C31C84261ECF546E00FA070C /* WebviewPreviewViewContoller.swift */,
 				C31C84291ECF553700FA070C /* PreviewManager.swift */,
-				C31C842B1ECF55A000FA070C /* PreviewTransitionViewController.swift */,
 				C31C842D1ECF586500FA070C /* LoadingViewController.swift */,
 			);
 			name = "File Preview";
@@ -758,7 +755,6 @@
 				C3A5A9391EBCD0C600825DBF /* Constants.swift in Sources */,
 				C3C080551EE607F6005FA7C3 /* CourseCell.swift in Sources */,
 				C31C842A1ECF553700FA070C /* PreviewManager.swift in Sources */,
-				C31C842C1ECF55A000FA070C /* PreviewTransitionViewController.swift in Sources */,
 				C3418B6F1ED5CF1F00280E62 /* Date+Marshal.swift in Sources */,
 				C32870AD1EDED1D200ABA348 /* DashboardHomeworkCell.swift in Sources */,
 				C3A5A9341EBCCE3B00825DBF /* LoginViewController.swift in Sources */,
