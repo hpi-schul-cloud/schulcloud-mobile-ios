@@ -6,3 +6,5 @@ xcode_sdk: iphonesimulator11.0
 before_script:
   - mv schulcloud/GoogleService-Info.plist schulcloud/GoogleService-Info.plist.bak
   - mv schulcloud/GoogleService-Info-dummy.plist schulcloud/GoogleService-Info.plist
+script:
+    - xcodebuild clean build -sdk iphonesimulator -workspace schulcloud.xcworkspace -scheme schulcloudTests CODE_SIGNING_REQUIRED=NO
