@@ -88,15 +88,24 @@ class CoursesViewController: UICollectionViewController, NSFetchedResultsControl
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let cellsAcross: CGFloat = 2
-        let spaceBetweenCells: CGFloat = 16
-        let padding: CGFloat = 8
-        let width = (collectionView.bounds.width - (cellsAcross - 1) * spaceBetweenCells - 2 * padding) / cellsAcross
-        
-        return CGSize(width: width, height: width * 1.3)
+        guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else {
+            return CGSize.zero
+        }
+
+        let minimumCellWidth = CGFloat(136.0)
+        let cellHeight = minimumCellWidth
+
+        let viewWidth = collectionView.bounds.size.width
+        let cellSpacing = flowLayout.minimumInteritemSpacing
+        let insets = flowLayout.sectionInset
+
+        let availabelSpace = viewWidth - insets.left - insets.right
+        let numberOfCellsPerRow = floor((availabelSpace + cellSpacing) / (minimumCellWidth + cellSpacing))
+        let cellWidth = (availabelSpace - ((numberOfCellsPerRow - 1) * cellSpacing)) / numberOfCellsPerRow
+
+        return CGSize(width: cellWidth, height: cellHeight)
     }
-    
+
     
     /*
      // Override to support conditional editing of the table view.

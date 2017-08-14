@@ -53,7 +53,7 @@ class CalendarViewController: DayViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Mein Kalendar"
+        self.navigationController?.navigationBar.isTranslucent = false
         reloadData()
         //get hour
         let date = Date()
