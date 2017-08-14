@@ -1,0 +1,8 @@
+language: objective-c
+osx_image: xcode9
+xcode_workspace: schulcloud.xcworkspace
+xcode_scheme: schulcloudTests
+xcode_sdk: iphonesimulator11.0
+before_script:
+  - mv schulcloud/GoogleService-Info.plist schulcloud/GoogleService-Info.plist.bak
+  - mv schulcloud/GoogleService-Info-dummy.plist schulcloud/GoogleService-Info.plist
