@@ -58,7 +58,9 @@ open class LoginHelper {
             try account.saveCredentials()
             log.info("Successfully saved login data for user \(userId) with account \(accountId)")
             Globals.account = account
-            SCNotifications.initializeMessaging()
+            DispatchQueue.main.async {
+                SCNotifications.initializeMessaging()
+            }
             return Future(value: Void())
         } catch let error {
             return Future(error: SCError.loginFailed(error.localizedDescription))
