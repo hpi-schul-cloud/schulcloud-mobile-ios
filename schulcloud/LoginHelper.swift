@@ -76,6 +76,26 @@ open class LoginHelper {
         }
     }
     
+    static func loadAccount() -> SchulCloudAccount? {
+        let defaults = UserDefaults.standard
+        
+        guard let accountId = defaults.string(forKey: "accountId"),
+            let userId = defaults.string(forKey: "userId")
+            else { return nil }
+        
+        var account = SchulCloudAccount(userId: userId, accountId: accountId, accessToken: nil)
+        account.loadAccessTokenFromKeychain()
+        guard let accessToken = account.accessToken else {
+            log.error("Could not load account from Keychain!")
+            return nil
+        }
+        if validate(accessToken: accessToken) == false {
+            log.error("Token expired")
+            return nil
+        }
+        return account
+    }
+    
     static func logout() {
         defaults.set(nil, forKey: "accountId")
         defaults.set(nil, forKey: "userId")

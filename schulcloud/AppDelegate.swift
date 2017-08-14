@@ -45,20 +45,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     /// Check for existing login credentials and return appropriate view controller
     func selectInitialViewController(application: UIApplication) -> UIViewController {
-        let defaults = UserDefaults.standard
-        
-        if let accountId = defaults.string(forKey: "accountId"),
-            let userId = defaults.string(forKey: "userId") {
-            var account = SchulCloudAccount(userId: userId, accountId: accountId, accessToken: nil)
-            account.loadAccessTokenFromKeychain()
-            if account.accessToken != nil {
-                return prepareInitialViewController(with: account)
-            } else {
-                log.error("Could not load account from Keychain!")
-            }
+        if let validAccount = LoginHelper.loadAccount() {
+            return prepareInitialViewController(with: validAccount)
+        } else {
+            log.info("Could not find existing login credentials, proceeding to login")
+            return storyboard.instantiateViewController(withIdentifier: "login")
         }
-        log.info("Could not find existing login credentials, proceeding to login")
-        return storyboard.instantiateViewController(withIdentifier: "login")
     }
     
     func prepareInitialViewController(with account: SchulCloudAccount) -> UIViewController {
