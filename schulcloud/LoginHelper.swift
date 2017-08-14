@@ -96,6 +96,22 @@ open class LoginHelper {
         return account
     }
     
+    static func validate(accessToken: String) -> Bool {
+        do {
+            let jwt = try decode(jwt: accessToken)
+            let expiration = jwt.body["exp"] as! Int64
+            let interval = TimeInterval(exactly: expiration)!
+            let expirationDate = Date(timeIntervalSince1970: interval)
+            let threeHourBuffer = TimeInterval(exactly: 60*60*3)!
+            
+            return Date() < expirationDate - threeHourBuffer
+            
+        } catch let error {
+            log.error("Error validating token: " + error.description)
+            return false
+        }
+    }
+    
     static func logout() {
         defaults.set(nil, forKey: "accountId")
         defaults.set(nil, forKey: "userId")
