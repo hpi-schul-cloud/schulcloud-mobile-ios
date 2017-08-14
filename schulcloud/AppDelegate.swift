@@ -64,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func prepareInitialViewController(with account: SchulCloudAccount) -> UIViewController {
         Globals.account = account
         
-        let initialViewController = storyboard.instantiateInitialViewController()!
+        let initialViewController = self.window?.rootViewController ?? storyboard.instantiateInitialViewController()!
         
         SCNotifications.initializeMessaging()
         ApiHelper.updateData()
