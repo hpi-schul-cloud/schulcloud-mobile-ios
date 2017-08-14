@@ -7,4 +7,4 @@ before_script:
   - mv schulcloud/GoogleService-Info.plist schulcloud/GoogleService-Info.plist.bak
   - mv schulcloud/GoogleService-Info-dummy.plist schulcloud/GoogleService-Info.plist
 script:
-    - xcodebuild build test -sdk iphonesimulator -workspace schulcloud.xcworkspace -scheme schulcloud -destination 'platform=iOS Simulator,name=iPhone 7,OS=11.0' CODE_SIGNING_REQUIRED=NO
+  - xcodebuild build test -sdk iphonesimulator -workspace schulcloud.xcworkspace -scheme schulcloud -destination 'platform=iOS Simulator,name=iPhone 7,OS=11.0' CODE_SIGNING_REQUIRED=NO

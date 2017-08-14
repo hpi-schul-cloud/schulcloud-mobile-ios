@@ -31,7 +31,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         console.levelColor.info = "👉 "
         log.addDestination(console)
         
-        FIRApp.configure()
+        if !isUnitTesting() {
+            FIRApp.configure()
+        }
         
         let initialViewController = selectInitialViewController(application: application)
         self.window?.rootViewController = initialViewController
@@ -96,6 +98,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Saves changes in the application's managed object context before the application terminates.
         saveContext()
     }
+    
+    func isUnitTesting() -> Bool {
+        return ProcessInfo.processInfo.environment["TEST"] != nil
+    }
+    
+    
 
     // MARK: temp core data observer
     func observeChanges() {
