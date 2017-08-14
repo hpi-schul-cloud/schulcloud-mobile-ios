@@ -137,8 +137,7 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
         
         switch(segue.identifier) {
         case .some("filePreview"):
-            let navigationVC = segue.destination as! UINavigationController
-            let destination = navigationVC.viewControllers.last! as! LoadingViewController
+            let destination = segue.destination as! LoadingViewController
             destination.file = selectedItem
             break
         case .some("subfolder"):
