@@ -19,7 +19,9 @@
 		503A5EFF1F3DC6A400A7695B /* TabFiles.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */; };
 		503A5F011F3DC6C700A7695B /* TabDashboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5F001F3DC6C700A7695B /* TabDashboard.storyboard */; };
 		503A5F031F3DC95100A7695B /* TabCalendar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5F021F3DC95100A7695B /* TabCalendar.storyboard */; };
+		582FD7EB0AE33722885680BB /* Pods_schulcloud_schulcloudUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 995426AC92C9452D1ED0246A /* Pods_schulcloud_schulcloudUITests.framework */; };
 		8E095EB2D17A96B29951D85A /* Pods_schulcloudUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 270BA83590B5166B5A30D6B3 /* Pods_schulcloudUITests.framework */; };
+		91187E48A61ED159188C1F20 /* Pods_schulcloud_schulcloudTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBD1AD7CC68AD6AE57843C4 /* Pods_schulcloud_schulcloudTests.framework */; };
 		C3165F1D1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3165F1C1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift */; };
 		C3165F1F1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3165F1E1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift */; };
 		C31C84271ECF546E00FA070C /* WebviewPreviewViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31C84261ECF546E00FA070C /* WebviewPreviewViewContoller.swift */; };
@@ -117,9 +119,14 @@
 		545C97A8DFD815A5CDCD6C3F /* Pods-schulcloud.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloud.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloud/Pods-schulcloud.release.xcconfig"; sourceTree = "<group>"; };
 		6202C4172802EF2A0B49B22E /* Pods-schulcloudTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudTests/Pods-schulcloudTests.release.xcconfig"; sourceTree = "<group>"; };
 		6A95051FD2A0A46DC119427B /* Pods_schulcloudTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloudTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8281D1F1918D1D44D71BF9C2 /* Pods-schulcloud-schulcloudTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloud-schulcloudTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloud-schulcloudTests/Pods-schulcloud-schulcloudTests.release.xcconfig"; sourceTree = "<group>"; };
 		8311124C4B68A962896AF291 /* Pods-schulcloud.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloud.debug.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloud/Pods-schulcloud.debug.xcconfig"; sourceTree = "<group>"; };
 		9425546F91D107FCBF633B36 /* Pods-schulcloudUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudUITests/Pods-schulcloudUITests.release.xcconfig"; sourceTree = "<group>"; };
+		995426AC92C9452D1ED0246A /* Pods_schulcloud_schulcloudUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloud_schulcloudUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B77F3D2DE2D7E875F6A5EEFB /* Pods-schulcloud-schulcloudUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloud-schulcloudUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloud-schulcloudUITests/Pods-schulcloud-schulcloudUITests.release.xcconfig"; sourceTree = "<group>"; };
+		BFBD1AD7CC68AD6AE57843C4 /* Pods_schulcloud_schulcloudTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloud_schulcloudTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C00572D0E333691EC3007D54 /* Pods-schulcloudTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudTests/Pods-schulcloudTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C1E4DCD3141FDDA6834BC366 /* Pods-schulcloud-schulcloudTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloud-schulcloudTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloud-schulcloudTests/Pods-schulcloud-schulcloudTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C3165F1C1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeworkTableViewCell.swift; sourceTree = "<group>"; };
 		C3165F1E1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+HTML.swift"; sourceTree = "<group>"; };
 		C31C84261ECF546E00FA070C /* WebviewPreviewViewContoller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebviewPreviewViewContoller.swift; sourceTree = "<group>"; };
@@ -186,6 +193,7 @@
 		C3C2AC351EC5AC460060AECA /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		C3C2AC371EC5AC750060AECA /* ApiHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiHelper.swift; sourceTree = "<group>"; };
 		C3C3CAB01EF5CBB6009601AE /* SingleLessonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleLessonViewController.swift; sourceTree = "<group>"; };
+		F8B2A8CB9F1FCE8915D26AD0 /* Pods-schulcloud-schulcloudUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloud-schulcloudUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloud-schulcloudUITests/Pods-schulcloud-schulcloudUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +210,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				449EE059739B56D7AD66808C /* Pods_schulcloudTests.framework in Frameworks */,
+				91187E48A61ED159188C1F20 /* Pods_schulcloud_schulcloudTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,6 +219,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E095EB2D17A96B29951D85A /* Pods_schulcloudUITests.framework in Frameworks */,
+				582FD7EB0AE33722885680BB /* Pods_schulcloud_schulcloudUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,6 +235,10 @@
 				6202C4172802EF2A0B49B22E /* Pods-schulcloudTests.release.xcconfig */,
 				389B64CA22013634E6CFD243 /* Pods-schulcloudUITests.debug.xcconfig */,
 				9425546F91D107FCBF633B36 /* Pods-schulcloudUITests.release.xcconfig */,
+				C1E4DCD3141FDDA6834BC366 /* Pods-schulcloud-schulcloudTests.debug.xcconfig */,
+				8281D1F1918D1D44D71BF9C2 /* Pods-schulcloud-schulcloudTests.release.xcconfig */,
+				F8B2A8CB9F1FCE8915D26AD0 /* Pods-schulcloud-schulcloudUITests.debug.xcconfig */,
+				B77F3D2DE2D7E875F6A5EEFB /* Pods-schulcloud-schulcloudUITests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -246,6 +260,8 @@
 				09D7CC393E1856DD7EF9B21F /* Pods_schulcloud.framework */,
 				6A95051FD2A0A46DC119427B /* Pods_schulcloudTests.framework */,
 				270BA83590B5166B5A30D6B3 /* Pods_schulcloudUITests.framework */,
+				BFBD1AD7CC68AD6AE57843C4 /* Pods_schulcloud_schulcloudTests.framework */,
+				995426AC92C9452D1ED0246A /* Pods_schulcloud_schulcloudUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -615,7 +631,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-schulcloudTests/Pods-schulcloudTests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-schulcloud-schulcloudTests/Pods-schulcloud-schulcloudTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		11CA3DEDA959A0296B81F9AA /* [CP] Check Pods Manifest.lock */ = {
@@ -660,7 +676,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-schulcloudUITests/Pods-schulcloudUITests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-schulcloud-schulcloudUITests/Pods-schulcloud-schulcloudUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		92AF1094A1614F30A8A8E107 /* [CP] Check Pods Manifest.lock */ = {
@@ -705,7 +721,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-schulcloudUITests/Pods-schulcloudUITests-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-schulcloud-schulcloudUITests/Pods-schulcloud-schulcloudUITests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DFB669BB58F24B67E05FBDAF /* [CP] Embed Pods Frameworks */ = {
@@ -735,7 +751,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-schulcloudTests/Pods-schulcloudTests-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-schulcloud-schulcloudTests/Pods-schulcloud-schulcloudTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -995,7 +1011,7 @@
 		};
 		C3A5A92E1EBCC17600825DBF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C00572D0E333691EC3007D54 /* Pods-schulcloudTests.debug.xcconfig */;
+			baseConfigurationReference = C1E4DCD3141FDDA6834BC366 /* Pods-schulcloud-schulcloudTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1011,7 +1027,7 @@
 		};
 		C3A5A92F1EBCC17600825DBF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6202C4172802EF2A0B49B22E /* Pods-schulcloudTests.release.xcconfig */;
+			baseConfigurationReference = 8281D1F1918D1D44D71BF9C2 /* Pods-schulcloud-schulcloudTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1027,7 +1043,7 @@
 		};
 		C3A5A9311EBCC17600825DBF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 389B64CA22013634E6CFD243 /* Pods-schulcloudUITests.debug.xcconfig */;
+			baseConfigurationReference = F8B2A8CB9F1FCE8915D26AD0 /* Pods-schulcloud-schulcloudUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = WP53SSE8S6;
@@ -1042,7 +1058,7 @@
 		};
 		C3A5A9321EBCC17600825DBF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9425546F91D107FCBF633B36 /* Pods-schulcloudUITests.release.xcconfig */;
+			baseConfigurationReference = B77F3D2DE2D7E875F6A5EEFB /* Pods-schulcloud-schulcloudUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = WP53SSE8S6;
