@@ -130,7 +130,7 @@ class LessonsViewController: UITableViewController, NSFetchedResultsControllerDe
             let selectedCell = sender as! UITableViewCell
             guard let indexPath = tableView.indexPath(for: selectedCell) else { return }
             let selectedLesson = fetchedResultsController.object(at: indexPath)
-            let destination = (segue.destination as! UINavigationController).viewControllers.first! as! SingleLessonViewController
+            let destination = segue.destination as! SingleLessonViewController
             destination.lesson = selectedLesson
         default:
             break
