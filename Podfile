@@ -24,12 +24,12 @@ target 'schulcloud' do
   pod 'SwiftyJSON', '~> 3'
 
   target 'schulcloudTests' do
-    inherit! :search_paths
+    inherit! :complete
     # Pods for testing
   end
 
   target 'schulcloudUITests' do
-    inherit! :search_paths
+    inherit! :complete
     # Pods for testing
   end
 
