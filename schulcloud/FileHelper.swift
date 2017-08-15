@@ -18,12 +18,16 @@ class FileHelper {
         return URL(string: "users/\(userId)/")!
     }
     
-    static var rootFolder: File = {
-        let fetchRequest: NSFetchRequest<File> = File.fetchRequest()
+    static var rootFolder: File {
+        return createRootFolder()
+    }
+    
+    static func createRootFolder() -> File {
+        let fetchRequest = NSFetchRequest(entityName: "File") as NSFetchRequest<File>
         fetchRequest.predicate = NSPredicate(format: "pathString == %@", rootUrl.absoluteString)
         
         do {
-            let result = try context.fetch(fetchRequest)
+            let result = try managedObjectContext.fetch(fetchRequest)
             if let file = result.first {
                 file.pathString = rootUrl.absoluteString
                 saveContext()
@@ -40,7 +44,7 @@ class FileHelper {
         } catch let error {
             fatalError("Unresolved error \(error)") // TODO: replace this with something more friendly
         }
-    }()
+    }
     
     static func getFolder(withPath path: String) -> File? {
         let fetchRequest: NSFetchRequest<File> = File.fetchRequest()

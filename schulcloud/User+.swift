@@ -42,4 +42,6 @@ extension User {
     }
 }
 
-extension User: IdObject {}
+extension User: IdObject {
+    static let entityName = "User"
+}

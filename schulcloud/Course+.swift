@@ -23,4 +23,6 @@ extension Course {
     }
 }
 
-extension Course: IdObject {}
+extension Course: IdObject {
+    static let entityName = "Course"
+}

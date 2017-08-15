@@ -11,11 +11,12 @@ import BrightFutures
 import CoreData
 import Marshal
 
-let context = managedObjectContext
-
 @objc(Homework)
 public class Homework: NSManagedObject {
     static let changeNotificationName = "didChangeHomework"
+    
+    static let teacherFetchQueue = DispatchQueue.init(label: "homeworkTeacher", qos: .default, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
+    static let courseFetchQueue = DispatchQueue.init(label: "homeworkCourse", qos: .default, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
     
     static func upsert(inContext context: NSManagedObjectContext, object: MarshaledObject) -> Future<Homework, SCError> {
         do {            
@@ -39,14 +40,17 @@ public class Homework: NSManagedObject {
             
             if let courseData: MarshalDictionary? = try? object.value(for: "courseId"),
                 let unwrapped = courseData {
-                homework.course = try Course.upsert(data: unwrapped, context: context)
+                try courseFetchQueue.sync {
+                    homework.course = try Course.upsert(data: unwrapped, context: context)
+                }
             }
             let teacherId: String = try object.value(for: "teacherId")
         
-        
-            return User.fetch(by: teacherId, inContext: context).flatMap { teacher -> Future<Homework, SCError> in
-                homework.teacher = teacher
-                return Future(value: homework)
+            return teacherFetchQueue.sync {
+                return User.fetch(by: teacherId, inContext: context).flatMap { teacher -> Future<Homework, SCError> in
+                    homework.teacher = teacher
+                    return Future(value: homework)
+                }
             }
         } catch let error as MarshalError {
             return Future(error: .jsonDeserialization(error.description))
