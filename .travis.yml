@@ -2,9 +2,12 @@ language: objective-c
 osx_image: xcode9
 xcode_workspace: schulcloud.xcworkspace
 xcode_scheme: schulcloud
-xcode_sdk: iphonesimulator11.0
+xcode_sdk: iphonesimulator
+
 before_script:
   - mv schulcloud/GoogleService-Info.plist schulcloud/GoogleService-Info.plist.bak
   - mv schulcloud/GoogleService-Info-dummy.plist schulcloud/GoogleService-Info.plist
+
 script:
-  - xcodebuild build test -sdk iphonesimulator -workspace schulcloud.xcworkspace -scheme schulcloud -destination 'platform=iOS Simulator,name=iPhone 7,OS=11.0' CODE_SIGNING_REQUIRED=NO
+  - set -o pipefail
+  - xcodebuild -workspace $TRAVIS_XCODE_WORKSPACE -scheme $TRAVIS_XCODE_SCHEME -sdk $TRAVIS_XCODE_SDK build | xcpretty
