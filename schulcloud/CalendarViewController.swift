@@ -12,48 +12,6 @@ class CalendarViewController: DayViewController {
 
     private static let calendarIdentifierKey = "or.schul-cloud.calendar.identifier"
     private static let calendarTitle = "Schul-Cloud"
-    
-//    var data = [["Breakfast at Tiffany's",
-//                 "New York, 5th avenue"],
-//
-//                ["Workout",
-//                 "Tufteparken"],
-//
-//                ["Meeting with Alex",
-//                 "Home",
-//                 "Oslo, Tjuvholmen"],
-//
-//                ["Beach Volleyball",
-//                 "Ipanema Beach",
-//                 "Rio De Janeiro"],
-//
-//                ["WWDC",
-//                 "Moscone West Convention Center",
-//                 "747 Howard St"],
-//
-//                ["Google I/O",
-//                 "Shoreline Amphitheatre",
-//                 "One Amphitheatre Parkway"],
-//
-//                ["✈️️ to Svalbard ❄️️❄️️❄️️❤️️",
-//                 "Oslo Gardermoen"],
-//
-//                ["💻📲 Developing CalendarKit",
-//                 "🌍 Worldwide"],
-//
-//                ["Software Development Lecture",
-//                 "Mikpoli MB310",
-//                 "Craig Federighi"],
-//
-//                ]
-//
-//    var colors = [UIColor.blue,
-//                  UIColor.yellow,
-//                  UIColor.black,
-//                  UIColor.green,
-//                  UIColor.red]
-
-    var currentStyle = SelectedStyle.Light
 
     var eventStore: EKEventStore = {
         return EKEventStore()
@@ -63,11 +21,9 @@ class CalendarViewController: DayViewController {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isTranslucent = false
 
-
-
         // TODO: check auth status EKEventStore.authorizationStatus(for:.event)
         self.eventStore.requestAccess(to: EKEntityType.event) { (granted, error) in
-            guard granted && error == nil, let calendar = self.schulcloudCalendar else {
+            guard granted && error == nil else {
                 let alert = UIAlertController(title: "Kalenderfehler", message: "Der Schul-Cloud-Kalender konnte nicht geladen werden.", preferredStyle: UIAlertControllerStyle.alert)
                 let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
                 alert.addAction(okAction)
@@ -75,11 +31,7 @@ class CalendarViewController: DayViewController {
                 return
             }
 
-            // TODO: sync data here
-            self.syncCalendarEvents(with: calendar)
-            DispatchQueue.main.async {
-                self.reloadData()
-            }
+            self.syncCalendarEvents()
         }
 
         // scroll to current time
@@ -162,11 +114,14 @@ class CalendarViewController: DayViewController {
         return calendar
     }
 
-    private func syncCalendarEvents(with calendar: EKCalendar) {
-        CalendarHelper.fetchEventsFromServer().onSuccess { serverEvents in
-            print(serverEvents)
-            for serverEvent in serverEvents {
-                let event = CalendarHelper.event(for: serverEvent, in: self.eventStore)
+    private func syncCalendarEvents() {
+        guard EKEventStore.authorizationStatus(for: .event) == .authorized else { return }
+        guard let calendar = self.schulcloudCalendar else { return }
+
+        CalendarHelper.fetchRemoteEvents().onSuccess { remoteEvents in
+            print(remoteEvents)
+            for remoteEvent in remoteEvents {
+                let event = CalendarHelper.event(for: remoteEvent, in: self.eventStore)
                 event.calendar = calendar
 
                 do {
@@ -177,6 +132,10 @@ class CalendarViewController: DayViewController {
 
                 // create in app mapping here
             }
+
+            DispatchQueue.main.async {
+                self.reloadData()
+            }
         }.onFailure { error in
             print("Failed to fetch calendar event - with error: \(error)")
         }
@@ -184,46 +143,7 @@ class CalendarViewController: DayViewController {
     
         // MARK: DayViewDataSource
     override func eventsForDate(_ date: Date) -> [EventDescriptor] {
-//        var date = date.add(TimeChunk(seconds: 0,
-//                                      minutes: 0,
-//                                      hours: Int(arc4random_uniform(10) + 5),
-//                                      days: 0,
-//                                      weeks: 0,
-//                                      months: 0,
-//                                      years: 0))
-//        var events = [Event]()
-//
-//        for i in 0...5 {
-//            let event = Event()
-//            let duration = Int(arc4random_uniform(160) + 60)
-//            let datePeriod = TimePeriod(beginning: date,
-//                                        chunk: TimeChunk(seconds: 0,
-//                                                         minutes: duration,
-//                                                         hours: 0,
-//                                                         days: 0,
-//                                                         weeks: 0,
-//                                                         months: 0,
-//                                                         years: 0))
-//
-//            event.datePeriod = datePeriod
-//            var info = data[Int(arc4random_uniform(UInt32(data.count)))]
-//            info.append("\(datePeriod.beginning!.format(with: "HH:mm")) - \(datePeriod.end!.format(with: "HH:mm"))")
-//            event.text = info.reduce("", {$0 + $1 + "\n"})
-//            event.color = colors[Int(arc4random_uniform(UInt32(colors.count)))]
-//            events.append(event)
-//
-//            let nextOffset = Int(arc4random_uniform(250) + 40)
-//            date = date.add(TimeChunk(seconds: 0,
-//                                      minutes: nextOffset,
-//                                      hours: 0,
-//                                      days: 0,
-//                                      weeks: 0,
-//                                      months: 0,
-//                                      years: 0))
-//            event.userInfo = String(i)
-//        }
         guard EKEventStore.authorizationStatus(for: .event) == .authorized else { return [] }
-
         guard let calendar = self.schulcloudCalendar else { return [] }
 
         let startDate = Date(year: date.year, month: date.month, day: date.day)
