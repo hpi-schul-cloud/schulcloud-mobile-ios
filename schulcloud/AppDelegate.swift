@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let initialViewController = selectInitialViewController(application: application)
         self.window?.rootViewController = initialViewController
         
-        observeChanges()
+        CoreDataObserver.shared.observeChanges(on: managedObjectContext)
         
         return true
     }
@@ -66,7 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func prepareInitialViewController(with account: SchulCloudAccount) -> UIViewController {
         Globals.account = account
         
-        let initialViewController = storyboard.instantiateInitialViewController()!
+        let initialViewController = self.window?.rootViewController ?? storyboard.instantiateInitialViewController()!
         
         SCNotifications.initializeMessaging()
         ApiHelper.updateData()
@@ -102,8 +102,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func isUnitTesting() -> Bool {
         return ProcessInfo.processInfo.environment["TEST"] != nil
     }
-    
-    
 
     // MARK: temp core data observer
     func observeChanges() {
@@ -140,8 +138,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             print(deletes)
             print("+++++++++++++++")
         }
-    }
-    
+    }    
     
 }
-
