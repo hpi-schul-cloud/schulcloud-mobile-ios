@@ -19,6 +19,7 @@
 		503A5EFF1F3DC6A400A7695B /* TabFiles.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */; };
 		503A5F011F3DC6C700A7695B /* TabDashboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5F001F3DC6C700A7695B /* TabDashboard.storyboard */; };
 		503A5F031F3DC95100A7695B /* TabCalendar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5F021F3DC95100A7695B /* TabCalendar.storyboard */; };
+		5069DA0B1F4441AF00210EB9 /* CalendarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5069DA0A1F4441AF00210EB9 /* CalendarHelper.swift */; };
 		8E095EB2D17A96B29951D85A /* Pods_schulcloudUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 270BA83590B5166B5A30D6B3 /* Pods_schulcloudUITests.framework */; };
 		C3165F1D1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3165F1C1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift */; };
 		C3165F1F1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3165F1E1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift */; };
@@ -113,6 +114,7 @@
 		503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabFiles.storyboard; sourceTree = "<group>"; };
 		503A5F001F3DC6C700A7695B /* TabDashboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabDashboard.storyboard; sourceTree = "<group>"; };
 		503A5F021F3DC95100A7695B /* TabCalendar.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabCalendar.storyboard; sourceTree = "<group>"; };
+		5069DA0A1F4441AF00210EB9 /* CalendarHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHelper.swift; sourceTree = "<group>"; };
 		545C97A8DFD815A5CDCD6C3F /* Pods-schulcloud.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloud.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloud/Pods-schulcloud.release.xcconfig"; sourceTree = "<group>"; };
 		6202C4172802EF2A0B49B22E /* Pods-schulcloudTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudTests/Pods-schulcloudTests.release.xcconfig"; sourceTree = "<group>"; };
 		6A95051FD2A0A46DC119427B /* Pods_schulcloudTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloudTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -437,6 +439,7 @@
 				C32870BD1EDF356800ABA348 /* CourseHelper.swift */,
 				C32870BF1EE0228600ABA348 /* LessonHelper.swift */,
 				C3418B5F1ECDAB9F00280E62 /* FileHelper.swift */,
+				5069DA0A1F4441AF00210EB9 /* CalendarHelper.swift */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -778,6 +781,7 @@
 				C32870A11EDDBCB000ABA348 /* UserGroup+CoreDataProperties.swift in Sources */,
 				C3165F1D1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift in Sources */,
 				C3A5A9031EBCC17600825DBF /* AppDelegate.swift in Sources */,
+				5069DA0B1F4441AF00210EB9 /* CalendarHelper.swift in Sources */,
 				C32870B51EDF24F600ABA348 /* Lesson+CoreDataProperties.swift in Sources */,
 				C32870B21EDF24F600ABA348 /* Content+CoreDataClass.swift in Sources */,
 				C32870B31EDF24F600ABA348 /* Content+CoreDataProperties.swift in Sources */,
