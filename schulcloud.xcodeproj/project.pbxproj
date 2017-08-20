@@ -18,7 +18,6 @@
 		503A5EFD1F3DC5DC00A7695B /* TabCourses.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */; };
 		503A5EFF1F3DC6A400A7695B /* TabFiles.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */; };
 		503A5F011F3DC6C700A7695B /* TabDashboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5F001F3DC6C700A7695B /* TabDashboard.storyboard */; };
-		503A5F031F3DC95100A7695B /* TabCalendar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5F021F3DC95100A7695B /* TabCalendar.storyboard */; };
 		582FD7EB0AE33722885680BB /* Pods_schulcloud_schulcloudUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 995426AC92C9452D1ED0246A /* Pods_schulcloud_schulcloudUITests.framework */; };
 		8E095EB2D17A96B29951D85A /* Pods_schulcloudUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 270BA83590B5166B5A30D6B3 /* Pods_schulcloudUITests.framework */; };
 		91187E48A61ED159188C1F20 /* Pods_schulcloud_schulcloudTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBD1AD7CC68AD6AE57843C4 /* Pods_schulcloud_schulcloudTests.framework */; };
@@ -114,7 +113,6 @@
 		503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabCourses.storyboard; sourceTree = "<group>"; };
 		503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabFiles.storyboard; sourceTree = "<group>"; };
 		503A5F001F3DC6C700A7695B /* TabDashboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabDashboard.storyboard; sourceTree = "<group>"; };
-		503A5F021F3DC95100A7695B /* TabCalendar.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabCalendar.storyboard; sourceTree = "<group>"; };
 		545C97A8DFD815A5CDCD6C3F /* Pods-schulcloud.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloud.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloud/Pods-schulcloud.release.xcconfig"; sourceTree = "<group>"; };
 		6202C4172802EF2A0B49B22E /* Pods-schulcloudTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudTests/Pods-schulcloudTests.release.xcconfig"; sourceTree = "<group>"; };
 		6A95051FD2A0A46DC119427B /* Pods_schulcloudTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloudTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -397,7 +395,6 @@
 				C3A5A9061EBCC17600825DBF /* Main.storyboard */,
 				503A5F001F3DC6C700A7695B /* TabDashboard.storyboard */,
 				503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */,
-				503A5F021F3DC95100A7695B /* TabCalendar.storyboard */,
 				503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */,
 				503A5EF91F3DB86C00A7695B /* TabSettings.storyboard */,
 				C3A5A90C1EBCC17600825DBF /* Assets.xcassets */,
@@ -592,7 +589,6 @@
 				C3418B671ED335F400280E62 /* PreviewTransitionViewController.xib in Resources */,
 				C3A5A90D1EBCC17600825DBF /* Assets.xcassets in Resources */,
 				3DD869171ECE3F6100814392 /* PT_Sans-Web-Regular.ttf in Resources */,
-				503A5F031F3DC95100A7695B /* TabCalendar.storyboard in Resources */,
 				3DD869151ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf in Resources */,
 				C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */,
 				503A5F011F3DC6C700A7695B /* TabDashboard.storyboard in Resources */,

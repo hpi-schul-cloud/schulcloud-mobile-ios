@@ -113,7 +113,6 @@
                         <segue destination="z1t-lM-f50" kind="relationship" relationship="viewControllers" id="x1q-hk-iwq"/>
                         <segue destination="nLF-9J-S6l" kind="relationship" relationship="viewControllers" id="ZLD-MS-w2T"/>
                         <segue destination="iRW-Ib-ha7" kind="relationship" relationship="viewControllers" id="DaB-Ku-EJV"/>
-                        <segue destination="6Lx-xj-onS" kind="relationship" relationship="viewControllers" id="NcD-qb-ATY"/>
                         <segue destination="A9h-fP-m3a" kind="relationship" relationship="viewControllers" id="848-7Z-zKH"/>
                     </connections>
                 </tabBarController>
@@ -139,17 +138,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Hj-oS-30C" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1570" y="51"/>
-        </scene>
-        <!--TabCalendar-->
-        <scene sceneID="LjX-Xs-NQE">
-            <objects>
-                <viewControllerPlaceholder storyboardName="TabCalendar" id="6Lx-xj-onS" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="48q-wH-iH5"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Mst-dk-iVw" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1561" y="107"/>
+            <point key="canvasLocation" x="1557" y="120"/>
         </scene>
         <!--TabFiles-->
         <scene sceneID="prS-kN-z4g">
