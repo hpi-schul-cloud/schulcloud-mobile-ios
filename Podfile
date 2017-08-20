@@ -23,14 +23,4 @@ target 'schulcloud' do
   pod 'SwiftyBeaver', :git => 'https://github.com/SwiftyBeaver/SwiftyBeaver.git', :commit => 'e4563d1'
   pod 'SwiftyJSON', '~> 3'
 
-  target 'schulcloudTests' do
-    inherit! :complete
-    # Pods for testing
-  end
-
-  target 'schulcloudUITests' do
-    inherit! :complete
-    # Pods for testing
-  end
-
 end
