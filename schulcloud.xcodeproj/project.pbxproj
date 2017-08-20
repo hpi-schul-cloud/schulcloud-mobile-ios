@@ -13,14 +13,14 @@
 		3DD869151ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DD869111ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf */; };
 		3DD869161ECE3F6100814392 /* PT_Sans-Web-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DD869121ECE3F6100814392 /* PT_Sans-Web-Italic.ttf */; };
 		3DD869171ECE3F6100814392 /* PT_Sans-Web-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DD869131ECE3F6100814392 /* PT_Sans-Web-Regular.ttf */; };
-		449EE059739B56D7AD66808C /* Pods_schulcloudTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A95051FD2A0A46DC119427B /* Pods_schulcloudTests.framework */; };
 		503A5EFB1F3DB86C00A7695B /* TabSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EF91F3DB86C00A7695B /* TabSettings.storyboard */; };
 		503A5EFD1F3DC5DC00A7695B /* TabCourses.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */; };
 		503A5EFF1F3DC6A400A7695B /* TabFiles.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */; };
 		503A5F011F3DC6C700A7695B /* TabDashboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5F001F3DC6C700A7695B /* TabDashboard.storyboard */; };
-		582FD7EB0AE33722885680BB /* Pods_schulcloud_schulcloudUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 995426AC92C9452D1ED0246A /* Pods_schulcloud_schulcloudUITests.framework */; };
-		8E095EB2D17A96B29951D85A /* Pods_schulcloudUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 270BA83590B5166B5A30D6B3 /* Pods_schulcloudUITests.framework */; };
-		91187E48A61ED159188C1F20 /* Pods_schulcloud_schulcloudTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBD1AD7CC68AD6AE57843C4 /* Pods_schulcloud_schulcloudTests.framework */; };
+		5050AAE91F49C13600EF5CF9 /* Pods_schulcloud_schulcloudTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5050AAE71F49C13600EF5CF9 /* Pods_schulcloud_schulcloudTests.framework */; };
+		5050AAEA1F49C13600EF5CF9 /* Pods_schulcloud_schulcloudUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5050AAE81F49C13600EF5CF9 /* Pods_schulcloud_schulcloudUITests.framework */; };
+		5050AAED1F49C15000EF5CF9 /* Pods_schulcloud_schulcloudTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5050AAEB1F49C15000EF5CF9 /* Pods_schulcloud_schulcloudTests.framework */; };
+		5050AAEE1F49C15000EF5CF9 /* Pods_schulcloud_schulcloudUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5050AAEC1F49C15000EF5CF9 /* Pods_schulcloud_schulcloudUITests.framework */; };
 		C3165F1D1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3165F1C1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift */; };
 		C3165F1F1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3165F1E1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift */; };
 		C31C84271ECF546E00FA070C /* WebviewPreviewViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31C84261ECF546E00FA070C /* WebviewPreviewViewContoller.swift */; };
@@ -113,6 +113,10 @@
 		503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabCourses.storyboard; sourceTree = "<group>"; };
 		503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabFiles.storyboard; sourceTree = "<group>"; };
 		503A5F001F3DC6C700A7695B /* TabDashboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabDashboard.storyboard; sourceTree = "<group>"; };
+		5050AAE71F49C13600EF5CF9 /* Pods_schulcloud_schulcloudTests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_schulcloud_schulcloudTests.framework; path = "Pods/../build/Debug-iphoneos/Pods_schulcloud_schulcloudTests.framework"; sourceTree = "<group>"; };
+		5050AAE81F49C13600EF5CF9 /* Pods_schulcloud_schulcloudUITests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_schulcloud_schulcloudUITests.framework; path = "Pods/../build/Debug-iphoneos/Pods_schulcloud_schulcloudUITests.framework"; sourceTree = "<group>"; };
+		5050AAEB1F49C15000EF5CF9 /* Pods_schulcloud_schulcloudTests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_schulcloud_schulcloudTests.framework; path = "Pods/../build/Debug-iphoneos/Pods_schulcloud_schulcloudTests.framework"; sourceTree = "<group>"; };
+		5050AAEC1F49C15000EF5CF9 /* Pods_schulcloud_schulcloudUITests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_schulcloud_schulcloudUITests.framework; path = "Pods/../build/Debug-iphoneos/Pods_schulcloud_schulcloudUITests.framework"; sourceTree = "<group>"; };
 		545C97A8DFD815A5CDCD6C3F /* Pods-schulcloud.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloud.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloud/Pods-schulcloud.release.xcconfig"; sourceTree = "<group>"; };
 		6202C4172802EF2A0B49B22E /* Pods-schulcloudTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudTests/Pods-schulcloudTests.release.xcconfig"; sourceTree = "<group>"; };
 		6A95051FD2A0A46DC119427B /* Pods_schulcloudTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloudTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -205,8 +209,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				449EE059739B56D7AD66808C /* Pods_schulcloudTests.framework in Frameworks */,
-				91187E48A61ED159188C1F20 /* Pods_schulcloud_schulcloudTests.framework in Frameworks */,
+				5050AAE91F49C13600EF5CF9 /* Pods_schulcloud_schulcloudTests.framework in Frameworks */,
+				5050AAEA1F49C13600EF5CF9 /* Pods_schulcloud_schulcloudUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,8 +218,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8E095EB2D17A96B29951D85A /* Pods_schulcloudUITests.framework in Frameworks */,
-				582FD7EB0AE33722885680BB /* Pods_schulcloud_schulcloudUITests.framework in Frameworks */,
+				5050AAED1F49C15000EF5CF9 /* Pods_schulcloud_schulcloudTests.framework in Frameworks */,
+				5050AAEE1F49C15000EF5CF9 /* Pods_schulcloud_schulcloudUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,10 +257,14 @@
 		7EDF8CE117CA0B1F9E1A25E7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5050AAEB1F49C15000EF5CF9 /* Pods_schulcloud_schulcloudTests.framework */,
+				5050AAE81F49C13600EF5CF9 /* Pods_schulcloud_schulcloudUITests.framework */,
+				5050AAEC1F49C15000EF5CF9 /* Pods_schulcloud_schulcloudUITests.framework */,
 				09D7CC393E1856DD7EF9B21F /* Pods_schulcloud.framework */,
 				6A95051FD2A0A46DC119427B /* Pods_schulcloudTests.framework */,
 				270BA83590B5166B5A30D6B3 /* Pods_schulcloudUITests.framework */,
 				BFBD1AD7CC68AD6AE57843C4 /* Pods_schulcloud_schulcloudTests.framework */,
+				5050AAE71F49C13600EF5CF9 /* Pods_schulcloud_schulcloudTests.framework */,
 				995426AC92C9452D1ED0246A /* Pods_schulcloud_schulcloudUITests.framework */,
 			);
 			name = Frameworks;
@@ -1008,6 +1016,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = WP53SSE8S6;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				INFOPLIST_FILE = schulcloudTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.schul-cloud.schulcloudTests";
@@ -1024,6 +1036,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = WP53SSE8S6;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				INFOPLIST_FILE = schulcloudTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.schul-cloud.schulcloudTests";
@@ -1039,6 +1055,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = WP53SSE8S6;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				INFOPLIST_FILE = schulcloudUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.schul-cloud.schulcloudUITests";
@@ -1054,6 +1074,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = WP53SSE8S6;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				INFOPLIST_FILE = schulcloudUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.schul-cloud.schulcloudUITests";
