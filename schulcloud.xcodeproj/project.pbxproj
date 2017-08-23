@@ -13,16 +13,13 @@
 		3DD869151ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DD869111ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf */; };
 		3DD869161ECE3F6100814392 /* PT_Sans-Web-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DD869121ECE3F6100814392 /* PT_Sans-Web-Italic.ttf */; };
 		3DD869171ECE3F6100814392 /* PT_Sans-Web-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DD869131ECE3F6100814392 /* PT_Sans-Web-Regular.ttf */; };
-		449EE059739B56D7AD66808C /* Pods_schulcloudTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A95051FD2A0A46DC119427B /* Pods_schulcloudTests.framework */; };
 		503A5EFB1F3DB86C00A7695B /* TabSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EF91F3DB86C00A7695B /* TabSettings.storyboard */; };
 		503A5EFD1F3DC5DC00A7695B /* TabCourses.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */; };
 		503A5EFF1F3DC6A400A7695B /* TabFiles.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */; };
 		503A5F011F3DC6C700A7695B /* TabDashboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5F001F3DC6C700A7695B /* TabDashboard.storyboard */; };
-		503A5F031F3DC95100A7695B /* TabCalendar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5F021F3DC95100A7695B /* TabCalendar.storyboard */; };
 		5069DA0B1F4441AF00210EB9 /* CalendarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5069DA0A1F4441AF00210EB9 /* CalendarHelper.swift */; };
 		50E8015D1F45C82800B6F8DA /* EventData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8015B1F45C82800B6F8DA /* EventData+CoreDataClass.swift */; };
 		50E8015E1F45C82800B6F8DA /* EventData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8015C1F45C82800B6F8DA /* EventData+CoreDataProperties.swift */; };
-		8E095EB2D17A96B29951D85A /* Pods_schulcloudUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 270BA83590B5166B5A30D6B3 /* Pods_schulcloudUITests.framework */; };
 		C3165F1D1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3165F1C1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift */; };
 		C3165F1F1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3165F1E1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift */; };
 		C31C84271ECF546E00FA070C /* WebviewPreviewViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31C84261ECF546E00FA070C /* WebviewPreviewViewContoller.swift */; };
@@ -115,15 +112,21 @@
 		503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabCourses.storyboard; sourceTree = "<group>"; };
 		503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabFiles.storyboard; sourceTree = "<group>"; };
 		503A5F001F3DC6C700A7695B /* TabDashboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabDashboard.storyboard; sourceTree = "<group>"; };
-		503A5F021F3DC95100A7695B /* TabCalendar.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabCalendar.storyboard; sourceTree = "<group>"; };
+		5050AAE71F49C13600EF5CF9 /* Pods_schulcloud_schulcloudTests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_schulcloud_schulcloudTests.framework; path = "Pods/../build/Debug-iphoneos/Pods_schulcloud_schulcloudTests.framework"; sourceTree = "<group>"; };
+		5050AAE81F49C13600EF5CF9 /* Pods_schulcloud_schulcloudUITests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_schulcloud_schulcloudUITests.framework; path = "Pods/../build/Debug-iphoneos/Pods_schulcloud_schulcloudUITests.framework"; sourceTree = "<group>"; };
+		5050AAEB1F49C15000EF5CF9 /* Pods_schulcloud_schulcloudTests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_schulcloud_schulcloudTests.framework; path = "Pods/../build/Debug-iphoneos/Pods_schulcloud_schulcloudTests.framework"; sourceTree = "<group>"; };
+		5050AAEC1F49C15000EF5CF9 /* Pods_schulcloud_schulcloudUITests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_schulcloud_schulcloudUITests.framework; path = "Pods/../build/Debug-iphoneos/Pods_schulcloud_schulcloudUITests.framework"; sourceTree = "<group>"; };
 		5069DA0A1F4441AF00210EB9 /* CalendarHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHelper.swift; sourceTree = "<group>"; };
 		50E8015B1F45C82800B6F8DA /* EventData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventData+CoreDataClass.swift"; sourceTree = "<group>"; };
 		50E8015C1F45C82800B6F8DA /* EventData+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventData+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		50ED3C4B1F49E62C00CD8466 /* Pods_schulcloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_schulcloud.framework; path = "../../../Library/Developer/Xcode/DerivedData/schulcloud-avlkvehcgbgawffjtgnfanivmgvf/Build/Products/Debug-iphonesimulator/Pods_schulcloud.framework"; sourceTree = "<group>"; };
 		545C97A8DFD815A5CDCD6C3F /* Pods-schulcloud.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloud.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloud/Pods-schulcloud.release.xcconfig"; sourceTree = "<group>"; };
 		6202C4172802EF2A0B49B22E /* Pods-schulcloudTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudTests/Pods-schulcloudTests.release.xcconfig"; sourceTree = "<group>"; };
 		6A95051FD2A0A46DC119427B /* Pods_schulcloudTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloudTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8311124C4B68A962896AF291 /* Pods-schulcloud.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloud.debug.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloud/Pods-schulcloud.debug.xcconfig"; sourceTree = "<group>"; };
 		9425546F91D107FCBF633B36 /* Pods-schulcloudUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudUITests/Pods-schulcloudUITests.release.xcconfig"; sourceTree = "<group>"; };
+		995426AC92C9452D1ED0246A /* Pods_schulcloud_schulcloudUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloud_schulcloudUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFBD1AD7CC68AD6AE57843C4 /* Pods_schulcloud_schulcloudTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloud_schulcloudTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C00572D0E333691EC3007D54 /* Pods-schulcloudTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudTests/Pods-schulcloudTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C3165F1C1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeworkTableViewCell.swift; sourceTree = "<group>"; };
 		C3165F1E1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+HTML.swift"; sourceTree = "<group>"; };
@@ -205,7 +208,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				449EE059739B56D7AD66808C /* Pods_schulcloudTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,7 +215,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8E095EB2D17A96B29951D85A /* Pods_schulcloudUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,9 +248,16 @@
 		7EDF8CE117CA0B1F9E1A25E7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				50ED3C4B1F49E62C00CD8466 /* Pods_schulcloud.framework */,
+				5050AAEB1F49C15000EF5CF9 /* Pods_schulcloud_schulcloudTests.framework */,
+				5050AAE81F49C13600EF5CF9 /* Pods_schulcloud_schulcloudUITests.framework */,
+				5050AAEC1F49C15000EF5CF9 /* Pods_schulcloud_schulcloudUITests.framework */,
 				09D7CC393E1856DD7EF9B21F /* Pods_schulcloud.framework */,
 				6A95051FD2A0A46DC119427B /* Pods_schulcloudTests.framework */,
 				270BA83590B5166B5A30D6B3 /* Pods_schulcloudUITests.framework */,
+				BFBD1AD7CC68AD6AE57843C4 /* Pods_schulcloud_schulcloudTests.framework */,
+				5050AAE71F49C13600EF5CF9 /* Pods_schulcloud_schulcloudTests.framework */,
+				995426AC92C9452D1ED0246A /* Pods_schulcloud_schulcloudUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -389,7 +397,6 @@
 				C3A5A9061EBCC17600825DBF /* Main.storyboard */,
 				503A5F001F3DC6C700A7695B /* TabDashboard.storyboard */,
 				503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */,
-				503A5F021F3DC95100A7695B /* TabCalendar.storyboard */,
 				503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */,
 				503A5EF91F3DB86C00A7695B /* TabSettings.storyboard */,
 				C3A5A90C1EBCC17600825DBF /* Assets.xcassets */,
@@ -477,12 +484,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C3A5A92D1EBCC17600825DBF /* Build configuration list for PBXNativeTarget "schulcloudTests" */;
 			buildPhases = (
-				11CA3DEDA959A0296B81F9AA /* [CP] Check Pods Manifest.lock */,
 				C3A5A9121EBCC17600825DBF /* Sources */,
 				C3A5A9131EBCC17600825DBF /* Frameworks */,
 				C3A5A9141EBCC17600825DBF /* Resources */,
-				00702D74A9B520F179B9A007 /* [CP] Embed Pods Frameworks */,
-				EC39DEFFD07E5864E895FF28 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -498,12 +502,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C3A5A9301EBCC17600825DBF /* Build configuration list for PBXNativeTarget "schulcloudUITests" */;
 			buildPhases = (
-				4BB25BD2F07DF422B7344B33 /* [CP] Check Pods Manifest.lock */,
 				C3A5A91D1EBCC17600825DBF /* Sources */,
 				C3A5A91E1EBCC17600825DBF /* Frameworks */,
 				C3A5A91F1EBCC17600825DBF /* Resources */,
-				B640515B4AA0C8ECCB86872E /* [CP] Copy Pods Resources */,
-				666A472F97124FDE8CDBA124 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -528,7 +529,7 @@
 					C3A5A8FE1EBCC17600825DBF = {
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = WP53SSE8S6;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -585,7 +586,6 @@
 				C3418B671ED335F400280E62 /* PreviewTransitionViewController.xib in Resources */,
 				C3A5A90D1EBCC17600825DBF /* Assets.xcassets in Resources */,
 				3DD869171ECE3F6100814392 /* PT_Sans-Web-Regular.ttf in Resources */,
-				503A5F031F3DC95100A7695B /* TabCalendar.storyboard in Resources */,
 				3DD869151ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf in Resources */,
 				C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */,
 				503A5F011F3DC6C700A7695B /* TabDashboard.storyboard in Resources */,
@@ -609,79 +609,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		00702D74A9B520F179B9A007 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-schulcloudTests/Pods-schulcloudTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		11CA3DEDA959A0296B81F9AA /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		4BB25BD2F07DF422B7344B33 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		666A472F97124FDE8CDBA124 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-schulcloudUITests/Pods-schulcloudUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		92AF1094A1614F30A8A8E107 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-schulcloud-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		92F1821EE71547F849FC612C /* [CP] Copy Pods Resources */ = {
@@ -699,49 +642,52 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-schulcloud/Pods-schulcloud-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B640515B4AA0C8ECCB86872E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-schulcloudUITests/Pods-schulcloudUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		DFB669BB58F24B67E05FBDAF /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-schulcloud/Pods-schulcloud-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/BrightFutures/BrightFutures.framework",
+				"${BUILT_PRODUCTS_DIR}/CalendarKit/CalendarKit.framework",
+				"${BUILT_PRODUCTS_DIR}/DateToolsSwift/DateToolsSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/DynamicColor/DynamicColor.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/JWTDecode/JWTDecode.framework",
+				"${BUILT_PRODUCTS_DIR}/Locksmith/Locksmith.framework",
+				"${BUILT_PRODUCTS_DIR}/Marshal/Marshal.framework",
+				"${BUILT_PRODUCTS_DIR}/Neon/Neon.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
+				"${BUILT_PRODUCTS_DIR}/SimpleRoundedButton/SimpleRoundedButton.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyBeaver/SwiftyBeaver.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BrightFutures.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CalendarKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateToolsSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DynamicColor.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JWTDecode.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Locksmith.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Marshal.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Neon.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SimpleRoundedButton.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyBeaver.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-schulcloud/Pods-schulcloud-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EC39DEFFD07E5864E895FF28 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-schulcloudTests/Pods-schulcloudTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -967,17 +913,31 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8311124C4B68A962896AF291 /* Pods-schulcloud.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = schulcloud/schulcloud.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WP53SSE8S6;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"${PODS_ROOT}/Firebase/Core/Sources",
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAnalytics\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAuth\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseCore\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseInstanceID\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseMessaging\"",
+				);
 				INFOPLIST_FILE = schulcloud/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "75af342e-6316-4716-83e2-c5f08f24b153";
-				PROVISIONING_PROFILE_SPECIFIER = SchulCloud_DevProfile;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -986,30 +946,45 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 545C97A8DFD815A5CDCD6C3F /* Pods-schulcloud.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = schulcloud/schulcloud.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WP53SSE8S6;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"${PODS_ROOT}/Firebase/Core/Sources",
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAnalytics\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAuth\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseCore\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseInstanceID\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseMessaging\"",
+				);
 				INFOPLIST_FILE = schulcloud/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c4956b0d-0f0d-42e4-aa65-a718c9787171";
-				PROVISIONING_PROFILE_SPECIFIER = SchulCloud_DistrProfile;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
 		C3A5A92E1EBCC17600825DBF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C00572D0E333691EC3007D54 /* Pods-schulcloudTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = WP53SSE8S6;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/**";
 				INFOPLIST_FILE = schulcloudTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.schul-cloud.schulcloudTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
@@ -1019,13 +994,14 @@
 		};
 		C3A5A92F1EBCC17600825DBF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6202C4172802EF2A0B49B22E /* Pods-schulcloudTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = WP53SSE8S6;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/**";
 				INFOPLIST_FILE = schulcloudTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.schul-cloud.schulcloudTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
@@ -1035,12 +1011,13 @@
 		};
 		C3A5A9311EBCC17600825DBF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 389B64CA22013634E6CFD243 /* Pods-schulcloudUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = WP53SSE8S6;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/**";
 				INFOPLIST_FILE = schulcloudUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.schul-cloud.schulcloudUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
@@ -1050,12 +1027,13 @@
 		};
 		C3A5A9321EBCC17600825DBF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9425546F91D107FCBF633B36 /* Pods-schulcloudUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = WP53SSE8S6;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/**";
 				INFOPLIST_FILE = schulcloudUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.schul-cloud.schulcloudUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;

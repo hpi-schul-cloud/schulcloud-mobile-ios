@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13156.2"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -27,15 +28,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="currentLesson" rowHeight="136" id="hE3-yY-DU9">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="currentLesson" rowHeight="136" id="hE3-yY-DU9">
                                 <rect key="frame" x="0.0" y="55.5" width="375" height="136"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hE3-yY-DU9" id="Ifs-fF-FbF">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="135.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="342" height="135.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Mathe " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zZu-O3-vhm">
-                                            <rect key="frame" x="16" y="16" width="278.5" height="34"/>
+                                            <rect key="frame" x="16" y="16" width="245.5" height="34"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="34" id="SkX-Yj-9FJ"/>
                                             </constraints>
@@ -53,7 +54,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Raum 12" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jvr-Rf-2yl">
-                                            <rect key="frame" x="302.5" y="8" width="64.5" height="34"/>
+                                            <rect key="frame" x="269.5" y="8" width="64.5" height="34"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="34" id="5b0-ti-gcd"/>
                                             </constraints>
@@ -68,12 +69,12 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qEI-DL-bOO">
-                                            <rect key="frame" x="16" y="58" width="351" height="2"/>
+                                            <rect key="frame" x="16" y="58" width="318" height="2"/>
                                             <color key="progressTintColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="trackTintColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                         </progressView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Raum 64" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pSM-At-kit">
-                                            <rect key="frame" x="79.5" y="94" width="287.5" height="34"/>
+                                            <rect key="frame" x="79.5" y="94" width="254.5" height="34"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="34" id="N6T-lD-XvK"/>
                                             </constraints>
@@ -101,6 +102,9 @@
                                         <constraint firstItem="qEI-DL-bOO" firstAttribute="leading" secondItem="zZu-O3-vhm" secondAttribute="leading" id="wKB-QD-h4M"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="oac-kO-sKD" kind="show" id="7jA-n3-Nur"/>
+                                </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="tasks" rowHeight="103" id="9an-9N-vT2" customClass="DashboardHomeworkCell" customModule="schulcloud" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="191.5" width="375" height="103"/>
@@ -300,7 +304,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zzX-CF-QSE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4076" y="-648.12593703148434"/>
+            <point key="canvasLocation" x="3898" y="-286"/>
         </scene>
         <!--Dashboard-->
         <scene sceneID="qte-oV-pit">
@@ -322,6 +326,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wyV-yh-fIh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2102" y="-648"/>
+        </scene>
+        <!--Kalender-->
+        <scene sceneID="kv7-Tv-z0W">
+            <objects>
+                <viewController id="oac-kO-sKD" customClass="CalendarViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="37m-iQ-mBU">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="ONZ-1t-OlO"/>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <navigationItem key="navigationItem" title="Kalender" id="aHX-1G-bTx"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tMp-sz-qfL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3897" y="-957"/>
         </scene>
     </scenes>
     <resources>
