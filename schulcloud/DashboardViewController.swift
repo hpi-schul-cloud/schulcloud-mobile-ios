@@ -75,31 +75,20 @@ class DashboardViewController: UITableViewController {
         case 1:
             return "Aufgaben"
         case 2:
-            //we are in notification section
             return "Benachrichtungen"
         default:
             return "Section"
         }
     }
     
-//    override func tableView(_ tableView: UITableView, willDisplayHeaderView view:UIView, forSection: Int) {
-//        if let headerTitle = view as? UITableViewHeaderFooterView {
-//            //headerTitle.backgroundColor = UIColor.white
-//            //headerTitle.contentView.backgroundColor = UIColor.white
-//        }
-//    }
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch Sections(rawValue: indexPath.section)! {
         case .today:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "currentLesson")!
-            return cell
+            return tableView.dequeueReusableCell(withIdentifier: "currentLesson", for: indexPath)
         case .tasks:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "tasks")!
-            return cell
+            return tableView.dequeueReusableCell(withIdentifier: "tasks", for: indexPath)
         case .notifications:
-            //we are in notification section
-            let cell = tableView.dequeueReusableCell(withIdentifier: "notification")!
+            let cell = tableView.dequeueReusableCell(withIdentifier: "notification", for: indexPath)
             let label = cell.viewWithTag(1) as! UILabel
             let notification = notifications[indexPath.row]
             label.text = notification.title
@@ -115,7 +104,8 @@ class DashboardViewController: UITableViewController {
         case 1:
             return 100.0
         default:
-            return 40.0        }
+            return 40.0
+        }
 
     }
     
