@@ -61,6 +61,8 @@ class CalendarViewController: DayViewController {
                     return self.createSchulCloudCalendar()
                 }
 
+                // TODO: ask user to keep events in calendar
+
                 // store new calendar identifier
                 userDefaults.set(calendar.calendarIdentifier, forKey: CalendarViewController.calendarIdentifierKey)
                 userDefaults.synchronize()
@@ -73,6 +75,8 @@ class CalendarViewController: DayViewController {
                 // Schul-Cloud calendar has to be created
                 return self.createSchulCloudCalendar()
             }
+
+            // TODO: ask user to keep events in calendar
 
             // Schul-Cloud app was deleted before, but the calendar was not. So update the calendar identifier
             userDefaults.set(calendar.calendarIdentifier, forKey: CalendarViewController.calendarIdentifierKey)
@@ -118,27 +122,7 @@ class CalendarViewController: DayViewController {
         guard EKEventStore.authorizationStatus(for: .event) == .authorized else { return }
         guard let calendar = self.schulcloudCalendar else { return }
 
-        CalendarHelper.fetchRemoteEvents().onSuccess { remoteEvents in
-            print(remoteEvents)
-            for remoteEvent in remoteEvents {
-                let event = CalendarHelper.event(for: remoteEvent, in: self.eventStore)
-                event.calendar = calendar
-
-                do {
-                    try self.eventStore.save(event, span: .thisEvent, commit: true)
-                } catch {
-                    print("error saving event")
-                }
-
-                // create in app mapping here
-            }
-
-            DispatchQueue.main.async {
-                self.reloadData()
-            }
-        }.onFailure { error in
-            print("Failed to fetch calendar event - with error: \(error)")
-        }
+        CalendarHelper.syncEvents(in: calendar, for: eventStore)
     }
     
         // MARK: DayViewDataSource

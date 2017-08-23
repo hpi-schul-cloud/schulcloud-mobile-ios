@@ -35,14 +35,119 @@ public class CalendarHelper {
         }
     }
 
-    static func event(for serverEvent: RemoteEvent, in eventStore: EKEventStore) -> EKEvent {
+    static func createEvent(for remoteEvent: RemoteEvent, in eventStore: EKEventStore) -> EKEvent {
         let event = EKEvent(eventStore: eventStore)
-        event.title = serverEvent.title
-        event.notes = serverEvent.description.isEmpty ? nil : serverEvent.description
-        event.location = serverEvent.location
-        event.startDate = serverEvent.start
-        event.endDate = serverEvent.end
+        return CalendarHelper.update(event: event, for: remoteEvent)
+    }
+
+    static func update(event: EKEvent, for remoteEvent: RemoteEvent) -> EKEvent {
+        event.title = remoteEvent.title
+        event.notes = remoteEvent.description.isEmpty ? nil : remoteEvent.description
+        event.location = remoteEvent.location
+        event.startDate = remoteEvent.start
+        event.endDate = remoteEvent.end
+        event.recurrenceRules = remoteEvent.recurringRule?.eventRecurringRules ?? []
         return event
+    }
+
+    static func syncEvents(in calendar: EKCalendar, for eventStore: EKEventStore) {
+        let privateMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        privateMOC.parent = managedObjectContext
+
+        let remoteData = self.fetchRemoteEvents()
+        let localData: Future<[EventData], SCError> = Future { complete in
+            privateMOC.perform {
+                let fetchRequest: NSFetchRequest<EventData> = EventData.fetchRequest()
+                do {
+                    let data = try privateMOC.fetch(fetchRequest)
+                    complete(.success(data))
+                } catch let error {
+                    complete(.failure(SCError.database(error.localizedDescription)))
+                }
+            }
+        }
+
+        remoteData.zip(localData).onSuccess(privateMOC.perform) { (remoteEvents, localEventData) -> Void in
+            var localEvents = localEventData
+            for remoteEvent in remoteEvents {
+                let filteredEventData = localEvents.filter { eventData -> Bool in
+                    eventData.eventId == remoteEvent.id
+                }
+                if let localEvent = filteredEventData.first {
+                    // event already exists locally -> update eventKit
+                    if var event = eventStore.event(withIdentifier: localEvent.externalEventId) {
+                        event = CalendarHelper.update(event: event, for: remoteEvent)
+
+                        do {
+                            try eventStore.save(event, span: EKSpan.futureEvents, commit: true)
+                            localEvent.eventId = remoteEvent.id
+                            localEvent.externalEventId = event.eventIdentifier
+                            localEvent.courseId = remoteEvent.courseId
+                            if localEvent.hasChanges {
+                                try privateMOC.save()
+                                try privateMOC.parent?.save()
+                            }
+                        } catch {
+                            print("error saving event")
+                        }
+                    } else {
+                        // calendar deleted locally but we still have the event data
+
+                        let event = CalendarHelper.createEvent(for: remoteEvent, in: eventStore)
+                        event.calendar = calendar
+
+                        // (TODO find event locally)
+
+                        do {
+                            try eventStore.save(event, span: .thisEvent, commit: true)
+                            // created eventData object
+                            localEvent.eventId = remoteEvent.id
+                            localEvent.externalEventId = event.eventIdentifier
+                            localEvent.courseId = remoteEvent.courseId
+                            try privateMOC.save()
+                            try privateMOC.parent?.save()
+                        } catch {
+                            print("error saving event")
+                        }
+                    }
+
+                    if let index = localEvents.index(of: localEvent) {
+                        localEvents.remove(at: index)
+                    }
+                } else {
+                    // event has to be created
+                    let event = CalendarHelper.createEvent(for: remoteEvent, in: eventStore)
+                    event.calendar = calendar
+
+                    // (TODO find event locally)
+
+                    do {
+                        try eventStore.save(event, span: .thisEvent, commit: true)
+                        // created eventData object
+                        let newEventData = EventData(context: privateMOC)
+                        newEventData.eventId = remoteEvent.id
+                        newEventData.externalEventId = event.eventIdentifier
+                        newEventData.courseId = remoteEvent.courseId
+                        try privateMOC.save()
+                        try privateMOC.parent?.save()
+                    } catch {
+                        print("error saving event")
+                    }
+                }
+            }
+
+            do {
+                for localEvent in localEvents {
+                    if let event = eventStore.event(withIdentifier: localEvent.externalEventId) {
+                        try eventStore.remove(event, span: EKSpan.futureEvents)
+                    }
+                }
+                try eventStore.commit()
+            } catch {
+                print("Failed to delete remaining events")
+            }
+        }
+
     }
 
 }
