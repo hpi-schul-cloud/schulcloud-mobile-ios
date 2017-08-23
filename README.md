@@ -8,6 +8,7 @@ Dies ist das Repository der nativen iOS-App für die Schul-Cloud. Zum Entwicklen
 ### Installation
 - Repository lokal clonen
 - Pods installieren (`pod repo update` und `pod install`)
+- `schulcloud.xcworkspace` mit Xcode öffnen
 
 ### Konfigurationsdateien entschlüsseln
 Wir nutzen Firebase Messaging für Push-Benachrichtigungen. Die API-Schlüssel in der Datei `GoogleService-Info.plist` sind mit `git-crypt` gesichert.
