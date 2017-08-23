@@ -9,20 +9,13 @@ enum SelectedStyle {
 }
 
 class CalendarViewController: DayViewController {
-
-    private static let calendarIdentifierKey = "or.schul-cloud.calendar.identifier"
-    private static let calendarTitle = "Schul-Cloud"
-
-    var eventStore: EKEventStore = {
-        return EKEventStore()
-    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isTranslucent = false
 
         // TODO: check auth status EKEventStore.authorizationStatus(for:.event)
-        self.eventStore.requestAccess(to: EKEntityType.event) { (granted, error) in
+        CalendarHelper.eventStore.requestAccess(to: EKEntityType.event) { (granted, error) in
             guard granted && error == nil else {
                 let alert = UIAlertController(title: "Kalenderfehler", message: "Der Schul-Cloud-Kalender konnte nicht geladen werden.", preferredStyle: UIAlertControllerStyle.alert)
                 let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
@@ -31,7 +24,13 @@ class CalendarViewController: DayViewController {
                 return
             }
 
-            self.syncCalendarEvents()
+            // init calendar here
+            CalendarHelper.initializeCalendar(on: self) { someCalendar in
+                guard let calendar = someCalendar else { return }
+                CalendarHelper.syncEvents(in: calendar).onSuccess {
+                    self.reloadData()
+                }
+            }
         }
 
         // scroll to current time
@@ -43,98 +42,27 @@ class CalendarViewController: DayViewController {
 
     }
 
-    private var schulcloudCalendar: EKCalendar? {
-        let userDefaults = UserDefaults.standard
-
-        if let calendarIdentifier = userDefaults.string(forKey: CalendarViewController.calendarIdentifierKey) {
-            // Schul-Cloud calendar was created before
-            if let calendar = self.eventStore.calendar(withIdentifier: calendarIdentifier) {
-                return calendar
-            } else {
-                // calendar identifier is invalid
-                userDefaults.removeObject(forKey: CalendarViewController.calendarIdentifierKey)
-                userDefaults.synchronize()
-
-                // Let's try to retrieve the calendar by title
-                guard let calendar = self.retrieveSchulCloudCalendarByTitle() else {
-                    // Schul-Cloud calendar was deleted manually
-                    return self.createSchulCloudCalendar()
-                }
-
-                // TODO: ask user to keep events in calendar
-
-                // store new calendar identifier
-                userDefaults.set(calendar.calendarIdentifier, forKey: CalendarViewController.calendarIdentifierKey)
-                userDefaults.synchronize()
-
-                return calendar
-            }
-        } else {
-            // Let's try to retrieve the calendar by title
-            guard let calendar = self.retrieveSchulCloudCalendarByTitle() else {
-                // Schul-Cloud calendar has to be created
-                return self.createSchulCloudCalendar()
-            }
-
-            // TODO: ask user to keep events in calendar
-
-            // Schul-Cloud app was deleted before, but the calendar was not. So update the calendar identifier
-            userDefaults.set(calendar.calendarIdentifier, forKey: CalendarViewController.calendarIdentifierKey)
-            userDefaults.synchronize()
-
-            return calendar
-        }
-    }
-
-    private func retrieveSchulCloudCalendarByTitle() -> EKCalendar? {
-        let calendars = self.eventStore.calendars(for: .event).filter { (calendar) -> Bool in
-            return calendar.title == CalendarViewController.calendarTitle
-        }
-        return calendars.first
-    }
-
-    private func createSchulCloudCalendar() -> EKCalendar? {
-        let subscribedSources = self.eventStore.sources.filter { (source: EKSource) -> Bool in
-            return source.sourceType == EKSourceType.subscribed
-        }
-
-        guard let source = subscribedSources.first else {
-            return nil
-        }
-
-        let calendar = EKCalendar(for: .event, eventStore: self.eventStore)
-        calendar.title = CalendarViewController.calendarTitle
-        calendar.source = source
-
-        do {
-            try self.eventStore.saveCalendar(calendar, commit: true)
-        } catch {
-            return nil
-        }
-
-        UserDefaults.standard.set(calendar.calendarIdentifier, forKey: CalendarViewController.calendarIdentifierKey)
-        UserDefaults.standard.synchronize()
-
-        return calendar
-    }
-
     private func syncCalendarEvents() {
         guard EKEventStore.authorizationStatus(for: .event) == .authorized else { return }
-        guard let calendar = self.schulcloudCalendar else { return }
 
-        CalendarHelper.syncEvents(in: calendar, for: eventStore)
+        CalendarHelper.initializeCalendar(on: self) { someCalendar in
+            guard let calendar = someCalendar else { return }
+            CalendarHelper.syncEvents(in: calendar).onSuccess {
+                self.reloadData()
+            }
+        }
     }
     
-        // MARK: DayViewDataSource
+    // MARK: DayViewDataSource
     override func eventsForDate(_ date: Date) -> [EventDescriptor] {
         guard EKEventStore.authorizationStatus(for: .event) == .authorized else { return [] }
-        guard let calendar = self.schulcloudCalendar else { return [] }
+        guard let calendar = CalendarHelper.schulcloudCalendar else { return [] }
 
         let startDate = Date(year: date.year, month: date.month, day: date.day)
         let oneDayLater = TimeChunk(seconds: 0, minutes: 0, hours: 0, days: 1, weeks: 0, months: 0, years: 0)
         let endDate = startDate + oneDayLater
-        let predicate = self.eventStore.predicateForEvents(withStart: startDate, end: endDate, calendars: [calendar])
-        return self.eventStore.events(matching: predicate).map { event in event.calendarEvent }
+        let predicate = CalendarHelper.eventStore.predicateForEvents(withStart: startDate, end: endDate, calendars: [calendar])
+        return CalendarHelper.eventStore.events(matching: predicate).map { event in event.calendarEvent }
     }
     
     // MARK: DayViewDelegate

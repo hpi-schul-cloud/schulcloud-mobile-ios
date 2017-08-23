@@ -18,7 +18,118 @@ import DateToolsSwift
 import Marshal
 
 
-public class CalendarHelper {
+public struct CalendarHelper {
+
+    static var eventStore: EKEventStore = {
+        return EKEventStore()
+    }()
+
+    private static let calendarIdentifierKey = "or.schul-cloud.calendar.identifier"
+    private static let calendarTitle = "Schul-Cloud"
+
+    static var schulcloudCalendar: EKCalendar?
+
+    static func initializeCalendar(on controller: UIViewController, _ completion: @escaping (EKCalendar?) -> Void ) {
+        let userDefaults = UserDefaults.standard
+        let updateCalendarAndComplete: (EKCalendar?) -> Void = { calendar in
+            self.schulcloudCalendar = calendar
+            completion(calendar)
+        }
+
+        if let calendarIdentifier = userDefaults.string(forKey: self.calendarIdentifierKey) {
+            // Schul-Cloud calendar was created before
+            if let calendar = self.eventStore.calendar(withIdentifier: calendarIdentifier) {
+                updateCalendarAndComplete(calendar)
+            } else {
+                // calendar identifier is invalid
+                userDefaults.removeObject(forKey: self.calendarIdentifierKey)
+                userDefaults.synchronize()
+
+                // Let's try to retrieve the calendar by title
+                guard let calendar = CalendarHelper.retrieveSchulCloudCalendarByTitle() else {
+                    // Schul-Cloud calendar was deleted manually
+                    return updateCalendarAndComplete(self.createSchulCloudCalendar())
+                }
+
+                self.askUserAboutEvents(in: calendar, on: controller, completion: updateCalendarAndComplete)
+            }
+        } else {
+            // Let's try to retrieve the calendar by title
+            guard let calendar = CalendarHelper.retrieveSchulCloudCalendarByTitle() else {
+                // Schul-Cloud calendar has to be created
+                return updateCalendarAndComplete(self.createSchulCloudCalendar())
+            }
+
+            self.askUserAboutEvents(in: calendar, on: controller, completion: updateCalendarAndComplete)
+        }
+    }
+
+    private static func retrieveSchulCloudCalendarByTitle() -> EKCalendar? {
+        let calendars = self.eventStore.calendars(for: .event).filter { (calendar) -> Bool in
+            return calendar.title == self.calendarTitle
+        }
+        return calendars.first
+    }
+
+    private static func createSchulCloudCalendar() -> EKCalendar? {
+        let subscribedSources = self.eventStore.sources.filter { (source: EKSource) -> Bool in
+            return source.sourceType == EKSourceType.subscribed
+        }
+
+        guard let source = subscribedSources.first else {
+            return nil
+        }
+
+        let calendar = EKCalendar(for: .event, eventStore: self.eventStore)
+        calendar.title = self.calendarTitle
+        calendar.source = source
+
+        do {
+            try self.eventStore.saveCalendar(calendar, commit: true)
+        } catch {
+            return nil
+        }
+
+        UserDefaults.standard.set(calendar.calendarIdentifier, forKey: self.calendarIdentifierKey)
+        UserDefaults.standard.synchronize()
+
+        return calendar
+    }
+
+    private static func askUserAboutEvents(in calendar: EKCalendar, on controller: UIViewController, completion: @escaping (EKCalendar?) -> Void) {
+        let alert = UIAlertController(title: "Ein Schul-Cloud Kalender existiert bereits",
+                                      message: "Was soll mit den Events in diesem Kalendar passieren?",
+                                      preferredStyle: .alert)
+        let keepAction = UIAlertAction(title: "Behalten", style: .cancel) { action in
+            UserDefaults.standard.set(calendar.calendarIdentifier, forKey: self.calendarIdentifierKey)
+            UserDefaults.standard.synchronize()
+
+            completion(calendar)
+        }
+        let discardAction = UIAlertAction(title: "Verwerfen", style: .default) { action in
+            do {
+                try eventStore.removeCalendar(calendar, commit: true)
+                let newCalendar = self.createSchulCloudCalendar()
+
+                UserDefaults.standard.set(newCalendar?.calendarIdentifier, forKey: self.calendarIdentifierKey)
+                UserDefaults.standard.synchronize()
+
+                completion(newCalendar)
+            } catch {
+                completion(nil)
+            }
+        }
+
+        alert.addAction(keepAction)
+        alert.addAction(discardAction)
+
+        controller.present(alert, animated: true, completion: nil)
+    }
+
+}
+
+// calendar sync
+extension CalendarHelper {
 
     typealias FetchResult = Future<Void, SCError>
 
@@ -35,8 +146,8 @@ public class CalendarHelper {
         }
     }
 
-    static func createEvent(for remoteEvent: RemoteEvent, in eventStore: EKEventStore) -> EKEvent {
-        let event = EKEvent(eventStore: eventStore)
+    static func createEvent(for remoteEvent: RemoteEvent) -> EKEvent {
+        let event = EKEvent(eventStore: self.eventStore)
         return CalendarHelper.update(event: event, for: remoteEvent)
     }
 
@@ -50,7 +161,7 @@ public class CalendarHelper {
         return event
     }
 
-    static func syncEvents(in calendar: EKCalendar, for eventStore: EKEventStore) {
+    static func syncEvents(in calendar: EKCalendar) -> Future<Void, SCError> {
         let privateMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         privateMOC.parent = managedObjectContext
 
@@ -67,7 +178,7 @@ public class CalendarHelper {
             }
         }
 
-        remoteData.zip(localData).onSuccess(privateMOC.perform) { (remoteEvents, localEventData) -> Void in
+        return remoteData.zip(localData).map(privateMOC.perform) { (remoteEvents, localEventData) -> Void in
             var localEvents = localEventData
             for remoteEvent in remoteEvents {
                 let filteredEventData = localEvents.filter { eventData -> Bool in
@@ -79,7 +190,7 @@ public class CalendarHelper {
                         event = CalendarHelper.update(event: event, for: remoteEvent)
 
                         do {
-                            try eventStore.save(event, span: EKSpan.futureEvents, commit: true)
+                            try self.eventStore.save(event, span: EKSpan.futureEvents, commit: true)
                             localEvent.eventId = remoteEvent.id
                             localEvent.externalEventId = event.eventIdentifier
                             localEvent.courseId = remoteEvent.courseId
@@ -93,10 +204,8 @@ public class CalendarHelper {
                     } else {
                         // calendar deleted locally but we still have the event data
 
-                        let event = CalendarHelper.createEvent(for: remoteEvent, in: eventStore)
+                        let event = CalendarHelper.createEvent(for: remoteEvent)
                         event.calendar = calendar
-
-                        // (TODO find event locally)
 
                         do {
                             try eventStore.save(event, span: .thisEvent, commit: true)
@@ -116,10 +225,8 @@ public class CalendarHelper {
                     }
                 } else {
                     // event has to be created
-                    let event = CalendarHelper.createEvent(for: remoteEvent, in: eventStore)
+                    let event = CalendarHelper.createEvent(for: remoteEvent)
                     event.calendar = calendar
-
-                    // (TODO find event locally)
 
                     do {
                         try eventStore.save(event, span: .thisEvent, commit: true)
@@ -147,7 +254,6 @@ public class CalendarHelper {
                 print("Failed to delete remaining events")
             }
         }
-
     }
 
 }
