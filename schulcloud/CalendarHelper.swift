@@ -21,7 +21,7 @@ public struct CalendarHelper {
         return EKEventStore()
     }()
 
-    private static let calendarIdentifierKey = "or.schul-cloud.calendar.identifier"
+    private static let calendarIdentifierKey = "org.schul-cloud.calendar.identifier"
     private static let calendarTitle = "Schul-Cloud"
 
     static var schulCloudCalendar: EKCalendar?
@@ -38,7 +38,7 @@ public struct CalendarHelper {
             if let calendar = self.eventStore.calendar(withIdentifier: calendarIdentifier) {
                 updateCalendarAndComplete(calendar)
             } else {
-                // calendar identifier is invalid
+                // calendar identifier is invalid. maybe the calendar was deleted by hand
                 userDefaults.removeObject(forKey: self.calendarIdentifierKey)
                 userDefaults.synchronize()
 
@@ -62,18 +62,11 @@ public struct CalendarHelper {
     }
 
     private static func retrieveSchulCloudCalendarByTitle() -> EKCalendar? {
-        let calendars = self.eventStore.calendars(for: .event).filter { (calendar) -> Bool in
-            return calendar.title == self.calendarTitle
-        }
-        return calendars.first
+        return self.eventStore.calendars(for: .event).first(where: { return $0.title == self.calendarTitle })
     }
 
     private static func createSchulCloudCalendar() -> EKCalendar? {
-        let subscribedSources = self.eventStore.sources.filter { (source: EKSource) -> Bool in
-            return source.sourceType == EKSourceType.subscribed
-        }
-
-        guard let source = subscribedSources.first else {
+        guard let source = self.eventStore.sources.first(where: { return $0.sourceType == EKSourceType.subscribed }) else {
             return nil
         }
 
@@ -94,7 +87,7 @@ public struct CalendarHelper {
     }
 
     private static func askUserAboutEvents(in calendar: EKCalendar, on controller: UIViewController, completion: @escaping (EKCalendar?) -> Void) {
-        let alert = UIAlertController(title: "Ein Schul-Cloud Kalender existiert bereits",
+        let alert = UIAlertController(title: "Ein lokaler Schul-Cloud Kalender existiert bereits.",
                                       message: "Was soll mit den Events in diesem Kalendar passieren?",
                                       preferredStyle: .alert)
         let keepAction = UIAlertAction(title: "Behalten", style: .cancel) { action in

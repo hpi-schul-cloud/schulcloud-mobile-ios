@@ -35,9 +35,9 @@ struct RemoteEvent: Unmarshaling {
         self.end = RemoteEvent.dateInCurrentTimeZone(for: try attributes.value(for: "dtend"))
         self.courseId = try attributes.value(for: "x-sc-courseId")
 
-        let recurringRuleData = included?.filter { json in
+        let recurringRuleData = included?.first { json in
             return (json["type"] as? String) == "rrule" && (json["id"] as? String) == "\(id)-rrule"
-            }.first
+        }
 
         self.recurringRule = try RemoteRecurringRule(object: recurringRuleData)
     }

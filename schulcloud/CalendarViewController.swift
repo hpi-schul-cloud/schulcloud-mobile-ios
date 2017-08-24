@@ -17,14 +17,15 @@ class CalendarViewController: DayViewController {
         // TODO: check auth status EKEventStore.authorizationStatus(for:.event)
         CalendarHelper.eventStore.requestAccess(to: EKEntityType.event) { (granted, error) in
             guard granted && error == nil else {
-                let alert = UIAlertController(title: "Kalenderfehler", message: "Der Schul-Cloud-Kalender konnte nicht geladen werden.", preferredStyle: UIAlertControllerStyle.alert)
-                let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                let alert = UIAlertController(title: "Kalenderfehler",
+                                              message: "Der Schul-Cloud-Kalender konnte nicht geladen werden.",
+                                              preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "Ok", style: .default)
                 alert.addAction(okAction)
-                self.present(alert, animated: true, completion: nil)
+                self.present(alert, animated: true)
                 return
             }
 
-            // init calendar here
             CalendarHelper.initializeCalendar(on: self) { someCalendar in
                 guard let calendar = someCalendar else { return }
                 CalendarHelper.syncEvents(in: calendar).onSuccess {
