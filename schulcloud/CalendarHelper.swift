@@ -25,8 +25,9 @@ public struct CalendarHelper {
     private static let calendarTitle = "Schul-Cloud"
 
     static var schulCloudCalendar: EKCalendar?
+    static var schulCloudCalendarWasInitialized = false
 
-    static func initializeCalendar(on controller: UIViewController, _ completion: @escaping (EKCalendar?) -> Void ) {
+    static func initializeCalendar(on controller: UIViewController, completion: @escaping (EKCalendar?) -> Void ) {
         let userDefaults = UserDefaults.standard
         let updateCalendarAndComplete: (EKCalendar?) -> Void = { calendar in
             self.schulCloudCalendar = calendar
@@ -59,6 +60,8 @@ public struct CalendarHelper {
 
             self.askUserAboutEvents(in: calendar, on: controller, completion: updateCalendarAndComplete)
         }
+
+        self.schulCloudCalendarWasInitialized = true
     }
 
     private static func retrieveSchulCloudCalendarByTitle() -> EKCalendar? {
@@ -116,6 +119,22 @@ public struct CalendarHelper {
         controller.present(alert, animated: true, completion: nil)
     }
 
+}
+
+extension CalendarHelper {
+    static func requestCalendarPermission() -> Future<Void, SCError> {
+        let promise = Promise<Void, SCError>()
+
+        self.eventStore.requestAccess(to: .event) { (granted, error) in
+            if granted && error == nil {
+                promise.failure(SCError.other("Missing Calendar Permission"))
+            } else {
+                promise.success()
+            }
+        }
+
+        return promise.future
+    }
 }
 
 // Calendar Sync

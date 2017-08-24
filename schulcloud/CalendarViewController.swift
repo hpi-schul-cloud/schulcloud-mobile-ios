@@ -3,10 +3,6 @@ import EventKit
 import CalendarKit
 import DateToolsSwift
 
-enum SelectedStyle {
-    case Dark
-    case Light
-}
 
 class CalendarViewController: DayViewController {
     
@@ -14,26 +10,18 @@ class CalendarViewController: DayViewController {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isTranslucent = false
 
-        // TODO: check auth status EKEventStore.authorizationStatus(for:.event)
-        CalendarHelper.eventStore.requestAccess(to: EKEntityType.event) { (granted, error) in
-            guard granted && error == nil else {
-                let alert = UIAlertController(title: "Kalenderfehler",
-                                              message: "Der Schul-Cloud-Kalender konnte nicht geladen werden.",
-                                              preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "Ok", style: .default)
-                alert.addAction(okAction)
-                self.present(alert, animated: true)
-                return
+        switch EKEventStore.authorizationStatus(for: .event) {
+        case .notDetermined:
+            CalendarHelper.requestCalendarPermission().onSuccess {
+                self.syncEvents()
+            }.onFailure { error in
+                self.showCalendarPermissionErrorAlert()
             }
-
-            CalendarHelper.initializeCalendar(on: self) { someCalendar in
-                guard let calendar = someCalendar else { return }
-                CalendarHelper.syncEvents(in: calendar).onSuccess {
-                    DispatchQueue.main.async {
-                        self.reloadData()
-                    }
-                }
-            }
+        case .authorized:
+            self.syncEvents()
+        case .restricted: fallthrough
+        case .denied:
+            self.showCalendarPermissionErrorAlert()
         }
 
         // scroll to current time
@@ -42,7 +30,33 @@ class CalendarViewController: DayViewController {
         let hour = Float(cal.component(.hour, from: date))
         let minute = Float(cal.component(.minute, from: date)) / 60
         self.dayView.scrollTo(hour24: hour - 1 + minute)
+    }
 
+    private func syncEvents() {
+        let syncEvents: (EKCalendar?) -> Void = { someCalendar in
+            guard let calendar = someCalendar else { return }
+            CalendarHelper.syncEvents(in: calendar).onSuccess {
+                DispatchQueue.main.async {
+                    self.reloadData()
+                }
+            }
+        }
+
+        if CalendarHelper.schulCloudCalendarWasInitialized {
+            syncEvents(CalendarHelper.schulCloudCalendar)
+        } else {
+            CalendarHelper.initializeCalendar(on: self, completion: syncEvents)
+        }
+
+    }
+
+    private func showCalendarPermissionErrorAlert() {
+        let alert = UIAlertController(title: "Kalenderfehler",
+                                      message: "Der Schul-Cloud-Kalender konnte nicht geladen werden.",
+                                      preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default)
+        alert.addAction(okAction)
+        self.present(alert, animated: true)
     }
     
     // MARK: DayViewDataSource
@@ -56,30 +70,9 @@ class CalendarViewController: DayViewController {
         let predicate = CalendarHelper.eventStore.predicateForEvents(withStart: startDate, end: endDate, calendars: [calendar])
         return CalendarHelper.eventStore.events(matching: predicate).map { event in event.calendarEvent }
     }
-    
-    // MARK: DayViewDelegate
-    override func dayViewDidSelectEventView(_ eventView: EventView) {
-        guard let descriptor = eventView.descriptor as? Event else {
-            return
-        }
-        print("Event has been selected: \(descriptor) \(String(describing: descriptor.userInfo))")
-    }
-    
-    override func dayViewDidLongPressEventView(_ eventView: EventView) {
-        guard let descriptor = eventView.descriptor as? Event else {
-            return
-        }
-        print("Event has been longPressed: \(descriptor) \(String(describing: descriptor.userInfo))")
-    }
-    
-    override func dayView(dayView: DayView, willMoveTo date: Date) {
-        //    print("DayView = \(dayView) will move to: \(date)")
-    }
-    
-    override func dayView(dayView: DayView, didMoveTo date: Date) {
-        //    print("DayView = \(dayView) did move to: \(date)")
-    }
+
 }
+
 
 extension EKEvent {
     var calendarEvent: Event {
