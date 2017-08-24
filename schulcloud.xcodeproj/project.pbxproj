@@ -18,6 +18,7 @@
 		503A5EFF1F3DC6A400A7695B /* TabFiles.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */; };
 		503A5F011F3DC6C700A7695B /* TabDashboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5F001F3DC6C700A7695B /* TabDashboard.storyboard */; };
 		5069DA0B1F4441AF00210EB9 /* CalendarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5069DA0A1F4441AF00210EB9 /* CalendarHelper.swift */; };
+		50A1CDE21F4EB00B006E9B69 /* RemoteEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A1CDE11F4EB00B006E9B69 /* RemoteEvent.swift */; };
 		50E8015D1F45C82800B6F8DA /* EventData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8015B1F45C82800B6F8DA /* EventData+CoreDataClass.swift */; };
 		50E8015E1F45C82800B6F8DA /* EventData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8015C1F45C82800B6F8DA /* EventData+CoreDataProperties.swift */; };
 		C3165F1D1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3165F1C1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift */; };
@@ -117,6 +118,7 @@
 		5050AAEB1F49C15000EF5CF9 /* Pods_schulcloud_schulcloudTests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_schulcloud_schulcloudTests.framework; path = "Pods/../build/Debug-iphoneos/Pods_schulcloud_schulcloudTests.framework"; sourceTree = "<group>"; };
 		5050AAEC1F49C15000EF5CF9 /* Pods_schulcloud_schulcloudUITests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_schulcloud_schulcloudUITests.framework; path = "Pods/../build/Debug-iphoneos/Pods_schulcloud_schulcloudUITests.framework"; sourceTree = "<group>"; };
 		5069DA0A1F4441AF00210EB9 /* CalendarHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHelper.swift; sourceTree = "<group>"; };
+		50A1CDE11F4EB00B006E9B69 /* RemoteEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteEvent.swift; sourceTree = "<group>"; };
 		50E8015B1F45C82800B6F8DA /* EventData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventData+CoreDataClass.swift"; sourceTree = "<group>"; };
 		50E8015C1F45C82800B6F8DA /* EventData+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventData+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		50ED3C4B1F49E62C00CD8466 /* Pods_schulcloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_schulcloud.framework; path = "../../../Library/Developer/Xcode/DerivedData/schulcloud-avlkvehcgbgawffjtgnfanivmgvf/Build/Products/Debug-iphonesimulator/Pods_schulcloud.framework"; sourceTree = "<group>"; };
@@ -301,6 +303,7 @@
 				C32870B61EDF2C1300ABA348 /* Lesson+.swift */,
 				C3C2AC2F1EC4902F0060AECA /* File+CoreDataClass.swift */,
 				C3418B6E1ED5CF1F00280E62 /* Date+Marshal.swift */,
+				50A1CDE11F4EB00B006E9B69 /* RemoteEvent.swift */,
 			);
 			name = synchronization;
 			sourceTree = "<group>";
@@ -699,6 +702,7 @@
 			files = (
 				3D45737B1EE02065009A30E2 /* CalendarViewController.swift in Sources */,
 				C3165F1F1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift in Sources */,
+				50A1CDE21F4EB00B006E9B69 /* RemoteEvent.swift in Sources */,
 				C32870C01EE0228600ABA348 /* LessonHelper.swift in Sources */,
 				C32870B91EDF2E1E00ABA348 /* Content+.swift in Sources */,
 				C3C2AC361EC5AC460060AECA /* Notifications.swift in Sources */,

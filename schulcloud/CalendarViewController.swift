@@ -28,7 +28,9 @@ class CalendarViewController: DayViewController {
             CalendarHelper.initializeCalendar(on: self) { someCalendar in
                 guard let calendar = someCalendar else { return }
                 CalendarHelper.syncEvents(in: calendar).onSuccess {
-                    self.reloadData()
+                    DispatchQueue.main.async {
+                        self.reloadData()
+                    }
                 }
             }
         }
@@ -41,22 +43,11 @@ class CalendarViewController: DayViewController {
         self.dayView.scrollTo(hour24: hour - 1 + minute)
 
     }
-
-    private func syncCalendarEvents() {
-        guard EKEventStore.authorizationStatus(for: .event) == .authorized else { return }
-
-        CalendarHelper.initializeCalendar(on: self) { someCalendar in
-            guard let calendar = someCalendar else { return }
-            CalendarHelper.syncEvents(in: calendar).onSuccess {
-                self.reloadData()
-            }
-        }
-    }
     
     // MARK: DayViewDataSource
     override func eventsForDate(_ date: Date) -> [EventDescriptor] {
         guard EKEventStore.authorizationStatus(for: .event) == .authorized else { return [] }
-        guard let calendar = CalendarHelper.schulcloudCalendar else { return [] }
+        guard let calendar = CalendarHelper.schulCloudCalendar else { return [] }
 
         let startDate = Date(year: date.year, month: date.month, day: date.day)
         let oneDayLater = TimeChunk(seconds: 0, minutes: 0, hours: 0, days: 1, weeks: 0, months: 0, years: 0)
@@ -86,5 +77,15 @@ class CalendarViewController: DayViewController {
     
     override func dayView(dayView: DayView, didMoveTo date: Date) {
         //    print("DayView = \(dayView) did move to: \(date)")
+    }
+}
+
+extension EKEvent {
+    var calendarEvent: Event {
+        let event = Event()
+        event.datePeriod = TimePeriod(beginning: self.startDate, end: self.endDate)
+        event.text = self.title
+        event.color = UIColor.red
+        return event
     }
 }
