@@ -166,7 +166,7 @@
 		C36C233A1ECC965400D4163E /* CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreData.swift; sourceTree = "<group>"; };
 		C378D2C31ECC976800AE8CEA /* schulcloud.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = schulcloud.xcdatamodel; sourceTree = "<group>"; };
 		C38419161EF602AA00A616B3 /* SplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
-		C3A5A8FF1EBCC17600825DBF /* schulcloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = schulcloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3A5A8FF1EBCC17600825DBF /* Schul-Cloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Schul-Cloud.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3A5A9021EBCC17600825DBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3A5A9041EBCC17600825DBF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C3A5A9071EBCC17600825DBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -334,7 +334,7 @@
 		C3A5A9001EBCC17600825DBF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C3A5A8FF1EBCC17600825DBF /* schulcloud.app */,
+				C3A5A8FF1EBCC17600825DBF /* Schul-Cloud.app */,
 				C3A5A9161EBCC17600825DBF /* schulcloudTests.xctest */,
 				C3A5A9211EBCC17600825DBF /* schulcloudUITests.xctest */,
 			);
@@ -480,7 +480,7 @@
 			);
 			name = schulcloud;
 			productName = schulcloud;
-			productReference = C3A5A8FF1EBCC17600825DBF /* schulcloud.app */;
+			productReference = C3A5A8FF1EBCC17600825DBF /* Schul-Cloud.app */;
 			productType = "com.apple.product-type.application";
 		};
 		C3A5A9151EBCC17600825DBF /* schulcloudTests */ = {
@@ -939,7 +939,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Schul-Cloud";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
@@ -972,7 +972,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Schul-Cloud";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
