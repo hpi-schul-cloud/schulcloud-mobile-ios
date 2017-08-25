@@ -102,9 +102,6 @@
                                         <constraint firstItem="qEI-DL-bOO" firstAttribute="leading" secondItem="zZu-O3-vhm" secondAttribute="leading" id="wKB-QD-h4M"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="oac-kO-sKD" kind="show" id="7jA-n3-Nur"/>
-                                </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="tasks" rowHeight="103" id="9an-9N-vT2" customClass="DashboardHomeworkCell" customModule="schulcloud" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="191.5" width="1024" height="103"/>
@@ -140,9 +137,6 @@
                                 <connections>
                                     <outlet property="numberOfOpenTasksLabel" destination="fqV-od-nVp" id="mZG-Lk-Tyr"/>
                                     <outlet property="subtitleLabel" destination="nGs-K3-Wsk" id="rHB-n3-cfx"/>
-                                    <segue destination="XP3-Qh-qs6" kind="show" identifier="tasks" id="6Hb-1P-1Gs">
-                                        <nil key="action"/>
-                                    </segue>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="detailButton" indentationWidth="10" reuseIdentifier="notification" id="tUN-N8-mwL">
@@ -173,7 +167,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mqN-od-oN9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3092" y="-648.12593703148434"/>
+            <point key="canvasLocation" x="2716" y="-1462"/>
         </scene>
         <!--Dashboard-->
         <scene sceneID="HWq-c0-eLd">
@@ -256,6 +250,7 @@
                                                     </stackView>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <gestureRecognizers/>
                                                 <constraints>
                                                     <constraint firstAttribute="trailing" secondItem="RFl-dW-zal" secondAttribute="trailing" constant="20" symbolic="YES" id="8FS-z0-SRL"/>
                                                     <constraint firstItem="RFl-dW-zal" firstAttribute="leading" secondItem="VFD-Oi-nXx" secondAttribute="leading" constant="20" symbolic="YES" id="NsJ-VP-BWj"/>
@@ -263,6 +258,9 @@
                                                     <constraint firstAttribute="bottom" secondItem="RFl-dW-zal" secondAttribute="bottom" constant="20" symbolic="YES" id="reT-4q-ZUG"/>
                                                     <constraint firstAttribute="height" constant="140" id="ttZ-4a-48e"/>
                                                 </constraints>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="QFu-US-c4r" appends="YES" id="xQk-eg-ULl"/>
+                                                </connections>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XII-Es-VnV">
                                                 <rect key="frame" x="0.0" y="156" width="360" height="100"/>
@@ -297,6 +295,7 @@
                                                     </stackView>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <gestureRecognizers/>
                                                 <constraints>
                                                     <constraint firstAttribute="bottom" secondItem="ohe-JI-4mW" secondAttribute="bottom" constant="8" id="8VI-5h-a1i"/>
                                                     <constraint firstAttribute="trailing" secondItem="ohe-JI-4mW" secondAttribute="trailing" constant="16" id="JqR-Tu-kZA"/>
@@ -304,6 +303,9 @@
                                                     <constraint firstItem="ohe-JI-4mW" firstAttribute="leading" secondItem="XII-Es-VnV" secondAttribute="leading" constant="16" id="rKq-HN-HhE"/>
                                                     <constraint firstAttribute="height" constant="100" id="vgn-LJ-qS5"/>
                                                 </constraints>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="cZ1-hy-Z6G" appends="YES" id="J77-Z2-HK6"/>
+                                                </connections>
                                             </view>
                                         </subviews>
                                     </stackView>
@@ -375,11 +377,23 @@
                         <outletCollection property="dashboardCells" destination="XII-Es-VnV" collectionClass="NSMutableArray" id="fba-C5-WOo"/>
                         <outletCollection property="dashboardCells" destination="VFD-Oi-nXx" collectionClass="NSMutableArray" id="Yji-TK-h3r"/>
                         <outletCollection property="dashboardCells" destination="eYR-3E-I2v" collectionClass="NSMutableArray" id="kpb-Vv-bnl"/>
+                        <segue destination="oac-kO-sKD" kind="show" identifier="showCalendar" id="bxm-Vp-gB2"/>
+                        <segue destination="XP3-Qh-qs6" kind="show" identifier="showTasks" id="ecc-dX-D4q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dmd-jP-8ZZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="QFu-US-c4r">
+                    <connections>
+                        <action selector="tappedCalendarCell:" destination="mCw-LW-qKw" id="vNv-O8-LbF"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="cZ1-hy-Z6G">
+                    <connections>
+                        <action selector="tappedTasksCell:" destination="mCw-LW-qKw" id="45v-rN-APA"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2102" y="58"/>
+            <point key="canvasLocation" x="2783" y="-648"/>
         </scene>
         <!--Aufgaben-->
         <scene sceneID="vdJ-hp-wNi">
@@ -510,7 +524,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zzX-CF-QSE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3898" y="-286"/>
+            <point key="canvasLocation" x="3494" y="-283"/>
         </scene>
         <!--Dashboard-->
         <scene sceneID="qte-oV-pit">
@@ -538,7 +552,7 @@
             <objects>
                 <viewController id="oac-kO-sKD" customClass="CalendarViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="37m-iQ-mBU">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="719"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="655"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="ONZ-1t-OlO"/>
@@ -549,7 +563,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tMp-sz-qfL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3897" y="-957"/>
+            <point key="canvasLocation" x="3494" y="-958"/>
         </scene>
     </scenes>
     <resources>

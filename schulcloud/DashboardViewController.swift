@@ -113,7 +113,7 @@ class DashboardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // is onlz applied/installed on size class wR hR
+        // is only applied/installed on size class wR hR
         self.widthConstraint.constant = min(self.view.frame.size.width, self.view.frame.size.height)
     }
 
@@ -141,6 +141,15 @@ class DashboardViewController: UIViewController {
         }
 
     }
+
+    @IBAction func tappedCalendarCell(_ sender: UITapGestureRecognizer) {
+        self.performSegue(withIdentifier: "showCalendar", sender: sender)
+    }
+
+    @IBAction func tappedTasksCell(_ sender: UITapGestureRecognizer) {
+        self.performSegue(withIdentifier: "showTasks", sender: sender)
+    }
+
 }
 
 struct SCNotification: Unmarshaling {
