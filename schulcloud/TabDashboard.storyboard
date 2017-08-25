@@ -368,10 +368,10 @@
                         </variation>
                     </scrollView>
                     <navigationItem key="navigationItem" title="Dashboard" id="VMf-G3-4qj">
-                        <barButtonItem key="rightBarButtonItem" title="Benachrichtigungen" id="PIc-q3-sr1"/>
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="e6O-eu-baP"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="notificationButton" destination="PIc-q3-sr1" id="Elz-kA-eny"/>
+                        <outlet property="notificationBarButton" destination="e6O-eu-baP" id="ceQ-vi-zGO"/>
                         <outlet property="view" destination="xbz-Rr-KsS" id="gG0-ev-Db3"/>
                         <outlet property="widthConstraint" destination="R00-Wb-i51" id="IQ5-lu-Zbq"/>
                         <outletCollection property="dashboardCells" destination="XII-Es-VnV" collectionClass="NSMutableArray" id="fba-C5-WOo"/>

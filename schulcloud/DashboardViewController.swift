@@ -104,17 +104,22 @@ import Marshal
 //}
 
 class DashboardViewController: UIViewController {
-    @IBOutlet var notificationButton: UIBarButtonItem!
+    @IBOutlet var notificationBarButton: UIBarButtonItem!
     @IBOutlet var dashboardCells: [UIView]!
 
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
 
+    var notifications: [SCNotification] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.updateNotificationBarButton()
+
         // is only applied/installed on size class wR hR
         self.widthConstraint.constant = min(self.view.frame.size.width, self.view.frame.size.height)
+
+        self.fetchNotifications()
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -130,7 +135,7 @@ class DashboardViewController: UIViewController {
         if self.traitCollection.horizontalSizeClass == .regular {
             self.navigationItem.rightBarButtonItem = nil
         } else {
-            self.navigationItem.rightBarButtonItem = self.notificationButton
+            self.navigationItem.rightBarButtonItem = self.notificationBarButton
         }
 
         // update corner radius of dashboard cells
@@ -139,7 +144,6 @@ class DashboardViewController: UIViewController {
             cell.layer.cornerRadius = cornerRadius
             cell.layer.masksToBounds = true
         }
-
     }
 
     @IBAction func tappedCalendarCell(_ sender: UITapGestureRecognizer) {
@@ -148,6 +152,26 @@ class DashboardViewController: UIViewController {
 
     @IBAction func tappedTasksCell(_ sender: UITapGestureRecognizer) {
         self.performSegue(withIdentifier: "showTasks", sender: sender)
+    }
+
+    private func updateNotificationBarButton() {
+        let title = self.notifications.isEmpty ? nil : String(self.notifications.count)
+        let imageName = self.notifications.isEmpty ? "bell" : "bell-filled"
+        let image = UIImage(named: imageName)
+        let button = UIButton(type: .system)
+        button.setImage(image, for: .normal)
+        button.setTitle(title, for: .normal)
+        button.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
+        button.sizeToFit()
+        self.notificationBarButton.customView = button
+    }
+
+    func fetchNotifications() {
+        let request: Future<[SCNotification], SCError> = ApiHelper.request("notification?$limit=50").deserialize(keyPath: "data")
+        request.onSuccess { notifications in
+            self.notifications = notifications
+            self.updateNotificationBarButton()
+        }
     }
 
 }
