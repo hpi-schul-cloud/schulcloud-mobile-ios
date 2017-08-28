@@ -108,8 +108,10 @@ class DashboardViewController: UIViewController {
     @IBOutlet var dashboardCells: [UIView]!
 
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var notificationContainerHeight: NSLayoutConstraint!
 
     var notifications: [SCNotification] = []
+    var notificationViewController: ShortNotificationViewController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -117,7 +119,8 @@ class DashboardViewController: UIViewController {
         self.updateNotificationBarButton()
 
         // is only applied/installed on size class wR hR
-        self.widthConstraint.constant = min(self.view.frame.size.width, self.view.frame.size.height)
+        let horizontalPadding: CGFloat = 32.0
+        self.widthConstraint.constant = min(self.view.frame.size.width, self.view.frame.size.height) - horizontalPadding
 
         self.fetchNotifications()
     }
@@ -159,9 +162,17 @@ class DashboardViewController: UIViewController {
         case "showNotifications"?:
             guard let notificationViewController = segue.destination as? NotificationViewController else { return }
             notificationViewController.notifications = self.notifications
+        case "showNotificationsEmbedded"?:
+            guard let shortNotificationViewController = segue.destination as? ShortNotificationViewController else { return }
+            self.notificationViewController = shortNotificationViewController
+            shortNotificationViewController.delegate = self
         default:
             break
         }
+    }
+
+    private func updateNotificationView() {
+        self.notificationViewController?.notifications = self.notifications
     }
 
     private func updateNotificationBarButton() {
@@ -180,12 +191,21 @@ class DashboardViewController: UIViewController {
         let request: Future<[SCNotification], SCError> = ApiHelper.request("notification?$limit=50").deserialize(keyPath: "data")
         request.onSuccess { notifications in
             self.notifications = notifications
+            self.updateNotificationView()
             self.updateNotificationBarButton()
         }
     }
 
     func showNotifications() {
         self.performSegue(withIdentifier: "showNotifications", sender: self)
+    }
+
+}
+
+extension DashboardViewController: ShortNotificationViewControllerDelegate {
+
+    func viewHeightDidChange(to height: CGFloat) {
+        self.notificationContainerHeight.constant = height
     }
 
 }
