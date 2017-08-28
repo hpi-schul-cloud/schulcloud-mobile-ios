@@ -160,7 +160,8 @@ class DashboardViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case "showNotifications"?:
-            guard let notificationViewController = segue.destination as? NotificationViewController else { return }
+            guard let navigationViewController = segue.destination as? UINavigationController else { return }
+            guard let notificationViewController = navigationViewController.topViewController as? NotificationViewController else { return }
             notificationViewController.notifications = self.notifications
         case "showNotificationsEmbedded"?:
             guard let shortNotificationViewController = segue.destination as? ShortNotificationViewController else { return }
@@ -206,6 +207,10 @@ extension DashboardViewController: ShortNotificationViewControllerDelegate {
 
     func viewHeightDidChange(to height: CGFloat) {
         self.notificationContainerHeight.constant = height
+    }
+
+    func didPressViewMoreButton() {
+        self.performSegue(withIdentifier: "showNotifications", sender: self)
     }
 
 }

@@ -405,7 +405,7 @@
                         <outletCollection property="dashboardCells" destination="RfQ-Ev-Jap" collectionClass="NSMutableArray" id="K2P-q1-vPL"/>
                         <segue destination="oac-kO-sKD" kind="show" identifier="showCalendar" id="bxm-Vp-gB2"/>
                         <segue destination="XP3-Qh-qs6" kind="show" identifier="showTasks" id="ecc-dX-D4q"/>
-                        <segue destination="7ZX-Vz-kdM" kind="show" identifier="showNotifications" id="Isy-Fk-xA5"/>
+                        <segue destination="oQI-Xi-650" kind="presentation" identifier="showNotifications" modalPresentationStyle="pageSheet" id="Isy-Fk-xA5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dmd-jP-8ZZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -587,6 +587,9 @@
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="peN-sj-d2w">
                                     <rect key="frame" x="20" y="20" width="233" height="4"/>
                                     <state key="normal" title="Alle Benachrichtigungen anzeigen"/>
+                                    <connections>
+                                        <action selector="tappedViewMore" destination="Bbj-2V-m9E" eventType="touchUpInside" id="0pU-8P-h3d"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -684,33 +687,33 @@
             </objects>
             <point key="canvasLocation" x="1825" y="-649"/>
         </scene>
-        <!--Benachrichtigung-->
+        <!--Benachrichtigungen-->
         <scene sceneID="9JG-sD-gFf">
             <objects>
                 <tableViewController id="7ZX-Vz-kdM" customClass="NotificationViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="5xQ-YN-7ci">
-                        <rect key="frame" x="0.0" y="0.0" width="736" height="414"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="394"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="notificationCell" rowHeight="80" id="HpJ-oE-01o" customClass="NotificationCell" customModule="schulcloud" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="736" height="80"/>
+                                <rect key="frame" x="0.0" y="28" width="414" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HpJ-oE-01o" id="4yb-bA-dse">
-                                    <rect key="frame" x="0.0" y="0.0" width="736" height="79.666666666666671"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="79.666666666666671"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="WQX-ST-SZq">
-                                            <rect key="frame" x="20" y="16" width="696" height="55.666666666666671"/>
+                                            <rect key="frame" x="20" y="16" width="374" height="55.666666666666671"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5lA-np-Y0r">
-                                                    <rect key="frame" x="0.0" y="0.0" width="696" height="25.333333333333336"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="374" height="25.333333333333336"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="detail" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EoV-Ta-4Wc">
-                                                    <rect key="frame" x="0.0" y="29.333333333333332" width="696" height="26.333333333333339"/>
+                                                    <rect key="frame" x="0.0" y="29.333333333333332" width="374" height="26.333333333333339"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -736,11 +739,17 @@
                             <outlet property="delegate" destination="7ZX-Vz-kdM" id="YZp-Yf-cPa"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Benachrichtigung" id="f0F-hg-NbJ"/>
+                    <navigationItem key="navigationItem" title="Benachrichtigungen" id="f0F-hg-NbJ">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="gjU-fU-LJn">
+                            <connections>
+                                <action selector="tappedDoneButton:" destination="7ZX-Vz-kdM" id="8lw-tK-Jxq"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ny1-DO-JhR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3493" y="-1615"/>
+            <point key="canvasLocation" x="4200" y="-1681"/>
         </scene>
         <!--Kalender-->
         <scene sceneID="kv7-Tv-z0W">
@@ -758,7 +767,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tMp-sz-qfL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3494" y="-958"/>
+            <point key="canvasLocation" x="3493" y="-990"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="CNz-Bv-thv">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="oQI-Xi-650" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="K7h-w1-LmG">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="32"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="7ZX-Vz-kdM" kind="relationship" relationship="rootViewController" id="CMJ-0n-ajD"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kcA-ir-HSQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3493" y="-1680"/>
         </scene>
     </scenes>
     <resources>

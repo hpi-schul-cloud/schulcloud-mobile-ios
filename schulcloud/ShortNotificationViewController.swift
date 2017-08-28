@@ -73,11 +73,15 @@ class ShortNotificationViewController: UITableViewController {
         return UITableViewAutomaticDimension
     }
 
+    @IBAction func tappedViewMore() {
+        self.delegate?.didPressViewMoreButton()
+    }
 }
 
 
 protocol ShortNotificationViewControllerDelegate {
 
     func viewHeightDidChange(to: CGFloat)
+    func didPressViewMoreButton()
 
 }
