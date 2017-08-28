@@ -18,6 +18,8 @@ class CoursesViewController: UICollectionViewController, NSFetchedResultsControl
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         performFetch()
         updateData()
+
+//        self.collectionView.nu
     }
 
     @IBAction func didTriggerRefresh() {
@@ -106,7 +108,11 @@ class CoursesViewController: UICollectionViewController, NSFetchedResultsControl
         return CGSize(width: cellWidth, height: cellHeight)
     }
 
-    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        self.collectionViewLayout.invalidateLayout()
+    }
+
     /*
      // Override to support conditional editing of the table view.
      override func collectionView(_ collectionView: UIcollectionView, canEditRowAt indexPath: IndexPath) -> Bool {

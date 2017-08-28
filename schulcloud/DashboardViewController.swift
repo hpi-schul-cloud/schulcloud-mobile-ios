@@ -154,6 +154,16 @@ class DashboardViewController: UIViewController {
         self.performSegue(withIdentifier: "showTasks", sender: sender)
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "showNotifications"?:
+            guard let notificationViewController = segue.destination as? NotificationViewController else { return }
+            notificationViewController.notifications = self.notifications
+        default:
+            break
+        }
+    }
+
     private func updateNotificationBarButton() {
         let title = self.notifications.isEmpty ? nil : String(self.notifications.count)
         let imageName = self.notifications.isEmpty ? "bell" : "bell-filled"
@@ -161,8 +171,8 @@ class DashboardViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setImage(image, for: .normal)
         button.setTitle(title, for: .normal)
-        button.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
         button.sizeToFit()
+        button.addTarget(self, action: #selector(DashboardViewController.showNotifications), for: .touchUpInside)
         self.notificationBarButton.customView = button
     }
 
@@ -172,6 +182,10 @@ class DashboardViewController: UIViewController {
             self.notifications = notifications
             self.updateNotificationBarButton()
         }
+    }
+
+    func showNotifications() {
+        self.performSegue(withIdentifier: "showNotifications", sender: self)
     }
 
 }
