@@ -34,7 +34,7 @@
 		C32870A51EDDBCB000ABA348 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C328709E1EDDBCB000ABA348 /* User+CoreDataClass.swift */; };
 		C32870A61EDDBCB000ABA348 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C328709F1EDDBCB000ABA348 /* User+CoreDataProperties.swift */; };
 		C32870A91EDDD3D100ABA348 /* Course+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870A81EDDD3D100ABA348 /* Course+.swift */; };
-		C32870AD1EDED1D200ABA348 /* DashboardHomeworkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870AC1EDED1D200ABA348 /* DashboardHomeworkCell.swift */; };
+		C32870AD1EDED1D200ABA348 /* DashboardHomeworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870AC1EDED1D200ABA348 /* DashboardHomeworkView.swift */; };
 		C32870B21EDF24F600ABA348 /* Content+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870AE1EDF24F600ABA348 /* Content+CoreDataClass.swift */; };
 		C32870B31EDF24F600ABA348 /* Content+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870AF1EDF24F600ABA348 /* Content+CoreDataProperties.swift */; };
 		C32870B41EDF24F600ABA348 /* Lesson+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870B01EDF24F600ABA348 /* Lesson+CoreDataClass.swift */; };
@@ -142,7 +142,7 @@
 		C328709E1EDDBCB000ABA348 /* User+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
 		C328709F1EDDBCB000ABA348 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		C32870A81EDDD3D100ABA348 /* Course+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Course+.swift"; sourceTree = "<group>"; };
-		C32870AC1EDED1D200ABA348 /* DashboardHomeworkCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardHomeworkCell.swift; sourceTree = "<group>"; };
+		C32870AC1EDED1D200ABA348 /* DashboardHomeworkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardHomeworkView.swift; sourceTree = "<group>"; };
 		C32870AE1EDF24F600ABA348 /* Content+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Content+CoreDataClass.swift"; sourceTree = "<group>"; };
 		C32870AF1EDF24F600ABA348 /* Content+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Content+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		C32870B01EDF24F600ABA348 /* Lesson+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Lesson+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -245,6 +245,18 @@
 			name = fonts;
 			sourceTree = "<group>";
 		};
+		50739CC91F56B9C600CD68C7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C3C080541EE607F6005FA7C3 /* CourseCell.swift */,
+				C32870AC1EDED1D200ABA348 /* DashboardHomeworkView.swift */,
+				C3165F1C1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift */,
+				C3418B631ED2E89F00280E62 /* FileListCell.swift */,
+				50A1CDE51F501AC5006E9B69 /* NotificationCell.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		7EDF8CE117CA0B1F9E1A25E7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -308,8 +320,6 @@
 			children = (
 				C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */,
 				C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */,
-				C3418B631ED2E89F00280E62 /* FileListCell.swift */,
-				50A1CDE51F501AC5006E9B69 /* NotificationCell.swift */,
 			);
 			name = Files;
 			sourceTree = "<group>";
@@ -341,9 +351,10 @@
 			isa = PBXGroup;
 			children = (
 				C3A5A9371EBCD07B00825DBF /* Application */,
-				C3A5A9351EBCD03600825DBF /* Controllers */,
 				C3C2AC331EC498F50060AECA /* Data */,
-				C3A5A9361EBCD06200825DBF /* Views */,
+				C3A5A9351EBCD03600825DBF /* Controllers */,
+				50739CC91F56B9C600CD68C7 /* Views */,
+				C3A5A9361EBCD06200825DBF /* Storyboards */,
 				C3C2AC251EC3B3980060AECA /* API */,
 				C36C23371EC9DE0700D4163E /* SCError.swift */,
 			);
@@ -377,12 +388,9 @@
 				C3AB48991EDAE8A800692505 /* HomeworkViewController.swift */,
 				C3A5A9041EBCC17600825DBF /* ViewController.swift */,
 				C32870BB1EDF32C600ABA348 /* CoursesViewController.swift */,
-				C3C080541EE607F6005FA7C3 /* CourseCell.swift */,
 				C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */,
 				509A93371F541512001167DE /* DashboardViewController.swift */,
 				C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */,
-				C32870AC1EDED1D200ABA348 /* DashboardHomeworkCell.swift */,
-				C3165F1C1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift */,
 				3D45737A1EE02065009A30E2 /* CalendarViewController.swift */,
 				C38419161EF602AA00A616B3 /* SplitViewController.swift */,
 				50A1CDE31F501A0C006E9B69 /* NotificationViewController.swift */,
@@ -391,7 +399,7 @@
 			name = Controllers;
 			sourceTree = "<group>";
 		};
-		C3A5A9361EBCD06200825DBF /* Views */ = {
+		C3A5A9361EBCD06200825DBF /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
 				C3418B691ED3360B00280E62 /* Files */,
@@ -403,7 +411,7 @@
 				C3A5A90C1EBCC17600825DBF /* Assets.xcassets */,
 				C3A5A90E1EBCC17600825DBF /* LaunchScreen.storyboard */,
 			);
-			name = Views;
+			name = Storyboards;
 			sourceTree = "<group>";
 		};
 		C3A5A9371EBCD07B00825DBF /* Application */ = {
@@ -713,7 +721,7 @@
 				C3C080551EE607F6005FA7C3 /* CourseCell.swift in Sources */,
 				C31C842A1ECF553700FA070C /* PreviewManager.swift in Sources */,
 				C3418B6F1ED5CF1F00280E62 /* Date+Marshal.swift in Sources */,
-				C32870AD1EDED1D200ABA348 /* DashboardHomeworkCell.swift in Sources */,
+				C32870AD1EDED1D200ABA348 /* DashboardHomeworkView.swift in Sources */,
 				C3A5A9341EBCCE3B00825DBF /* LoginViewController.swift in Sources */,
 				C32870A01EDDBCB000ABA348 /* UserGroup+CoreDataClass.swift in Sources */,
 				C32870A21EDDBCB000ABA348 /* Course+CoreDataClass.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  DashboardHomeworkCell.swift
+//  DashboardHomeworkView.swift
 //  schulcloud
 //
 //  Created by Carl Julius Gödecken on 31.05.17.
@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class DashboardHomeworkCell: UITableViewCell {
+class DashboardHomeworkView: UIView {
 
     @IBOutlet var numberOfOpenTasksLabel: UILabel!
     @IBOutlet var subtitleLabel: UILabel!
@@ -17,12 +17,8 @@ class DashboardHomeworkCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         numberOfOpenTasksLabel.text = "?"
-            NotificationCenter.default.addObserver(self, selector: #selector(DashboardHomeworkCell.updateHomeworkCount), name: NSNotification.Name(rawValue: Homework.changeNotificationName), object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(DashboardHomeworkView.updateHomeworkCount), name: NSNotification.Name(rawValue: Homework.changeNotificationName), object: nil)
         updateHomeworkCount()
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
     
     func updateHomeworkCount() {
@@ -51,7 +47,7 @@ class DashboardHomeworkCell: UITableViewCell {
                 case 3...7:
                     subtitleLabel.text = "Nächste in \(timeDifference.day!) Tagen fällig"
                 default:
-                    subtitleLabel.isHidden = true
+                    subtitleLabel.text = ""
                 }
             } else {
                 DispatchQueue.main.async {
