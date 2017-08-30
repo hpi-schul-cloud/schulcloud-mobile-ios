@@ -51,6 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             return prepareInitialViewController(with: validAccount)
         } else {
             log.info("Could not find existing login credentials, proceeding to login")
+            recreatePersistentContainer()
             return storyboard.instantiateViewController(withIdentifier: "login")
         }
     }
