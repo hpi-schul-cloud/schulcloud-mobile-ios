@@ -91,7 +91,7 @@ open class LoginHelper {
             log.error("Could not load account from Keychain!")
             return nil
         }
-        if validate(accessToken: accessToken) == false {
+        if !validate(accessToken: accessToken) {
             log.error("Token expired")
             return nil
         }
@@ -105,9 +105,7 @@ open class LoginHelper {
             let interval = TimeInterval(exactly: expiration)!
             let expirationDate = Date(timeIntervalSince1970: interval)
             let threeHourBuffer = TimeInterval(exactly: 60*60*3)!
-            
             return Date() < expirationDate - threeHourBuffer
-            
         } catch let error {
             log.error("Error validating token: " + error.description)
             return false
