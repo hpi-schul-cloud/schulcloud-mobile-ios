@@ -7,7 +7,6 @@
 //
 
 import XCTest
-@testable import schulcloud
 
 class schulcloudTests: XCTestCase {
     
