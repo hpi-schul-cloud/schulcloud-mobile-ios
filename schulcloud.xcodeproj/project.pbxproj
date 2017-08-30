@@ -992,7 +992,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.schul-cloud.schulcloudTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/schulcloud.app/schulcloud";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Schul-Cloud.app/Schul-Cloud";
 			};
 			name = Debug;
 		};
@@ -1009,7 +1009,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.schul-cloud.schulcloudTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/schulcloud.app/schulcloud";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Schul-Cloud.app/Schul-Cloud";
 			};
 			name = Release;
 		};
