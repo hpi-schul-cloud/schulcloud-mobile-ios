@@ -58,7 +58,9 @@ open class LoginHelper {
             try account.saveCredentials()
             log.info("Successfully saved login data for user \(userId) with account \(accountId)")
             Globals.account = account
-            SCNotifications.initializeMessaging()
+            DispatchQueue.main.async {
+                SCNotifications.initializeMessaging()
+            }
             return Future(value: Void())
         } catch let error {
             return Future(error: SCError.loginFailed(error.localizedDescription))
@@ -116,6 +118,7 @@ open class LoginHelper {
         defaults.set(nil, forKey: "accountId")
         defaults.set(nil, forKey: "userId")
         do {
+            recreatePersistentContainer()
             try Globals.account!.deleteFromSecureStore()
         } catch let error {
             log.error(error.localizedDescription)

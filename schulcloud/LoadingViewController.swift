@@ -111,7 +111,7 @@ class LoadingViewController: UIViewController  {
             } else {
                 self.present(controller, animated: false, completion: nil)
             }
-            if let ql = (controller as? QLPreviewController) ?? (controller as? PreviewTransitionViewController)?.quickLookPreviewController {
+            if let ql = controller as? QLPreviewController {
                 // fix for dataSource magically disappearing because hey let's store it in a weak variable in QLPreviewController
                 ql.dataSource = previewManager
                 ql.reloadData()

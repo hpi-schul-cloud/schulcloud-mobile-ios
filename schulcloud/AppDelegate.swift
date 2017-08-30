@@ -31,12 +31,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         console.levelColor.info = "👉 "
         log.addDestination(console)
         
-        FIRApp.configure()
+        if !isUnitTesting() {
+            FIRApp.configure()
+        }
         
         let initialViewController = selectInitialViewController(application: application)
         self.window?.rootViewController = initialViewController
         
-        observeChanges()
+        CoreDataObserver.shared.observeChanges(on: managedObjectContext)
         
         return true
     }
@@ -56,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func prepareInitialViewController(with account: SchulCloudAccount) -> UIViewController {
         Globals.account = account
         
-        let initialViewController = storyboard.instantiateInitialViewController()!
+        let initialViewController = self.window?.rootViewController ?? storyboard.instantiateInitialViewController()!
         
         SCNotifications.initializeMessaging()
         ApiHelper.updateData()
@@ -87,6 +89,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         saveContext()
+    }
+    
+    func isUnitTesting() -> Bool {
+        return ProcessInfo.processInfo.environment["TEST"] != nil
     }
 
     // MARK: temp core data observer
@@ -124,8 +130,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             print(deletes)
             print("+++++++++++++++")
         }
-    }
-    
+    }    
     
 }
-

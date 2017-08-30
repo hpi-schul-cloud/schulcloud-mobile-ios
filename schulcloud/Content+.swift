@@ -24,7 +24,9 @@ extension Content {
     }
 }
 
-extension Content: IdObject {}
+extension Content: IdObject {
+    static let entityName = "Content"
+}
 
 extension Content {
     enum ContentType: String {
