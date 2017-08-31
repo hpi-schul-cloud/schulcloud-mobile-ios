@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3D45737B1EE02065009A30E2 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D45737A1EE02065009A30E2 /* CalendarViewController.swift */; };
-		3DCFC9F31ED3632C00167B82 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCFC9F21ED3632C00167B82 /* DashboardViewController.swift */; };
 		3DD869141ECE3F6100814392 /* PT_Sans-Web-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DD869101ECE3F6100814392 /* PT_Sans-Web-Bold.ttf */; };
 		3DD869151ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DD869111ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf */; };
 		3DD869161ECE3F6100814392 /* PT_Sans-Web-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DD869121ECE3F6100814392 /* PT_Sans-Web-Italic.ttf */; };
@@ -18,7 +17,12 @@
 		503A5EFF1F3DC6A400A7695B /* TabFiles.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */; };
 		503A5F011F3DC6C700A7695B /* TabDashboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5F001F3DC6C700A7695B /* TabDashboard.storyboard */; };
 		5069DA0B1F4441AF00210EB9 /* CalendarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5069DA0A1F4441AF00210EB9 /* CalendarHelper.swift */; };
+		506D146F1F56F81D00AA5613 /* UIView+shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D146E1F56F81D00AA5613 /* UIView+shake.swift */; };
+		509A93381F541513001167DE /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509A93371F541512001167DE /* DashboardViewController.swift */; };
+		509A933A1F541668001167DE /* ShortNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509A93391F541668001167DE /* ShortNotificationViewController.swift */; };
 		50A1CDE21F4EB00B006E9B69 /* RemoteEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A1CDE11F4EB00B006E9B69 /* RemoteEvent.swift */; };
+		50A1CDE41F501A0D006E9B69 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A1CDE31F501A0C006E9B69 /* NotificationViewController.swift */; };
+		50A1CDE61F501AC5006E9B69 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A1CDE51F501AC5006E9B69 /* NotificationCell.swift */; };
 		50E8015D1F45C82800B6F8DA /* EventData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8015B1F45C82800B6F8DA /* EventData+CoreDataClass.swift */; };
 		50E8015E1F45C82800B6F8DA /* EventData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8015C1F45C82800B6F8DA /* EventData+CoreDataProperties.swift */; };
 		C3165F1D1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3165F1C1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift */; };
@@ -35,7 +39,7 @@
 		C32870A51EDDBCB000ABA348 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C328709E1EDDBCB000ABA348 /* User+CoreDataClass.swift */; };
 		C32870A61EDDBCB000ABA348 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C328709F1EDDBCB000ABA348 /* User+CoreDataProperties.swift */; };
 		C32870A91EDDD3D100ABA348 /* Course+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870A81EDDD3D100ABA348 /* Course+.swift */; };
-		C32870AD1EDED1D200ABA348 /* DashboardHomeworkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870AC1EDED1D200ABA348 /* DashboardHomeworkCell.swift */; };
+		C32870AD1EDED1D200ABA348 /* DashboardHomeworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870AC1EDED1D200ABA348 /* DashboardHomeworkView.swift */; };
 		C32870B21EDF24F600ABA348 /* Content+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870AE1EDF24F600ABA348 /* Content+CoreDataClass.swift */; };
 		C32870B31EDF24F600ABA348 /* Content+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870AF1EDF24F600ABA348 /* Content+CoreDataProperties.swift */; };
 		C32870B41EDF24F600ABA348 /* Lesson+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870B01EDF24F600ABA348 /* Lesson+CoreDataClass.swift */; };
@@ -104,21 +108,25 @@
 		270BA83590B5166B5A30D6B3 /* Pods_schulcloudUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloudUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		389B64CA22013634E6CFD243 /* Pods-schulcloudUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudUITests/Pods-schulcloudUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		3D45737A1EE02065009A30E2 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
-		3DCFC9F21ED3632C00167B82 /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		3DD869101ECE3F6100814392 /* PT_Sans-Web-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PT_Sans-Web-Bold.ttf"; path = "schulcloud/fonts/PT_Sans-Web-Bold.ttf"; sourceTree = "<group>"; };
 		3DD869111ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PT_Sans-Web-BoldItalic.ttf"; path = "schulcloud/fonts/PT_Sans-Web-BoldItalic.ttf"; sourceTree = "<group>"; };
 		3DD869121ECE3F6100814392 /* PT_Sans-Web-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PT_Sans-Web-Italic.ttf"; path = "schulcloud/fonts/PT_Sans-Web-Italic.ttf"; sourceTree = "<group>"; };
 		3DD869131ECE3F6100814392 /* PT_Sans-Web-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PT_Sans-Web-Regular.ttf"; path = "schulcloud/fonts/PT_Sans-Web-Regular.ttf"; sourceTree = "<group>"; };
 		503A5EFA1F3DB86C00A7695B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/TabSettings.storyboard; sourceTree = "<group>"; };
-		503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabCourses.storyboard; sourceTree = "<group>"; };
-		503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabFiles.storyboard; sourceTree = "<group>"; };
-		503A5F001F3DC6C700A7695B /* TabDashboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabDashboard.storyboard; sourceTree = "<group>"; };
+		503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = TabCourses.storyboard; path = Base.lproj/TabCourses.storyboard; sourceTree = "<group>"; };
+		503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = TabFiles.storyboard; path = Base.lproj/TabFiles.storyboard; sourceTree = "<group>"; };
+		503A5F001F3DC6C700A7695B /* TabDashboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = TabDashboard.storyboard; path = Base.lproj/TabDashboard.storyboard; sourceTree = "<group>"; };
 		5050AAE71F49C13600EF5CF9 /* Pods_schulcloud_schulcloudTests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_schulcloud_schulcloudTests.framework; path = "Pods/../build/Debug-iphoneos/Pods_schulcloud_schulcloudTests.framework"; sourceTree = "<group>"; };
 		5050AAE81F49C13600EF5CF9 /* Pods_schulcloud_schulcloudUITests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_schulcloud_schulcloudUITests.framework; path = "Pods/../build/Debug-iphoneos/Pods_schulcloud_schulcloudUITests.framework"; sourceTree = "<group>"; };
 		5050AAEB1F49C15000EF5CF9 /* Pods_schulcloud_schulcloudTests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_schulcloud_schulcloudTests.framework; path = "Pods/../build/Debug-iphoneos/Pods_schulcloud_schulcloudTests.framework"; sourceTree = "<group>"; };
 		5050AAEC1F49C15000EF5CF9 /* Pods_schulcloud_schulcloudUITests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_schulcloud_schulcloudUITests.framework; path = "Pods/../build/Debug-iphoneos/Pods_schulcloud_schulcloudUITests.framework"; sourceTree = "<group>"; };
 		5069DA0A1F4441AF00210EB9 /* CalendarHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHelper.swift; sourceTree = "<group>"; };
+		506D146E1F56F81D00AA5613 /* UIView+shake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+shake.swift"; sourceTree = "<group>"; };
+		509A93371F541512001167DE /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
+		509A93391F541668001167DE /* ShortNotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortNotificationViewController.swift; sourceTree = "<group>"; };
 		50A1CDE11F4EB00B006E9B69 /* RemoteEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteEvent.swift; sourceTree = "<group>"; };
+		50A1CDE31F501A0C006E9B69 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		50A1CDE51F501AC5006E9B69 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		50E8015B1F45C82800B6F8DA /* EventData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventData+CoreDataClass.swift"; sourceTree = "<group>"; };
 		50E8015C1F45C82800B6F8DA /* EventData+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventData+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		50ED3C4B1F49E62C00CD8466 /* Pods_schulcloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_schulcloud.framework; path = "../../../Library/Developer/Xcode/DerivedData/schulcloud-avlkvehcgbgawffjtgnfanivmgvf/Build/Products/Debug-iphonesimulator/Pods_schulcloud.framework"; sourceTree = "<group>"; };
@@ -144,7 +152,7 @@
 		C328709E1EDDBCB000ABA348 /* User+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
 		C328709F1EDDBCB000ABA348 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		C32870A81EDDD3D100ABA348 /* Course+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Course+.swift"; sourceTree = "<group>"; };
-		C32870AC1EDED1D200ABA348 /* DashboardHomeworkCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardHomeworkCell.swift; sourceTree = "<group>"; };
+		C32870AC1EDED1D200ABA348 /* DashboardHomeworkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardHomeworkView.swift; sourceTree = "<group>"; };
 		C32870AE1EDF24F600ABA348 /* Content+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Content+CoreDataClass.swift"; sourceTree = "<group>"; };
 		C32870AF1EDF24F600ABA348 /* Content+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Content+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		C32870B01EDF24F600ABA348 /* Lesson+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Lesson+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -158,15 +166,15 @@
 		C3418B5F1ECDAB9F00280E62 /* FileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileHelper.swift; sourceTree = "<group>"; };
 		C3418B611ECEE6FB00280E62 /* FilesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilesViewController.swift; sourceTree = "<group>"; };
 		C3418B631ED2E89F00280E62 /* FileListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileListCell.swift; sourceTree = "<group>"; };
-		C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreviewTransitionViewController.xib; sourceTree = "<group>"; };
-		C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebviewPreviewViewContoller.xib; sourceTree = "<group>"; };
+		C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PreviewTransitionViewController.xib; path = Base.lproj/PreviewTransitionViewController.xib; sourceTree = "<group>"; };
+		C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WebviewPreviewViewContoller.xib; path = Base.lproj/WebviewPreviewViewContoller.xib; sourceTree = "<group>"; };
 		C3418B6A1ED5CB3400280E62 /* Homework+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Homework+CoreDataClass.swift"; sourceTree = "<group>"; };
 		C3418B6E1ED5CF1F00280E62 /* Date+Marshal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Marshal.swift"; sourceTree = "<group>"; };
 		C36C23371EC9DE0700D4163E /* SCError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCError.swift; sourceTree = "<group>"; };
 		C36C233A1ECC965400D4163E /* CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreData.swift; sourceTree = "<group>"; };
 		C378D2C31ECC976800AE8CEA /* schulcloud.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = schulcloud.xcdatamodel; sourceTree = "<group>"; };
 		C38419161EF602AA00A616B3 /* SplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
-		C3A5A8FF1EBCC17600825DBF /* schulcloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = schulcloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3A5A8FF1EBCC17600825DBF /* Schul-Cloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Schul-Cloud.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3A5A9021EBCC17600825DBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3A5A9041EBCC17600825DBF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C3A5A9071EBCC17600825DBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -247,6 +255,26 @@
 			name = fonts;
 			sourceTree = "<group>";
 		};
+		506D14701F582BA700AA5613 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				506D146E1F56F81D00AA5613 /* UIView+shake.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		50739CC91F56B9C600CD68C7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C3C080541EE607F6005FA7C3 /* CourseCell.swift */,
+				C32870AC1EDED1D200ABA348 /* DashboardHomeworkView.swift */,
+				C3165F1C1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift */,
+				C3418B631ED2E89F00280E62 /* FileListCell.swift */,
+				50A1CDE51F501AC5006E9B69 /* NotificationCell.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		7EDF8CE117CA0B1F9E1A25E7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -313,7 +341,6 @@
 			children = (
 				C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */,
 				C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */,
-				C3418B631ED2E89F00280E62 /* FileListCell.swift */,
 			);
 			name = Files;
 			sourceTree = "<group>";
@@ -334,7 +361,7 @@
 		C3A5A9001EBCC17600825DBF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C3A5A8FF1EBCC17600825DBF /* schulcloud.app */,
+				C3A5A8FF1EBCC17600825DBF /* Schul-Cloud.app */,
 				C3A5A9161EBCC17600825DBF /* schulcloudTests.xctest */,
 				C3A5A9211EBCC17600825DBF /* schulcloudUITests.xctest */,
 			);
@@ -345,10 +372,12 @@
 			isa = PBXGroup;
 			children = (
 				C3A5A9371EBCD07B00825DBF /* Application */,
-				C3A5A9351EBCD03600825DBF /* Controllers */,
 				C3C2AC331EC498F50060AECA /* Data */,
-				C3A5A9361EBCD06200825DBF /* Views */,
+				C3A5A9351EBCD03600825DBF /* Controllers */,
+				50739CC91F56B9C600CD68C7 /* Views */,
+				C3A5A9361EBCD06200825DBF /* Storyboards */,
 				C3C2AC251EC3B3980060AECA /* API */,
+				506D14701F582BA700AA5613 /* Extensions */,
 				C36C23371EC9DE0700D4163E /* SCError.swift */,
 			);
 			path = schulcloud;
@@ -381,19 +410,18 @@
 				C3AB48991EDAE8A800692505 /* HomeworkViewController.swift */,
 				C3A5A9041EBCC17600825DBF /* ViewController.swift */,
 				C32870BB1EDF32C600ABA348 /* CoursesViewController.swift */,
-				C3C080541EE607F6005FA7C3 /* CourseCell.swift */,
 				C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */,
+				509A93371F541512001167DE /* DashboardViewController.swift */,
 				C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */,
-				3DCFC9F21ED3632C00167B82 /* DashboardViewController.swift */,
-				C32870AC1EDED1D200ABA348 /* DashboardHomeworkCell.swift */,
-				C3165F1C1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift */,
 				3D45737A1EE02065009A30E2 /* CalendarViewController.swift */,
 				C38419161EF602AA00A616B3 /* SplitViewController.swift */,
+				50A1CDE31F501A0C006E9B69 /* NotificationViewController.swift */,
+				509A93391F541668001167DE /* ShortNotificationViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
 		};
-		C3A5A9361EBCD06200825DBF /* Views */ = {
+		C3A5A9361EBCD06200825DBF /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
 				C3418B691ED3360B00280E62 /* Files */,
@@ -405,7 +433,7 @@
 				C3A5A90C1EBCC17600825DBF /* Assets.xcassets */,
 				C3A5A90E1EBCC17600825DBF /* LaunchScreen.storyboard */,
 			);
-			name = Views;
+			name = Storyboards;
 			sourceTree = "<group>";
 		};
 		C3A5A9371EBCD07B00825DBF /* Application */ = {
@@ -480,7 +508,7 @@
 			);
 			name = schulcloud;
 			productName = schulcloud;
-			productReference = C3A5A8FF1EBCC17600825DBF /* schulcloud.app */;
+			productReference = C3A5A8FF1EBCC17600825DBF /* Schul-Cloud.app */;
 			productType = "com.apple.product-type.application";
 		};
 		C3A5A9151EBCC17600825DBF /* schulcloudTests */ = {
@@ -701,6 +729,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D45737B1EE02065009A30E2 /* CalendarViewController.swift in Sources */,
+				509A93381F541513001167DE /* DashboardViewController.swift in Sources */,
 				C3165F1F1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift in Sources */,
 				50A1CDE21F4EB00B006E9B69 /* RemoteEvent.swift in Sources */,
 				C32870C01EE0228600ABA348 /* LessonHelper.swift in Sources */,
@@ -711,13 +740,15 @@
 				C3418B6C1ED5CB3400280E62 /* Homework+CoreDataClass.swift in Sources */,
 				C32870A41EDDBCB000ABA348 /* Homework+CoreDataProperties.swift in Sources */,
 				C3AB489A1EDAE8A800692505 /* HomeworkViewController.swift in Sources */,
+				50A1CDE61F501AC5006E9B69 /* NotificationCell.swift in Sources */,
 				C3A5A9391EBCD0C600825DBF /* Constants.swift in Sources */,
 				C3C080551EE607F6005FA7C3 /* CourseCell.swift in Sources */,
 				C31C842A1ECF553700FA070C /* PreviewManager.swift in Sources */,
 				C3418B6F1ED5CF1F00280E62 /* Date+Marshal.swift in Sources */,
-				C32870AD1EDED1D200ABA348 /* DashboardHomeworkCell.swift in Sources */,
+				C32870AD1EDED1D200ABA348 /* DashboardHomeworkView.swift in Sources */,
 				C3A5A9341EBCCE3B00825DBF /* LoginViewController.swift in Sources */,
 				C32870A01EDDBCB000ABA348 /* UserGroup+CoreDataClass.swift in Sources */,
+				506D146F1F56F81D00AA5613 /* UIView+shake.swift in Sources */,
 				C32870A21EDDBCB000ABA348 /* Course+CoreDataClass.swift in Sources */,
 				50E8015D1F45C82800B6F8DA /* EventData+CoreDataClass.swift in Sources */,
 				C32870BC1EDF32C600ABA348 /* CoursesViewController.swift in Sources */,
@@ -733,6 +764,7 @@
 				C3418B621ECEE6FB00280E62 /* FilesViewController.swift in Sources */,
 				C32870BE1EDF356800ABA348 /* CourseHelper.swift in Sources */,
 				C3418B641ED2E89F00280E62 /* FileListCell.swift in Sources */,
+				509A933A1F541668001167DE /* ShortNotificationViewController.swift in Sources */,
 				C3C2AC381EC5AC750060AECA /* ApiHelper.swift in Sources */,
 				C3B7DB141EF5EB1800A2F2B5 /* HtmlTableViewCell.swift in Sources */,
 				C32870A11EDDBCB000ABA348 /* UserGroup+CoreDataProperties.swift in Sources */,
@@ -749,10 +781,10 @@
 				C32870B71EDF2C1300ABA348 /* Lesson+.swift in Sources */,
 				C3C2AC221EC3A7E90060AECA /* SettingsViewController.swift in Sources */,
 				C3C3CAB11EF5CBB6009601AE /* SingleLessonViewController.swift in Sources */,
+				50A1CDE41F501A0D006E9B69 /* NotificationViewController.swift in Sources */,
 				C3C2AC241EC3AAA80060AECA /* LoginHelper.swift in Sources */,
 				C3AB489C1EDAE97600692505 /* HomeworkHelper.swift in Sources */,
 				C36C233B1ECC965400D4163E /* CoreData.swift in Sources */,
-				3DCFC9F31ED3632C00167B82 /* DashboardViewController.swift in Sources */,
 				C3C2AC311EC4902F0060AECA /* File+CoreDataClass.swift in Sources */,
 				C32870A91EDDD3D100ABA348 /* Course+.swift in Sources */,
 				C3418B601ECDAB9F00280E62 /* FileHelper.swift in Sources */,
@@ -939,7 +971,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Schul-Cloud";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
@@ -972,7 +1004,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Schul-Cloud";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
@@ -992,7 +1024,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.schul-cloud.schulcloudTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/schulcloud.app/schulcloud";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Schul-Cloud.app/Schul-Cloud";
 			};
 			name = Debug;
 		};
@@ -1009,7 +1041,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.schul-cloud.schulcloudTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/schulcloud.app/schulcloud";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Schul-Cloud.app/Schul-Cloud";
 			};
 			name = Release;
 		};
