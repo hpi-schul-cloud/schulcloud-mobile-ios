@@ -16,9 +16,9 @@ class LoginViewController: UIViewController {
 
     static let usernameKey = "lastLoggedInUsername"
 
-    @IBOutlet var usernameInput: UITextField!
-    @IBOutlet var passwordInput: UITextField!
-    @IBOutlet var loginButton: SimpleRoundedButton!
+    @IBOutlet weak var usernameInput: UITextField!
+    @IBOutlet weak var passwordInput: UITextField!
+    @IBOutlet weak var loginButton: SimpleRoundedButton!
     @IBOutlet weak var inputContainer: UIStackView!
     @IBOutlet weak var centerInputConstraints: NSLayoutConstraint!
 
@@ -70,6 +70,8 @@ class LoginViewController: UIViewController {
     }
 
     func adjustViewForKeyboardShow(_ notification: Notification) {
+        // On some devices, the keyboard can overlap with some UI elements. To prevent this, we move
+        // the `inputContainer` upwards. The other views will repostion accordingly.
         let keyboardFrameValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue
         let keyboardHeight = keyboardFrameValue?.cgRectValue.size.height ?? 0.0
 
@@ -83,7 +85,7 @@ class LoginViewController: UIViewController {
         let viewHeight = self.view.frame.size.height - contentInset
 
         let overlappingOffset = 0.5*viewHeight - keyboardHeight - 0.5*self.inputContainer.frame.size.height - 8.0
-        self.centerInputConstraints.constant = min(overlappingOffset, 0)
+        self.centerInputConstraints.constant = min(overlappingOffset, 0)  // we only want to move the container upwards
 
         UIView.animate(withDuration: 0.25) {
             self.view.layoutIfNeeded()
