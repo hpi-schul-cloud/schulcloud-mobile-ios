@@ -14,29 +14,37 @@ import JWTDecode
 
 class LoginViewController: UIViewController {
 
-    @IBOutlet var usernameTextArea: UITextField!
-    @IBOutlet var passwordTextArea: UITextField!
-    
-    let defaults = UserDefaults.standard
-    let usernameKey = "lastLoggedInUsername"
-    
+    static let usernameKey = "lastLoggedInUsername"
+
+    @IBOutlet var usernameInput: UITextField!
+    @IBOutlet var passwordInput: UITextField!
+    @IBOutlet var loginButton: SimpleRoundedButton!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        usernameTextArea.delegate = self
-        passwordTextArea.delegate = self
-        usernameTextArea.text = defaults.string(forKey: usernameKey)
+        self.usernameInput.delegate = self
+        self.passwordInput.delegate = self
+        self.usernameInput.text = UserDefaults.standard.string(forKey: LoginViewController.usernameKey)
+    }
+
+    override var shouldAutorotate: Bool {
+        return true
+    }
+
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            return .all
+        } else {
+            return .portrait
+        }
     }
     
-    @IBOutlet var loginButton: SimpleRoundedButton!
-    @IBOutlet var loginErrorLabel: UILabel!
-    
     @IBAction func login() {
-        loginButton.startAnimating()
-        loginErrorLabel.isHidden = true
-        let username = usernameTextArea.text
-        let password = passwordTextArea.text
+        self.loginButton.startAnimating()
+        let username = usernameInput.text
+        let password = passwordInput.text
         
-        defaults.set(username, forKey: usernameKey)
+        UserDefaults.standard.set(username, forKey: LoginViewController.usernameKey)
         
         LoginHelper.login(username: username, password: password)
             .onSuccess {
@@ -44,26 +52,30 @@ class LoginViewController: UIViewController {
                 self.performSegue(withIdentifier: "loginDidSucceed", sender: nil)
             }
             .onFailure { error in
-                self.loginButton.stopAnimating()
-                self.show(error: error)
+                DispatchQueue.main.async {
+                    self.loginButton.stopAnimating()
+                    self.show(error: error)
+                }
             }
     }
 
     func show(error: SCError) {
-        loginErrorLabel.text = error.description
-        loginErrorLabel.isHidden = false
+        self.usernameInput.shake()
+        self.passwordInput.shake()
     }
     
 }
 
 extension LoginViewController: UITextFieldDelegate {
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        if textField == usernameTextArea { // Switch focus to other text field
-            passwordTextArea.becomeFirstResponder()
-        } else if textField == passwordTextArea {
-            login()
+        if textField == self.usernameInput { // Switch focus to other text field
+            self.passwordInput.becomeFirstResponder()
+        } else if textField == self.passwordInput {
+            self.login()
         }
         return true
     }
+
 }
