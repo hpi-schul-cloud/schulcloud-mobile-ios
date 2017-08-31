@@ -36,16 +36,16 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="top" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="hC7-cS-W6U">
                                                 <rect key="frame" x="16" y="20" width="704" height="300"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="58h-vE-YhH">
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="58h-vE-YhH" userLabel="Left Column">
                                                         <rect key="frame" x="0.0" y="0.0" width="344" height="256"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7T3-ko-BZl">
                                                                 <rect key="frame" x="0.0" y="0.0" width="344" height="140"/>
                                                                 <subviews>
-                                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E60-Vj-SY7">
+                                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E60-Vj-SY7" userLabel="Event Overview">
                                                                         <rect key="frame" x="20" y="20" width="304" height="100"/>
                                                                         <subviews>
-                                                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Up1-Vk-nHZ">
+                                                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Up1-Vk-nHZ" userLabel="Current Event">
                                                                                 <rect key="frame" x="0.0" y="0.0" width="304" height="34"/>
                                                                                 <subviews>
                                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Mathe " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PSx-cv-nxC">
@@ -79,7 +79,7 @@
                                                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
-                                                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="viS-gU-4DQ">
+                                                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="viS-gU-4DQ" userLabel="Next Event">
                                                                                 <rect key="frame" x="0.0" y="66" width="304" height="34"/>
                                                                                 <subviews>
                                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Kunst" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8fK-8E-Wx6">
@@ -167,7 +167,7 @@
                                                             </view>
                                                         </subviews>
                                                     </stackView>
-                                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wrj-ww-0BX">
+                                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wrj-ww-0BX" userLabel="Notification Container">
                                                         <rect key="frame" x="360" y="0.0" width="344" height="300"/>
                                                         <subviews>
                                                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="75e-s2-jcQ">

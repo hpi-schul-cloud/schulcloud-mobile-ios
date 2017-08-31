@@ -18,8 +18,6 @@ class CoursesViewController: UICollectionViewController, NSFetchedResultsControl
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         performFetch()
         updateData()
-
-//        self.collectionView.nu
     }
 
     @IBAction func didTriggerRefresh() {
