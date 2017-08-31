@@ -13,92 +13,114 @@ import Alamofire
 import BrightFutures
 import Marshal
 
+class DashboardViewController: UIViewController {
+    @IBOutlet var notificationBarButton: UIBarButtonItem!
+    @IBOutlet var dashboardCells: [UIView]!
 
-class DashboardViewController: UITableViewController {
+    @IBOutlet weak var widthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var notificationContainerHeight: NSLayoutConstraint!
 
-    enum Sections: Int {
-        case today, tasks, notifications
-    }
+    var notifications: [SCNotification] = []
+    var notificationViewController: ShortNotificationViewController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.getNotifications()
+
+        self.updateNotificationBarButton()
+
+        // is only applied/installed on size class wR hR
+        let horizontalPadding: CGFloat = 32.0
+        self.widthConstraint.constant = min(self.view.frame.size.width, self.view.frame.size.height) - horizontalPadding
+
+        self.fetchNotifications()
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case Sections.notifications.rawValue:
-            return notifications.count
-        default:
-            return 1
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if self.traitCollection.horizontalSizeClass != previousTraitCollection?.horizontalSizeClass {
+            self.updateUIAfterTraitCollectionChange()
         }
     }
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+    private func updateUIAfterTraitCollectionChange() {
+        // update notification button in navigation bar
+        if self.traitCollection.horizontalSizeClass == .regular {
+            self.navigationItem.rightBarButtonItem = nil
+        } else {
+            self.navigationItem.rightBarButtonItem = self.notificationBarButton
+        }
+
+        // update corner radius of dashboard cells
+        let cornerRadius: CGFloat = self.traitCollection.horizontalSizeClass == .regular ? 4.0 : 0.0
+        for cell in dashboardCells {
+            cell.layer.cornerRadius = cornerRadius
+            cell.layer.masksToBounds = true
+        }
     }
 
-    //handle click
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.section {
-        case Sections.notifications.rawValue:
-            let notification = self.notifications[indexPath.row]
-            let alertController = UIAlertController(title: notification.title, message: notification.body, preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default)
-            alertController.addAction(okAction)
-            self.present(alertController, animated: true, completion: nil)
+    @IBAction func tappedCalendarCell(_ sender: UITapGestureRecognizer) {
+        self.performSegue(withIdentifier: "showCalendar", sender: sender)
+    }
+
+    @IBAction func tappedTasksCell(_ sender: UITapGestureRecognizer) {
+        self.performSegue(withIdentifier: "showTasks", sender: sender)
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "showNotifications"?:
+            guard let navigationViewController = segue.destination as? UINavigationController else { return }
+            guard let notificationViewController = navigationViewController.topViewController as? NotificationViewController else { return }
+            notificationViewController.notifications = self.notifications
+        case "showNotificationsEmbedded"?:
+            guard let shortNotificationViewController = segue.destination as? ShortNotificationViewController else { return }
+            self.notificationViewController = shortNotificationViewController
+            shortNotificationViewController.delegate = self
         default:
             break
         }
     }
 
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case Sections.today.rawValue:
-            return "Heute"
-        case Sections.tasks.rawValue:
-            return "Aufgaben"
-        case Sections.notifications.rawValue:
-            return "Benachrichtungen"
-        default:
-            return nil
-        }
+    private func updateNotificationView() {
+        self.notificationViewController?.notifications = self.notifications
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch Sections(rawValue: indexPath.section)! {
-        case .today:
-            return tableView.dequeueReusableCell(withIdentifier: "currentLesson", for: indexPath)
-        case .tasks:
-            return tableView.dequeueReusableCell(withIdentifier: "tasks", for: indexPath)
-        case .notifications:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "notification", for: indexPath)
-            let label = cell.viewWithTag(1) as! UILabel
-            let notification = notifications[indexPath.row]
-            label.text = notification.title
-            return cell
-        }
+    private func updateNotificationBarButton() {
+        let title = self.notifications.isEmpty ? nil : String(self.notifications.count)
+        let imageName = self.notifications.isEmpty ? "bell" : "bell-filled"
+        let image = UIImage(named: imageName)
+        let button = UIButton(type: .system)
+        button.setImage(image, for: .normal)
+        button.setTitle(title, for: .normal)
+        button.sizeToFit()
+        button.addTarget(self, action: #selector(DashboardViewController.showNotifications), for: .touchUpInside)
+        self.notificationBarButton.customView = button
     }
 
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch indexPath.section {
-        case Sections.today.rawValue:
-            return 140.0
-        case Sections.tasks.rawValue:
-            return 100.0
-        default:
-            return super.tableView(tableView, heightForRowAt: indexPath)
-        }
-    }
-
-    var notifications = [SCNotification]()
-
-    func getNotifications(){
+    func fetchNotifications() {
         let request: Future<[SCNotification], SCError> = ApiHelper.request("notification?$limit=50").deserialize(keyPath: "data")
         request.onSuccess { notifications in
             self.notifications = notifications
-            self.tableView.reloadData()
+            self.updateNotificationView()
+            self.updateNotificationBarButton()
         }
+    }
+
+    func showNotifications() {
+        self.performSegue(withIdentifier: "showNotifications", sender: self)
+    }
+
+}
+
+extension DashboardViewController: ShortNotificationViewControllerDelegate {
+
+    func viewHeightDidChange(to height: CGFloat) {
+        self.notificationContainerHeight.constant = height
+    }
+
+    func didPressViewMoreButton() {
+        self.performSegue(withIdentifier: "showNotifications", sender: self)
     }
 
 }
