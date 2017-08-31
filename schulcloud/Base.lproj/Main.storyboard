@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13165.3"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,16 +19,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Schul-Cloud" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XG1-FZ-L49">
-                                <rect key="frame" x="87" y="123.33333333333334" width="240" height="60.000000000000028"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="240" id="2jK-rd-IBs"/>
-                                    <constraint firstAttribute="height" constant="60" id="xTp-8Q-q3a"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="44"/>
-                                <color key="textColor" red="0.69411764705882351" green="0.015686274509803921" blue="0.2196078431372549" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="LF5-zW-Ywq">
                                 <rect key="frame" x="16" y="294" width="382" height="148"/>
                                 <subviews>
@@ -85,16 +76,25 @@
                                     <constraint firstAttribute="width" constant="20" id="9AA-kJ-c5Z"/>
                                 </constraints>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-text" translatesAutoresizingMaskIntoConstraints="NO" id="EkE-xb-OPh">
+                                <rect key="frame" x="132" y="90.999999999999986" width="150" height="124.66666666666664"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="EkE-xb-OPh" secondAttribute="height" multiplier="300:250" id="OSJ-GI-tsa"/>
+                                    <constraint firstAttribute="width" constant="150" id="aeB-07-XO3">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="200"/>
+                                    </constraint>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.90196078431372551" green="0.88627450980392153" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Ukn-5N-Zpp" firstAttribute="trailing" secondItem="LF5-zW-Ywq" secondAttribute="trailing" constant="16" id="0Cr-Rj-70N"/>
-                            <constraint firstItem="cjn-ZM-xZc" firstAttribute="centerY" secondItem="XG1-FZ-L49" secondAttribute="centerY" id="15D-bI-lwb"/>
                             <constraint firstItem="LF5-zW-Ywq" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="G0q-ke-pzx"/>
                             <constraint firstItem="cjn-ZM-xZc" firstAttribute="top" secondItem="Ukn-5N-Zpp" secondAttribute="top" id="GV4-fP-nS6"/>
+                            <constraint firstItem="EkE-xb-OPh" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="HI4-vw-qps"/>
                             <constraint firstItem="cjn-ZM-xZc" firstAttribute="leading" secondItem="Ukn-5N-Zpp" secondAttribute="leading" id="Kto-03-8pQ"/>
+                            <constraint firstItem="EkE-xb-OPh" firstAttribute="centerY" secondItem="cjn-ZM-xZc" secondAttribute="centerY" id="Y7L-v8-heM"/>
                             <constraint firstItem="LF5-zW-Ywq" firstAttribute="leading" secondItem="Ukn-5N-Zpp" secondAttribute="leading" constant="16" id="dDH-Pj-p4y"/>
-                            <constraint firstItem="XG1-FZ-L49" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="qeq-EZ-yDK"/>
                             <constraint firstItem="LF5-zW-Ywq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="rHh-OX-Zlq"/>
                             <constraint firstItem="LF5-zW-Ywq" firstAttribute="top" secondItem="cjn-ZM-xZc" secondAttribute="bottom" constant="8" id="s26-FX-K6d"/>
                         </constraints>
@@ -179,4 +179,7 @@
             <point key="canvasLocation" x="1558" y="228"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="logo-text" width="200" height="175"/>
+    </resources>
 </document>
