@@ -51,14 +51,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     /// Check for existing login credentials and return appropriate view controller
     func selectInitialViewController(application: UIApplication) {
-        
         guard let account = LoginHelper.loadAccount() else {
             showLogin()
             return
         }
         
         guard let validAccount = LoginHelper.validate(account) else {
-            dropDatabase()
+            LoginHelper.logout()
             showLogin()
             return
         }
