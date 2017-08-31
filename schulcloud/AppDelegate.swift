@@ -35,8 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             FIRApp.configure()
         }
         
-        let initialViewController = selectInitialViewController(application: application)
-        self.window?.rootViewController = initialViewController
+        selectInitialViewController(application: application)
         
         CoreDataObserver.shared.observeChanges(on: managedObjectContext)
         
@@ -45,28 +44,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
     
-    /// Check for existing login credentials and return appropriate view controller
-    func selectInitialViewController(application: UIApplication) -> UIViewController {
-        if let validAccount = LoginHelper.loadAccount() {
-            return prepareInitialViewController(with: validAccount)
-        } else {
-            log.info("Could not find existing login credentials, proceeding to login")
-            recreatePersistentContainer()
-            return storyboard.instantiateViewController(withIdentifier: "login")
-        }
+    fileprivate func showLogin() {
+        let loginViewController = storyboard.instantiateViewController(withIdentifier: "login")
+        self.window?.rootViewController = loginViewController
     }
     
-    func prepareInitialViewController(with account: SchulCloudAccount) -> UIViewController {
+    /// Check for existing login credentials and return appropriate view controller
+    func selectInitialViewController(application: UIApplication) {
+        
+        guard let account = LoginHelper.loadAccount() else {
+            showLogin()
+            return
+        }
+        
+        guard let validAccount = LoginHelper.validate(account) else {
+            dropDatabase()
+            showLogin()
+            return
+        }
+        
+        // skip login
+        prepareInitialViewController(with: validAccount)
+    }
+    
+    func prepareInitialViewController(with account: SchulCloudAccount) {
         Globals.account = account
-        
-        let initialViewController = self.window?.rootViewController ?? storyboard.instantiateInitialViewController()!
-        
         SCNotifications.initializeMessaging()
         ApiHelper.updateData()
-        return initialViewController
     }
-    
-    
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

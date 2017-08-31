@@ -87,28 +87,26 @@ open class LoginHelper {
         
         var account = SchulCloudAccount(userId: userId, accountId: accountId, accessToken: nil)
         account.loadAccessTokenFromKeychain()
-        guard let accessToken = account.accessToken else {
-            log.error("Could not load account from Keychain!")
-            return nil
-        }
-        if !validate(accessToken: accessToken) {
-            log.error("Token expired")
-            return nil
-        }
+        
         return account
     }
     
-    static func validate(accessToken: String) -> Bool {
+    static func validate(_ account: SchulCloudAccount) -> SchulCloudAccount? {
+        guard let accessToken = account.accessToken else {
+            log.error("Could not load access token for account!")
+            return nil
+        }
         do {
             let jwt = try decode(jwt: accessToken)
             let expiration = jwt.body["exp"] as! Int64
             let interval = TimeInterval(exactly: expiration)!
             let expirationDate = Date(timeIntervalSince1970: interval)
             let threeHourBuffer = TimeInterval(exactly: 60*60*3)!
-            return Date() < expirationDate - threeHourBuffer
+            let isValid = Date() < expirationDate - threeHourBuffer
+            return isValid ? account : nil
         } catch let error {
             log.error("Error validating token: " + error.description)
-            return false
+            return nil
         }
     }
     
@@ -116,7 +114,7 @@ open class LoginHelper {
         defaults.set(nil, forKey: "accountId")
         defaults.set(nil, forKey: "userId")
         do {
-            recreatePersistentContainer()
+            dropDatabase()
             try Globals.account!.deleteFromSecureStore()
         } catch let error {
             log.error(error.localizedDescription)
