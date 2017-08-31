@@ -107,6 +107,8 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="centerInputConstraints" destination="G0q-ke-pzx" id="Rmf-pY-wVH"/>
+                        <outlet property="inputContainer" destination="LF5-zW-Ywq" id="JQH-UZ-fhB"/>
                         <outlet property="loginButton" destination="DUS-lf-mhE" id="Yjb-og-fta"/>
                         <outlet property="passwordInput" destination="0tD-mH-BRy" id="bDo-WK-fbo"/>
                         <outlet property="usernameInput" destination="43F-ld-yjw" id="KJP-WZ-ySA"/>
@@ -180,6 +182,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="logo-text" width="200" height="175"/>
+        <image name="logo-text" width="150" height="131"/>
     </resources>
 </document>

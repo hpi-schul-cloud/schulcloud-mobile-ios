@@ -19,12 +19,17 @@ class LoginViewController: UIViewController {
     @IBOutlet var usernameInput: UITextField!
     @IBOutlet var passwordInput: UITextField!
     @IBOutlet var loginButton: SimpleRoundedButton!
+    @IBOutlet weak var inputContainer: UIStackView!
+    @IBOutlet weak var centerInputConstraints: NSLayoutConstraint!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.usernameInput.delegate = self
         self.passwordInput.delegate = self
         self.usernameInput.text = UserDefaults.standard.string(forKey: LoginViewController.usernameKey)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(self.adjustViewForKeyboardShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.adjustViewForKeyboardHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
 
     override var shouldAutorotate: Bool {
@@ -63,16 +68,45 @@ class LoginViewController: UIViewController {
         self.usernameInput.shake()
         self.passwordInput.shake()
     }
+
+    func adjustViewForKeyboardShow(_ notification: Notification) {
+        let keyboardFrameValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue
+        let keyboardHeight = keyboardFrameValue?.cgRectValue.size.height ?? 0.0
+
+        let contentInset: CGFloat
+        if #available(iOS 11.0, *) {
+            contentInset = self.view.safeAreaInsets.top + self.view.safeAreaInsets.bottom
+        } else {
+            contentInset = self.topLayoutGuide.length + self.bottomLayoutGuide.length
+        }
+
+        let viewHeight = self.view.frame.size.height - contentInset
+
+        let overlappingOffset = 0.5*viewHeight - keyboardHeight - 0.5*self.inputContainer.frame.size.height - 8.0
+        self.centerInputConstraints.constant = min(overlappingOffset, 0)
+
+        UIView.animate(withDuration: 0.25) {
+            self.view.layoutIfNeeded()
+        }
+    }
+
+    func adjustViewForKeyboardHide(_ notification: Notification) {
+        self.centerInputConstraints.constant = 0
+
+        UIView.animate(withDuration: 0.25) {
+            self.view.layoutIfNeeded()
+        }
+    }
     
 }
 
 extension LoginViewController: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
         if textField == self.usernameInput { // Switch focus to other text field
             self.passwordInput.becomeFirstResponder()
         } else if textField == self.passwordInput {
+            textField.resignFirstResponder()
             self.login()
         }
         return true
