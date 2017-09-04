@@ -47,7 +47,7 @@ fileprivate func createPersistentContainer() -> NSPersistentContainer {
     return persistentContainer
 }
 
-func recreatePersistentContainer() {
+func dropDatabase() {
     log.debug("Dropping database - recreating persistent container")
     CoreDataObserver.shared.removeObserver(on: managedObjectContext)
     
