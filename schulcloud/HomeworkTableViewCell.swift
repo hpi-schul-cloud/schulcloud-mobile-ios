@@ -10,70 +10,73 @@ import UIKit
 
 class HomeworkTableViewCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-        self.backgroundColor = UIColor.clear
-    }
-
     @IBOutlet var subjectLabel: UILabel!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var contentLabel: UILabel!
     @IBOutlet var coloredStrip: UIView!
-    
     @IBOutlet var dueLabel: UILabel!
-    @IBOutlet var contentLabelDueAlertSpacing: NSLayoutConstraint!
-    
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+
+        self.coloredStrip.layer.cornerRadius = self.coloredStrip.frame.size.height/2
+        self.coloredStrip.layer.masksToBounds = true
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.coloredStrip.layer.cornerRadius = self.coloredStrip.frame.size.height/2.0
+    }
+
     func configure(for homework: Homework) {
-        subjectLabel.text = homework.course?.name.uppercased() ?? "PERSÖNLICH"
-        titleLabel.text = homework.name
-//        coloredStrip.backgroundColor = homework.subject.color
-        
-        contentLabel.numberOfLines = 5
-        
-        let descriptionWithEndTrimmed = homework.descriptionText.replacingOccurrences(of: "\\s+$", with: "", options: .regularExpression)
-        if let attributedString = NSMutableAttributedString(html: descriptionWithEndTrimmed) {
-            contentLabel.attributedText = attributedString.trailingNewlineChopped
+        self.subjectLabel.text = homework.course?.name.uppercased() ?? "PERSÖNLICH"
+        self.titleLabel.text = homework.name
+        if let colorString = homework.course?.colorString {
+            self.coloredStrip.backgroundColor = UIColor(hexString: colorString)
         } else {
-            contentLabel.text = homework.descriptionText
+            self.coloredStrip.backgroundColor = UIColor.clear
         }
-        
-        setDueLabelVisible(true)
-        
+
+        let description = homework.descriptionText.replacingOccurrences(of: "\\s+$", with: "", options: .regularExpression)
+        if let attributedString = NSMutableAttributedString(html: description) {
+            let range = NSMakeRange(0, attributedString.string.count)
+            attributedString.addAttribute(NSFontAttributeName, value: UIFont.preferredFont(forTextStyle: .body), range: range)
+            self.contentLabel.text = attributedString.trailingNewlineChopped.string
+        } else {
+            self.contentLabel.text = description
+        }
+
+        self.updateDueDate(for: homework)
+    }
+
+    private func updateDueDate(for homework: Homework) {
+        let highlightColor = UIColor(red: 1.0, green: 45/255, blue: 0.0, alpha: 1.0)
         let timeDifference = Calendar.current.dateComponents([.day, .hour], from: Date(), to: homework.dueDate as Date)
-        switch timeDifference.day! {
+
+        guard let dueDay = timeDifference.day, !homework.publicSubmissions else {
+            self.dueLabel.text = ""
+            return
+        }
+
+        switch dueDay {
         case Int.min..<0:
-            dueLabel.text = "⚐ Überfällig"
-            setDueLabelHighlighted(true)
+            self.dueLabel.text = "⚐ Überfällig"
+            self.dueLabel.textColor = highlightColor
         case 0..<1:
-            dueLabel.text = "⚐ In \(timeDifference.hour!) Stunden fällig"
-            setDueLabelHighlighted(true)
+            self.dueLabel.text = "⚐ In \(timeDifference.hour!) Stunden fällig"
+            self.dueLabel.textColor = highlightColor
         case 1:
-            dueLabel.text = "⚐ Morgen fällig"
-            setDueLabelHighlighted(true)
+            self.dueLabel.text = "⚐ Morgen fällig"
+            self.dueLabel.textColor = highlightColor
         case 2:
-            dueLabel.text = "Übermorgen"
-            setDueLabelHighlighted(false)
+            self.dueLabel.text = "Übermorgen"
+            self.dueLabel.textColor = UIColor.black
         case 3...7:
-            dueLabel.text = "In \(timeDifference.day!) Tagen"
-            setDueLabelHighlighted(false)
+            self.dueLabel.text = "In \(dueDay) Tagen"
+            self.dueLabel.textColor = UIColor.black
         default:
-            setDueLabelVisible(false)
+            self.dueLabel.text = ""
         }
     }
-    
-    func setDueLabelHighlighted(_ highlighted: Bool) {
-        dueLabel.textColor = highlighted ? UIColor(red: 1.0, green: 45/255, blue: 0.0, alpha: 1.0) : UIColor.black
-        if highlighted {
-//            dueLabel.layer.borderColor = dueLabel.highlightedTextColor?.cgColor
-//            dueLabel.layer.borderWidth = 1.0
-        } else {
-            dueLabel.layer.borderWidth = 0.0
-        }
-    }
-    
-    func setDueLabelVisible(_ visible: Bool) {
-        dueLabel.isHidden = !visible
-        contentLabelDueAlertSpacing.priority = visible ? 750 : 1
-    }
+
 }
