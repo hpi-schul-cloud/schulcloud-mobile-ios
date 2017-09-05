@@ -60,3 +60,47 @@ extension Homework {
     }
 
 }
+
+
+extension Homework {
+
+    var courseName: String {
+        return self.course?.name ?? "Persönlich"
+    }
+
+    var color: UIColor {
+        if let colorString = self.course?.colorString {
+            return UIColor(hexString: colorString)
+        } else {
+            return UIColor.clear
+        }
+    }
+
+    var cleanedDescriptionText: String {
+        return self.descriptionText.replacingOccurrences(of: "\\s+$", with: "", options: .regularExpression)
+    }
+
+    var dueTextAndColor: (String, UIColor) {
+        let highlightColor = UIColor(red: 1.0, green: 45/255, blue: 0.0, alpha: 1.0)
+        let timeDifference = Calendar.current.dateComponents([.day, .hour], from: Date(), to: self.dueDate as Date)
+
+        guard let dueDay = timeDifference.day, !self.publicSubmissions else {
+            return ("", UIColor.clear)
+        }
+
+        switch dueDay {
+        case Int.min..<0:
+            return ("⚐ Überfällig", highlightColor)
+        case 0..<1:
+            return ("⚐ In \(timeDifference.hour!) Stunden fällig", highlightColor)
+        case 1:
+            return ("⚐ Morgen fällig", highlightColor)
+        case 2:
+            return ("Übermorgen", UIColor.black)
+        case 3...7:
+            return ("In \(dueDay) Tagen", UIColor.black)
+        default:
+            return ("", UIColor.clear)
+        }
+    }
+}
