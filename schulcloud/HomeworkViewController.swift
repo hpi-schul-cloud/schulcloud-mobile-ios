@@ -76,4 +76,17 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
         return cell
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "taskDetail"?:
+            guard let detailVC = segue.destination as? HomeworkDetailViewController else { return }
+            guard let cell = sender as? UITableViewCell else { return }
+            guard let indexPath = self.tableView.indexPath(for: cell) else { return }
+            let homework = self.fetchedResultsController.object(at: indexPath)
+            detailVC.homework = homework
+        default:
+            super.prepare(for: segue, sender: sender)
+        }
+    }
+
 }
