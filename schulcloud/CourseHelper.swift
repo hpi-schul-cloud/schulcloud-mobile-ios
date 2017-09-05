@@ -35,7 +35,7 @@ public class CourseHelper {
                     deleteRequest.predicate = NSPredicate(format: "NOT (id IN %@)", ids)
                     try CoreDataHelper.delete(fetchRequest: deleteRequest, context: privateMOC)
                     saveContext()
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Homework.changeNotificationName), object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Homework.homeworkDidChangeNotificationName), object: nil)
                     return Future(value: Void())
                 } catch let error {
                     return Future(error: .database(error.localizedDescription))

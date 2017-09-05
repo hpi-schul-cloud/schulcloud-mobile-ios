@@ -17,7 +17,7 @@ class DashboardHomeworkView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
         numberOfOpenTasksLabel.text = "?"
-            NotificationCenter.default.addObserver(self, selector: #selector(DashboardHomeworkView.updateHomeworkCount), name: NSNotification.Name(rawValue: Homework.changeNotificationName), object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(DashboardHomeworkView.updateHomeworkCount), name: NSNotification.Name(rawValue: Homework.homeworkDidChangeNotificationName), object: nil)
         updateHomeworkCount()
     }
     

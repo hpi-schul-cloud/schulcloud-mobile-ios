@@ -19,6 +19,7 @@
 		5069DA0B1F4441AF00210EB9 /* CalendarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5069DA0A1F4441AF00210EB9 /* CalendarHelper.swift */; };
 		506D146F1F56F81D00AA5613 /* UIView+shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D146E1F56F81D00AA5613 /* UIView+shake.swift */; };
 		507684C01F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507684BF1F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift */; };
+		5082579A1F5E90F500A4FF6A /* Homework+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508257991F5E90F500A4FF6A /* Homework+.swift */; };
 		509A93381F541513001167DE /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509A93371F541512001167DE /* DashboardViewController.swift */; };
 		509A933A1F541668001167DE /* ShortNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509A93391F541668001167DE /* ShortNotificationViewController.swift */; };
 		50A1CDE21F4EB00B006E9B69 /* RemoteEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A1CDE11F4EB00B006E9B69 /* RemoteEvent.swift */; };
@@ -124,6 +125,7 @@
 		5069DA0A1F4441AF00210EB9 /* CalendarHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHelper.swift; sourceTree = "<group>"; };
 		506D146E1F56F81D00AA5613 /* UIView+shake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+shake.swift"; sourceTree = "<group>"; };
 		507684BF1F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkDetailViewController.swift; sourceTree = "<group>"; };
+		508257991F5E90F500A4FF6A /* Homework+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Homework+.swift"; sourceTree = "<group>"; };
 		509A93371F541512001167DE /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		509A93391F541668001167DE /* ShortNotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortNotificationViewController.swift; sourceTree = "<group>"; };
 		50A1CDE11F4EB00B006E9B69 /* RemoteEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteEvent.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 				C328709A1EDDBCB000ABA348 /* UserGroup+CoreDataProperties.swift */,
 				C328709B1EDDBCB000ABA348 /* Course+CoreDataClass.swift */,
 				C328709C1EDDBCB000ABA348 /* Course+CoreDataProperties.swift */,
+				C3418B6A1ED5CB3400280E62 /* Homework+CoreDataClass.swift */,
 				C328709D1EDDBCB000ABA348 /* Homework+CoreDataProperties.swift */,
 				C328709E1EDDBCB000ABA348 /* User+CoreDataClass.swift */,
 				C328709F1EDDBCB000ABA348 /* User+CoreDataProperties.swift */,
@@ -334,6 +337,7 @@
 				C3C2AC2F1EC4902F0060AECA /* File+CoreDataClass.swift */,
 				C3418B6E1ED5CF1F00280E62 /* Date+Marshal.swift */,
 				50A1CDE11F4EB00B006E9B69 /* RemoteEvent.swift */,
+				508257991F5E90F500A4FF6A /* Homework+.swift */,
 			);
 			name = synchronization;
 			sourceTree = "<group>";
@@ -481,7 +485,6 @@
 				C32870BA1EDF324300ABA348 /* synchronization */,
 				C36C233A1ECC965400D4163E /* CoreData.swift */,
 				C378D2C21ECC976800AE8CEA /* schulcloud.xcdatamodeld */,
-				C3418B6A1ED5CB3400280E62 /* Homework+CoreDataClass.swift */,
 				C3AB489B1EDAE97600692505 /* HomeworkHelper.swift */,
 				C32870BD1EDF356800ABA348 /* CourseHelper.swift */,
 				C32870BF1EE0228600ABA348 /* LessonHelper.swift */,
@@ -786,6 +789,7 @@
 				C3C2AC221EC3A7E90060AECA /* SettingsViewController.swift in Sources */,
 				C3C3CAB11EF5CBB6009601AE /* SingleLessonViewController.swift in Sources */,
 				50A1CDE41F501A0D006E9B69 /* NotificationViewController.swift in Sources */,
+				5082579A1F5E90F500A4FF6A /* Homework+.swift in Sources */,
 				C3C2AC241EC3AAA80060AECA /* LoginHelper.swift in Sources */,
 				C3AB489C1EDAE97600692505 /* HomeworkHelper.swift in Sources */,
 				C36C233B1ECC965400D4163E /* CoreData.swift in Sources */,
