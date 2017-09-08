@@ -96,7 +96,6 @@ class CalendarOverviewViewController: UIViewController {
             } else {
                 self.state = .noEvents(CalendarOverviewViewController.noEventsMessage)
             }
-
         }
 
         if CalendarHelper.schulCloudCalendarWasInitialized {
@@ -114,17 +113,14 @@ class CalendarOverviewViewController: UIViewController {
             dateFormatter.dateStyle = .none
             dateFormatter.timeStyle = .short
 
-            let now = Date()
-            let currentEventStart = currentEvent.startDate.dateInCurrentTimeZone()
-            let currentEventEnd = currentEvent.endDate.dateInCurrentTimeZone()
-
             // set current event labels
             self.currentEventName.text = currentEvent.title
-            self.currentEventDate.text = dateFormatter.string(from: currentEventStart)
+            self.currentEventDate.text = dateFormatter.string(from: currentEvent.startDate)
             self.currentEventLocation.text = currentEvent.location
 
             // set progress bar
-            let progress = now.timeIntervalSince(currentEventStart) / currentEventEnd.timeIntervalSince(currentEventStart)
+            let now = Date().dateInUTCTimeZone()
+            let progress = now.timeIntervalSince(currentEvent.startDate) / currentEvent.endDate.timeIntervalSince(currentEvent.startDate)
             self.currentEventProgress.progress = Float(progress)
 
             // set next event labels
