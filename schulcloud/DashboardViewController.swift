@@ -77,8 +77,10 @@ class DashboardViewController: UIViewController {
             guard let shortNotificationViewController = segue.destination as? ShortNotificationViewController else { return }
             self.notificationViewController = shortNotificationViewController
             shortNotificationViewController.delegate = self
+        case "showCalendarOverviewEmbedded"?:
+            segue.destination.view.translatesAutoresizingMaskIntoConstraints = false
         default:
-            break
+            super.prepare(for: segue, sender: sender)
         }
     }
 
