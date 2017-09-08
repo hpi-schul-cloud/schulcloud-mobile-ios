@@ -31,8 +31,8 @@ struct RemoteEvent: Unmarshaling {
         self.title = try attributes.value(for: "summary")
         self.description = try attributes.value(for: "description")
         self.location = try attributes.value(for: "location")
-        self.start = RemoteEvent.dateInCurrentTimeZone(for: try attributes.value(for: "dtstart"))
-        self.end = RemoteEvent.dateInCurrentTimeZone(for: try attributes.value(for: "dtend"))
+        self.start = (try attributes.value(for: "dtstart") as Date).dateInCurrentTimeZone()
+        self.end = (try attributes.value(for: "dtend") as Date).dateInCurrentTimeZone()
         self.courseId = try attributes.value(for: "x-sc-courseId")
 
         let recurringRuleData = included?.first { json in
@@ -42,11 +42,6 @@ struct RemoteEvent: Unmarshaling {
         self.recurringRule = try RemoteRecurringRule(object: recurringRuleData)
     }
 
-    private static func dateInCurrentTimeZone(for date: Date) -> Date {
-        let utcOffset = TimeZone.autoupdatingCurrent.secondsFromGMT(for: date)
-        let utcOffsetChunk = TimeChunk(seconds: utcOffset, minutes: 0, hours: 0, days: 0, weeks: 0, months: 0, years: 0)
-        return date.subtract(utcOffsetChunk)
-    }
 }
 
 struct RemoteRecurringRule: Unmarshaling {
