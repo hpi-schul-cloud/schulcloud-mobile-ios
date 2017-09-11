@@ -65,6 +65,7 @@ class LoginViewController: UIViewController {
     }
 
     func show(error: SCError) {
+        log.error(error.description)
         self.usernameInput.shake()
         self.passwordInput.shake()
     }
