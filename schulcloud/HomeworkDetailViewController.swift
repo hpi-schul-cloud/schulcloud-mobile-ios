@@ -1,31 +1,29 @@
 //
-//  HomeworkTableViewCell.swift
+//  HomeworkDetailViewController.swift
 //  schulcloud
 //
-//  Created by Carl Gödecken on 29.05.17.
+//  Created by Max Bothe on 04.09.17.
 //  Copyright © 2017 Hasso-Plattner-Institut. All rights reserved.
 //
 
 import UIKit
 
-class HomeworkTableViewCell: UITableViewCell {
+class HomeworkDetailViewController: UIViewController {
 
-    @IBOutlet var subjectLabel: UILabel!
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var contentLabel: UILabel!
-    @IBOutlet var coloredStrip: UIView!
-    @IBOutlet var dueLabel: UILabel!
+    @IBOutlet weak var subjectLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var contentLabel: UILabel!
+    @IBOutlet weak var coloredStrip: UIView!
+    @IBOutlet weak var dueLabel: UILabel!
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    var homework: Homework?
 
-        self.coloredStrip.layer.cornerRadius = self.coloredStrip.frame.size.height/2
-        self.coloredStrip.layer.masksToBounds = true
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    override func viewDidLoad() {
+        super.viewDidLoad()
         self.coloredStrip.layer.cornerRadius = self.coloredStrip.frame.size.height/2.0
+
+        guard let homework = self.homework else { return }
+        self.configure(for: homework)
     }
 
     func configure(for homework: Homework) {
@@ -37,7 +35,7 @@ class HomeworkTableViewCell: UITableViewCell {
         if let attributedString = NSMutableAttributedString(html: description) {
             let range = NSMakeRange(0, attributedString.string.count)
             attributedString.addAttribute(NSFontAttributeName, value: UIFont.preferredFont(forTextStyle: .body), range: range)
-            self.contentLabel.text = attributedString.trailingNewlineChopped.string
+            self.contentLabel.attributedText = attributedString.trailingNewlineChopped
         } else {
             self.contentLabel.text = description
         }
