@@ -103,4 +103,20 @@ extension Homework {
             return ("", UIColor.clear)
         }
     }
+    
+    static var shortDateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return dateFormatter
+    }()
+    
+    static func relativeDateString(for date: Date) -> String {
+        let calendar = NSCalendar.current
+        if calendar.isDateInYesterday(date) { return "Gestern" }
+        else if calendar.isDateInToday(date) { return "Heute" }
+        else if calendar.isDateInTomorrow(date) { return "Morgen" }
+        else {
+            return DateFormatter.localizedString(from: date, dateStyle: .full, timeStyle: .none)
+        }
+    }
 }
