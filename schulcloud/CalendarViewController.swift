@@ -47,7 +47,6 @@ class CalendarViewController: DayViewController {
         } else {
             CalendarHelper.initializeCalendar(on: self, completion: syncEvents)
         }
-
     }
 
     private func showCalendarPermissionErrorAlert() {
