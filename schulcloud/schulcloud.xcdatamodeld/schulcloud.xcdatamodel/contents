@@ -37,7 +37,7 @@
         <attribute name="availableDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="descriptionText" attributeType="String" syncable="YES"/>
         <attribute name="dueDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="dueDateShort" transient="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dueDateShort" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="isPrivate" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
