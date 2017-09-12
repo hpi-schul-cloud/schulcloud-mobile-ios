@@ -35,6 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             FIRApp.configure()
         }
         
+        self.window?.tintColor = UIColor.schulcloudRed
         selectInitialViewController(application: application)
         
         CoreDataObserver.shared.observeChanges(on: managedObjectContext)
