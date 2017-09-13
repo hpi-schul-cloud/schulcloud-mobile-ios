@@ -24,7 +24,7 @@ public class HomeworkHelper {
         privateMOC.parent = managedObjectContext
         
         return ApiHelper.request("homework", parameters: parameters).jsonArrayFuture(keyPath: "data")
-            .flatMap(privateMOC.perform, f: { $0.map({Homework.upsert(inContext: managedObjectContext, object: $0)}).sequence() })
+            .flatMap(privateMOC.perform, f: { $0.map({Homework.upsert(inContext: privateMOC, object: $0)}).sequence() })
             .flatMap(privateMOC.perform, f: { dbItems -> FetchResult in
                 do {
                     let ids = dbItems.map({$0.id})

@@ -42,6 +42,8 @@ fileprivate func createPersistentContainer() -> NSPersistentContainer {
              */
             fatalError("Unresolved error \(error), \(error.userInfo)")
         }
+        let managedObjectContext = persistentContainer.viewContext
+        managedObjectContext.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
     })
     
     return persistentContainer
