@@ -38,17 +38,10 @@ extension Homework {
             let courseId: String? = try? object.value(for: "courseId")
             let teacherId: String = try object.value(for: "teacherId")
 
-            let homeworkFuture = homework.fetchCourse(by: courseId, context: context).recoverWith { error -> Future<Void, SCError> in
-                log.error(error)
-                return Future(value: Void())
-            }
+            let homeworkFuture = homework.fetchCourse(by: courseId, context: context).onErrorLogAndRecover(with: Void())
+            let teacherFuture = homework.fetchTeacher(by: teacherId, context: context).onErrorLogAndRecover(with: Void())
             
-            let teacherFuture = homework.fetchTeacher(by: teacherId, context: context).recoverWith { error -> Future<Void, SCError> in
-                log.error(error)
-                return Future(value: Void())
-            }
-            
-            return [homeworkFuture, teacherFuture].sequence().flatMapToObject(homework)
+            return [homeworkFuture, teacherFuture].sequence().flatMap(object: homework)
         } catch let error as MarshalError {
             return Future(error: .jsonDeserialization(error.description))
         } catch let error {

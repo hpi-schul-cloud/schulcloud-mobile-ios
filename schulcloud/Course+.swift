@@ -26,10 +26,7 @@ extension Course {
             
             let teacherIds: [String] = (try? data.value(for: "teacherIds")) ?? [String]()
             return course.fetchTeachers(by: teacherIds, context: context)
-                .recoverWith {
-                    log.error($0)
-                    return Future(value: course)
-            }
+                .onErrorLogAndRecover(with: course)
         } catch let error {
             return Future(error: SCError.jsonDeserialization(error.description))
         }
