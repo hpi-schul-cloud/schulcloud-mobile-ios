@@ -15,7 +15,8 @@ class HomeworkDetailViewController: UIViewController {
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var coloredStrip: UIView!
     @IBOutlet weak var dueLabel: UILabel!
-
+    @IBOutlet weak var submissionButton: UIButton!
+    
     var homework: Homework?
 
     override func viewDidLoad() {
@@ -43,6 +44,20 @@ class HomeworkDetailViewController: UIViewController {
         let (dueText, dueColor) = homework.dueTextAndColor
         self.dueLabel.text = dueText
         self.dueLabel.textColor = dueColor
+        
+        if true /* check if homework is eligible for submissions */ {
+            submissionButton.isEnabled = true
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch(segue.identifier) {
+        case "taskSubmission"?:
+            let destination = segue.destination as! HomeworkSubmissionViewController
+            destination.homework = self.homework!
+        default:
+            break
+        }
     }
 
 }
