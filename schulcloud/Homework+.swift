@@ -15,9 +15,6 @@ extension Homework {
 
     static let homeworkDidChangeNotificationName = "didChangeHomework"
 
-    static let teacherFetchQueue = DispatchQueue.init(label: "homeworkTeacher", qos: .default, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
-    static let courseFetchQueue = DispatchQueue.init(label: "homeworkCourse", qos: .default, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
-
     static func upsert(inContext context: NSManagedObjectContext, object: MarshaledObject) -> Future<Homework, SCError> {
         do {
             let fetchRequest = NSFetchRequest<Homework>(entityName: "Homework")
@@ -38,24 +35,44 @@ extension Homework {
             homework.publicSubmissions = (try? object.value(for: "publicSubmissions")) ?? false
             homework.isPrivate = (try? object.value(for: "private")) ?? false
 
-            if let courseData: MarshalDictionary? = try? object.value(for: "courseId"),
-                let unwrapped = courseData {
-                try courseFetchQueue.sync {
-                    homework.course = try Course.upsert(data: unwrapped, context: context)
-                }
-            }
+            let courseId: String? = try? object.value(for: "courseId")
             let teacherId: String = try object.value(for: "teacherId")
 
-            return teacherFetchQueue.sync {
-                return User.fetch(by: teacherId, inContext: context).flatMap { teacher -> Future<Homework, SCError> in
-                    homework.teacher = teacher
-                    return Future(value: homework)
-                }
+            let homeworkFuture = homework.fetchCourse(by: courseId, context: context).recoverWith { error -> Future<Void, SCError> in
+                log.error(error)
+                return Future(value: Void())
             }
+            
+            let teacherFuture = homework.fetchTeacher(by: teacherId, context: context).recoverWith { error -> Future<Void, SCError> in
+                log.error(error)
+                return Future(value: Void())
+            }
+            
+            return [homeworkFuture, teacherFuture].sequence().flatMapToObject(homework)
         } catch let error as MarshalError {
             return Future(error: .jsonDeserialization(error.description))
         } catch let error {
             return Future(error: .database(error.localizedDescription))
+        }
+    }
+    
+    func fetchCourse(by id: String?, context: NSManagedObjectContext) -> Future<Void, SCError> {
+        guard let id = id else { return Future(value: Void())}
+        return Course.fetchQueue.sync {
+            return Course.fetch(by: id, inContext: context).flatMap { course -> Future<Void, SCError> in
+                self.course = course
+                return Future(value: Void())
+            }
+        }
+    }
+    
+    func fetchTeacher(by id: String?, context: NSManagedObjectContext) -> Future<Void, SCError> {
+        guard let id = id else { return Future(value: Void())}
+        return User.fetchQueue.sync {
+            return User.fetch(by: id, inContext: context).flatMap { teacher -> Future<Void, SCError> in
+                self.teacher = teacher
+                return Future(value: Void())
+            }
         }
     }
 
