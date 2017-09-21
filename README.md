@@ -2,7 +2,7 @@
 Dies ist das Repository der nativen iOS-App für die Schul-Cloud. Zum Entwicklen wird in der Regel ein Apple Mac benötigt.
 
 ### Development toolchain
-- Xcode 9.0 beta 6
+- Xcode 9.0
 - [CocoaPods](https://cocoapods.org/) 1.3.1
 
 ### Installation
