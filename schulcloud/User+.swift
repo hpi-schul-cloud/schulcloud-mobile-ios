@@ -46,3 +46,15 @@ extension User {
 extension User: IdObject {
     static let entityName = "User"
 }
+
+extension User {
+
+    var shortName: String {
+        if let intialCharacter = self.firstName.first  {
+            return "\(String(intialCharacter)). \(self.lastName)"
+        } else {
+            return self.lastName
+        }
+    }
+
+}

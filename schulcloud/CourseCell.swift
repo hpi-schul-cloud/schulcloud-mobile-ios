@@ -22,9 +22,9 @@ class CourseCell: UICollectionViewCell {
 
         self.titleLabel.text = course.name
         if let teachers = course.teachers?.allObjects as? [User], teachers.count > 0 {
-            self.teacherLabel.isHidden = false
-            let namesAbbreviated = teachers.map {"\($0.firstName[$0.firstName.startIndex]). \($0.lastName)"}
+            let namesAbbreviated = teachers.map { $0.shortName }
             self.teacherLabel.text = namesAbbreviated.joined(separator: ", ")
+            self.teacherLabel.isHidden = false
         } else {
             self.teacherLabel.isHidden = true
         }
