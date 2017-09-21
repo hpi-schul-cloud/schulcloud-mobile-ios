@@ -12,6 +12,7 @@ import CoreData
 import Marshal
 
 extension User {
+    static let fetchQueue = DispatchQueue.init(label: "user", qos: .default, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
     
     static func upsert(data: MarshaledObject, context: NSManagedObjectContext) throws -> User {
         let user = try self.findOrCreateWithId(data: data, context: context)
@@ -25,14 +26,14 @@ extension User {
     
     typealias UserFuture = Future<User, SCError>
     static func fetch(by id: String, inContext context: NSManagedObjectContext) -> UserFuture {
-        if let _user = try? User.find(by: id, context: context),
+        if let _user = try? User.fetchQueue.sync { try User.find(by: id, context: context) },
             let user = _user {
             return UserFuture(value: user)
         }
         return ApiHelper.request("users/\(id)").jsonObjectFuture()
             .flatMap { data -> UserFuture in
                 do {
-                    let user = try User.upsert(data: data, context: context)
+                    let user = try User.fetchQueue.sync { try User.upsert(data: data, context: context) }
                     return Future(value: user)
                 }
                 catch let error {
@@ -44,4 +45,16 @@ extension User {
 
 extension User: IdObject {
     static let entityName = "User"
+}
+
+extension User {
+
+    var shortName: String {
+        if let intialCharacter = self.firstName.first  {
+            return "\(String(intialCharacter)). \(self.lastName)"
+        } else {
+            return self.lastName
+        }
+    }
+
 }

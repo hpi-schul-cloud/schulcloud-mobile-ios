@@ -27,9 +27,12 @@ public class CourseHelper {
             "$or[1][teacherIds]": Globals.account!.userId
         ]
         return ApiHelper.request("courses", parameters: parameters).jsonArrayFuture(keyPath: keyPath)
-            .flatMap(privateMOC.perform, f: { json -> FetchResult in
+            .flatMap(privateMOC.perform, f: { json -> Future<[Course], SCError> in
+                let updatedCourseFutures = json.map{ Course.upsert(data: $0, context: privateMOC) }.sequence()
+                return updatedCourseFutures
+            })
+            .flatMap(privateMOC.perform, f: { updatedCourses -> FetchResult in
                 do {
-                    let updatedCourses = try json.map{ try Course.upsert(data: $0, context: privateMOC) }
                     let ids = updatedCourses.map({$0.id})
                     let deleteRequest: NSFetchRequest<Course> = Course.fetchRequest()
                     deleteRequest.predicate = NSPredicate(format: "NOT (id IN %@)", ids)

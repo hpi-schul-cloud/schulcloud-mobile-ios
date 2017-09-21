@@ -16,14 +16,11 @@ public class HomeworkHelper {
     typealias FetchResult = Future<Void, SCError>
     
     static func fetchFromServer() -> FetchResult {
-        let parameters: Parameters = [
-            "$populate": "courseId"
-        ]
         
         let privateMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         privateMOC.parent = managedObjectContext
         
-        return ApiHelper.request("homework", parameters: parameters).jsonArrayFuture(keyPath: "data")
+        return ApiHelper.request("homework").jsonArrayFuture(keyPath: "data")
             .flatMap(privateMOC.perform, f: { $0.map({Homework.upsert(inContext: privateMOC, object: $0)}).sequence() })
             .flatMap(privateMOC.perform, f: { dbItems -> FetchResult in
                 do {

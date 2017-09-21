@@ -65,6 +65,7 @@
 		C36C233B1ECC965400D4163E /* CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36C233A1ECC965400D4163E /* CoreData.swift */; };
 		C378D2C41ECC976800AE8CEA /* schulcloud.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C378D2C21ECC976800AE8CEA /* schulcloud.xcdatamodeld */; };
 		C38419171EF602AA00A616B3 /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38419161EF602AA00A616B3 /* SplitViewController.swift */; };
+		C39495E71F6ACF55009DD7A4 /* BrightFutures+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39495E61F6ACF55009DD7A4 /* BrightFutures+.swift */; };
 		C3A5A9031EBCC17600825DBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9021EBCC17600825DBF /* AppDelegate.swift */; };
 		C3A5A9051EBCC17600825DBF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9041EBCC17600825DBF /* ViewController.swift */; };
 		C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3A5A9061EBCC17600825DBF /* Main.storyboard */; };
@@ -183,6 +184,7 @@
 		C36C233A1ECC965400D4163E /* CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreData.swift; sourceTree = "<group>"; };
 		C378D2C31ECC976800AE8CEA /* schulcloud.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = schulcloud.xcdatamodel; sourceTree = "<group>"; };
 		C38419161EF602AA00A616B3 /* SplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
+		C39495E61F6ACF55009DD7A4 /* BrightFutures+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BrightFutures+.swift"; sourceTree = "<group>"; };
 		C3A5A8FF1EBCC17600825DBF /* Schul-Cloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Schul-Cloud.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3A5A9021EBCC17600825DBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3A5A9041EBCC17600825DBF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -271,6 +273,7 @@
 				506D146E1F56F81D00AA5613 /* UIView+shake.swift */,
 				5059C14A1F62B35900E8023C /* Date+TimeZone.swift */,
 				C3FEB92A1F67E7F400BAD9D7 /* UIColor+Branding.swift */,
+				C39495E61F6ACF55009DD7A4 /* BrightFutures+.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -751,6 +754,7 @@
 				C32870B91EDF2E1E00ABA348 /* Content+.swift in Sources */,
 				507684C01F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift in Sources */,
 				C3C2AC361EC5AC460060AECA /* Notifications.swift in Sources */,
+				C39495E71F6ACF55009DD7A4 /* BrightFutures+.swift in Sources */,
 				503C1C011F6181BF00CF369D /* CalendarOverviewViewController.swift in Sources */,
 				C3AB489E1EDB260E00692505 /* Alamofire+BrightFutures.swift in Sources */,
 				C32870C21EE0250500ABA348 /* LessonsViewController.swift in Sources */,
