@@ -19,6 +19,13 @@ mv schulcloud/GoogleService-Info.plist schulcloud/GoogleService-Info.plist.bak
 mv schulcloud/GoogleService-Info-dummy.plist schulcloud/GoogleService-Info.plist
 ```
 
+### UI Tests konfigurieren
+Um alle UI Tests ausführen zu können, müssen die Werte `username` und `password` konfiguriert werden. Dazu wird die `Secrets.plist` kopiert
+```bash
+cp schulcloudUITests/Secrets.plist.dummy schulcloudUITests/Secrets.plist
+```
+und anschließend mit den ensprechenden Werten in dieser Datei gesetzt.
+
 ## APIs
 Diese App spricht in der Dev-Version mit der API unseres Test-Systems.
 Die Dokumentation liegt hier: https://schul-cloud.org:8080/docs/.

@@ -46,9 +46,10 @@ platform :ios do
   #   # frameit
   # end
 
-  # desc :upload do
-  #   snapshot
-  # end
+  desc "Uploads the application's metadata to iTunes Connect"
+  lane :metadata do
+    snapshot
+  end
 
   # You can define as many lanes as you want
 
