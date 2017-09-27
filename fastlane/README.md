@@ -30,23 +30,41 @@ xcode-select --install
 
 # Available Actions
 ## iOS
+### ios increment_build
+```
+fastlane ios increment_build
+```
+Increments the build number for all targets
+### ios increment_version_patch
+```
+fastlane ios increment_version_patch
+```
+Increments the version number for a new patch version
+### ios increment_version_minor
+```
+fastlane ios increment_version_minor
+```
+Increments the version number for a new minor version
+### ios increment_version_major
+```
+fastlane ios increment_version_major
+```
+Increments the version number for a new major version
 ### ios test
 ```
 fastlane ios test
 ```
 Runs all the tests
-### ios beta
+### ios metadata
 ```
-fastlane ios beta
+fastlane ios metadata
 ```
-Submit a new Beta Build to Apple TestFlight
+Uploads the application's metadata to iTunes Connect
+### ios build
+```
+fastlane ios build
+```
 
-This will also make sure the profile is up to date
-### ios release
-```
-fastlane ios release
-```
-Deploy a new version to the App Store
 
 ----
 

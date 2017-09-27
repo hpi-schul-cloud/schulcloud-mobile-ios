@@ -21,6 +21,48 @@ platform :ios do
   #   cocoapods
   # end
 
+  desc "Increments the build number for all targets"
+  lane :increment_build do
+    new_build_number = increment_build_number
+    version_number = get_version_number
+    commit_version_bump(
+      message: "Bump build number to #{new_build_number} (version #{version_number})."
+    )
+  end
+
+  desc "Increments the version number for a new patch version"
+  lane :increment_version_patch do
+    new_version_number = increment_version_number(
+      bump_type: "patch",
+    )
+    revert_tvOS_changes()
+    commit_version_bump(
+      message: "New version #{new_version_number} (patch)."
+    )
+  end
+
+  desc "Increments the version number for a new minor version"
+  lane :increment_version_minor do
+    new_version_number = increment_version_number(
+      bump_type: "minor",
+    )
+    revert_tvOS_changes()
+    commit_version_bump(
+      message: "New version #{new_version_number} (minor)."
+    )
+  end
+
+  desc "Increments the version number for a new major version"
+  lane :increment_version_major do
+    new_version_number = increment_version_number(
+      bump_type: "major",
+    )
+    revert_tvOS_changes()
+    commit_version_bump(
+      message: "New version #{new_version_number} (major)."
+    )
+  end
+
   desc "Runs all the tests"
   lane :test do
     scan
@@ -50,6 +92,17 @@ platform :ios do
   lane :metadata do
     snapshot
   end
+
+  # lane :build do
+  #   gym(
+  #     export_method: "app-store",
+  #     export_options: {
+  #       provisioningProfiles: {
+  #         "org.schulcloud" => "Provisioning Profile Name",
+  #       }
+  #     }
+  #   )
+  # end
 
   # You can define as many lanes as you want
 
