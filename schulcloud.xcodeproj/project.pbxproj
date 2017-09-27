@@ -73,7 +73,6 @@
 		C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3A5A9061EBCC17600825DBF /* Main.storyboard */; };
 		C3A5A90D1EBCC17600825DBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3A5A90C1EBCC17600825DBF /* Assets.xcassets */; };
 		C3A5A9101EBCC17600825DBF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3A5A90E1EBCC17600825DBF /* LaunchScreen.storyboard */; };
-		C3A5A91B1EBCC17600825DBF /* schulcloudTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A91A1EBCC17600825DBF /* schulcloudTests.swift */; };
 		C3A5A9261EBCC17600825DBF /* schulcloudUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9251EBCC17600825DBF /* schulcloudUITests.swift */; };
 		C3A5A9341EBCCE3B00825DBF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */; };
 		C3A5A9391EBCD0C600825DBF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9381EBCD0C600825DBF /* Constants.swift */; };
@@ -95,13 +94,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		C3A5A9171EBCC17600825DBF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C3A5A8F71EBCC17600825DBF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C3A5A8FE1EBCC17600825DBF;
-			remoteInfo = schulcloud;
-		};
 		C3A5A9221EBCC17600825DBF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C3A5A8F71EBCC17600825DBF /* Project object */;
@@ -196,9 +188,6 @@
 		C3A5A90C1EBCC17600825DBF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C3A5A90F1EBCC17600825DBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C3A5A9111EBCC17600825DBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C3A5A9161EBCC17600825DBF /* schulcloudTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = schulcloudTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C3A5A91A1EBCC17600825DBF /* schulcloudTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = schulcloudTests.swift; sourceTree = "<group>"; };
-		C3A5A91C1EBCC17600825DBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C3A5A9211EBCC17600825DBF /* schulcloudUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = schulcloudUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3A5A9251EBCC17600825DBF /* schulcloudUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = schulcloudUITests.swift; sourceTree = "<group>"; };
 		C3A5A9271EBCC17600825DBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -227,13 +216,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C63FB1F9B25BA375BFE83DFB /* Pods_schulcloud.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C3A5A9131EBCC17600825DBF /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,7 +353,6 @@
 			children = (
 				3DD869181ECE3F7C00814392 /* fonts */,
 				C3A5A9011EBCC17600825DBF /* schulcloud */,
-				C3A5A9191EBCC17600825DBF /* schulcloudTests */,
 				C3A5A9241EBCC17600825DBF /* schulcloudUITests */,
 				C3A5A9001EBCC17600825DBF /* Products */,
 				3C4FFC2AB418A9FEA57D0908 /* Pods */,
@@ -383,7 +364,6 @@
 			isa = PBXGroup;
 			children = (
 				C3A5A8FF1EBCC17600825DBF /* Schulcloud.app */,
-				C3A5A9161EBCC17600825DBF /* schulcloudTests.xctest */,
 				C3A5A9211EBCC17600825DBF /* schulcloudUITests.xctest */,
 			);
 			name = Products;
@@ -402,15 +382,6 @@
 				C36C23371EC9DE0700D4163E /* SCError.swift */,
 			);
 			path = schulcloud;
-			sourceTree = "<group>";
-		};
-		C3A5A9191EBCC17600825DBF /* schulcloudTests */ = {
-			isa = PBXGroup;
-			children = (
-				C3A5A91A1EBCC17600825DBF /* schulcloudTests.swift */,
-				C3A5A91C1EBCC17600825DBF /* Info.plist */,
-			);
-			path = schulcloudTests;
 			sourceTree = "<group>";
 		};
 		C3A5A9241EBCC17600825DBF /* schulcloudUITests */ = {
@@ -535,24 +506,6 @@
 			productReference = C3A5A8FF1EBCC17600825DBF /* Schulcloud.app */;
 			productType = "com.apple.product-type.application";
 		};
-		C3A5A9151EBCC17600825DBF /* schulcloudTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C3A5A92D1EBCC17600825DBF /* Build configuration list for PBXNativeTarget "schulcloudTests" */;
-			buildPhases = (
-				C3A5A9121EBCC17600825DBF /* Sources */,
-				C3A5A9131EBCC17600825DBF /* Frameworks */,
-				C3A5A9141EBCC17600825DBF /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				C3A5A9181EBCC17600825DBF /* PBXTargetDependency */,
-			);
-			name = schulcloudTests;
-			productName = schulcloudTests;
-			productReference = C3A5A9161EBCC17600825DBF /* schulcloudTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		C3A5A9201EBCC17600825DBF /* schulcloudUITests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C3A5A9301EBCC17600825DBF /* Build configuration list for PBXNativeTarget "schulcloudUITests" */;
@@ -591,12 +544,6 @@
 							};
 						};
 					};
-					C3A5A9151EBCC17600825DBF = {
-						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = WP53SSE8S6;
-						ProvisioningStyle = Automatic;
-						TestTargetID = C3A5A8FE1EBCC17600825DBF;
-					};
 					C3A5A9201EBCC17600825DBF = {
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = WP53SSE8S6;
@@ -619,7 +566,6 @@
 			projectRoot = "";
 			targets = (
 				C3A5A8FE1EBCC17600825DBF /* schulcloud */,
-				C3A5A9151EBCC17600825DBF /* schulcloudTests */,
 				C3A5A9201EBCC17600825DBF /* schulcloudUITests */,
 			);
 		};
@@ -644,13 +590,6 @@
 				3DD869151ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf in Resources */,
 				C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */,
 				503A5F011F3DC6C700A7695B /* TabDashboard.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C3A5A9141EBCC17600825DBF /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -822,14 +761,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C3A5A9121EBCC17600825DBF /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C3A5A91B1EBCC17600825DBF /* schulcloudTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C3A5A91D1EBCC17600825DBF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -842,11 +773,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		C3A5A9181EBCC17600825DBF /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C3A5A8FE1EBCC17600825DBF /* schulcloud */;
-			targetProxy = C3A5A9171EBCC17600825DBF /* PBXContainerItemProxy */;
-		};
 		C3A5A9231EBCC17600825DBF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C3A5A8FE1EBCC17600825DBF /* schulcloud */;
@@ -1043,40 +969,6 @@
 			};
 			name = Release;
 		};
-		C3A5A92E1EBCC17600825DBF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = WP53SSE8S6;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/**";
-				INFOPLIST_FILE = schulcloudTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.schul-cloud.schulcloudTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/schulcloud.app/schulcloud";
-			};
-			name = Debug;
-		};
-		C3A5A92F1EBCC17600825DBF /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = WP53SSE8S6;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/**";
-				INFOPLIST_FILE = schulcloudTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.schul-cloud.schulcloudTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/schulcloud.app/schulcloud";
-			};
-			name = Release;
-		};
 		C3A5A9311EBCC17600825DBF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1126,15 +1018,6 @@
 			buildConfigurations = (
 				C3A5A92B1EBCC17600825DBF /* Debug */,
 				C3A5A92C1EBCC17600825DBF /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C3A5A92D1EBCC17600825DBF /* Build configuration list for PBXNativeTarget "schulcloudTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C3A5A92E1EBCC17600825DBF /* Debug */,
-				C3A5A92F1EBCC17600825DBF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
