@@ -31,8 +31,12 @@ class schulcloudUITests: XCTestCase {
     }
     
     func testLaunch() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let app = XCUIApplication()
+        let emailAdresseOderNutzernameTextField = app.textFields["Email-Adresse oder Nutzername"]
+        emailAdresseOderNutzernameTextField.clear()
+
+        app.otherElements.containing(.image, identifier:"logo-text").element.tap()
+
         snapshot("0Launch")
     }
 
