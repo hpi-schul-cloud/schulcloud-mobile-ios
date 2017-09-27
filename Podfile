@@ -1,4 +1,4 @@
-platform :ios, '10.3'
+platform :ios, '10.0'
 
 target 'schulcloud' do
   use_frameworks!

@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C3A5A8FE1EBCC17600825DBF"
-               BuildableName = "Schul-Cloud.app"
+               BuildableName = "schulcloud.app"
                BlueprintName = "schulcloud"
                ReferencedContainer = "container:schulcloud.xcodeproj">
             </BuildableReference>
@@ -54,7 +54,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C3A5A8FE1EBCC17600825DBF"
-            BuildableName = "Schul-Cloud.app"
+            BuildableName = "schulcloud.app"
             BlueprintName = "schulcloud"
             ReferencedContainer = "container:schulcloud.xcodeproj">
          </BuildableReference>
@@ -78,7 +78,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C3A5A8FE1EBCC17600825DBF"
-            BuildableName = "Schul-Cloud.app"
+            BuildableName = "schulcloud.app"
             BlueprintName = "schulcloud"
             ReferencedContainer = "container:schulcloud.xcodeproj">
          </BuildableReference>
@@ -97,7 +97,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C3A5A8FE1EBCC17600825DBF"
-            BuildableName = "Schul-Cloud.app"
+            BuildableName = "schulcloud.app"
             BlueprintName = "schulcloud"
             ReferencedContainer = "container:schulcloud.xcodeproj">
          </BuildableReference>
