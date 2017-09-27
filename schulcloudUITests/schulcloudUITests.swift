@@ -73,7 +73,7 @@ class schulcloudUITests: XCTestCase {
         emailAdresseOderNutzernameTextField.tap()
         let deleteText = (emailAdresseOderNutzernameTextField.value as? String ?? "").characters.map { _ in XCUIKeyboardKeyDelete }.joined(separator: "")
         emailAdresseOderNutzernameTextField.typeText(deleteText)
-        emailAdresseOderNutzernameTextField.typeText(username)
+        emailAdresseOderNutzernameTextField.clearAndEnter(text: username)
 
         let passwortSecureTextField = app.secureTextFields["Passwort"]
         passwortSecureTextField.tap()
