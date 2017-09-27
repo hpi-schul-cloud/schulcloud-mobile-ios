@@ -60,11 +60,6 @@ Runs all the tests
 fastlane ios metadata
 ```
 Uploads the application's metadata to iTunes Connect
-### ios build
-```
-fastlane ios build
-```
-
 
 ----
 

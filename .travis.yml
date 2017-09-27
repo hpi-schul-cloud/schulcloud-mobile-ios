@@ -12,8 +12,8 @@ before_script:
 - mv schulcloud/GoogleService-Info.plist schulcloud/GoogleService-Info.plist.bak
 - mv schulcloud/GoogleService-Info-dummy.plist schulcloud/GoogleService-Info.plist
 - cp schulcloudUITests/Secrets.plist.dummy schulcloudUITests/Secrets.plist
-- defaults write schulcloudUITests/Secrets $UI_TEST_USERNAME
-- defaults write schulcloudUITests/Secrets $UI_TEST_PASSWORD
+- defaults write schulcloudUITests/Secrets UI_TEST_USERNAME $UI_TEST_USERNAME
+- defaults write schulcloudUITests/Secrets UI_TEST_PASSWORD $UI_TEST_PASSWORD
 
 script:
 - bundle exec fastlane test
