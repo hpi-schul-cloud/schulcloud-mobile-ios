@@ -11,6 +11,10 @@ languages([
   "de-DE",
 ])
 
+launch_arguments([
+  "-forceLogin YES"
+])
+
 # The name of the scheme which contains the UI Tests
 scheme "schulcloud"
 
