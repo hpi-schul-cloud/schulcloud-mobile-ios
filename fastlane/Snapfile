@@ -1,9 +1,11 @@
 # A list of devices you want to take the screenshots from
 devices([
+  "iPhone X",
   "iPhone 8",
   "iPhone 8 Plus",
   "iPhone SE",
   "iPad Pro (12.9-inch)",
+  "iPad Pro (10.5-inch)",
   "iPad Pro (9.7-inch)",
 ])
 
@@ -33,4 +35,6 @@ workspace "./schulcloud.xcworkspace"
 # For more information about all available options run
 # fastlane snapshot --help
 
-reinstall_app true
+#reinstall_app true
+
+# concurrent_simulators false
