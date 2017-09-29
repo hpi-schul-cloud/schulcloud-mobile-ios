@@ -34,9 +34,8 @@ public class HomeworkHelper {
                 }
             })
             .flatMap { save(privateContext: privateMOC) }
-            .flatMap { _ -> FetchResult in
+            .andThen { _ in
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: Homework.homeworkDidChangeNotificationName), object: nil)
-                return Future(value: Void())
         }
     }
     
