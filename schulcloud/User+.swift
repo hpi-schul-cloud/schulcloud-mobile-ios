@@ -41,6 +41,13 @@ extension User {
                 }
         }
     }
+    
+    static func getCurrent(inContext context: NSManagedObjectContext) -> Future<User, SCError> {
+        guard let id = Globals.account?.userId else {
+            return Future(error: SCError.other("No user set"))
+        }
+        return User.fetch(by: id, inContext: context)
+    }
 }
 
 extension User: IdObject {
