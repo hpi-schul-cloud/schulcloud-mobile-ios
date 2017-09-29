@@ -34,6 +34,12 @@
 		C31C84271ECF546E00FA070C /* WebviewPreviewViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31C84261ECF546E00FA070C /* WebviewPreviewViewContoller.swift */; };
 		C31C842A1ECF553700FA070C /* PreviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31C84291ECF553700FA070C /* PreviewManager.swift */; };
 		C31C842E1ECF586500FA070C /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31C842D1ECF586500FA070C /* LoadingViewController.swift */; };
+		C31F623F1F7BF11300D46652 /* HomeworkSubmissionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31F623E1F7BF11300D46652 /* HomeworkSubmissionHelper.swift */; };
+		C31F62411F7BF2D100D46652 /* HomeworkSubmission+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31F62401F7BF2D100D46652 /* HomeworkSubmission+.swift */; };
+		C31F62461F7D3D1D00D46652 /* HomeworkSubmission+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31F62421F7D3D1D00D46652 /* HomeworkSubmission+CoreDataClass.swift */; };
+		C31F62471F7D3D1E00D46652 /* HomeworkSubmission+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31F62431F7D3D1D00D46652 /* HomeworkSubmission+CoreDataProperties.swift */; };
+		C31F62481F7D3D1E00D46652 /* HomeworkComment+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31F62441F7D3D1D00D46652 /* HomeworkComment+CoreDataClass.swift */; };
+		C31F62491F7D3D1E00D46652 /* HomeworkComment+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31F62451F7D3D1D00D46652 /* HomeworkComment+CoreDataProperties.swift */; };
 		C328708D1EDD58C700ABA348 /* User+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C328708B1EDD58C700ABA348 /* User+.swift */; };
 		C32870A01EDDBCB000ABA348 /* UserGroup+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870991EDDBCB000ABA348 /* UserGroup+CoreDataClass.swift */; };
 		C32870A11EDDBCB000ABA348 /* UserGroup+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C328709A1EDDBCB000ABA348 /* UserGroup+CoreDataProperties.swift */; };
@@ -154,6 +160,12 @@
 		C31C84261ECF546E00FA070C /* WebviewPreviewViewContoller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebviewPreviewViewContoller.swift; sourceTree = "<group>"; };
 		C31C84291ECF553700FA070C /* PreviewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewManager.swift; sourceTree = "<group>"; };
 		C31C842D1ECF586500FA070C /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		C31F623E1F7BF11300D46652 /* HomeworkSubmissionHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkSubmissionHelper.swift; sourceTree = "<group>"; };
+		C31F62401F7BF2D100D46652 /* HomeworkSubmission+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeworkSubmission+.swift"; sourceTree = "<group>"; };
+		C31F62421F7D3D1D00D46652 /* HomeworkSubmission+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeworkSubmission+CoreDataClass.swift"; sourceTree = "<group>"; };
+		C31F62431F7D3D1D00D46652 /* HomeworkSubmission+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeworkSubmission+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		C31F62441F7D3D1D00D46652 /* HomeworkComment+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeworkComment+CoreDataClass.swift"; sourceTree = "<group>"; };
+		C31F62451F7D3D1D00D46652 /* HomeworkComment+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeworkComment+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		C328708B1EDD58C700ABA348 /* User+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+.swift"; sourceTree = "<group>"; };
 		C32870991EDDBCB000ABA348 /* UserGroup+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserGroup+CoreDataClass.swift"; sourceTree = "<group>"; };
 		C328709A1EDDBCB000ABA348 /* UserGroup+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserGroup+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -276,6 +288,7 @@
 				5059C14A1F62B35900E8023C /* Date+TimeZone.swift */,
 				C3FEB92A1F67E7F400BAD9D7 /* UIColor+Branding.swift */,
 				C39495E61F6ACF55009DD7A4 /* BrightFutures+.swift */,
+				C3165F1E1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -322,6 +335,10 @@
 		C32870A71EDDBCEE00ABA348 /* autogenerated */ = {
 			isa = PBXGroup;
 			children = (
+				C31F62421F7D3D1D00D46652 /* HomeworkSubmission+CoreDataClass.swift */,
+				C31F62431F7D3D1D00D46652 /* HomeworkSubmission+CoreDataProperties.swift */,
+				C31F62441F7D3D1D00D46652 /* HomeworkComment+CoreDataClass.swift */,
+				C31F62451F7D3D1D00D46652 /* HomeworkComment+CoreDataProperties.swift */,
 				C32870AE1EDF24F600ABA348 /* Content+CoreDataClass.swift */,
 				C32870AF1EDF24F600ABA348 /* Content+CoreDataProperties.swift */,
 				C32870B01EDF24F600ABA348 /* Lesson+CoreDataClass.swift */,
@@ -351,6 +368,7 @@
 				C3418B6E1ED5CF1F00280E62 /* Date+Marshal.swift */,
 				50A1CDE11F4EB00B006E9B69 /* RemoteEvent.swift */,
 				508257991F5E90F500A4FF6A /* Homework+.swift */,
+				C31F62401F7BF2D100D46652 /* HomeworkSubmission+.swift */,
 			);
 			name = synchronization;
 			sourceTree = "<group>";
@@ -426,7 +444,6 @@
 				C31C84281ECF550C00FA070C /* File Preview */,
 				C3B7DB151EF5EB2200A2F2B5 /* Lesson */,
 				C3418B611ECEE6FB00280E62 /* FilesViewController.swift */,
-				C3AB48991EDAE8A800692505 /* HomeworkViewController.swift */,
 				C3A5A9041EBCC17600825DBF /* ViewController.swift */,
 				C32870BB1EDF32C600ABA348 /* CoursesViewController.swift */,
 				C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */,
@@ -437,6 +454,7 @@
 				50A1CDE31F501A0C006E9B69 /* NotificationViewController.swift */,
 				509A93391F541668001167DE /* ShortNotificationViewController.swift */,
 				503C1C001F6181BF00CF369D /* CalendarOverviewViewController.swift */,
+				C3AB48991EDAE8A800692505 /* HomeworkViewController.swift */,
 				507684BF1F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift */,
 				C39495E81F6AE0D9009DD7A4 /* HomeworkSubmissionViewController.swift */,
 			);
@@ -467,7 +485,6 @@
 				C3A5A9111EBCC17600825DBF /* Info.plist */,
 				C3C2AC281EC45B380060AECA /* GoogleService-Info.plist */,
 				C3C2AC341EC59F0E0060AECA /* schulcloud.entitlements */,
-				C3165F1E1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift */,
 			);
 			name = Application;
 			sourceTree = "<group>";
@@ -501,6 +518,7 @@
 				C36C233A1ECC965400D4163E /* CoreData.swift */,
 				C378D2C21ECC976800AE8CEA /* schulcloud.xcdatamodeld */,
 				C3AB489B1EDAE97600692505 /* HomeworkHelper.swift */,
+				C31F623E1F7BF11300D46652 /* HomeworkSubmissionHelper.swift */,
 				C32870BD1EDF356800ABA348 /* CourseHelper.swift */,
 				C32870BF1EE0228600ABA348 /* LessonHelper.swift */,
 				C3418B5F1ECDAB9F00280E62 /* FileHelper.swift */,
@@ -764,12 +782,14 @@
 				C3418B6C1ED5CB3400280E62 /* Homework+CoreDataClass.swift in Sources */,
 				C32870A41EDDBCB000ABA348 /* Homework+CoreDataProperties.swift in Sources */,
 				C3AB489A1EDAE8A800692505 /* HomeworkViewController.swift in Sources */,
+				C31F62461F7D3D1D00D46652 /* HomeworkSubmission+CoreDataClass.swift in Sources */,
 				50A1CDE61F501AC5006E9B69 /* NotificationCell.swift in Sources */,
 				C3A5A9391EBCD0C600825DBF /* Constants.swift in Sources */,
 				C3C080551EE607F6005FA7C3 /* CourseCell.swift in Sources */,
 				C31C842A1ECF553700FA070C /* PreviewManager.swift in Sources */,
 				C3418B6F1ED5CF1F00280E62 /* Date+Marshal.swift in Sources */,
 				C32870AD1EDED1D200ABA348 /* DashboardHomeworkView.swift in Sources */,
+				C31F623F1F7BF11300D46652 /* HomeworkSubmissionHelper.swift in Sources */,
 				C3A5A9341EBCCE3B00825DBF /* LoginViewController.swift in Sources */,
 				C32870A01EDDBCB000ABA348 /* UserGroup+CoreDataClass.swift in Sources */,
 				506D146F1F56F81D00AA5613 /* UIView+shake.swift in Sources */,
@@ -782,11 +802,13 @@
 				C36C23381EC9DE0700D4163E /* SCError.swift in Sources */,
 				C31C842E1ECF586500FA070C /* LoadingViewController.swift in Sources */,
 				C32870A31EDDBCB000ABA348 /* Course+CoreDataProperties.swift in Sources */,
+				C31F62471F7D3D1E00D46652 /* HomeworkSubmission+CoreDataProperties.swift in Sources */,
 				C328708D1EDD58C700ABA348 /* User+.swift in Sources */,
 				C378D2C41ECC976800AE8CEA /* schulcloud.xcdatamodeld in Sources */,
 				C32870A61EDDBCB000ABA348 /* User+CoreDataProperties.swift in Sources */,
 				C32870B41EDF24F600ABA348 /* Lesson+CoreDataClass.swift in Sources */,
 				C3FEB92B1F67E7F400BAD9D7 /* UIColor+Branding.swift in Sources */,
+				C31F62481F7D3D1E00D46652 /* HomeworkComment+CoreDataClass.swift in Sources */,
 				C3418B621ECEE6FB00280E62 /* FilesViewController.swift in Sources */,
 				C32870BE1EDF356800ABA348 /* CourseHelper.swift in Sources */,
 				C3418B641ED2E89F00280E62 /* FileListCell.swift in Sources */,
@@ -796,12 +818,14 @@
 				C32870A11EDDBCB000ABA348 /* UserGroup+CoreDataProperties.swift in Sources */,
 				C3165F1D1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift in Sources */,
 				C3A5A9031EBCC17600825DBF /* AppDelegate.swift in Sources */,
+				C31F62491F7D3D1E00D46652 /* HomeworkComment+CoreDataProperties.swift in Sources */,
 				5069DA0B1F4441AF00210EB9 /* CalendarHelper.swift in Sources */,
 				C32870B51EDF24F600ABA348 /* Lesson+CoreDataProperties.swift in Sources */,
 				C32870B21EDF24F600ABA348 /* Content+CoreDataClass.swift in Sources */,
 				C32870B31EDF24F600ABA348 /* Content+CoreDataProperties.swift in Sources */,
 				C38419171EF602AA00A616B3 /* SplitViewController.swift in Sources */,
 				C3A5A93B1EC0766F00825DBF /* Account.swift in Sources */,
+				C31F62411F7BF2D100D46652 /* HomeworkSubmission+.swift in Sources */,
 				C31C84271ECF546E00FA070C /* WebviewPreviewViewContoller.swift in Sources */,
 				50E8015E1F45C82800B6F8DA /* EventData+CoreDataProperties.swift in Sources */,
 				C32870B71EDF2C1300ABA348 /* Lesson+.swift in Sources */,

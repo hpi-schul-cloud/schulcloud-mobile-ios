@@ -24,6 +24,7 @@ extension User {
     @NSManaged public var groups: NSSet
     @NSManaged public var taughtCourses: NSSet?
     @NSManaged public var assignedHomeworks: NSSet?
+    @NSManaged public var homeworkSubmissions: NSSet?
 
 }
 

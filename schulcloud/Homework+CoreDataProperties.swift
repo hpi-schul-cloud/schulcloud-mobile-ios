@@ -19,7 +19,7 @@ extension Homework {
     @NSManaged public var availableDate: NSDate
     @NSManaged public var descriptionText: String
     @NSManaged public var dueDate: NSDate
-    @NSManaged public var id: String?
+    @NSManaged public var id: String
     @NSManaged public var isPrivate: Bool
     @NSManaged public var name: String
     @NSManaged public var publicSubmissions: Bool
