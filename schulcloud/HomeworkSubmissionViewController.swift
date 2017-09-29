@@ -11,6 +11,9 @@ import UIKit
 class HomeworkSubmissionViewController: UIViewController {
 
     var homework: Homework!
+    var homeworkSubmission: HomeworkSubmission?
+    
+    @IBOutlet var textView: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,15 +26,28 @@ class HomeworkSubmissionViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func cancelButtonTapped(_ sender: UIBarButtonItem) {
+        // TODO: save data temporally?
+        self.dismiss(animated: true, completion: nil)
     }
-    */
+    
+    @IBAction func doneButtonTapped(_ sender: UIBarButtonItem) {
+        do {
+            guard let text = textView.attributedText else {
+                return
+            }
+            let documentAttributes = [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType]
+            let htmlData = try text.data(from: NSMakeRange(0, text.length), documentAttributes: documentAttributes)
+            if let htmlString = String(data: htmlData, encoding: .utf8) {
+               
+            } else {
+                log.error("Could not encode string")
+            }
+        }
+        catch let error {
+            log.error("error creating HTML from Attributed String: \(error.description)")
+        }
+    }
+    
 
 }

@@ -53,7 +53,8 @@ class HomeworkDetailViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch(segue.identifier) {
         case "taskSubmission"?:
-            let destination = segue.destination as! HomeworkSubmissionViewController
+            let navigationController = segue.destination as! UINavigationController
+            let destination = navigationController.viewControllers.first! as! HomeworkSubmissionViewController
             destination.homework = self.homework!
         default:
             break
