@@ -318,9 +318,6 @@
                             <action selector="didTriggerRefresh" destination="XP3-Qh-qs6" eventType="valueChanged" id="CI5-OW-pdz"/>
                         </connections>
                     </refreshControl>
-                    <connections>
-                        <outlet property="refreshControl" destination="vkP-NI-kz1" id="AGw-bz-gq3"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zzX-CF-QSE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
