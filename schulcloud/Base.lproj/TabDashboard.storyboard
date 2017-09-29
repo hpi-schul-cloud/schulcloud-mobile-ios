@@ -601,7 +601,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="cancelButtonTapped" destination="V5R-fI-5Yb" id="3ZG-Su-Iir"/>
                         <outlet property="textView" destination="daK-RX-6Gf" id="H3G-Ty-H0k"/>
                     </connections>
                 </viewController>
