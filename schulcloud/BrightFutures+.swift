@@ -16,6 +16,14 @@ extension Future {
         })
     }
     
+    func andOnSuccess(/*context c: @escaping ExecutionContext = DefaultT, */callback: @escaping (T) -> Void) -> Future<T, E> {
+        return andThen(/*context: c, */callback: { (result) in
+            if let value = result.value {
+                callback(value)
+            }
+        })
+    }
+    
     func onErrorLogAndRecover(with object: Value.Value) -> Future<Value.Value, Future.Value.Error> {
         return self.recoverWith { (error) -> Future<Value.Value, Future.Value.Error> in
             log.error(error)
