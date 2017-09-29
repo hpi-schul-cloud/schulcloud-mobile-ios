@@ -17,7 +17,11 @@ class HomeworkSubmissionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        if let submissionText = homeworkSubmission?.comment {
+            textView.attributedText = NSMutableAttributedString(html: submissionText)
+        } else {
+            textView.text = ""
+        }
         // Do any additional setup after loading the view.
     }
 
