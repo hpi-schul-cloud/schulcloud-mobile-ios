@@ -119,6 +119,8 @@ open class LoginHelper {
         } catch let error {
             log.error(error.localizedDescription)
         }
+
+        CalendarHelper.deleteSchulcloudCalendar()
     }
     
 }

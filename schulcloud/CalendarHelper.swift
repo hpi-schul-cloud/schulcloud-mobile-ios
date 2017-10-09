@@ -119,6 +119,29 @@ public struct CalendarHelper {
         controller.present(alert, animated: true, completion: nil)
     }
 
+    static func deleteSchulcloudCalendar() {
+        guard let calendarIdentifier = UserDefaults.standard.string(forKey: self.calendarIdentifierKey) else {
+            log.warning("Found no calendar to delete")
+            return
+        }
+
+        guard let calendar = self.eventStore.calendar(withIdentifier: calendarIdentifier) else {
+            log.error("Could not retrieve calendar to delete")
+            return
+        }
+
+        do {
+            try self.eventStore.removeCalendar(calendar, commit: true)
+        } catch {
+            log.error("Failed to commit deletion of calendar")
+            return
+        }
+
+        UserDefaults.standard.removeObject(forKey: self.calendarIdentifierKey)
+        UserDefaults.standard.synchronize()
+        log.info("Successfully deleted local Schul-Cloud calendar")
+    }
+
 }
 
 extension CalendarHelper {
