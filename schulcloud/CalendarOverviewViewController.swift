@@ -29,8 +29,9 @@ class CalendarOverviewViewController: UIViewController {
 
     static let noEventsMessage = "Für heute gibt es keine weiteren Termine."
     static let noPermissionMessage = "Fehlende Kalenderberechtigung"
+    static let loadingMessage = "Lädt ..."
 
-    var state: CalendarOverviewViewController.State = .noEvents(CalendarOverviewViewController.noEventsMessage) {
+    var state: CalendarOverviewViewController.State = .noEvents(CalendarOverviewViewController.loadingMessage) {
         didSet {
             self.updateUIForCurrentState()
         }
@@ -38,6 +39,8 @@ class CalendarOverviewViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.state = .noEvents(CalendarOverviewViewController.loadingMessage)
 
         switch EKEventStore.authorizationStatus(for: .event) {
         case .notDetermined:
@@ -48,8 +51,7 @@ class CalendarOverviewViewController: UIViewController {
             }
         case .authorized:
             self.syncEvents()
-        case .restricted: fallthrough
-        case .denied:
+        case .restricted, .denied:
             self.state = .noEvents(CalendarOverviewViewController.noPermissionMessage)
         }
     }
@@ -76,6 +78,8 @@ class CalendarOverviewViewController: UIViewController {
     }
 
     private func updateEvents() {
+        guard EKEventStore.authorizationStatus(for: .event) == .authorized else { return }
+
         let fetchEvents: (EKCalendar?) -> Void = { someCalendar in
             guard EKEventStore.authorizationStatus(for: .event) == .authorized else {
                 self.state = .noEvents(CalendarOverviewViewController.noPermissionMessage)
@@ -83,7 +87,7 @@ class CalendarOverviewViewController: UIViewController {
             }
             guard let calendar = someCalendar else { return }
 
-            let now = Date().dateInUTCTimeZone()
+            let now = Date()
             let today = Date(year: now.year, month: now.month, day: now.day)
             let oneDayLater = TimeChunk(seconds: 0, minutes: 0, hours: 0, days: 1, weeks: 0, months: 0, years: 0)
             let endDate = today + oneDayLater
