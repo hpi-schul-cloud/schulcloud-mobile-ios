@@ -84,7 +84,7 @@ class schulcloudUITests: XCTestCase {
         let anmeldenButton = app.buttons["Anmelden"]
         anmeldenButton.tap()
 
-        let foundText = app.staticTexts["offene Aufgaben"].waitForExistence(timeout:10)
+        let foundText = app.staticTexts["offene Aufgaben"].waitForExistence(timeout: 20)
         XCTAssertTrue(foundText, "Unable to find text 'offenen Aufgaben'")
 
         while app.alerts.count > 0 {
@@ -96,7 +96,7 @@ class schulcloudUITests: XCTestCase {
         app.tabBars.buttons["Einstellungen"].tap()
         app.tables/*@START_MENU_TOKEN@*/.staticTexts["Ausloggen"]/*[[".cells.staticTexts[\"Ausloggen\"]",".staticTexts[\"Ausloggen\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
 
-        let foundLoginBotton = app.buttons["Anmelden"].waitForExistence(timeout:10)
+        let foundLoginBotton = app.buttons["Anmelden"].waitForExistence(timeout: 20)
         XCTAssertTrue(foundLoginBotton, "Unable to find login button")
     }
     
