@@ -15,13 +15,13 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.navigationItem.rightBarButtonItem = self.editButtonItem
         
         if currentFolder == nil {
             currentFolder = FileHelper.rootFolder
         }
-        
+
+        self.navigationItem.title = self.currentFolder.displayName
+
         performFetch()
         didTriggerRefresh()
     }
@@ -78,9 +78,7 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        guard let sec = fetchedResultsController.sections?[section],
-            let count = sec.objects?.count else {
+        guard let count = fetchedResultsController.sections?[section].objects?.count else {
             log.error("Error loading object count in section \(section)")
             return 0
         }
@@ -89,64 +87,45 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let object = fetchedResultsController.object(at: indexPath)
-        
-        let reuseIdentifier = object.isDirectory ? "folder" : "file"
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! FileListCell
-        
-        cell.titleLabel.text = object.displayName
-        
-        if !object.isDirectory, let size = object.size {
-            cell.subtitleLabel.text = ByteCountFormatter.string(fromByteCount: Int64(size), countStyle: .binary)
-        }else{
-            cell.subtitleLabel.text = ""
+        let item = fetchedResultsController.object(at: indexPath)
+
+        let reuseIdentifier = item.detail == nil ? "item" : "item detail"
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) //as! FileListCell
+
+        cell.textLabel?.text = item.displayName
+        cell.detailTextLabel?.text = item.detail
+        cell.imageView?.image = item.isDirectory ? #imageLiteral(resourceName: "folder") : #imageLiteral(resourceName: "document")
+        cell.imageView?.tintColor = item.isDirectory ? UIColor.schulcloudYellow : UIColor.schulcloudRed
+        cell.imageView?.contentMode = .scaleAspectFit
+        cell.imageView?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        if #available(iOS 11.0, *){
+            cell.imageView?.adjustsImageSizeForAccessibilityContentSizeCategory = true
         }
 
         return cell
     }
- 
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        defer {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
 
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
+        let item = fetchedResultsController.object(at: indexPath)
+        let storyboard = UIStoryboard(name: "TabFiles", bundle: nil)
 
-    
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let selectedCell = sender as! UITableViewCell
-        guard let indexPath = tableView.indexPath(for: selectedCell) else { return }
-        let selectedItem = fetchedResultsController.object(at: indexPath)
-        
-        switch(segue.identifier) {
-        case .some("filePreview"):
-            let destination = segue.destination as! LoadingViewController
-            destination.file = selectedItem
-            break
-        case .some("subfolder"):
-            let destination = segue.destination as! FilesViewController
-            destination.currentFolder = selectedItem
-        default:
-            break
+        if item.isDirectory {
+            guard let folderVC = storyboard.instantiateViewController(withIdentifier: "FolderVC") as? FilesViewController else {
+                return
+            }
+            folderVC.currentFolder = item
+            self.navigationController?.pushViewController(folderVC, animated: true)
+        } else {
+            guard let fileVC = storyboard.instantiateViewController(withIdentifier: "FileVC") as? LoadingViewController else {
+                return
+            }
+            fileVC.file = item
+            self.navigationController?.pushViewController(fileVC, animated: true)
         }
     }
-    
 
 }

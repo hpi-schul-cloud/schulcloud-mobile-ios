@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13178.6" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="juL-SN-3eh">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="juL-SN-3eh">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13156.2"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -15,113 +14,52 @@
         <!--Meine Dateien-->
         <scene sceneID="Kkk-13-vlw">
             <objects>
-                <tableViewController id="BPB-9l-xYS" customClass="FilesViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="rif-yU-XwD">
+                <tableViewController storyboardIdentifier="FolderVC" id="BPB-9l-xYS" customClass="FilesViewController" customModule="Schul_Cloud" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="rif-yU-XwD">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="file" id="gCd-bV-dnV" customClass="FileListCell" customModule="schulcloud" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="item" textLabel="2gw-Rh-0LP" style="IBUITableViewCellStyleDefault" id="GVt-yN-rlh" customClass="FileListCell" customModule="Schul_Cloud" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gCd-bV-dnV" id="jkT-IN-Nia">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GVt-yN-rlh" id="bO2-Ng-s5a">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="compasses" translatesAutoresizingMaskIntoConstraints="NO" id="LX7-Ry-hVa">
-                                            <rect key="frame" x="2" y="2" width="39.5" height="39.5"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" secondItem="LX7-Ry-hVa" secondAttribute="height" multiplier="1:1" id="fwS-XF-9vR"/>
-                                            </constraints>
-                                        </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filename.jpg" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KsY-tu-sfO">
-                                            <rect key="frame" x="49" y="2" width="318" height="21"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="21" id="fqm-UQ-Mds"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="2gw-Rh-0LP">
+                                            <rect key="frame" x="16" y="0.0" width="344" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subtitle with details" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Oo-ib-cct">
-                                            <rect key="frame" x="49" y="25" width="318" height="16"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="16" id="Dvl-Yx-VY3"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                     </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="KsY-tu-sfO" secondAttribute="trailing" constant="8" id="8tW-Rr-V0z"/>
-                                        <constraint firstItem="LX7-Ry-hVa" firstAttribute="top" secondItem="jkT-IN-Nia" secondAttribute="top" constant="2" id="KGh-xb-ldM"/>
-                                        <constraint firstAttribute="bottom" secondItem="7Oo-ib-cct" secondAttribute="bottom" constant="2" id="O82-Q8-d99"/>
-                                        <constraint firstItem="LX7-Ry-hVa" firstAttribute="leading" secondItem="jkT-IN-Nia" secondAttribute="leading" constant="2" id="Sba-RW-34V"/>
-                                        <constraint firstAttribute="bottom" secondItem="LX7-Ry-hVa" secondAttribute="bottom" constant="2" id="WhQ-wZ-b6l"/>
-                                        <constraint firstItem="KsY-tu-sfO" firstAttribute="top" secondItem="jkT-IN-Nia" secondAttribute="top" constant="2" id="g7x-fB-7Z7"/>
-                                        <constraint firstItem="7Oo-ib-cct" firstAttribute="leading" secondItem="LX7-Ry-hVa" secondAttribute="trailing" constant="8" id="l8z-OZ-paC"/>
-                                        <constraint firstAttribute="trailing" secondItem="7Oo-ib-cct" secondAttribute="trailing" constant="8" id="pSt-Le-SgW"/>
-                                        <constraint firstItem="KsY-tu-sfO" firstAttribute="leading" secondItem="LX7-Ry-hVa" secondAttribute="trailing" constant="8" id="qoe-Gs-2fP"/>
-                                    </constraints>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="subtitleLabel" destination="7Oo-ib-cct" id="BDq-7P-eZP"/>
-                                    <outlet property="titleLabel" destination="KsY-tu-sfO" id="Nk3-sM-xf2"/>
-                                    <segue destination="Pi3-xa-SGb" kind="show" identifier="filePreview" id="g4r-FR-P21"/>
-                                </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="folder" id="eVf-dM-abu" customClass="FileListCell" customModule="schulcloud" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="item detail" textLabel="9lR-mg-QH1" detailTextLabel="bb4-iR-bhF" style="IBUITableViewCellStyleSubtitle" id="awH-E7-CP7" customClass="FileListCell" customModule="Schul_Cloud" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eVf-dM-abu" id="9H9-r9-I8d">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="awH-E7-CP7" id="TX9-wz-h21">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="folder colored" translatesAutoresizingMaskIntoConstraints="NO" id="a0q-ag-a5H">
-                                            <rect key="frame" x="2" y="2" width="39.5" height="39.5"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" secondItem="a0q-ag-a5H" secondAttribute="height" multiplier="1:1" id="5Qz-dP-BCH"/>
-                                            </constraints>
-                                        </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is a folder" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bz6-Tl-hbF">
-                                            <rect key="frame" x="49" y="2" width="318" height="21"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="21" id="cDl-ds-Vc7"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="9lR-mg-QH1">
+                                            <rect key="frame" x="16" y="4" width="33.5" height="20.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subtitle with details" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2wX-n8-AD2">
-                                            <rect key="frame" x="49" y="25" width="318" height="16"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="16" id="hYC-Sb-B3Y"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="bb4-iR-bhF">
+                                            <rect key="frame" x="16" y="24.5" width="35" height="16"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                            <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <constraints>
-                                        <constraint firstItem="a0q-ag-a5H" firstAttribute="top" secondItem="9H9-r9-I8d" secondAttribute="top" constant="2" id="3XT-ny-RD6"/>
-                                        <constraint firstAttribute="bottom" secondItem="2wX-n8-AD2" secondAttribute="bottom" constant="2" id="R1X-ba-XwC"/>
-                                        <constraint firstAttribute="bottom" secondItem="a0q-ag-a5H" secondAttribute="bottom" constant="2" id="ZP8-kp-F0f"/>
-                                        <constraint firstItem="2wX-n8-AD2" firstAttribute="leading" secondItem="a0q-ag-a5H" secondAttribute="trailing" constant="8" id="aUS-tc-OYq"/>
-                                        <constraint firstAttribute="trailing" secondItem="bz6-Tl-hbF" secondAttribute="trailing" constant="8" id="fmw-8k-Xwe"/>
-                                        <constraint firstAttribute="trailing" secondItem="2wX-n8-AD2" secondAttribute="trailing" constant="8" id="iqz-SB-cst"/>
-                                        <constraint firstItem="bz6-Tl-hbF" firstAttribute="leading" secondItem="a0q-ag-a5H" secondAttribute="trailing" constant="8" id="quT-9h-xu0"/>
-                                        <constraint firstItem="a0q-ag-a5H" firstAttribute="leading" secondItem="9H9-r9-I8d" secondAttribute="leading" constant="2" id="r9W-55-UHv"/>
-                                        <constraint firstItem="bz6-Tl-hbF" firstAttribute="top" secondItem="9H9-r9-I8d" secondAttribute="top" constant="2" id="x8y-6B-Ia3"/>
-                                    </constraints>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="subtitleLabel" destination="2wX-n8-AD2" id="Cpj-lI-Cbj"/>
-                                    <outlet property="titleLabel" destination="bz6-Tl-hbF" id="jIo-HO-fOi"/>
-                                    <segue destination="BPB-9l-xYS" kind="show" identifier="subfolder" id="KQr-hd-teY">
-                                        <nil key="action"/>
-                                    </segue>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -145,28 +83,28 @@
         <!--Loading View Controller-->
         <scene sceneID="Wef-KE-Y8J">
             <objects>
-                <viewController id="Pi3-xa-SGb" customClass="LoadingViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FileVC" id="Pi3-xa-SGb" customClass="LoadingViewController" customModule="Schul_Cloud" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JZG-SW-1y6">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6w0-mO-yid">
-                                <rect key="frame" x="32" y="308" width="311" height="2"/>
+                                <rect key="frame" x="32" y="332.5" width="311" height="2"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="2" id="cS3-kt-Y4O"/>
                                 </constraints>
                             </progressView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="hS1-87-jKH">
-                                <rect key="frame" x="177" y="299" width="20" height="20"/>
+                                <rect key="frame" x="177" y="323.5" width="20" height="20"/>
                             </activityIndicatorView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error: The operation could not be completed" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jkT-cU-zeG">
-                                <rect key="frame" x="16" y="351" width="343" height="251"/>
+                                <rect key="frame" x="16" y="375.5" width="343" height="275.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WFf-hB-pDL">
-                                <rect key="frame" x="16" y="351" width="343" height="30"/>
+                                <rect key="frame" x="16" y="375.5" width="343" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="YyE-Lb-7rZ"/>
                                 </constraints>
@@ -227,8 +165,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="compasses" width="55" height="55"/>
-        <image name="folder colored" width="36" height="36"/>
         <image name="open folder" width="25" height="25"/>
     </resources>
 </document>
