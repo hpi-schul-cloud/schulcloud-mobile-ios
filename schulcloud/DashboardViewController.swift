@@ -17,7 +17,6 @@ class DashboardViewController: UIViewController {
     @IBOutlet var notificationBarButton: UIBarButtonItem!
     @IBOutlet var dashboardCells: [UIView]!
 
-    @IBOutlet weak var widthConstraint: NSLayoutConstraint!
     @IBOutlet weak var notificationContainerHeight: NSLayoutConstraint!
 
     var notifications: [SCNotification] = []
@@ -27,11 +26,6 @@ class DashboardViewController: UIViewController {
         super.viewDidLoad()
 
         self.updateNotificationBarButton()
-
-        // is only applied/installed on size class wR hR
-        let horizontalPadding: CGFloat = 32.0
-        self.widthConstraint.constant = min(self.view.frame.size.width, self.view.frame.size.height) - horizontalPadding
-
         self.fetchNotifications()
     }
 

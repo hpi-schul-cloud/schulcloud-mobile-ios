@@ -17,8 +17,16 @@ class DashboardHomeworkView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
         numberOfOpenTasksLabel.text = "?"
-            NotificationCenter.default.addObserver(self, selector: #selector(DashboardHomeworkView.updateHomeworkCount), name: NSNotification.Name(rawValue: Homework.homeworkDidChangeNotificationName), object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(DashboardHomeworkView.updateHomeworkCount),
+                                               name: NSNotification.Name(rawValue: Homework.homeworkDidChangeNotificationName),
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(DashboardHomeworkView.didChangePreferredContentSize),
+                                               name: NSNotification.Name.UIContentSizeCategoryDidChange,
+                                               object: nil)
         updateHomeworkCount()
+        didChangePreferredContentSize()
     }
     
     func updateHomeworkCount() {
@@ -53,11 +61,16 @@ class DashboardHomeworkView: UIView {
                 DispatchQueue.main.async {
                     self.subtitleLabel.isHidden = true
                 }
-                
             }
         } catch let error {
             log.error(error)
         }
+    }
+
+    func didChangePreferredContentSize() {
+        var font = UIFont.preferredFont(forTextStyle: .title1)
+        font = font.withSize(font.pointSize * 3)
+        self.numberOfOpenTasksLabel.font = font
     }
 
 }
