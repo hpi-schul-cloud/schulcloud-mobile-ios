@@ -1,34 +1,35 @@
 //
-//  DashboardHomeworkView.swift
+//  HomeworkOverviewViewController.swift
 //  schulcloud
 //
-//  Created by Carl Julius Gödecken on 31.05.17.
+//  Created by Max Bothe on 11.10.17.
 //  Copyright © 2017 Hasso-Plattner-Institut. All rights reserved.
 //
 
 import UIKit
 import CoreData
 
-class DashboardHomeworkView: UIView {
+class HomeworkOverviewViewController: UIViewController {
 
     @IBOutlet var numberOfOpenTasksLabel: UILabel!
     @IBOutlet var subtitleLabel: UILabel!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        numberOfOpenTasksLabel.text = "?"
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        self.numberOfOpenTasksLabel.text = "?"
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(DashboardHomeworkView.updateHomeworkCount),
+                                               selector: #selector(self.updateHomeworkCount),
                                                name: NSNotification.Name(rawValue: Homework.homeworkDidChangeNotificationName),
                                                object: nil)
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(DashboardHomeworkView.didChangePreferredContentSize),
+                                               selector: #selector(self.didChangePreferredContentSize),
                                                name: NSNotification.Name.UIContentSizeCategoryDidChange,
                                                object: nil)
-        updateHomeworkCount()
-        didChangePreferredContentSize()
+        self.updateHomeworkCount()
+        self.didChangePreferredContentSize()
     }
-    
+
     func updateHomeworkCount() {
         let fetchRequest: NSFetchRequest<Homework> = Homework.fetchRequest()
         let oneWeek = DateComponents(day: 8)
@@ -47,15 +48,15 @@ class DashboardHomeworkView: UIView {
                 let timeDifference = Calendar.current.dateComponents([.day, .hour], from: Date(), to: nextTask.dueDate as Date)
                 switch timeDifference.day! {
                 case 0..<1:
-                    subtitleLabel.text = "Nächste in \(timeDifference.hour!) Stunden fällig"
+                    self.subtitleLabel.text = "Nächste in \(timeDifference.hour!) Stunden fällig"
                 case 1:
-                    subtitleLabel.text = "Nächste morgen fällig"
+                    self.subtitleLabel.text = "Nächste morgen fällig"
                 case 2:
-                    subtitleLabel.text = "Nächste übermorgen fällig"
+                    self.subtitleLabel.text = "Nächste übermorgen fällig"
                 case 3...7:
-                    subtitleLabel.text = "Nächste in \(timeDifference.day!) Tagen fällig"
+                    self.subtitleLabel.text = "Nächste in \(timeDifference.day!) Tagen fällig"
                 default:
-                    subtitleLabel.text = ""
+                    self.subtitleLabel.text = ""
                 }
             } else {
                 DispatchQueue.main.async {

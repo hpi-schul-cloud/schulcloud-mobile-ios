@@ -22,6 +22,7 @@ class CalendarOverviewViewController: UIViewController {
     @IBOutlet weak var nextEventName: UILabel!
     @IBOutlet weak var nextEventLocation: UILabel!
     @IBOutlet weak var nextEventDate: UILabel!
+    @IBOutlet weak var nextEventDetails: UIStackView!
     @IBOutlet weak var currentEventProgress: UIProgressView!
 
     @IBOutlet weak var eventsOverview: UIStackView!
@@ -64,9 +65,14 @@ class CalendarOverviewViewController: UIViewController {
 
     private func syncEvents() {
         let syncEvents: (EKCalendar?) -> Void = { someCalendar in
-            guard let calendar = someCalendar else { return }
+            guard let calendar = someCalendar else {
+                log.error("Failed to retrieve Schul-Cloud calendar")
+                return
+            }
             CalendarHelper.syncEvents(in: calendar).onSuccess {
                 self.updateEvents()
+            }.onFailure { error in
+                log.error(error)
             }
         }
 
@@ -132,12 +138,10 @@ class CalendarOverviewViewController: UIViewController {
                 self.nextEventName.text = nextEvent.title
                 self.nextEventDate.text = dateFormatter.string(from: nextEvent.startDate.dateInCurrentTimeZone())
                 self.nextEventLocation.text = nextEvent.location
-                self.nextEventDate.isHidden = false
-                self.nextEventLocation.isHidden = false
+                self.nextEventDetails.isHidden = false
             } else {
                 self.nextEventName.text = "keine weiteren Termine"
-                self.nextEventDate.isHidden = true
-                self.nextEventLocation.isHidden = true
+                self.nextEventDetails.isHidden = true
             }
 
             self.eventsOverview.isHidden = false
