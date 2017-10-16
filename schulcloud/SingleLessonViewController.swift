@@ -15,7 +15,9 @@ class SingleLessonViewController: UIViewController, WKUIDelegate {
     
     var webView: WKWebView!
     
-    override func loadView() {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
         let userContentController = WKUserContentController()
         let cookieScriptSource = "document.cookie = 'jwt=\(Globals.account!.accessToken!)'"
         let cookieScript = WKUserScript(source: cookieScriptSource, injectionTime: .atDocumentStart, forMainFrameOnly: false)
@@ -24,12 +26,16 @@ class SingleLessonViewController: UIViewController, WKUIDelegate {
         webConfiguration.userContentController = userContentController
         webView = WKWebView(frame: .zero, configuration: webConfiguration)
         webView.uiDelegate = self
-        view = webView
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+
+        self.view.addSubview(webView)
+
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        webView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        webView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        let guide = self.view.readableContentGuide
+        guide.leadingAnchor.constraint(equalTo: webView.leadingAnchor).isActive = true
+        guide.trailingAnchor.constraint(equalTo: webView.trailingAnchor).isActive = true
+
         self.title = lesson.name
 
         if let contents = lesson.contents {
