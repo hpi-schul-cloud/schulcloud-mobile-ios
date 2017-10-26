@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "iphone",
-      "filename" : "schul-cloud-logo-text-150.pdf"
+      "filename" : "logo-text-150.pdf"
     },
     {
       "idiom" : "ipad",
-      "filename" : "schul-cloud-logo-text-200.pdf"
+      "filename" : "logo-text-200.pdf"
     }
   ],
   "info" : {
