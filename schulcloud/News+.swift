@@ -23,11 +23,23 @@ extension News {
             fetchRequest.predicate = NSPredicate(format: "id == %@", id)
             
             let result = try context.fetch(fetchRequest)
-            let news = result.first ?? News(context: context)
-            
             if result.count > 1 {
                 throw SCError.database("Found more than one result for \(fetchRequest)")
             }
+
+            // if news the article is not updated, just return local one
+            if let news = result.first {
+                let storedUpdatedDate = news.updatedAt
+                let updatedDate: NSDate? = try? object.value(for:"updatedAt")
+                
+                // either both nil, or both date are equals
+                if storedUpdatedDate == updatedDate {
+                    return Future(value: news) // the news data is up to date, return it
+                }
+            }
+            
+            // insert / update the news article
+            let news = result.first ?? News(context: context)
             
             news.id = id
             news.title       = try object.value(for: "title")
