@@ -11,10 +11,9 @@ import BrightFutures
 import CoreData
 import Marshal
 
+// MARK: JSON Processing
 extension News {
-   
-    static let newsDidChangeNotificationName = "didChangeNews"
-    
+
     static func upsert(inContext context: NSManagedObjectContext, object: MarshaledObject) -> Future<News, SCError> {
         
         do {
@@ -73,6 +72,7 @@ extension News {
     }
 }
 
+// MARK: - UI Extension
 extension News {
     static let didChangeNotification = "newsDidChangeNotification"
 }
