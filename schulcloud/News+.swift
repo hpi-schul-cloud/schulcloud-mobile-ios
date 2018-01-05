@@ -12,13 +12,13 @@ import CoreData
 import Marshal
 
 // MARK: JSON Processing
-extension News {
+extension NewsArticle {
 
-    static func upsert(inContext context: NSManagedObjectContext, object: MarshaledObject) -> Future<News, SCError> {
+    static func upsert(inContext context: NSManagedObjectContext, object: MarshaledObject) -> Future<NewsArticle, SCError> {
         
         do {
            
-            let fetchRequest = NSFetchRequest<News>(entityName: "News")
+            let fetchRequest = NSFetchRequest<NewsArticle>(entityName: "NewsArticle")
             let id: String = try object.value(for: "_id")
             fetchRequest.predicate = NSPredicate(format: "id == %@", id)
             
@@ -39,24 +39,22 @@ extension News {
             }
             
             // insert / update the news article
-            let news = result.first ?? News(context: context)
+            let news = result.first ?? NewsArticle(context: context)
             
             news.id = id
-            news.title       = try object.value(for: "title")
-            news.content     = try object.value(for: "content")
-            news.displayedAt = try object.value(for: "displayedAt")
-            news.createdAt   = try object.value(for: "createdAt")
-            news.updatedAt   = try? object.value(for: "updatedAt")
-            news.schoolId    = try? object.value(for: "schoolId")
-            news.history     = try object.value(for: "history")
+            news.title = try object.value(for: "title")
+            news.content = try object.value(for: "content")
+            news.displayAt = try object.value(for: "displayAt")
+            news.createdAt = try object.value(for: "createdAt")
+            news.updatedAt = try? object.value(for: "updatedAt")
+            news.schoolId = try? object.value(for: "schoolId")
+            news.history = try object.value(for: "history")
             
             let creatorId: String = try object.value(for: "creatorId")
-            let updaterId: String? = try? object.value(for: "updaterId")
-            
+
             let creatorFuture = news.fetchCreator(by: creatorId, context: context).onErrorLogAndRecover(with: Void() )
-            let updaterFuture = news.fetchUpdater(by: updaterId, context: context).onErrorLogAndRecover(with: Void() )
-            
-            return [creatorFuture, updaterFuture].sequence().flatMap(object: news)
+
+            return creatorFuture.flatMap(object: news)
         } catch let error as MarshalError {
             return Future(error: .jsonDeserialization(error.description))
         } catch let error {
@@ -72,20 +70,10 @@ extension News {
             }
         }
     }
-        
-    func fetchUpdater(by id: String?, context: NSManagedObjectContext) -> Future< Void, SCError > {
-        guard let id = id else { return Future(value: Void() ) }
-        return User.fetchQueue.sync {
-            return User.fetch(by: id, inContext:context).flatMap { updater -> Future<Void, SCError> in
-                self.updater = updater
-                return Future(value: Void() )
-            }
-        }
-    }
 }
 
 // MARK: - UI Extension
-extension News {
+extension NewsArticle {
     static let didChangeNotification = "newsDidChangeNotification"
 }
 

@@ -11,7 +11,7 @@ import Alamofire
 import BrightFutures
 import CoreData
 
-public class NewsHelper {
+public class NewsArticleHelper {
     
     typealias FetchResult = Future<Void, SCError>
     
@@ -22,12 +22,12 @@ public class NewsHelper {
         
         //the feed contains all available news item,
         return ApiHelper.request("news").jsonArrayFuture(keyPath: "data")
-            .flatMap(privateMOC.perform, f: { $0.map({News.upsert(inContext: privateMOC, object: $0)}).sequence() }) //parse JSON and create local copy
+            .flatMap(privateMOC.perform, f: { $0.map({NewsArticle.upsert(inContext: privateMOC, object: $0)}).sequence() }) //parse JSON and create local copy
             .flatMap(privateMOC.perform, f: { dbItems -> FetchResult in
                 //remove items that are no longer in the feed
                 do {
                     let ids = dbItems.map({$0.id})
-                    let deleteRequest: NSFetchRequest<News> = News.fetchRequest()
+                    let deleteRequest: NSFetchRequest<NewsArticle> = NewsArticle.fetchRequest()
                     deleteRequest.predicate = NSPredicate(format: "NOT (id IN %@)", ids)
                     try CoreDataHelper.delete(fetchRequest: deleteRequest, context: privateMOC)
                     return Future(value: Void())
@@ -37,7 +37,7 @@ public class NewsHelper {
             })
             .flatMap { save(privateContext: privateMOC) }
             .flatMap { _ -> FetchResult in //notify of changed in news
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: News.didChangeNotification), object: nil)
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: NewsArticle.didChangeNotification), object: nil)
                 return Future(value: Void())
         }
     }
