@@ -57,7 +57,7 @@ class NewsListViewController: UITableViewController, UIWebViewDelegate, NSFetche
         cell.content.tag = index
         cell.content.delegate = self
         
-        cell.content.loadHTMLString("\(Constants.textStyleHtml) \(item.content)", baseURL: nil)
+        cell.content.loadHTMLString("<html><head>\(Constants.textStyleHtml)</head><body> \(item.content)</body></html>", baseURL: nil)
         cell.heightConstraint.constant = contentHeight[index]
 
         cell.timeSinceCreated.text = item.timeSinceCreated
