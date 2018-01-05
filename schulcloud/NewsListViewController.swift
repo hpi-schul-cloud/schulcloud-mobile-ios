@@ -18,10 +18,10 @@ class NewsListViewController: UITableViewController, UIWebViewDelegate, NSFetche
     
     
     override func awakeFromNib() {
-        func dateFromString(str: String) -> NSDate {
+        func dateFromString(str: String) -> Date {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
-            return formatter.date(from: str)! as NSDate
+            return formatter.date(from: str)!
         }
         let news1 = NewsCell.News(title: "Willkommen im Schuljahr 2017/18!",
                                   content: "<p>Die Schulleitung hei&szlig;t alle (neuen) Sch&uuml;ler im neuen Schuljahr herzlich willkommen!</p>\r\n\r\n<p>Wir freuen uns auf ein neues spannendes Schuljahr mit vielen interessanten Highlights: Unter anderem ist ein Besuch der 12. Klassen bei der UNESCO sowie ein Sch&uuml;leraustausch mit einer Schule im Silicon Valley der Klassenstufe 10 geplant.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Einen guten Start und viel Erfolg w&uuml;nscht Euch die Schulleitung sowie das Lehrerkolleg!</p>\r\n",
@@ -59,7 +59,7 @@ class NewsListViewController: UITableViewController, UIWebViewDelegate, NSFetche
         cell.content.loadHTMLString(item.content, baseURL: nil)
         cell.heightConstraint.constant = contentHeight[index]
 
-        cell.timeSinceCreated.text = "3 month ago"
+        cell.timeSinceCreated.text = item.timeSinceCreated
         
         return cell
     }
