@@ -22,11 +22,5 @@ class NewsCell: UITableViewCell {
     @IBOutlet weak var timeSinceCreated: UILabel!
     @IBOutlet weak var content: UIWebView!
     
-    func configure(for news: News) {
-        
-        title.text = news.title
-        content.loadHTMLString(news.content, baseURL: nil)
-        timeSinceCreated.text = "3 months ago"
-    }
-    
+    @IBOutlet weak var heightConstraint: NSLayoutConstraint!
 }
