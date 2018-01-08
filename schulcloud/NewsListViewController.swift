@@ -57,7 +57,7 @@ class NewsListViewController: UITableViewController, UIWebViewDelegate, NSFetche
         cell.content.tag = index
         cell.content.delegate = self
         
-        cell.content.loadHTMLString("<html><head>\(Constants.textStyleHtml)</head><body> \(item.content)</body></html>", baseURL: nil)
+        cell.content.loadHTMLString(item.content.standardHtml, baseURL: nil)
         cell.heightConstraint.constant = contentHeight[index]
 
         cell.timeSinceCreated.text = item.timeSinceCreated
@@ -77,3 +77,18 @@ class NewsListViewController: UITableViewController, UIWebViewDelegate, NSFetche
         tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: UITableViewRowAnimation.automatic)
     }
 }
+
+extension String {
+    func htmlWrapped(style: String?) -> String {
+        return "<html><head>\(style ?? "")</head><body> \(self)</body></html>"
+    }
+    
+    var standardHtml : String {
+        return htmlWrapped(style: Constants.textStyleHtml)
+    }
+    
+    var localized : String {
+        return NSLocalizedString(self, comment: "")
+    }
+}
+
