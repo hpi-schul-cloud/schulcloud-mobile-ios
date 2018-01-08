@@ -73,6 +73,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="News" id="0TY-xe-hh2" userLabel="News"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="Wna-e7-wSU">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="didTriggerRefresh:" destination="uiH-da-GfO" eventType="valueChanged" id="Fyl-TQ-h7S"/>
+                        </connections>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="czY-SA-3SZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

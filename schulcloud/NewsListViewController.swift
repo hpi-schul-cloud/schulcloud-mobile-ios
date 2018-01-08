@@ -11,44 +11,57 @@ import CoreData
 
 class NewsListViewController: UITableViewController, UIWebViewDelegate, NSFetchedResultsControllerDelegate {
     
-    var news: [NewsCell.News] = []
-    
-    // Temporary
-    var contentHeight: [CGFloat] = [0.0, 0.0, 0.0]
-    
-    
-    override func awakeFromNib() {
-        func dateFromString(str: String) -> Date {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
-            return formatter.date(from: str)!
-        }
-        let news1 = NewsCell.News(title: "Willkommen im Schuljahr 2017/18!",
-                                  content: "<p>Die Schulleitung hei&szlig;t alle (neuen) Sch&uuml;ler im neuen Schuljahr herzlich willkommen!</p>\r\n\r\n<p>Wir freuen uns auf ein neues spannendes Schuljahr mit vielen interessanten Highlights: Unter anderem ist ein Besuch der 12. Klassen bei der UNESCO sowie ein Sch&uuml;leraustausch mit einer Schule im Silicon Valley der Klassenstufe 10 geplant.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Einen guten Start und viel Erfolg w&uuml;nscht Euch die Schulleitung sowie das Lehrerkolleg!</p>\r\n",
-                                  createdAt: dateFromString(str: "2017-10-12T06:44:24.134Z") )
-        
-        let news2 = NewsCell.News(title: "Willkommen in der Schul-Cloud!",
-                                  content: "<p>Liebe Sch&uuml;lerinnen und Sch&uuml;ler,</p>\r\n\r\n<p>um auch im n&auml;chsten Jahrzehnt des 21. Jahrhunderts bildungsm&auml;&szlig;ig spitze aufgestellt zu sein, nutzen wir ab sofort die Schul-Cloud. Mit Hilfe der Schul-Cloud k&ouml;nnen wir uns unter anderem mit den bereits bestehenden Moodle-Accounts anmelden, viele Tools nutzen und auf Bildungsinhalte zugreifen. Weiterhin k&ouml;nnen wir auch die Stundenpl&auml;ne online aktualisieren und Aufgaben erstellen.</p>\r\n",
-                                  createdAt: dateFromString(str: "2017-10-12T06:38:59.755Z") )
-        
-        let news3 = NewsCell.News(title: "Gesunde Schule 2017",
-                                  content: "<p>Liebe Sch&uuml;lerinnen und Sch&uuml;ler,</p>\r\n\r\n<p>schon seit einigen Jahren sind wir eine &quot;Gesunde Schule&quot;. Um dieses Motto nun noch verst&auml;rkter umzusetzen, haben wir seit dem Beginn des neuen Schuljahres einen neuen Mensa-Anbieter! So wird eure Mittagspause mit regionalen und gesunden Produkten noch besser!</p>\r\n\r\n<p>Einen guten Appetit w&uuml;nscht euch die Schulleitung und das Lehrerkolleg!</p>\r\n",
-                                  createdAt: dateFromString(str:"2017-10-12T06:58:13.541Z"))
-        
-        news.append(contentsOf: [news1, news2, news3])
+    var newsArticles: [NewsArticle] {
+        return fetchedResultController.fetchedObjects ?? []
     }
     
+    // Temporary
+    var contentHeight: [CGFloat] = []
+    
+    
+// MARK: - UI Methods
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.fetchNewsArticle()
+        self.synchronizeNewsArticle()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+    }
+    
+    @IBAction func didTriggerRefresh(_ sender: Any) {
+        self.synchronizeNewsArticle()
+    }
+    
+    fileprivate lazy var fetchedResultController : NSFetchedResultsController<NewsArticle> = {
+        
+        let fetchRequest: NSFetchRequest<NewsArticle> = NewsArticle.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "displayAt", ascending: false)]
+        
+        let fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                                managedObjectContext: managedObjectContext,
+                                                                sectionNameKeyPath: nil,
+                                                                cacheName: nil)
+        fetchResultsController.delegate = self
+        return fetchResultsController
+        
+    }()
+    
+// MARK: - Table View Delegate methods
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return fetchedResultController.sections?.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return news.count
+        return newsArticles.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let index = indexPath.row
-        let item = news[index]
+        let item = newsArticles[index]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell", for: indexPath) as! NewsCell
         
@@ -76,8 +89,86 @@ class NewsListViewController: UITableViewController, UIWebViewDelegate, NSFetche
         contentHeight[index] = height
         tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: UITableViewRowAnimation.automatic)
     }
+    
+    func synchronizeNewsArticle() {
+        NewsArticleHelper.fetchFromServer().onSuccess {
+            self.fetchNewsArticle()
+        }.onFailure(){ error in
+            log.error(error.localizedDescription)
+        }.onComplete { _ in
+            self.refreshControl?.endRefreshing()
+        }
+    }
+    
+    func fetchNewsArticle() {
+        //TODO: think of what should happen when fetching fails
+        do {
+            try self.fetchedResultController.performFetch()
+            contentHeight = Array(repeating: 0.0, count: newsArticles.count)
+        } catch let fetchError as NSError {
+            log.error(fetchError)
+        }
+        self.tableView.reloadData()
+    }
 }
 
+
+extension NewsArticle {
+    
+    var timeSinceCreated: String {
+        
+        let component = Calendar.current.dateComponents([.second, .minute, .hour, .day, .month, .year], from: createdAt as Date, to: Date())
+        
+        if let year = component.year,
+            year > 0 {
+            
+            let year_format = NSLocalizedString("number_of_year", comment: "")
+            let localized_year = String.localizedStringWithFormat(year_format, year)
+            
+            return String(format: "time.past".localized, localized_year)
+        } else if let month = component.month,
+            month > 0 {
+            
+            let month_format = NSLocalizedString("number_of_month", comment: "")
+            let localized_month = String.localizedStringWithFormat(month_format, month)
+            let time_past_format = "time.past".localized
+            
+            return String(format: time_past_format, localized_month)
+        } else if let day = component.day,
+            day > 0 {
+            
+            let day_format = NSLocalizedString("number_of_day", comment: "")
+            let localized_day = String.localizedStringWithFormat(day_format, day)
+            
+            return String(format: "time.past".localized, localized_day)
+        } else if let hour = component.hour,
+            hour > 0 {
+            
+            let hour_format = NSLocalizedString("number_of_hour", comment: "")
+            let localized_hour = String.localizedStringWithFormat(hour_format, hour)
+            
+            return String(format: "time.past".localized, localized_hour)
+        } else if let minute = component.minute,
+            minute > 0 {
+            
+            let minute_format = NSLocalizedString("number_of_minute", comment: "")
+            let localized_minute = String.localizedStringWithFormat(minute_format, minute)
+            
+            return String(format: "time.past".localized, localized_minute)
+        } else if let second = component.second,
+            second > 0 {
+            
+            let second_format = NSLocalizedString("number_of_second", comment: "")
+            let localized_second = String.localizedStringWithFormat(second_format, second)
+            
+            return String(format: "time.past".localized, localized_second)
+        }
+        
+        return ""
+    }
+}
+
+// MARK: Convenience
 extension String {
     func htmlWrapped(style: String?) -> String {
         return "<html><head>\(style ?? "")</head><body> \(self)</body></html>"
