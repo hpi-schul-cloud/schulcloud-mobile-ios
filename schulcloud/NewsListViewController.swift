@@ -83,7 +83,7 @@ class NewsListViewController: UITableViewController,  NSFetchedResultsController
         let index = indexPath.row
         let item = newsArticles[index]
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell", for: indexPath) as! NewsCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell", for: indexPath) as! NewsArticleCell
         
         cell.title.text = item.title
         
@@ -93,7 +93,7 @@ class NewsListViewController: UITableViewController,  NSFetchedResultsController
         cell.content.loadHTMLString(item.content.standardStyledHtml, baseURL: nil)
         cell.heightConstraint.constant = webContentHeights[index]
         
-        cell.timeSinceCreated.text = item.timeSinceCreated
+        cell.timeSinceCreated.text = item.timeSinceDisplay
         
         return cell
     }
@@ -116,56 +116,10 @@ extension NewsListViewController : UIWebViewDelegate {
 
 extension NewsArticle {
     
-    fileprivate var timeSinceCreated: String {
-        
-        let component = Calendar.current.dateComponents([.second, .minute, .hour, .day, .month, .year], from: displayAt as Date, to: Date())
-        
-        if let year = component.year,
-            year > 0 {
-            
-            let year_format = "number_of_year".localized
-            let localized_year = String.localizedStringWithFormat(year_format, year)
-            
-            return String(format: "time.past".localized, localized_year)
-        } else if let month = component.month,
-            month > 0 {
-            
-            let month_format = "number_of_month".localized
-            let localized_month = String.localizedStringWithFormat(month_format, month)
-
-            return String(format: "time.past".localized, localized_month)
-        } else if let day = component.day,
-            day > 0 {
-            
-            let day_format = "number_of_day".localized
-            let localized_day = String.localizedStringWithFormat(day_format, day)
-            
-            return String(format: "time.past".localized, localized_day)
-        } else if let hour = component.hour,
-            hour > 0 {
-            
-            let hour_format = "number_of_hour".localized
-            let localized_hour = String.localizedStringWithFormat(hour_format, hour)
-            
-            return String(format: "time.past".localized, localized_hour)
-        } else if let minute = component.minute,
-            minute > 0 {
-            
-            let minute_format = "number_of_minute".localized
-            let localized_minute = String.localizedStringWithFormat(minute_format, minute)
-            
-            return String(format: "time.past".localized, localized_minute)
-        } else if let second = component.second,
-            second > 0 {
-            
-            let second_format = NSLocalizedString("number_of_second", comment: "")
-            let localized_second = String.localizedStringWithFormat(second_format, second)
-            
-            return String(format: "time.past".localized, localized_second)
-        }
-        
-        return ""
+    fileprivate var timeSinceDisplay: String {
+        return TimeHelper.timeSince(displayAt as Date)
     }
+    
 }
 
 

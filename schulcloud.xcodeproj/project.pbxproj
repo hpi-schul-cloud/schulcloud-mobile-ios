@@ -91,8 +91,9 @@
 		C3FEB92B1F67E7F400BAD9D7 /* UIColor+Branding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FEB92A1F67E7F400BAD9D7 /* UIColor+Branding.swift */; };
 		C63FB1F9B25BA375BFE83DFB /* Pods_schulcloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09D7CC393E1856DD7EF9B21F /* Pods_schulcloud.framework */; };
 		CE1DAC592004CE0200CEE4C2 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1DAC582004CE0200CEE4C2 /* String+.swift */; };
+		CE1DAC5B2004F27D00CEE4C2 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1DAC5A2004F27D00CEE4C2 /* TimeHelper.swift */; };
 		CE737A4C1FFE6354006DAB54 /* TabNews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE737A4B1FFE6354006DAB54 /* TabNews.storyboard */; };
-		CE737A4E1FFE65B0006DAB54 /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE737A4D1FFE65B0006DAB54 /* NewsCell.swift */; };
+		CE737A4E1FFE65B0006DAB54 /* NewsArticleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE737A4D1FFE65B0006DAB54 /* NewsArticleCell.swift */; };
 		CE737A501FFE6929006DAB54 /* NewsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */; };
 		CE8487B91FFD2AC9008003B5 /* News+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8487B71FFD2AC9008003B5 /* News+CoreDataClass.swift */; };
 		CE8487BA1FFD2AC9008003B5 /* News+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8487B81FFD2AC9008003B5 /* News+CoreDataProperties.swift */; };
@@ -224,8 +225,9 @@
 		C3C3CAB01EF5CBB6009601AE /* SingleLessonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleLessonViewController.swift; sourceTree = "<group>"; };
 		C3FEB92A1F67E7F400BAD9D7 /* UIColor+Branding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Branding.swift"; sourceTree = "<group>"; };
 		CE1DAC582004CE0200CEE4C2 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		CE1DAC5A2004F27D00CEE4C2 /* TimeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeHelper.swift; sourceTree = "<group>"; };
 		CE737A4B1FFE6354006DAB54 /* TabNews.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabNews.storyboard; sourceTree = "<group>"; };
-		CE737A4D1FFE65B0006DAB54 /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
+		CE737A4D1FFE65B0006DAB54 /* NewsArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsArticleCell.swift; sourceTree = "<group>"; };
 		CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListViewController.swift; sourceTree = "<group>"; };
 		CE8487B71FFD2AC9008003B5 /* News+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "News+CoreDataClass.swift"; sourceTree = "<group>"; };
 		CE8487B81FFD2AC9008003B5 /* News+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "News+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -291,6 +293,7 @@
 				C3FEB92A1F67E7F400BAD9D7 /* UIColor+Branding.swift */,
 				C39495E61F6ACF55009DD7A4 /* BrightFutures+.swift */,
 				CE1DAC582004CE0200CEE4C2 /* String+.swift */,
+				CE1DAC5A2004F27D00CEE4C2 /* TimeHelper.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -302,7 +305,7 @@
 				C3165F1C1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift */,
 				C3418B631ED2E89F00280E62 /* FileListCell.swift */,
 				50A1CDE51F501AC5006E9B69 /* NotificationCell.swift */,
-				CE737A4D1FFE65B0006DAB54 /* NewsCell.swift */,
+				CE737A4D1FFE65B0006DAB54 /* NewsArticleCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -809,7 +812,8 @@
 				C378D2C41ECC976800AE8CEA /* schulcloud.xcdatamodeld in Sources */,
 				C32870A61EDDBCB000ABA348 /* User+CoreDataProperties.swift in Sources */,
 				C32870B41EDF24F600ABA348 /* Lesson+CoreDataClass.swift in Sources */,
-				CE737A4E1FFE65B0006DAB54 /* NewsCell.swift in Sources */,
+				CE1DAC5B2004F27D00CEE4C2 /* TimeHelper.swift in Sources */,
+				CE737A4E1FFE65B0006DAB54 /* NewsArticleCell.swift in Sources */,
 				C3FEB92B1F67E7F400BAD9D7 /* UIColor+Branding.swift in Sources */,
 				C3418B621ECEE6FB00280E62 /* FilesViewController.swift in Sources */,
 				C32870BE1EDF356800ABA348 /* CourseHelper.swift in Sources */,

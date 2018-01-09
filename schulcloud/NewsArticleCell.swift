@@ -9,7 +9,7 @@
 import UIKit
 
 
-class NewsCell: UITableViewCell {
+class NewsArticleCell: UITableViewCell {
     
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var timeSinceCreated: UILabel!
