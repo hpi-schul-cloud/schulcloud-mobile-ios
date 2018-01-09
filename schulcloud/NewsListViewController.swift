@@ -22,7 +22,7 @@ class NewsListViewController: UITableViewController, UIWebViewDelegate, NSFetche
 // MARK: - UI Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.fetchNewsArticle()
         self.synchronizeNewsArticle()
     }
@@ -69,8 +69,9 @@ class NewsListViewController: UITableViewController, UIWebViewDelegate, NSFetche
         
         cell.content.tag = index
         cell.content.delegate = self
+        cell.content.scrollView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
         
-        cell.content.loadHTMLString(item.content.standardHtml, baseURL: nil)
+        cell.content.loadHTMLString(item.content.standardStyledHtml, baseURL: nil)
         cell.heightConstraint.constant = contentHeight[index]
 
         cell.timeSinceCreated.text = item.timeSinceCreated
@@ -117,41 +118,40 @@ extension NewsArticle {
     
     var timeSinceCreated: String {
         
-        let component = Calendar.current.dateComponents([.second, .minute, .hour, .day, .month, .year], from: createdAt as Date, to: Date())
+        let component = Calendar.current.dateComponents([.second, .minute, .hour, .day, .month, .year], from: displayAt as Date, to: Date())
         
         if let year = component.year,
             year > 0 {
             
-            let year_format = NSLocalizedString("number_of_year", comment: "")
+            let year_format = "number_of_year".localized
             let localized_year = String.localizedStringWithFormat(year_format, year)
             
             return String(format: "time.past".localized, localized_year)
         } else if let month = component.month,
             month > 0 {
             
-            let month_format = NSLocalizedString("number_of_month", comment: "")
+            let month_format = "number_of_month".localized
             let localized_month = String.localizedStringWithFormat(month_format, month)
-            let time_past_format = "time.past".localized
-            
-            return String(format: time_past_format, localized_month)
+
+            return String(format: "time.past".localized, localized_month)
         } else if let day = component.day,
             day > 0 {
             
-            let day_format = NSLocalizedString("number_of_day", comment: "")
+            let day_format = "number_of_day".localized
             let localized_day = String.localizedStringWithFormat(day_format, day)
             
             return String(format: "time.past".localized, localized_day)
         } else if let hour = component.hour,
             hour > 0 {
             
-            let hour_format = NSLocalizedString("number_of_hour", comment: "")
+            let hour_format = "number_of_hour".localized
             let localized_hour = String.localizedStringWithFormat(hour_format, hour)
             
             return String(format: "time.past".localized, localized_hour)
         } else if let minute = component.minute,
             minute > 0 {
             
-            let minute_format = NSLocalizedString("number_of_minute", comment: "")
+            let minute_format = "number_of_minute".localized
             let localized_minute = String.localizedStringWithFormat(minute_format, minute)
             
             return String(format: "time.past".localized, localized_minute)
@@ -171,10 +171,10 @@ extension NewsArticle {
 // MARK: Convenience
 extension String {
     func htmlWrapped(style: String?) -> String {
-        return "<html><head>\(style ?? "")</head><body> \(self)</body></html>"
+        return "<html><head>\(style ?? "")</head><body>\(self)</body></html>"
     }
     
-    var standardHtml : String {
+    var standardStyledHtml : String {
         return htmlWrapped(style: Constants.textStyleHtml)
     }
     
