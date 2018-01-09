@@ -9,14 +9,13 @@
 import UIKit
 import CoreData
 
-class NewsListViewController: UITableViewController, UIWebViewDelegate, NSFetchedResultsControllerDelegate {
+class NewsListViewController: UITableViewController,  NSFetchedResultsControllerDelegate {
     
     var newsArticles: [NewsArticle] {
         return fetchedResultController.fetchedObjects ?? []
     }
     
-    // Temporary
-    var contentHeight: [CGFloat] = []
+    var webContentHeights: [CGFloat] = []
     
     
 // MARK: - UI Methods
@@ -36,6 +35,7 @@ class NewsListViewController: UITableViewController, UIWebViewDelegate, NSFetche
         self.synchronizeNewsArticle()
     }
     
+    // MARK: Internal convenience
     fileprivate lazy var fetchedResultController : NSFetchedResultsController<NewsArticle> = {
         
         let fetchRequest: NSFetchRequest<NewsArticle> = NewsArticle.fetchRequest()
@@ -50,7 +50,27 @@ class NewsListViewController: UITableViewController, UIWebViewDelegate, NSFetche
         
     }()
     
-// MARK: - Table View Delegate methods
+    fileprivate func synchronizeNewsArticle() {
+        NewsArticleHelper.fetchFromServer().onSuccess {
+            self.fetchNewsArticle()
+        }.onFailure(){ error in
+            log.error(error.localizedDescription)
+        }.onComplete { _ in
+            self.refreshControl?.endRefreshing()
+        }
+    }
+    
+    fileprivate func fetchNewsArticle() {
+        do {
+            try self.fetchedResultController.performFetch()
+            webContentHeights = Array(repeating: 0.0, count: newsArticles.count)
+        } catch let fetchError as NSError {
+            log.error(fetchError)
+        }
+        self.tableView.reloadData()
+    }
+    
+    // MARK: - Table View Delegate methods
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultController.sections?.count ?? 0
     }
@@ -69,54 +89,34 @@ class NewsListViewController: UITableViewController, UIWebViewDelegate, NSFetche
         
         cell.content.tag = index
         cell.content.delegate = self
-        cell.content.scrollView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
         
         cell.content.loadHTMLString(item.content.standardStyledHtml, baseURL: nil)
-        cell.heightConstraint.constant = contentHeight[index]
-
+        cell.heightConstraint.constant = webContentHeights[index]
+        
         cell.timeSinceCreated.text = item.timeSinceCreated
         
         return cell
     }
+}
+
+extension NewsListViewController : UIWebViewDelegate {
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
         
         let index = webView.tag
         let height = webView.scrollView.contentSize.height
-        if contentHeight[index] == height {
+        if webContentHeights[index] == height {
             return
         }
         
-        contentHeight[index] = height
+        webContentHeights[index] = height
         tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: UITableViewRowAnimation.automatic)
-    }
-    
-    func synchronizeNewsArticle() {
-        NewsArticleHelper.fetchFromServer().onSuccess {
-            self.fetchNewsArticle()
-        }.onFailure(){ error in
-            log.error(error.localizedDescription)
-        }.onComplete { _ in
-            self.refreshControl?.endRefreshing()
-        }
-    }
-    
-    func fetchNewsArticle() {
-        //TODO: think of what should happen when fetching fails
-        do {
-            try self.fetchedResultController.performFetch()
-            contentHeight = Array(repeating: 0.0, count: newsArticles.count)
-        } catch let fetchError as NSError {
-            log.error(fetchError)
-        }
-        self.tableView.reloadData()
     }
 }
 
-
 extension NewsArticle {
     
-    var timeSinceCreated: String {
+    fileprivate var timeSinceCreated: String {
         
         let component = Calendar.current.dateComponents([.second, .minute, .hour, .day, .month, .year], from: displayAt as Date, to: Date())
         
@@ -168,18 +168,4 @@ extension NewsArticle {
     }
 }
 
-// MARK: Convenience
-extension String {
-    func htmlWrapped(style: String?) -> String {
-        return "<html><head>\(style ?? "")</head><body>\(self)</body></html>"
-    }
-    
-    var standardStyledHtml : String {
-        return htmlWrapped(style: Constants.textStyleHtml)
-    }
-    
-    var localized : String {
-        return NSLocalizedString(self, comment: "")
-    }
-}
 

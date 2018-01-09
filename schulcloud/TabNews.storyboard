@@ -34,11 +34,11 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QJH-9l-nbt">
                                             <rect key="frame" x="20" y="33" width="345" height="14.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <nil key="textColor"/>
+                                            <color key="textColor" white="0.55000000000000004" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <webView userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uSK-hi-5dy">
-                                            <rect key="frame" x="10" y="62.5" width="355" height="77"/>
+                                            <rect key="frame" x="7" y="62.5" width="358" height="77"/>
                                             <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="76.5" id="eUE-Sz-jvo"/>
@@ -47,11 +47,11 @@
                                         </webView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="uSK-hi-5dy" secondAttribute="bottom" constant="10" id="EJg-Yf-Mv3"/>
+                                        <constraint firstAttribute="bottom" secondItem="uSK-hi-5dy" secondAttribute="bottom" constant="5" id="EJg-Yf-Mv3"/>
                                         <constraint firstItem="fv8-1u-uMz" firstAttribute="leading" secondItem="RYS-Uu-gYI" secondAttribute="leading" constant="15" id="KfC-5E-LIv"/>
                                         <constraint firstItem="uSK-hi-5dy" firstAttribute="top" secondItem="QJH-9l-nbt" secondAttribute="bottom" constant="5" id="NDb-D6-Bdx"/>
                                         <constraint firstAttribute="trailing" secondItem="fv8-1u-uMz" secondAttribute="trailing" constant="10" id="Vnf-mr-4Vf"/>
-                                        <constraint firstItem="uSK-hi-5dy" firstAttribute="leading" secondItem="RYS-Uu-gYI" secondAttribute="leading" constant="10" id="cze-c1-kQh"/>
+                                        <constraint firstItem="uSK-hi-5dy" firstAttribute="leading" secondItem="RYS-Uu-gYI" secondAttribute="leading" constant="7" id="cze-c1-kQh"/>
                                         <constraint firstItem="QJH-9l-nbt" firstAttribute="trailing" secondItem="fv8-1u-uMz" secondAttribute="trailing" id="duW-2p-ien"/>
                                         <constraint firstItem="QJH-9l-nbt" firstAttribute="leading" secondItem="fv8-1u-uMz" secondAttribute="leading" constant="5" id="grp-3P-agx"/>
                                         <constraint firstAttribute="trailing" secondItem="uSK-hi-5dy" secondAttribute="trailing" constant="10" id="h0H-wd-wCt"/>
