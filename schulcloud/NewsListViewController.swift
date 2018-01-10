@@ -86,15 +86,13 @@ class NewsListViewController: UITableViewController,  NSFetchedResultsController
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell", for: indexPath) as! NewsArticleCell
         
         cell.title.text = item.title
+        cell.timeSinceCreated.text = item.formattedDisplayDate
         
         cell.content.tag = index
         cell.content.delegate = self
-        
         cell.content.loadHTMLString(item.content.standardStyledHtml, baseURL: nil)
         cell.heightConstraint.constant = webContentHeights[index]
-        
-        cell.timeSinceCreated.text = item.timeSinceDisplay
-        
+
         return cell
     }
 }
@@ -114,12 +112,14 @@ extension NewsListViewController : UIWebViewDelegate {
     }
 }
 
+
 extension NewsArticle {
-    
-    fileprivate var timeSinceDisplay: String {
-        return TimeHelper.timeSince(displayAt as Date)
+    fileprivate var formattedDisplayDate : String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        
+        formatter.locale = Locale.current
+        return formatter.string(from: displayAt as Date)
     }
-    
 }
-
-
