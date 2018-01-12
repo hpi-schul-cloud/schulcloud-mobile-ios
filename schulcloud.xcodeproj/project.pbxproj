@@ -94,7 +94,6 @@
 		CE8C93722007729D00153591 /* InternalCalendarEvent+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8C93702007729C00153591 /* InternalCalendarEvent+CoreDataClass.swift */; };
 		CE8C93762007C1FF00153591 /* InternalCalendarEvent+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8C93752007C1FE00153591 /* InternalCalendarEvent+.swift */; };
 		CEB0027D2008BF9C007084C9 /* CalendarEventHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB0027C2008BF9C007084C9 /* CalendarEventHelper.swift */; };
-		CEB002802008C174007084C9 /* CalendarEventHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB0027F2008C174007084C9 /* CalendarEventHelperTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -224,7 +223,6 @@
 		CE8C93702007729C00153591 /* InternalCalendarEvent+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InternalCalendarEvent+CoreDataClass.swift"; sourceTree = "<group>"; };
 		CE8C93752007C1FE00153591 /* InternalCalendarEvent+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "InternalCalendarEvent+.swift"; sourceTree = "<group>"; };
 		CEB0027C2008BF9C007084C9 /* CalendarEventHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarEventHelper.swift; sourceTree = "<group>"; };
-		CEB0027F2008C174007084C9 /* CalendarEventHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEventHelperTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -417,7 +415,6 @@
 			children = (
 				C3A5A91A1EBCC17600825DBF /* schulcloudTests.swift */,
 				C3A5A91C1EBCC17600825DBF /* Info.plist */,
-				CEB0027F2008C174007084C9 /* CalendarEventHelperTests.swift */,
 			);
 			path = schulcloudTests;
 			sourceTree = "<group>";
@@ -838,7 +835,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEB002802008C174007084C9 /* CalendarEventHelperTests.swift in Sources */,
 				C3A5A91B1EBCC17600825DBF /* schulcloudTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
