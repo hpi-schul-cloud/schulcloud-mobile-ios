@@ -47,6 +47,7 @@
     </entity>
     <entity name="InternalCalendarEvent" representedClassName="InternalCalendarEvent" syncable="YES">
         <attribute name="desc" attributeType="String" syncable="YES"/>
+        <attribute name="ekEventId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="end" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="location" attributeType="String" syncable="YES"/>
@@ -92,9 +93,9 @@
         <element name="EventData" positionX="-63" positionY="207" width="128" height="90"/>
         <element name="File" positionX="-342" positionY="291" width="128" height="165"/>
         <element name="Homework" positionX="-99" positionY="288" width="128" height="178"/>
+        <element name="InternalCalendarEvent" positionX="-144" positionY="126" width="128" height="225"/>
         <element name="Lesson" positionX="-108" positionY="162" width="128" height="150"/>
         <element name="User" positionX="205" positionY="225" width="137" height="165"/>
         <element name="UserGroup" positionX="-9" positionY="-18" width="128" height="105"/>
-        <element name="InternalCalendarEvent" positionX="-144" positionY="126" width="128" height="210"/>
     </elements>
 </model>
