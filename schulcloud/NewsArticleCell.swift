@@ -13,7 +13,12 @@ class NewsArticleCell: UITableViewCell {
     
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var timeSinceCreated: UILabel!
-    @IBOutlet weak var content: UIWebView!
-    
-    @IBOutlet weak var heightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var content: UITextView!
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.content.textContainerInset = .zero
+        self.content.textContainer.lineFragmentPadding = 0
+    }
+
 }

@@ -11,33 +11,28 @@ import CoreData
 
 class NewsListViewController: UITableViewController,  NSFetchedResultsControllerDelegate {
     
-    var newsArticles: [NewsArticle] {
-        return fetchedResultController.fetchedObjects ?? []
-    }
-    
-    var webContentHeights: [CGFloat] = []
-    
-    
-// MARK: - UI Methods
+    private static let displayDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        formatter.locale = Locale.current
+        return formatter
+    }()
+
+    // MARK: - UI Methods
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.fetchNewsArticle()
         self.synchronizeNewsArticle()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
-    
+
     @IBAction func didTriggerRefresh(_ sender: Any) {
         self.synchronizeNewsArticle()
     }
     
     // MARK: Internal convenience
     fileprivate lazy var fetchedResultController : NSFetchedResultsController<NewsArticle> = {
-        
         let fetchRequest: NSFetchRequest<NewsArticle> = NewsArticle.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "displayAt", ascending: false)]
         
@@ -47,7 +42,6 @@ class NewsListViewController: UITableViewController,  NSFetchedResultsController
                                                                 cacheName: nil)
         fetchResultsController.delegate = self
         return fetchResultsController
-        
     }()
     
     fileprivate func synchronizeNewsArticle() {
@@ -63,7 +57,6 @@ class NewsListViewController: UITableViewController,  NSFetchedResultsController
     fileprivate func fetchNewsArticle() {
         do {
             try self.fetchedResultController.performFetch()
-            webContentHeights = Array(repeating: 0.0, count: newsArticles.count)
         } catch let fetchError as NSError {
             log.error(fetchError)
         }
@@ -72,54 +65,24 @@ class NewsListViewController: UITableViewController,  NSFetchedResultsController
     
     // MARK: - Table View Delegate methods
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return fetchedResultController.sections?.count ?? 0
+        return self.fetchedResultController.sections?.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return newsArticles.count
+        return self.fetchedResultController.sections?[section].numberOfObjects ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let index = indexPath.row
-        let item = newsArticles[index]
-        
+        let item = self.fetchedResultController.object(at: indexPath)
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell", for: indexPath) as! NewsArticleCell
         
         cell.title.text = item.title
-        cell.timeSinceCreated.text = item.formattedDisplayDate
-        
-        cell.content.tag = index
-        cell.content.delegate = self
-        cell.content.loadHTMLString(item.content.standardStyledHtml, baseURL: nil)
-        cell.heightConstraint.constant = webContentHeights[index]
+        cell.timeSinceCreated.text = NewsListViewController.displayDateFormatter.string(from: item.displayAt as Date)
+        cell.content.attributedText = item.content.convertedHTML
+        cell.content.translatesAutoresizingMaskIntoConstraints = true
+        cell.content.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
+        cell.content.sizeToFit()
 
         return cell
-    }
-}
-
-extension NewsListViewController : UIWebViewDelegate {
-    
-    func webViewDidFinishLoad(_ webView: UIWebView) {
-        
-        let index = webView.tag
-        let height = webView.scrollView.contentSize.height
-        if webContentHeights[index] == height {
-            return
-        }
-        
-        webContentHeights[index] = height
-        tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: UITableViewRowAnimation.automatic)
-    }
-}
-
-
-extension NewsArticle {
-    fileprivate var formattedDisplayDate : String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .none
-        
-        formatter.locale = Locale.current
-        return formatter.string(from: displayAt as Date)
     }
 }
