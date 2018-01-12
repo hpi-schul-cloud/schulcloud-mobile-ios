@@ -92,6 +92,7 @@
 		C63FB1F9B25BA375BFE83DFB /* Pods_schulcloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09D7CC393E1856DD7EF9B21F /* Pods_schulcloud.framework */; };
 		CE8C93712007729D00153591 /* InternalCalendarEvent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8C936F2007729C00153591 /* InternalCalendarEvent+CoreDataProperties.swift */; };
 		CE8C93722007729D00153591 /* InternalCalendarEvent+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8C93702007729C00153591 /* InternalCalendarEvent+CoreDataClass.swift */; };
+		CE8C93762007C1FF00153591 /* InternalCalendarEvent+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8C93752007C1FE00153591 /* InternalCalendarEvent+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -219,6 +220,7 @@
 		C3FEB92A1F67E7F400BAD9D7 /* UIColor+Branding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Branding.swift"; sourceTree = "<group>"; };
 		CE8C936F2007729C00153591 /* InternalCalendarEvent+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InternalCalendarEvent+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		CE8C93702007729C00153591 /* InternalCalendarEvent+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InternalCalendarEvent+CoreDataClass.swift"; sourceTree = "<group>"; };
+		CE8C93752007C1FE00153591 /* InternalCalendarEvent+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "InternalCalendarEvent+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -346,6 +348,7 @@
 		C32870BA1EDF324300ABA348 /* synchronization */ = {
 			isa = PBXGroup;
 			children = (
+				CE8C93752007C1FE00153591 /* InternalCalendarEvent+.swift */,
 				C328708B1EDD58C700ABA348 /* User+.swift */,
 				C32870B81EDF2E1E00ABA348 /* Content+.swift */,
 				C32870A81EDDD3D100ABA348 /* Course+.swift */,
@@ -792,6 +795,7 @@
 				C3FEB92B1F67E7F400BAD9D7 /* UIColor+Branding.swift in Sources */,
 				C3418B621ECEE6FB00280E62 /* FilesViewController.swift in Sources */,
 				C32870BE1EDF356800ABA348 /* CourseHelper.swift in Sources */,
+				CE8C93762007C1FF00153591 /* InternalCalendarEvent+.swift in Sources */,
 				C3418B641ED2E89F00280E62 /* FileListCell.swift in Sources */,
 				CE8C93722007729D00153591 /* InternalCalendarEvent+CoreDataClass.swift in Sources */,
 				509A933A1F541668001167DE /* ShortNotificationViewController.swift in Sources */,
