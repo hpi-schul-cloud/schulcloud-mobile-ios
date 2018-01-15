@@ -9,6 +9,7 @@
 import Foundation
 import BrightFutures
 import CoreData
+import DateToolsSwift
 
 extension InternalCalendarEvent {
     var calendarEvent : CalendarEvent {
@@ -43,8 +44,11 @@ public struct CalendarEventHelper {
                 // save new inseted
                 return save(privateContext: privateMOC)
             }
-            .flatMap(fetchCalendarEvent) // get local calendar event
-        /* TODO: Do I do this processing here
+            .flatMap { _ -> Future<[CalendarEvent], SCError> in
+                return fetchCalendarEvent(inContext: privateMOC)
+            }// get local calendar event
+
+         /* TODO: Do I do this processing here
          .andThen { result in
          if let calendarEvents = result.value {
          //store events in local cache
@@ -57,9 +61,15 @@ public struct CalendarEventHelper {
          */
     }
     
-    static func fetchCalendarEvent() -> Future<[CalendarEvent], SCError> {
-        //TODO: implement this
-        return Future(value: [])
+    static func fetchCalendarEvent(inContext context: NSManagedObjectContext) -> Future<[CalendarEvent], SCError> {
+        let fetchRequest: NSFetchRequest<InternalCalendarEvent> = InternalCalendarEvent.fetchRequest()
+
+        do {
+            let fetchedEvent = try context.fetch(fetchRequest)
+            return Future(value: fetchedEvent.map({ $0.calendarEvent }))
+        } catch let error {
+            return Future(error: .database(error.localizedDescription))
+        }
     }
     
 }
