@@ -204,35 +204,28 @@ extension CalendarEvent {
             // if non recurring event
             if event.recurenceRule == nil && iteration > 0 { return nil }
             // if we itereated more that the interval
-            if let interval = event.recurenceRule?.interval, interval < self.iteration { return nil }
-            
-            let components : Set<Calendar.Component> = [.day, .weekOfYear, .month, .year]
-            var startDateComp = Calendar.current.dateComponents(components, from: event.start)
-            var endDateComp = Calendar.current.dateComponents(components, from: event.end)
-            
+            if let interval = event.recurenceRule?.interval, interval <= self.iteration { return nil }
+
+            var dateComponents = DateComponents()
             if let recurenceRule = event.recurenceRule {
             
                 switch recurenceRule.frequency {
                 case .daily:
-                    startDateComp.day = startDateComp.day! + self.iteration
-                    endDateComp.day = endDateComp.day! + self.iteration
-                    
+                    dateComponents.day = self.iteration
+
                 case .weekly:
-                    startDateComp.weekOfYear = startDateComp.weekOfYear! + self.iteration
-                    endDateComp.weekOfYear = endDateComp.weekOfYear! + self.iteration
-                    
+                    dateComponents.weekOfYear = self.iteration
+
                 case .monthly:
-                    startDateComp.month = startDateComp.month! + self.iteration
-                    endDateComp.month = endDateComp.month! + self.iteration
-                    
+                    dateComponents.month = self.iteration
+
                 case .yearly:
-                    startDateComp.year = startDateComp.year! + self.iteration
-                    endDateComp.year = endDateComp.year! + self.iteration
+                    dateComponents.year = self.iteration
                 }
             }
             
-            guard let computedStartDate = startDateComp.date,
-                let computedEndDate = endDateComp.date
+            guard let computedStartDate = Calendar.current.date(byAdding: dateComponents, to: event.start),
+                let computedEndDate = Calendar.current.date(byAdding: dateComponents, to: event.end)
                 else {
                     return nil
             }

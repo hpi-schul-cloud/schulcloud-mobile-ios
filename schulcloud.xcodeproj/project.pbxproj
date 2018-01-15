@@ -90,6 +90,7 @@
 		C3C3CAB11EF5CBB6009601AE /* SingleLessonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3CAB01EF5CBB6009601AE /* SingleLessonViewController.swift */; };
 		C3FEB92B1F67E7F400BAD9D7 /* UIColor+Branding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FEB92A1F67E7F400BAD9D7 /* UIColor+Branding.swift */; };
 		C63FB1F9B25BA375BFE83DFB /* Pods_schulcloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09D7CC393E1856DD7EF9B21F /* Pods_schulcloud.framework */; };
+		CE8A847C200CCB1800D0624F /* CalendarEventHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8A847B200CCB1800D0624F /* CalendarEventHelperTests.swift */; };
 		CE8C93712007729D00153591 /* InternalCalendarEvent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8C936F2007729C00153591 /* InternalCalendarEvent+CoreDataProperties.swift */; };
 		CE8C93722007729D00153591 /* InternalCalendarEvent+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8C93702007729C00153591 /* InternalCalendarEvent+CoreDataClass.swift */; };
 		CE8C93762007C1FF00153591 /* InternalCalendarEvent+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8C93752007C1FE00153591 /* InternalCalendarEvent+.swift */; };
@@ -219,6 +220,7 @@
 		C3C2AC371EC5AC750060AECA /* ApiHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiHelper.swift; sourceTree = "<group>"; };
 		C3C3CAB01EF5CBB6009601AE /* SingleLessonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleLessonViewController.swift; sourceTree = "<group>"; };
 		C3FEB92A1F67E7F400BAD9D7 /* UIColor+Branding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Branding.swift"; sourceTree = "<group>"; };
+		CE8A847B200CCB1800D0624F /* CalendarEventHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEventHelperTests.swift; sourceTree = "<group>"; };
 		CE8C936F2007729C00153591 /* InternalCalendarEvent+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InternalCalendarEvent+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		CE8C93702007729C00153591 /* InternalCalendarEvent+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InternalCalendarEvent+CoreDataClass.swift"; sourceTree = "<group>"; };
 		CE8C93752007C1FE00153591 /* InternalCalendarEvent+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "InternalCalendarEvent+.swift"; sourceTree = "<group>"; };
@@ -415,6 +417,7 @@
 			children = (
 				C3A5A91A1EBCC17600825DBF /* schulcloudTests.swift */,
 				C3A5A91C1EBCC17600825DBF /* Info.plist */,
+				CE8A847B200CCB1800D0624F /* CalendarEventHelperTests.swift */,
 			);
 			path = schulcloudTests;
 			sourceTree = "<group>";
@@ -835,6 +838,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE8A847C200CCB1800D0624F /* CalendarEventHelperTests.swift in Sources */,
 				C3A5A91B1EBCC17600825DBF /* schulcloudTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
