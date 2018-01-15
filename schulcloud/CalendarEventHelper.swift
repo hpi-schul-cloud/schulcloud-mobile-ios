@@ -29,6 +29,7 @@ public struct CalendarEventHelper {
             .flatMap(privateMOC.perform, f: { $0.map{InternalCalendarEvent.upsert(inContext: privateMOC, object: $0)}.sequence() })
             .flatMap(privateMOC.perform, f: { dbItems -> Future<Void, SCError> in
                
+                //remove unused event
                 let ids = dbItems.map { $0.id }
                 do {
                     let fetchRequest: NSFetchRequest<InternalCalendarEvent> = InternalCalendarEvent.fetchRequest()
@@ -41,12 +42,13 @@ public struct CalendarEventHelper {
                 }
             })
             .flatMap { _ -> Future<Void, SCError> in
-                // save new inseted
+                // save new inseeted
                 return save(privateContext: privateMOC)
             }
             .flatMap { _ -> Future<[CalendarEvent], SCError> in
+                // get local calendar event
                 return fetchCalendarEvent(inContext: privateMOC)
-            }// get local calendar event
+            }
 
          /* TODO: Do I do this processing here
          .andThen { result in
@@ -85,29 +87,7 @@ struct CalendarEvent {
     let start: Date
     let end: Date
     let recurenceRule: RecurenceRule?
-    
-    init(internalEvent: InternalCalendarEvent) {
-        id = internalEvent.id
-        title = internalEvent.title
-        description = internalEvent.desc
-        location = internalEvent.location
-        start = internalEvent.start as Date
-        end = internalEvent.end as Date
-        
-        if  let rfrequency = internalEvent.rfrequency,
-            let frequency = RecurenceRule.Frequency(remoteString: rfrequency),
-            let rdayOfWeek = internalEvent.rdayOfTheWeek,
-            let dayOfWeek = RecurenceRule.DayOfTheWeek(remoteString: rdayOfWeek) {
-            
-            recurenceRule = RecurenceRule(frequency: frequency,
-                                          dayOfTheWeek: dayOfWeek,
-                                          endDate:internalEvent.rendDate as Date?,
-                                          interval: Int(internalEvent.rinterval))
-        } else {
-            recurenceRule = nil
-        }
-    }
-    
+
     struct RecurenceRule {
         
         let frequency: Frequency
@@ -167,6 +147,103 @@ struct CalendarEvent {
                     return nil
                 }
             }
+        }
+    }
+    
+    init(internalEvent: InternalCalendarEvent) {
+        id = internalEvent.id
+        title = internalEvent.title
+        description = internalEvent.desc
+        location = internalEvent.location
+        start = internalEvent.start as Date
+        end = internalEvent.end as Date
+        
+        if  let rfrequency = internalEvent.rfrequency,
+            let frequency = RecurenceRule.Frequency(remoteString: rfrequency),
+            let rdayOfWeek = internalEvent.rdayOfTheWeek,
+            let dayOfWeek = RecurenceRule.DayOfTheWeek(remoteString: rdayOfWeek) {
+            
+            recurenceRule = RecurenceRule(frequency: frequency,
+                                          dayOfTheWeek: dayOfWeek,
+                                          endDate:internalEvent.rendDate as Date?,
+                                          interval: Int(internalEvent.rinterval))
+        } else {
+            recurenceRule = nil
+        }
+    }
+}
+
+extension CalendarEvent {
+    
+    var dates : EventSequence {
+        return EventSequence(calendarEvent: self)
+    }
+
+    struct EventSequence : Sequence {
+        
+        let calendarEvent : CalendarEvent
+        
+        func makeIterator() -> EventDateIterator {
+            return EventDateIterator(self)
+        }
+        
+    }
+    struct EventDateIterator : IteratorProtocol {
+        typealias Element = (Date, Date)
+    
+        let sequence : EventSequence
+        var iteration: Int = 0
+        
+        init(_ sequence: EventSequence) {
+            self.sequence = sequence
+        }
+        
+        mutating func next() -> (Date, Date)? {
+        
+            let event = sequence.calendarEvent
+            // if non recurring event
+            if event.recurenceRule == nil && iteration > 0 { return nil }
+            // if we itereated more that the interval
+            if let interval = event.recurenceRule?.interval, interval < self.iteration { return nil }
+            
+            let components : Set<Calendar.Component> = [.day, .weekOfYear, .month, .year]
+            var startDateComp = Calendar.current.dateComponents(components, from: event.start)
+            var endDateComp = Calendar.current.dateComponents(components, from: event.end)
+            
+            if let recurenceRule = event.recurenceRule {
+            
+                switch recurenceRule.frequency {
+                case .daily:
+                    startDateComp.day = startDateComp.day! + self.iteration
+                    endDateComp.day = endDateComp.day! + self.iteration
+                    
+                case .weekly:
+                    startDateComp.weekOfYear = startDateComp.weekOfYear! + self.iteration
+                    endDateComp.weekOfYear = endDateComp.weekOfYear! + self.iteration
+                    
+                case .monthly:
+                    startDateComp.month = startDateComp.month! + self.iteration
+                    endDateComp.month = endDateComp.month! + self.iteration
+                    
+                case .yearly:
+                    startDateComp.year = startDateComp.year! + self.iteration
+                    endDateComp.year = endDateComp.year! + self.iteration
+                }
+            }
+            
+            guard let computedStartDate = startDateComp.date,
+                let computedEndDate = endDateComp.date
+                else {
+                    return nil
+            }
+            
+            if let recurenceEndDate = event.recurenceRule?.endDate,
+                computedStartDate > recurenceEndDate {
+                return nil
+            }
+
+            self.iteration += 1
+            return (computedStartDate, computedEndDate)
         }
     }
 }
