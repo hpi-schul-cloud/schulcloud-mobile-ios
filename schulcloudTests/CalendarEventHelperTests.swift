@@ -71,6 +71,11 @@ class CalendarEventHelperTests: XCTestCase {
         for _ in 0..<10 {
             XCTAssertNotNil(dateIterator.next())
         }
+        
+        dateIterator = event.dates.makeIterator()
+        for _ in 0..<100 {
+            XCTAssertNotNil(dateIterator.next())
+        }
     }
     
     

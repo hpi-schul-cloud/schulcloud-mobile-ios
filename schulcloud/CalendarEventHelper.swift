@@ -212,13 +212,10 @@ extension CalendarEvent {
                 switch recurenceRule.frequency {
                 case .daily:
                     dateComponents.day = self.iteration
-
                 case .weekly:
                     dateComponents.weekOfYear = self.iteration
-
                 case .monthly:
                     dateComponents.month = self.iteration
-
                 case .yearly:
                     dateComponents.year = self.iteration
                 }
