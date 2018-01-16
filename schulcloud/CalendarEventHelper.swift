@@ -173,15 +173,17 @@ struct CalendarEvent {
     }
 }
 
+// MARK: Date sequence for event
 extension CalendarEvent {
     
     var dates : EventSequence {
-        return EventSequence(calendarEvent: self)
+        return EventSequence(calendarEvent: self, calculatedDate: [])
     }
 
     struct EventSequence : Sequence {
         
         let calendarEvent : CalendarEvent
+        var calculatedDate: [(Date, Date)]
         
         func makeIterator() -> EventDateIterator {
             return EventDateIterator(self)
@@ -191,7 +193,7 @@ extension CalendarEvent {
     struct EventDateIterator : IteratorProtocol {
         typealias Element = (Date, Date)
     
-        let sequence : EventSequence
+        var sequence : EventSequence
         var iteration: Int = 0
         
         init(_ sequence: EventSequence) {
@@ -199,6 +201,10 @@ extension CalendarEvent {
         }
         
         mutating func next() -> (Date, Date)? {
+            
+            guard self.iteration >= sequence.calculatedDate.count else {
+                return sequence.calculatedDate[self.iteration]
+            }
         
             let event = sequence.calendarEvent
             // if non recurring event
@@ -231,9 +237,12 @@ extension CalendarEvent {
                 computedStartDate > recurenceEndDate {
                 return nil
             }
-
+            
+            let result = (computedStartDate, computedEndDate)
+            sequence.calculatedDate.append(result)
+            
             self.iteration += 1
-            return (computedStartDate, computedEndDate)
+            return result
         }
     }
 }
