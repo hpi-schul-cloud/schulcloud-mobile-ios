@@ -10,9 +10,53 @@ import UIKit
 import EventKit
 import DateToolsSwift
 
+protocol DisplayEvent {
+    var displayTitle: String { get }
+    var displayLocation  : String { get }
+    var displayStartDate : Date { get }
+    var displayEndDate   : Date { get }
+}
+
+extension EKEvent : DisplayEvent {
+    
+    var displayTitle: String {
+        return self.title
+    }
+    var displayLocation  : String {
+        return self.location!
+    }
+    var displayStartDate : Date {
+        return self.startDate
+    }
+    var displayEndDate   : Date {
+        return self.endDate
+    }
+}
+
+extension CalendarEvent : DisplayEvent {
+    
+    var displayTitle : String {
+        return self.title
+    }
+    
+    var displayLocation : String {
+        return self.location
+    }
+    
+    var displayStartDate : Date {
+        return self.start
+    }
+    
+    var displayEndDate : Date {
+        return self.end
+    }
+}
+
 class CalendarOverviewViewController: UIViewController {
+    
+
     enum State {
-        case events(EKEvent, EKEvent?)
+        case events(DisplayEvent, DisplayEvent?)
         case noEvents(String)
     }
 
@@ -43,6 +87,8 @@ class CalendarOverviewViewController: UIViewController {
 
         self.state = .noEvents(CalendarOverviewViewController.loadingMessage)
 
+        self.syncEvents()
+        /*
         switch EKEventStore.authorizationStatus(for: .event) {
         case .notDetermined:
             CalendarHelper.requestCalendarPermission().onSuccess {
@@ -55,6 +101,7 @@ class CalendarOverviewViewController: UIViewController {
         case .restricted, .denied:
             self.state = .noEvents(CalendarOverviewViewController.noPermissionMessage)
         }
+        */
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -64,6 +111,43 @@ class CalendarOverviewViewController: UIViewController {
     }
 
     private func syncEvents() {
+        
+        CalendarEventHelper.synchronizeEvent()
+        .map { events -> [CalendarEvent] in
+        
+            // filter all event left coming up today
+            let now = Date()
+            let today = Date(year:now.year, month: now.month, day: now.day)
+            let oneDayChunk = TimeChunk(seconds: 0, minutes: 0, hours: 0, days: 1, weeks: 0, months: 0, years: 0)
+            let tomorrow = today + oneDayChunk
+            
+            let interval = DateInterval(start: now, end: tomorrow)
+
+            return events.filter { event in
+                var dateIterator = event.dates.makeIterator()
+                while let (startEventDate, _) = dateIterator.next(),
+                    startEventDate < tomorrow {
+                        if interval.contains(startEventDate) {
+                            return true
+                        }
+                }
+                return false
+            }
+        }
+        .onSuccess { calendarEvents in
+            if calendarEvents.isEmpty {
+                self.state = .noEvents(CalendarOverviewViewController.noEventsMessage)
+            } else {
+                let firstEvent = calendarEvents[0]
+                let secondEvent = calendarEvents.count > 1 ? calendarEvents[1] : nil
+                self.state = .events(firstEvent, secondEvent)
+            }
+        }
+        .onFailure { error in
+            print("Failed to synchronize events: \(error.description)")
+        }
+        
+        /*
         let syncEvents: (EKCalendar?) -> Void = { someCalendar in
             guard let calendar = someCalendar else {
                 log.error("Failed to retrieve Schul-Cloud calendar")
@@ -81,6 +165,7 @@ class CalendarOverviewViewController: UIViewController {
         } else {
             CalendarHelper.initializeCalendar(on: self, completion: syncEvents)
         }
+        */
     }
 
     private func updateEvents() {
@@ -124,20 +209,20 @@ class CalendarOverviewViewController: UIViewController {
             dateFormatter.timeStyle = .short
 
             // set current event labels
-            self.currentEventName.text = currentEvent.title
-            self.currentEventDate.text = dateFormatter.string(from: currentEvent.startDate)
-            self.currentEventLocation.text = currentEvent.location
+            self.currentEventName.text = currentEvent.displayTitle
+            self.currentEventDate.text = dateFormatter.string(from: currentEvent.displayStartDate)
+            self.currentEventLocation.text = currentEvent.displayLocation
 
             // set progress bar
             let now = Date().dateInUTCTimeZone()
-            let progress = now.timeIntervalSince(currentEvent.startDate) / currentEvent.endDate.timeIntervalSince(currentEvent.startDate)
+            let progress = now.timeIntervalSince(currentEvent.displayStartDate) / currentEvent.displayEndDate.timeIntervalSince(currentEvent.displayStartDate)
             self.currentEventProgress.progress = Float(progress)
 
             // set next event labels
             if let nextEvent = someNextEvent {
-                self.nextEventName.text = nextEvent.title
-                self.nextEventDate.text = dateFormatter.string(from: nextEvent.startDate.dateInCurrentTimeZone())
-                self.nextEventLocation.text = nextEvent.location
+                self.nextEventName.text = nextEvent.displayTitle
+                self.nextEventDate.text = dateFormatter.string(from: nextEvent.displayStartDate.dateInCurrentTimeZone())
+                self.nextEventLocation.text = nextEvent.displayLocation
                 self.nextEventDetails.isHidden = false
             } else {
                 self.nextEventName.text = "keine weiteren Termine"

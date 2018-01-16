@@ -88,10 +88,10 @@ extension InternalCalendarEvent {
                 internalEvent.rdayOfTheWeek = isValidDayOfTheWeek(remoteString: dayOfTheWeek) ? dayOfTheWeek : nil
                 
                 internalEvent.rendDate = try? rrattributes.value(for: "until")
-                internalEvent.rinterval = try! rrattributes.value(for: "interval") ?? 0
+                internalEvent.rinterval = try! rrattributes.value(for: "interval") ?? Int32.max
             }
             
-            let courseId: String = try attributes.value(for: "x-sc-courseId")
+            let courseId: String? = try attributes.value(for: "x-sc-courseId")
             let fetchingCourse = internalEvent.fetchCourse(by: courseId, context: context)
             
             return fetchingCourse.onErrorLogAndRecover(with: Void()).flatMap(object: internalEvent)
@@ -103,7 +103,8 @@ extension InternalCalendarEvent {
         }
     }
     
-    func fetchCourse(by id: String, context: NSManagedObjectContext) -> Future<Void, SCError> {
+    func fetchCourse(by id: String?, context: NSManagedObjectContext) -> Future<Void, SCError> {
+        guard let id = id else { return Future(value: Void() )}
         return Course.fetchQueue.sync {
             return Course.fetch(by: id, inContext: context).flatMap { fetchedCourse -> Future<Void, SCError> in
                 self.course = fetchedCourse

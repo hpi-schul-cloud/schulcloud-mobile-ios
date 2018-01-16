@@ -10,6 +10,7 @@ import Foundation
 import BrightFutures
 import CoreData
 import DateToolsSwift
+import Alamofire
 
 extension InternalCalendarEvent {
     var calendarEvent : CalendarEvent {
@@ -24,11 +25,12 @@ public struct CalendarEventHelper {
         let privateMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         privateMOC.parent = managedObjectContext
         
-        return ApiHelper.request("calendar", parameters: ["all":true]).jsonArrayFuture(keyPath: nil)
+        let parameters : Parameters = ["all":true]
+        return ApiHelper.request("calendar", parameters: parameters).jsonArrayFuture(keyPath: nil)
             //parse remote string into local model
             .flatMap(privateMOC.perform, f: { $0.map{InternalCalendarEvent.upsert(inContext: privateMOC, object: $0)}.sequence() })
             .flatMap(privateMOC.perform, f: { dbItems -> Future<Void, SCError> in
-               
+                
                 //remove unused event
                 let ids = dbItems.map { $0.id }
                 do {
@@ -42,25 +44,13 @@ public struct CalendarEventHelper {
                 }
             })
             .flatMap { _ -> Future<Void, SCError> in
-                // save new inseeted
+                // save new inserted
                 return save(privateContext: privateMOC)
             }
             .flatMap { _ -> Future<[CalendarEvent], SCError> in
                 // get local calendar event
                 return fetchCalendarEvent(inContext: privateMOC)
             }
-
-         /* TODO: Do I do this processing here
-         .andThen { result in
-         if let calendarEvents = result.value {
-         //store events in local cache
-         }
-         }
-         .andThen { _ in
-         // Send notification that local cache is avaible
-         NotificationCenter.default.post(name: Notification.Name(rawValue: CalendarEvent.didFinishedProcessingEventName), object: nil)
-         }
-         */
     }
     
     static func fetchCalendarEvent(inContext context: NSManagedObjectContext) -> Future<[CalendarEvent], SCError> {
@@ -73,7 +63,6 @@ public struct CalendarEventHelper {
             return Future(error: .database(error.localizedDescription))
         }
     }
-    
 }
 
 struct CalendarEvent {
@@ -155,19 +144,48 @@ struct CalendarEvent {
         title = internalEvent.title
         description = internalEvent.desc
         location = internalEvent.location
-        start = internalEvent.start as Date
-        end = internalEvent.end as Date
-        
+
         if  let rfrequency = internalEvent.rfrequency,
             let frequency = RecurenceRule.Frequency(remoteString: rfrequency),
             let rdayOfWeek = internalEvent.rdayOfTheWeek,
             let dayOfWeek = RecurenceRule.DayOfTheWeek(remoteString: rdayOfWeek) {
             
-            recurenceRule = RecurenceRule(frequency: frequency,
+            let internalStartDate = internalEvent.start as Date
+            let internalEndDate = internalEvent.end as Date
+            
+            let internalEventWeekDay = internalStartDate.weekday
+            let dayOfWeekIndex : Int = {
+                switch dayOfWeek {
+                case .sunday:
+                    return 8
+                case .monday:
+                    return 2
+                case .tuesday:
+                    return 3
+                case .wednesday:
+                    return 4
+                case .thursday:
+                    return 5
+                case .friday:
+                    return 6
+                case .saturday:
+                    return 7
+                }
+            }()
+            
+            var dateComponent = DateComponents()
+            dateComponent.day = dayOfWeekIndex - internalEventWeekDay
+            
+            start = Calendar.current.date(byAdding: dateComponent, to: internalStartDate)!
+            end = Calendar.current.date(byAdding: dateComponent, to: internalEndDate)!
+                
+                recurenceRule = RecurenceRule(frequency: frequency,
                                           dayOfTheWeek: dayOfWeek,
                                           endDate:internalEvent.rendDate as Date?,
                                           interval: Int(internalEvent.rinterval))
         } else {
+            start = internalEvent.start as Date
+            end = internalEvent.end as Date
             recurenceRule = nil
         }
     }
@@ -201,7 +219,6 @@ extension CalendarEvent {
         }
         
         mutating func next() -> (Date, Date)? {
-            
             guard self.iteration >= sequence.calculatedDate.count else {
                 return sequence.calculatedDate[self.iteration]
             }
@@ -210,11 +227,10 @@ extension CalendarEvent {
             // if non recurring event
             if event.recurenceRule == nil && iteration > 0 { return nil }
             // if we itereated more that the interval
-            if let interval = event.recurenceRule?.interval, interval <= self.iteration { return nil }
+            if event.recurenceRule?.endDate == nil, let interval = event.recurenceRule?.interval, interval <= self.iteration { return nil }
 
             var dateComponents = DateComponents()
             if let recurenceRule = event.recurenceRule {
-            
                 switch recurenceRule.frequency {
                 case .daily:
                     dateComponents.day = self.iteration
