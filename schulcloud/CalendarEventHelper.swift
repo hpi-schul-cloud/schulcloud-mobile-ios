@@ -75,9 +75,9 @@ struct CalendarEvent {
     let location: String
     let start: Date
     let end: Date
-    let recurenceRule: RecurenceRule?
+    let recurrenceRule: RecurrenceRule?
 
-    struct RecurenceRule {
+    struct RecurrenceRule {
         
         let frequency: Frequency
         let dayOfTheWeek: DayOfTheWeek
@@ -139,25 +139,34 @@ struct CalendarEvent {
         }
     }
     
-    init(internalEvent: InternalCalendarEvent) {
-        id = internalEvent.id
-        title = internalEvent.title
-        description = internalEvent.desc
-        location = internalEvent.location
+    init(id: String, title: String, description: String, location: String, startDate: Date, endDate: Date, rule: RecurrenceRule?) {
+        
+        self.id = id
+        self.title = title
+        self.description = description
+        self.location = location
+        self.recurrenceRule = rule
+        
+        var startDate = startDate
+        var endDate = endDate
+        
+        if let rule = rule {
+            
+            // We receive date that starts at the beginning of the week when a recurring rule is specified
+            // with the dayOfTheWeek property set to tell us which day the event occur
+            // e.g. Start date set to monday 28.08.2017 with dayOfTheWeek == Tuesday, the event effectively starting Tuesday 29.08.2017
+            //
+            // For convenience, when a recurring rule is given, we align the start date to be the actual starting date of the event
 
-        if  let rfrequency = internalEvent.rfrequency,
-            let frequency = RecurenceRule.Frequency(remoteString: rfrequency),
-            let rdayOfWeek = internalEvent.rdayOfTheWeek,
-            let dayOfWeek = RecurenceRule.DayOfTheWeek(remoteString: rdayOfWeek) {
+            let internalEventWeekDay = startDate.weekday
             
-            let internalStartDate = internalEvent.start as Date
-            let internalEndDate = internalEvent.end as Date
+            // we manually assign weekday indexes for each day, sunday being exception because in a german week sunday is the last day and not the first
+            // to make things easy we simply assign sunday 8 (1 + 7days)
             
-            let internalEventWeekDay = internalStartDate.weekday
             let dayOfWeekIndex : Int = {
-                switch dayOfWeek {
+                switch rule.dayOfTheWeek {
                 case .sunday:
-                    return 8
+                    return 8 // is because 1
                 case .monday:
                     return 2
                 case .tuesday:
@@ -174,20 +183,42 @@ struct CalendarEvent {
             }()
             
             var dateComponent = DateComponents()
-            dateComponent.day = dayOfWeekIndex - internalEventWeekDay
+            dateComponent.day = dayOfWeekIndex - internalEventWeekDay // calculate how many days to move foward the dates
             
-            start = Calendar.current.date(byAdding: dateComponent, to: internalStartDate)!
-            end = Calendar.current.date(byAdding: dateComponent, to: internalEndDate)!
-                
-                recurenceRule = RecurenceRule(frequency: frequency,
-                                          dayOfTheWeek: dayOfWeek,
-                                          endDate:internalEvent.rendDate as Date?,
-                                          interval: Int(internalEvent.rinterval))
-        } else {
-            start = internalEvent.start as Date
-            end = internalEvent.end as Date
-            recurenceRule = nil
+            startDate = Calendar.current.date(byAdding: dateComponent, to: startDate)!
+            endDate = Calendar.current.date(byAdding: dateComponent, to: endDate)!
         }
+        
+        self.start = startDate
+        self.end = endDate
+        
+
+    }
+    
+    init(internalEvent: InternalCalendarEvent) {
+
+        var rule : RecurrenceRule? = nil
+
+        if  let rfrequency = internalEvent.rfrequency,
+            let frequency = RecurrenceRule.Frequency(remoteString: rfrequency),
+            let rdayOfWeek = internalEvent.rdayOfTheWeek,
+            let dayOfWeek = RecurrenceRule.DayOfTheWeek(remoteString: rdayOfWeek) {
+            
+            //TODO: Test thouroughly and clean up
+
+            rule = RecurrenceRule(frequency: frequency,
+                                           dayOfTheWeek: dayOfWeek,
+                                           endDate:internalEvent.rendDate as Date?,
+                                           interval: Int(internalEvent.rinterval))
+        }
+        
+        self.init(id: internalEvent.id,
+                  title: internalEvent.title,
+                  description: internalEvent.desc,
+                  location: internalEvent.location,
+                  startDate: internalEvent.start as Date,
+                  endDate: internalEvent.end as Date,
+                  rule: rule)
     }
 }
 
@@ -225,12 +256,12 @@ extension CalendarEvent {
         
             let event = sequence.calendarEvent
             // if non recurring event
-            if event.recurenceRule == nil && iteration > 0 { return nil }
+            if event.recurrenceRule == nil && iteration > 0 { return nil }
             // if we itereated more that the interval
-            if event.recurenceRule?.endDate == nil, let interval = event.recurenceRule?.interval, interval <= self.iteration { return nil }
+            if event.recurrenceRule?.endDate == nil, let interval = event.recurrenceRule?.interval, interval <= self.iteration { return nil }
 
             var dateComponents = DateComponents()
-            if let recurenceRule = event.recurenceRule {
+            if let recurenceRule = event.recurrenceRule {
                 switch recurenceRule.frequency {
                 case .daily:
                     dateComponents.day = self.iteration
@@ -249,7 +280,7 @@ extension CalendarEvent {
                     return nil
             }
             
-            if let recurenceEndDate = event.recurenceRule?.endDate,
+            if let recurenceEndDate = event.recurrenceRule?.endDate,
                 computedStartDate > recurenceEndDate {
                 return nil
             }

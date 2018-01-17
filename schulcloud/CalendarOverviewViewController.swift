@@ -134,15 +134,7 @@ class CalendarOverviewViewController: UIViewController {
                 return false
             }
         }
-        .onSuccess { calendarEvents in
-            if calendarEvents.isEmpty {
-                self.state = .noEvents(CalendarOverviewViewController.noEventsMessage)
-            } else {
-                let firstEvent = calendarEvents[0]
-                let secondEvent = calendarEvents.count > 1 ? calendarEvents[1] : nil
-                self.state = .events(firstEvent, secondEvent)
-            }
-        }
+        .onSuccess { self.updateStartWith(events: $0) }
         .onFailure { error in
             print("Failed to synchronize events: \(error.description)")
         }
@@ -166,6 +158,16 @@ class CalendarOverviewViewController: UIViewController {
             CalendarHelper.initializeCalendar(on: self, completion: syncEvents)
         }
         */
+    }
+
+    private func updateStartWith(events: [CalendarEvent]) {
+        if events.isEmpty {
+            self.state = .noEvents(CalendarOverviewViewController.noEventsMessage)
+        } else {
+            let firstEvent = events[0]
+            let secondEvent = events.count > 1 ? events[1] : nil
+            self.state = .events(firstEvent, secondEvent)
+        }
     }
 
     private func updateEvents() {

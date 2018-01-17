@@ -11,7 +11,7 @@ import XCTest
 
 
 extension CalendarEvent {
-    init(start: Date, end: Date, rule: RecurenceRule?) {
+    init(start: Date, end: Date, rule: RecurrenceRule?) {
         self.id = "ID"
         self.title = "TITLE"
         self.description = "DESC"
@@ -59,7 +59,7 @@ class CalendarEventHelperTests: XCTestCase {
     func testThatItGeneratesDateUntilEndRecurringRule() {
 
         let (start, end) = makeDatePair("01.10.2017 15:00", "01.10.2017 16:00")
-        let rule = CalendarEvent.RecurenceRule(frequency: .daily, dayOfTheWeek: .monday, endDate: nil, interval: Int.max)
+        let rule = CalendarEvent.RecurrenceRule(frequency: .daily, dayOfTheWeek: .monday, endDate: nil, interval: Int.max)
         
         let event = CalendarEvent(start: start, end: end, rule: rule)
         
@@ -79,7 +79,7 @@ class CalendarEventHelperTests: XCTestCase {
         let (start, end) = makeDatePair("01.10.2017 15:00","01.10.2017 16:00")
         let interval = 5
         
-        let rule = CalendarEvent.RecurenceRule(frequency: .daily, dayOfTheWeek: .monday, endDate: nil, interval: interval)
+        let rule = CalendarEvent.RecurrenceRule(frequency: .daily, dayOfTheWeek: .monday, endDate: nil, interval: interval)
         
         let event = CalendarEvent(start: start, end: end, rule: rule)
         
@@ -96,7 +96,7 @@ class CalendarEventHelperTests: XCTestCase {
         
         let (start, end) = makeDatePair("01.10.2017 15:00", "01.10.2017 16:00")
 
-        let dailyRule = CalendarEvent.RecurenceRule(frequency: .daily, dayOfTheWeek: .monday, endDate: nil, interval: Int.max)
+        let dailyRule = CalendarEvent.RecurrenceRule(frequency: .daily, dayOfTheWeek: .monday, endDate: nil, interval: Int.max)
         let dailyEvent = CalendarEvent(start: start, end: end, rule: dailyRule)
         
         var dailyEventIterator = dailyEvent.dates.makeIterator()
@@ -110,7 +110,7 @@ class CalendarEventHelperTests: XCTestCase {
         
         let (start, end) = makeDatePair("01.10.2017 15:00","01.10.2017 16:00")
         
-        let weeklyRule = CalendarEvent.RecurenceRule(frequency: .weekly, dayOfTheWeek: .monday, endDate: nil, interval: Int.max)
+        let weeklyRule = CalendarEvent.RecurrenceRule(frequency: .weekly, dayOfTheWeek: .monday, endDate: nil, interval: Int.max)
         let weeklyEvent = CalendarEvent(start: start, end: end, rule: weeklyRule)
         
         var weeklyEventIterator = weeklyEvent.dates.makeIterator()
@@ -125,7 +125,7 @@ class CalendarEventHelperTests: XCTestCase {
         
         let (start, end) = makeDatePair("01.10.2017 15:00","01.10.2017 16:00")
         
-        let monthlyRule = CalendarEvent.RecurenceRule(frequency: .monthly, dayOfTheWeek: .monday, endDate: nil, interval: Int.max)
+        let monthlyRule = CalendarEvent.RecurrenceRule(frequency: .monthly, dayOfTheWeek: .monday, endDate: nil, interval: Int.max)
         let monthlyEvent = CalendarEvent(start: start, end: end, rule: monthlyRule)
         
         var monthlyEventIterator = monthlyEvent.dates.makeIterator()
@@ -140,7 +140,7 @@ class CalendarEventHelperTests: XCTestCase {
 
         let (start, end) = makeDatePair("01.10.2017 15:00","01.10.2017 16:00")
         
-        let yearlyRule = CalendarEvent.RecurenceRule(frequency: .yearly, dayOfTheWeek: .monday, endDate: nil, interval: Int.max)
+        let yearlyRule = CalendarEvent.RecurrenceRule(frequency: .yearly, dayOfTheWeek: .monday, endDate: nil, interval: Int.max)
         let yearlyEvent = CalendarEvent(start: start, end: end, rule: yearlyRule)
         
         var yearlyEventIterator = yearlyEvent.dates.makeIterator()
