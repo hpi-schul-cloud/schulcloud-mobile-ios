@@ -243,6 +243,7 @@ struct CalendarEvent {
 // MARK: Date sequence for event
 extension CalendarEvent {
     
+    // TODO: Refactor sequence generation to generate new CalendarEvent instead of Dates pair
     var dates : EventSequence {
         return EventSequence(calendarEvent: self, calculatedDate: [])
     }
