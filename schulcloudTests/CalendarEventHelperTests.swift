@@ -66,6 +66,7 @@ class CalendarEventHelperTests: XCTestCase {
         XCTAssertEqual(startCompo.day, 1)
         XCTAssertEqual(endCompo.day, 1)
         
+        
         rule = CalendarEvent.RecurrenceRule(frequency: .monthly, dayOfTheWeek: .thursday, endDate: nil, interval: 10)
         event = CalendarEvent(start: start, end: end, rule: rule)
         
@@ -74,6 +75,16 @@ class CalendarEventHelperTests: XCTestCase {
         
         XCTAssertEqual(startCompo.day, 3)
         XCTAssertEqual(endCompo.day, 3)
+
+        
+        rule = CalendarEvent.RecurrenceRule(frequency: .monthly, dayOfTheWeek: .sunday, endDate: nil, interval: 10)
+        event = CalendarEvent(start: start, end: end, rule: rule)
+        
+        startCompo = Calendar.current.dateComponents([.day], from: start, to: event.start)
+        endCompo = Calendar.current.dateComponents([.day], from: end, to: event.end)
+        
+        XCTAssertEqual(startCompo.day, 6)
+        XCTAssertEqual(endCompo.day, 6)
     }
     
     // MARK: Recurrence rule tests
