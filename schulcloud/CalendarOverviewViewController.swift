@@ -110,31 +110,25 @@ class CalendarOverviewViewController: UIViewController {
         self.updateEvents()
     }
 
+    var todayInterval : DateInterval = {
+        
+        let now = Date()
+        let today = Date(year:now.year, month: now.month, day: now.day)
+        let oneDayChunk = TimeChunk(seconds: 0, minutes: 0, hours: 0, days: 1, weeks: 0, months: 0, years: 0)
+        let tomorrow = today + oneDayChunk
+        
+        return DateInterval(start: now, end: tomorrow)
+    }()
+    
     private func syncEvents() {
         
         CalendarEventHelper.synchronizeEvent()
         .map { events -> [CalendarEvent] in
         
             // filter all event left coming up today
-            let now = Date()
-            let today = Date(year:now.year, month: now.month, day: now.day)
-            let oneDayChunk = TimeChunk(seconds: 0, minutes: 0, hours: 0, days: 1, weeks: 0, months: 0, years: 0)
-            let tomorrow = today + oneDayChunk
-            
-            let interval = DateInterval(start: now, end: tomorrow)
-
-            return events.filter { event in
-                var dateIterator = event.dates.makeIterator()
-                while let (startEventDate, _) = dateIterator.next(),
-                    startEventDate < tomorrow {
-                        if interval.contains(startEventDate) {
-                            return true
-                        }
-                }
-                return false
-            }
+            return CalendarEventHelper.calendarEvents(events: events, inInterval: self.todayInterval)
         }
-        .onSuccess { self.updateStartWith(events: $0) }
+        .onSuccess { self.updateStateWith(events: $0) }
         .onFailure { error in
             print("Failed to synchronize events: \(error.description)")
         }
@@ -160,7 +154,7 @@ class CalendarOverviewViewController: UIViewController {
         */
     }
 
-    private func updateStartWith(events: [CalendarEvent]) {
+    private func updateStateWith(events: [CalendarEvent]) {
         if events.isEmpty {
             self.state = .noEvents(CalendarOverviewViewController.noEventsMessage)
         } else {
@@ -171,6 +165,16 @@ class CalendarOverviewViewController: UIViewController {
     }
 
     private func updateEvents() {
+        
+        CalendarEventHelper.fetchCalendarEvent(inContext: managedObjectContext)
+        .onSuccess { events in
+            
+            let filteredEvents = CalendarEventHelper.calendarEvents(events: events, inInterval: self.todayInterval)
+            self.updateStateWith(events: filteredEvents)
+        }
+        
+        return;
+        
         guard EKEventStore.authorizationStatus(for: .event) == .authorized else { return }
 
         let fetchEvents: (EKCalendar?) -> Void = { someCalendar in

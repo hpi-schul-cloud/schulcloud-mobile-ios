@@ -63,6 +63,23 @@ public struct CalendarEventHelper {
             return Future(error: .database(error.localizedDescription))
         }
     }
+    
+    static func calendarEvents(events: [CalendarEvent], inInterval interval: DateInterval) -> [CalendarEvent] {
+       
+        return events.filter { event in
+            var dateIterator = event.dates.makeIterator()
+            while let (startEventDate, endEventDate) = dateIterator.next(),
+                startEventDate < interval.end {
+                    
+                    let eventInterval = DateInterval(start: startEventDate, end: endEventDate)
+                    if  interval.intersects(eventInterval) {
+                        return true
+                    }
+            }
+            return false
+        }
+        
+    }
 }
 
 struct CalendarEvent {
@@ -163,7 +180,7 @@ struct CalendarEvent {
             // we manually assign weekday indexes for each day, sunday being exception because in a german week sunday is the last day and not the first
             // to make things easy we simply assign sunday 8 (1 + 7days)
             
-            let dayOfWeekIndex : Int = {
+            var dayOfWeekIndex : Int = {
                 switch rule.dayOfTheWeek {
                 case .sunday:
                     return 8 // is because 1
@@ -183,6 +200,7 @@ struct CalendarEvent {
             }()
             
             var dateComponent = DateComponents()
+            if dayOfWeekIndex < internalEventWeekDay { dayOfWeekIndex += 7 }
             dateComponent.day = dayOfWeekIndex - internalEventWeekDay // calculate how many days to move foward the dates
             
             startDate = Calendar.current.date(byAdding: dateComponent, to: startDate)!
@@ -248,7 +266,7 @@ extension CalendarEvent {
         init(_ sequence: EventSequence) {
             self.sequence = sequence
         }
-        
+
         mutating func next() -> (Date, Date)? {
             guard self.iteration >= sequence.calculatedDate.count else {
                 return sequence.calculatedDate[self.iteration]
