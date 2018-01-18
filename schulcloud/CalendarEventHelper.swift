@@ -66,18 +66,19 @@ public struct CalendarEventHelper {
     
     static func calendarEvents(events: [CalendarEvent], inInterval interval: DateInterval) -> [CalendarEvent] {
        
-        return events.filter { event in
+        return events.map { event in
             var dateIterator = event.dates.makeIterator()
-            while let (startEventDate, endEventDate) = dateIterator.next(),
-                startEventDate < interval.end {
+            while let event = dateIterator.next(),
+                event.start < interval.end {
                     
-                    let eventInterval = DateInterval(start: startEventDate, end: endEventDate)
+                    let eventInterval = DateInterval(start: event.start, end: event.end)
                     if  interval.intersects(eventInterval) {
-                        return true
+                        return event
                     }
             }
-            return false
+            return nil
         }
+        .flatMap { $0 } //apply tranform [CalendarEvent?] -> [CalendarEvent]
         
     }
 }
@@ -200,7 +201,7 @@ struct CalendarEvent {
             }()
             
             var dateComponent = DateComponents()
-            if dayOfWeekIndex < internalEventWeekDay { dayOfWeekIndex += 7 }
+            if dayOfWeekIndex < internalEventWeekDay { dayOfWeekIndex += 7 } // we always move to the next day with dayOfWeek (never go back in time to create event
             dateComponent.day = dayOfWeekIndex - internalEventWeekDay // calculate how many days to move foward the dates
             
             startDate = Calendar.current.date(byAdding: dateComponent, to: startDate)!
@@ -250,16 +251,16 @@ extension CalendarEvent {
 
     struct EventSequence : Sequence {
         
-        let calendarEvent : CalendarEvent
-        var calculatedDate: [(Date, Date)]
+        var calendarEvent : CalendarEvent
+        var calculatedDate: [CalendarEvent]
         
         func makeIterator() -> EventDateIterator {
             return EventDateIterator(self)
         }
-        
     }
+    
     struct EventDateIterator : IteratorProtocol {
-        typealias Element = (Date, Date)
+        typealias Element = CalendarEvent
     
         var sequence : EventSequence
         var iteration: Int = 0
@@ -268,7 +269,7 @@ extension CalendarEvent {
             self.sequence = sequence
         }
 
-        mutating func next() -> (Date, Date)? {
+        mutating func next() -> CalendarEvent? {
             guard self.iteration >= sequence.calculatedDate.count else {
                 return sequence.calculatedDate[self.iteration]
             }
@@ -304,7 +305,14 @@ extension CalendarEvent {
                 return nil
             }
             
-            let result = (computedStartDate, computedEndDate)
+            let result = CalendarEvent(id: event.id,
+                                       title: event.title,
+                                       description: event.description,
+                                       location: event.location,
+                                       startDate: computedStartDate,
+                                       endDate: computedEndDate,
+                                       rule: event.recurrenceRule)
+            
             sequence.calculatedDate.append(result)
             
             self.iteration += 1
