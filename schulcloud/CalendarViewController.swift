@@ -47,7 +47,7 @@ class CalendarViewController: DayViewController {
         let endDate = startDate + oneDayLater
         let interval = DateInterval(start: startDate, end: endDate)
 
-        return CalendarEventHelper.calendarEvents(events: self.calendarEvents, inInterval: interval).map { $0.calendarKitEvent }
+        return self.calendarEvents.filteredEvents(inInterval: interval).map { $0.calendarKitEvent }
     }
 }
 

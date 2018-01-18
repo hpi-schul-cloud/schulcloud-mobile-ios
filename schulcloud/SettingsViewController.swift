@@ -12,7 +12,8 @@ class SettingsViewController: UITableViewController {
 
     @IBOutlet var logoutCell: UITableViewCell!
     @IBOutlet weak var userNameLabel: UILabel!
-
+    @IBOutlet weak var synchronizeCalendarCell: UITableViewCell!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,6 +32,25 @@ class SettingsViewController: UITableViewController {
             let loginViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "login")
             present(loginViewController, animated: true, completion: nil)
         }
+        
+        if selectedCell == synchronizeCalendarCell {
+            CalendarSettings.eventKitSynchronized = !CalendarSettings.eventKitSynchronized
+        }
     }
 
+}
+
+struct CalendarSettings {
+    
+    private static var eventKitSynchronizedKey = "org.schulcloud.eventKitSynchronizedKey"
+    static var eventKitSynchronized : Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: eventKitSynchronizedKey)
+        }
+        
+        set {
+            UserDefaults.standard.set( newValue, forKey: eventKitSynchronizedKey)
+            UserDefaults.standard.synchronize()
+        }
+    }
 }

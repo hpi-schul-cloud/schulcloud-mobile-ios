@@ -95,6 +95,7 @@
 		CE8C93722007729D00153591 /* InternalCalendarEvent+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8C93702007729C00153591 /* InternalCalendarEvent+CoreDataClass.swift */; };
 		CE8C93762007C1FF00153591 /* InternalCalendarEvent+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8C93752007C1FE00153591 /* InternalCalendarEvent+.swift */; };
 		CEB0027D2008BF9C007084C9 /* CalendarEventHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB0027C2008BF9C007084C9 /* CalendarEventHelper.swift */; };
+		CEF363F22010D9B300793D63 /* CalendarEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF363F12010D9B300793D63 /* CalendarEvent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -225,6 +226,7 @@
 		CE8C93702007729C00153591 /* InternalCalendarEvent+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InternalCalendarEvent+CoreDataClass.swift"; sourceTree = "<group>"; };
 		CE8C93752007C1FE00153591 /* InternalCalendarEvent+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "InternalCalendarEvent+.swift"; sourceTree = "<group>"; };
 		CEB0027C2008BF9C007084C9 /* CalendarEventHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarEventHelper.swift; sourceTree = "<group>"; };
+		CEF363F12010D9B300793D63 /* CalendarEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEvent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -517,6 +519,7 @@
 				C3418B5F1ECDAB9F00280E62 /* FileHelper.swift */,
 				5069DA0A1F4441AF00210EB9 /* CalendarHelper.swift */,
 				CEB0027C2008BF9C007084C9 /* CalendarEventHelper.swift */,
+				CEF363F12010D9B300793D63 /* CalendarEvent.swift */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -761,6 +764,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEF363F22010D9B300793D63 /* CalendarEvent.swift in Sources */,
 				CE8C93712007729D00153591 /* InternalCalendarEvent+CoreDataProperties.swift in Sources */,
 				3D45737B1EE02065009A30E2 /* CalendarViewController.swift in Sources */,
 				509A93381F541513001167DE /* DashboardViewController.swift in Sources */,
