@@ -48,6 +48,19 @@ extension CalendarEventHelper {
         var calendarTitle : String = "Schul-Cloud"
     }
     
+    private static func update(event: inout EKEvent, with calendarEvent: CalendarEvent) {
+        
+        event.title = calendarEvent.title
+        event.notes = calendarEvent.description
+        event.location = calendarEvent.location
+        event.startDate = calendarEvent.start
+        event.endDate = calendarEvent.end
+        event.recurrenceRules =  {
+            guard let rule = calendarEvent.recurrenceRule else { return nil }
+            return [rule.ekRecurrenceRule]
+        }()
+    }
+    
     private static func requestCalendarPermission() -> Future<Void, SCError> {
         let promise = Promise<Void, SCError>()
         
@@ -100,6 +113,7 @@ extension CalendarEventHelper {
         return Future(value:calendar)
     }
 
+    // This function pushes new or update events to the calander
     static func pushEventsToCalendar(calendarEvents: [CalendarEvent]) -> Future<Void, SCError> {
         
         let promise : Promise<Void, SCError> = Promise()
@@ -111,30 +125,37 @@ extension CalendarEventHelper {
         .onSuccess { calendar in
             
             for var calendarEvent in calendarEvents {
-                let event = EKEvent(eventStore: eventStore)
-                event.calendar = calendar
                 
-                event.title = calendarEvent.title
-                event.notes = calendarEvent.description
-                event.location = calendarEvent.location
-                event.startDate = calendarEvent.start
-                event.endDate = calendarEvent.end
-                event.recurrenceRules =  {
-                    guard let rule = calendarEvent.recurrenceRule else { return nil }
-                    return [rule.ekRecurrenceRule]
-                }()
-                do {
-                    try eventStore.save(event, span: .thisEvent, commit: false)
-                } catch let error {
-                    promise.failure(.other("Cant create EKEvent: \(error.localizedDescription)") )
-                    return;
+                if  let ekEventID = calendarEvent.eventKitID,
+                    var event = eventStore.event(withIdentifier: ekEventID) {
+                    
+                    update(event: &event, with: calendarEvent)
+                    do {
+                        try eventStore.save(event, span: .futureEvents, commit: false)
+                    } catch let error {
+                        promise.failure(.other("Cant create EKEvent: \(error.localizedDescription)") )
+                        return ;
+                    }
+                    calendarEvent.eventKitID = event.eventIdentifier
+                } else {
+                    var event = EKEvent(eventStore: eventStore)
+                    event.calendar = calendar
+                    update(event: &event, with: calendarEvent)
+
+                    do {
+                        try eventStore.save(event, span: .thisEvent, commit: false)
+                    } catch let error {
+                        promise.failure(.other("Cant create EKEvent: \(error.localizedDescription)") )
+                        return ;
+                    }
+                    calendarEvent.eventKitID = event.eventIdentifier
                 }
-                calendarEvent.eventKitID = event.eventIdentifier
             }
             do {
                 try eventStore.commit()
             } catch let error {
                 promise.failure( .other(" Error commiting store after creating events: \(error.localizedDescription)") )
+                return;
             }
             do {
                 try managedObjectContext.save()
@@ -153,7 +174,7 @@ extension CalendarEventHelper {
         let eventsToDelete = eventStore.events(matching: NSPredicate(format: "eventIdentifer in %@", calendarEvents.map { $0.eventKitID }) )
         do {
             for event in eventsToDelete {
-                try eventStore.remove(event, span: EKSpan.futureEvents)
+                try eventStore.remove(event, span: EKSpan.futureEvents, commit: false)
             }
             try eventStore.commit()
             return Future(value: Void() )
