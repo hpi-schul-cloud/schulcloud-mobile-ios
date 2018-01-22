@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import BrightFutures
+
+private var currentEventKitSettings = CalendarEventHelper.EventKitSettings.current
 
 class SettingsViewController: UITableViewController {
 
@@ -23,6 +26,8 @@ class SettingsViewController: UITableViewController {
         }.onFailure { error in
             self.userNameLabel.text = ""
         }
+        
+        self.synchronizeCalendarCell.detailTextLabel!.text = currentEventKitSettings.isSynchonized ? "On" : "Off"
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -34,23 +39,27 @@ class SettingsViewController: UITableViewController {
         }
         
         if selectedCell == synchronizeCalendarCell {
-            CalendarSettings.eventKitSynchronized = !CalendarSettings.eventKitSynchronized
-        }
-    }
-
-}
-
-struct CalendarSettings {
-    
-    private static var eventKitSynchronizedKey = "org.schulcloud.eventKitSynchronizedKey"
-    static var eventKitSynchronized : Bool {
-        get {
-            return UserDefaults.standard.bool(forKey: eventKitSynchronizedKey)
-        }
-        
-        set {
-            UserDefaults.standard.set( newValue, forKey: eventKitSynchronizedKey)
-            UserDefaults.standard.synchronize()
+            let newValue = !currentEventKitSettings.isSynchonized
+            if newValue {
+                CalendarEventHelper.fetchCalendarEvent(inContext: managedObjectContext)
+                .andThen { result in
+                    if let events = result.value {
+                        CalendarEventHelper.pushEventsToCalendar(calendarEvents: events)
+                    }
+                }
+                .onSuccess { _ in
+                    currentEventKitSettings.isSynchonized = true
+                    self.synchronizeCalendarCell.detailTextLabel!.text = "On"
+                }
+                .onFailure { error in
+                    currentEventKitSettings.isSynchonized = false
+                    self.synchronizeCalendarCell.detailTextLabel!.text = "Off"
+                }
+            } else {
+                CalendarEventHelper.deleteSchulcloudCalendar()
+                currentEventKitSettings.isSynchonized = false
+                self.synchronizeCalendarCell.detailTextLabel!.text = "Off"
+            }
         }
     }
 }

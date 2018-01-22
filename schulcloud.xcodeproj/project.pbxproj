@@ -95,6 +95,7 @@
 		CE8C93722007729D00153591 /* InternalCalendarEvent+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8C93702007729C00153591 /* InternalCalendarEvent+CoreDataClass.swift */; };
 		CE8C93762007C1FF00153591 /* InternalCalendarEvent+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8C93752007C1FE00153591 /* InternalCalendarEvent+.swift */; };
 		CEB0027D2008BF9C007084C9 /* CalendarEventHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB0027C2008BF9C007084C9 /* CalendarEventHelper.swift */; };
+		CEC66C742011E92300B785F8 /* CalendarEventHelper+EventKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC66C732011E92300B785F8 /* CalendarEventHelper+EventKit.swift */; };
 		CEF363F22010D9B300793D63 /* CalendarEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF363F12010D9B300793D63 /* CalendarEvent.swift */; };
 /* End PBXBuildFile section */
 
@@ -226,6 +227,7 @@
 		CE8C93702007729C00153591 /* InternalCalendarEvent+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InternalCalendarEvent+CoreDataClass.swift"; sourceTree = "<group>"; };
 		CE8C93752007C1FE00153591 /* InternalCalendarEvent+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "InternalCalendarEvent+.swift"; sourceTree = "<group>"; };
 		CEB0027C2008BF9C007084C9 /* CalendarEventHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarEventHelper.swift; sourceTree = "<group>"; };
+		CEC66C732011E92300B785F8 /* CalendarEventHelper+EventKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CalendarEventHelper+EventKit.swift"; sourceTree = "<group>"; };
 		CEF363F12010D9B300793D63 /* CalendarEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEvent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -519,6 +521,7 @@
 				C3418B5F1ECDAB9F00280E62 /* FileHelper.swift */,
 				5069DA0A1F4441AF00210EB9 /* CalendarHelper.swift */,
 				CEB0027C2008BF9C007084C9 /* CalendarEventHelper.swift */,
+				CEC66C732011E92300B785F8 /* CalendarEventHelper+EventKit.swift */,
 				CEF363F12010D9B300793D63 /* CalendarEvent.swift */,
 			);
 			name = Data;
@@ -786,6 +789,7 @@
 				C3C080551EE607F6005FA7C3 /* CourseCell.swift in Sources */,
 				C31C842A1ECF553700FA070C /* PreviewManager.swift in Sources */,
 				C3418B6F1ED5CF1F00280E62 /* Date+Marshal.swift in Sources */,
+				CEC66C742011E92300B785F8 /* CalendarEventHelper+EventKit.swift in Sources */,
 				C3A5A9341EBCCE3B00825DBF /* LoginViewController.swift in Sources */,
 				C32870A01EDDBCB000ABA348 /* UserGroup+CoreDataClass.swift in Sources */,
 				506D146F1F56F81D00AA5613 /* UIView+shake.swift in Sources */,

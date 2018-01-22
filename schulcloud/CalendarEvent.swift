@@ -34,7 +34,6 @@ struct CalendarEvent {
             if let objectID = self.internalEventID {
                 let event : InternalCalendarEvent = managedObjectContext.object(with: objectID) as! InternalCalendarEvent
                 event.ekEventId = self.eventKitID
-                try! managedObjectContext.save()
             }
         }
     }
