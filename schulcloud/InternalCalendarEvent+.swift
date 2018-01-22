@@ -88,7 +88,7 @@ extension InternalCalendarEvent {
                 internalEvent.rdayOfTheWeek = isValidDayOfTheWeek(remoteString: dayOfTheWeek) ? dayOfTheWeek : nil
                 
                 internalEvent.rendDate = try? rrattributes.value(for: "until")
-                internalEvent.rinterval = try! rrattributes.value(for: "interval") ?? Int32.max
+                internalEvent.rinterval = try! rrattributes.value(for: "interval") ?? 0
             }
             
             let courseId: String? = try attributes.value(for: "x-sc-courseId")

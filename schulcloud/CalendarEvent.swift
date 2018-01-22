@@ -45,64 +45,25 @@ struct CalendarEvent {
         let endDate: Date?
         let interval: Int
         
-        // TODO: Does this really need to be an Int? can we just keep the string mapping?
-        enum Frequency: Int {
-            case daily
-            case weekly
-            case monthly
-            case yearly
-            
-            init?(remoteString: String) {
-                
-                switch remoteString {
-                case "DAILY":
-                    self = .daily
-                case "WEEKLY":
-                    self = .weekly
-                case "MONTHLY":
-                    self = .monthly
-                case "YEARLY":
-                    self = .yearly
-                default:
-                    return nil
-                }
-            }
+        enum Frequency: String {
+            case daily = "DAILY"
+            case weekly = "WEEKLY"
+            case monthly = "MONTHLY"
+            case yearly = "YEARLY"
         }
         
-        // TODO: Same as the Frequency
-        enum DayOfTheWeek: Int {
-            case monday
-            case tuesday
-            case wednesday
-            case thursday
-            case friday
-            case saturday
-            case sunday
-            
-            init?(remoteString: String) {
-                switch remoteString {
-                case "MO":
-                    self = .monday
-                case "TU":
-                    self = .tuesday
-                case "WE":
-                    self = .wednesday
-                case "TH":
-                    self = .thursday
-                case "FR":
-                    self = .friday
-                case "SA":
-                    self = .saturday
-                case "SU":
-                    self = .sunday
-                default:
-                    return nil
-                }
-            }
+        enum DayOfTheWeek: String {
+            case monday = "MO"
+            case tuesday = "TU"
+            case wednesday = "WE"
+            case thursday = "TH"
+            case friday = "FR"
+            case saturday = "SA"
+            case sunday = "SU"
         }
     }
     
-    init(id: String, title: String, description: String, location: String, startDate: Date, endDate: Date, rule: RecurrenceRule?, internalEventID: NSManagedObjectID?) {
+    init(id: String, title: String, description: String, location: String, startDate: Date, endDate: Date, rule: RecurrenceRule?, internalEventID: NSManagedObjectID?, ekEventID: String?) {
         
         self.id = id
         self.title = title
@@ -110,6 +71,7 @@ struct CalendarEvent {
         self.location = location
         self.recurrenceRule = rule
         self.internalEventID = internalEventID
+        eventKitID = ekEventID
         
         var startDate = startDate
         var endDate = endDate
@@ -163,9 +125,9 @@ struct CalendarEvent {
         var rule : RecurrenceRule? = nil
         
         if  let rfrequency = internalEvent.rfrequency,
-            let frequency = RecurrenceRule.Frequency(remoteString: rfrequency),
+            let frequency = RecurrenceRule.Frequency(rawValue: rfrequency),
             let rdayOfWeek = internalEvent.rdayOfTheWeek,
-            let dayOfWeek = RecurrenceRule.DayOfTheWeek(remoteString: rdayOfWeek) {
+            let dayOfWeek = RecurrenceRule.DayOfTheWeek(rawValue: rdayOfWeek) {
             
             rule = RecurrenceRule(frequency: frequency,
                                   dayOfTheWeek: dayOfWeek,
@@ -180,7 +142,8 @@ struct CalendarEvent {
                   startDate: internalEvent.start as Date,
                   endDate: internalEvent.end as Date,
                   rule: rule,
-                  internalEventID: internalEvent.objectID)
+                  internalEventID: internalEvent.objectID,
+                  ekEventID: internalEvent.ekEventId)
     }
 }
 
@@ -254,7 +217,8 @@ extension CalendarEvent {
                                        startDate: computedStartDate,
                                        endDate: computedEndDate,
                                        rule: event.recurrenceRule,
-                                       internalEventID: event.internalEventID)
+                                       internalEventID: event.internalEventID,
+                                       ekEventID: event.eventKitID)
             
             sequence.calculatedDate.append(result)
             
@@ -280,6 +244,8 @@ extension Array where Array.Element == CalendarEvent {
             return nil
         }
         .flatMap { $0 } //apply tranform [CalendarEvent?] -> [CalendarEvent]
+        .sorted(by: { (event1, event2) -> Bool in
+            event1.start < event2.start
+        })
     }
-    
 }

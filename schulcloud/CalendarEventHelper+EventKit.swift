@@ -11,10 +11,11 @@ import EventKit
 import BrightFutures
 
 
-// Extension with EvenKit convenience
+// MARK: Extension with EvenKit convenience
 extension CalendarEventHelper {
     
     private static var eventStore: EKEventStore = EKEventStore()
+    private static var calendar : EKCalendar?
 
     private struct Keys {
         static let isSynchonized = "org.schul-cloud.calendar.eventKitIsSynchonized"
@@ -44,12 +45,10 @@ extension CalendarEventHelper {
                 UserDefaults.standard.synchronize()
             }
         }
-        
         var calendarTitle : String = "Schul-Cloud"
     }
     
-    private static func update(event: inout EKEvent, with calendarEvent: CalendarEvent) {
-        
+    private static func update(event: EKEvent, with calendarEvent: CalendarEvent) {
         event.title = calendarEvent.title
         event.notes = calendarEvent.description
         event.location = calendarEvent.location
@@ -66,10 +65,12 @@ extension CalendarEventHelper {
         
         switch EKEventStore.authorizationStatus(for: .event) {
         case .authorized:
+            eventStore.reset()
             promise.success()
         case .notDetermined:
             self.eventStore.requestAccess(to: .event) { (granted, error) in
                 if granted && error == nil {
+                    eventStore.reset()
                     promise.success()
                 } else {
                     promise.failure(SCError.other("Missing Calendar Permission: \(error!.localizedDescription)"))
@@ -78,24 +79,27 @@ extension CalendarEventHelper {
         default:
             promise.failure(SCError.other("Cannot request permision for calendar"))
         }
-        
         return promise.future
     }
 
     
     private static func fetchOrCreateCalendar() -> Future<EKCalendar, SCError> {
         
+        if let calendar = self.calendar { return Future(value: calendar) }
+        
         if let calendarIdentifier = EventKitSettings.current.calendarIdentifier,
            let foundCalendar = eventStore.calendar(withIdentifier: calendarIdentifier) {
+            self.calendar = foundCalendar
             return Future(value: foundCalendar)
         }
         
         if let calendar = eventStore.calendars(for: .event).first (where:  { $0.title == EventKitSettings.current.calendarTitle }) {
+            self.calendar = calendar
             return Future(value: calendar)
         }
         
         guard let source = eventStore.sources.first(where: { return $0.sourceType == EKSourceType.subscribed }) else {
-            return Future(error: SCError.other("Cannot create calendar: no source"))
+            return Future( error: .other("Can't find source for calendar") )
         }
         
         let calendar = EKCalendar(for: .event, eventStore: self.eventStore)
@@ -105,19 +109,19 @@ extension CalendarEventHelper {
         do {
             try self.eventStore.saveCalendar(calendar, commit: true)
         } catch {
-            return Future(error: SCError.other("Cannot create calendar: cant save new calendar"))
+            return Future( error: .other("Can't find source for calendar") )
         }
         
         EventKitSettings.current.calendarIdentifier = calendar.calendarIdentifier
 
-        return Future(value:calendar)
+        self.calendar = calendar
+        return Future(value: calendar)
     }
 
     // This function pushes new or update events to the calander
     static func pushEventsToCalendar(calendarEvents: [CalendarEvent]) -> Future<Void, SCError> {
         
         let promise : Promise<Void, SCError> = Promise()
-        
         let calendarEvents = calendarEvents
         
         requestCalendarPermission()
@@ -125,47 +129,44 @@ extension CalendarEventHelper {
         .onSuccess { calendar in
             
             for var calendarEvent in calendarEvents {
+                var event : EKEvent
+                var span : EKSpan
                 
                 if  let ekEventID = calendarEvent.eventKitID,
-                    var event = eventStore.event(withIdentifier: ekEventID) {
+                    let foundEvent = eventStore.event(withIdentifier: ekEventID) {
+                    event = foundEvent
+                    span = .futureEvents
                     
-                    update(event: &event, with: calendarEvent)
-                    do {
-                        try eventStore.save(event, span: .futureEvents, commit: false)
-                    } catch let error {
-                        promise.failure(.other("Cant create EKEvent: \(error.localizedDescription)") )
-                        return ;
-                    }
-                    calendarEvent.eventKitID = event.eventIdentifier
                 } else {
-                    var event = EKEvent(eventStore: eventStore)
+                    event = EKEvent(eventStore: eventStore)
                     event.calendar = calendar
-                    update(event: &event, with: calendarEvent)
-
-                    do {
-                        try eventStore.save(event, span: .thisEvent, commit: false)
-                    } catch let error {
-                        promise.failure(.other("Cant create EKEvent: \(error.localizedDescription)") )
-                        return ;
-                    }
-                    calendarEvent.eventKitID = event.eventIdentifier
+                    span = .thisEvent
+                    
                 }
+                
+                update(event: event, with: calendarEvent)
+                do {
+                    try eventStore.save(event, span: span, commit: false)
+                } catch let error {
+                    promise.failure(.other("Cant create EKEvent: \(error.localizedDescription)") )
+                    return ;
+                }
+                calendarEvent.eventKitID = event.eventIdentifier
             }
+            
             do {
                 try eventStore.commit()
             } catch let error {
                 promise.failure( .other(" Error commiting store after creating events: \(error.localizedDescription)") )
                 return;
             }
+            
             do {
                 try managedObjectContext.save()
                 promise.success( Void() )
             } catch let error {
                 promise.failure( .database(error.localizedDescription) )
             }
-        }
-        .onFailure { error in
-            promise.failure(error)
         }
         return promise.future
     }
@@ -184,13 +185,14 @@ extension CalendarEventHelper {
     }
     
     static func deleteSchulcloudCalendar() -> Future<Void, SCError> {
-        
         guard let calendarIdentifier = EventKitSettings.current.calendarIdentifier,
-            let calendar = eventStore.calendar(withIdentifier: calendarIdentifier) else { return Future(value: Void() )}
+              let calendar = eventStore.calendar(withIdentifier: calendarIdentifier) else { return Future(value: Void() ) }
 
         let promise : Promise<Void, SCError> = Promise()
         do {
             try eventStore.removeCalendar(calendar, commit: true)
+            EventKitSettings.current.calendarIdentifier = nil
+            self.calendar = nil
         } catch let error {
             promise.failure( SCError.other("Failed to remove calendar:\(error.localizedDescription)") )
         }
@@ -211,6 +213,8 @@ extension CalendarEventHelper {
     }
 }
 
+
+// MARK: Convenience conversion
 extension CalendarEvent.RecurrenceRule {
     var ekRecurrenceRule : EKRecurrenceRule {
         let until: EKRecurrenceEnd?
