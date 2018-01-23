@@ -1,8 +1,8 @@
 //
-//  CalendarEvent+.swift
+//  EventData+.swift
 //  schulcloud
 //
-//  Created by Florian Morel on 11.01.18.
+//  Created by Florian Morel on 23.01.18.
 //  Copyright © 2018 Hasso-Plattner-Institut. All rights reserved.
 //
 
@@ -14,7 +14,7 @@ import DateToolsSwift
 import BrightFutures
 import DateToolsSwift
 
-extension InternalCalendarEvent {
+extension EventData {
     
     static func isValidFrequency(remoteString: String) -> Bool {
         switch remoteString {
@@ -53,10 +53,10 @@ extension InternalCalendarEvent {
         }
     }
     
-    static func upsert(inContext context: NSManagedObjectContext, object: MarshaledObject) -> Future<InternalCalendarEvent, SCError> {
+    static func upsert(inContext context: NSManagedObjectContext, object: MarshaledObject) -> Future<EventData, SCError> {
         
         do {
-            let fetchRequest: NSFetchRequest<InternalCalendarEvent> = InternalCalendarEvent.fetchRequest()
+            let fetchRequest: NSFetchRequest<EventData> = EventData.fetchRequest()
             let id: String = try object.value(for: "id")
             fetchRequest.predicate = NSPredicate(format: "id == %@", id)
             
@@ -66,15 +66,15 @@ extension InternalCalendarEvent {
             let attributes = try object.value(for: "attributes") as JSONObject
             let included = try? object.value(for: "included") as [JSONObject]
             
-            let internalEvent = InternalCalendarEvent(context: context)
+            let eventData = EventData(context: context)
             
-            internalEvent.id = id
-            internalEvent.title = try attributes.value(for: "summary")
-            internalEvent.desc = try attributes.value(for: "description")
-            internalEvent.location = try attributes.value(for: "location")
-            internalEvent.start = (try attributes.value(for: "dtstart") as Date).dateInCurrentTimeZone() as NSDate
-            internalEvent.end = (try attributes.value(for: "dtend") as Date).dateInCurrentTimeZone() as NSDate
-
+            eventData.id = id
+            eventData.title = try attributes.value(for: "summary")
+            eventData.detail = try attributes.value(for: "description")
+            eventData.location = try attributes.value(for: "location")
+            eventData.start = (try attributes.value(for: "dtstart") as Date).dateInCurrentTimeZone() as NSDate
+            eventData.end = (try attributes.value(for: "dtend") as Date).dateInCurrentTimeZone() as NSDate
+            
             if  let includedRules = included,
                 let recurringRuleData = includedRules.first(where: { json in
                     return (json["type"] as? String) == "rrule" && (json["id"] as? String) == "\(id)-rrule"
@@ -83,18 +83,18 @@ extension InternalCalendarEvent {
                 let rrattributes = try recurringRuleData.value(for: "attributes") as JSONObject
                 
                 let frequency: String = try rrattributes.value(for: "freq")
-                internalEvent.rfrequency = isValidFrequency(remoteString: frequency) ? frequency : nil
+                eventData.rrFrequency = isValidFrequency(remoteString: frequency) ? frequency : nil
                 let dayOfTheWeek: String = try rrattributes.value(for: "wkst")
-                internalEvent.rdayOfTheWeek = isValidDayOfTheWeek(remoteString: dayOfTheWeek) ? dayOfTheWeek : nil
+                eventData.rrDayOfWeek = isValidDayOfTheWeek(remoteString: dayOfTheWeek) ? dayOfTheWeek : nil
                 
-                internalEvent.rendDate = try? rrattributes.value(for: "until")
-                internalEvent.rinterval = try! rrattributes.value(for: "interval") ?? 0
+                eventData.rrEndDate = try? rrattributes.value(for: "until")
+                eventData.rrInterval = try! rrattributes.value(for: "interval") ?? 0
             }
             
             let courseId: String? = try attributes.value(for: "x-sc-courseId")
-            let fetchingCourse = internalEvent.fetchCourse(by: courseId, context: context)
+            let fetchingCourse = eventData.fetchCourse(by: courseId, context: context)
             
-            return fetchingCourse.onErrorLogAndRecover(with: Void()).flatMap(object: internalEvent)
+            return fetchingCourse.onErrorLogAndRecover(with: Void()).flatMap(object: eventData)
             
         } catch let error as MarshalError {
             return Future(error: .jsonDeserialization(error.description))
@@ -113,5 +113,3 @@ extension InternalCalendarEvent {
         }
     }
 }
-
-

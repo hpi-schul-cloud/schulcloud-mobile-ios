@@ -120,7 +120,7 @@ open class LoginHelper {
             log.error(error.localizedDescription)
         }
 
-        CalendarHelper.deleteSchulcloudCalendar()
+        CalendarEventHelper.deleteSchulcloudCalendar()
     }
     
 }

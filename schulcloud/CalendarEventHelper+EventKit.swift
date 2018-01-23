@@ -141,7 +141,6 @@ extension CalendarEventHelper {
                     event = EKEvent(eventStore: eventStore)
                     event.calendar = calendar
                     span = .thisEvent
-                    
                 }
                 
                 update(event: event, with: calendarEvent)

@@ -9,9 +9,9 @@
 import Foundation
 import CoreData
 
-extension InternalCalendarEvent {
+extension EventData {
     var calendarEvent : CalendarEvent {
-        return CalendarEvent(internalEvent: self)
+        return CalendarEvent(eventData: self)
     }
 }
 
@@ -27,13 +27,13 @@ struct CalendarEvent {
     let end: Date
     let recurrenceRule: RecurrenceRule?
     
-    fileprivate let internalEventID : NSManagedObjectID?
+    fileprivate let coreDataID : NSManagedObjectID?
     
     var eventKitID: String? {
         didSet {
-            if let objectID = self.internalEventID {
-                let event : InternalCalendarEvent = managedObjectContext.object(with: objectID) as! InternalCalendarEvent
-                event.ekEventId = self.eventKitID
+            if let objectID = self.coreDataID {
+                let event : EventData = managedObjectContext.object(with: objectID) as! EventData
+                event.ekIdentifier = self.eventKitID
             }
         }
     }
@@ -63,14 +63,14 @@ struct CalendarEvent {
         }
     }
     
-    init(id: String, title: String, description: String, location: String, startDate: Date, endDate: Date, rule: RecurrenceRule?, internalEventID: NSManagedObjectID?, ekEventID: String?) {
+    init(id: String, title: String, description: String, location: String, startDate: Date, endDate: Date, rule: RecurrenceRule?, coreDataID: NSManagedObjectID?, ekEventID: String?) {
         
         self.id = id
         self.title = title
         self.description = description
         self.location = location
         self.recurrenceRule = rule
-        self.internalEventID = internalEventID
+        self.coreDataID = coreDataID
         eventKitID = ekEventID
         
         var startDate = startDate
@@ -120,30 +120,30 @@ struct CalendarEvent {
         self.end = endDate
     }
     
-    init(internalEvent: InternalCalendarEvent) {
+    init(eventData: EventData) {
         
         var rule : RecurrenceRule? = nil
         
-        if  let rfrequency = internalEvent.rfrequency,
+        if  let rfrequency = eventData.rrFrequency,
             let frequency = RecurrenceRule.Frequency(rawValue: rfrequency),
-            let rdayOfWeek = internalEvent.rdayOfTheWeek,
+            let rdayOfWeek = eventData.rrDayOfWeek,
             let dayOfWeek = RecurrenceRule.DayOfTheWeek(rawValue: rdayOfWeek) {
             
             rule = RecurrenceRule(frequency: frequency,
                                   dayOfTheWeek: dayOfWeek,
-                                  endDate:internalEvent.rendDate as Date?,
-                                  interval: Int(internalEvent.rinterval))
+                                  endDate:eventData.rrEndDate as Date?,
+                                  interval: Int(eventData.rrInterval))
         }
         
-        self.init(id: internalEvent.id,
-                  title: internalEvent.title,
-                  description: internalEvent.desc,
-                  location: internalEvent.location,
-                  startDate: internalEvent.start as Date,
-                  endDate: internalEvent.end as Date,
+        self.init(id: eventData.id,
+                  title: eventData.title,
+                  description: eventData.detail,
+                  location: eventData.location,
+                  startDate: eventData.start as Date,
+                  endDate: eventData.end as Date,
                   rule: rule,
-                  internalEventID: internalEvent.objectID,
-                  ekEventID: internalEvent.ekEventId)
+                  coreDataID: eventData.objectID,
+                  ekEventID: eventData.ekIdentifier)
     }
 }
 
@@ -217,7 +217,7 @@ extension CalendarEvent {
                                        startDate: computedStartDate,
                                        endDate: computedEndDate,
                                        rule: event.recurrenceRule,
-                                       internalEventID: event.internalEventID,
+                                       coreDataID: event.coreDataID,
                                        ekEventID: event.eventKitID)
             
             sequence.calculatedDate.append(result)

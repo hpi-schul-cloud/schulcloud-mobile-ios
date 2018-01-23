@@ -16,9 +16,18 @@
         <relationship name="teachers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="taughtCourses" inverseEntity="User" syncable="YES"/>
     </entity>
     <entity name="EventData" representedClassName="EventData" syncable="YES">
-        <attribute name="courseId" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="eventId" attributeType="String" syncable="YES"/>
-        <attribute name="externalEventId" attributeType="String" syncable="YES"/>
+        <attribute name="detail" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ekIdentifier" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="end" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="id" attributeType="String" syncable="YES"/>
+        <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rrDayOfWeek" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rrEndDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="rrFrequency" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rrInterval" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="start" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="course" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Course" syncable="YES"/>
     </entity>
     <entity name="File" representedClassName="File" syncable="YES">
         <attribute name="cacheUrlString" optional="YES" attributeType="String" syncable="YES"/>
@@ -44,20 +53,6 @@
         <attribute name="publicSubmissions" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="course" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Course" inverseName="includedHomeworks" inverseEntity="Course" syncable="YES"/>
         <relationship name="teacher" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="assignedHomeworks" inverseEntity="User" syncable="YES"/>
-    </entity>
-    <entity name="InternalCalendarEvent" representedClassName="InternalCalendarEvent" syncable="YES">
-        <attribute name="desc" attributeType="String" syncable="YES"/>
-        <attribute name="ekEventId" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="end" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="id" attributeType="String" syncable="YES"/>
-        <attribute name="location" attributeType="String" syncable="YES"/>
-        <attribute name="rdayOfTheWeek" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="rendDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="rfrequency" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="rinterval" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="start" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="title" attributeType="String" syncable="YES"/>
-        <relationship name="course" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Course" syncable="YES"/>
     </entity>
     <entity name="Lesson" representedClassName="Lesson" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -90,10 +85,9 @@
     <elements>
         <element name="Content" positionX="-99" positionY="171" width="128" height="135"/>
         <element name="Course" positionX="-99" positionY="144" width="128" height="120"/>
-        <element name="EventData" positionX="-63" positionY="207" width="128" height="90"/>
+        <element name="EventData" positionX="-63" positionY="207" width="128" height="225"/>
         <element name="File" positionX="-342" positionY="291" width="128" height="165"/>
         <element name="Homework" positionX="-99" positionY="288" width="128" height="178"/>
-        <element name="InternalCalendarEvent" positionX="-144" positionY="126" width="128" height="225"/>
         <element name="Lesson" positionX="-108" positionY="162" width="128" height="150"/>
         <element name="User" positionX="205" positionY="225" width="137" height="165"/>
         <element name="UserGroup" positionX="-9" positionY="-18" width="128" height="105"/>

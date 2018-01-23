@@ -21,13 +21,13 @@ public struct CalendarEventHelper {
         let parameters : Parameters = ["all":true]
         return ApiHelper.request("calendar", parameters: parameters).jsonArrayFuture(keyPath: nil)
             //parse remote string into local model
-            .flatMap(privateMOC.perform, f: { $0.map{InternalCalendarEvent.upsert(inContext: privateMOC, object: $0)}.sequence() })
+            .flatMap(privateMOC.perform, f: { $0.map{EventData.upsert(inContext: privateMOC, object: $0)}.sequence() })
             .flatMap(privateMOC.perform, f: { dbItems -> Future<Void, SCError> in
                 
                 //remove unused event
                 let ids = dbItems.map { $0.id }
                 do {
-                    let fetchRequest: NSFetchRequest<InternalCalendarEvent> = InternalCalendarEvent.fetchRequest()
+                    let fetchRequest: NSFetchRequest<EventData> = EventData.fetchRequest()
                     fetchRequest.predicate = NSPredicate(format: "NOT (id in %@)", ids)
                     
                     try CoreDataHelper.delete(fetchRequest: fetchRequest, context: privateMOC)
@@ -47,7 +47,7 @@ public struct CalendarEventHelper {
     }
     
     static func fetchCalendarEvent(inContext context: NSManagedObjectContext) -> Future<[CalendarEvent], SCError> {
-        let fetchRequest: NSFetchRequest<InternalCalendarEvent> = InternalCalendarEvent.fetchRequest()
+        let fetchRequest: NSFetchRequest<EventData> = EventData.fetchRequest()
 
         do {
             let fetchedEvent = try context.fetch(fetchRequest)
