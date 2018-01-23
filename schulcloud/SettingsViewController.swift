@@ -45,12 +45,12 @@ class SettingsViewController: UITableViewController {
                 CalendarEventHelper.fetchCalendarEvent(inContext: managedObjectContext)
                 .flatMap { events -> Future< Void, SCError> in
                     
-                    var calendar = CalendarEventHelper.fetchCalendar()
-                    if calendar == nil { calendar = CalendarEventHelper.createCalendar() }
-                    guard let foundCalendar = calendar else { return Future(error: .other("Can't access calendar") ) }
+                    guard let calendar = CalendarEventHelper.fetchCalendar() ?? CalendarEventHelper.createCalendar() else {
+                        return Future(error: .other("Can't access calendar") )
+                    }
                     
                     do {
-                        try CalendarEventHelper.push(events: events, to: foundCalendar)
+                        try CalendarEventHelper.push(events: events, to: calendar)
                     } catch let error {
                         return Future(error: .other(error.localizedDescription) )
                     }

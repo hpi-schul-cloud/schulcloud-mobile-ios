@@ -104,7 +104,6 @@ extension CalendarEventHelper {
         guard let source = eventStore.sources.first(where: { return $0.sourceType == EKSourceType.subscribed }) else {
             return nil
         }
-        
         let calendar = EKCalendar(for: .event, eventStore: self.eventStore)
         calendar.title = EventKitSettings.current.calendarTitle
         calendar.source = source
@@ -146,7 +145,9 @@ extension CalendarEventHelper {
     }
     
     static func remove(events: [CalendarEvent]) throws {
-        let eventsToDelete = eventStore.events(matching: NSPredicate(format: "eventIdentifer in %@", events.map { $0.eventKitID }) )
+        let eventsToDelete = events.map {$0.eventKitID }.flatMap { $0 } // get the eventKid IDs and remove the nils
+                                   .map { eventStore.event(withIdentifier: $0) }.flatMap { $0 } // fetch EKEvents for these ids and remove the nils
+        
         for event in eventsToDelete {
             try eventStore.remove(event, span: EKSpan.futureEvents, commit: false)
         }
@@ -163,7 +164,6 @@ extension CalendarEventHelper {
         self.calendar = nil
     }
 }
-
 
 // MARK: Convenience conversion
 extension CalendarEvent.RecurrenceRule {

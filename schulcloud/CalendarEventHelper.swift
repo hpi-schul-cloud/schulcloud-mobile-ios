@@ -26,15 +26,29 @@ public struct CalendarEventHelper {
                 
                 //remove unused event
                 let ids = dbItems.map { $0.id }
+                var eventsToDelete: [EventData] = []
                 do {
                     let fetchRequest: NSFetchRequest<EventData> = EventData.fetchRequest()
                     fetchRequest.predicate = NSPredicate(format: "NOT (id in %@)", ids)
                     
-                    try CoreDataHelper.delete(fetchRequest: fetchRequest, context: privateMOC)
-                    return Future(value: Void() )
+                    eventsToDelete = try privateMOC.fetch(fetchRequest)
+                    if eventsToDelete.count > 0 {
+                        let batchDelete = NSBatchDeleteRequest(objectIDs: eventsToDelete.map { $0.objectID } )
+                        try privateMOC.execute(batchDelete)
+                    }
                 } catch let error {
                     return Future(error: .database(error.localizedDescription) )
                 }
+                
+                if CalendarEventHelper.EventKitSettings.current.isSynchonized,
+                    eventsToDelete.count > 0{
+                    do {
+                        try CalendarEventHelper.remove(events: eventsToDelete.map { $0.calendarEvent })
+                    } catch let error {
+                        return Future(error: .other("Could not remove events from calendar: \(error.localizedDescription)") )
+                    }
+                }
+                return Future(value: Void() )
             })
             .flatMap { _ -> Future<Void, SCError> in
                 // save new inserted
@@ -44,6 +58,18 @@ public struct CalendarEventHelper {
                 // get local calendar event
                 return fetchCalendarEvent(inContext: privateMOC)
             }
+            .andThen { result in
+                if CalendarEventHelper.EventKitSettings.current.isSynchonized,
+                    let calendar = CalendarEventHelper.fetchCalendar() ?? CalendarEventHelper.createCalendar(),
+                    let events = result.value {
+                    
+                    do {
+                        try CalendarEventHelper.push(events: events , to: calendar)
+                    } catch let _ {
+                        //TODO: implement error handling
+                    }
+                }
+        }
     }
     
     static func fetchCalendarEvent(inContext context: NSManagedObjectContext) -> Future<[CalendarEvent], SCError> {
