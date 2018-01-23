@@ -23,7 +23,6 @@
 		5082579A1F5E90F500A4FF6A /* Homework+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508257991F5E90F500A4FF6A /* Homework+.swift */; };
 		509A93381F541513001167DE /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509A93371F541512001167DE /* DashboardViewController.swift */; };
 		509A933A1F541668001167DE /* ShortNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509A93391F541668001167DE /* ShortNotificationViewController.swift */; };
-		50A1CDE21F4EB00B006E9B69 /* RemoteEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A1CDE11F4EB00B006E9B69 /* RemoteEvent.swift */; };
 		50A1CDE41F501A0D006E9B69 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A1CDE31F501A0C006E9B69 /* NotificationViewController.swift */; };
 		50A1CDE61F501AC5006E9B69 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A1CDE51F501AC5006E9B69 /* NotificationCell.swift */; };
 		50D6432D1F8E09E200A89331 /* HomeworkOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D6432C1F8E09E200A89331 /* HomeworkOverviewViewController.swift */; };
@@ -137,7 +136,6 @@
 		508257991F5E90F500A4FF6A /* Homework+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Homework+.swift"; sourceTree = "<group>"; };
 		509A93371F541512001167DE /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		509A93391F541668001167DE /* ShortNotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortNotificationViewController.swift; sourceTree = "<group>"; };
-		50A1CDE11F4EB00B006E9B69 /* RemoteEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteEvent.swift; sourceTree = "<group>"; };
 		50A1CDE31F501A0C006E9B69 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		50A1CDE51F501AC5006E9B69 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		50D6432C1F8E09E200A89331 /* HomeworkOverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkOverviewViewController.swift; sourceTree = "<group>"; };
@@ -354,7 +352,6 @@
 				C32870B61EDF2C1300ABA348 /* Lesson+.swift */,
 				C3C2AC2F1EC4902F0060AECA /* File+CoreDataClass.swift */,
 				C3418B6E1ED5CF1F00280E62 /* Date+Marshal.swift */,
-				50A1CDE11F4EB00B006E9B69 /* RemoteEvent.swift */,
 				508257991F5E90F500A4FF6A /* Homework+.swift */,
 				CE866DA82017321800A5787B /* EventData+.swift */,
 			);
@@ -762,7 +759,6 @@
 				3D45737B1EE02065009A30E2 /* CalendarViewController.swift in Sources */,
 				509A93381F541513001167DE /* DashboardViewController.swift in Sources */,
 				C3165F1F1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift in Sources */,
-				50A1CDE21F4EB00B006E9B69 /* RemoteEvent.swift in Sources */,
 				C32870C01EE0228600ABA348 /* LessonHelper.swift in Sources */,
 				C32870B91EDF2E1E00ABA348 /* Content+.swift in Sources */,
 				507684C01F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift in Sources */,
