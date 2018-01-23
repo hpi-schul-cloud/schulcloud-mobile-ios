@@ -48,6 +48,7 @@ extension CalendarEventHelper {
         var calendarTitle : String = "Schul-Cloud"
     }
     
+    // MARK: Event management
     private static func update(event: EKEvent, with calendarEvent: CalendarEvent) {
         event.title = calendarEvent.title
         event.notes = calendarEvent.description
@@ -60,17 +61,16 @@ extension CalendarEventHelper {
         }()
     }
     
+    // MARK: Calendar management
     private static func requestCalendarPermission() -> Future<Void, SCError> {
         let promise = Promise<Void, SCError>()
         
         switch EKEventStore.authorizationStatus(for: .event) {
         case .authorized:
-            eventStore.reset()
             promise.success()
         case .notDetermined:
             self.eventStore.requestAccess(to: .event) { (granted, error) in
                 if granted && error == nil {
-                    eventStore.reset()
                     promise.success()
                 } else {
                     promise.failure(SCError.other("Missing Calendar Permission: \(error!.localizedDescription)"))
@@ -82,24 +82,27 @@ extension CalendarEventHelper {
         return promise.future
     }
 
-    
-    private static func fetchOrCreateCalendar() -> Future<EKCalendar, SCError> {
-        
-        if let calendar = self.calendar { return Future(value: calendar) }
+    static func fetchCalendar() -> EKCalendar? {
+        if let calendar = self.calendar { return calendar }
         
         if let calendarIdentifier = EventKitSettings.current.calendarIdentifier,
-           let foundCalendar = eventStore.calendar(withIdentifier: calendarIdentifier) {
+            let foundCalendar = eventStore.calendar(withIdentifier: calendarIdentifier) {
             self.calendar = foundCalendar
-            return Future(value: foundCalendar)
+            return calendar
         }
         
         if let calendar = eventStore.calendars(for: .event).first (where:  { $0.title == EventKitSettings.current.calendarTitle }) {
             self.calendar = calendar
-            return Future(value: calendar)
+            return calendar
         }
         
+        return nil
+    }
+
+    static func createCalendar() -> EKCalendar? {
+
         guard let source = eventStore.sources.first(where: { return $0.sourceType == EKSourceType.subscribed }) else {
-            return Future( error: .other("Can't find source for calendar") )
+            return nil
         }
         
         let calendar = EKCalendar(for: .event, eventStore: self.eventStore)
@@ -109,106 +112,55 @@ extension CalendarEventHelper {
         do {
             try self.eventStore.saveCalendar(calendar, commit: true)
         } catch {
-            return Future( error: .other("Can't find source for calendar") )
+            return nil
         }
         
         EventKitSettings.current.calendarIdentifier = calendar.calendarIdentifier
 
         self.calendar = calendar
-        return Future(value: calendar)
+        return calendar
     }
 
     // This function pushes new or update events to the calander
-    static func pushEventsToCalendar(calendarEvents: [CalendarEvent]) -> Future<Void, SCError> {
-        
-        let promise : Promise<Void, SCError> = Promise()
-        let calendarEvents = calendarEvents
-        
-        requestCalendarPermission()
-        .flatMap(fetchOrCreateCalendar)
-        .onSuccess { calendar in
+    static func push(events: [CalendarEvent], to calendar: EKCalendar) throws {
+        for var calendarEvent in events {
+            var event : EKEvent
+            var span : EKSpan
             
-            for var calendarEvent in calendarEvents {
-                var event : EKEvent
-                var span : EKSpan
-                
-                if  let ekEventID = calendarEvent.eventKitID,
-                    let foundEvent = eventStore.event(withIdentifier: ekEventID) {
-                    event = foundEvent
-                    span = .futureEvents
-                    
-                } else {
-                    event = EKEvent(eventStore: eventStore)
-                    event.calendar = calendar
-                    span = .thisEvent
-                }
-                
-                update(event: event, with: calendarEvent)
-                do {
-                    try eventStore.save(event, span: span, commit: false)
-                } catch let error {
-                    promise.failure(.other("Cant create EKEvent: \(error.localizedDescription)") )
-                    return ;
-                }
-                calendarEvent.eventKitID = event.eventIdentifier
+            if  let ekEventID = calendarEvent.eventKitID,
+                let foundEvent = eventStore.event(withIdentifier: ekEventID) {
+                event = foundEvent
+                span = .futureEvents
+            } else {
+                event = EKEvent(eventStore: eventStore)
+                event.calendar = calendar
+                span = .thisEvent
             }
             
-            do {
-                try eventStore.commit()
-            } catch let error {
-                promise.failure( .other(" Error commiting store after creating events: \(error.localizedDescription)") )
-                return;
-            }
-            
-            do {
-                try managedObjectContext.save()
-                promise.success( Void() )
-            } catch let error {
-                promise.failure( .database(error.localizedDescription) )
-            }
+            update(event: event, with: calendarEvent)
+            try eventStore.save(event, span: span, commit: false)
+            calendarEvent.eventKitID = event.eventIdentifier
         }
-        return promise.future
+        try eventStore.commit()
+        try managedObjectContext.save()
     }
     
-    static func removeEvents(calendarEvents: [CalendarEvent]) -> Future<Void, SCError> {
-        let eventsToDelete = eventStore.events(matching: NSPredicate(format: "eventIdentifer in %@", calendarEvents.map { $0.eventKitID }) )
-        do {
-            for event in eventsToDelete {
-                try eventStore.remove(event, span: EKSpan.futureEvents, commit: false)
-            }
-            try eventStore.commit()
-            return Future(value: Void() )
-        } catch let error {
-            return Future(error: SCError.other("Can't commit event removal\(error.localizedDescription)" ) )
+    static func remove(events: [CalendarEvent]) throws {
+        let eventsToDelete = eventStore.events(matching: NSPredicate(format: "eventIdentifer in %@", events.map { $0.eventKitID }) )
+        for event in eventsToDelete {
+            try eventStore.remove(event, span: EKSpan.futureEvents, commit: false)
         }
+        try eventStore.commit()
     }
     
-    static func deleteSchulcloudCalendar() -> Future<Void, SCError> {
+    static func deleteSchulcloudCalendar() throws {
         guard let calendarIdentifier = EventKitSettings.current.calendarIdentifier,
-              let calendar = eventStore.calendar(withIdentifier: calendarIdentifier) else { return Future(value: Void() ) }
+              let calendar = eventStore.calendar(withIdentifier: calendarIdentifier) else { return }
 
-        let promise : Promise<Void, SCError> = Promise()
-        do {
-            try eventStore.removeCalendar(calendar, commit: true)
-            EventKitSettings.current.calendarIdentifier = nil
-            self.calendar = nil
-        } catch let error {
-            promise.failure( SCError.other("Failed to remove calendar:\(error.localizedDescription)") )
-        }
+        try eventStore.removeCalendar(calendar, commit: true)
         
-        fetchCalendarEvent(inContext: managedObjectContext)
-        .onSuccess { events in
-            for var event in events {
-                event.eventKitID = nil
-            }
-            do {
-                try managedObjectContext.save()
-                promise.success( Void() )
-            } catch let error {
-                promise.failure( .database(error.localizedDescription) )
-            }
-        }
-        return promise.future
+        EventKitSettings.current.calendarIdentifier = nil
+        self.calendar = nil
     }
 }
 

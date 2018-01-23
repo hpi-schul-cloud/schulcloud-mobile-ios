@@ -41,24 +41,43 @@ class SettingsViewController: UITableViewController {
         if selectedCell == synchronizeCalendarCell {
             let newValue = !currentEventKitSettings.isSynchonized
             if newValue {
+                
                 CalendarEventHelper.fetchCalendarEvent(inContext: managedObjectContext)
-                .andThen { result in
-                    if let events = result.value {
-                        CalendarEventHelper.pushEventsToCalendar(calendarEvents: events)
+                .flatMap { events -> Future< Void, SCError> in
+                    
+                    var calendar = CalendarEventHelper.fetchCalendar()
+                    if calendar == nil { calendar = CalendarEventHelper.createCalendar() }
+                    guard let foundCalendar = calendar else { return Future(error: .other("Can't access calendar") ) }
+                    
+                    do {
+                        try CalendarEventHelper.push(events: events, to: foundCalendar)
+                    } catch let error {
+                        return Future(error: .other(error.localizedDescription) )
                     }
+                    return Future(value: Void() )
                 }
                 .onSuccess { _ in
                     currentEventKitSettings.isSynchonized = true
                     self.synchronizeCalendarCell.detailTextLabel!.text = "On"
                 }
                 .onFailure { error in
+                    // TODO: Show error message as to why it failed
                     currentEventKitSettings.isSynchonized = false
                     self.synchronizeCalendarCell.detailTextLabel!.text = "Off"
                 }
+                
             } else {
-                CalendarEventHelper.deleteSchulcloudCalendar()
-                currentEventKitSettings.isSynchonized = false
-                self.synchronizeCalendarCell.detailTextLabel!.text = "Off"
+                
+                do {
+                    try CalendarEventHelper.deleteSchulcloudCalendar()
+                    currentEventKitSettings.isSynchonized = false
+                    self.synchronizeCalendarCell.detailTextLabel!.text = "Off"
+                } catch let error {
+                    //TODO: Show error on why we could not delete the calendar
+                    currentEventKitSettings.isSynchonized = true
+                    self.synchronizeCalendarCell.detailTextLabel!.text = "On"
+                }
+                
             }
         }
     }
