@@ -44,7 +44,9 @@ public class CourseHelper {
                     return Future(error: .database(error.localizedDescription))
                 }
             })
-            .flatMap { save(privateContext: privateMOC) }
+            .flatMap {  _ -> FetchResult in
+                return save(privateContext: privateMOC)
+            }
     }
     
 }
