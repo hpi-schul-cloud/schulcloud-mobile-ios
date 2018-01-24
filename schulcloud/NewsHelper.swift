@@ -35,7 +35,9 @@ public class NewsArticleHelper {
                     return Future(error: .database(error.localizedDescription))
                 }
             })
-            .flatMap { save(privateContext: privateMOC) }
+            .flatMap { _ -> FetchResult in
+                return save(privateContext: privateMOC)
+            }
             .flatMap { _ -> FetchResult in //notify of changed in news
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: NewsArticle.didChangeNotification), object: nil)
                 return Future(value: Void())

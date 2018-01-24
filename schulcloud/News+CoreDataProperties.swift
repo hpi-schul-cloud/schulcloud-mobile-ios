@@ -18,7 +18,7 @@ extension NewsArticle {
 
     @NSManaged public var content: String
     @NSManaged public var createdAt: NSDate
-    @NSManaged public var displayAt: String
+    @NSManaged public var displayAt: NSDate
     @NSManaged public var history: [String]
     @NSManaged public var id: String
     @NSManaged public var schoolId: String?
