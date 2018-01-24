@@ -22,8 +22,7 @@ public struct CalendarEventHelper {
         return ApiHelper.request("calendar", parameters: parameters).jsonArrayFuture(keyPath: nil)
             //parse remote string into local model
             .flatMap(privateMOC.perform, f: { $0.map{EventData.upsert(inContext: privateMOC, object: $0)}.sequence() })
-            .flatMap(privateMOC.perform, f: { dbItems -> Future<Void, SCError> in
-                
+            .flatMap(privateMOC.perform, f: { dbItems -> Future<[EventData], SCError> in
                 //remove unused event
                 let ids = dbItems.map { $0.id }
                 var eventsToDelete: [EventData] = []
@@ -39,9 +38,12 @@ public struct CalendarEventHelper {
                 } catch let error {
                     return Future(error: .database(error.localizedDescription) )
                 }
-                
+                return Future(value: eventsToDelete)
+            })
+            .flatMap { eventsToDelete -> Future<Void, SCError> in
+                // remove events from calendar
                 if CalendarEventHelper.EventKitSettings.current.isSynchonized,
-                    eventsToDelete.count > 0{
+                    eventsToDelete.count > 0 {
                     do {
                         try CalendarEventHelper.remove(events: eventsToDelete.map { $0.calendarEvent })
                     } catch let error {
@@ -49,9 +51,9 @@ public struct CalendarEventHelper {
                     }
                 }
                 return Future(value: Void() )
-            })
+            }
             .flatMap { _ -> Future<Void, SCError> in
-                // save new inserted
+                // save new inserted, and deleted
                 return save(privateContext: privateMOC)
             }
             .flatMap { _ -> Future<[CalendarEvent], SCError> in
@@ -59,15 +61,12 @@ public struct CalendarEventHelper {
                 return fetchCalendarEvent(inContext: privateMOC)
             }
             .andThen { result in
+                // push new events to calendar
                 if CalendarEventHelper.EventKitSettings.current.isSynchonized,
                     let calendar = CalendarEventHelper.fetchCalendar() ?? CalendarEventHelper.createCalendar(),
                     let events = result.value {
                     
-                    do {
-                        try CalendarEventHelper.push(events: events , to: calendar)
-                    } catch let _ {
-                        //TODO: implement error handling
-                    }
+                    try? CalendarEventHelper.push(events: events , to: calendar)
                 }
         }
     }

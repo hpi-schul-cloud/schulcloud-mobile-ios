@@ -57,13 +57,18 @@ class SettingsViewController: UITableViewController {
                     return Future(value: Void() )
                 }
                 .onSuccess { _ in
-                    currentEventKitSettings.isSynchonized = true
-                    self.synchronizeCalendarCell.detailTextLabel!.text = "On"
+                    DispatchQueue.main.async {
+                        currentEventKitSettings.isSynchonized = true
+                        self.synchronizeCalendarCell.detailTextLabel!.text = "On"
+                    }
                 }
                 .onFailure { error in
                     // TODO: Show error message as to why it failed
-                    currentEventKitSettings.isSynchonized = false
-                    self.synchronizeCalendarCell.detailTextLabel!.text = "Off"
+                    DispatchQueue.main.async {
+                        self.showErrorAlert(message: error.localizedDescription)
+                        currentEventKitSettings.isSynchonized = false
+                        self.synchronizeCalendarCell.detailTextLabel!.text = "Off"
+                    }
                 }
                 
             } else {
@@ -74,11 +79,16 @@ class SettingsViewController: UITableViewController {
                     self.synchronizeCalendarCell.detailTextLabel!.text = "Off"
                 } catch let error {
                     //TODO: Show error on why we could not delete the calendar
+                    self.showErrorAlert(message: error.localizedDescription)
                     currentEventKitSettings.isSynchonized = true
                     self.synchronizeCalendarCell.detailTextLabel!.text = "On"
                 }
-                
             }
         }
+    }
+    
+    private func showErrorAlert(message: String) {
+        let alert = UIAlertController(title: "Somthing went wrong", message: message, preferredStyle: .alert)
+        self.present(alert, animated: true)
     }
 }

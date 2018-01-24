@@ -191,13 +191,13 @@ extension CalendarEvent.RecurrenceRule.Frequency {
     var ekFrequency : EKRecurrenceFrequency {
         switch self {
         case .daily:
-            return .daily
+            return EKRecurrenceFrequency.daily
         case .weekly:
-            return .weekly
+            return EKRecurrenceFrequency.weekly
         case .monthly:
-            return .monthly
+            return EKRecurrenceFrequency.monthly
         case .yearly:
-            return .yearly
+            return EKRecurrenceFrequency.yearly
         }
     }
 }
@@ -207,19 +207,19 @@ extension CalendarEvent.RecurrenceRule.DayOfTheWeek {
         let ekWeekday: EKWeekday = {
             switch self {
             case .monday:
-                return .monday
+                return EKWeekday.monday
             case .tuesday:
-                return .tuesday
+                return EKWeekday.tuesday
             case .wednesday:
-                return .wednesday
+                return EKWeekday.wednesday
             case .thursday:
-                return .thursday
+                return EKWeekday.thursday
             case .friday:
-                return .friday
+                return EKWeekday.friday
             case .saturday:
-                return .saturday
+                return EKWeekday.saturday
             case .sunday:
-                return .sunday
+                return EKWeekday.sunday
             }
         }()
         return EKRecurrenceDayOfWeek(ekWeekday)

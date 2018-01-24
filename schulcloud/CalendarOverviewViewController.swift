@@ -67,7 +67,7 @@ class CalendarOverviewViewController: UIViewController {
         CalendarEventHelper.synchronizeEvent()
         .map { events -> [CalendarEvent] in
             // filter all event left coming up today
-            return events.filteredEvents(inInterval: self.todayInterval)
+            return events.filter(inInterval: self.todayInterval)
         }
         .onSuccess { self.updateStateWith(events: $0) }
         .onFailure { error in
@@ -89,7 +89,7 @@ class CalendarOverviewViewController: UIViewController {
         
         CalendarEventHelper.fetchCalendarEvent(inContext: managedObjectContext)
         .onSuccess { events in
-            let filteredEvents = events.filteredEvents(inInterval: self.todayInterval)
+            let filteredEvents = events.filter(inInterval: self.todayInterval)
             self.updateStateWith(events: filteredEvents)
         }
         .onFailure { error in

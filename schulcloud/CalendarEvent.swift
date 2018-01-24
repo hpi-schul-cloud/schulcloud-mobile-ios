@@ -230,7 +230,7 @@ extension CalendarEvent {
 
 extension Array where Array.Element == CalendarEvent {
     
-    func filteredEvents(inInterval interval: DateInterval) -> [CalendarEvent] {
+    func filter(inInterval interval: DateInterval) -> [CalendarEvent] {
         return self.map { event in
             var dateIterator = event.dates.makeIterator()
             while let event = dateIterator.next(),
