@@ -20,6 +20,8 @@ class SettingsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
+        
         guard let userId = Globals.account?.userId else { return }
         User.fetch(by: userId, inContext: managedObjectContext).onSuccess { user in
             self.userNameLabel.text = "\(user.firstName) \(user.lastName)"
@@ -27,7 +29,11 @@ class SettingsViewController: UITableViewController {
             self.userNameLabel.text = ""
         }
         
-        self.synchronizeCalendarCell.detailTextLabel!.text = currentEventKitSettings.isSynchonized ? "On" : "Off"
+        let switchView = UISwitch()
+        self.synchronizeCalendarCell.accessoryView = switchView
+        
+        switchView.isOn = currentEventKitSettings.isSynchonized
+        switchView.addTarget(self, action: #selector(synchronizeToCalendar(switchView:)), for: UIControlEvents.valueChanged)
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -37,12 +43,14 @@ class SettingsViewController: UITableViewController {
             let loginViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "login")
             present(loginViewController, animated: true, completion: nil)
         }
+    }
+    
+    func synchronizeToCalendar(switchView: UISwitch) {
         
-        if selectedCell == synchronizeCalendarCell {
-            let newValue = !currentEventKitSettings.isSynchonized
-            if newValue {
-                
-                CalendarEventHelper.fetchCalendarEvent(inContext: managedObjectContext)
+        let newValue = switchView.isOn
+        if newValue {
+            
+            CalendarEventHelper.fetchCalendarEvent(inContext: managedObjectContext)
                 .flatMap { events -> Future< Void, SCError> in
                     
                     guard let calendar = CalendarEventHelper.fetchCalendar() ?? CalendarEventHelper.createCalendar() else {
@@ -59,7 +67,7 @@ class SettingsViewController: UITableViewController {
                 .onSuccess { _ in
                     DispatchQueue.main.async {
                         currentEventKitSettings.isSynchonized = true
-                        self.synchronizeCalendarCell.detailTextLabel!.text = "On"
+                        switchView.isOn = true
                     }
                 }
                 .onFailure { error in
@@ -67,24 +75,24 @@ class SettingsViewController: UITableViewController {
                     DispatchQueue.main.async {
                         self.showErrorAlert(message: error.localizedDescription)
                         currentEventKitSettings.isSynchonized = false
-                        self.synchronizeCalendarCell.detailTextLabel!.text = "Off"
+                        switchView.isOn = false
                     }
-                }
-                
-            } else {
-                
-                do {
-                    try CalendarEventHelper.deleteSchulcloudCalendar()
-                    currentEventKitSettings.isSynchonized = false
-                    self.synchronizeCalendarCell.detailTextLabel!.text = "Off"
-                } catch let error {
-                    //TODO: Show error on why we could not delete the calendar
-                    self.showErrorAlert(message: error.localizedDescription)
-                    currentEventKitSettings.isSynchonized = true
-                    self.synchronizeCalendarCell.detailTextLabel!.text = "On"
-                }
+            }
+            
+        } else {
+            
+            do {
+                try CalendarEventHelper.deleteSchulcloudCalendar()
+                currentEventKitSettings.isSynchonized = false
+                switchView.isOn = false
+            } catch let error {
+                //TODO: Show error on why we could not delete the calendar
+                self.showErrorAlert(message: error.localizedDescription)
+                currentEventKitSettings.isSynchonized = true
+                switchView.isOn = true
             }
         }
+        
     }
     
     private func showErrorAlert(message: String) {
