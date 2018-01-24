@@ -62,7 +62,7 @@ extension CalendarEventHelper {
     }
     
     // MARK: Calendar management
-    private static func requestCalendarPermission() -> Future<Void, SCError> {
+    static func requestCalendarPermission() -> Future<Void, SCError> {
         let promise = Promise<Void, SCError>()
         
         switch EKEventStore.authorizationStatus(for: .event) {
