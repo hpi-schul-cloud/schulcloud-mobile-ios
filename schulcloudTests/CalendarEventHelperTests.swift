@@ -18,7 +18,9 @@ extension CalendarEvent {
                   location: "LOCATION",
                   startDate: start,
                   endDate: end,
-                  rule: rule)
+                  rule: rule,
+                  coreDataID: nil,
+                  ekEventID: nil)
     }
 }
 
@@ -53,50 +55,17 @@ class CalendarEventHelperTests: XCTestCase {
         XCTAssertEqual(start, event.start)
         XCTAssertEqual(end, event.end)
     }
-    
-    func testThatInitializingCalendarEventAdaptDateBaseOnDayOfWeek() {
-        let (start, end) = makeDatePair("28.08.2017 15:00", "28.08.2017 16:00") //these dates are aligned on monday, like the backend would send
-        
-        var rule = CalendarEvent.RecurrenceRule(frequency: .monthly, dayOfTheWeek: .tuesday, endDate: nil, interval: 10)
-        var event = CalendarEvent(start: start, end: end, rule: rule)
 
-        var startCompo = Calendar.current.dateComponents([.day], from: start, to: event.start)
-        var endCompo = Calendar.current.dateComponents([.day], from: end, to: event.end)
-        
-        XCTAssertEqual(startCompo.day, 1)
-        XCTAssertEqual(endCompo.day, 1)
-        
-        
-        rule = CalendarEvent.RecurrenceRule(frequency: .monthly, dayOfTheWeek: .thursday, endDate: nil, interval: 10)
-        event = CalendarEvent(start: start, end: end, rule: rule)
-        
-        startCompo = Calendar.current.dateComponents([.day], from: start, to: event.start)
-        endCompo = Calendar.current.dateComponents([.day], from: end, to: event.end)
-        
-        XCTAssertEqual(startCompo.day, 3)
-        XCTAssertEqual(endCompo.day, 3)
-
-        
-        rule = CalendarEvent.RecurrenceRule(frequency: .monthly, dayOfTheWeek: .sunday, endDate: nil, interval: 10)
-        event = CalendarEvent(start: start, end: end, rule: rule)
-        
-        startCompo = Calendar.current.dateComponents([.day], from: start, to: event.start)
-        endCompo = Calendar.current.dateComponents([.day], from: end, to: event.end)
-        
-        XCTAssertEqual(startCompo.day, 6)
-        XCTAssertEqual(endCompo.day, 6)
-    }
-    
     // MARK: Recurrence rule tests
     func testThatItGetOnlyOneDatePairWhenNoRecurrenceRule() {
-        let (start, end) = makeDatePair("01.10.2017 15:00", "01.10.2017 16:00")
+        let (start, end) = makeDatePair("02.10.2017 15:00", "02.10.2017 16:00")
 
         let event = CalendarEvent(start: start, end: end, rule: nil)
         
         var dateCount = 0
-        for (calculatedStart, calculatedEnd) in event.dates {
-            XCTAssertEqual(start, calculatedStart)
-            XCTAssertEqual(end, calculatedEnd)
+        for calendarEvent in event.dates {
+            XCTAssertEqual(start, calendarEvent.start)
+            XCTAssertEqual(end, calendarEvent.end)
             dateCount += 1
         }
         
@@ -105,8 +74,8 @@ class CalendarEventHelperTests: XCTestCase {
     
     func testThatItGeneratesDateUntilEndRecurringRule() {
 
-        let (start, end) = makeDatePair("01.10.2017 15:00", "01.10.2017 16:00")
-        let rule = CalendarEvent.RecurrenceRule(frequency: .daily, dayOfTheWeek: .monday, endDate: nil, interval: Int.max)
+        let (start, end) = makeDatePair("02.10.2017 15:00", "02.10.2017 16:00")
+        let rule = CalendarEvent.RecurrenceRule(frequency: .daily, dayOfTheWeek: .monday, endDate: nil, interval: 1)
         
         let event = CalendarEvent(start: start, end: end, rule: rule)
         
@@ -123,46 +92,51 @@ class CalendarEventHelperTests: XCTestCase {
     }
 
     func testThatItGeneratesForTheGiventInterval() {
-        let (start, end) = makeDatePair("01.10.2017 15:00","01.10.2017 16:00")
-        let interval = 5
+        let (start, end) = makeDatePair("02.10.2017 15:00","02.10.2017 16:00")
+        let interval = 4
         
         let rule = CalendarEvent.RecurrenceRule(frequency: .daily, dayOfTheWeek: .monday, endDate: nil, interval: interval)
-        
         let event = CalendarEvent(start: start, end: end, rule: rule)
+
+        let sequence = event.dates
+        var iterator = sequence.makeIterator()
         
-        
-        var dateCount = 0
-        for (_, _) in event.dates {
-            dateCount += 1
+
+        guard let firstEvent = iterator.next(),
+              let secondEvent = iterator.next() else {
+            XCTFail()
+            return;
         }
         
-        XCTAssertEqual(dateCount, interval)
+        let component = Calendar.current.dateComponents([.day], from: firstEvent.start, to: secondEvent.start)
+
+        XCTAssertEqual(interval, component.day)
     }
     
     func testThatDatesHaveCorrectFrequenciesForDailyEvent() {
         
-        let (start, end) = makeDatePair("01.10.2017 15:00", "01.10.2017 16:00")
+        let (start, end) = makeDatePair("02.10.2017 15:00", "02.10.2017 16:00")
 
-        let dailyRule = CalendarEvent.RecurrenceRule(frequency: .daily, dayOfTheWeek: .monday, endDate: nil, interval: Int.max)
+        let dailyRule = CalendarEvent.RecurrenceRule(frequency: .daily, dayOfTheWeek: .monday, endDate: nil, interval: 1)
         let dailyEvent = CalendarEvent(start: start, end: end, rule: dailyRule)
         
         var dailyEventIterator = dailyEvent.dates.makeIterator()
-        let firstDate = dailyEventIterator.next()!.0
-        let secondDate = dailyEventIterator.next()!.0
+        let firstDate = dailyEventIterator.next()!.start
+        let secondDate = dailyEventIterator.next()!.start
         
         let component = Calendar.current.dateComponents([.day], from: firstDate, to: secondDate)
         XCTAssertEqual(1, component.day)
     }
     func testThatDatesHaveCorrectFrequenciesForWeeklyEvent() {
         
-        let (start, end) = makeDatePair("01.10.2017 15:00","01.10.2017 16:00")
+        let (start, end) = makeDatePair("02.10.2017 15:00","02.10.2017 16:00")
         
-        let weeklyRule = CalendarEvent.RecurrenceRule(frequency: .weekly, dayOfTheWeek: .monday, endDate: nil, interval: Int.max)
+        let weeklyRule = CalendarEvent.RecurrenceRule(frequency: .weekly, dayOfTheWeek: .monday, endDate: nil, interval: 1)
         let weeklyEvent = CalendarEvent(start: start, end: end, rule: weeklyRule)
         
         var weeklyEventIterator = weeklyEvent.dates.makeIterator()
-        let firstDate = weeklyEventIterator.next()!.0
-        let secondDate = weeklyEventIterator.next()!.0
+        let firstDate = weeklyEventIterator.next()!.start
+        let secondDate = weeklyEventIterator.next()!.start
         
         let component = Calendar.current.dateComponents([.weekOfYear], from: firstDate, to: secondDate)
         XCTAssertEqual(1, component.weekOfYear)
@@ -170,14 +144,14 @@ class CalendarEventHelperTests: XCTestCase {
     }
     func testThatDatesHaveCorrectFrequenciesForMonthlyEvent() {
         
-        let (start, end) = makeDatePair("01.10.2017 15:00","01.10.2017 16:00")
+        let (start, end) = makeDatePair("02.10.2017 15:00","02.10.2017 16:00")
         
-        let monthlyRule = CalendarEvent.RecurrenceRule(frequency: .monthly, dayOfTheWeek: .monday, endDate: nil, interval: Int.max)
+        let monthlyRule = CalendarEvent.RecurrenceRule(frequency: .monthly, dayOfTheWeek: .monday, endDate: nil, interval: 1)
         let monthlyEvent = CalendarEvent(start: start, end: end, rule: monthlyRule)
         
         var monthlyEventIterator = monthlyEvent.dates.makeIterator()
-        let firstDate = monthlyEventIterator.next()!.0
-        let secondDate = monthlyEventIterator.next()!.0
+        let firstDate = monthlyEventIterator.next()!.start
+        let secondDate = monthlyEventIterator.next()!.start
         
         let component = Calendar.current.dateComponents([.month], from: firstDate, to: secondDate)
         XCTAssertEqual(1, component.month)
@@ -185,14 +159,14 @@ class CalendarEventHelperTests: XCTestCase {
     
     func testThatDatesHaveCorrectFrequenciesForYearlyEvent() {
 
-        let (start, end) = makeDatePair("01.10.2017 15:00","01.10.2017 16:00")
+        let (start, end) = makeDatePair("02.10.2017 15:00","02.10.2017 16:00")
         
-        let yearlyRule = CalendarEvent.RecurrenceRule(frequency: .yearly, dayOfTheWeek: .monday, endDate: nil, interval: Int.max)
+        let yearlyRule = CalendarEvent.RecurrenceRule(frequency: .yearly, dayOfTheWeek: .monday, endDate: nil, interval: 1)
         let yearlyEvent = CalendarEvent(start: start, end: end, rule: yearlyRule)
         
         var yearlyEventIterator = yearlyEvent.dates.makeIterator()
-        let firstDate = yearlyEventIterator.next()!.0
-        let secondDate = yearlyEventIterator.next()!.0
+        let firstDate = yearlyEventIterator.next()!.start
+        let secondDate = yearlyEventIterator.next()!.start
         
         let component = Calendar.current.dateComponents([.year], from: firstDate, to: secondDate)
         XCTAssertEqual(1, component.year)

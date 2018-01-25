@@ -27,7 +27,7 @@ struct CalendarEvent {
     let end: Date
     let recurrenceRule: RecurrenceRule?
     
-    fileprivate let coreDataID : NSManagedObjectID?
+    let coreDataID : NSManagedObjectID?
     
     var eventKitID: String? {
         didSet {
@@ -69,14 +69,29 @@ struct CalendarEvent {
         self.title = title
         self.description = description
         self.location = location
+        self.start = startDate
+        self.end = endDate
         self.recurrenceRule = rule
         self.coreDataID = coreDataID
         eventKitID = ekEventID
+    }
+    
+    init(eventData: EventData) {
         
-        var startDate = startDate
-        var endDate = endDate
+        var rule : RecurrenceRule? = nil
         
-        if let rule = rule {
+        var startDate = eventData.start as Date
+        var endDate = eventData.end as Date
+        
+        if  let rfrequency = eventData.rrFrequency,
+            let frequency = RecurrenceRule.Frequency(rawValue: rfrequency),
+            let rdayOfWeek = eventData.rrDayOfWeek,
+            let dayOfWeek = RecurrenceRule.DayOfTheWeek(rawValue: rdayOfWeek) {
+            
+            rule = RecurrenceRule(frequency: frequency,
+                                  dayOfTheWeek: dayOfWeek,
+                                  endDate:eventData.rrEndDate as Date?,
+                                  interval: Int(eventData.rrInterval))
             
             // We receive date that starts at the beginning of the week when a recurring rule is specified
             // with the dayOfTheWeek property set to tell us which day the event occur
@@ -90,7 +105,7 @@ struct CalendarEvent {
             // to make things easy we simply assign sunday 8 (1 + 7days)
             
             var dayOfWeekIndex : Int = {
-                switch rule.dayOfTheWeek {
+                switch rule!.dayOfTheWeek {
                 case .sunday:
                     return 8 // is because 1
                 case .monday:
@@ -116,31 +131,12 @@ struct CalendarEvent {
             endDate = Calendar.current.date(byAdding: dateComponent, to: endDate)!
         }
         
-        self.start = startDate
-        self.end = endDate
-    }
-    
-    init(eventData: EventData) {
-        
-        var rule : RecurrenceRule? = nil
-        
-        if  let rfrequency = eventData.rrFrequency,
-            let frequency = RecurrenceRule.Frequency(rawValue: rfrequency),
-            let rdayOfWeek = eventData.rrDayOfWeek,
-            let dayOfWeek = RecurrenceRule.DayOfTheWeek(rawValue: rdayOfWeek) {
-            
-            rule = RecurrenceRule(frequency: frequency,
-                                  dayOfTheWeek: dayOfWeek,
-                                  endDate:eventData.rrEndDate as Date?,
-                                  interval: Int(eventData.rrInterval))
-        }
-        
         self.init(id: eventData.id,
                   title: eventData.title,
                   description: eventData.detail,
                   location: eventData.location,
-                  startDate: eventData.start as Date,
-                  endDate: eventData.end as Date,
+                  startDate: startDate,
+                  endDate: endDate,
                   rule: rule,
                   coreDataID: eventData.objectID,
                   ekEventID: eventData.ekIdentifier)
@@ -184,16 +180,20 @@ extension CalendarEvent {
             if event.recurrenceRule == nil && iteration > 0 { return nil }
 
             var dateComponents = DateComponents()
-            if let recurenceRule = event.recurrenceRule {
-                switch recurenceRule.frequency {
+            
+            if let recurrenceRule = event.recurrenceRule {
+                
+                let addedValue = Int(recurrenceRule.interval) * self.iteration
+                
+                switch recurrenceRule.frequency {
                 case .daily:
-                    dateComponents.day = recurenceRule.interval
+                    dateComponents.day = addedValue
                 case .weekly:
-                    dateComponents.weekOfYear = recurenceRule.interval
+                    dateComponents.weekOfYear = addedValue
                 case .monthly:
-                    dateComponents.month = recurenceRule.interval
+                    dateComponents.month = addedValue
                 case .yearly:
-                    dateComponents.year = recurenceRule.interval
+                    dateComponents.year = addedValue
                 }
             }
             
