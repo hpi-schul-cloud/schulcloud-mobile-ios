@@ -182,20 +182,18 @@ extension CalendarEvent {
             let event = sequence.calendarEvent
             // if non recurring event
             if event.recurrenceRule == nil && iteration > 0 { return nil }
-            // if we itereated more that the interval
-            if event.recurrenceRule?.endDate == nil, let interval = event.recurrenceRule?.interval, interval <= self.iteration { return nil }
-            
+
             var dateComponents = DateComponents()
             if let recurenceRule = event.recurrenceRule {
                 switch recurenceRule.frequency {
                 case .daily:
-                    dateComponents.day = self.iteration
+                    dateComponents.day = recurenceRule.interval
                 case .weekly:
-                    dateComponents.weekOfYear = self.iteration
+                    dateComponents.weekOfYear = recurenceRule.interval
                 case .monthly:
-                    dateComponents.month = self.iteration
+                    dateComponents.month = recurenceRule.interval
                 case .yearly:
-                    dateComponents.year = self.iteration
+                    dateComponents.year = recurenceRule.interval
                 }
             }
             
