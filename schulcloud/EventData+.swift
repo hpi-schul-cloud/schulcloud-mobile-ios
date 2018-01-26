@@ -88,7 +88,11 @@ extension EventData {
                 eventData.rrDayOfWeek = isValidDayOfTheWeek(remoteString: dayOfTheWeek) ? dayOfTheWeek : nil
                 
                 eventData.rrEndDate = try? rrattributes.value(for: "until")
-                eventData.rrInterval = try! rrattributes.value(for: "interval") ?? 0
+                
+                eventData.rrInterval = 1
+                if let interval: Int32 = try? rrattributes.value(for: "interval") {
+                    eventData.rrInterval = interval > 0 ? interval : 1
+                }
             }
             
             let courseId: String? = try attributes.value(for: "x-sc-courseId")
