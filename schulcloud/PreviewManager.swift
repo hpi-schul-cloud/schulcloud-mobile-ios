@@ -54,7 +54,7 @@ class PreviewManager: NSObject, QLPreviewControllerDataSource {
         default:
             let quickLookPreviewController = QLPreviewController()
             quickLookPreviewController.dataSource = self
-            quickLookPreviewController.title = self.file.displayName
+            quickLookPreviewController.title = self.file.name
             return quickLookPreviewController
         }
         
@@ -78,7 +78,7 @@ class PreviewManager: NSObject, QLPreviewControllerDataSource {
     {
         let tempDirectoryURL = NSURL.fileURL(withPath: NSTemporaryDirectory(), isDirectory: true)
         let fileExtension = file.path.pathExtension
-        let targetURL = tempDirectoryURL.appendingPathComponent("\(file.displayName).\(fileExtension)")  // TODO: better file extensions
+        let targetURL = tempDirectoryURL.appendingPathComponent("\(file.name).\(fileExtension)")  // TODO: better file extensions
         
         // Copy the file.
         do {

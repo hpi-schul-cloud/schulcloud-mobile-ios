@@ -38,7 +38,7 @@ class WebviewPreviewViewContoller: UIViewController {
 
     var file: File? {
         didSet {
-            self.title = file?.displayName
+            self.title = file?.name
             self.processForDisplay()
         }
     }

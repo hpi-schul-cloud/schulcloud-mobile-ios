@@ -17,11 +17,11 @@ public class File: NSManagedObject {
         return NSFetchRequest<File>(entityName: "File")
     }
     
-    @NSManaged public var cacheUrlString: String?
-    @NSManaged public var displayName: String
+    @NSManaged public var cacheURL_: String?
+    @NSManaged public var name: String
     @NSManaged public var isDirectory: Bool
-    @NSManaged public var pathString: String
-    @NSManaged public var typeString: String
+    @NSManaged public var currentPath: String
+    @NSManaged public var mimeType: String?
     @NSManaged public var size: NSNumber?
     @NSManaged public var parentDirectory: File?
     @NSManaged public var contents: NSSet?
@@ -48,11 +48,11 @@ extension File {
 extension File {
     static func createOrUpdate(inContext context: NSManagedObjectContext, parentFolder: File, isDirectory: Bool, data: MarshaledObject) throws -> File {
         let name: String = try data.value(for: "name")
-        let path = parentFolder.pathString + name + (isDirectory ? "/" : "")
+        let path = parentFolder.currentPath + name + (isDirectory ? "/" : "")
         
         let fetchRequest = NSFetchRequest<File>(entityName: "File")
         let fileDescription = NSEntityDescription.entity(forEntityName: "File", in: context)!
-        let pathPredicate = NSPredicate(format: "pathString == %@", path)
+        let pathPredicate = NSPredicate(format: "currentPath == %@", path)
         let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
         fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [pathPredicate, parentFolderPredicate])
         
@@ -62,10 +62,10 @@ extension File {
             throw SCError.database("Found more than one result for \(fetchRequest)")
         }
         
-        file.displayName = name
+        file.name = name
         file.isDirectory = isDirectory
-        file.pathString = path
-        file.typeString = isDirectory ? "directory" : try data.value(for: "type")
+        file.currentPath = path
+        file.mimeType = try data.value(for: "type") ?? nil
         if let size = try? data.value(for: "size") as Int64 {
             file.size = size as NSNumber?
         }
@@ -80,21 +80,21 @@ extension File {
     
     var path: URL {
         get {
-            let encoded = pathString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+            let encoded = currentPath.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
             return URL(string: encoded)!
         }
         set {
-            self.pathString = newValue.absoluteString
+            self.currentPath = newValue.absoluteString
         }
     }
     
     var cacheUrl: URL? {
         get {
-            guard let urlString = cacheUrlString else { return nil }
+            guard let urlString = cacheURL_ else { return nil }
             return URL(string: urlString)!
         }
         set {
-            cacheUrlString = newValue?.absoluteString
+            cacheURL_ = newValue?.absoluteString
         }
     }
 

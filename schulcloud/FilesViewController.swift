@@ -20,7 +20,7 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
             currentFolder = FileHelper.rootFolder
         }
 
-        self.navigationItem.title = self.currentFolder.displayName
+        self.navigationItem.title = self.currentFolder.name
 
         performFetch()
         didTriggerRefresh()
@@ -51,7 +51,7 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
         let fetchRequest: NSFetchRequest<File> = File.fetchRequest()
         
         // Configure Fetch Request
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "displayName", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", self.currentFolder)
         fetchRequest.predicate = parentFolderPredicate
         
@@ -92,7 +92,7 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
         let reuseIdentifier = item.detail == nil ? "item" : "item detail"
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) //as! FileListCell
 
-        cell.textLabel?.text = item.displayName
+        cell.textLabel?.text = item.name
         cell.detailTextLabel?.text = item.detail
         cell.imageView?.image = item.isDirectory ? #imageLiteral(resourceName: "folder") : #imageLiteral(resourceName: "document")
         cell.imageView?.tintColor = item.isDirectory ? UIColor.schulcloudYellow : UIColor.schulcloudRed

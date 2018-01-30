@@ -24,21 +24,20 @@ class FileHelper {
     
     static func createRootFolder() -> File {
         let fetchRequest = NSFetchRequest(entityName: "File") as NSFetchRequest<File>
-        fetchRequest.predicate = NSPredicate(format: "pathString == %@", rootUrl.absoluteString)
+        fetchRequest.predicate = NSPredicate(format: "currentPath == %@", rootUrl.absoluteString)
         
         do {
             let result = try managedObjectContext.fetch(fetchRequest)
             if let file = result.first {
-                file.pathString = rootUrl.absoluteString
+                file.currentPath = rootUrl.absoluteString
                 saveContext()
                 return file
             }
             let file = File(context: managedObjectContext)
             
-            file.displayName = "Meine Dateien"
+            file.name = "Meine Dateien"
             file.isDirectory = true
-            file.pathString = rootUrl.absoluteString
-            file.typeString = "directory"
+            file.currentPath = rootUrl.absoluteString
             saveContext()
             return file
         } catch let error {
@@ -48,7 +47,7 @@ class FileHelper {
     
     static func getFolder(withPath path: String) -> File? {
         let fetchRequest: NSFetchRequest<File> = File.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "pathString == %@", path)
+        fetchRequest.predicate = NSPredicate(format: "currentPath == %@", path)
         do {
             let result = try managedObjectContext.fetch(fetchRequest)
             if let file = result.first {
@@ -92,9 +91,9 @@ class FileHelper {
             let createdFolders = try folders.map({ try File.createOrUpdate(inContext: managedObjectContext, parentFolder: parentFolder, isDirectory: true, data: $0) })
             
             // remove deleted files or folders
-            let foundPaths = createdFiles.map({$0.pathString}) + createdFolders.map({$0.pathString})
+            let foundPaths = createdFiles.map({$0.currentPath}) + createdFolders.map({$0.currentPath})
             let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
-            let notOnServerPredicate = NSPredicate(format: "NOT (pathString IN %@)", foundPaths)
+            let notOnServerPredicate = NSPredicate(format: "NOT (currentPath IN %@)", foundPaths)
             let fetchRequest = NSFetchRequest<File>(entityName: "File")
             fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [notOnServerPredicate, parentFolderPredicate])
             
