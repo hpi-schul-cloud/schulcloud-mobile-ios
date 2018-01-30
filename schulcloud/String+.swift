@@ -31,9 +31,9 @@ extension String {
             return nil
         }
 
-        let options: [String: Any] = [
-            NSDocumentTypeDocumentAttribute : NSHTMLTextDocumentType,
-            NSCharacterEncodingDocumentAttribute: NSNumber(value: String.Encoding.utf8.rawValue),
+        let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
+            .documentType: NSAttributedString.DocumentType.html,
+            .characterEncoding: NSNumber(value: String.Encoding.utf8.rawValue)
         ]
         let attributedString = try? NSMutableAttributedString(data: data, options: options, documentAttributes: nil)
         return attributedString?.trimmedAttributedString(set: .whitespacesAndNewlines)

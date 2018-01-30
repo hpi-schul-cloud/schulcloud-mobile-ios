@@ -150,7 +150,7 @@ extension CalendarHelper {
 
         self.eventStore.requestAccess(to: .event) { (granted, error) in
             if granted && error == nil {
-                promise.success()
+                promise.success(())
             } else {
                 promise.failure(SCError.other("Missing Calendar Permission"))
             }
