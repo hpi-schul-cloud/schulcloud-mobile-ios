@@ -13,37 +13,110 @@ import CoreData
 import Marshal
 
 class FileHelper {
-    static var rootUrl: URL {
+    
+    fileprivate static var userDataRootURL: URL {
         let userId = Globals.account?.userId ?? "0"
-        return URL(string: "users/\(userId)/")!
+        return URL(string: "users/\(userId)")!
     }
+    
+    fileprivate static var coursesDataRootURL : URL = {
+        return URL(string: "courses")!
+    }()
+    
+    fileprivate static var sharedDataRooURL : URL = {
+        return URL(string: "shared")!
+    }()
     
     static var rootFolder: File {
-        return createRootFolder()
+        return fetchRootFolder() ?? createBaseStructure()
     }
     
-    static func createRootFolder() -> File {
+    fileprivate static func fetchRootFolder() -> File? {
+        
         let fetchRequest = NSFetchRequest(entityName: "File") as NSFetchRequest<File>
-        fetchRequest.predicate = NSPredicate(format: "currentPath == %@", rootUrl.absoluteString)
+        fetchRequest.predicate = NSPredicate(format: "currentPath == %@", "root")
         
         do {
             let result = try managedObjectContext.fetch(fetchRequest)
-            if let file = result.first {
-                file.currentPath = rootUrl.absoluteString
-                saveContext()
-                return file
-            }
-            let file = File(context: managedObjectContext)
+            return result.first
+        } catch _ {
+            return nil
+        }
+    }
+    
+    /// Create the basic folder structure and return main Root
+    fileprivate static func createBaseStructure() -> File {
+
+        do {
+            let rootFolder = File(context: managedObjectContext)
+            rootFolder.id = "root"
+            rootFolder.name = "Daitein"
+            rootFolder.isDirectory = true
+            rootFolder.currentPath = "root"
             
-            file.name = "Meine Dateien"
-            file.isDirectory = true
-            file.currentPath = rootUrl.absoluteString
-            saveContext()
-            return file
+            createUserDataFolder(root: rootFolder)
+            createCoursesDataFolder(root: rootFolder)
+            createSharedFolder(root: rootFolder)
+            
+            try managedObjectContext.save()
+
+            return rootFolder
         } catch let error {
             fatalError("Unresolved error \(error)") // TODO: replace this with something more friendly
         }
     }
+    
+    @discardableResult
+    fileprivate static func createUserDataFolder(root: File) -> File {
+        let userRootFolder = File(context: managedObjectContext)
+        userRootFolder.id = "\(userDataRootURL.absoluteString)"
+        userRootFolder.name = "My Data"
+        userRootFolder.isDirectory = true
+        userRootFolder.currentPath = userDataRootURL.absoluteString
+        userRootFolder.parentDirectory = root
+        return userRootFolder
+    }
+    
+    @discardableResult
+    fileprivate static func createCoursesDataFolder(root: File) -> File {
+        let coursesRootFolder = File(context: managedObjectContext)
+        
+        coursesRootFolder.id = "\(coursesDataRootURL.absoluteString)"
+        coursesRootFolder.name = "Courses Data"
+        coursesRootFolder.isDirectory = true
+        coursesRootFolder.currentPath = coursesDataRootURL.absoluteString
+        coursesRootFolder.parentDirectory = root
+        
+        let coursesFetchRequest : NSFetchRequest<Course> = Course.fetchRequest()
+        if let courses = try? managedObjectContext.fetch(coursesFetchRequest) {
+            for course in courses {
+                let courseURL = coursesDataRootURL.appendingPathComponent(course.id)
+                
+                let courseFolder = File(context: managedObjectContext)
+                courseFolder.id = "\(coursesDataRootURL.absoluteString)"
+                courseFolder.name = "\(course.name)"
+                courseFolder.isDirectory = true
+                courseFolder.currentPath = courseURL.absoluteString
+                courseFolder.parentDirectory = coursesRootFolder
+            }
+        }
+        return coursesRootFolder
+    }
+    
+    @discardableResult
+    fileprivate static func createSharedFolder(root: File) -> File {
+        
+        let sharedRootFolder = File(context: managedObjectContext)
+        
+        sharedRootFolder.id = "shared"
+        sharedRootFolder.name = "Shared Data"
+        sharedRootFolder.isDirectory = true
+        sharedRootFolder.currentPath = sharedDataRooURL.absoluteString
+        sharedRootFolder.parentDirectory = root
+        
+        return sharedRootFolder
+    }
+    
     
     static func getFolder(withPath path: String) -> File? {
         let fetchRequest: NSFetchRequest<File> = File.fetchRequest()
@@ -61,7 +134,7 @@ class FileHelper {
     
     static func getSignedUrl(forFile file: File) -> Future<URL, SCError> {
         let parameters: Parameters = [
-            "path": file.path.absoluteString.removingPercentEncoding!,
+            "path": file.url.absoluteString.removingPercentEncoding!,
             //"fileType": mime.lookup(file),
             "action": "getObject"
         ]
@@ -73,7 +146,7 @@ class FileHelper {
     }
     
     static func updateDatabase(forFolder parentFolder: File) -> Future<Void, SCError> {
-        let path = "fileStorage?path=\(parentFolder.path.absoluteString)"
+        let path = "fileStorage?path=\(parentFolder.url.absoluteString)/"
         
         return ApiHelper.request(path).jsonObjectFuture()
             .flatMap { json -> Future<Void, SCError> in

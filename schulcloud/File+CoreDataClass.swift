@@ -17,6 +17,7 @@ public class File: NSManagedObject {
         return NSFetchRequest<File>(entityName: "File")
     }
     
+    @NSManaged public var id: String
     @NSManaged public var cacheURL_: String?
     @NSManaged public var name: String
     @NSManaged public var isDirectory: Bool
@@ -48,11 +49,11 @@ extension File {
 extension File {
     static func createOrUpdate(inContext context: NSManagedObjectContext, parentFolder: File, isDirectory: Bool, data: MarshaledObject) throws -> File {
         let name: String = try data.value(for: "name")
-        let path = parentFolder.currentPath + name + (isDirectory ? "/" : "")
+        let path = parentFolder.url.appendingPathComponent(name, isDirectory: isDirectory)
         
         let fetchRequest = NSFetchRequest<File>(entityName: "File")
         let fileDescription = NSEntityDescription.entity(forEntityName: "File", in: context)!
-        let pathPredicate = NSPredicate(format: "currentPath == %@", path)
+        let pathPredicate = NSPredicate(format: "currentPath == %@", path.absoluteString)
         let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
         fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [pathPredicate, parentFolderPredicate])
         
@@ -64,7 +65,7 @@ extension File {
         
         file.name = name
         file.isDirectory = isDirectory
-        file.currentPath = path
+        file.currentPath = path.absoluteString
         file.mimeType = try data.value(for: "type") ?? nil
         if let size = try? data.value(for: "size") as Int64 {
             file.size = size as NSNumber?
@@ -78,10 +79,9 @@ extension File {
 // MARK: computed properties
 extension File {
     
-    var path: URL {
+    var url: URL {
         get {
-            let encoded = currentPath.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
-            return URL(string: encoded)!
+            return URL(string: currentPath)!
         }
         set {
             self.currentPath = newValue.absoluteString

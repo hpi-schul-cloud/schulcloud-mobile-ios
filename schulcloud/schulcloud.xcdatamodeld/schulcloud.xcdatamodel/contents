@@ -23,6 +23,7 @@
     <entity name="File" representedClassName="File" syncable="YES">
         <attribute name="cacheURL_" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="currentPath" attributeType="String" minValueString="1" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isDirectory" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="mimeType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
@@ -89,7 +90,7 @@
         <element name="Content" positionX="-99" positionY="171" width="128" height="135"/>
         <element name="Course" positionX="-99" positionY="144" width="128" height="120"/>
         <element name="EventData" positionX="-63" positionY="207" width="128" height="90"/>
-        <element name="File" positionX="-342" positionY="291" width="128" height="165"/>
+        <element name="File" positionX="-342" positionY="291" width="128" height="180"/>
         <element name="Homework" positionX="-99" positionY="288" width="128" height="178"/>
         <element name="Lesson" positionX="-108" positionY="162" width="128" height="150"/>
         <element name="NewsArticle" positionX="-63" positionY="216" width="128" height="180"/>

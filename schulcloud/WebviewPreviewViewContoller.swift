@@ -105,7 +105,7 @@ class WebviewPreviewViewContoller: UIViewController {
         var rawString: String?
         
         // Prepare plist for display
-        if file.path.pathExtension.lowercased() == "plist" {
+        if file.url.pathExtension.lowercased() == "plist" {
             do {
                 if let plistDescription = try (PropertyListSerialization.propertyList(from: data, options: [], format: nil) as AnyObject).description {
                     rawString = plistDescription
@@ -114,7 +114,7 @@ class WebviewPreviewViewContoller: UIViewController {
         }
         
         // Prepare json file for display
-        else if file.path.pathExtension.lowercased() == "json" {
+        else if file.url.pathExtension.lowercased() == "json" {
             do {
                 let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
                 if JSONSerialization.isValidJSONObject(jsonObject) {
