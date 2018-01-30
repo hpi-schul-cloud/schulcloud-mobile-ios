@@ -67,11 +67,11 @@ extension CalendarEventHelper {
         
         switch EKEventStore.authorizationStatus(for: .event) {
         case .authorized:
-            promise.success()
+            promise.success(Void())
         case .notDetermined:
             self.eventStore.requestAccess(to: .event) { (granted, error) in
                 if granted && error == nil {
-                    promise.success()
+                    promise.success(Void())
                 } else {
                     promise.failure(SCError.other("Missing Calendar Permission: \(error!.localizedDescription)"))
                 }
