@@ -42,15 +42,24 @@ public struct CalendarEventHelper {
             })
             .flatMap { eventsToDelete -> Future<Void, SCError> in
                 // remove events from calendar
-                if CalendarEventHelper.EventKitSettings.current.isSynchonized,
-                    eventsToDelete.count > 0 {
-                    do {
-                        try CalendarEventHelper.remove(events: eventsToDelete.map { $0.calendarEvent })
-                    } catch let error {
-                        return Future(error: .other("Could not remove events from calendar: \(error.localizedDescription)") )
+                
+                let promise: Promise<Void, SCError> = Promise()
+                
+                CalendarEventHelper.requestCalendarPermission()
+                .andThen{ result in
+                    if result.value != nil {
+                        if CalendarEventHelper.EventKitSettings.current.isSynchonized,
+                            eventsToDelete.count > 0 {
+                            do {
+                                try CalendarEventHelper.remove(events: eventsToDelete.map { $0.calendarEvent })
+                            } catch let error {
+                                promise.failure(.other("Could not remove events from calendar: \(error.localizedDescription)") )
+                            }
+                        }
+                        promise.success( Void() )
                     }
                 }
-                return Future(value: Void() )
+                return promise.future
             }
             .flatMap { _ -> Future<Void, SCError> in
                 // save new inserted, and deleted
@@ -62,18 +71,21 @@ public struct CalendarEventHelper {
             }
             .andThen { result in
                 // push new events to calendar
-                if CalendarEventHelper.EventKitSettings.current.isSynchonized,
-                    let calendar = CalendarEventHelper.fetchCalendar() ?? CalendarEventHelper.createCalendar(),
-                    let events = result.value {
-                    
-                    try? CalendarEventHelper.push(events: events , to: calendar)
+                guard let events = result.value, events.count > 0 else { return ; }
+                
+                CalendarEventHelper.requestCalendarPermission()
+                .andThen { result in
+                        if CalendarEventHelper.EventKitSettings.current.isSynchonized,
+                            let calendar = CalendarEventHelper.fetchCalendar() ?? CalendarEventHelper.createCalendar() {
+                            try? CalendarEventHelper.push(events: events , to: calendar)
+                        }
                 }
         }
     }
     
     static func fetchCalendarEvent(inContext context: NSManagedObjectContext) -> Future<[CalendarEvent], SCError> {
-        let fetchRequest: NSFetchRequest<EventData> = EventData.fetchRequest()
 
+        let fetchRequest: NSFetchRequest<EventData> = EventData.fetchRequest()
         do {
             let fetchedEvent = try context.fetch(fetchRequest)
             return Future(value: fetchedEvent.map({ $0.calendarEvent }))

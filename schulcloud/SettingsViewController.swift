@@ -88,7 +88,9 @@ class SettingsViewController: UITableViewController {
     }
     
     private func showErrorAlert(message: String) {
-        let alert = UIAlertController(title: "Somthing went wrong", message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: "Something went wrong", message: message, preferredStyle: .alert)
+        let dismiss = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alert.addAction(dismiss)
         self.present(alert, animated: true)
     }
 }

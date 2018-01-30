@@ -18,7 +18,7 @@ extension CalendarEventHelper {
     private static var calendar : EKCalendar?
 
     private struct Keys {
-        static let isSynchonized = "org.schul-cloud.calendar.eventKitIsSynchonized"
+        static let shouldSynchronize = "org.schul-cloud.calendar.eventKitShouldSynchronize"
         static let calendarIdentifier = "org.schul-cloud.calendar.identifier"
     }
     
@@ -27,10 +27,10 @@ extension CalendarEventHelper {
         static var current : EventKitSettings = EventKitSettings()
         var isSynchonized : Bool {
             get {
-                return UserDefaults.standard.bool(forKey: Keys.isSynchonized)
+                return UserDefaults.standard.bool(forKey: Keys.shouldSynchronize)
             }
             set {
-                UserDefaults.standard.set(newValue, forKey: Keys.isSynchonized)
+                UserDefaults.standard.set(newValue, forKey: Keys.shouldSynchronize)
                 UserDefaults.standard.synchronize()
             }
         }
@@ -100,10 +100,10 @@ extension CalendarEventHelper {
     }
 
     static func createCalendar() -> EKCalendar? {
-
         guard let source = eventStore.sources.first(where: { return $0.sourceType == EKSourceType.subscribed }) else {
             return nil
         }
+        
         let calendar = EKCalendar(for: .event, eventStore: self.eventStore)
         calendar.title = EventKitSettings.current.calendarTitle
         calendar.source = source

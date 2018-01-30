@@ -64,7 +64,6 @@ struct CalendarEvent {
     }
     
     init(id: String, title: String, description: String, location: String, startDate: Date, endDate: Date, rule: RecurrenceRule?, coreDataID: NSManagedObjectID?, ekEventID: String?) {
-        
         self.id = id
         self.title = title
         self.description = description
@@ -77,7 +76,6 @@ struct CalendarEvent {
     }
     
     init(eventData: EventData) {
-        
         var rule : RecurrenceRule? = nil
         
         var startDate = eventData.start as Date

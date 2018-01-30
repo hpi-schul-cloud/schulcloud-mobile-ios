@@ -17,44 +17,14 @@ import DateToolsSwift
 extension EventData {
     
     static func isValidFrequency(remoteString: String) -> Bool {
-        switch remoteString {
-        case "DAILY":
-            return true
-        case "WEEKLY":
-            return true
-        case "MONTHLY":
-            return true
-        case "YEARLY":
-            return true
-        default:
-            return false
-        }
+        return ["DAILY","WEEKLY","MONTHLY","YEARLY"].contains(remoteString)
     }
     
     static func isValidDayOfTheWeek(remoteString: String) -> Bool {
-        
-        switch remoteString {
-        case "MO":
-            return true
-        case "TU":
-            return true
-        case "WE":
-            return true
-        case "TH":
-            return true
-        case "FR":
-            return true
-        case "SA":
-            return true
-        case "SU":
-            return true
-        default:
-            return false
-        }
+        return ["MO","TU","WE","TH","FR","SA","SU"].contains(remoteString)
     }
     
     static func upsert(inContext context: NSManagedObjectContext, object: MarshaledObject) -> Future<EventData, SCError> {
-        
         do {
             let fetchRequest: NSFetchRequest<EventData> = EventData.fetchRequest()
             let id: String = try object.value(for: "id")
