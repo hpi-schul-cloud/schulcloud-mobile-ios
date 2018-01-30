@@ -15,10 +15,12 @@ class SettingsViewController: UITableViewController {
 
     @IBOutlet var logoutCell: UITableViewCell!
     @IBOutlet weak var userNameLabel: UILabel!
-    @IBOutlet weak var synchronizeCalendarCell: UITableViewCell!
-    
+    @IBOutlet var calendarSyncSwitch: UISwitch!
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.calendarSyncSwitch.isOn = currentEventKitSettings.isSynchonized
 
         guard let userId = Globals.account?.userId else { return }
         User.fetch(by: userId, inContext: managedObjectContext).onSuccess { user in
@@ -26,12 +28,6 @@ class SettingsViewController: UITableViewController {
         }.onFailure { error in
             self.userNameLabel.text = ""
         }
-        
-        let switchView = UISwitch()
-        self.synchronizeCalendarCell.accessoryView = switchView
-        
-        switchView.isOn = currentEventKitSettings.isSynchonized
-        switchView.addTarget(self, action: #selector(synchronizeToCalendar(switchView:)), for: UIControlEvents.valueChanged)
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -43,9 +39,8 @@ class SettingsViewController: UITableViewController {
         }
     }
     
-    func synchronizeToCalendar(switchView: UISwitch) {
-        
-        let newValue = switchView.isOn
+    @IBAction func synchronizeToCalendar(_ sender: UISwitch) {
+        let newValue = sender.isOn
         if newValue {
             CalendarEventHelper.requestCalendarPermission()
             .flatMap { _ -> Future<[CalendarEvent], SCError> in
@@ -67,7 +62,7 @@ class SettingsViewController: UITableViewController {
             .onSuccess { _ in
                 DispatchQueue.main.async {
                     currentEventKitSettings.isSynchonized = true
-                    switchView.isOn = true
+                    sender.isOn = true
                 }
             }
             .onFailure { error in
@@ -75,19 +70,19 @@ class SettingsViewController: UITableViewController {
                 DispatchQueue.main.async {
                     self.showErrorAlert(message: error.localizedDescription)
                     currentEventKitSettings.isSynchonized = false
-                    switchView.isOn = false
+                    sender.isOn = false
                 }
             }
         } else {
             do {
                 try CalendarEventHelper.deleteSchulcloudCalendar()
                 currentEventKitSettings.isSynchonized = false
-                switchView.isOn = false
+                sender.isOn = false
             } catch let error {
                 //TODO: Show error on why we could not delete the calendar
                 self.showErrorAlert(message: error.localizedDescription)
                 currentEventKitSettings.isSynchonized = true
-                switchView.isOn = true
+                sender.isOn = true
             }
         }
     }

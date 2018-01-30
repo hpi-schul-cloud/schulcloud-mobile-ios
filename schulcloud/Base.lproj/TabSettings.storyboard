@@ -52,7 +52,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Synchronize to iCal" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hvU-eY-zAU">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Kalender in Kalender-App anziegen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hvU-eY-zAU">
                                                     <rect key="frame" x="20" y="0.0" width="374" height="43.666666666666664"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -61,6 +61,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="accessoryView" destination="hCL-qP-tRu" id="wXV-AD-EYq"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="eM4-88-LZc" style="IBUITableViewCellStyleDefault" id="g3o-Bv-HLI">
                                         <rect key="frame" x="0.0" y="143.33333333333334" width="414" height="44"/>
@@ -113,12 +116,20 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Einstellungen" id="h1G-Yv-C6E"/>
                     <connections>
+                        <outlet property="calendarSyncSwitch" destination="hCL-qP-tRu" id="Cxd-Dk-c5d"/>
                         <outlet property="logoutCell" destination="g3o-Bv-HLI" id="sVL-1B-ctf"/>
                         <outlet property="synchronizeCalendarCell" destination="1xh-jd-gKU" id="yXL-Tq-zy4"/>
                         <outlet property="userNameLabel" destination="E0B-Gj-SM8" id="7S6-cf-al5"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AhS-Ec-wO5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="hCL-qP-tRu" userLabel="Sync Calendar Switch">
+                    <rect key="frame" x="0.0" y="0.0" width="51" height="31"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <connections>
+                        <action selector="synchronizeToCalendar:" destination="T0e-Jz-Gtq" eventType="valueChanged" id="yts-xw-klL"/>
+                    </connections>
+                </switch>
             </objects>
             <point key="canvasLocation" x="3092" y="2192"/>
         </scene>
