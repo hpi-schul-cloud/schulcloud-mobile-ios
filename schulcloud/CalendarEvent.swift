@@ -105,7 +105,7 @@ struct CalendarEvent {
             var dayOfWeekIndex : Int = {
                 switch rule!.dayOfTheWeek {
                 case .sunday:
-                    return 8 // is because 1
+                    return 8 
                 case .monday:
                     return 2
                 case .tuesday:
