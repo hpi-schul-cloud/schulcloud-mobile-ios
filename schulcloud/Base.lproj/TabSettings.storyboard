@@ -118,7 +118,6 @@
                     <connections>
                         <outlet property="calendarSyncSwitch" destination="hCL-qP-tRu" id="Cxd-Dk-c5d"/>
                         <outlet property="logoutCell" destination="g3o-Bv-HLI" id="sVL-1B-ctf"/>
-                        <outlet property="synchronizeCalendarCell" destination="1xh-jd-gKU" id="yXL-Tq-zy4"/>
                         <outlet property="userNameLabel" destination="E0B-Gj-SM8" id="7S6-cf-al5"/>
                     </connections>
                 </tableViewController>
