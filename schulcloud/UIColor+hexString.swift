@@ -23,8 +23,8 @@ extension UIColor {
         var green:CGFloat = 0.0
         var blue:CGFloat = 0.0
         
-        var color:Int32 = 0
-        if scanner.scanInt32(&color) {
+        var color:UInt32 = 0
+        if scanner.scanHexInt32(&color) {
             let mask = 0x000000FF
             let r = Int(color >> 16) & mask
             let g = Int(color >> 8) & mask
