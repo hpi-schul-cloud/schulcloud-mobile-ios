@@ -30,7 +30,7 @@ class HomeworkOverviewViewController: UIViewController {
         self.didChangePreferredContentSize()
     }
 
-    func updateHomeworkCount() {
+    @objc func updateHomeworkCount() {
         let fetchRequest: NSFetchRequest<Homework> = Homework.fetchRequest()
         let oneWeek = DateComponents(day: 8)
         let inOneWeek = Calendar.current.date(byAdding: oneWeek, to: Date())!
@@ -68,7 +68,7 @@ class HomeworkOverviewViewController: UIViewController {
         }
     }
 
-    func didChangePreferredContentSize() {
+    @objc func didChangePreferredContentSize() {
         var font = UIFont.preferredFont(forTextStyle: .title1)
         font = font.withSize(font.pointSize * 3)
         self.numberOfOpenTasksLabel.font = font

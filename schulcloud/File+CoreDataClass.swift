@@ -107,6 +107,6 @@ extension File {
             return nil
         }
 
-        return ByteCountFormatter.string(fromByteCount: Int64(size), countStyle: .binary)
+        return ByteCountFormatter.string(fromByteCount: Int64(truncating: size), countStyle: .binary)
     }
 }

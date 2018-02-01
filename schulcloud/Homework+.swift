@@ -80,7 +80,7 @@ extension Homework {
 
     var color: UIColor {
         if let colorString = self.course?.colorString {
-            return UIColor(hexString: colorString)
+            return UIColor(hexString: colorString)!
         } else {
             return UIColor.clear
         }

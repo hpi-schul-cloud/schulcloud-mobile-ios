@@ -63,7 +63,7 @@ class WebviewPreviewViewContoller: UIViewController {
     
     //MARK: Share
     
-    func shareFile() {
+    @objc func shareFile() {
         guard let file = file else {
             return
         }

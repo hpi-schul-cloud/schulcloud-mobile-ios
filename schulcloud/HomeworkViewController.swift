@@ -38,7 +38,7 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dueDate", ascending: true)]
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                                   managedObjectContext: managedObjectContext,
-                                                                  sectionNameKeyPath: #keyPath(Homework.dueDateShort),
+                                                                  sectionNameKeyPath: "dueDateShort",
                                                                   cacheName: nil)
         fetchedResultsController.delegate = self
         
