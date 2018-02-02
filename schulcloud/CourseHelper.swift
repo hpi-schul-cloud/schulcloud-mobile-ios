@@ -15,7 +15,7 @@ public class CourseHelper {
     
     typealias FetchResult = Future<Void, SCError>
     
-    static func fetchFromServer() -> FetchResult {
+    static func fetchFromServer() -> Future<[String: [Course] ], SCError> {
         
         let privateMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         privateMOC.parent = managedObjectContext
@@ -31,22 +31,24 @@ public class CourseHelper {
                 let updatedCourseFutures = json.map{ Course.upsert(data: $0, context: privateMOC) }.sequence()
                 return updatedCourseFutures
             })
-            .flatMap(privateMOC.perform, f: { updatedCourses -> FetchResult in
+            .flatMap(privateMOC.perform, f: { updatedCourses -> Future<[String: [Course] ], SCError> in
                 do {
+                    
                     let ids = updatedCourses.map({$0.id})
-                    let deleteRequest: NSFetchRequest<Course> = Course.fetchRequest()
-                    deleteRequest.predicate = NSPredicate(format: "NOT (id IN %@)", ids)
-                    try CoreDataHelper.delete(fetchRequest: deleteRequest, context: privateMOC)
-                    saveContext()
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Homework.homeworkDidChangeNotificationName), object: nil)
-                    return Future(value: Void())
+                    let objectToDeleteFetchRequest : NSFetchRequest<Course> = Course.fetchRequest()
+                    objectToDeleteFetchRequest.predicate = NSPredicate(format: "NOT (id IN %@)", ids)
+                    let objectToDelete = try privateMOC.fetch(objectToDeleteFetchRequest)
+                    if objectToDelete.count > 0 {
+                        let batchDelete = NSBatchDeleteRequest(objectIDs: objectToDelete.map { $0.objectID })
+                        try privateMOC.execute(batchDelete)
+                    }
+                    return Future(value: ["updated": updatedCourses, "deleted": objectToDelete])
                 } catch let error {
                     return Future(error: .database(error.localizedDescription))
                 }
             })
-            .flatMap {  _ -> FetchResult in
-                return save(privateContext: privateMOC)
+            .andThen { _ in
+                save(privateContext: privateMOC)
             }
     }
-    
 }

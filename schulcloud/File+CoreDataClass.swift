@@ -63,6 +63,7 @@ extension File {
             throw SCError.database("Found more than one result for \(fetchRequest)")
         }
         
+        file.id = try data.value(for: "_id")
         file.name = name
         file.isDirectory = isDirectory
         file.currentPath = path.absoluteString
