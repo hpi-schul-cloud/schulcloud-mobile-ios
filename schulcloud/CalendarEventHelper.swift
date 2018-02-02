@@ -48,7 +48,7 @@ public struct CalendarEventHelper {
                 CalendarEventHelper.requestCalendarPermission()
                 .andThen{ result in
                     if result.value != nil {
-                        if CalendarEventHelper.EventKitSettings.current.isSynchonized,
+                        if CalendarEventHelper.EventKitSettings.current.shouldSynchonize,
                             eventsToDelete.count > 0 {
                             do {
                                 try CalendarEventHelper.remove(events: eventsToDelete.map { $0.calendarEvent })
@@ -75,7 +75,7 @@ public struct CalendarEventHelper {
                 
                 CalendarEventHelper.requestCalendarPermission()
                 .andThen { result in
-                        if CalendarEventHelper.EventKitSettings.current.isSynchonized,
+                        if CalendarEventHelper.EventKitSettings.current.shouldSynchonize,
                             let calendar = CalendarEventHelper.fetchCalendar() ?? CalendarEventHelper.createCalendar() {
                             try? CalendarEventHelper.push(events: events , to: calendar)
                         }

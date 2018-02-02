@@ -25,7 +25,7 @@ extension CalendarEventHelper {
     struct EventKitSettings {
         
         static var current : EventKitSettings = EventKitSettings()
-        var isSynchonized : Bool {
+        var shouldSynchonize : Bool {
             get {
                 return UserDefaults.standard.bool(forKey: Keys.shouldSynchronize)
             }

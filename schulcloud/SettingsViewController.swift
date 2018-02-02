@@ -20,7 +20,7 @@ class SettingsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.calendarSyncSwitch.isOn = currentEventKitSettings.isSynchonized
+        self.calendarSyncSwitch.isOn = currentEventKitSettings.shouldSynchonize
 
         guard let userId = Globals.account?.userId else { return }
         User.fetch(by: userId, inContext: managedObjectContext).onSuccess { user in
@@ -61,7 +61,7 @@ class SettingsViewController: UITableViewController {
             }
             .onSuccess { _ in
                 DispatchQueue.main.async {
-                    currentEventKitSettings.isSynchonized = true
+                    currentEventKitSettings.shouldSynchonize = true
                     sender.isOn = true
                 }
             }
@@ -69,19 +69,19 @@ class SettingsViewController: UITableViewController {
                 // TODO: Show error message as to why it failed
                 DispatchQueue.main.async {
                     self.showErrorAlert(message: error.localizedDescription)
-                    currentEventKitSettings.isSynchonized = false
+                    currentEventKitSettings.shouldSynchonize = false
                     sender.isOn = false
                 }
             }
         } else {
             do {
                 try CalendarEventHelper.deleteSchulcloudCalendar()
-                currentEventKitSettings.isSynchonized = false
+                currentEventKitSettings.shouldSynchonize = false
                 sender.isOn = false
             } catch let error {
                 //TODO: Show error on why we could not delete the calendar
                 self.showErrorAlert(message: error.localizedDescription)
-                currentEventKitSettings.isSynchonized = true
+                currentEventKitSettings.shouldSynchonize = true
                 sender.isOn = true
             }
         }
