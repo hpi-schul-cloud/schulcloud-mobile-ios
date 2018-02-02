@@ -20,14 +20,17 @@ class SettingsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.calendarSyncSwitch.isOn = currentEventKitSettings.shouldSynchonize
-
         guard let userId = Globals.account?.userId else { return }
         User.fetch(by: userId, inContext: managedObjectContext).onSuccess { user in
             self.userNameLabel.text = "\(user.firstName) \(user.lastName)"
         }.onFailure { error in
             self.userNameLabel.text = ""
         }
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.calendarSyncSwitch.isOn = currentEventKitSettings.shouldSynchonize && CalendarEventHelper.currentCalenderPermissionStatus == .authorized
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

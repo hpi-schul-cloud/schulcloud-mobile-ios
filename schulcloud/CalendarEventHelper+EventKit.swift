@@ -82,6 +82,10 @@ extension CalendarEventHelper {
         return promise.future
     }
 
+    static var currentCalenderPermissionStatus: EKAuthorizationStatus {
+        return EKEventStore.authorizationStatus(for: .event)
+    }
+
     static func fetchCalendar() -> EKCalendar? {
         if let calendar = self.calendar { return calendar }
         
