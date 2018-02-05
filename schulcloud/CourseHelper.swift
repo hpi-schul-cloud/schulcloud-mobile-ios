@@ -31,22 +31,25 @@ public class CourseHelper {
                 let updatedCourseFutures = json.map{ Course.upsert(data: $0, context: privateMOC) }.sequence()
                 return updatedCourseFutures
             })
-            .flatMap(privateMOC.perform, f: { updatedCourses -> Future<[String: [Course] ], SCError> in
+            .flatMap(privateMOC.perform, f: { updatedCourses -> Future<Void, SCError> in
                 do {
                     
                     let ids = updatedCourses.map({$0.id})
                     let objectToDeleteFetchRequest : NSFetchRequest<Course> = Course.fetchRequest()
                     objectToDeleteFetchRequest.predicate = NSPredicate(format: "NOT (id IN %@)", ids)
-                    let objectToDelete = try privateMOC.fetch(objectToDeleteFetchRequest)
-                    if objectToDelete.count > 0 {
-                        let batchDelete = NSBatchDeleteRequest(objectIDs: objectToDelete.map { $0.objectID })
-                        try privateMOC.execute(batchDelete)
-                    }
-                    return Future(value: ["updated": updatedCourses, "deleted": objectToDelete])
+                    try CoreDataHelper.delete(fetchRequest: objectToDeleteFetchRequest)
+                    return Future(value: Void() )
                 } catch let error {
                     return Future(error: .database(error.localizedDescription))
                 }
             })
+            .map {
+                let inserted = Array(privateMOC.insertedObjects) as! [Course]
+                let updated = Array(privateMOC.updatedObjects) as! [Course]
+                let deleted = Array(privateMOC.deletedObjects) as! [Course]
+                
+                return [NSInsertedObjectsKey: inserted, NSUpdatedObjectsKey: updated, NSDeletedObjectsKey: deleted]
+            }
             .andThen { _ in
                 save(privateContext: privateMOC)
             }

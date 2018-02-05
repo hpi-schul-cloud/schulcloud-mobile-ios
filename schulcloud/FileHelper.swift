@@ -126,35 +126,11 @@ class FileHelper {
             return Future(value: Void() )
         }
         
-        //TODO: CLEAN THIS AWEFUL MESS
         let promise: Promise<Void, SCError> = Promise()
         if coursesDirectoryName == parentFolder.url.absoluteString {
             CourseHelper.fetchFromServer()
             .onSuccess { changes in
-                if let deleteCourses = changes["deleted"] {
-                    let contents = parentFolder.mutableSetValue(forKey: "contents")
-                    for course in deleteCourses {
-                        contents.remove(course)
-                    }
-                }
-                
-                if let updated = changes["updated"],
-                    let contents = parentFolder.contents as? Set<File> {
-                    
-                    let filePath = Set(contents.map { $0.id })
-                    let courseIds = Set(updated.map { $0.id })
-                    let newCourses = courseIds.subtracting(filePath)
-                    let courseToAdd = updated.filter({ newCourses.contains($0.id)})
-                    for course in courseToAdd {
-                        let file = File(context: managedObjectContext)
-                        
-                        file.id = course.id
-                        file.currentPath = parentFolder.url.appendingPathComponent(course.id).absoluteString
-                        file.name = course.name
-                        file.isDirectory = true
-                        file.parentDirectory = parentFolder
-                    }
-                }
+                process(changes: changes, inFolder: parentFolder, managedObjectContext: managedObjectContext)
                 try! managedObjectContext.save()
                 promise.success( () )
             }
@@ -162,7 +138,7 @@ class FileHelper {
                 promise.failure(error)
             }
             return promise.future
-
+            
         } else if sharedDirectoryName == parentFolder.url.absoluteString {
             return ApiHelper.request("files").jsonArrayFuture(keyPath: "data")
             .flatMap { json -> Future<Void, SCError> in
@@ -174,11 +150,43 @@ class FileHelper {
             }
         } else {
             let path = "fileStorage?path=\(parentFolder.url.absoluteString)/"
-
             return ApiHelper.request(path).jsonObjectFuture()
                 .flatMap { json -> Future<Void, SCError> in
                     updateDatabase(contentsOf: parentFolder, using: json)
                     return Future(value: Void())
+            }
+        }
+    }
+    
+    fileprivate static func process(changes: [String: [Course] ], inFolder parentFolder: File, managedObjectContext: NSManagedObjectContext) {
+        if let deleteCourses = changes[NSDeletedObjectsKey] {
+            let contents = parentFolder.mutableSetValue(forKey: "contents")
+            for course in deleteCourses {
+                contents.remove(course)
+            }
+        }
+        if let updated = changes[NSUpdatedObjectsKey],
+            let contents = parentFolder.contents as? Set<File>
+        {
+            for course in updated {
+                guard let file = contents.first(where: { $0.id == course.id }) else { continue; }
+                
+                file.currentPath = parentFolder.url.appendingPathComponent(course.id).absoluteString
+                file.name = course.name
+                file.isDirectory = true
+                file.parentDirectory = parentFolder
+            }
+        }
+        if let inserted = changes[NSInsertedObjectsKey]
+        {
+            for course in inserted {
+                let file = File(context: managedObjectContext)
+                
+                file.id = course.id
+                file.currentPath = parentFolder.url.appendingPathComponent(course.id).absoluteString
+                file.name = course.name
+                file.isDirectory = true
+                file.parentDirectory = parentFolder
             }
         }
     }
