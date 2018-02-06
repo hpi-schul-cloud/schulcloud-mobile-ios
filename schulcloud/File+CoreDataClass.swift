@@ -26,6 +26,7 @@ public class File: NSManagedObject {
     @NSManaged public var size: NSNumber?
     @NSManaged public var parentDirectory: File?
     @NSManaged public var contents: NSSet?
+    @NSManaged public var permissions_: Int64
     
 }
 
@@ -47,6 +48,53 @@ extension File {
 }
 
 extension File {
+    
+    struct Permissions : OptionSet {
+        let rawValue: Int64
+
+        static let read = Permissions(rawValue: 1 << 1)
+        static let write = Permissions(rawValue: 1 << 2)
+        
+        static let read_write : Permissions = [.read, .write]
+        
+        init(rawValue: Int64) {
+            self.rawValue = rawValue
+        }
+        
+        init?(str: String) {
+            switch str {
+            case "can_read":
+                self = Permissions.read
+            case "can_write":
+                self = Permissions.write
+            default:
+                return nil
+            }
+        }
+        
+        init(json: MarshaledObject) throws {
+            
+            let fetchedPersmissions: [String] = try json.value(for: "permissions")
+            
+            let permissions : [Permissions] = fetchedPersmissions.map { Permissions(str:$0) }.flatMap { $0 }
+            self.rawValue =  permissions.reduce([], { (acc, permission) -> Permissions in
+                return acc.union(permission)
+            }).rawValue
+        }
+    }
+    
+    var permissions : Permissions {
+        get {
+            return Permissions(rawValue: self.permissions_)
+        }
+        set {
+            self.permissions_ = newValue.rawValue
+        }
+    }
+}
+
+extension File {
+
     static func createOrUpdate(inContext context: NSManagedObjectContext, parentFolder: File, isDirectory: Bool, data: MarshaledObject) throws -> File {
         let name: String = try data.value(for: "name")
         let path = parentFolder.url.appendingPathComponent(name, isDirectory: isDirectory)
@@ -73,6 +121,18 @@ extension File {
         }
         file.parentDirectory = parentFolder
         
+        let permissionsObject : [MarshaledObject] = try data.value(for: "permissions")
+        let userPermission: MarshaledObject? = try permissionsObject.first { (data) -> Bool in
+            if let userId: String = try data.value(for: "userId"),
+                userId == Globals.account?.userId {
+                return true
+            }
+            return false
+        }
+        if let userPermission = userPermission {
+            file.permissions = try Permissions(json: userPermission)
+        }
+
         return file
     }
 }

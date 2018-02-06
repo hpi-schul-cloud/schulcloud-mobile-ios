@@ -6,11 +6,6 @@
 //  Copyright © 2017 Hasso-Plattner-Institut. All rights reserved.
 //
 
-
-//TODO: fetch course if no local course
-//TODO: fetch shared files from other endpoint
-
-
 import Foundation
 import Alamofire
 import BrightFutures
@@ -29,7 +24,8 @@ class FileHelper {
     
     fileprivate static var userDataRootURL: URL {
         let userId = Globals.account?.userId ?? "0"
-        return URL(string: "users/\(userId)")!
+        let url = URL(string: "users")!
+        return url.appendingPathComponent(userId, isDirectory: true)
     }
     
     fileprivate static var coursesDataRootURL : URL = {
@@ -108,6 +104,23 @@ class FileHelper {
         return nil
     }
     
+    static func delete(file: File) -> Future< Void, SCError> {
+        struct DidSuccess : Unmarshaling {
+            init(object: MarshaledObject) throws {
+            }
+        }
+        
+        var path = URL(string: "fileStorage")
+        if file.isDirectory { path?.appendPathComponent("directories") }
+        path?.appendPathComponent(file.currentPath)
+        
+        //TODO: Figure out the success structure
+        let request : Future<DidSuccess, SCError> = ApiHelper.request(path!.absoluteString, method: .delete, parameters: nil, encoding: JSONEncoding.default).deserialize(keyPath: "")
+        return request.map { _ in
+            return Void()
+        }
+    }
+    
     static func getSignedUrl(forFile file: File) -> Future<URL, SCError> {
         let parameters: Parameters = [
             "path": file.url.absoluteString.removingPercentEncoding!,
@@ -149,7 +162,7 @@ class FileHelper {
                 return Future( value: Void() )
             }
         } else {
-            let path = "fileStorage?path=\(parentFolder.url.absoluteString)/"
+            let path = "fileStorage?path=\(parentFolder.url.absoluteString)"
             return ApiHelper.request(path).jsonObjectFuture()
                 .flatMap { json -> Future<Void, SCError> in
                     updateDatabase(contentsOf: parentFolder, using: json)
@@ -166,24 +179,22 @@ class FileHelper {
             }
         }
         if let updated = changes[NSUpdatedObjectsKey],
-            let contents = parentFolder.contents as? Set<File>
-        {
+            let contents = parentFolder.contents as? Set<File> {
             for course in updated {
                 guard let file = contents.first(where: { $0.id == course.id }) else { continue; }
                 
-                file.currentPath = parentFolder.url.appendingPathComponent(course.id).absoluteString
+                file.currentPath = parentFolder.url.appendingPathComponent(course.id, isDirectory: true).absoluteString
                 file.name = course.name
                 file.isDirectory = true
                 file.parentDirectory = parentFolder
             }
         }
-        if let inserted = changes[NSInsertedObjectsKey]
-        {
+        if let inserted = changes[NSInsertedObjectsKey] {
             for course in inserted {
                 let file = File(context: managedObjectContext)
                 
                 file.id = course.id
-                file.currentPath = parentFolder.url.appendingPathComponent(course.id).absoluteString
+                file.currentPath = parentFolder.url.appendingPathComponent(course.id, isDirectory: true).absoluteString
                 file.name = course.name
                 file.isDirectory = true
                 file.parentDirectory = parentFolder

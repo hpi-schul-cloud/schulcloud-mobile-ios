@@ -44,9 +44,15 @@ public class CourseHelper {
                 }
             })
             .map {
-                let inserted = Array(privateMOC.insertedObjects) as! [Course]
-                let updated = Array(privateMOC.updatedObjects) as! [Course]
-                let deleted = Array(privateMOC.deletedObjects) as! [Course]
+                
+                func filterCourses(managedObject: NSManagedObject) -> Bool {
+                    guard let _ = managedObject as? Course else { return false }
+                    return true
+                }
+                
+                let inserted = Array(privateMOC.insertedObjects).filter(filterCourses) as! [Course]
+                let updated = Array(privateMOC.updatedObjects).filter(filterCourses) as! [Course]
+                let deleted = Array(privateMOC.deletedObjects).filter(filterCourses) as! [Course]
                 
                 return [NSInsertedObjectsKey: inserted, NSUpdatedObjectsKey: updated, NSDeletedObjectsKey: deleted]
             }

@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import BrightFutures
 
 class FilesViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
@@ -84,8 +85,39 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
         }
         return count
     }
-
     
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        guard let file = self.fetchedResultsController.sections?[indexPath.section].objects?[indexPath.row] as? File else { return false }
+        return file.permissions.contains(.write)
+    }
+
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            guard let file = self.fetchedResultsController.sections?[indexPath.section].objects?[indexPath.row] as? File else { return }
+            FileHelper.delete(file: file)
+            .andThen { result in
+                if result.value != nil {
+                    managedObjectContext.delete(file)
+                    try! managedObjectContext.save()
+                }
+            }
+            .andThen { result in
+                if result.value != nil {
+                    try! self.fetchedResultsController.performFetch()
+                }
+            }
+            .onSuccess { _ in
+                DispatchQueue.main.async {
+                    tableView.deleteRows(at: [indexPath], with: .automatic)
+                }
+            }
+            .onFailure { _ in
+                //TODO: Roll back and show error
+                managedObjectContext.rollback()
+            }
+        }
+    }
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = fetchedResultsController.object(at: indexPath)
 
@@ -127,5 +159,4 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
             self.navigationController?.pushViewController(fileVC, animated: true)
         }
     }
-
 }
