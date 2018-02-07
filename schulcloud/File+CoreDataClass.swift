@@ -100,13 +100,12 @@ extension File {
         let path = parentFolder.url.appendingPathComponent(name, isDirectory: isDirectory)
         
         let fetchRequest = NSFetchRequest<File>(entityName: "File")
-        let fileDescription = NSEntityDescription.entity(forEntityName: "File", in: context)!
         let pathPredicate = NSPredicate(format: "currentPath == %@", path.absoluteString)
         let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
         fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [pathPredicate, parentFolderPredicate])
         
         let result = try context.fetch(fetchRequest)
-        let file = result.first ?? File(entity: fileDescription, insertInto: context)
+        let file = result.first ?? File(context: context)
         if result.count > 1 {
             throw SCError.database("Found more than one result for \(fetchRequest)")
         }
@@ -121,10 +120,10 @@ extension File {
         }
         file.parentDirectory = parentFolder
         
-        let permissionsObject : [MarshaledObject] = try data.value(for: "permissions")
-        let userPermission: MarshaledObject? = try permissionsObject.first { (data) -> Bool in
-            if let userId: String = try data.value(for: "userId"),
-                userId == Globals.account?.userId {
+        let permissionsObject : [MarshaledObject]? = try? data.value(for: "permissions")
+        let userPermission: MarshaledObject? = permissionsObject?.first { (data) -> Bool in
+            if let userId: String = try? data.value(for: "userId"),
+                userId == Globals.account?.userId { //find permission for current user
                 return true
             }
             return false

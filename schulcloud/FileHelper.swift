@@ -14,12 +14,12 @@ import Marshal
 
 class FileHelper {
     
-    private static var rootDirectoryName = "root"
-    private static var coursesDirectoryName = "courses"
-    private static var sharedDirectoryName = "shared"
-    
+    private static var rootDirectoryID = "root"
+    private static var coursesDirectoryID = "courses"
+    private static var sharedDirectoryID = "shared"
+
     private static var notSynchronizedPath : [String] = {
-        return [rootDirectoryName]
+        return [rootDirectoryID]
     }()
     
     fileprivate static var userDataRootURL: URL {
@@ -29,11 +29,11 @@ class FileHelper {
     }
     
     fileprivate static var coursesDataRootURL : URL = {
-        return URL(string: coursesDirectoryName)!
+        return URL(string: coursesDirectoryID)!
     }()
     
-    fileprivate static var sharedDataRooURL : URL = {
-        return URL(string: sharedDirectoryName)!
+    fileprivate static var sharedDataRootURL : URL = {
+        return URL(string: sharedDirectoryID)!
     }()
     
     static var rootFolder: File {
@@ -42,7 +42,7 @@ class FileHelper {
     
     fileprivate static func fetchRootFolder() -> File? {
         let fetchRequest = NSFetchRequest(entityName: "File") as NSFetchRequest<File>
-        fetchRequest.predicate = NSPredicate(format: "currentPath == %@", rootDirectoryName)
+        fetchRequest.predicate = NSPredicate(format: "currentPath == %@", rootDirectoryID)
         
         do {
             let result = try managedObjectContext.fetch(fetchRequest)
@@ -56,10 +56,10 @@ class FileHelper {
     fileprivate static func createBaseStructure() -> File {
         do {
             let rootFolder = File(context: managedObjectContext)
-            rootFolder.id = "root"
+            rootFolder.id = rootDirectoryID
             rootFolder.name = "Daitein"
             rootFolder.isDirectory = true
-            rootFolder.currentPath = "root"
+            rootFolder.currentPath = rootDirectoryID
             rootFolder.permissions = .read
             
             let userRootFolder = File(context: managedObjectContext)
@@ -71,7 +71,7 @@ class FileHelper {
             userRootFolder.permissions = .read
             
             let coursesRootFolder = File(context: managedObjectContext)
-            coursesRootFolder.id = coursesDataRootURL.absoluteString
+            coursesRootFolder.id = coursesDirectoryID
             coursesRootFolder.name = "Courses Data"
             coursesRootFolder.isDirectory = true
             coursesRootFolder.currentPath = coursesDataRootURL.absoluteString
@@ -79,15 +79,15 @@ class FileHelper {
             coursesRootFolder.permissions = .read
 
             let sharedRootFolder = File(context: managedObjectContext)
-            sharedRootFolder.id = sharedDataRooURL.absoluteString
+            sharedRootFolder.id = sharedDirectoryID
             sharedRootFolder.name = "Shared Data"
             sharedRootFolder.isDirectory = true
-            sharedRootFolder.currentPath = sharedDataRooURL.absoluteString
+            sharedRootFolder.currentPath = sharedDataRootURL.absoluteString
             sharedRootFolder.parentDirectory = rootFolder
             sharedRootFolder.permissions = .read
 
             try managedObjectContext.save()
-
+            
             return rootFolder
         } catch let error {
             fatalError("Unresolved error \(error)") // TODO: replace this with something more friendly
@@ -145,20 +145,14 @@ class FileHelper {
             return Future(value: Void() )
         }
         
-        let promise: Promise<Void, SCError> = Promise()
-        if coursesDirectoryName == parentFolder.url.absoluteString {
-            CourseHelper.fetchFromServer()
+        if coursesDirectoryID == parentFolder.id { //Get the courses and adapt the folder structure
+            return CourseHelper.fetchFromServer()
             .onSuccess { changes in
                 process(changes: changes, inFolder: parentFolder, managedObjectContext: managedObjectContext)
                 try! managedObjectContext.save()
-                promise.success( () )
-            }
-            .onFailure { error in
-                promise.failure(error)
-            }
-            return promise.future
+            }.map { _ in return Void() }
             
-        } else if sharedDirectoryName == parentFolder.url.absoluteString {
+        } else if sharedDirectoryID == parentFolder.id { // download from different endpoint
             return ApiHelper.request("files").jsonArrayFuture(keyPath: "data")
             .flatMap { json -> Future<Void, SCError> in
                 let sharedFiles = json.filter { (try? $0.value(for: "context")) == "geteilte Datei" }
@@ -167,24 +161,26 @@ class FileHelper {
                 }
                 return Future( value: Void() )
             }
-        } else {
-            let path = "fileStorage?path=\(parentFolder.url.absoluteString)"
-            return ApiHelper.request(path).jsonObjectFuture()
-                .flatMap { json -> Future<Void, SCError> in
-                    updateDatabase(contentsOf: parentFolder, using: json)
-                    return Future(value: Void())
-            }
+        }
+        
+        let path = "fileStorage?path=\(parentFolder.url.absoluteString)"
+        return ApiHelper.request(path).jsonObjectFuture()
+            .flatMap { json -> Future<Void, SCError> in
+                updateDatabase(contentsOf: parentFolder, using: json)
+                return Future(value: Void())
         }
     }
     
     fileprivate static func process(changes: [String: [Course] ], inFolder parentFolder: File, managedObjectContext: NSManagedObjectContext) {
-        if let deleteCourses = changes[NSDeletedObjectsKey] {
+        if let deletedCourses = changes[NSDeletedObjectsKey],
+               deletedCourses.count > 0 {
             let contents = parentFolder.mutableSetValue(forKey: "contents")
-            for course in deleteCourses {
+            for course in deletedCourses {
                 contents.remove(course)
             }
         }
         if let updated = changes[NSUpdatedObjectsKey],
+            updated.count > 0,
             let contents = parentFolder.contents as? Set<File> {
             for course in updated {
                 guard let file = contents.first(where: { $0.id == course.id }) else { continue; }
@@ -195,7 +191,8 @@ class FileHelper {
                 file.parentDirectory = parentFolder
             }
         }
-        if let inserted = changes[NSInsertedObjectsKey] {
+        if let inserted = changes[NSInsertedObjectsKey],
+            inserted.count > 0 {
             for course in inserted {
                 let file = File(context: managedObjectContext)
                 

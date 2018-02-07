@@ -87,28 +87,34 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
         guard let file = self.fetchedResultsController.sections?[indexPath.section].objects?[indexPath.row] as? File else { return false }
         return file.permissions.contains(.write)
     }
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
         if editingStyle == .delete {
             guard let file = self.fetchedResultsController.sections?[indexPath.section].objects?[indexPath.row] as? File else { return }
             FileHelper.delete(file: file)
             .onSuccess { _ in
                 managedObjectContext.delete(file)
                 try! managedObjectContext.save()
-                try! self.fetchedResultsController.performFetch()
                 DispatchQueue.main.async {
+                    try! self.fetchedResultsController.performFetch()
                     tableView.deleteRows(at: [indexPath], with: .automatic)
                 }
             }
-            .onFailure { _ in
-                //TODO: Roll back and show error
+            .onFailure { error in
                 managedObjectContext.rollback()
+                DispatchQueue.main.async {
+                    let alertVC = UIAlertController(title: "Something unexpected happened", message: error.localizedDescription, preferredStyle: .alert)
+                    let dismissAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                    alertVC.addAction(dismissAction)
+                    self.present(alertVC, animated: true) {}
+                }
             }
         }
+        
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
