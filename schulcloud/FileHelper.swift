@@ -60,27 +60,31 @@ class FileHelper {
             rootFolder.name = "Daitein"
             rootFolder.isDirectory = true
             rootFolder.currentPath = "root"
+            rootFolder.permissions = .read
             
             let userRootFolder = File(context: managedObjectContext)
-            userRootFolder.id = "\(userDataRootURL.absoluteString)"
+            userRootFolder.id = userDataRootURL.absoluteString
             userRootFolder.name = "My Data"
             userRootFolder.isDirectory = true
             userRootFolder.currentPath = userDataRootURL.absoluteString
             userRootFolder.parentDirectory = rootFolder
+            userRootFolder.permissions = .read
             
             let coursesRootFolder = File(context: managedObjectContext)
-            coursesRootFolder.id = "\(coursesDataRootURL.absoluteString)"
+            coursesRootFolder.id = coursesDataRootURL.absoluteString
             coursesRootFolder.name = "Courses Data"
             coursesRootFolder.isDirectory = true
             coursesRootFolder.currentPath = coursesDataRootURL.absoluteString
             coursesRootFolder.parentDirectory = rootFolder
+            coursesRootFolder.permissions = .read
 
             let sharedRootFolder = File(context: managedObjectContext)
-            sharedRootFolder.id = "shared"
+            sharedRootFolder.id = sharedDataRooURL.absoluteString
             sharedRootFolder.name = "Shared Data"
             sharedRootFolder.isDirectory = true
             sharedRootFolder.currentPath = sharedDataRooURL.absoluteString
             sharedRootFolder.parentDirectory = rootFolder
+            sharedRootFolder.permissions = .read
 
             try managedObjectContext.save()
 
@@ -112,10 +116,12 @@ class FileHelper {
         
         var path = URL(string: "fileStorage")
         if file.isDirectory { path?.appendPathComponent("directories") }
-        path?.appendPathComponent(file.currentPath)
+        path?.appendPathComponent(file.id)
+        
+        let parameters: Parameters = ["path": file.currentPath]
         
         //TODO: Figure out the success structure
-        let request : Future<DidSuccess, SCError> = ApiHelper.request(path!.absoluteString, method: .delete, parameters: nil, encoding: JSONEncoding.default).deserialize(keyPath: "")
+        let request : Future<DidSuccess, SCError> = ApiHelper.request(path!.absoluteString, method: .delete, parameters: parameters, encoding: JSONEncoding.default).deserialize(keyPath: "")
         return request.map { _ in
             return Void()
         }

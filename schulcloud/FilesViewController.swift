@@ -95,18 +95,10 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
         if editingStyle == .delete {
             guard let file = self.fetchedResultsController.sections?[indexPath.section].objects?[indexPath.row] as? File else { return }
             FileHelper.delete(file: file)
-            .andThen { result in
-                if result.value != nil {
-                    managedObjectContext.delete(file)
-                    try! managedObjectContext.save()
-                }
-            }
-            .andThen { result in
-                if result.value != nil {
-                    try! self.fetchedResultsController.performFetch()
-                }
-            }
             .onSuccess { _ in
+                managedObjectContext.delete(file)
+                try! managedObjectContext.save()
+                try! self.fetchedResultsController.performFetch()
                 DispatchQueue.main.async {
                     tableView.deleteRows(at: [indexPath], with: .automatic)
                 }
