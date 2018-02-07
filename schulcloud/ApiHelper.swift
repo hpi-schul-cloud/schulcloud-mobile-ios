@@ -29,7 +29,7 @@ class ApiHelper {
                 headers.updateValue(value, forKey: key)
             }
         }
-        return Alamofire.request(urlString, method: method, parameters: parameters, encoding: encoding, headers: headers)
+        return Alamofire.request(urlString, method: method, parameters: parameters, encoding: encoding, headers: headers).validate()
     }
     
     static func requestBasic(
@@ -42,7 +42,7 @@ class ApiHelper {
         
         
         let promise = Promise<DefaultDataResponse, SCError>()
-        request(endpoint, method: method, parameters: parameters, encoding: encoding, additionalHeaders: additionalHeaders, authenticated: authenticated).response { (response: DefaultDataResponse) in
+        request(endpoint, method: method, parameters: parameters, encoding: encoding, additionalHeaders: additionalHeaders, authenticated: authenticated).validate().response { (response: DefaultDataResponse) in
             promise.success(response)
         }
         
@@ -91,55 +91,32 @@ extension Alamofire.DataRequest {
     }
     
     public func deserialize<T: Unmarshaling>(keyPath: String, queue: DispatchQueue? = nil) -> Future<T, SCError> {
-        let promise = Promise<T, SCError>()
-        
-        let completionHandler: ((DefaultDataResponse) -> Void) = { (response: DefaultDataResponse) -> Void in
-            guard let data = response.data else {
-                promise.failure(SCError.network(response.error))
-                return
-            }
+        return self.responseDataFuture().flatMap { data -> Future<T, SCError> in
             guard let deserialized = try? JSONSerialization.jsonObject(with: data, options: []),
                 let json = deserialized as? [String: Any] else {
-                promise.failure(.jsonDeserialization("Not a dictionary"))
-                return
+                    return Future(error: .jsonDeserialization("Not a dictionary"))
             }
             do {
                 let object: T = try json.value(for: keyPath)
-                promise.success(object)
+                return Future(value: object)
             } catch let error {
-                promise.failure(.jsonDeserialization(error.localizedDescription))
+                return Future(error: .jsonDeserialization(error.localizedDescription))
             }
         }
-        
-        response(queue: queue, completionHandler: completionHandler)
-        
-        return promise.future
     }
     
     public func deserialize<T: Unmarshaling>(keyPath: String, queue: DispatchQueue? = nil) -> Future<[T], SCError> {
-        let promise = Promise<[T], SCError>()
-        
-        let completionHandler: ((DefaultDataResponse) -> Void) = { (response: DefaultDataResponse) -> Void in
-            guard let data = response.data else {
-                promise.failure(SCError.network(response.error))
-                return
-            }
+        return self.responseDataFuture().flatMap { data -> Future<[T], SCError> in
             guard let deserialized = try? JSONSerialization.jsonObject(with: data, options: []),
                 let json = deserialized as? [String: Any] else {
-                    promise.failure(.jsonDeserialization("Not a dictionary"))
-                    return
+                    return Future(error: .jsonDeserialization("Not a dictionary"))
             }
             do {
                 let object: [T] = try json.value(for: keyPath)
-                promise.success(object)
+                return Future(value: object)
             } catch let error {
-                promise.failure(.jsonDeserialization(error.localizedDescription))
+                return Future(error: .jsonDeserialization(error.localizedDescription))
             }
         }
-        
-        response(queue: queue, completionHandler: completionHandler)
-        
-        return promise.future
     }
-    
 }

@@ -115,7 +115,7 @@ class FileHelper {
         }
         
         var path = URL(string: "fileStorage")
-        if file.isDirectory { path?.appendPathComponent("directories") }
+        if file.isDirectory { path?.appendPathComponent("directories", isDirectory: true) }
         path?.appendPathComponent(file.id)
         
         let parameters: Parameters = ["path": file.currentPath]

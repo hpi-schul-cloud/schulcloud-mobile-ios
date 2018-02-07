@@ -87,6 +87,7 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
         guard let file = self.fetchedResultsController.sections?[indexPath.section].objects?[indexPath.row] as? File else { return false }
         return file.permissions.contains(.write)
     }
@@ -125,7 +126,7 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
         if #available(iOS 11.0, *){
             cell.imageView?.adjustsImageSizeForAccessibilityContentSizeCategory = true
         }
-
+        
         return cell
     }
 
