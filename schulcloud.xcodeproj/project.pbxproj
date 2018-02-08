@@ -20,12 +20,19 @@
 		5059C14B1F62B35900E8023C /* Date+TimeZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5059C14A1F62B35900E8023C /* Date+TimeZone.swift */; };
 		506D146F1F56F81D00AA5613 /* UIView+shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D146E1F56F81D00AA5613 /* UIView+shake.swift */; };
 		507684C01F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507684BF1F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift */; };
+		507A5CC82020D1B2009B1F95 /* SynchronizationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507A5CC72020D1B2009B1F95 /* SynchronizationError.swift */; };
 		5082579A1F5E90F500A4FF6A /* Homework+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508257991F5E90F500A4FF6A /* Homework+.swift */; };
 		509A93381F541513001167DE /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509A93371F541512001167DE /* DashboardViewController.swift */; };
 		509A933A1F541668001167DE /* ShortNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509A93391F541668001167DE /* ShortNotificationViewController.swift */; };
 		509B10D62008E5840042AA7D /* NSMutableAttributedString+trim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509B10D52008E5840042AA7D /* NSMutableAttributedString+trim.swift */; };
 		50A1CDE41F501A0D006E9B69 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A1CDE31F501A0C006E9B69 /* NotificationViewController.swift */; };
 		50A1CDE61F501AC5006E9B69 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A1CDE51F501AC5006E9B69 /* NotificationCell.swift */; };
+		50B82F822020C98E0048CB4B /* SyncEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B82F812020C98E0048CB4B /* SyncEngine.swift */; };
+		50B82F842020C9C50048CB4B /* ResourceQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B82F832020C9C50048CB4B /* ResourceQuery.swift */; };
+		50B82F862020C9E80048CB4B /* Pushable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B82F852020C9E70048CB4B /* Pushable.swift */; };
+		50B82F882020CA080048CB4B /* Pullable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B82F872020CA080048CB4B /* Pullable.swift */; };
+		50B82F8A2020CA370048CB4B /* ResourceIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B82F892020CA370048CB4B /* ResourceIdentifier.swift */; };
+		50B82F8C2020CA670048CB4B /* ResourceRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B82F8B2020CA670048CB4B /* ResourceRepresentable.swift */; };
 		50D6432D1F8E09E200A89331 /* HomeworkOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D6432C1F8E09E200A89331 /* HomeworkOverviewViewController.swift */; };
 		50E8015D1F45C82800B6F8DA /* EventData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8015B1F45C82800B6F8DA /* EventData+CoreDataClass.swift */; };
 		50E8015E1F45C82800B6F8DA /* EventData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8015C1F45C82800B6F8DA /* EventData+CoreDataProperties.swift */; };
@@ -142,12 +149,19 @@
 		5059C14A1F62B35900E8023C /* Date+TimeZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+TimeZone.swift"; sourceTree = "<group>"; };
 		506D146E1F56F81D00AA5613 /* UIView+shake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+shake.swift"; sourceTree = "<group>"; };
 		507684BF1F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkDetailViewController.swift; sourceTree = "<group>"; };
+		507A5CC72020D1B2009B1F95 /* SynchronizationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizationError.swift; sourceTree = "<group>"; };
 		508257991F5E90F500A4FF6A /* Homework+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Homework+.swift"; sourceTree = "<group>"; };
 		509A93371F541512001167DE /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		509A93391F541668001167DE /* ShortNotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortNotificationViewController.swift; sourceTree = "<group>"; };
 		509B10D52008E5840042AA7D /* NSMutableAttributedString+trim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+trim.swift"; sourceTree = "<group>"; };
 		50A1CDE31F501A0C006E9B69 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		50A1CDE51F501AC5006E9B69 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
+		50B82F812020C98E0048CB4B /* SyncEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncEngine.swift; sourceTree = "<group>"; };
+		50B82F832020C9C50048CB4B /* ResourceQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceQuery.swift; sourceTree = "<group>"; };
+		50B82F852020C9E70048CB4B /* Pushable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pushable.swift; sourceTree = "<group>"; };
+		50B82F872020CA080048CB4B /* Pullable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pullable.swift; sourceTree = "<group>"; };
+		50B82F892020CA370048CB4B /* ResourceIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceIdentifier.swift; sourceTree = "<group>"; };
+		50B82F8B2020CA670048CB4B /* ResourceRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceRepresentable.swift; sourceTree = "<group>"; };
 		50D6432C1F8E09E200A89331 /* HomeworkOverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkOverviewViewController.swift; sourceTree = "<group>"; };
 		50E8015B1F45C82800B6F8DA /* EventData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventData+CoreDataClass.swift"; sourceTree = "<group>"; };
 		50E8015C1F45C82800B6F8DA /* EventData+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventData+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -319,6 +333,20 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
+		50B82F802020C9130048CB4B /* Sync */ = {
+			isa = PBXGroup;
+			children = (
+				50B82F812020C98E0048CB4B /* SyncEngine.swift */,
+				50B82F832020C9C50048CB4B /* ResourceQuery.swift */,
+				50B82F852020C9E70048CB4B /* Pushable.swift */,
+				50B82F872020CA080048CB4B /* Pullable.swift */,
+				50B82F892020CA370048CB4B /* ResourceIdentifier.swift */,
+				50B82F8B2020CA670048CB4B /* ResourceRepresentable.swift */,
+				507A5CC72020D1B2009B1F95 /* SynchronizationError.swift */,
+			);
+			path = Sync;
+			sourceTree = "<group>";
+		};
 		7EDF8CE117CA0B1F9E1A25E7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -421,6 +449,7 @@
 			isa = PBXGroup;
 			children = (
 				C3A5A9371EBCD07B00825DBF /* Application */,
+				50B82F802020C9130048CB4B /* Sync */,
 				C3C2AC331EC498F50060AECA /* Data */,
 				C3A5A9351EBCD03600825DBF /* Controllers */,
 				50739CC91F56B9C600CD68C7 /* Views */,
@@ -820,8 +849,12 @@
 				C32870A41EDDBCB000ABA348 /* Homework+CoreDataProperties.swift in Sources */,
 				C3AB489A1EDAE8A800692505 /* HomeworkViewController.swift in Sources */,
 				50A1CDE61F501AC5006E9B69 /* NotificationCell.swift in Sources */,
+				50B82F822020C98E0048CB4B /* SyncEngine.swift in Sources */,
+				50B82F8A2020CA370048CB4B /* ResourceIdentifier.swift in Sources */,
 				CE8487B91FFD2AC9008003B5 /* News+CoreDataClass.swift in Sources */,
 				C3A5A9391EBCD0C600825DBF /* Constants.swift in Sources */,
+				50B82F842020C9C50048CB4B /* ResourceQuery.swift in Sources */,
+				50B82F862020C9E80048CB4B /* Pushable.swift in Sources */,
 				C3C080551EE607F6005FA7C3 /* CourseCell.swift in Sources */,
 				C31C842A1ECF553700FA070C /* PreviewManager.swift in Sources */,
 				CE866DA92017321800A5787B /* EventData+.swift in Sources */,
@@ -848,6 +881,7 @@
 				C3FEB92B1F67E7F400BAD9D7 /* UIColor+Branding.swift in Sources */,
 				C3418B621ECEE6FB00280E62 /* FilesViewController.swift in Sources */,
 				C32870BE1EDF356800ABA348 /* CourseHelper.swift in Sources */,
+				507A5CC82020D1B2009B1F95 /* SynchronizationError.swift in Sources */,
 				C3418B641ED2E89F00280E62 /* FileListCell.swift in Sources */,
 				509A933A1F541668001167DE /* ShortNotificationViewController.swift in Sources */,
 				C3C2AC381EC5AC750060AECA /* ApiHelper.swift in Sources */,
@@ -859,6 +893,7 @@
 				C32870B51EDF24F600ABA348 /* Lesson+CoreDataProperties.swift in Sources */,
 				C32870B21EDF24F600ABA348 /* Content+CoreDataClass.swift in Sources */,
 				C32870B31EDF24F600ABA348 /* Content+CoreDataProperties.swift in Sources */,
+				50B82F8C2020CA670048CB4B /* ResourceRepresentable.swift in Sources */,
 				C38419171EF602AA00A616B3 /* SplitViewController.swift in Sources */,
 				C3A5A93B1EC0766F00825DBF /* Account.swift in Sources */,
 				C31C84271ECF546E00FA070C /* WebviewPreviewViewContoller.swift in Sources */,
@@ -868,6 +903,7 @@
 				C3C2AC221EC3A7E90060AECA /* SettingsViewController.swift in Sources */,
 				C3C3CAB11EF5CBB6009601AE /* SingleLessonViewController.swift in Sources */,
 				50A1CDE41F501A0D006E9B69 /* NotificationViewController.swift in Sources */,
+				50B82F882020CA080048CB4B /* Pullable.swift in Sources */,
 				5082579A1F5E90F500A4FF6A /* Homework+.swift in Sources */,
 				C3C2AC241EC3AAA80060AECA /* LoginHelper.swift in Sources */,
 				C3AB489C1EDAE97600692505 /* HomeworkHelper.swift in Sources */,
