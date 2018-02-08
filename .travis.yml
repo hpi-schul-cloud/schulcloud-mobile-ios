@@ -9,10 +9,6 @@ install:
   - bundle exec pod repo update > /dev/null
   - bundle exec pod install
 
-before_script:
-  - mv schulcloud/GoogleService-Info.plist schulcloud/GoogleService-Info.plist.bak
-  - mv schulcloud/GoogleService-Info-dummy.plist schulcloud/GoogleService-Info.plist
-
 script:
   - set -o pipefail
   - xcodebuild -workspace $TRAVIS_XCODE_WORKSPACE -scheme $TRAVIS_XCODE_SCHEME -sdk $TRAVIS_XCODE_SDK -configuration Debug build | xcpretty
