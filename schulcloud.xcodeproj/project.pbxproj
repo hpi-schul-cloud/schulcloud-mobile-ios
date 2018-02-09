@@ -41,6 +41,7 @@
 		50F39856202C8FB300ADAE5D /* Future+retry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F39855202C8FB300ADAE5D /* Future+retry.swift */; };
 		50F39858202C8FFF00ADAE5D /* Future+inject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F39857202C8FFF00ADAE5D /* Future+inject.swift */; };
 		50F3985A202D969100ADAE5D /* AdditionalSyncData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F39859202D969100ADAE5D /* AdditionalSyncData.swift */; };
+		50F3985C202D9B0000ADAE5D /* JsonAPISyncStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F3985B202D9B0000ADAE5D /* JsonAPISyncStrategy.swift */; };
 		C3165F1D1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3165F1C1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift */; };
 		C3165F1F1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3165F1E1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift */; };
 		C31C84271ECF546E00FA070C /* WebviewPreviewViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31C84261ECF546E00FA070C /* WebviewPreviewViewContoller.swift */; };
@@ -178,6 +179,7 @@
 		50F39855202C8FB300ADAE5D /* Future+retry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Future+retry.swift"; sourceTree = "<group>"; };
 		50F39857202C8FFF00ADAE5D /* Future+inject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Future+inject.swift"; sourceTree = "<group>"; };
 		50F39859202D969100ADAE5D /* AdditionalSyncData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalSyncData.swift; sourceTree = "<group>"; };
+		50F3985B202D9B0000ADAE5D /* JsonAPISyncStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonAPISyncStrategy.swift; sourceTree = "<group>"; };
 		545C97A8DFD815A5CDCD6C3F /* Pods-schulcloud.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloud.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloud/Pods-schulcloud.release.xcconfig"; sourceTree = "<group>"; };
 		6202C4172802EF2A0B49B22E /* Pods-schulcloudTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudTests/Pods-schulcloudTests.release.xcconfig"; sourceTree = "<group>"; };
 		6A95051FD2A0A46DC119427B /* Pods_schulcloudTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloudTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -358,6 +360,7 @@
 				50F39859202D969100ADAE5D /* AdditionalSyncData.swift */,
 				50F39855202C8FB300ADAE5D /* Future+retry.swift */,
 				50F39857202C8FFF00ADAE5D /* Future+inject.swift */,
+				50F3985B202D9B0000ADAE5D /* JsonAPISyncStrategy.swift */,
 			);
 			path = Sync;
 			sourceTree = "<group>";
@@ -871,7 +874,7 @@
 				CE8487B91FFD2AC9008003B5 /* News+CoreDataClass.swift in Sources */,
 				C3A5A9391EBCD0C600825DBF /* Constants.swift in Sources */,
 				50B82F842020C9C50048CB4B /* ResourceQuery.swift in Sources */,
-				50B82F862020C9E80048CB4B /* Pullable.swift in Sources */,
+				50B82F882020CA080048CB4B /* Pushable.swift in Sources */,
 				C3C080551EE607F6005FA7C3 /* CourseCell.swift in Sources */,
 				C31C842A1ECF553700FA070C /* PreviewManager.swift in Sources */,
 				CE866DA92017321800A5787B /* EventData+.swift in Sources */,
@@ -904,6 +907,7 @@
 				C3418B641ED2E89F00280E62 /* FileListCell.swift in Sources */,
 				50F39854202C8E7300ADAE5D /* SyncStrategy.swift in Sources */,
 				509A933A1F541668001167DE /* ShortNotificationViewController.swift in Sources */,
+				50F3985C202D9B0000ADAE5D /* JsonAPISyncStrategy.swift in Sources */,
 				C3C2AC381EC5AC750060AECA /* ApiHelper.swift in Sources */,
 				C3B7DB141EF5EB1800A2F2B5 /* HtmlTableViewCell.swift in Sources */,
 				C32870A11EDDBCB000ABA348 /* UserGroup+CoreDataProperties.swift in Sources */,
@@ -923,7 +927,7 @@
 				C3C2AC221EC3A7E90060AECA /* SettingsViewController.swift in Sources */,
 				C3C3CAB11EF5CBB6009601AE /* SingleLessonViewController.swift in Sources */,
 				50A1CDE41F501A0D006E9B69 /* NotificationViewController.swift in Sources */,
-				50B82F882020CA080048CB4B /* Pushable.swift in Sources */,
+				50B82F862020C9E80048CB4B /* Pullable.swift in Sources */,
 				5082579A1F5E90F500A4FF6A /* Homework+.swift in Sources */,
 				C3C2AC241EC3AAA80060AECA /* LoginHelper.swift in Sources */,
 				C3AB489C1EDAE97600692505 /* HomeworkHelper.swift in Sources */,

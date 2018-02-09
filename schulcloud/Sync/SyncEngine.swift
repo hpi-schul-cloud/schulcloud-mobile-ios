@@ -59,28 +59,7 @@ struct SyncEngine {
             return .failure(.invalidURLComponents(resourceUrl))
         }
 
-        var queryItems: [URLQueryItem] = []
-
-        // includes
-        if !query.includes.isEmpty {
-            queryItems.append(URLQueryItem(name: "include", value: query.includes.joined(separator: ",")))
-        }
-
-        // filters
-        for (key, value) in query.filters {
-            let stringValue: String
-            if let valueArray = value as? [Any] {
-                stringValue = valueArray.map { String(describing: $0) }.joined(separator: ",")
-            } else if let value = value {
-                stringValue = String(describing: value)
-            } else {
-                stringValue = "null"
-            }
-            let queryItem = URLQueryItem(name: "filter[\(key)]", value: stringValue)
-            queryItems.append(queryItem)
-        }
-
-        urlComponents.queryItems = queryItems
+        urlComponents.queryItems = configuration.syncStrategy.queryItems(forQuery: query)
 
         guard let url = urlComponents.url else {
             return .failure(.invalidURL(urlComponents.url?.absoluteString))
@@ -191,32 +170,13 @@ struct SyncEngine {
                     return
                 }
 
-                // JSON:API validation
-                let hasData = resourceData["data"] != nil
-                let hasError = resourceData["error"] != nil
-                let hasMeta = resourceData["meta"] != nil
-
-                guard hasData || hasError || hasMeta else {
-                    promise.failure(.api(.serialization(.topLevelEntryMissing)))
-                    return
+                switch configuration.syncStrategy.validateResourceData(resourceData) {
+                case .success(_):
+                    let result = NetworkResult(resourceData: resourceData, headers: urlResponse.allHeaderFields)
+                    promise.success(result)
+                case let .failure(error):
+                    promise.failure(error)
                 }
-
-                guard hasError && !hasData || !hasError && hasData else {
-                    promise.failure(.api(.serialization(.topLevelDataAndErrorsCoexist)))
-                    return
-                }
-
-                guard !hasError else {
-                    if let errorMessage = resourceData["error"] as? String {
-                        promise.failure(.api(.serverError(message: errorMessage)))
-                    } else {
-                        promise.failure(.api(.unknownServerError))
-                    }
-                    return
-                }
-
-                let result = NetworkResult(resourceData: resourceData, headers: urlResponse.allHeaderFields)
-                promise.success(result)
             } catch {
                 promise.failure(.api(.serialization(.jsonSerialization(error))))
             }
@@ -234,12 +194,16 @@ struct SyncEngine {
     private static func mergeResources<Resource>(object: ResourceData,
                                                  withExistingObjects objects: [Resource],
                                                  deleteNotExistingResources: Bool,
-                                                 inContext context: NSManagedObjectContext) -> Future<[Resource], SyncError> where Resource: NSManagedObject & Pullable {
+                                                 inContext context: NSManagedObjectContext,
+                                                 withSyncStrategy syncStrategy: SyncStrategy) -> Future<[Resource], SyncError> where Resource: NSManagedObject & Pullable {
         do {
             var existingObjects = objects
             var newObjects: [Resource] = []
-            let dataArray = try object.value(for: "data") as [ResourceData]
+//            let dataArray = try object.value(for: "data") as [ResourceData]
             let includes = try? object.value(for: "included") as [ResourceData]
+
+            let dataArray = try syncStrategy.extractResourceData(from: object) as [ResourceData]
+            let additionalSyncData = syncStrategy.extractAddtionalSyncData(from: object)
 
             for data in dataArray {
                 let id = try data.value(for: "id") as String
@@ -280,11 +244,14 @@ struct SyncEngine {
 
     private static func mergeResource<Resource>(object: ResourceData,
                                                 withExistingObject existingObject: Resource?,
-                                                inContext context: NSManagedObjectContext) -> Future<Resource, SyncError> where Resource: NSManagedObject & Pullable {
+                                                inContext context: NSManagedObjectContext,
+                                                withSyncStrategy syncStrategy: SyncStrategy) -> Future<Resource, SyncError> where Resource: NSManagedObject & Pullable {
         do {
             let newObject: Resource
-            let data = try object.value(for: "data") as ResourceData
+//            let data = try object.value(for: "data") as ResourceData
             let includes = try? object.value(for: "included") as [ResourceData]
+            let data = try syncStrategy.extractResourceData(from: object) as ResourceData
+            let additionalSyncData = syncStrategy.extractAdditionalSyncData(from: object)
 
             let id = try data.value(for: "id") as String
 

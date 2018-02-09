@@ -8,13 +8,14 @@
 
 import Foundation
 import Result
+import Marshal
 
 protocol SyncStrategy {
 
     var resourceKeyAttribute: String { get }
 
     func queryItems<Query>(forQuery query: Query) -> [URLQueryItem] where Query: ResourceQuery 
-    func validateResourceData(_ data: Data) -> Result<Void, SyncError>
+    func validateResourceData(_ resourceData: MarshalDictionary) -> Result<Void, SyncError>
 
     // key modification when accessing included data
     func includedDataKey(forAttribute attributeName: String)
@@ -23,8 +24,8 @@ protocol SyncStrategy {
     // - can throw (marshall)
     // - no default implementation?
     // - for both
-    func extractResourceData() throws -> ResourceData
-    func extractResourceData() throws -> [ResourceData]
-    func extractAddtionalSyncData() throws -> AddtionalSyncData?
+    func extractResourceData(from object: ResourceData) throws -> ResourceData
+    func extractResourceData(from object: ResourceData) throws -> [ResourceData]
+    func extractAdditionalSyncData(from object: ResourceData) -> AddtionalSyncData
 
 }

@@ -18,7 +18,7 @@ protocol SyncConfig {
     var persistentContainer: NSPersistentContainer { get }
 
     // (De-)Serialization strategy
-    var syncStategy: SyncStrategy { get }
+    var syncStrategy: SyncStrategy { get }
 
     // delegates
     // TODO: make these static variables (blocks) which can be called
