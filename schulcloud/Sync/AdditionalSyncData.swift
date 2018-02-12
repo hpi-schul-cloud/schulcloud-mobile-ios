@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct AddtionalSyncData {
+struct AdditionalSyncData {
 
     var externallyIncludedResourceData: [ResourceData]
 

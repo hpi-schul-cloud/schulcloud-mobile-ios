@@ -11,6 +11,7 @@ import Result
 import Marshal
 
 struct JsonAPISyncStrategy: SyncStrategy {
+
     var resourceKeyAttribute: String {
         return "id"
     }
@@ -65,8 +66,60 @@ struct JsonAPISyncStrategy: SyncStrategy {
         return .success(())
     }
 
-    func includedDataKey(forAttribute attributeName: String) {
-        <#code#>
+    func findIncludedObject(forKey key: KeyType,
+                            ofObject object: ResourceData,
+                            withAdditionalSyncData additionalSyncData: AdditionalSyncData) -> FindIncludedObjectResult {
+        guard let resourceIdentifier = try? object.value(for: "\(key).data") as ResourceIdentifier else {
+            return .notExisting
+        }
+
+        guard !additionalSyncData.externallyIncludedResourceData.isEmpty else {
+            return .id(resourceIdentifier.id)
+        }
+
+        let includedResource = additionalSyncData.externallyIncludedResourceData.first { item in
+            guard let identifier = try? ResourceIdentifier(object: item) else {
+                return false
+            }
+            return resourceIdentifier.id == identifier.id && resourceIdentifier.type == identifier.type
+        }
+
+        guard let resourceData = includedResource else {
+            return .id(resourceIdentifier.id)
+        }
+
+        return .object(resourceIdentifier.id, resourceData)
+    }
+
+    func findIncludedObjects(forKey key: KeyType,
+                             ofObject object: ResourceData,
+                             withAdditionalSyncData additionalSyncData: AdditionalSyncData) -> FindIncludedObjectsResult {
+        guard let resourceIdentifiers = try? object.value(for: "\(key).data") as [ResourceIdentifier] else {
+            return .notExisting
+        }
+
+        guard !additionalSyncData.externallyIncludedResourceData.isEmpty else {
+            return .included(objects: [], ids: resourceIdentifiers.map { $0.id })
+        }
+
+        var resourceData: [(id: String, object: ResourceData)] = []
+        var resourceIds: [String] = []
+        for resourceIdentifier in resourceIdentifiers {
+            let includedData = additionalSyncData.externallyIncludedResourceData.first { item in
+                guard let identifier = try? ResourceIdentifier(object: item) else {
+                    return false
+                }
+                return resourceIdentifier.id == identifier.id && resourceIdentifier.type == identifier.type
+            }
+
+            if let includedResource = includedData {
+                resourceData.append((id: resourceIdentifier.id, object: includedResource))
+            } else {
+                resourceIds.append(resourceIdentifier.id)
+            }
+        }
+
+        return .included(objects: resourceData, ids: resourceIds)
     }
 
     func extractResourceData(from object: ResourceData) throws -> ResourceData {
@@ -77,9 +130,9 @@ struct JsonAPISyncStrategy: SyncStrategy {
         return try object.value(for: "data")
     }
 
-    func extractAdditionalSyncData(from object: ResourceData) -> AddtionalSyncData {
+    func extractAdditionalSyncData(from object: ResourceData) -> AdditionalSyncData {
         let includes = try? object.value(for: "included") as [ResourceData]
-        return AddtionalSyncData(externallyIncludedResourceData: includes ?? [])
+        return AdditionalSyncData(externallyIncludedResourceData: includes ?? [])
     }
 
 }

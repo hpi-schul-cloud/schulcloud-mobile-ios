@@ -200,25 +200,25 @@ struct SyncEngine {
             var existingObjects = objects
             var newObjects: [Resource] = []
 //            let dataArray = try object.value(for: "data") as [ResourceData]
-            let includes = try? object.value(for: "included") as [ResourceData]
+//            let includes = try? object.value(for: "included") as [ResourceData]
 
             let dataArray = try syncStrategy.extractResourceData(from: object) as [ResourceData]
-            let additionalSyncData = syncStrategy.extractAddtionalSyncData(from: object)
+            let additionalSyncData = syncStrategy.extractAdditionalSyncData(from: object)
 
             for data in dataArray {
                 let id = try data.value(for: "id") as String
                 if var existingObject = existingObjects.first(where: { $0.id == id }) {
-                    try existingObject.update(withObject: data, including: includes, inContext: context)
+                    try existingObject.update(withObject: data, withAdditionalSyncData: additionalSyncData, inContext: context)
                     if let index = existingObjects.index(of: existingObject) {
                         existingObjects.remove(at: index)
                     }
                     newObjects.append(existingObject)
                 } else {
                     if var fetchedResource = try self.findExistingResource(withId: id, ofType: Resource.self, inContext: context) {
-                        try fetchedResource.update(withObject: data, including: includes, inContext: context)
+                        try fetchedResource.update(withObject: data, withAdditionalSyncData: additionalSyncData, inContext: context)
                         newObjects.append(fetchedResource)
                     } else {
-                        let newObject = try Resource.value(from: data, including: includes, inContext: context)
+                        let newObject = try Resource.value(from: data, withAdditionalSyncData: additionalSyncData, inContext: context)
                         newObjects.append(newObject)
                     }
                 }
@@ -249,7 +249,7 @@ struct SyncEngine {
         do {
             let newObject: Resource
 //            let data = try object.value(for: "data") as ResourceData
-            let includes = try? object.value(for: "included") as [ResourceData]
+//            let includes = try? object.value(for: "included") as [ResourceData]
             let data = try syncStrategy.extractResourceData(from: object) as ResourceData
             let additionalSyncData = syncStrategy.extractAdditionalSyncData(from: object)
 
@@ -257,17 +257,17 @@ struct SyncEngine {
 
             if var existingObject = existingObject {
                 if existingObject.id == id {
-                    try existingObject.update(withObject: data, including: includes, inContext: context)
+                    try existingObject.update(withObject: data, withAdditionalSyncData: additionalSyncData, inContext: context)
                     newObject = existingObject
                 } else {
-                    newObject = try Resource.value(from: data, including: includes, inContext: context)
+                    newObject = try Resource.value(from: data, withAdditionalSyncData: additionalSyncData, inContext: context)
                 }
             } else {
                 if var fetchedResource = try self.findExistingResource(withId: id, ofType: Resource.self, inContext: context) {
-                    try fetchedResource.update(withObject: data, including: includes, inContext: context)
+                    try fetchedResource.update(withObject: data, withAdditionalSyncData: additionalSyncData, inContext: context)
                     newObject = fetchedResource
                 } else {
-                    newObject = try Resource.value(from: data, including: includes, inContext: context)
+                    newObject = try Resource.value(from: data, withAdditionalSyncData: additionalSyncData, inContext: context)
                 }
             }
 
@@ -300,7 +300,11 @@ struct SyncEngine {
             }
 
             coreDataFetch.zip(networkRequest).flatMap(ImmediateExecutionContext) { objects, networkResult in
-                return self.mergeResources(object: networkResult.resourceData, withExistingObjects: objects, deleteNotExistingResources: deleteNotExistingResources, inContext: context).map { resources in
+                return self.mergeResources(object: networkResult.resourceData,
+                                           withExistingObjects: objects,
+                                           deleteNotExistingResources: deleteNotExistingResources,
+                                           inContext: context,
+                                           withSyncStrategy: configuration.syncStrategy).map { resources in
                     return MergeMultipleResult(resources: resources, headers: networkResult.headers)
                 }
             }.inject(ImmediateExecutionContext) {
@@ -336,7 +340,10 @@ struct SyncEngine {
             }
 
             coreDataFetch.zip(networkRequest).flatMap(ImmediateExecutionContext) { object, networkResult -> Future<MergeSingleResult<Resource>, SyncError> in
-                return self.mergeResource(object: networkResult.resourceData, withExistingObject: object, inContext: context).map { resource in
+                return self.mergeResource(object: networkResult.resourceData,
+                                          withExistingObject: object,
+                                          inContext: context,
+                                          withSyncStrategy: configuration.syncStrategy).map { resource in
                     return MergeSingleResult(resource: resource, headers: networkResult.headers)
                 }
             }.inject(ImmediateExecutionContext) {
