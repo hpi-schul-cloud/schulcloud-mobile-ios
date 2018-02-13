@@ -22,25 +22,26 @@ protocol SyncConfig {
 
     // delegates
     // TODO: make these static variables (blocks) which can be called
-    func log(_ message: String, withLevel level: SyncLogLevel)
-    func networkActivity(withType type: SyncNetworkActivityType)
+//    func log(_ message: String, withLevel level: SyncLogLevel)
+//    func networkActivity(withType type: SyncNetworkActivityType)
 }
 
-extension SyncConfig {
-    func log(_ message: String, withLevel level: SyncLogLevel) {}
-    func networkActivity(withType type: SyncNetworkActivityType) {}
-}
+//extension SyncConfig {
+//    func log(_ message: String, withLevel level: SyncLogLevel) {}
+//    func networkActivity(withType type: SyncNetworkActivityType) {}
+//}
 
-enum SyncLogLevel {
-    case verbose
-    case debug
-    case info
-    case warning
-    case error
-    case severe
-}
+//enum SyncLogLevel {
+//    case verbose
+//    case debug
+//    case info
+//    case warning
+//    case error
+//    case severe
+//}
+//
+//enum SyncNetworkActivityType {
+//    case start
+//    case stop
+//}
 
-enum SyncNetworkActivityType {
-    case start
-    case stop
-}

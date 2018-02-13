@@ -14,6 +14,25 @@ import Marshal
 
 struct SyncEngine {
 
+    static var log: ((String, SyncLogLevel) -> Void)?
+    static var networkActivity: ((SyncNetworkActivityType) -> Void)?
+//    func log(_ message: String, withLevel level: SyncLogLevel)
+//    func networkActivity(withType type: SyncNetworkActivityType)
+
+    enum SyncLogLevel {
+        case verbose
+        case debug
+        case info
+        case warning
+        case error
+        case severe
+    }
+
+    enum SyncNetworkActivityType {
+        case start
+        case stop
+    }
+
     struct SyncMultipleResult {
         let objectIds: [NSManagedObjectID]
         let headers: [AnyHashable: Any]
@@ -182,10 +201,10 @@ struct SyncEngine {
             }
         }
 
-        configuration.networkActivity(withType: .start)
+        SyncEngine.networkActivity?(.start)
         task.resume()
         return promise.future.onComplete { _ in
-            configuration.networkActivity(withType: .stop)
+            SyncEngine.networkActivity?(.stop)
         }
     }
 
@@ -422,7 +441,7 @@ struct SyncEngine {
         let objects = try context.fetch(fetchRequest)
 
         if objects.count > 1 {
-            log.warning("Found multiple resources while updating relationship (entity name: \(entityName), \(objectId))")
+            SyncEngine.log?("Found multiple resources while updating relationship (entity name: \(entityName), \(objectId))", .warning)
         }
 
         return objects.first

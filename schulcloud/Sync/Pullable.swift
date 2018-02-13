@@ -97,7 +97,7 @@ extension Pullable where Self: NSManagedObject {
             if let fetchedResource = try SyncEngine.findExistingResource(withId: resourceId, ofType: A.self, inContext: context.coreDataContext) {
                 self[keyPath: keyPath] = fetchedResource
             } else {
-                log.info("relationship update saved (\(Self.type) --> \(A.type)?)")
+                SyncEngine.log?("relationship update saved (\(Self.type) --> \(A.type)?)", .info)
             }
         case .notExisting:
             // relationship does not exist, so we reset delete the possible relationship
