@@ -37,7 +37,7 @@ class HomeworkOverviewViewController: UIViewController {
         fetchRequest.predicate = NSPredicate(format: "dueDate >= %@ && dueDate <= %@ ", argumentArray: [Date() as NSDate, inOneWeek as NSDate])
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dueDate", ascending: true)]
         do {
-            let resultsInNextWeek = try managedObjectContext.fetch(fetchRequest)
+            let resultsInNextWeek = try CoreDataHelper.managedObjectContext.fetch(fetchRequest)
             DispatchQueue.main.async {
                 self.numberOfOpenTasksLabel.text = String(resultsInNextWeek.count)
             }

@@ -18,7 +18,7 @@ public class HomeworkHelper {
     static func fetchFromServer() -> FetchResult {
         
         let privateMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        privateMOC.parent = managedObjectContext
+        privateMOC.parent = CoreDataHelper.managedObjectContext
         
         return ApiHelper.request("homework").jsonArrayFuture(keyPath: "data")
             .flatMap(privateMOC.perform, f: { $0.map({Homework.upsert(inContext: privateMOC, object: $0)}).sequence() })
@@ -34,7 +34,7 @@ public class HomeworkHelper {
                 }
             })
             .flatMap { _ -> FetchResult in
-                return save(privateContext: privateMOC)
+                return CoreDataHelper.save(privateContext: privateMOC)
             }
             .flatMap { _ -> FetchResult in
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: Homework.homeworkDidChangeNotificationName), object: nil)

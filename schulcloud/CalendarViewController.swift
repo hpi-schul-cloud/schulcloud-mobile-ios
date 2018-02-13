@@ -24,7 +24,7 @@ class CalendarViewController: DayViewController {
 
     private func syncEvents() {
         // Assumes event where already fetched
-        CalendarEventHelper.fetchCalendarEvent(inContext: managedObjectContext)
+        CalendarEventHelper.fetchCalendarEvent(inContext: CoreDataHelper.managedObjectContext)
         .onSuccess { events in
             self.calendarEvents = events
             self.reloadData()

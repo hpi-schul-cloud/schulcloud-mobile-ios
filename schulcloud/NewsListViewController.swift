@@ -37,7 +37,7 @@ class NewsListViewController: UITableViewController,  NSFetchedResultsController
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "displayAt", ascending: false)]
         
         let fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                                managedObjectContext: managedObjectContext,
+                                                                managedObjectContext: CoreDataHelper.persistentContainer.viewContext,
                                                                 sectionNameKeyPath: nil,
                                                                 cacheName: nil)
         fetchResultsController.delegate = self
@@ -45,7 +45,7 @@ class NewsListViewController: UITableViewController,  NSFetchedResultsController
     }()
     
     fileprivate func synchronizeNewsArticle() {
-        NewsArticleHelper.fetchFromServer().onSuccess {
+        NewsArticleHelper.fetchFromServer().onSuccess { _ in
             self.fetchNewsArticle()
         }.onFailure(){ error in
             log.error(error.localizedDescription)

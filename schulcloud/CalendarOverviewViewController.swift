@@ -87,7 +87,7 @@ class CalendarOverviewViewController: UIViewController {
 
     private func updateEvents() {
         
-        CalendarEventHelper.fetchCalendarEvent(inContext: managedObjectContext)
+        CalendarEventHelper.fetchCalendarEvent(inContext: CoreDataHelper.managedObjectContext)
         .onSuccess { events in
             let filteredEvents = events.filter(inInterval: self.todayInterval)
             self.updateStateWith(events: filteredEvents)

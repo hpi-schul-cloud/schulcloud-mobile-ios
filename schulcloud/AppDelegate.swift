@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         self.window?.tintColor = UIColor.schulcloudRed
         selectInitialViewController(application: application)
         
-        CoreDataObserver.shared.observeChanges(on: managedObjectContext)
+        CoreDataObserver.shared.observeChanges(on: CoreDataHelper.managedObjectContext)
         
         return true
     }
@@ -94,7 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
-        saveContext()
+        CoreDataHelper.saveContext()
     }
     
     func isUnitTesting() -> Bool {
@@ -104,7 +104,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // MARK: temp core data observer
     func observeChanges() {
         let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(managedObjectContextObjectsDidChange), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: managedObjectContext)
+        notificationCenter.addObserver(self, selector: #selector(managedObjectContextObjectsDidChange), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: CoreDataHelper.managedObjectContext)
     }
     
     @objc func managedObjectContextObjectsDidChange(notification: NSNotification) {

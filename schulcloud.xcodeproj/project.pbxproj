@@ -42,6 +42,7 @@
 		50F39858202C8FFF00ADAE5D /* Future+inject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F39857202C8FFF00ADAE5D /* Future+inject.swift */; };
 		50F3985A202D969100ADAE5D /* AdditionalSyncData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F39859202D969100ADAE5D /* AdditionalSyncData.swift */; };
 		50F3985C202D9B0000ADAE5D /* JsonAPISyncStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F3985B202D9B0000ADAE5D /* JsonAPISyncStrategy.swift */; };
+		50FCAD6F2031C3ED00C4C481 /* SyncHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FCAD6E2031C3ED00C4C481 /* SyncHelper.swift */; };
 		C3165F1D1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3165F1C1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift */; };
 		C3165F1F1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3165F1E1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift */; };
 		C31C84271ECF546E00FA070C /* WebviewPreviewViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31C84261ECF546E00FA070C /* WebviewPreviewViewContoller.swift */; };
@@ -180,6 +181,7 @@
 		50F39857202C8FFF00ADAE5D /* Future+inject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Future+inject.swift"; sourceTree = "<group>"; };
 		50F39859202D969100ADAE5D /* AdditionalSyncData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalSyncData.swift; sourceTree = "<group>"; };
 		50F3985B202D9B0000ADAE5D /* JsonAPISyncStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonAPISyncStrategy.swift; sourceTree = "<group>"; };
+		50FCAD6E2031C3ED00C4C481 /* SyncHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncHelper.swift; sourceTree = "<group>"; };
 		545C97A8DFD815A5CDCD6C3F /* Pods-schulcloud.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloud.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloud/Pods-schulcloud.release.xcconfig"; sourceTree = "<group>"; };
 		6202C4172802EF2A0B49B22E /* Pods-schulcloudTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudTests/Pods-schulcloudTests.release.xcconfig"; sourceTree = "<group>"; };
 		6A95051FD2A0A46DC119427B /* Pods_schulcloudTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloudTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -361,6 +363,7 @@
 				50F39855202C8FB300ADAE5D /* Future+retry.swift */,
 				50F39857202C8FFF00ADAE5D /* Future+inject.swift */,
 				50F3985B202D9B0000ADAE5D /* JsonAPISyncStrategy.swift */,
+				50FCAD6E2031C3ED00C4C481 /* SyncHelper.swift */,
 			);
 			path = Sync;
 			sourceTree = "<group>";
@@ -888,6 +891,7 @@
 				5059C14B1F62B35900E8023C /* Date+TimeZone.swift in Sources */,
 				C32870BC1EDF32C600ABA348 /* CoursesViewController.swift in Sources */,
 				C32870A51EDDBCB000ABA348 /* User+CoreDataClass.swift in Sources */,
+				50FCAD6F2031C3ED00C4C481 /* SyncHelper.swift in Sources */,
 				C3A5A9051EBCC17600825DBF /* ViewController.swift in Sources */,
 				50F39852202C8A2900ADAE5D /* SyncConfig.swift in Sources */,
 				C36C23381EC9DE0700D4163E /* SCError.swift in Sources */,

@@ -18,7 +18,7 @@ public class CourseHelper {
     static func fetchFromServer() -> FetchResult {
         
         let privateMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        privateMOC.parent = managedObjectContext
+        privateMOC.parent = CoreDataHelper.managedObjectContext
         
         let keyPath: String? = "data"
         
@@ -37,7 +37,7 @@ public class CourseHelper {
                     let deleteRequest: NSFetchRequest<Course> = Course.fetchRequest()
                     deleteRequest.predicate = NSPredicate(format: "NOT (id IN %@)", ids)
                     try CoreDataHelper.delete(fetchRequest: deleteRequest, context: privateMOC)
-                    saveContext()
+                    CoreDataHelper.saveContext()
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: Homework.homeworkDidChangeNotificationName), object: nil)
                     return Future(value: Void())
                 } catch let error {
@@ -45,7 +45,7 @@ public class CourseHelper {
                 }
             })
             .flatMap {  _ -> FetchResult in
-                return save(privateContext: privateMOC)
+                return CoreDataHelper.save(privateContext: privateMOC)
             }
     }
     

@@ -145,7 +145,7 @@ extension CalendarEventHelper {
             calendarEvent.eventKitID = event.eventIdentifier
         }
         try eventStore.commit()
-        try managedObjectContext.save()
+        try CoreDataHelper.managedObjectContext.save()
     }
     
     static func remove(events: [CalendarEvent]) throws {

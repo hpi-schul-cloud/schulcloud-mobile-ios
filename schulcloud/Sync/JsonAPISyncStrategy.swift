@@ -66,6 +66,13 @@ struct JsonAPISyncStrategy: SyncStrategy {
         return .success(())
     }
 
+    func validateObjectCreation(object: ResourceData, toHaveType expectedType: String) throws {
+        let resourceType = try object.value(for: "type") as String
+        if resourceType != expectedType {
+            throw SerializationError.resourceTypeMismatch(expected: expectedType, found: resourceType)
+        }
+    }
+
     func findIncludedObject(forKey key: KeyType,
                             ofObject object: ResourceData,
                             withAdditionalSyncData additionalSyncData: AdditionalSyncData) -> FindIncludedObjectResult {

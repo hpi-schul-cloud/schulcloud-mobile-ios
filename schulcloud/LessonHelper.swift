@@ -18,7 +18,7 @@ public class LessonHelper {
     static func fetchFromServer(belongingTo course: Course) -> FetchResult {
         
         let privateMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        privateMOC.parent = managedObjectContext
+        privateMOC.parent = CoreDataHelper.managedObjectContext
         
         let parameters: Parameters = [
             "courseId": course.id
@@ -40,7 +40,7 @@ public class LessonHelper {
                 }
             })
             .flatMap { _ -> FetchResult in
-                return save(privateContext: privateMOC)
+                return CoreDataHelper.save(privateContext: privateMOC)
             }
     }
     

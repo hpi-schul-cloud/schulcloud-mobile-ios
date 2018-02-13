@@ -114,7 +114,7 @@ open class LoginHelper {
         defaults.set(nil, forKey: "accountId")
         defaults.set(nil, forKey: "userId")
         do {
-            dropDatabase()
+            CoreDataHelper.dropDatabase()
             try Globals.account!.deleteFromSecureStore()
             try CalendarEventHelper.deleteSchulcloudCalendar()
         } catch let error {

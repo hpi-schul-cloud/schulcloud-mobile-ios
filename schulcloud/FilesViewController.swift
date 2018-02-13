@@ -56,7 +56,10 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
         fetchRequest.predicate = parentFolderPredicate
         
         // Create Fetched Results Controller
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                                  managedObjectContext: CoreDataHelper.persistentContainer.viewContext,
+                                                                  sectionNameKeyPath: nil,
+                                                                  cacheName: nil)
         
         // Configure Fetched Results Controller
         fetchedResultsController.delegate = self

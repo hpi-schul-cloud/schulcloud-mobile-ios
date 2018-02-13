@@ -27,19 +27,19 @@ class FileHelper {
         fetchRequest.predicate = NSPredicate(format: "pathString == %@", rootUrl.absoluteString)
         
         do {
-            let result = try managedObjectContext.fetch(fetchRequest)
+            let result = try CoreDataHelper.managedObjectContext.fetch(fetchRequest)
             if let file = result.first {
                 file.pathString = rootUrl.absoluteString
-                saveContext()
+                CoreDataHelper.saveContext()
                 return file
             }
-            let file = File(context: managedObjectContext)
+            let file = File(context: CoreDataHelper.managedObjectContext)
             
             file.displayName = "Meine Dateien"
             file.isDirectory = true
             file.pathString = rootUrl.absoluteString
             file.typeString = "directory"
-            saveContext()
+            CoreDataHelper.saveContext()
             return file
         } catch let error {
             fatalError("Unresolved error \(error)") // TODO: replace this with something more friendly
@@ -50,7 +50,7 @@ class FileHelper {
         let fetchRequest: NSFetchRequest<File> = File.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "pathString == %@", path)
         do {
-            let result = try managedObjectContext.fetch(fetchRequest)
+            let result = try CoreDataHelper.managedObjectContext.fetch(fetchRequest)
             if let file = result.first {
                 return file
             }
@@ -88,8 +88,8 @@ class FileHelper {
             let files: [[String: Any]] = try contents.value(for: "files")
             let folders: [[String: Any]] = try contents.value(for: "directories")
             
-            let createdFiles = try files.map({ try File.createOrUpdate(inContext: managedObjectContext, parentFolder: parentFolder, isDirectory: false, data: $0) })
-            let createdFolders = try folders.map({ try File.createOrUpdate(inContext: managedObjectContext, parentFolder: parentFolder, isDirectory: true, data: $0) })
+            let createdFiles = try files.map({ try File.createOrUpdate(inContext: CoreDataHelper.managedObjectContext, parentFolder: parentFolder, isDirectory: false, data: $0) })
+            let createdFolders = try folders.map({ try File.createOrUpdate(inContext: CoreDataHelper.managedObjectContext, parentFolder: parentFolder, isDirectory: true, data: $0) })
             
             // remove deleted files or folders
             let foundPaths = createdFiles.map({$0.pathString}) + createdFolders.map({$0.pathString})
@@ -103,7 +103,7 @@ class FileHelper {
             log.error(error)
         }
         
-        saveContext()
+        CoreDataHelper.saveContext()
     }
     
     struct SignedUrl: Unmarshaling {

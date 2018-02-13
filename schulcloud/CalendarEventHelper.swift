@@ -16,7 +16,7 @@ public struct CalendarEventHelper {
     
     static func synchronizeEvent() -> Future<[CalendarEvent], SCError> {
         let privateMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        privateMOC.parent = managedObjectContext
+        privateMOC.parent = CoreDataHelper.managedObjectContext
         
         let parameters : Parameters = ["all":true]
         return ApiHelper.request("calendar", parameters: parameters).jsonArrayFuture(keyPath: nil)
@@ -63,7 +63,7 @@ public struct CalendarEventHelper {
             }
             .flatMap { _ -> Future<Void, SCError> in
                 // save new inserted, and deleted
-                return save(privateContext: privateMOC)
+                return CoreDataHelper.save(privateContext: privateMOC)
             }
             .flatMap { _ -> Future<[CalendarEvent], SCError> in
                 // get local calendar event

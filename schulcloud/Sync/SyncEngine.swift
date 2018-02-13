@@ -195,30 +195,39 @@ struct SyncEngine {
                                                  withExistingObjects objects: [Resource],
                                                  deleteNotExistingResources: Bool,
                                                  inContext context: NSManagedObjectContext,
-                                                 withSyncStrategy syncStrategy: SyncStrategy) -> Future<[Resource], SyncError> where Resource: NSManagedObject & Pullable {
+                                                 withSyncStrategy strategy: SyncStrategy) -> Future<[Resource], SyncError> where Resource: NSManagedObject & Pullable {
         do {
             var existingObjects = objects
             var newObjects: [Resource] = []
 //            let dataArray = try object.value(for: "data") as [ResourceData]
 //            let includes = try? object.value(for: "included") as [ResourceData]
 
-            let dataArray = try syncStrategy.extractResourceData(from: object) as [ResourceData]
-            let additionalSyncData = syncStrategy.extractAdditionalSyncData(from: object)
+            let dataArray = try strategy.extractResourceData(from: object) as [ResourceData]
+            let additionalSyncData = strategy.extractAdditionalSyncData(from: object)
 
             for data in dataArray {
-                let id = try data.value(for: "id") as String
+                let id = try data.value(for: strategy.resourceKeyAttribute) as String
                 if var existingObject = existingObjects.first(where: { $0.id == id }) {
-                    try existingObject.update(withObject: data, withAdditionalSyncData: additionalSyncData, inContext: context)
+                    try existingObject.update(withObject: data,
+                                              withAdditionalSyncData: additionalSyncData,
+                                              withSyncStrategy: strategy,
+                                              inContext: context)
                     if let index = existingObjects.index(of: existingObject) {
                         existingObjects.remove(at: index)
                     }
                     newObjects.append(existingObject)
                 } else {
                     if var fetchedResource = try self.findExistingResource(withId: id, ofType: Resource.self, inContext: context) {
-                        try fetchedResource.update(withObject: data, withAdditionalSyncData: additionalSyncData, inContext: context)
+                        try fetchedResource.update(withObject: data,
+                                                   withAdditionalSyncData: additionalSyncData,
+                                                   withSyncStrategy: strategy,
+                                                   inContext: context)
                         newObjects.append(fetchedResource)
                     } else {
-                        let newObject = try Resource.value(from: data, withAdditionalSyncData: additionalSyncData, inContext: context)
+                        let newObject = try Resource.value(from: data,
+                                                           withAdditionalSyncData: additionalSyncData,
+                                                           withSyncStrategy: strategy,
+                                                           inContext: context)
                         newObjects.append(newObject)
                     }
                 }
@@ -245,29 +254,41 @@ struct SyncEngine {
     private static func mergeResource<Resource>(object: ResourceData,
                                                 withExistingObject existingObject: Resource?,
                                                 inContext context: NSManagedObjectContext,
-                                                withSyncStrategy syncStrategy: SyncStrategy) -> Future<Resource, SyncError> where Resource: NSManagedObject & Pullable {
+                                                withSyncStrategy strategy: SyncStrategy) -> Future<Resource, SyncError> where Resource: NSManagedObject & Pullable {
         do {
             let newObject: Resource
 //            let data = try object.value(for: "data") as ResourceData
 //            let includes = try? object.value(for: "included") as [ResourceData]
-            let data = try syncStrategy.extractResourceData(from: object) as ResourceData
-            let additionalSyncData = syncStrategy.extractAdditionalSyncData(from: object)
+            let data = try strategy.extractResourceData(from: object) as ResourceData
+            let additionalSyncData = strategy.extractAdditionalSyncData(from: object)
 
-            let id = try data.value(for: "id") as String
+            let id = try data.value(for: strategy.resourceKeyAttribute) as String
 
             if var existingObject = existingObject {
                 if existingObject.id == id {
-                    try existingObject.update(withObject: data, withAdditionalSyncData: additionalSyncData, inContext: context)
+                    try existingObject.update(withObject: data,
+                                              withAdditionalSyncData: additionalSyncData,
+                                              withSyncStrategy: strategy,
+                                              inContext: context)
                     newObject = existingObject
                 } else {
-                    newObject = try Resource.value(from: data, withAdditionalSyncData: additionalSyncData, inContext: context)
+                    newObject = try Resource.value(from: data,
+                                                   withAdditionalSyncData: additionalSyncData,
+                                                   withSyncStrategy: strategy,
+                                                   inContext: context)
                 }
             } else {
                 if var fetchedResource = try self.findExistingResource(withId: id, ofType: Resource.self, inContext: context) {
-                    try fetchedResource.update(withObject: data, withAdditionalSyncData: additionalSyncData, inContext: context)
+                    try fetchedResource.update(withObject: data,
+                                               withAdditionalSyncData: additionalSyncData,
+                                               withSyncStrategy: strategy,
+                                               inContext: context)
                     newObject = fetchedResource
                 } else {
-                    newObject = try Resource.value(from: data, withAdditionalSyncData: additionalSyncData, inContext: context)
+                    newObject = try Resource.value(from: data,
+                                                   withAdditionalSyncData: additionalSyncData,
+                                                   withSyncStrategy: strategy,
+                                                   inContext: context)
                 }
             }
 

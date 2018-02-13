@@ -21,7 +21,7 @@ class SettingsViewController: UITableViewController {
         super.viewDidLoad()
 
         guard let userId = Globals.account?.userId else { return }
-        User.fetch(by: userId, inContext: managedObjectContext).onSuccess { user in
+        User.fetch(by: userId, inContext: CoreDataHelper.managedObjectContext).onSuccess { user in
             self.userNameLabel.text = "\(user.firstName) \(user.lastName)"
         }.onFailure { error in
             self.userNameLabel.text = ""
@@ -47,7 +47,7 @@ class SettingsViewController: UITableViewController {
         if newValue {
             CalendarEventHelper.requestCalendarPermission()
             .flatMap { _ -> Future<[CalendarEvent], SCError> in
-                   return CalendarEventHelper.fetchCalendarEvent(inContext: managedObjectContext)
+                   return CalendarEventHelper.fetchCalendarEvent(inContext: CoreDataHelper.managedObjectContext)
             }
             .flatMap { events -> Future< Void, SCError> in
                     
