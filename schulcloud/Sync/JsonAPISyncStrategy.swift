@@ -142,4 +142,34 @@ struct JsonAPISyncStrategy: SyncStrategy {
         return includes ?? []
     }
 
+    func resourceData(for resource: Pushable) -> Result<Data, SyncError> {
+        do {
+            var data: [String: Any] = [ "type": type(of: resource).type ]
+            if let newResource = self as? ResourceRepresentable, resource.objectState != .new {
+                data["id"] = newResource.id
+            }
+
+            data["attributes"] = resource.resourceAttributes()
+            if let resourceRelationships = resource.resourceRelationships() {
+                var relationships: [String: Any] = [:]
+                for (relationshipName, object) in resourceRelationships {
+                    if let resource = object as? ResourceRepresentable {
+                        relationships[relationshipName] = ["data": resource.identifier]
+                    } else if let resources = object as? [ResourceRepresentable] {
+                        relationships[relationshipName] = ["data": resources.map { $0.identifier }]
+                    }
+                }
+                if !relationships.isEmpty {
+                    data["relationships"] = relationships
+                }
+            }
+
+            let json = ["data": data]
+            let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
+            return .success(jsonData)
+        } catch {
+            return .failure(.api(.serialization(.jsonSerialization(error))))
+        }
+    }
+
 }

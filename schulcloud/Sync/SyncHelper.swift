@@ -13,6 +13,7 @@ import Marshal
 import Result
 
 struct SchulcloudSyncStrategy : SyncStrategy {
+
     var resourceKeyAttribute: String = "_id"
 
     func queryItems<Query>(forQuery query: Query) -> [URLQueryItem] where Query : ResourceQuery {
@@ -75,6 +76,10 @@ struct SchulcloudSyncStrategy : SyncStrategy {
         } else {
             return .notExisting
         }
+    }
+
+    func resourceData(for resource: Pushable) -> Result<Data, SyncError> {
+        fatalError("This needs to be implmented")
     }
 
 }

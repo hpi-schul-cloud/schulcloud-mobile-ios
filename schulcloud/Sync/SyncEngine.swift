@@ -97,7 +97,7 @@ struct SyncEngine {
             request.setValue(value, forHTTPHeaderField: header)
         }
 
-        return resource.resourceData().map { data in
+        return configuration.syncStrategy.resourceData(for: resource).map { data in
             request.httpBody = data
             return request
         }

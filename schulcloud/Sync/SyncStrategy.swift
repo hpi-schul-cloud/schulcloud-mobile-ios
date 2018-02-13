@@ -30,7 +30,7 @@ protocol SyncStrategy {
                              ofObject object: ResourceData,
                              with context: SynchronizationContext) -> FindIncludedObjectsResult
 
-
+    func resourceData(for resource: Pushable) -> Result<Data, SyncError>
 
 }
 
