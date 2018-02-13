@@ -194,40 +194,33 @@ struct SyncEngine {
     private static func mergeResources<Resource>(object: ResourceData,
                                                  withExistingObjects objects: [Resource],
                                                  deleteNotExistingResources: Bool,
-                                                 inContext context: NSManagedObjectContext,
-                                                 withSyncStrategy strategy: SyncStrategy) -> Future<[Resource], SyncError> where Resource: NSManagedObject & Pullable {
+                                                 withStrategy strategy: SyncStrategy,
+                                                 in coreDataContext: NSManagedObjectContext) -> Future<[Resource], SyncError> where Resource: NSManagedObject & Pullable {
+
         do {
             var existingObjects = objects
             var newObjects: [Resource] = []
 //            let dataArray = try object.value(for: "data") as [ResourceData]
 //            let includes = try? object.value(for: "included") as [ResourceData]
 
+            let includedResourceData = strategy.extractIncludedResourceData(from: object)
+            let context = SynchronizationContext(coreDataContext: coreDataContext, strategy: strategy, includedResourceData: includedResourceData)
             let dataArray = try strategy.extractResourceData(from: object) as [ResourceData]
-            let additionalSyncData = strategy.extractAdditionalSyncData(from: object)
 
             for data in dataArray {
-                let id = try data.value(for: strategy.resourceKeyAttribute) as String
+                let id = try data.value(for: context.strategy.resourceKeyAttribute) as String
                 if var existingObject = existingObjects.first(where: { $0.id == id }) {
-                    try existingObject.update(withObject: data,
-                                              withAdditionalSyncData: additionalSyncData,
-                                              withSyncStrategy: strategy,
-                                              inContext: context)
+                    try existingObject.update(from: data, with: context)
                     if let index = existingObjects.index(of: existingObject) {
                         existingObjects.remove(at: index)
                     }
                     newObjects.append(existingObject)
                 } else {
-                    if var fetchedResource = try self.findExistingResource(withId: id, ofType: Resource.self, inContext: context) {
-                        try fetchedResource.update(withObject: data,
-                                                   withAdditionalSyncData: additionalSyncData,
-                                                   withSyncStrategy: strategy,
-                                                   inContext: context)
+                    if var fetchedResource = try self.findExistingResource(withId: id, ofType: Resource.self, inContext: coreDataContext) {
+                        try fetchedResource.update(from: data, with: context)
                         newObjects.append(fetchedResource)
                     } else {
-                        let newObject = try Resource.value(from: data,
-                                                           withAdditionalSyncData: additionalSyncData,
-                                                           withSyncStrategy: strategy,
-                                                           inContext: context)
+                        let newObject = try Resource.value(from: data, with: context)
                         newObjects.append(newObject)
                     }
                 }
@@ -235,7 +228,7 @@ struct SyncEngine {
 
             if deleteNotExistingResources {
                 for existingObject in existingObjects {
-                    context.delete(existingObject)
+                    coreDataContext.delete(existingObject)
                 }
             }
 
@@ -253,42 +246,32 @@ struct SyncEngine {
 
     private static func mergeResource<Resource>(object: ResourceData,
                                                 withExistingObject existingObject: Resource?,
-                                                inContext context: NSManagedObjectContext,
-                                                withSyncStrategy strategy: SyncStrategy) -> Future<Resource, SyncError> where Resource: NSManagedObject & Pullable {
+                                                withStrategy strategy: SyncStrategy,
+                                                in coreDataContext: NSManagedObjectContext) -> Future<Resource, SyncError> where Resource: NSManagedObject & Pullable {
         do {
             let newObject: Resource
 //            let data = try object.value(for: "data") as ResourceData
 //            let includes = try? object.value(for: "included") as [ResourceData]
-            let data = try strategy.extractResourceData(from: object) as ResourceData
-            let additionalSyncData = strategy.extractAdditionalSyncData(from: object)
 
-            let id = try data.value(for: strategy.resourceKeyAttribute) as String
+            let includedResourceData = strategy.extractIncludedResourceData(from: object)
+            let context = SynchronizationContext(coreDataContext: coreDataContext, strategy: strategy, includedResourceData: includedResourceData)
+            let data = try context.strategy.extractResourceData(from: object) as ResourceData
+
+            let id = try data.value(for: context.strategy.resourceKeyAttribute) as String
 
             if var existingObject = existingObject {
                 if existingObject.id == id {
-                    try existingObject.update(withObject: data,
-                                              withAdditionalSyncData: additionalSyncData,
-                                              withSyncStrategy: strategy,
-                                              inContext: context)
+                    try existingObject.update(from: data, with: context)
                     newObject = existingObject
                 } else {
-                    newObject = try Resource.value(from: data,
-                                                   withAdditionalSyncData: additionalSyncData,
-                                                   withSyncStrategy: strategy,
-                                                   inContext: context)
+                    newObject = try Resource.value(from: data, with: context)
                 }
             } else {
-                if var fetchedResource = try self.findExistingResource(withId: id, ofType: Resource.self, inContext: context) {
-                    try fetchedResource.update(withObject: data,
-                                               withAdditionalSyncData: additionalSyncData,
-                                               withSyncStrategy: strategy,
-                                               inContext: context)
+                if var fetchedResource = try self.findExistingResource(withId: id, ofType: Resource.self, inContext: coreDataContext) {
+                    try fetchedResource.update(from: data, with: context)
                     newObject = fetchedResource
                 } else {
-                    newObject = try Resource.value(from: data,
-                                                   withAdditionalSyncData: additionalSyncData,
-                                                   withSyncStrategy: strategy,
-                                                   inContext: context)
+                    newObject = try Resource.value(from: data, with: context)
                 }
             }
 
@@ -324,8 +307,8 @@ struct SyncEngine {
                 return self.mergeResources(object: networkResult.resourceData,
                                            withExistingObjects: objects,
                                            deleteNotExistingResources: deleteNotExistingResources,
-                                           inContext: context,
-                                           withSyncStrategy: configuration.syncStrategy).map { resources in
+                                           withStrategy: configuration.syncStrategy,
+                                           in: context).map { resources in
                     return MergeMultipleResult(resources: resources, headers: networkResult.headers)
                 }
             }.inject(ImmediateExecutionContext) {
@@ -363,8 +346,8 @@ struct SyncEngine {
             coreDataFetch.zip(networkRequest).flatMap(ImmediateExecutionContext) { object, networkResult -> Future<MergeSingleResult<Resource>, SyncError> in
                 return self.mergeResource(object: networkResult.resourceData,
                                           withExistingObject: object,
-                                          inContext: context,
-                                          withSyncStrategy: configuration.syncStrategy).map { resource in
+                                          withStrategy: configuration.syncStrategy,
+                                          in: context).map { resource in
                     return MergeSingleResult(resource: resource, headers: networkResult.headers)
                 }
             }.inject(ImmediateExecutionContext) {

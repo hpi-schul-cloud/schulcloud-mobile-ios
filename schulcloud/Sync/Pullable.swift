@@ -13,31 +13,19 @@ import Marshal
 
 protocol Pullable : ResourceRepresentable {
 
-    static func value(from object: ResourceData,
-                      withAdditionalSyncData additionalSyncData: AdditionalSyncData,
-                      withSyncStrategy strategy: SyncStrategy,
-                      inContext context: NSManagedObjectContext) throws -> Self
+    static func value(from object: ResourceData, with context: SynchronizationContext) throws -> Self
 
-    mutating func update(withObject object: ResourceData,
-                         withAdditionalSyncData additionalSyncData: AdditionalSyncData,
-                         withSyncStrategy strategy: SyncStrategy,
-                         inContext context: NSManagedObjectContext) throws
+    mutating func update(from object: ResourceData, with context: SynchronizationContext) throws
 
 }
 
 extension Pullable where Self: NSManagedObject {
 
-    static func value(from object: ResourceData,
-                      withAdditionalSyncData additionalSyncData: AdditionalSyncData,
-                      withSyncStrategy strategy: SyncStrategy,
-                      inContext context: NSManagedObjectContext) throws -> Self {
-        try strategy.validateObjectCreation(object: object, toHaveType: Self.type)
-        var managedObject = self.init(entity: self.entity(), insertInto: context)
-        try managedObject.id = object.value(for: strategy.resourceKeyAttribute)
-        try managedObject.update(withObject: object,
-                                 withAdditionalSyncData: additionalSyncData,
-                                 withSyncStrategy: strategy,
-                                 inContext: context)
+    static func value(from object: ResourceData, with context: SynchronizationContext) throws -> Self {
+        try context.strategy.validateObjectCreation(object: object, toHaveType: Self.type)
+        var managedObject = self.init(entity: self.entity(), insertInto: context.coreDataContext)
+        try managedObject.id = object.value(for: context.strategy.resourceKeyAttribute)
+        try managedObject.update(from: object, with: context)
         return managedObject
     }
 
@@ -58,17 +46,12 @@ extension Pullable where Self: NSManagedObject {
     func updateRelationship<A>(forKeyPath keyPath: ReferenceWritableKeyPath<Self, A>,
                                forKey key: KeyType,
                                fromObject object: ResourceData,
-                               withAdditionalSyncData additionalSyncData: AdditionalSyncData,
-                               withSyncStrategy strategy: SyncStrategy,
-                               inContext context: NSManagedObjectContext) throws where A: NSManagedObject & Pullable {
-        switch strategy.findIncludedObject(forKey: key, ofObject: object, withAdditionalSyncData: additionalSyncData) {
+                               with context: SynchronizationContext) throws where A: NSManagedObject & Pullable {
+        switch context.strategy.findIncludedObject(forKey: key, ofObject: object, with: context) {
         case let .object(_, includedObject):
             var existingObject = self[keyPath: keyPath] // TODO: also check if id is equal. update() does not updates the id
             do {
-                try existingObject.update(withObject: includedObject,
-                                          withAdditionalSyncData: additionalSyncData,
-                                          withSyncStrategy: strategy,
-                                          inContext: context)
+                try existingObject.update(from: includedObject, with: context)
             } catch let error as MarshalError {
                 throw NestedMarshalError.nestedMarshalError(error, includeType: A.type, includeKey: key)
             }
@@ -93,36 +76,25 @@ extension Pullable where Self: NSManagedObject {
     func updateRelationship<A>(forKeyPath keyPath: ReferenceWritableKeyPath<Self, A?>,
                                forKey key: KeyType,
                                fromObject object: ResourceData,
-                               withAdditionalSyncData additionalSyncData: AdditionalSyncData,
-                               withSyncStrategy strategy: SyncStrategy,
-                               inContext context: NSManagedObjectContext) throws where A: NSManagedObject & Pullable {
-        switch strategy.findIncludedObject(forKey: key, ofObject: object, withAdditionalSyncData: additionalSyncData) {
+                               with context: SynchronizationContext) throws where A: NSManagedObject & Pullable {
+        switch context.strategy.findIncludedObject(forKey: key, ofObject: object, with: context) {
         case let .object(resourceId, includedObject):
             do {
                 if var existingObject = self[keyPath: keyPath] { // TODO: also check if id is equal. update() does not updates the id
-                    try existingObject.update(withObject: includedObject,
-                                              withAdditionalSyncData: additionalSyncData,
-                                              withSyncStrategy: strategy,
-                                              inContext: context)
+                    try existingObject.update(from: includedObject, with: context)
                 } else {
-                    if var fetchedResource = try SyncEngine.findExistingResource(withId: resourceId, ofType: A.self, inContext: context) {
-                        try fetchedResource.update(withObject: includedObject,
-                                                   withAdditionalSyncData: additionalSyncData,
-                                                   withSyncStrategy: strategy,
-                                                   inContext: context)
+                    if var fetchedResource = try SyncEngine.findExistingResource(withId: resourceId, ofType: A.self, inContext: context.coreDataContext) {
+                        try fetchedResource.update(from: includedObject, with: context)
                         self[keyPath: keyPath] = fetchedResource
                     } else {
-                        self[keyPath: keyPath] = try A.value(from: includedObject,
-                                                             withAdditionalSyncData: additionalSyncData,
-                                                             withSyncStrategy: strategy,
-                                                             inContext: context)
+                        self[keyPath: keyPath] = try A.value(from: includedObject, with: context)
                     }
                 }
             } catch let error as MarshalError {
                 throw NestedMarshalError.nestedMarshalError(error, includeType: A.type, includeKey: key)
             }
         case let .id(resourceId):
-            if let fetchedResource = try SyncEngine.findExistingResource(withId: resourceId, ofType: A.self, inContext: context) {
+            if let fetchedResource = try SyncEngine.findExistingResource(withId: resourceId, ofType: A.self, inContext: context.coreDataContext) {
                 self[keyPath: keyPath] = fetchedResource
             } else {
                 log.info("relationship update saved (\(Self.type) --> \(A.type)?)")
@@ -166,9 +138,7 @@ extension Pullable where Self: NSManagedObject {
     func updateRelationship<A>(forKeyPath keyPath: ReferenceWritableKeyPath<Self, Set<A>>,
                                forKey key: KeyType,
                                fromObject object: ResourceData,
-                               withAdditionalSyncData additionalSyncData: AdditionalSyncData,
-                               withSyncStrategy strategy: SyncStrategy,
-                               inContext context: NSManagedObjectContext) throws where A: NSManagedObject & Pullable {
+                               with context: SynchronizationContext) throws where A: NSManagedObject & Pullable {
         var currentObjects = Set(self[keyPath: keyPath])
 
 
@@ -176,29 +146,20 @@ extension Pullable where Self: NSManagedObject {
         //        let resourceIdentifiers = try object.value(for: "\(key).data") as [ResourceIdentifier]
 
         do {
-            switch strategy.findIncludedObjects(forKey: key, ofObject: object, withAdditionalSyncData: additionalSyncData) {
+            switch context.strategy.findIncludedObjects(forKey: key, ofObject: object, with: context) {
             case let .included(resourceIdsAndObjects, resourceIds):
                 for (resourceId, includedObject) in resourceIdsAndObjects {
                     if var currentObject = currentObjects.first(where: { $0.id == resourceId }) {
-                        try currentObject.update(withObject: includedObject,
-                                                 withAdditionalSyncData: additionalSyncData,
-                                                 withSyncStrategy: strategy,
-                                                 inContext: context)
+                        try currentObject.update(from: includedObject, with: context)
                         if let index = currentObjects.index(where: { $0 == currentObject }) {
                             currentObjects.remove(at: index)
                         }
                     } else {
-                        if var fetchedResource = try SyncEngine.findExistingResource(withId: resourceId, ofType: A.self, inContext: context) {
-                            try fetchedResource.update(withObject: includedObject,
-                                                       withAdditionalSyncData: additionalSyncData,
-                                                       withSyncStrategy: strategy,
-                                                       inContext: context)
+                        if var fetchedResource = try SyncEngine.findExistingResource(withId: resourceId, ofType: A.self, inContext: context.coreDataContext) {
+                            try fetchedResource.update(from: includedObject, with: context)
                             self[keyPath: keyPath].insert(fetchedResource)
                         } else {
-                            let newObject = try A.value(from: includedObject,
-                                                        withAdditionalSyncData: additionalSyncData,
-                                                        withSyncStrategy: strategy,
-                                                        inContext: context)
+                            let newObject = try A.value(from: includedObject, with: context)
                             self[keyPath: keyPath].insert(newObject)
                         }
                     }
@@ -210,7 +171,7 @@ extension Pullable where Self: NSManagedObject {
                             currentObjects.remove(at: index)
                         }
                     } else {
-                        if let fetchedResource = try SyncEngine.findExistingResource(withId: resourceId, ofType: A.self, inContext: context) {
+                        if let fetchedResource = try SyncEngine.findExistingResource(withId: resourceId, ofType: A.self, inContext: context.coreDataContext) {
                             self[keyPath: keyPath].insert(fetchedResource)
                         }
                     }
@@ -251,24 +212,20 @@ extension Pullable where Self: NSManagedObject {
 
         // TODO: really?
         for currentObject in currentObjects {
-            context.delete(currentObject)
+            context.coreDataContext.delete(currentObject)
         }
     }
 
     func updateAbstractRelationship<A>(forKeyPath keyPath: ReferenceWritableKeyPath<Self, A?>,
                                        forKey key: KeyType,
                                        fromObject object: ResourceData,
-                                       withAdditionalSyncData additionalSyncData: AdditionalSyncData,
-                                       withSyncStrategy strategy: SyncStrategy,
-                                       inContext context: NSManagedObjectContext,
+                                       with context: SynchronizationContext,
                                        updatingBlock block: (AbstractPullableContainer<Self, A>) throws -> Void) throws {
         let container = AbstractPullableContainer<Self, A>(onResource: self,
                                                            withKeyPath: keyPath,
                                                            forKey: key,
                                                            fromObject: object,
-                                                           withAdditionalSyncData: additionalSyncData,
-                                                           withSyncStrategy: strategy,
-                                                           inContext: context)
+                                                           with: context)
         try block(container)
     }
 
@@ -279,23 +236,17 @@ class AbstractPullableContainer<A, B> where A: NSManagedObject & Pullable, B: NS
     let keyPath: ReferenceWritableKeyPath<A, B?>
     let key: KeyType
     let object: ResourceData
-    let additionalSyncData: AdditionalSyncData
-    let strategy: SyncStrategy
-    let context: NSManagedObjectContext
+    let context: SynchronizationContext
 
     init(onResource resource: A,
          withKeyPath keyPath: ReferenceWritableKeyPath<A, B?>,
          forKey key: KeyType,
          fromObject object: ResourceData,
-         withAdditionalSyncData additionalSyncData: AdditionalSyncData,
-         withSyncStrategy strategy: SyncStrategy,
-         inContext context: NSManagedObjectContext) {
+         with context: SynchronizationContext) {
         self.resource = resource
         self.keyPath = keyPath
         self.key = key
         self.object = object
-        self.additionalSyncData = additionalSyncData
-        self.strategy = strategy
         self.context = context
     }
 
@@ -304,18 +255,12 @@ class AbstractPullableContainer<A, B> where A: NSManagedObject & Pullable, B: NS
 
         guard resourceIdentifier.type == C.type else { return }
 
-        switch self.strategy.findIncludedObject(forKey: key, ofObject: object, withAdditionalSyncData: additionalSyncData) {
+        switch self.context.strategy.findIncludedObject(forKey: self.key, ofObject: self.object, with: self.context) {
         case let .object(_, includedObject):
             do {
                 if var existingObject = self.resource[keyPath: self.keyPath] as? C{
-                    try existingObject.update(withObject: includedObject,
-                                              withAdditionalSyncData: self.additionalSyncData,
-                                              withSyncStrategy: self.strategy,
-                                              inContext: context)
-                } else if let newObject = try C.value(from: includedObject,
-                                                      withAdditionalSyncData: self.additionalSyncData,
-                                                      withSyncStrategy: self.strategy,
-                                                      inContext: context) as? B {
+                    try existingObject.update(from: includedObject, with: context)
+                } else if let newObject = try C.value(from: includedObject, with: context) as? B {
                     self.resource[keyPath: self.keyPath] = newObject
                 }
             } catch let error as MarshalError {

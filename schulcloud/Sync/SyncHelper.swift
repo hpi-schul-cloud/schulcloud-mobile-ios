@@ -49,11 +49,11 @@ struct SchulcloudSyncStrategy : SyncStrategy {
         return try object.value(for: "data")
     }
 
-    func extractAdditionalSyncData(from object: ResourceData) -> AdditionalSyncData {
-        return AdditionalSyncData(externallyIncludedResourceData: [])
+    func extractIncludedResourceData(from object: ResourceData) -> [ResourceData] {
+        return []
     }
 
-    func findIncludedObject(forKey key: KeyType, ofObject object: ResourceData, withAdditionalSyncData additionalSyncData: AdditionalSyncData) -> FindIncludedObjectResult {
+    func findIncludedObject(forKey key: KeyType, ofObject object: ResourceData, with context: SynchronizationContext) -> FindIncludedObjectResult {
         if let resourceData = try? object.value(for: key) as MarshalDictionary, let resourceId = try? resourceData.value(for: self.resourceKeyAttribute) as String {
             return .object(resourceId, resourceData)
         } else if let resourceId = try? object.value(for: key) as String {
@@ -63,7 +63,7 @@ struct SchulcloudSyncStrategy : SyncStrategy {
         }
     }
 
-    func findIncludedObjects(forKey key: KeyType, ofObject object: ResourceData, withAdditionalSyncData additionalSyncData: AdditionalSyncData) -> FindIncludedObjectsResult {
+    func findIncludedObjects(forKey key: KeyType, ofObject object: ResourceData, with context: SynchronizationContext) -> FindIncludedObjectsResult {
         if let resourceData = try? object.value(for: key) as [MarshalDictionary] {
             let idsAndObjects: [(id: String, object: ResourceData)] = resourceData.flatMap {
                 guard let resourceId = try? $0.value(for: self.resourceKeyAttribute) as String else { return nil }
