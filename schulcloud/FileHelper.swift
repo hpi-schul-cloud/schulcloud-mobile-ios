@@ -12,8 +12,154 @@ import BrightFutures
 import CoreData
 import Marshal
 
-class FileHelper {
+class FileSync : NSObject {
+
+    typealias ProgressHandler = (Float) -> ()
     
+    fileprivate var fileTransferSession : URLSession! = nil
+    fileprivate let fileDataSession : URLSession
+
+    var runningTask : [Int: Promise<Data, SCError>] = [:]
+    var progressHandlers : [Int : ProgressHandler] = [:]
+
+    override init() {
+
+        let configuration = URLSessionConfiguration.ephemeral
+        fileDataSession = URLSession(configuration: URLSessionConfiguration.default)
+        
+        super.init()
+        
+        fileTransferSession = URLSession(configuration: configuration, delegate: self, delegateQueue: OperationQueue.main)
+    }
+
+    private var fileStorageURL : URL {
+        return Constants.backend.url.appendingPathComponent("fileStorage")
+    }
+    
+    private func getUrl(for file: File) -> URL? {
+        var urlComponent = URLComponents(url: fileStorageURL, resolvingAgainstBaseURL: false)!
+        urlComponent.query = "path=\(file.url.absoluteString)"
+        return try? urlComponent.asURL()
+    }
+    
+    private func request(for url: URL) -> URLRequest {
+        
+        var request = URLRequest(url: url)
+        request.setValue(Globals.account!.accessToken!, forHTTPHeaderField: "Authorization")
+        request.httpMethod = "GET"
+        return request
+    }
+    
+    func downloadContent(for file: File) -> Future< Data, SCError> {
+        guard file.isDirectory else { return Future(error: .other("only works on directory") ) }
+        
+        let request = self.request(for: file.url)
+
+        let promise = Promise<Data, SCError>()
+        fileDataSession.dataTask(with: request) { (data, response, error) in
+            guard error == nil else {
+                promise.failure( .network(error) )
+                return
+            }
+            guard let response = response as?  HTTPURLResponse,
+                200 ... 299 ~= response.statusCode else {
+                    promise.failure( .network(nil) )
+                    return
+            }
+            guard let data = data else {
+                promise.failure( .network(nil) )
+                return
+            }
+            promise.success(data)
+        }.resume()
+        return promise.future
+    }
+    
+    func download(url: URL, progressHandler: @escaping ProgressHandler ) -> Future<Data, SCError> {
+        let promise = Promise<Data, SCError>()
+        let task = fileTransferSession.downloadTask(with: url)
+        task.resume()
+        runningTask[task.taskIdentifier] = promise
+        progressHandlers[task.taskIdentifier] = progressHandler
+        return promise.future
+    }
+    
+    func signedURL(for file: File) -> Future<URL, SCError> {
+        guard !file.isDirectory else { return Future(error: .other("Can't download folder") ) }
+        
+        var request = self.request(for: fileStorageURL.appendingPathComponent("signedUrl") )
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let parameters: Any = [
+            "path": file.url.absoluteString.removingPercentEncoding!,
+            //"fileType": mime.lookup(file),
+            "action": "getObject"
+        ]
+        
+        request.httpBody = try! JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+        
+        let promise = Promise<URL, SCError>()
+        fileDataSession.dataTask(with: request) { (data, response, error) in
+            guard error == nil else {
+                promise.failure( .network(error) )
+                return
+            }
+            guard let response = response as?  HTTPURLResponse,
+                200 ... 299 ~= response.statusCode else {
+                    promise.failure( .network(nil) )
+                    return
+            }
+            guard let data = data else {
+                promise.failure( .network(nil) )
+                return
+            }
+        
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                let signedURL = try SignedUrl(object: json as! MarshaledObject)
+                promise.success(signedURL.url)
+            } catch let error {
+                promise.failure(.jsonDeserialization(error.localizedDescription) )
+            }
+        }.resume()
+        return promise.future
+    }
+
+}
+
+extension FileSync : URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownloadDelegate {
+    
+    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+        let promise = runningTask[downloadTask.taskIdentifier]
+        do {
+            let data = try Data(contentsOf: location)
+            promise?.success(data)
+        } catch let error {
+            promise?.failure(.other(error.localizedDescription))
+        }
+    }
+    
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        let promise = runningTask[task.taskIdentifier]
+        if let error = error {
+            promise?.failure(.network(error))
+        }
+        runningTask.removeValue(forKey: task.taskIdentifier)
+        progressHandlers.removeValue(forKey: task.taskIdentifier)
+    }
+    
+    // Download progress
+    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+        if let progressHandler = progressHandlers[downloadTask.taskIdentifier] {
+            let progress = Float(bytesWritten) / Float(totalBytesExpectedToWrite)
+            progressHandler(progress)
+        }
+    }
+}
+
+class FileHelper {
+
     private static var rootDirectoryID = "root"
     private static var coursesDirectoryID = "courses"
     private static var sharedDirectoryID = "shared"
@@ -227,12 +373,12 @@ class FileHelper {
         
         saveContext()
     }
+}
+
+struct SignedUrl: Unmarshaling {
+    let url: URL
     
-    struct SignedUrl: Unmarshaling {
-        let url: URL
-        
-        init(object: MarshaledObject) throws {
-            url = try object.value(for: "url")
-        }
+    init(object: MarshaledObject) throws {
+        url = try object.value(for: "url")
     }
 }

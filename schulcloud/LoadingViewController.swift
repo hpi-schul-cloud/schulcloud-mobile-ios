@@ -32,6 +32,7 @@
 import Alamofire
 import Foundation
 import QuickLook
+import BrightFutures
 
 
 class LoadingViewController: UIViewController  {
@@ -44,8 +45,8 @@ class LoadingViewController: UIViewController  {
     
     var downloadTask: URLSessionDownloadTask?
     
+    let fileSync = FileSync()
     var file: File!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,6 +65,27 @@ class LoadingViewController: UIViewController  {
     }
     
     func startDownload() {
+        
+        fileSync.signedURL(for: file)
+        .flatMap { url -> Future<Data, SCError> in
+            let future = self.fileSync.download(url: url, progressHandler: { (progress) in
+                DispatchQueue.main.async {
+                    self.progressView.setProgress(progress, animated: true)
+                }
+            })
+            return future
+        }.onSuccess { (fileData) in
+            DispatchQueue.main.async {
+                self.showFile(data: fileData)
+            }
+
+        }.onFailure { (error) in
+            DispatchQueue.main.async {
+                self.show(error: error)
+            }
+        }
+
+        /*
         FileHelper.getSignedUrl(forFile: file)
             .onSuccess { url in
                 DispatchQueue.main.async {
@@ -92,7 +114,7 @@ class LoadingViewController: UIViewController  {
             .onFailure { error in
                 self.show(error: error)
         }
-        
+       */
     }
     
     func showFile(data: Data) {
