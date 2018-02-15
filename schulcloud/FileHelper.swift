@@ -61,20 +61,17 @@ class FileSync : NSObject {
         let request = self.request(for: getUrl(for: file)! )
         let promise : Promise<[String : Any], SCError> = Promise()
         fileDataSession.dataTask(with: request) { (data, response, error) in
-            guard error == nil else {
-                promise.failure( .network(error) )
-                return
-            }
-            guard let response = response as?  HTTPURLResponse,
-                200 ... 299 ~= response.statusCode else {
-                    promise.failure( .network(nil) )
-                    return
-            }
-            guard let data = data else {
-                promise.failure( .network(nil) )
-                return
-            }
             
+            var data : Data! = nil
+            do {
+                data = try self.confirmNetworkResponse(data: data, response: response, error: error)
+            } catch let error as SCError {
+                promise.failure(error)
+                return
+            } catch let _ {
+                promise.failure( .other("Weird"))
+                return
+            }
             guard let json = (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)) as? [String : Any] else {
                 promise.failure(SCError.jsonDeserialization("Can't deserialize"))
                 return
@@ -111,24 +108,13 @@ class FileSync : NSObject {
         
         let promise = Promise<URL, SCError>()
         fileDataSession.dataTask(with: request) { (data, response, error) in
-            guard error == nil else {
-                promise.failure( .network(error) )
-                return
-            }
-            guard let response = response as?  HTTPURLResponse,
-                200 ... 299 ~= response.statusCode else {
-                    promise.failure( .network(nil) )
-                    return
-            }
-            guard let data = data else {
-                promise.failure( .network(nil) )
-                return
-            }
-        
             do {
+                let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
                 let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
                 let signedURL = try SignedUrl(object: json as! MarshaledObject)
                 promise.success(signedURL.url)
+            } catch let error as SCError {
+                promise.failure(error)
             } catch let error {
                 promise.failure(.jsonDeserialization(error.localizedDescription) )
             }
@@ -141,33 +127,37 @@ class FileSync : NSObject {
         
         let request = self.request(for: Constants.backend.url.appendingPathComponent("files") )
         fileDataSession.dataTask(with: request) { (data, response, error) in
-            guard error == nil else {
-                promise.failure( .network(error) )
-                return
-            }
-            guard let response = response as?  HTTPURLResponse,
-                200 ... 299 ~= response.statusCode else {
-                    promise.failure( .network(nil) )
-                    return
-            }
-            guard let data = data else {
-                promise.failure( .network(nil) )
-                return
-            }
-            
             do {
+                let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
                 let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! MarshaledObject
                 let files : [MarshaledObject] = try json.value(for: "data")
                 let sharedFiles = files.filter({ (object) -> Bool in
                     return (try? object.value(for: "context")) == "geteilte Datei"
                 })
                 promise.success(sharedFiles as! [[String:Any]])
+            } catch let error as SCError {
+                promise.failure(error)
             } catch let error {
                 promise.failure(.jsonDeserialization(error.localizedDescription) )
             }
         }.resume()
         return promise.future
     }
+    
+    private func confirmNetworkResponse(data: Data?, response: URLResponse?, error: Error?) throws -> Data{
+        guard error == nil else {
+            throw SCError.network(error)
+        }
+        guard let response = response as?  HTTPURLResponse,
+            200 ... 299 ~= response.statusCode else {
+                throw SCError.network(nil)
+        }
+        guard let data = data else {
+            throw SCError.network(nil)
+        }
+        return data
+    }
+    
 }
 
 extension FileSync : URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownloadDelegate {
