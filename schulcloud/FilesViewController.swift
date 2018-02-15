@@ -45,16 +45,21 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
                 self.refreshControl?.endRefreshing()
             }
         }
-        
-        if [FileHelper.rootDirectoryID, FileHelper.coursesDirectoryID].contains(currentFolder.id) {
-            FileHelper.updateDatabase(forFolder: currentFolder)
-            .onSuccess { _ in
-                self.performFetch()
-            }.onFailure { error in
-                log.error(error)
-            }.onComplete { _ in
-                self.refreshControl?.endRefreshing()
-            }
+
+        if FileHelper.coursesDirectoryID == currentFolder.id {
+            CourseHelper.fetchFromServer()
+            .andThen { (result) in
+                if let changes = result.value {
+                    FileHelper.process(changes: changes, inFolder: self.currentFolder, managedObjectContext: managedObjectContext)
+                }
+            }.onSuccess(callback: { (_) in
+                successBlock()
+            })
+            .onFailure(callback: { (error) in
+                print("Failure: \(error)")
+            }).onComplete(callback: { (_) in
+                completeBlock()
+            })
         } else if FileHelper.sharedDirectoryID == currentFolder.id {
             fileSync.sharedDownload()
             .map { (objects) -> Void in

@@ -326,38 +326,7 @@ class FileHelper {
         }
     }
     
-    static func updateDatabase(forFolder parentFolder: File) -> Future<Void, SCError> {
-        guard !notSynchronizedPath.contains(parentFolder.url.absoluteString) else {
-            return Future(value: Void() )
-        }
-        
-        if coursesDirectoryID == parentFolder.id { //Get the courses and adapt the folder structure
-            return CourseHelper.fetchFromServer()
-            .onSuccess { changes in
-                process(changes: changes, inFolder: parentFolder, managedObjectContext: managedObjectContext)
-                try! managedObjectContext.save()
-            }.map { _ in return Void() }
-            
-        } else if sharedDirectoryID == parentFolder.id { // download from different endpoint
-            return ApiHelper.request("files").jsonArrayFuture(keyPath: "data")
-            .flatMap { json -> Future<Void, SCError> in
-                let sharedFiles = json.filter { (try? $0.value(for: "context")) == "geteilte Datei" }
-                for json in sharedFiles {
-                    updateDatabase(contentsOf: parentFolder, using: json)
-                }
-                return Future( value: Void() )
-            }
-        }
-        
-        let path = "fileStorage?path=\(parentFolder.url.absoluteString)"
-        return ApiHelper.request(path).jsonObjectFuture()
-            .flatMap { json -> Future<Void, SCError> in
-                updateDatabase(contentsOf: parentFolder, using: json)
-                return Future(value: Void())
-        }
-    }
-    
-    fileprivate static func process(changes: [String: [Course] ], inFolder parentFolder: File, managedObjectContext: NSManagedObjectContext) {
+    static func process(changes: [String: [Course] ], inFolder parentFolder: File, managedObjectContext: NSManagedObjectContext) {
         if let deletedCourses = changes[NSDeletedObjectsKey],
                deletedCourses.count > 0 {
             let contents = parentFolder.mutableSetValue(forKey: "contents")
