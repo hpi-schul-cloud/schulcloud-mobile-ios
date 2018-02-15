@@ -68,6 +68,10 @@ class LoadingViewController: UIViewController  {
         
         fileSync.signedURL(for: file)
         .flatMap { url -> Future<Data, SCError> in
+            DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
+                self.progressView.isHidden = false
+            }
             let future = self.fileSync.download(url: url, progressHandler: { (progress) in
                 DispatchQueue.main.async {
                     self.progressView.setProgress(progress, animated: true)
@@ -78,7 +82,6 @@ class LoadingViewController: UIViewController  {
             DispatchQueue.main.async {
                 self.showFile(data: fileData)
             }
-
         }.onFailure { (error) in
             DispatchQueue.main.async {
                 self.show(error: error)

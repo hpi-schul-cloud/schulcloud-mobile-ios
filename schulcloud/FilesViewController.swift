@@ -13,6 +13,7 @@ import BrightFutures
 class FilesViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
     var currentFolder: File!
+    var fileSync = FileSync()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,16 +34,53 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
     }
     
     @IBAction func didTriggerRefresh() {
-        FileHelper.updateDatabase(forFolder: currentFolder)
-            .onSuccess { _ in
+        
+        let successBlock : () -> () = {
+            DispatchQueue.main.async {
                 self.performFetch()
             }
-            .onFailure { error in
-                log.error(error)
-            }
-            .onComplete { _ in
+        }
+        let completeBlock : () -> () = {
+            DispatchQueue.main.async {
                 self.refreshControl?.endRefreshing()
             }
+        }
+        
+        if [FileHelper.rootDirectoryID, FileHelper.coursesDirectoryID].contains(currentFolder.id) {
+            FileHelper.updateDatabase(forFolder: currentFolder)
+            .onSuccess { _ in
+                self.performFetch()
+            }.onFailure { error in
+                log.error(error)
+            }.onComplete { _ in
+                self.refreshControl?.endRefreshing()
+            }
+        } else if FileHelper.sharedDirectoryID == currentFolder.id {
+            fileSync.sharedDownload()
+            .map { (objects) -> Void in
+                for json in objects {
+                    FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json)
+                }
+                return ()
+            }
+            .onSuccess(callback: successBlock)
+            .onFailure(callback: { (error) in
+                print("failure: \(error)")
+            }).onComplete(callback: { (_) in
+                completeBlock()
+            })
+        } else {
+            fileSync.downloadContent(for: currentFolder)
+            .map { json -> () in
+                FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json)
+                return ()
+            }.onSuccess(callback: successBlock)
+            .onFailure { (error) in
+                log.error(error)
+            }.onComplete { (_) in
+                completeBlock()
+            }
+        }
     }
 
     // MARK: - Table view data source

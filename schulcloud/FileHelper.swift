@@ -31,6 +31,11 @@ class FileSync : NSObject {
         
         fileTransferSession = URLSession(configuration: configuration, delegate: self, delegateQueue: OperationQueue.main)
     }
+    
+    deinit {
+        fileDataSession.invalidateAndCancel()
+        fileTransferSession.invalidateAndCancel()
+    }
 
     private var fileStorageURL : URL {
         return Constants.backend.url.appendingPathComponent("fileStorage")
@@ -50,12 +55,11 @@ class FileSync : NSObject {
         return request
     }
     
-    func downloadContent(for file: File) -> Future< Data, SCError> {
+    func downloadContent(for file: File) -> Future<([String : Any]), SCError> {
         guard file.isDirectory else { return Future(error: .other("only works on directory") ) }
         
-        let request = self.request(for: file.url)
-
-        let promise = Promise<Data, SCError>()
+        let request = self.request(for: getUrl(for: file)! )
+        let promise : Promise<[String : Any], SCError> = Promise()
         fileDataSession.dataTask(with: request) { (data, response, error) in
             guard error == nil else {
                 promise.failure( .network(error) )
@@ -70,7 +74,13 @@ class FileSync : NSObject {
                 promise.failure( .network(nil) )
                 return
             }
-            promise.success(data)
+            
+            guard let json = (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)) as? [String : Any] else {
+                promise.failure(SCError.jsonDeserialization("Can't deserialize"))
+                return
+            }
+
+            promise.success(json)
         }.resume()
         return promise.future
     }
@@ -126,10 +136,41 @@ class FileSync : NSObject {
         return promise.future
     }
 
+    func sharedDownload() -> Future<[[String:Any]], SCError> {
+        let promise = Promise<[[String:Any]], SCError>()
+        
+        let request = self.request(for: Constants.backend.url.appendingPathComponent("files") )
+        fileDataSession.dataTask(with: request) { (data, response, error) in
+            guard error == nil else {
+                promise.failure( .network(error) )
+                return
+            }
+            guard let response = response as?  HTTPURLResponse,
+                200 ... 299 ~= response.statusCode else {
+                    promise.failure( .network(nil) )
+                    return
+            }
+            guard let data = data else {
+                promise.failure( .network(nil) )
+                return
+            }
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! MarshaledObject
+                let files : [MarshaledObject] = try json.value(for: "data")
+                let sharedFiles = files.filter({ (object) -> Bool in
+                    return (try? object.value(for: "context")) == "geteilte Datei"
+                })
+                promise.success(sharedFiles as! [[String:Any]])
+            } catch let error {
+                promise.failure(.jsonDeserialization(error.localizedDescription) )
+            }
+        }.resume()
+        return promise.future
+    }
 }
 
 extension FileSync : URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownloadDelegate {
-    
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         let promise = runningTask[downloadTask.taskIdentifier]
         do {
@@ -152,17 +193,16 @@ extension FileSync : URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownl
     // Download progress
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
         if let progressHandler = progressHandlers[downloadTask.taskIdentifier] {
-            let progress = Float(bytesWritten) / Float(totalBytesExpectedToWrite)
+            let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
             progressHandler(progress)
         }
     }
 }
 
 class FileHelper {
-
-    private static var rootDirectoryID = "root"
-    private static var coursesDirectoryID = "courses"
-    private static var sharedDirectoryID = "shared"
+    static var rootDirectoryID = "root"
+    static var coursesDirectoryID = "courses"
+    static var sharedDirectoryID = "shared"
 
     private static var notSynchronizedPath : [String] = {
         return [rootDirectoryID]
@@ -351,7 +391,7 @@ class FileHelper {
         }
     }
     
-    fileprivate static func updateDatabase(contentsOf parentFolder: File, using contents: [String: Any]) {
+    static func updateDatabase(contentsOf parentFolder: File, using contents: [String: Any]) {
         do {
             let files: [[String: Any]] = try contents.value(for: "files")
             let folders: [[String: Any]] = try contents.value(for: "directories")
