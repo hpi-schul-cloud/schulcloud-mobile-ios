@@ -61,18 +61,18 @@ class FileSync : NSObject {
         let request = self.request(for: getUrl(for: file)! )
         let promise : Promise<[String : Any], SCError> = Promise()
         fileDataSession.dataTask(with: request) { (data, response, error) in
-            
-            var data : Data! = nil
+            var responseData: Data
             do {
-                data = try self.confirmNetworkResponse(data: data, response: response, error: error)
+                responseData = try self.confirmNetworkResponse(data: data, response: response, error: error)
             } catch let error as SCError {
                 promise.failure(error)
                 return
-            } catch let _ {
+            } catch {
                 promise.failure( .other("Weird"))
                 return
             }
-            guard let json = (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)) as? [String : Any] else {
+
+            guard let json = (try? JSONSerialization.jsonObject(with: responseData, options: .allowFragments)) as? [String : Any] else {
                 promise.failure(SCError.jsonDeserialization("Can't deserialize"))
                 return
             }
