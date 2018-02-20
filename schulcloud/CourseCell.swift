@@ -21,12 +21,12 @@ class CourseCell: UICollectionViewCell {
         self.layer.borderColor = UIColor(white: 0.7, alpha: 1.0).cgColor
 
         self.titleLabel.text = course.name
-        if let teachers = course.teachers?.allObjects as? [User], teachers.count > 0 {
-            let namesAbbreviated = teachers.map { $0.shortName }
+        if course.teachers.isEmpty {
+            self.teacherLabel.isHidden = true
+        } else {
+            let namesAbbreviated = course.teachers.map { $0.shortName }
             self.teacherLabel.text = namesAbbreviated.joined(separator: ", ")
             self.teacherLabel.isHidden = false
-        } else {
-            self.teacherLabel.isHidden = true
         }
         
         if let color = course.colorString {

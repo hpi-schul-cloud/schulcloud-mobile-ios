@@ -51,11 +51,12 @@ class ApiHelper {
     
     static func updateData(includingAuthorization authorize: Bool = true) {
         DispatchQueue.global(qos: .utility).async {
-            (authorize ? LoginHelper.renewAccessToken() : Future(value: Void()))
-                .flatMap {
-                    HomeworkHelper.fetchFromServer()
-                }
-                .onFailure { log.error($0) }
+            let future = authorize ? LoginHelper.renewAccessToken() : Future(value: ())
+            future.flatMap {
+                HomeworkHelper.syncHomework()
+            }.onFailure {
+                log.error($0)
+            }
         }
     }
     

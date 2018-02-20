@@ -33,15 +33,12 @@ class LessonsViewController: UITableViewController, NSFetchedResultsControllerDe
     }
     
     func updateData() {
-        LessonHelper.fetchFromServer(belongingTo: course)
-            .onSuccess { _ in
-                self.performFetch()
-            }
-            .onFailure { error in
-                log.error(error)
-            }
-            .onComplete { _ in
-                self.refreshControl?.endRefreshing()
+        LessonHelper.syncLessons(for: self.course).onSuccess { _ in
+            self.performFetch()
+        }.onFailure { error in
+            log.error(error)
+        }.onComplete { _ in
+            self.refreshControl?.endRefreshing()
         }
     }
     
@@ -94,7 +91,7 @@ class LessonsViewController: UITableViewController, NSFetchedResultsControllerDe
         
         let lesson = fetchedResultsController.object(at: indexPath)
         cell.textLabel?.text = lesson.name
-        cell.detailTextLabel?.text = lesson.descriptionString
+        cell.detailTextLabel?.text = lesson.descriptionText
         return cell
     }
     

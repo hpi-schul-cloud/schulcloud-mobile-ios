@@ -21,6 +21,10 @@ class SettingsViewController: UITableViewController {
         super.viewDidLoad()
 
         guard let userId = Globals.account?.userId else { return }
+
+        CoreDataHelper.persistentContainer.performBackgroundTask { context in
+            
+        }
         User.fetch(by: userId, inContext: CoreDataHelper.managedObjectContext).onSuccess { user in
             self.userNameLabel.text = "\(user.firstName) \(user.lastName)"
         }.onFailure { error in

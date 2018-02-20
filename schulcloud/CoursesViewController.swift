@@ -25,13 +25,11 @@ class CoursesViewController: UICollectionViewController, NSFetchedResultsControl
     }
     
     func updateData() {
-        CourseHelper.fetchFromServer()
-            .onSuccess { _ in
-                self.performFetch()
-            }
-            .onFailure { error in
-                log.error(error)
-            }
+        CourseHelper.syncCourses().onSuccess { _ in
+            self.performFetch()
+        }.onFailure { error in
+            log.error(error)
+        }
     }
     
     // MARK: - Table view data source

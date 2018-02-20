@@ -45,7 +45,7 @@ class NewsListViewController: UITableViewController,  NSFetchedResultsController
     }()
     
     fileprivate func synchronizeNewsArticle() {
-        NewsArticleHelper.fetchFromServer().onSuccess { _ in
+        NewsArticleHelper.syncNewsArticles().onSuccess { _ in
             self.fetchNewsArticle()
         }.onFailure(){ error in
             log.error(error.localizedDescription)

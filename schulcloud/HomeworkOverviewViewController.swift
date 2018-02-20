@@ -19,10 +19,6 @@ class HomeworkOverviewViewController: UIViewController {
 
         self.numberOfOpenTasksLabel.text = "?"
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.updateHomeworkCount),
-                                               name: NSNotification.Name(rawValue: Homework.homeworkDidChangeNotificationName),
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
                                                selector: #selector(self.didChangePreferredContentSize),
                                                name: NSNotification.Name.UIContentSizeCategoryDidChange,
                                                object: nil)
@@ -30,7 +26,7 @@ class HomeworkOverviewViewController: UIViewController {
         self.didChangePreferredContentSize()
     }
 
-    @objc func updateHomeworkCount() {
+    func updateHomeworkCount() {
         let fetchRequest: NSFetchRequest<Homework> = Homework.fetchRequest()
         let oneWeek = DateComponents(day: 8)
         let inOneWeek = Calendar.current.date(byAdding: oneWeek, to: Date())!

@@ -55,7 +55,7 @@ extension CalendarEvent {
     var calendarKitEvent : Event {
         let event = Event()
         event.datePeriod = TimePeriod(beginning: self.start, end: self.end)
-        event.text = self.title
+        event.text = self.title ?? "Unknown"
         event.color = UIColor.red
         return event
     }

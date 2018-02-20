@@ -20,9 +20,9 @@ struct CalendarEvent {
     static var didFinishedProcessingEventName = "CalendarEventDidFinishProcessingEventName"
     
     let id: String
-    let title: String
-    let description: String
-    let location: String
+    let title: String?
+    let description: String?
+    let location: String?
     let start: Date
     let end: Date
     let recurrenceRule: RecurrenceRule?
@@ -63,7 +63,7 @@ struct CalendarEvent {
         }
     }
     
-    init(id: String, title: String, description: String, location: String, startDate: Date, endDate: Date, rule: RecurrenceRule?, coreDataID: NSManagedObjectID?, ekEventID: String?) {
+    init(id: String, title: String?, description: String?, location: String?, startDate: Date, endDate: Date, rule: RecurrenceRule?, coreDataID: NSManagedObjectID?, ekEventID: String?) {
         self.id = id
         self.title = title
         self.description = description

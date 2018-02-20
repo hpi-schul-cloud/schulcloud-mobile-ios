@@ -31,7 +31,7 @@ public struct CalendarEventHelper {
                     fetchRequest.predicate = NSPredicate(format: "NOT (id in %@)", ids)
                     
                     eventsToDelete = try privateMOC.fetch(fetchRequest)
-                    if eventsToDelete.count > 0 {
+                    if !eventsToDelete.isEmpty {
                         let batchDelete = NSBatchDeleteRequest(objectIDs: eventsToDelete.map { $0.objectID } )
                         try privateMOC.execute(batchDelete)
                     }
@@ -45,11 +45,9 @@ public struct CalendarEventHelper {
                 
                 let promise: Promise<Void, SCError> = Promise()
                 
-                CalendarEventHelper.requestCalendarPermission()
-                .andThen{ result in
+                CalendarEventHelper.requestCalendarPermission().andThen { result in
                     if result.value != nil {
-                        if CalendarEventHelper.EventKitSettings.current.shouldSynchonize,
-                            eventsToDelete.count > 0 {
+                        if CalendarEventHelper.EventKitSettings.current.shouldSynchonize, !eventsToDelete.isEmpty {
                             do {
                                 try CalendarEventHelper.remove(events: eventsToDelete.map { $0.calendarEvent })
                             } catch let error {
@@ -71,20 +69,18 @@ public struct CalendarEventHelper {
             }
             .andThen { result in
                 // push new events to calendar
-                guard let events = result.value, events.count > 0 else { return ; }
+                guard let events = result.value, !events.isEmpty else { return }
                 
-                CalendarEventHelper.requestCalendarPermission()
-                .andThen { result in
-                        if CalendarEventHelper.EventKitSettings.current.shouldSynchonize,
-                            let calendar = CalendarEventHelper.fetchCalendar() ?? CalendarEventHelper.createCalendar() {
-                            try? CalendarEventHelper.push(events: events , to: calendar)
-                        }
+                CalendarEventHelper.requestCalendarPermission().andThen { result in
+                    if CalendarEventHelper.EventKitSettings.current.shouldSynchonize,
+                        let calendar = CalendarEventHelper.fetchCalendar() ?? CalendarEventHelper.createCalendar() {
+                        try? CalendarEventHelper.push(events: events , to: calendar)
+                    }
                 }
         }
     }
     
     static func fetchCalendarEvent(inContext context: NSManagedObjectContext) -> Future<[CalendarEvent], SCError> {
-
         let fetchRequest: NSFetchRequest<EventData> = EventData.fetchRequest()
         do {
             let fetchedEvent = try context.fetch(fetchRequest)

@@ -23,7 +23,7 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
     }
 
     func updateData() {
-        HomeworkHelper.fetchFromServer().onSuccess { _ in
+        HomeworkHelper.syncHomework().onSuccess { _ in
             self.performFetch()
         }.onFailure { error in
             log.error(error)

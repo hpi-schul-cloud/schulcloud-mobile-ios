@@ -19,7 +19,7 @@ class HtmlTableViewCell: UITableViewCell, UIWebViewDelegate {
     
     weak var tableView: UITableView?
     
-    weak var oldContent: Content?
+    weak var oldContent: LessonContent?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -35,7 +35,7 @@ class HtmlTableViewCell: UITableViewCell, UIWebViewDelegate {
         // Configure the view for the selected state
     }
     
-    func setContent(_ content: Content, inTableView tableView: UITableView) {
+    func setContent(_ content: LessonContent, inTableView tableView: UITableView) {
         if content == oldContent {
             return  // prevent endless loops triggered by table view reloads due to webviews completing loading
         }

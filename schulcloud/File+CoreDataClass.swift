@@ -10,8 +10,7 @@ import Foundation
 import CoreData
 import Marshal
 
-@objc(File)
-public class File: NSManagedObject {
+final class File: NSManagedObject {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<File> {
         return NSFetchRequest<File>(entityName: "File")
