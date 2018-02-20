@@ -16,14 +16,13 @@ class FileSync : NSObject {
 
     typealias ProgressHandler = (Float) -> ()
     
-    fileprivate var fileTransferSession : URLSession! = nil
+    fileprivate var fileTransferSession : URLSession!
     fileprivate let fileDataSession : URLSession
 
     var runningTask : [Int: Promise<Data, SCError>] = [:]
     var progressHandlers : [Int : ProgressHandler] = [:]
 
     override init() {
-
         let configuration = URLSessionConfiguration.ephemeral
         fileDataSession = URLSession(configuration: URLSessionConfiguration.default)
         
@@ -48,7 +47,6 @@ class FileSync : NSObject {
     }
     
     private func request(for url: URL) -> URLRequest {
-        
         var request = URLRequest(url: url)
         request.setValue(Globals.account!.accessToken!, forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
@@ -122,7 +120,7 @@ class FileSync : NSObject {
         return promise.future
     }
 
-    func sharedDownload() -> Future<[[String:Any]], SCError> {
+    func downloadSharedFiles() -> Future<[[String:Any]], SCError> {
         let promise = Promise<[[String:Any]], SCError>()
         
         let request = self.request(for: Constants.backend.url.appendingPathComponent("files") )
@@ -380,4 +378,8 @@ struct SignedUrl: Unmarshaling {
     init(object: MarshaledObject) throws {
         url = try object.value(for: "url")
     }
+}
+
+func blah() {
+    
 }

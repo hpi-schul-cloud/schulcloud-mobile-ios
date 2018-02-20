@@ -15,6 +15,8 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
     var currentFolder: File!
     var fileSync = FileSync()
     
+    var courseObserver : NSObjectProtocol? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -23,9 +25,19 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
         }
 
         self.navigationItem.title = self.currentFolder.name
+        if self.currentFolder.id == FileHelper.coursesDirectoryID {
+            courseObserver = self.registerCourseChanges()
+        }
 
         performFetch()
         didTriggerRefresh()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if let courseObserver = courseObserver {
+            NotificationCenter.default.removeObserver(courseObserver as Any)
+        }
+        super.viewWillDisappear(animated)
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,56 +46,41 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
     }
     
     @IBAction func didTriggerRefresh() {
+        var future : Future<Any, SCError>?
+        if FileHelper.coursesDirectoryID == currentFolder.id {
+            CourseHelper.fetchFromServer()
+        } else if FileHelper.sharedDirectoryID == currentFolder.id {
+            future = fileSync.downloadSharedFiles()
+            .andThen { result in
+                if let objects = result.value {
+                    for json in objects {
+                        FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json)
+                    }
+                }
+            }
+            .map { (objects) -> Any in
+                return objects as Any
+            }
+        } else {
+            future = fileSync.downloadContent(for: currentFolder)
+            .andThen { result in
+                if let json = result.value {
+                    FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json)
+                }
+            }.map { object -> Any in
+                    return object as Any
+            }
+        }
         
-        let successBlock : () -> () = {
+        future?.onSuccess { (_) in
             DispatchQueue.main.async {
                 self.performFetch()
             }
-        }
-        let completeBlock : () -> () = {
+        }.onFailure { (error) in
+            print("Failure: \(error)")
+        }.onComplete{ (_) in
             DispatchQueue.main.async {
                 self.refreshControl?.endRefreshing()
-            }
-        }
-
-        if FileHelper.coursesDirectoryID == currentFolder.id {
-            CourseHelper.fetchFromServer()
-            .andThen { (result) in
-                if let changes = result.value {
-                    FileHelper.process(changes: changes, inFolder: self.currentFolder, managedObjectContext: managedObjectContext)
-                }
-            }.onSuccess(callback: { (_) in
-                successBlock()
-            })
-            .onFailure(callback: { (error) in
-                print("Failure: \(error)")
-            }).onComplete(callback: { (_) in
-                completeBlock()
-            })
-        } else if FileHelper.sharedDirectoryID == currentFolder.id {
-            fileSync.sharedDownload()
-            .map { (objects) -> Void in
-                for json in objects {
-                    FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json)
-                }
-                return ()
-            }
-            .onSuccess(callback: successBlock)
-            .onFailure(callback: { (error) in
-                print("failure: \(error)")
-            }).onComplete(callback: { (_) in
-                completeBlock()
-            })
-        } else {
-            fileSync.downloadContent(for: currentFolder)
-            .map { json -> () in
-                FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json)
-                return ()
-            }.onSuccess(callback: successBlock)
-            .onFailure { (error) in
-                log.error(error)
-            }.onComplete { (_) in
-                completeBlock()
             }
         }
     }
@@ -199,6 +196,33 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
             }
             fileVC.file = item
             self.navigationController?.pushViewController(fileVC, animated: true)
+        }
+    }
+}
+
+
+extension FilesViewController {
+    func registerCourseChanges() -> NSObjectProtocol {
+        return NotificationCenter.default.addObserver(forName: Notification.Name.NSManagedObjectContextObjectsDidChange, object: nil, queue: OperationQueue.main) { (notification: Notification) in
+            let root = FileHelper.rootFolder
+            let courseRoot = root.contents!.map { $0 as! File }.filter { $0.id == FileHelper.coursesDirectoryID }.first!
+            
+            var changes : [String : [Course]] = [:]
+            if let insertedObjects = notification.userInfo?[NSInsertedObjectsKey] as? [NSManagedObject] {
+                let courses = insertedObjects.map({ $0 as? Course }).flatMap { $0 }
+                changes[NSInsertedObjectsKey] = courses
+            }
+            if let updatedObjects = notification.userInfo?[NSUpdatedObjectsKey] as? [NSManagedObject] {
+                let courses = updatedObjects.map({ $0 as? Course}).flatMap { $0 }
+                changes[NSUpdatedObjectsKey] = courses
+            }
+            if let deletedObjects = notification.userInfo?[NSDeletedObjectsKey] as? [NSManagedObject] {
+                let courses = deletedObjects.map({ $0 as? Course}).flatMap { $0 }
+                changes[NSDeletedObjectsKey] = courses
+            }
+            FileHelper.process(changes: changes, inFolder: courseRoot, managedObjectContext: managedObjectContext)
+            try! managedObjectContext.save()
+            self.performFetch()
         }
     }
 }

@@ -65,7 +65,6 @@ class LoadingViewController: UIViewController  {
     }
     
     func startDownload() {
-        
         fileSync.signedURL(for: file)
         .flatMap { url -> Future<Data, SCError> in
             DispatchQueue.main.async {
@@ -87,37 +86,6 @@ class LoadingViewController: UIViewController  {
                 self.show(error: error)
             }
         }
-
-        /*
-        FileHelper.getSignedUrl(forFile: file)
-            .onSuccess { url in
-                DispatchQueue.main.async {
-                    self.activityIndicator.stopAnimating()
-                    self.progressView.isHidden = false
-                }
-                
-                // TODO: save files to disk insead of memory
-                Alamofire.request(url)
-                    .downloadProgress(queue: DispatchQueue.main) { progress in
-                        self.progressView.setProgress(Float(progress.fractionCompleted), animated: true)
-                    }
-                    .responseData { response in
-                    log.debug("All Response Info: \(response)")
-                    
-                    if let data = response.result.value {
-                        if let string = String(data: data, encoding: .utf8) {
-                            log.debug("Got file response \(string)")
-                        }
-                        self.showFile(data: data)
-                    } else {
-                        self.show(error: response.error ?? SCError.unknown)
-                    }
-                }
-        }
-            .onFailure { error in
-                self.show(error: error)
-        }
-       */
     }
     
     func showFile(data: Data) {
