@@ -24,10 +24,12 @@ class CalendarViewController: DayViewController {
 
     private func syncEvents() {
         // Assumes event where already fetched
-        CalendarEventHelper.fetchCalendarEvent(inContext: CoreDataHelper.managedObjectContext)
-        .onSuccess { events in
+        switch CalendarEventHelper.fetchCalendarEvents(inContext: CoreDataHelper.viewContext) {
+        case let .success(events):
             self.calendarEvents = events
             self.reloadData()
+        case let .failure(error):
+            log.error("Fetching calendar events failed: \(error)")
         }
     }
 

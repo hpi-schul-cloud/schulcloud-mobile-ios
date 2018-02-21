@@ -6,63 +6,15 @@
 //  Copyright © 2017 Hasso-Plattner-Institut. All rights reserved.
 //
 
-import Foundation
 import BrightFutures
 import CoreData
-import Marshal
-
-// MARK: - Core Data stack
-
-
-class CoreDataObserver {
-    
-    static let shared = CoreDataObserver()
-    
-    let notificationCenter = NotificationCenter.default
-    
-    // MARK: temp core data observer
-    func observeChanges(on managedObjectContext: NSManagedObjectContext) {
-        notificationCenter.addObserver(self, selector: #selector(managedObjectContextObjectsDidChange), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: managedObjectContext)
-    }
-    
-    func removeObserver(on managedObjectContext: NSManagedObjectContext) {
-        notificationCenter.removeObserver(self, name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: managedObjectContext)
-    }
-    
-    @objc func managedObjectContextObjectsDidChange(notification: NSNotification) {
-        guard let userInfo = notification.userInfo else { return }
-        
-        if let inserts = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject>, inserts.count > 0 {
-            print("--- INSERTS ---")
-            print(inserts)
-        }
-        
-        if let updates = userInfo[NSUpdatedObjectsKey] as? Set<NSManagedObject>, updates.count > 0 {
-            print("--- UPDATES ---")
-            var unchanged = 0
-            for update in updates {
-                let changed = update.changedValues()
-                if changed.count > 0 {
-                    print(changed)
-                } else {
-                    unchanged += 1
-                }
-            }
-            print("\(unchanged) unchanged")
-        }
-        
-        if let deletes = userInfo[NSDeletedObjectsKey] as? Set<NSManagedObject>, deletes.count > 0 {
-            print("--- DELETES ---")
-            print(deletes)
-        }
-    }
-}
+import Result
 
 struct CoreDataHelper {
 
     static var persistentContainer = createPersistentContainer()
 
-    static var managedObjectContext: NSManagedObjectContext {
+    static var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
 
@@ -98,7 +50,7 @@ struct CoreDataHelper {
 
     static func dropDatabase() {
         log.debug("Dropping database - recreating persistent container")
-        CoreDataObserver.shared.removeObserver(on: managedObjectContext)
+        CoreDataObserver.shared.stopObserving()
 
         let coordinator = persistentContainer.persistentStoreCoordinator
         let stores = coordinator.persistentStores
@@ -116,50 +68,83 @@ struct CoreDataHelper {
         }
 
         persistentContainer = createPersistentContainer()
-        CoreDataObserver.shared.observeChanges(on: managedObjectContext)
+        CoreDataObserver.shared.startObserving()
     }
 
-    // MARK: - Core Data Saving support
-
-    static func saveContext () {
-        if managedObjectContext.hasChanges {
-            do {
-                try managedObjectContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
-        }
-    }
-
-    static func save(privateContext privateMoc: NSManagedObjectContext) -> Future<Void, SCError> {
-        let promise = Promise<Void, SCError>()
-        privateMoc.perform {
-            do {
-                try privateMoc.save()
-                managedObjectContext.performAndWait {
-                    do {
-                        try managedObjectContext.save()
-                        promise.success(Void())
-                    } catch {
-                        log.error("Failure to save context: \(error)")
-                        promise.failure(.database(error.description))
-                    }
-                }
-            } catch {
-                log.error("Failure to save context: \(error)")
-                promise.failure(.database(error.description))
-            }
-        }
-        return promise.future
-    }
-
-    public static func delete<T>(fetchRequest: NSFetchRequest<T>, context: NSManagedObjectContext = managedObjectContext) throws {
+    public static func delete<T>(fetchRequest: NSFetchRequest<T>, context: NSManagedObjectContext) throws {
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest as! NSFetchRequest<NSFetchRequestResult>)
         try context.execute(deleteRequest)
     }
+}
+
+extension NSManagedObjectContext {
+
+    func fetchSingle<T>(_ fetchRequest: NSFetchRequest<T>) -> Result<T, SCError> where T: NSManagedObject {
+        do {
+            let objects = try self.fetch(fetchRequest)
+
+            guard objects.count < 2 else {
+                return .failure(.coreDataObjectNotFound)
+            }
+
+            guard let object = objects.first else {
+                return .failure(.coreDataMoreThanOneObjectFound)
+            }
+
+            return .success(object)
+        } catch {
+            return .failure(.coreData(error))
+        }
+    }
+
+    func fetchMultiple<T>(_ fetchRequest: NSFetchRequest<T>) -> Result<[T], SCError> where T: NSManagedObject {
+        do {
+            let objects = try self.fetch(fetchRequest)
+            return .success(objects)
+        } catch {
+            return .failure(.coreData(error))
+        }
+    }
+
+    func typedObject<T>(with id: NSManagedObjectID) -> T where T: NSManagedObject {
+        let managedObject = self.object(with: id)
+        guard let object = managedObject as? T else {
+            let message = "Type mismatch for NSManagedObject (required)"
+            let reason = "required: \(T.self), found: \(type(of: managedObject))"
+            log.error("\(message): \(reason)")
+            fatalError("\(message): \(reason)")
+        }
+
+        return object
+    }
+
+    func existingTypedObject<T>(with id: NSManagedObjectID) -> T? where T: NSManagedObject {
+        guard let managedObject = try? self.existingObject(with: id) else {
+            log.info("NSManagedObject could not be retrieved by id (\(id))")
+            return nil
+        }
+
+        guard let object = managedObject as? T else {
+            let message = "Type mismatch for NSManagedObject"
+            let reason = "expected: \(T.self), found: \(type(of: managedObject))"
+            log.error("\(message): \(reason)")
+            return nil
+        }
+
+        return object
+    }
+
+    func saveWithResult() -> Result<Void, SCError> {
+        do {
+            if self.hasChanges {
+                try self.save()
+            }
+            return .success(())
+        } catch {
+            return .failure(.coreData(error))
+        }
+    }
+
 }
 
 //@objc protocol IdObject {

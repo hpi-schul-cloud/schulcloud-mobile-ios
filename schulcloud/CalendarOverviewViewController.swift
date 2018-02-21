@@ -41,37 +41,28 @@ class CalendarOverviewViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.state = .noEvents(CalendarOverviewViewController.loadingMessage)
         self.syncEvents()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         self.updateEvents()
     }
 
     var todayInterval : DateInterval = {
-        
         let now = Date()
         let today = Date(year:now.year, month: now.month, day: now.day)
         let oneDayChunk = TimeChunk(seconds: 0, minutes: 0, hours: 0, days: 1, weeks: 0, months: 0, years: 0)
         let tomorrow = today + oneDayChunk
-        
         return DateInterval(start: now, end: tomorrow)
     }()
     
     private func syncEvents() {
-        
-        CalendarEventHelper.synchronizeEvent()
-        .map { events -> [CalendarEvent] in
-            // filter all event left coming up today
-            return events.filter(inInterval: self.todayInterval)
-        }
-        .onSuccess { self.updateStateWith(events: $0) }
-        .onFailure { error in
-            print("Failed to synchronize events: \(error.description)")
+        CalendarEventHelper.syncEvents().onSuccess { _ in
+            self.updateEvents()
+        }.onFailure { error in
+            log.error("Failed to synchronize events: \(error.description)")
         }
     }
 
@@ -86,15 +77,20 @@ class CalendarOverviewViewController: UIViewController {
     }
 
     private func updateEvents() {
-        
-        CalendarEventHelper.fetchCalendarEvent(inContext: CoreDataHelper.managedObjectContext)
-        .onSuccess { events in
+        switch CalendarEventHelper.fetchCalendarEvents(inContext: CoreDataHelper.viewContext) {
+        case let .success(events):
             let filteredEvents = events.filter(inInterval: self.todayInterval)
             self.updateStateWith(events: filteredEvents)
-        }
-        .onFailure { error in
+        case let .failure(error):
             self.state = .noEvents(error.localizedDescription)
         }
+
+//        CalendarEventHelper.fetchCalendarEvent(inContext: CoreDataHelper.viewContext).onSuccess { events in
+//            let filteredEvents = events.filter(inInterval: self.todayInterval)
+//            self.updateStateWith(events: filteredEvents)
+//        }.onFailure { error in
+//            self.state = .noEvents(error.localizedDescription)
+//        }
     }
 
     func updateUIForCurrentState() {

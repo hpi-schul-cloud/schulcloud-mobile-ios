@@ -126,26 +126,29 @@ extension CalendarEventHelper {
 
     // This function pushes new or update events to the calander
     static func push(events: [CalendarEvent], to calendar: EKCalendar) throws {
-        for var calendarEvent in events {
-            var event : EKEvent
-            var span : EKSpan
-            
-            if  let ekEventID = calendarEvent.eventKitID,
-                let foundEvent = eventStore.event(withIdentifier: ekEventID) {
-                event = foundEvent
-                span = .futureEvents
-            } else {
-                event = EKEvent(eventStore: eventStore)
-                event.calendar = calendar
-                span = .thisEvent
+        CoreDataHelper.persistentContainer.performBackgroundTask { context in
+            for var calendarEvent in events {
+                var event : EKEvent
+                var span : EKSpan
+
+                if let ekEventID = calendarEvent.eventKitID,
+                    let foundEvent = eventStore.event(withIdentifier: ekEventID) {
+                    event = foundEvent
+                    span = .futureEvents
+                } else {
+                    event = EKEvent(eventStore: eventStore)
+                    event.calendar = calendar
+                    span = .thisEvent
+                }
+
+                update(event: event, with: calendarEvent)
+                try? eventStore.save(event, span: span, commit: false)
+                calendarEvent.eventKitID = event.eventIdentifier
             }
-            
-            update(event: event, with: calendarEvent)
-            try eventStore.save(event, span: span, commit: false)
-            calendarEvent.eventKitID = event.eventIdentifier
+            try? eventStore.commit()
+            context.saveWithResult()
         }
-        try eventStore.commit()
-        try CoreDataHelper.managedObjectContext.save()
+
     }
     
     static func remove(events: [CalendarEvent]) throws {

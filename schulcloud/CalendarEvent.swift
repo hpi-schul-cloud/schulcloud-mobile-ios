@@ -32,7 +32,7 @@ struct CalendarEvent {
     var eventKitID: String? {
         didSet {
             if let objectID = self.coreDataID {
-                let event : EventData = CoreDataHelper.managedObjectContext.object(with: objectID) as! EventData
+                let event : EventData = CoreDataHelper.viewContext.object(with: objectID) as! EventData
                 event.ekIdentifier = self.eventKitID
             }
         }

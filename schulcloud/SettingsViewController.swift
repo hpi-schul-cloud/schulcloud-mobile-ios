@@ -8,6 +8,7 @@
 
 import UIKit
 import BrightFutures
+import CoreData
 
 private var currentEventKitSettings = CalendarEventHelper.EventKitSettings.current
 
@@ -17,19 +18,45 @@ class SettingsViewController: UITableViewController {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet var calendarSyncSwitch: UISwitch!
 
+    private var user: User? {
+        didSet {
+            if self.user != oldValue {
+                DispatchQueue.main.async {
+                    let names = [self.user?.firstName, self.user?.lastName].flatMap { $0 }
+                    self.userNameLabel.text = names.joined(separator: " ")
+                }
+            }
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         guard let userId = Globals.account?.userId else { return }
 
-        CoreDataHelper.persistentContainer.performBackgroundTask { context in
-            
+        CoreDataHelper.viewContext.perform {
+            let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "id == %@", userId)
+            if case let .success(user) = CoreDataHelper.viewContext.fetchSingle(fetchRequest) {
+                self.user = user
+            }
         }
-        User.fetch(by: userId, inContext: CoreDataHelper.managedObjectContext).onSuccess { user in
-            self.userNameLabel.text = "\(user.firstName) \(user.lastName)"
-        }.onFailure { error in
-            self.userNameLabel.text = ""
+
+
+        UserHelper.syncUser(withId: userId).onSuccess { syncResult in
+            guard let user = CoreDataHelper.viewContext.existingTypedObject(with: syncResult.objectId) as? User else {
+                log.warning("Failed to retrieve user to display")
+                return
+            }
+
+            self.user = user
         }
+
+//        User.fetch(by: userId, inContext: CoreDataHelper.managedObjectContext).onSuccess { user in
+//            self.userNameLabel.text = "\(user.firstName) \(user.lastName)"
+//        }.onFailure { error in
+//            self.userNameLabel.text = ""
+//        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -49,30 +76,26 @@ class SettingsViewController: UITableViewController {
     @IBAction func synchronizeToCalendar(_ sender: UISwitch) {
         let newValue = sender.isOn
         if newValue {
-            CalendarEventHelper.requestCalendarPermission()
-            .flatMap { _ -> Future<[CalendarEvent], SCError> in
-                   return CalendarEventHelper.fetchCalendarEvent(inContext: CoreDataHelper.managedObjectContext)
-            }
-            .flatMap { events -> Future< Void, SCError> in
-                    
+            CalendarEventHelper.requestCalendarPermission().flatMap { _ in
+                   return CalendarEventHelper.fetchCalendarEvents(inContext: CoreDataHelper.viewContext)
+            }.flatMap { events -> Future<Void, SCError> in
                 guard let calendar = CalendarEventHelper.fetchCalendar() ?? CalendarEventHelper.createCalendar() else {
                     return Future(error: .other("Can't access calendar") )
                 }
-                
+
                 do {
                     try CalendarEventHelper.push(events: events, to: calendar)
                 } catch let error {
                     return Future(error: .other(error.localizedDescription) )
                 }
-                return Future(value: Void() )
-            }
-            .onSuccess { _ in
+
+                return Future(value: ())
+            }.onSuccess { _ in
                 DispatchQueue.main.async {
                     currentEventKitSettings.shouldSynchonize = true
                     sender.isOn = true
                 }
-            }
-            .onFailure { error in
+            }.onFailure { error in
                 // TODO: Show error message as to why it failed
                 DispatchQueue.main.async {
                     self.showErrorAlert(message: error.localizedDescription)

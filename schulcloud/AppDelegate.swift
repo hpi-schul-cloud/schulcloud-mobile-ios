@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         self.window?.tintColor = UIColor.schulcloudRed
         selectInitialViewController(application: application)
         
-        CoreDataObserver.shared.observeChanges(on: CoreDataHelper.managedObjectContext)
+        CoreDataObserver.shared.startObserving()
         
         return true
     }
@@ -94,48 +94,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
-        CoreDataHelper.saveContext()
+        CoreDataHelper.viewContext.saveWithResult()
     }
     
     func isUnitTesting() -> Bool {
         return ProcessInfo.processInfo.environment["TEST"] != nil
     }
-
-    // MARK: temp core data observer
-    func observeChanges() {
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(managedObjectContextObjectsDidChange), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: CoreDataHelper.managedObjectContext)
-    }
-    
-    @objc func managedObjectContextObjectsDidChange(notification: NSNotification) {
-        guard let userInfo = notification.userInfo else { return }
-        
-        if let inserts = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject>, inserts.count > 0 {
-            print("--- INSERTS ---")
-            print(inserts)
-            print("+++++++++++++++")
-        }
-        
-        if let updates = userInfo[NSUpdatedObjectsKey] as? Set<NSManagedObject>, updates.count > 0 {
-            print("--- UPDATES ---")
-            var unchanged = 0
-            for update in updates {
-                let changed = update.changedValues()
-                if changed.count > 0 {
-                    print(changed)
-                } else {
-                    unchanged += 1
-                }
-            }
-            print("\(unchanged) unchanged")
-            print("+++++++++++++++")
-        }
-        
-        if let deletes = userInfo[NSDeletedObjectsKey] as? Set<NSManagedObject>, deletes.count > 0 {
-            print("--- DELETES ---")
-            print(deletes)
-            print("+++++++++++++++")
-        }
-    }    
     
 }

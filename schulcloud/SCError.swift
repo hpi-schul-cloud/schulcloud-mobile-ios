@@ -19,6 +19,10 @@ public enum SCError: Error {
     case loginFailed(String)
     case wrongCredentials
     case other(String)
+
+    case coreData(Error)
+    case coreDataObjectNotFound
+    case coreDataMoreThanOneObjectFound
     
     init(value: SCError) {
         self = value

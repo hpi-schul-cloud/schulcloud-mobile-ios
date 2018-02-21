@@ -22,6 +22,8 @@
 		507684C01F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507684BF1F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift */; };
 		507A5CC82020D1B2009B1F95 /* SynchronizationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507A5CC72020D1B2009B1F95 /* SynchronizationError.swift */; };
 		5082579A1F5E90F500A4FF6A /* Homework+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508257991F5E90F500A4FF6A /* Homework+.swift */; };
+		5083AB57203C5D9D002E6E47 /* CoreDataObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083AB56203C5D9D002E6E47 /* CoreDataObserver.swift */; };
+		5083AB59203D517F002E6E47 /* UserHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083AB58203D517F002E6E47 /* UserHelper.swift */; };
 		509A93381F541513001167DE /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509A93371F541512001167DE /* DashboardViewController.swift */; };
 		509A933A1F541668001167DE /* ShortNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509A93391F541668001167DE /* ShortNotificationViewController.swift */; };
 		509B10D62008E5840042AA7D /* NSMutableAttributedString+trim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509B10D52008E5840042AA7D /* NSMutableAttributedString+trim.swift */; };
@@ -69,7 +71,7 @@
 		C3418B681ED335F400280E62 /* WebviewPreviewViewContoller.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */; };
 		C3418B6F1ED5CF1F00280E62 /* Date+Marshal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3418B6E1ED5CF1F00280E62 /* Date+Marshal.swift */; };
 		C36C23381EC9DE0700D4163E /* SCError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36C23371EC9DE0700D4163E /* SCError.swift */; };
-		C36C233B1ECC965400D4163E /* CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36C233A1ECC965400D4163E /* CoreData.swift */; };
+		C36C233B1ECC965400D4163E /* CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36C233A1ECC965400D4163E /* CoreDataHelper.swift */; };
 		C378D2C41ECC976800AE8CEA /* schulcloud.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C378D2C21ECC976800AE8CEA /* schulcloud.xcdatamodeld */; };
 		C38419171EF602AA00A616B3 /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38419161EF602AA00A616B3 /* SplitViewController.swift */; };
 		C39495E71F6ACF55009DD7A4 /* BrightFutures+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39495E61F6ACF55009DD7A4 /* BrightFutures+.swift */; };
@@ -149,6 +151,8 @@
 		507684BF1F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkDetailViewController.swift; sourceTree = "<group>"; };
 		507A5CC72020D1B2009B1F95 /* SynchronizationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizationError.swift; sourceTree = "<group>"; };
 		508257991F5E90F500A4FF6A /* Homework+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Homework+.swift"; sourceTree = "<group>"; };
+		5083AB56203C5D9D002E6E47 /* CoreDataObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataObserver.swift; sourceTree = "<group>"; };
+		5083AB58203D517F002E6E47 /* UserHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHelper.swift; sourceTree = "<group>"; };
 		509A93371F541512001167DE /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		509A93391F541668001167DE /* ShortNotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortNotificationViewController.swift; sourceTree = "<group>"; };
 		509B10D52008E5840042AA7D /* NSMutableAttributedString+trim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+trim.swift"; sourceTree = "<group>"; };
@@ -207,7 +211,7 @@
 		C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WebviewPreviewViewContoller.xib; path = Base.lproj/WebviewPreviewViewContoller.xib; sourceTree = "<group>"; };
 		C3418B6E1ED5CF1F00280E62 /* Date+Marshal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Marshal.swift"; sourceTree = "<group>"; };
 		C36C23371EC9DE0700D4163E /* SCError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCError.swift; sourceTree = "<group>"; };
-		C36C233A1ECC965400D4163E /* CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreData.swift; sourceTree = "<group>"; };
+		C36C233A1ECC965400D4163E /* CoreDataHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataHelper.swift; sourceTree = "<group>"; };
 		C378D2C31ECC976800AE8CEA /* schulcloud.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = schulcloud.xcdatamodel; sourceTree = "<group>"; };
 		C38419161EF602AA00A616B3 /* SplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
 		C39495E61F6ACF55009DD7A4 /* BrightFutures+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BrightFutures+.swift"; sourceTree = "<group>"; };
@@ -555,7 +559,8 @@
 			children = (
 				50B44D7C203AAE39009DC2D3 /* Model */,
 				C32870BA1EDF324300ABA348 /* synchronization */,
-				C36C233A1ECC965400D4163E /* CoreData.swift */,
+				C36C233A1ECC965400D4163E /* CoreDataHelper.swift */,
+				5083AB56203C5D9D002E6E47 /* CoreDataObserver.swift */,
 				C378D2C21ECC976800AE8CEA /* schulcloud.xcdatamodeld */,
 				C3AB489B1EDAE97600692505 /* HomeworkHelper.swift */,
 				C32870BD1EDF356800ABA348 /* CourseHelper.swift */,
@@ -565,6 +570,7 @@
 				CEC66C732011E92300B785F8 /* CalendarEventHelper+EventKit.swift */,
 				CEF363F12010D9B300793D63 /* CalendarEvent.swift */,
 				CEC042841FFE205E004E9A20 /* NewsHelper.swift */,
+				5083AB58203D517F002E6E47 /* UserHelper.swift */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -827,6 +833,7 @@
 			files = (
 				CEF363F22010D9B300793D63 /* CalendarEvent.swift in Sources */,
 				50F39858202C8FFF00ADAE5D /* Future+inject.swift in Sources */,
+				5083AB59203D517F002E6E47 /* UserHelper.swift in Sources */,
 				509B10D62008E5840042AA7D /* NSMutableAttributedString+trim.swift in Sources */,
 				3D45737B1EE02065009A30E2 /* CalendarViewController.swift in Sources */,
 				509A93381F541513001167DE /* DashboardViewController.swift in Sources */,
@@ -851,6 +858,7 @@
 				C3C080551EE607F6005FA7C3 /* CourseCell.swift in Sources */,
 				C31C842A1ECF553700FA070C /* PreviewManager.swift in Sources */,
 				CE866DA92017321800A5787B /* EventData+.swift in Sources */,
+				5083AB57203C5D9D002E6E47 /* CoreDataObserver.swift in Sources */,
 				C3418B6F1ED5CF1F00280E62 /* Date+Marshal.swift in Sources */,
 				50B44D87203AAEE1009DC2D3 /* User.swift in Sources */,
 				CEC66C742011E92300B785F8 /* CalendarEventHelper+EventKit.swift in Sources */,
@@ -901,7 +909,7 @@
 				5082579A1F5E90F500A4FF6A /* Homework+.swift in Sources */,
 				C3C2AC241EC3AAA80060AECA /* LoginHelper.swift in Sources */,
 				C3AB489C1EDAE97600692505 /* HomeworkHelper.swift in Sources */,
-				C36C233B1ECC965400D4163E /* CoreData.swift in Sources */,
+				C36C233B1ECC965400D4163E /* CoreDataHelper.swift in Sources */,
 				50D6432D1F8E09E200A89331 /* HomeworkOverviewViewController.swift in Sources */,
 				C32870A91EDDD3D100ABA348 /* Course+.swift in Sources */,
 				CEC042851FFE205E004E9A20 /* NewsHelper.swift in Sources */,
