@@ -165,6 +165,7 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
 
         cell.textLabel?.text = item.name
         cell.detailTextLabel?.text = item.detail
+        cell.accessoryType = item.isDirectory ? .disclosureIndicator : .none
         cell.imageView?.image = item.isDirectory ? #imageLiteral(resourceName: "folder") : #imageLiteral(resourceName: "document")
         cell.imageView?.tintColor = item.isDirectory ? UIColor.schulcloudYellow : UIColor.schulcloudRed
         cell.imageView?.contentMode = .scaleAspectFit

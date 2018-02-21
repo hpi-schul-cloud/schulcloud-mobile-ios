@@ -231,14 +231,14 @@ class FileHelper {
         do {
             let rootFolder = File(context: managedObjectContext)
             rootFolder.id = rootDirectoryID
-            rootFolder.name = "Daitein"
+            rootFolder.name = "Dateien"
             rootFolder.isDirectory = true
             rootFolder.currentPath = rootDirectoryID
             rootFolder.permissions = .read
             
             let userRootFolder = File(context: managedObjectContext)
             userRootFolder.id = userDataRootURL.absoluteString
-            userRootFolder.name = "My Data"
+            userRootFolder.name = "Mein Dateien"
             userRootFolder.isDirectory = true
             userRootFolder.currentPath = userDataRootURL.absoluteString
             userRootFolder.parentDirectory = rootFolder
@@ -246,7 +246,7 @@ class FileHelper {
             
             let coursesRootFolder = File(context: managedObjectContext)
             coursesRootFolder.id = coursesDirectoryID
-            coursesRootFolder.name = "Courses Data"
+            coursesRootFolder.name = "Kurs-Dateien"
             coursesRootFolder.isDirectory = true
             coursesRootFolder.currentPath = coursesDataRootURL.absoluteString
             coursesRootFolder.parentDirectory = rootFolder
@@ -254,7 +254,7 @@ class FileHelper {
 
             let sharedRootFolder = File(context: managedObjectContext)
             sharedRootFolder.id = sharedDirectoryID
-            sharedRootFolder.name = "Shared Data"
+            sharedRootFolder.name = "geteilte Dateien"
             sharedRootFolder.isDirectory = true
             sharedRootFolder.currentPath = sharedDataRootURL.absoluteString
             sharedRootFolder.parentDirectory = rootFolder
