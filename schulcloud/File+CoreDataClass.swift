@@ -16,14 +16,16 @@ final class File: NSManagedObject {
         return NSFetchRequest<File>(entityName: "File")
     }
     
-    @NSManaged public var cacheUrlString: String?
-    @NSManaged public var displayName: String
+    @NSManaged public var id: String
+    @NSManaged public var cacheURL_: String?
+    @NSManaged public var name: String
     @NSManaged public var isDirectory: Bool
-    @NSManaged public var pathString: String
-    @NSManaged public var typeString: String
+    @NSManaged public var currentPath: String
+    @NSManaged public var mimeType: String?
     @NSManaged public var size: NSNumber?
     @NSManaged public var parentDirectory: File?
     @NSManaged public var contents: NSSet?
+    @NSManaged public var permissions_: Int64
     
 }
 
@@ -45,31 +47,88 @@ extension File {
 }
 
 extension File {
+    
+    struct Permissions : OptionSet {
+        let rawValue: Int64
+
+        static let read = Permissions(rawValue: 1 << 1)
+        static let write = Permissions(rawValue: 1 << 2)
+        
+        static let read_write : Permissions = [.read, .write]
+        
+        init(rawValue: Int64) {
+            self.rawValue = rawValue
+        }
+        
+        init?(str: String) {
+            switch str {
+            case "can_read":
+                self = Permissions.read
+            case "can_write":
+                self = Permissions.write
+            default:
+                return nil
+            }
+        }
+        
+        init(json: MarshaledObject) throws {
+            let fetchedPersmissions: [String] = try json.value(for: "permissions")
+            let permissions : [Permissions] = fetchedPersmissions.flatMap { Permissions(str:$0) }
+            self.rawValue =  permissions.reduce([], { (acc, permission) -> Permissions in
+                return acc.union(permission)
+            }).rawValue
+        }
+    }
+    
+    var permissions : Permissions {
+        get {
+            return Permissions(rawValue: self.permissions_)
+        }
+        set {
+            self.permissions_ = newValue.rawValue
+        }
+    }
+}
+
+extension File {
+
     static func createOrUpdate(inContext context: NSManagedObjectContext, parentFolder: File, isDirectory: Bool, data: MarshaledObject) throws -> File {
         let name: String = try data.value(for: "name")
-        let path = parentFolder.pathString + name + (isDirectory ? "/" : "")
+        let path = parentFolder.url.appendingPathComponent(name, isDirectory: isDirectory)
         
         let fetchRequest = NSFetchRequest<File>(entityName: "File")
-        let fileDescription = NSEntityDescription.entity(forEntityName: "File", in: context)!
-        let pathPredicate = NSPredicate(format: "pathString == %@", path)
+        let pathPredicate = NSPredicate(format: "currentPath == %@", path.absoluteString)
         let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
         fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [pathPredicate, parentFolderPredicate])
         
         let result = try context.fetch(fetchRequest)
-        let file = result.first ?? File(entity: fileDescription, insertInto: context)
+        let file = result.first ?? File(context: context)
         if result.count > 1 {
             throw SCError.database("Found more than one result for \(fetchRequest)")
         }
         
-        file.displayName = name
+        file.id = try data.value(for: "_id")
+        file.name = name
         file.isDirectory = isDirectory
-        file.pathString = path
-        file.typeString = isDirectory ? "directory" : try data.value(for: "type")
+        file.currentPath = path.absoluteString
+        file.mimeType = try data.value(for: "type") ?? nil
         if let size = try? data.value(for: "size") as Int64 {
             file.size = size as NSNumber?
         }
         file.parentDirectory = parentFolder
         
+        let permissionsObject : [MarshaledObject]? = try? data.value(for: "permissions")
+        let userPermission: MarshaledObject? = permissionsObject?.first { (data) -> Bool in
+            if let userId: String = try? data.value(for: "userId"),
+                userId == Globals.account?.userId { //find permission for current user
+                return true
+            }
+            return false
+        }
+        if let userPermission = userPermission {
+            file.permissions = try Permissions(json: userPermission)
+        }
+
         return file
     }
 }
@@ -77,23 +136,22 @@ extension File {
 // MARK: computed properties
 extension File {
     
-    var path: URL {
+    var url: URL {
         get {
-            let encoded = pathString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
-            return URL(string: encoded)!
+            return URL(string: currentPath)!
         }
         set {
-            self.pathString = newValue.absoluteString
+            self.currentPath = newValue.absoluteString
         }
     }
     
     var cacheUrl: URL? {
         get {
-            guard let urlString = cacheUrlString else { return nil }
+            guard let urlString = cacheURL_ else { return nil }
             return URL(string: urlString)!
         }
         set {
-            cacheUrlString = newValue?.absoluteString
+            cacheURL_ = newValue?.absoluteString
         }
     }
 

@@ -26,7 +26,7 @@ class HomeworkOverviewViewController: UIViewController {
         self.didChangePreferredContentSize()
     }
 
-    func updateHomeworkCount() {
+    @objc func updateHomeworkCount() {
         CoreDataHelper.viewContext.perform {
             let fetchRequest: NSFetchRequest<Homework> = Homework.fetchRequest()
             let oneWeek = DateComponents(day: 8)

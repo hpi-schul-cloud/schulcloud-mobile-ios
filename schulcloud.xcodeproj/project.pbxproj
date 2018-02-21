@@ -583,12 +583,14 @@
 			buildConfigurationList = C3A5A92A1EBCC17600825DBF /* Build configuration list for PBXNativeTarget "schulcloud" */;
 			buildPhases = (
 				92AF1094A1614F30A8A8E107 /* [CP] Check Pods Manifest.lock */,
+				50B44D7A203A0328009DC2D3 /* Set Build number */,
 				C3A5A8FB1EBCC17600825DBF /* Sources */,
 				C3A5A8FC1EBCC17600825DBF /* Frameworks */,
 				C3A5A8FD1EBCC17600825DBF /* Resources */,
+				50F39850202C7E9200ADAE5D /* Copy GoogleServices-Info.plist */,
 				DFB669BB58F24B67E05FBDAF /* [CP] Embed Pods Frameworks */,
 				92F1821EE71547F849FC612C /* [CP] Copy Pods Resources */,
-				50F39850202C7E9200ADAE5D /* Copy GoogleServices-Info.plist */,
+				50B44D7B203A0377009DC2D3 /* Clear Build number */,
 			);
 			buildRules = (
 			);
@@ -731,6 +733,34 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		50B44D7A203A0328009DC2D3 /* Set Build number */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Set Build number";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "git=`sh /etc/profile; which git`\nmerge_base=`$git merge-base master HEAD`\nbranch_name=`$git symbolic-ref HEAD | sed -e 's,.*/\\\\(.*\\\\),\\\\1,'`\ncommit_count_merge_base=`$git rev-list --count $merge_base`\ncommit_count_diff_head=`$git rev-list --count $merge_base..HEAD`\n\nbuild_number=$commit_count_merge_base\nif [ \"$branch_name\" != \"master\" ]; then\n    build_number=\"$build_number.$commit_count_diff_head\"\n    if [ \"$branch_name\" != \"dev\" ]; then\n        build_number=\"$build_number.0\"\n    fi\nfi\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $build_number\" \"${PRODUCT_SETTINGS_PATH}\"\n\necho \"Updated build number in ${PRODUCT_SETTINGS_PATH} to $build_number\"";
+		};
+		50B44D7B203A0377009DC2D3 /* Clear Build number */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Clear Build number";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion 0\" \"${PRODUCT_SETTINGS_PATH}\"\necho \"Cleared build number in ${PRODUCT_SETTINGS_PATH}\"";
+		};
 		50F39850202C7E9200ADAE5D /* Copy GoogleServices-Info.plist */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
