@@ -211,22 +211,25 @@ extension FilesViewController {
             let courseRoot = root.contents!.map { $0 as! File }.filter { $0.id == FileHelper.coursesDirectoryID }.first!
             
             var changes : [String : [Course]] = [:]
-            if let insertedObjects = notification.userInfo?[NSInsertedObjectsKey] as? Set<NSManagedObject>,
-                insertedObjects.count > 0 {
-                let courses = insertedObjects.map({ $0 as? Course }).flatMap { $0 }
-                if courses.count > 0 { changes[NSInsertedObjectsKey] = courses }
+            if let insertedObjects = notification.userInfo?[NSInsertedObjectsKey] as? Set<NSManagedObject>, !insertedObjects.isEmpty {
+                let courses = insertedObjects.flatMap { $0 as? Course }
+                if !courses.isEmpty {
+                    changes[NSInsertedObjectsKey] = courses
+                }
             }
-            if let updatedObjects = notification.userInfo?[NSUpdatedObjectsKey] as? Set<NSManagedObject>,
-                updatedObjects.count > 0 {
-                let courses = updatedObjects.map({ $0 as? Course}).flatMap { $0 }
-                if courses.count > 0 { changes[NSUpdatedObjectsKey] = courses }
+            if let updatedObjects = notification.userInfo?[NSUpdatedObjectsKey] as? Set<NSManagedObject>, !updatedObjects.isEmpty {
+                let courses = updatedObjects.flatMap { $0 as? Course }
+                if !courses.isEmpty {
+                    changes[NSUpdatedObjectsKey] = courses
+                }
             }
-            if let deletedObjects = (notification.userInfo?[NSDeletedObjectsKey]) as? Set<NSManagedObject>,
-                deletedObjects.count > 0 {
-                let courses = deletedObjects.map({ $0 as? Course}).flatMap { $0 }
-                if courses.count > 0 { changes[NSDeletedObjectsKey] = courses }
+            if let deletedObjects = (notification.userInfo?[NSDeletedObjectsKey]) as? Set<NSManagedObject>, !deletedObjects.isEmpty {
+                let courses = deletedObjects.flatMap { $0 as? Course }
+                if !courses.isEmpty {
+                    changes[NSDeletedObjectsKey] = courses
+                }
             }
-            if changes.count > 0 {
+            if !changes.isEmpty {
                 FileHelper.process(changes: changes, inFolder: courseRoot, managedObjectContext: managedObjectContext)
                 try! managedObjectContext.save()
                 self.performFetch()

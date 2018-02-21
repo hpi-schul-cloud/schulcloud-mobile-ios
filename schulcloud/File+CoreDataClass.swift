@@ -73,10 +73,8 @@ extension File {
         }
         
         init(json: MarshaledObject) throws {
-            
             let fetchedPersmissions: [String] = try json.value(for: "permissions")
-            
-            let permissions : [Permissions] = fetchedPersmissions.map { Permissions(str:$0) }.flatMap { $0 }
+            let permissions : [Permissions] = fetchedPersmissions.flatMap { Permissions(str:$0) }
             self.rawValue =  permissions.reduce([], { (acc, permission) -> Permissions in
                 return acc.union(permission)
             }).rawValue

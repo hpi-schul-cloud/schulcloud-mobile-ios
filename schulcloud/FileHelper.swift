@@ -315,15 +315,13 @@ class FileHelper {
     }
     
     static func process(changes: [String: [Course] ], inFolder parentFolder: File, managedObjectContext: NSManagedObjectContext) {
-        if let deletedCourses = changes[NSDeletedObjectsKey],
-               deletedCourses.count > 0 {
+        if let deletedCourses = changes[NSDeletedObjectsKey], !deletedCourses.isEmpty {
             let contents = parentFolder.mutableSetValue(forKey: "contents")
             for course in deletedCourses {
                 contents.remove(course)
             }
         }
-        if let updated = changes[NSUpdatedObjectsKey],
-            updated.count > 0,
+        if let updated = changes[NSUpdatedObjectsKey], !updated.isEmpty,
             let contents = parentFolder.contents as? Set<File> {
             for course in updated {
                 guard let file = contents.first(where: { $0.id == course.id }) else { continue; }
@@ -334,8 +332,7 @@ class FileHelper {
                 file.parentDirectory = parentFolder
             }
         }
-        if let inserted = changes[NSInsertedObjectsKey],
-            inserted.count > 0 {
+        if let inserted = changes[NSInsertedObjectsKey], !inserted.isEmpty {
             for course in inserted {
                 let file = File(context: managedObjectContext)
                 
