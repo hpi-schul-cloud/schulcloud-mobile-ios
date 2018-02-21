@@ -31,10 +31,12 @@ public class CourseHelper {
             }).flatMap(privateMOC.perform, f: { updatedCourses -> Future<Void, SCError> in
                 do {
                     let ids = updatedCourses.map({$0.id})
-                    let objectToDeleteFetchRequest : NSFetchRequest<Course> = Course.fetchRequest()
-                    objectToDeleteFetchRequest.predicate = NSPredicate(format: "NOT (id IN %@)", ids)
-                    try CoreDataHelper.delete(fetchRequest: objectToDeleteFetchRequest)
-                    return Future(value: Void() )
+                    let deleteRequest: NSFetchRequest<Course> = Course.fetchRequest()
+                    deleteRequest.predicate = NSPredicate(format: "NOT (id IN %@)", ids)
+                    try CoreDataHelper.delete(fetchRequest: deleteRequest, context: privateMOC)
+                    saveContext()
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Homework.homeworkDidChangeNotificationName), object: nil)
+                    return Future(value: Void())
                 } catch let error {
                     return Future(error: .database(error.localizedDescription))
                 }
