@@ -45,7 +45,7 @@ class PreviewManager: NSObject, QLPreviewControllerDataSource {
     
     lazy var previewViewController: UIViewController = {
         
-        switch(self.file.path.pathExtension) {
+        switch(self.file.url.pathExtension) {
         case "plist", "json", "txt":
             let webviewPreviewViewContoller = WebviewPreviewViewContoller(nibName: "WebviewPreviewViewContoller", bundle: Bundle(for: WebviewPreviewViewContoller.self))
             webviewPreviewViewContoller.fileData = self.fileData
@@ -54,7 +54,7 @@ class PreviewManager: NSObject, QLPreviewControllerDataSource {
         default:
             let quickLookPreviewController = QLPreviewController()
             quickLookPreviewController.dataSource = self
-            quickLookPreviewController.title = self.file.displayName
+            quickLookPreviewController.title = self.file.name
             return quickLookPreviewController
         }
         
@@ -77,8 +77,8 @@ class PreviewManager: NSObject, QLPreviewControllerDataSource {
     func copyDataToTemporaryDirectory(_ data: Data, file: File) -> URL?
     {
         let tempDirectoryURL = NSURL.fileURL(withPath: NSTemporaryDirectory(), isDirectory: true)
-        let fileExtension = file.path.pathExtension
-        let targetURL = tempDirectoryURL.appendingPathComponent("\(file.displayName).\(fileExtension)")  // TODO: better file extensions
+        let fileExtension = file.url.pathExtension
+        let targetURL = tempDirectoryURL.appendingPathComponent("\(file.name).\(fileExtension)")  // TODO: better file extensions
         
         // Copy the file.
         do {

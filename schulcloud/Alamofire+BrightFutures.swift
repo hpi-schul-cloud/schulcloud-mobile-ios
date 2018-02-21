@@ -82,10 +82,11 @@ extension Alamofire.DataRequest {
         let promise = Promise<Data, SCError>()
         
         let completionHandler = { (response: DataResponse<Data>) -> Void in
-            if let error = response.error {
+            switch response.result {
+            case .success(let data):
+                promise.success(data)
+            case .failure(let error):
                 promise.failure(.network(error))
-            } else {
-                promise.success(response.value ?? Data())
             }
         }
         
@@ -102,10 +103,11 @@ extension Alamofire.DataRequest {
         let promise = Promise<String, SCError>()
         
         let completionHandler = { (response: DataResponse<String>) -> Void in
-            if let error = response.error {
+            switch response.result {
+            case .success(let str):
+                promise.success(str)
+            case .failure(let error):
                 promise.failure(.network(error))
-            } else {
-                promise.success(response.result.value ?? "")
             }
         }
         
@@ -122,10 +124,11 @@ extension Alamofire.DataRequest {
         let promise = Promise<Any, SCError>()
         
         let completionHandler = { (response: DataResponse<Any>) -> Void in
-            if let error = response.error {
+            switch response.result {
+            case .success(let json):
+                promise.success(json)
+            case .failure(let error):
                 promise.failure(.network(error))
-            } else {
-                promise.success(response.result.value ?? Void())
             }
         }
         

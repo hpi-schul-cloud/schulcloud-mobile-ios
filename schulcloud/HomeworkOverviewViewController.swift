@@ -40,26 +40,22 @@ class HomeworkOverviewViewController: UIViewController {
             let resultsInNextWeek = try managedObjectContext.fetch(fetchRequest)
             DispatchQueue.main.async {
                 self.numberOfOpenTasksLabel.text = String(resultsInNextWeek.count)
-            }
-            if let nextTask = resultsInNextWeek.first {
-                DispatchQueue.main.async {
+                if let nextTask = resultsInNextWeek.first {
                     self.subtitleLabel.isHidden = false
-                }
-                let timeDifference = Calendar.current.dateComponents([.day, .hour], from: Date(), to: nextTask.dueDate as Date)
-                switch timeDifference.day! {
-                case 0..<1:
-                    self.subtitleLabel.text = "Nächste in \(timeDifference.hour!) Stunden fällig"
-                case 1:
-                    self.subtitleLabel.text = "Nächste morgen fällig"
-                case 2:
-                    self.subtitleLabel.text = "Nächste übermorgen fällig"
-                case 3...7:
-                    self.subtitleLabel.text = "Nächste in \(timeDifference.day!) Tagen fällig"
-                default:
-                    self.subtitleLabel.text = ""
-                }
-            } else {
-                DispatchQueue.main.async {
+                    let timeDifference = Calendar.current.dateComponents([.day, .hour], from: Date(), to: nextTask.dueDate as Date)
+                    switch timeDifference.day! {
+                    case 0..<1:
+                        self.subtitleLabel.text = "Nächste in \(timeDifference.hour!) Stunden fällig"
+                    case 1:
+                        self.subtitleLabel.text = "Nächste morgen fällig"
+                    case 2:
+                        self.subtitleLabel.text = "Nächste übermorgen fällig"
+                    case 3...7:
+                        self.subtitleLabel.text = "Nächste in \(timeDifference.day!) Tagen fällig"
+                    default:
+                        self.subtitleLabel.text = ""
+                    }
+                } else {
                     self.subtitleLabel.isHidden = true
                 }
             }

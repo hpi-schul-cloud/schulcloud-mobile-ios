@@ -8,10 +8,14 @@
 
 import UIKit
 import CoreData
+import BrightFutures
 
 class FilesViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
     var currentFolder: File!
+    var fileSync = FileSync()
+    
+    var courseObserver : NSObjectProtocol? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,10 +24,20 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
             currentFolder = FileHelper.rootFolder
         }
 
-        self.navigationItem.title = self.currentFolder.displayName
+        self.navigationItem.title = self.currentFolder.name
+        if self.currentFolder.id == FileHelper.coursesDirectoryID {
+            courseObserver = self.registerCourseChanges()
+        }
 
         performFetch()
         didTriggerRefresh()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if let courseObserver = courseObserver {
+            NotificationCenter.default.removeObserver(courseObserver as Any)
+        }
+        super.viewWillDisappear(animated)
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,16 +46,43 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
     }
     
     @IBAction func didTriggerRefresh() {
-        FileHelper.updateDatabase(forFolder: currentFolder)
-            .onSuccess { _ in
+        var future : Future<Any, SCError>?
+        if FileHelper.coursesDirectoryID == currentFolder.id {
+            CourseHelper.fetchFromServer()
+        } else if FileHelper.sharedDirectoryID == currentFolder.id {
+            future = fileSync.downloadSharedFiles()
+            .andThen { result in
+                if let objects = result.value {
+                    for json in objects {
+                        FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json)
+                    }
+                }
+            }
+            .map { (objects) -> Any in
+                return objects as Any
+            }
+        } else {
+            future = fileSync.downloadContent(for: currentFolder)
+            .andThen { result in
+                if let json = result.value {
+                    FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json)
+                }
+            }.map { object -> Any in
+                    return object as Any
+            }
+        }
+        
+        future?.onSuccess { (_) in
+            DispatchQueue.main.async {
                 self.performFetch()
             }
-            .onFailure { error in
-                log.error(error)
-            }
-            .onComplete { _ in
+        }.onFailure { (error) in
+            print("Failure: \(error)")
+        }.onComplete{ (_) in
+            DispatchQueue.main.async {
                 self.refreshControl?.endRefreshing()
             }
+        }
     }
 
     // MARK: - Table view data source
@@ -51,7 +92,7 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
         let fetchRequest: NSFetchRequest<File> = File.fetchRequest()
         
         // Configure Fetch Request
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "displayName", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", self.currentFolder)
         fetchRequest.predicate = parentFolderPredicate
         
@@ -84,16 +125,47 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
         }
         return count
     }
-
     
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        guard let file = self.fetchedResultsController.sections?[indexPath.section].objects?[indexPath.row] as? File else { return false }
+        return file.permissions.contains(.write)
+    }
+
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            guard let file = self.fetchedResultsController.sections?[indexPath.section].objects?[indexPath.row] as? File else { return }
+            FileHelper.delete(file: file)
+            .onSuccess { _ in
+                managedObjectContext.delete(file)
+                try! managedObjectContext.save()
+                DispatchQueue.main.async {
+                    try! self.fetchedResultsController.performFetch()
+                    tableView.deleteRows(at: [indexPath], with: .automatic)
+                }
+            }
+            .onFailure { error in
+                managedObjectContext.rollback()
+                DispatchQueue.main.async {
+                    let alertVC = UIAlertController(title: "Something unexpected happened", message: error.localizedDescription, preferredStyle: .alert)
+                    let dismissAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                    alertVC.addAction(dismissAction)
+                    self.present(alertVC, animated: true) {}
+                }
+            }
+        }
+        
+    }
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = fetchedResultsController.object(at: indexPath)
 
         let reuseIdentifier = item.detail == nil ? "item" : "item detail"
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) //as! FileListCell
 
-        cell.textLabel?.text = item.displayName
+        cell.textLabel?.text = item.name
         cell.detailTextLabel?.text = item.detail
+        cell.accessoryType = item.isDirectory ? .disclosureIndicator : .none
         cell.imageView?.image = item.isDirectory ? #imageLiteral(resourceName: "folder") : #imageLiteral(resourceName: "document")
         cell.imageView?.tintColor = item.isDirectory ? UIColor.schulcloudYellow : UIColor.schulcloudRed
         cell.imageView?.contentMode = .scaleAspectFit
@@ -101,7 +173,7 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
         if #available(iOS 11.0, *){
             cell.imageView?.adjustsImageSizeForAccessibilityContentSizeCategory = true
         }
-
+        
         return cell
     }
 
@@ -127,5 +199,42 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
             self.navigationController?.pushViewController(fileVC, animated: true)
         }
     }
+}
 
+
+extension FilesViewController {
+    func registerCourseChanges() -> NSObjectProtocol {
+        return NotificationCenter.default.addObserver(forName: Notification.Name.NSManagedObjectContextObjectsDidChange, object: nil, queue: OperationQueue.main) { (notification: Notification) in
+            
+            guard managedObjectContext == notification.object as? NSManagedObjectContext else { return }
+
+            let root = FileHelper.rootFolder
+            let courseRoot = root.contents!.map { $0 as! File }.filter { $0.id == FileHelper.coursesDirectoryID }.first!
+            
+            var changes : [String : [Course]] = [:]
+            if let insertedObjects = notification.userInfo?[NSInsertedObjectsKey] as? Set<NSManagedObject>, !insertedObjects.isEmpty {
+                let courses = insertedObjects.flatMap { $0 as? Course }
+                if !courses.isEmpty {
+                    changes[NSInsertedObjectsKey] = courses
+                }
+            }
+            if let updatedObjects = notification.userInfo?[NSUpdatedObjectsKey] as? Set<NSManagedObject>, !updatedObjects.isEmpty {
+                let courses = updatedObjects.flatMap { $0 as? Course }
+                if !courses.isEmpty {
+                    changes[NSUpdatedObjectsKey] = courses
+                }
+            }
+            if let deletedObjects = (notification.userInfo?[NSDeletedObjectsKey]) as? Set<NSManagedObject>, !deletedObjects.isEmpty {
+                let courses = deletedObjects.flatMap { $0 as? Course }
+                if !courses.isEmpty {
+                    changes[NSDeletedObjectsKey] = courses
+                }
+            }
+            if !changes.isEmpty {
+                FileHelper.process(changes: changes, inFolder: courseRoot, managedObjectContext: managedObjectContext)
+                try! managedObjectContext.save()
+                self.performFetch()
+            }
+        }
+    }
 }
