@@ -16,9 +16,18 @@
         <relationship name="teachers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="taughtCourses" inverseEntity="User" syncable="YES"/>
     </entity>
     <entity name="EventData" representedClassName="EventData" syncable="YES">
-        <attribute name="courseId" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="eventId" attributeType="String" syncable="YES"/>
-        <attribute name="externalEventId" attributeType="String" syncable="YES"/>
+        <attribute name="detail" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ekIdentifier" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="end" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="id" attributeType="String" syncable="YES"/>
+        <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rrDayOfWeek" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rrEndDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="rrFrequency" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rrInterval" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="start" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="course" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Course" syncable="YES"/>
     </entity>
     <entity name="File" representedClassName="File" syncable="YES">
         <attribute name="cacheURL_" optional="YES" attributeType="String" syncable="YES"/>

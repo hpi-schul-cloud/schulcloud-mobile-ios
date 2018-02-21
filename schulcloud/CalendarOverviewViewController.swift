@@ -11,8 +11,9 @@ import EventKit
 import DateToolsSwift
 
 class CalendarOverviewViewController: UIViewController {
+
     enum State {
-        case events(EKEvent, EKEvent?)
+        case events(CalendarEvent, CalendarEvent?)
         case noEvents(String)
     }
 
@@ -42,19 +43,7 @@ class CalendarOverviewViewController: UIViewController {
         super.viewDidLoad()
 
         self.state = .noEvents(CalendarOverviewViewController.loadingMessage)
-
-        switch EKEventStore.authorizationStatus(for: .event) {
-        case .notDetermined:
-            CalendarHelper.requestCalendarPermission().onSuccess {
-                self.syncEvents()
-            }.onFailure { error in
-                self.state = .noEvents(CalendarOverviewViewController.noPermissionMessage)
-            }
-        case .authorized:
-            self.syncEvents()
-        case .restricted, .denied:
-            self.state = .noEvents(CalendarOverviewViewController.noPermissionMessage)
-        }
+        self.syncEvents()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -63,55 +52,48 @@ class CalendarOverviewViewController: UIViewController {
         self.updateEvents()
     }
 
+    var todayInterval : DateInterval = {
+        
+        let now = Date()
+        let today = Date(year:now.year, month: now.month, day: now.day)
+        let oneDayChunk = TimeChunk(seconds: 0, minutes: 0, hours: 0, days: 1, weeks: 0, months: 0, years: 0)
+        let tomorrow = today + oneDayChunk
+        
+        return DateInterval(start: now, end: tomorrow)
+    }()
+    
     private func syncEvents() {
-        let syncEvents: (EKCalendar?) -> Void = { someCalendar in
-            guard let calendar = someCalendar else {
-                log.error("Failed to retrieve Schul-Cloud calendar")
-                return
-            }
-            CalendarHelper.syncEvents(in: calendar).onSuccess {
-                self.updateEvents()
-            }.onFailure { error in
-                log.error(error)
-            }
+        
+        CalendarEventHelper.synchronizeEvent()
+        .map { events -> [CalendarEvent] in
+            // filter all event left coming up today
+            return events.filter(inInterval: self.todayInterval)
         }
+        .onSuccess { self.updateStateWith(events: $0) }
+        .onFailure { error in
+            print("Failed to synchronize events: \(error.description)")
+        }
+    }
 
-        if CalendarHelper.schulCloudCalendarWasInitialized {
-            syncEvents(CalendarHelper.schulCloudCalendar)
+    private func updateStateWith(events: [CalendarEvent]) {
+        if events.isEmpty {
+            self.state = .noEvents(CalendarOverviewViewController.noEventsMessage)
         } else {
-            CalendarHelper.initializeCalendar(on: self, completion: syncEvents)
+            let firstEvent = events[0]
+            let secondEvent = events.count > 1 ? events[1] : nil
+            self.state = .events(firstEvent, secondEvent)
         }
     }
 
     private func updateEvents() {
-        guard EKEventStore.authorizationStatus(for: .event) == .authorized else { return }
-
-        let fetchEvents: (EKCalendar?) -> Void = { someCalendar in
-            guard EKEventStore.authorizationStatus(for: .event) == .authorized else {
-                self.state = .noEvents(CalendarOverviewViewController.noPermissionMessage)
-                return
-            }
-            guard let calendar = someCalendar else { return }
-
-            let now = Date()
-            let today = Date(year: now.year, month: now.month, day: now.day)
-            let oneDayLater = TimeChunk(seconds: 0, minutes: 0, hours: 0, days: 1, weeks: 0, months: 0, years: 0)
-            let endDate = today + oneDayLater
-            let predicate = CalendarHelper.eventStore.predicateForEvents(withStart: now, end: endDate, calendars: [calendar])
-            let events = CalendarHelper.eventStore.events(matching: predicate)  // fetches also event at current time
-
-            if let currentEvent = events.first {
-                let nextEvent: EKEvent? = events.count > 1 ? events[1] : nil
-                self.state = .events(currentEvent, nextEvent)
-            } else {
-                self.state = .noEvents(CalendarOverviewViewController.noEventsMessage)
-            }
+        
+        CalendarEventHelper.fetchCalendarEvent(inContext: managedObjectContext)
+        .onSuccess { events in
+            let filteredEvents = events.filter(inInterval: self.todayInterval)
+            self.updateStateWith(events: filteredEvents)
         }
-
-        if CalendarHelper.schulCloudCalendarWasInitialized {
-            fetchEvents(CalendarHelper.schulCloudCalendar)
-        } else {
-            CalendarHelper.initializeCalendar(on: self, completion: fetchEvents)
+        .onFailure { error in
+            self.state = .noEvents(error.localizedDescription)
         }
     }
 
@@ -125,18 +107,18 @@ class CalendarOverviewViewController: UIViewController {
 
             // set current event labels
             self.currentEventName.text = currentEvent.title
-            self.currentEventDate.text = dateFormatter.string(from: currentEvent.startDate)
+            self.currentEventDate.text = dateFormatter.string(from: currentEvent.start)
             self.currentEventLocation.text = currentEvent.location
 
             // set progress bar
-            let now = Date().dateInUTCTimeZone()
-            let progress = now.timeIntervalSince(currentEvent.startDate) / currentEvent.endDate.timeIntervalSince(currentEvent.startDate)
+            let now = Date()
+            let progress = now.timeIntervalSince(currentEvent.start) / currentEvent.end.timeIntervalSince(currentEvent.start)
             self.currentEventProgress.progress = Float(progress)
 
             // set next event labels
             if let nextEvent = someNextEvent {
                 self.nextEventName.text = nextEvent.title
-                self.nextEventDate.text = dateFormatter.string(from: nextEvent.startDate.dateInCurrentTimeZone())
+                self.nextEventDate.text = dateFormatter.string(from: nextEvent.start)
                 self.nextEventLocation.text = nextEvent.location
                 self.nextEventDetails.isHidden = false
             } else {

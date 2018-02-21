@@ -116,11 +116,11 @@ open class LoginHelper {
         do {
             dropDatabase()
             try Globals.account!.deleteFromSecureStore()
+            try CalendarEventHelper.deleteSchulcloudCalendar()
         } catch let error {
             log.error(error.localizedDescription)
         }
 
-        CalendarHelper.deleteSchulcloudCalendar()
     }
     
 }
