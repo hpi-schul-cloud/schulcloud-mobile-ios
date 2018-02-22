@@ -26,8 +26,15 @@ struct SchulcloudSyncStrategy : SyncStrategy {
 
         // filters
         for (key, value) in query.filters {
-            let stringValue = String(describing: value)
-            let queryItem = URLQueryItem(name: "filter[\(key)]", value: stringValue)
+            let stringValue: String
+            if let valueArray = value as? [Any] {
+                stringValue = valueArray.map { String(describing: $0) }.joined(separator: ",")
+            } else if let value = value {
+                stringValue = String(describing: value)
+            } else {
+                stringValue = "null"
+            }
+            let queryItem = URLQueryItem(name: key, value: stringValue)
             queryItems.append(queryItem)
         }
 

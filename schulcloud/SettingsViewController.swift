@@ -42,7 +42,6 @@ class SettingsViewController: UITableViewController {
             }
         }
 
-
         UserHelper.syncUser(withId: userId).onSuccess { syncResult in
             guard let user = CoreDataHelper.viewContext.existingTypedObject(with: syncResult.objectId) as? User else {
                 log.warning("Failed to retrieve user to display")
@@ -51,12 +50,6 @@ class SettingsViewController: UITableViewController {
 
             self.user = user
         }
-
-//        User.fetch(by: userId, inContext: CoreDataHelper.managedObjectContext).onSuccess { user in
-//            self.userNameLabel.text = "\(user.firstName) \(user.lastName)"
-//        }.onFailure { error in
-//            self.userNameLabel.text = ""
-//        }
     }
 
     override func viewDidAppear(_ animated: Bool) {

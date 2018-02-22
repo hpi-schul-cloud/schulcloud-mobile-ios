@@ -54,7 +54,6 @@ class DashboardViewController: UIViewController {
         self.calendarOverview.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.showCalendar)))
         self.homeworkOverview.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.showTasks)))
 
-
         self.updateNotificationBarButton()
         self.fetchNotifications()
     }

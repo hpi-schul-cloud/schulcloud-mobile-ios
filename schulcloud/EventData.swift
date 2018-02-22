@@ -62,7 +62,10 @@ extension EventData : Pullable {
         guard let included = try? object.value(for: "included") as [JSON] else { return }
         guard let recurringRuleData = included.first(where: { json in
                 return (json["type"] as? String) == "rrule" && (json["id"] as? String) == "\(id)-rrule"
-        }) else { return }
+        }) else {
+            self.rrInterval = 1
+            return
+        }
 
         let rrAttributes = try recurringRuleData.value(for: "attributes") as JSON
         let frequency = try rrAttributes.value(for: "freq") as String

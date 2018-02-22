@@ -41,6 +41,7 @@ struct CoreDataHelper {
                  */
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
+            persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
             let managedObjectContext = persistentContainer.viewContext
             managedObjectContext.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
         })

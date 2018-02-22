@@ -12,14 +12,17 @@ class CalendarViewController: DayViewController {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isTranslucent = false
 
-        self.syncEvents()
-
         // scroll to current time
         let date = Date()
         let cal = Calendar.current
         let hour = Float(cal.component(.hour, from: date))
         let minute = Float(cal.component(.minute, from: date)) / 60
         self.dayView.scrollTo(hour24: hour - 1 + minute)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.syncEvents()
     }
 
     private func syncEvents() {

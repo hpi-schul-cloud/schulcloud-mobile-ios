@@ -30,6 +30,8 @@ final class Homework: NSManagedObject {
 
 extension Homework {
 
+    static let homeworkCountDidChange = Notification.Name(rawValue: "homeworkCountDidChange")
+
     static let shortDateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -37,7 +39,7 @@ extension Homework {
     }()
 
     /// returns just the day of the due date as yyyy-MM-dd
-    public var dueDateShort: String {
+    @objc var dueDateShort: String {
         return Homework.shortDateFormatter.string(from: self.dueDate as Date)
     }
 
@@ -103,9 +105,9 @@ extension Homework : Pullable {
         self.availableDate = try object.value(for: "availableDate")
         self.descriptionText = try object.value(for: "description")
         self.dueDate = try object.value(for: "dueDate")
-        self.isPrivate = try object.value(for: "private")
+        self.isPrivate = (try? object.value(for: "private")) ?? false
         self.name = try object.value(for: "name")
-        self.publicSubmissions = try object.value(for: "publicSubmissions")
+        self.publicSubmissions = (try? object.value(for: "publicSubmissions")) ?? true
 
         try self.updateRelationship(forKeyPath: \Homework.course, forKey: "courseId", fromObject: object, with: context)
     }

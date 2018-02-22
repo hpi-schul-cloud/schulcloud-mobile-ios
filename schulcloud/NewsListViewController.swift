@@ -37,7 +37,7 @@ class NewsListViewController: UITableViewController,  NSFetchedResultsController
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "displayAt", ascending: false)]
         
         let fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                                managedObjectContext: CoreDataHelper.persistentContainer.viewContext,
+                                                                managedObjectContext: CoreDataHelper.viewContext,
                                                                 sectionNameKeyPath: nil,
                                                                 cacheName: nil)
         fetchResultsController.delegate = self

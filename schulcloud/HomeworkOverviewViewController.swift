@@ -19,7 +19,11 @@ class HomeworkOverviewViewController: UIViewController {
 
         self.numberOfOpenTasksLabel.text = "?"
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.didChangePreferredContentSize),
+                                               selector: #selector(updateHomeworkCount),
+                                               name: Homework.homeworkCountDidChange,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didChangePreferredContentSize),
                                                name: NSNotification.Name.UIContentSizeCategoryDidChange,
                                                object: nil)
         self.updateHomeworkCount()

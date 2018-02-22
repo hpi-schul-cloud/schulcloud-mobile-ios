@@ -184,7 +184,13 @@ struct SyncEngine {
             }
 
             do {
-                guard let resourceData = try JSONSerialization.jsonObject(with: responseData, options: []) as? MarshalDictionary else {
+                // special handling for calendar endpoint which returns an array
+                let resourceData: MarshalDictionary
+                if let resourceDataArray = try JSONSerialization.jsonObject(with: responseData, options: []) as? [MarshalDictionary] {
+                    resourceData = ["data": resourceDataArray]
+                } else if let resourceDataObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? MarshalDictionary {
+                    resourceData = resourceDataObject
+                } else {
                     promise.failure(.api(.serialization(.invalidDocumentStructure)))
                     return
                 }

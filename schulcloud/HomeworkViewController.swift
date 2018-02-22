@@ -37,7 +37,7 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
         let fetchRequest: NSFetchRequest<Homework> = Homework.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dueDate", ascending: true)]
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                                  managedObjectContext: CoreDataHelper.persistentContainer.viewContext,
+                                                                  managedObjectContext: CoreDataHelper.viewContext,
                                                                   sectionNameKeyPath: "dueDateShort",
                                                                   cacheName: nil)
         fetchedResultsController.delegate = self
@@ -58,15 +58,22 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
         return self.fetchedResultsController.sections?.count ?? 0
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let sectionInfo = fetchedResultsController.sections?[section] else { log.error("Unexpected Section"); return nil }
-        let dateString = sectionInfo.name
-        guard let date = Homework.shortDateFormatter.date(from: dateString) else { log.error("Could not parse \(dateString)"); return nil }
-        return Homework.relativeDateString(for: date)
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.fetchedResultsController.sections?[section].objects?.count ?? 0
+    }
+
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionInfo = fetchedResultsController.sections?[section] else {
+            log.error("Unexpected Section")
+            return nil
+        }
+
+        guard let date = Homework.shortDateFormatter.date(from: sectionInfo.name) else {
+            log.error("Could not parse \(sectionInfo.name)")
+            return nil
+        }
+
+        return Homework.relativeDateString(for: date)
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

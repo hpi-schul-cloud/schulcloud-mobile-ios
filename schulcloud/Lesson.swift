@@ -35,6 +35,7 @@ extension Lesson : Pullable {
         self.descriptionText = try object.value(for: "descriptionText")
         self.date = try object.value(for: "date")
 
+        try self.updateRelationship(forKeyPath: \Lesson.course, forKey: "courseId", fromObject: object, with: context)
         try self.updateRelationship(forKeyPath: \Lesson.contents, forKey: "contents", fromObject: object, with: context)
     }
 

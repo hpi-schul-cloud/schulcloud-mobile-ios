@@ -93,7 +93,7 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
         
         // Create Fetched Results Controller
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                                  managedObjectContext: CoreDataHelper.persistentContainer.viewContext,
+                                                                  managedObjectContext: CoreDataHelper.viewContext,
                                                                   sectionNameKeyPath: nil,
                                                                   cacheName: nil)
         

@@ -59,7 +59,7 @@ class CalendarOverviewViewController: UIViewController {
     }()
     
     private func syncEvents() {
-        CalendarEventHelper.syncEvents().onSuccess { _ in
+        CalendarEventHelper.syncEvents().onSuccess { result in
             self.updateEvents()
         }.onFailure { error in
             log.error("Failed to synchronize events: \(error.description)")
@@ -84,13 +84,6 @@ class CalendarOverviewViewController: UIViewController {
         case let .failure(error):
             self.state = .noEvents(error.localizedDescription)
         }
-
-//        CalendarEventHelper.fetchCalendarEvent(inContext: CoreDataHelper.viewContext).onSuccess { events in
-//            let filteredEvents = events.filter(inInterval: self.todayInterval)
-//            self.updateStateWith(events: filteredEvents)
-//        }.onFailure { error in
-//            self.state = .noEvents(error.localizedDescription)
-//        }
     }
 
     func updateUIForCurrentState() {

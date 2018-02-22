@@ -56,7 +56,7 @@
         <attribute name="descriptionText" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="contents" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="LessonContent" inverseName="lesson" inverseEntity="LessonContent" syncable="YES"/>
+        <relationship name="contents" toMany="YES" deletionRule="Nullify" destinationEntity="LessonContent" inverseName="lesson" inverseEntity="LessonContent" syncable="YES"/>
         <relationship name="course" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Course" inverseName="lessons" inverseEntity="Course" syncable="YES"/>
     </entity>
     <entity name="LessonContent" representedClassName=".LessonContent" syncable="YES">
@@ -93,7 +93,7 @@
         <element name="EventData" positionX="-371" positionY="63" width="128" height="225"/>
         <element name="File" positionX="-549" positionY="291" width="128" height="193"/>
         <element name="Homework" positionX="-90" positionY="189" width="128" height="195"/>
-        <element name="Lesson" positionX="-369" positionY="-126" width="128" height="135"/>
+        <element name="Lesson" positionX="-369" positionY="-126" width="128" height="133"/>
         <element name="LessonContent" positionX="-558" positionY="-126" width="128" height="133"/>
         <element name="NewsArticle" positionX="286" positionY="-198" width="128" height="135"/>
         <element name="User" positionX="70" positionY="-181" width="137" height="163"/>
