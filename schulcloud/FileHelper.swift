@@ -142,7 +142,7 @@ class FileSync : NSObject {
         return promise.future
     }
     
-    private func confirmNetworkResponse(data: Data?, response: URLResponse?, error: Error?) throws -> Data{
+    private func confirmNetworkResponse(data: Data?, response: URLResponse?, error: Error?) throws -> Data {
         guard error == nil else {
             throw SCError.network(error)
         }
@@ -288,19 +288,6 @@ class FileHelper {
         fatalError("Implement deleting files")
     }
 
-//    static func getSignedUrl(forFile file: File) -> Future<URL, SCError> {
-//        let parameters: Parameters = [
-//            "path": file.url.absoluteString.removingPercentEncoding!,
-//            //"fileType": mime.lookup(file),
-//            "action": "getObject"
-//        ]
-//        let request: Future<SignedUrl, SCError> = ApiHelper.request("fileStorage/signedUrl", method: .post, parameters: parameters, encoding: JSONEncoding.default).deserialize(keyPath: "")
-//        
-//        return request.flatMap { signedUrl -> Future<URL, SCError> in
-//            return Future(value: signedUrl.url)
-//        }
-//    }
-
     static func processCourseUpdates(changes: [String: [(id: String, name: String)]]) {
         let rootObjectId = FileHelper.rootFolder.objectID
 
@@ -320,8 +307,16 @@ class FileHelper {
 
             if let updatedCourses = changes[NSUpdatedObjectsKey], !updatedCourses.isEmpty {
                 for (courseId, courseName) in updatedCourses {
-                    guard let file = parentFolder.contents.first(where: { $0.id == courseId }) else { continue }
-                    file.name = courseName
+                    if let file = parentFolder.contents.first(where: { $0.id == courseId }) {
+                        file.name = courseName
+                    } else {
+                        let file = File(context: context)
+                        file.id = courseId
+                        file.currentPath = parentFolder.url.appendingPathComponent(courseId, isDirectory: true).absoluteString
+                        file.name = courseName
+                        file.isDirectory = true
+                        file.parentDirectory = parentFolder
+                    }
                 }
             }
 
@@ -341,10 +336,16 @@ class FileHelper {
     }
     
     static func updateDatabase(contentsOf parentFolder: File, using contents: [String: Any]) {
+        let parentFolderObjectId = parentFolder.objectID
+
         CoreDataHelper.persistentContainer.performBackgroundTask { context in
             do {
                 let files: [[String: Any]] = try contents.value(for: "files")
                 let folders: [[String: Any]] = try contents.value(for: "directories")
+                guard let parentFolder = context.existingTypedObject(with: parentFolderObjectId) as? File else {
+                    log.error("Unable to find parent folder")
+                    return
+                }
 
                 let createdFiles = try files.map({ try File.createOrUpdate(inContext: context, parentFolder: parentFolder, isDirectory: false, data: $0) })
                 let createdFolders = try folders.map({ try File.createOrUpdate(inContext: context, parentFolder: parentFolder, isDirectory: true, data: $0) })
@@ -357,11 +358,10 @@ class FileHelper {
                 fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [notOnServerPredicate, parentFolderPredicate])
 
                 try CoreDataHelper.delete(fetchRequest: fetchRequest, context: context)
+                try context.save()
             } catch let error {
                 log.error(error)
             }
-
-            context.saveWithResult()
         }
     }
 }

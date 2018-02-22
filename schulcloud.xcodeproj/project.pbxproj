@@ -33,7 +33,7 @@
 		50B44D86203AAEE1009DC2D3 /* LessonContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B44D7E203AAEE0009DC2D3 /* LessonContent.swift */; };
 		50B44D87203AAEE1009DC2D3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B44D7F203AAEE0009DC2D3 /* User.swift */; };
 		50B44D88203AAEE1009DC2D3 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B44D80203AAEE0009DC2D3 /* Course.swift */; };
-		50B44D89203AAEE1009DC2D3 /* File+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B44D81203AAEE1009DC2D3 /* File+CoreDataClass.swift */; };
+		50B44D89203AAEE1009DC2D3 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B44D81203AAEE1009DC2D3 /* File.swift */; };
 		50B44D8A203AAEE1009DC2D3 /* EventData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B44D82203AAEE1009DC2D3 /* EventData.swift */; };
 		50B44D8B203AAEE1009DC2D3 /* Homework.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B44D83203AAEE1009DC2D3 /* Homework.swift */; };
 		50B44D8C203AAEE1009DC2D3 /* NewsArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B44D84203AAEE1009DC2D3 /* NewsArticle.swift */; };
@@ -161,7 +161,7 @@
 		50B44D7E203AAEE0009DC2D3 /* LessonContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonContent.swift; sourceTree = "<group>"; };
 		50B44D7F203AAEE0009DC2D3 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		50B44D80203AAEE0009DC2D3 /* Course.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
-		50B44D81203AAEE1009DC2D3 /* File+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "File+CoreDataClass.swift"; sourceTree = "<group>"; };
+		50B44D81203AAEE1009DC2D3 /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		50B44D82203AAEE1009DC2D3 /* EventData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventData.swift; sourceTree = "<group>"; };
 		50B44D83203AAEE1009DC2D3 /* Homework.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Homework.swift; sourceTree = "<group>"; };
 		50B44D84203AAEE1009DC2D3 /* NewsArticle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsArticle.swift; sourceTree = "<group>"; };
@@ -336,7 +336,7 @@
 			children = (
 				50B44D80203AAEE0009DC2D3 /* Course.swift */,
 				50B44D82203AAEE1009DC2D3 /* EventData.swift */,
-				50B44D81203AAEE1009DC2D3 /* File+CoreDataClass.swift */,
+				50B44D81203AAEE1009DC2D3 /* File.swift */,
 				50B44D83203AAEE1009DC2D3 /* Homework.swift */,
 				50B44D7D203AAEE0009DC2D3 /* Lesson.swift */,
 				50B44D7E203AAEE0009DC2D3 /* LessonContent.swift */,
@@ -901,7 +901,7 @@
 				C36C23381EC9DE0700D4163E /* SCError.swift in Sources */,
 				50B44D8A203AAEE1009DC2D3 /* EventData.swift in Sources */,
 				50F39856202C8FB300ADAE5D /* Future+retry.swift in Sources */,
-				50B44D89203AAEE1009DC2D3 /* File+CoreDataClass.swift in Sources */,
+				50B44D89203AAEE1009DC2D3 /* File.swift in Sources */,
 				CEB4E9161FFD2343002E183F /* News+.swift in Sources */,
 				C31C842E1ECF586500FA070C /* LoadingViewController.swift in Sources */,
 				C328708D1EDD58C700ABA348 /* User+.swift in Sources */,

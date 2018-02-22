@@ -28,6 +28,8 @@ class CoreDataObserver {
     @objc func managedObjectContextObjectsDidChange(notification: NSNotification) {
         guard let userInfo = notification.userInfo else { return }
 
+        var courseChanges : [String : [(id: String, name: String)]] = [:]
+
         if let inserts = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject>, !inserts.isEmpty {
             if CalendarEventHelper.EventKitSettings.current.shouldSynchonize {
                 let insertedEvents = inserts.flatMap { $0 as? EventData }
@@ -38,6 +40,11 @@ class CoreDataObserver {
                         }
                     }
                 }
+            }
+
+            let courses = inserts.flatMap { $0 as? Course }
+            if !courses.isEmpty {
+                courseChanges[NSInsertedObjectsKey] = courses.map { (id: $0.id, name: $0.name) }
             }
         }
 
@@ -52,6 +59,11 @@ class CoreDataObserver {
                     }
                 }
             }
+
+            let courses = updates.flatMap { $0 as? Course }
+            if !courses.isEmpty {
+                courseChanges[NSUpdatedObjectsKey] = courses.map { (id: $0.id, name: $0.name) }
+            }
         }
 
         if let deletes = userInfo[NSDeletedObjectsKey] as? Set<NSManagedObject>, !deletes.isEmpty {
@@ -63,6 +75,34 @@ class CoreDataObserver {
                     }
                 }
             }
+
+            let courses = deletes.flatMap { $0 as? Course }
+            if !courses.isEmpty {
+                courseChanges[NSDeletedObjectsKey] = courses.map { (id: $0.id, name: $0.name) }
+            }
+        }
+
+        if let refreshed = userInfo[NSRefreshedObjectsKey] as? Set<NSManagedObject>, !refreshed.isEmpty {
+            if CalendarEventHelper.EventKitSettings.current.shouldSynchonize {
+                let refreshedEvents = refreshed.flatMap { $0 as? EventData }
+                if !refreshedEvents.isEmpty {
+                    CalendarEventHelper.requestCalendarPermission().andThen { _ in
+                        if let calendar = CalendarEventHelper.fetchCalendar() ?? CalendarEventHelper.createCalendar() {
+                            try? CalendarEventHelper.push(events: refreshedEvents.map { $0.calendarEvent }, to: calendar)
+                        }
+                    }
+                }
+            }
+
+            let courses = refreshed.flatMap { $0 as? Course }
+            if !courses.isEmpty {
+                courseChanges[NSRefreshedObjectsKey] = courses.map { (id: $0.id, name: $0.name) }
+            }
+        }
+
+
+        if !courseChanges.isEmpty {
+            FileHelper.processCourseUpdates(changes: courseChanges)
         }
     }
 

@@ -14,9 +14,7 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
 
     var currentFolder: File!
     var fileSync = FileSync()
-    
-    var courseObserver : NSObjectProtocol? = nil
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,26 +23,11 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
         }
 
         self.navigationItem.title = self.currentFolder.name
-        if self.currentFolder.id == FileHelper.coursesDirectoryID {
-            courseObserver = self.registerCourseChanges()
-        }
 
         performFetch()
         didTriggerRefresh()
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        if let courseObserver = courseObserver {
-            NotificationCenter.default.removeObserver(courseObserver as Any)
-        }
-        super.viewWillDisappear(animated)
-    }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     @IBAction func didTriggerRefresh() {
         let future: Future<Void, SCError>
         if FileHelper.coursesDirectoryID == currentFolder.id {
@@ -66,7 +49,7 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
                 }
             }.asVoid()
         }
-        
+
         future.onSuccess { (_) in
             DispatchQueue.main.async {
                 self.performFetch()
@@ -81,25 +64,25 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
     }
 
     // MARK: - Table view data source
-    
+
     fileprivate lazy var fetchedResultsController: NSFetchedResultsController<File> = {
         // Create Fetch Request
         let fetchRequest: NSFetchRequest<File> = File.fetchRequest()
-        
+
         // Configure Fetch Request
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", self.currentFolder)
         fetchRequest.predicate = parentFolderPredicate
-        
+
         // Create Fetched Results Controller
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                                   managedObjectContext: CoreDataHelper.viewContext,
                                                                   sectionNameKeyPath: nil,
                                                                   cacheName: nil)
-        
+
         // Configure Fetched Results Controller
         fetchedResultsController.delegate = self
-        
+
         return fetchedResultsController
     }()
     
@@ -123,7 +106,7 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
         }
         return count
     }
-    
+
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         guard let file = self.fetchedResultsController.sections?[indexPath.section].objects?[indexPath.row] as? File else { return false }
         return file.permissions.contains(.write)
@@ -169,7 +152,7 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
         if #available(iOS 11.0, *){
             cell.imageView?.adjustsImageSizeForAccessibilityContentSizeCategory = true
         }
-        
+
         return cell
     }
 
@@ -193,46 +176,6 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
             }
             fileVC.file = item
             self.navigationController?.pushViewController(fileVC, animated: true)
-        }
-    }
-}
-
-
-extension FilesViewController {
-    func registerCourseChanges() -> NSObjectProtocol {
-        return NotificationCenter.default.addObserver(forName: Notification.Name.NSManagedObjectContextObjectsDidChange,
-                                                      object: CoreDataHelper.viewContext,
-                                                      queue: OperationQueue.main) { (notification: Notification) in
-            var changes : [String : [(id: String, name: String)]] = [:]
-            if let insertedObjects = notification.userInfo?[NSInsertedObjectsKey] as? Set<NSManagedObject>, !insertedObjects.isEmpty {
-                let courses = insertedObjects.flatMap { $0 as? Course }
-                if !courses.isEmpty {
-                    changes[NSInsertedObjectsKey] = courses.map { (id: $0.id, name: $0.name) }
-                }
-            }
-
-            if let updatedObjects = notification.userInfo?[NSUpdatedObjectsKey] as? Set<NSManagedObject>, !updatedObjects.isEmpty {
-                let courses = updatedObjects.flatMap { $0 as? Course }
-                if !courses.isEmpty {
-                    changes[NSUpdatedObjectsKey] = courses.map { (id: $0.id, name: $0.name) }
-                }
-            }
-
-            if let deletedObjects = (notification.userInfo?[NSDeletedObjectsKey]) as? Set<NSManagedObject>, !deletedObjects.isEmpty {
-                let courses = deletedObjects.flatMap { $0 as? Course }
-                if !courses.isEmpty {
-                    changes[NSDeletedObjectsKey] = courses.map { (id: $0.id, name: $0.name) }
-                }
-            }
-
-            if !changes.isEmpty {
-                FileHelper.processCourseUpdates(changes: changes)
-                self.performFetch()
-
-                CoreDataHelper.persistentContainer.performBackgroundTask { context in
-                    try! context.save()
-                }
-            }
         }
     }
 }
