@@ -12,9 +12,9 @@ import Foundation
 import Marshal
 import Result
 
-struct SchulcloudSyncStrategy : SyncStrategy {
+protocol SchulcloudSyncStrategy : SyncStrategy {}
 
-    var resourceKeyAttribute: String = "_id"
+extension SchulcloudSyncStrategy {
 
     func queryItems<Query>(forQuery query: Query) -> [URLQueryItem] where Query : ResourceQuery {
         var queryItems: [URLQueryItem] = []
@@ -86,9 +86,17 @@ struct SchulcloudSyncStrategy : SyncStrategy {
     }
 
     func resourceData(for resource: Pushable) -> Result<Data, SyncError> {
-        fatalError("This needs to be implmented")
+        fatalError("This needs to be implemented")
     }
 
+}
+
+struct MainSchulcloudSyncStrategy : SchulcloudSyncStrategy {
+    var resourceKeyAttribute: String = "_id"
+}
+
+struct CalendarSchulcloudSyncStrategy : SchulcloudSyncStrategy {
+    var resourceKeyAttribute: String = "id"
 }
 
 struct SchulcloudSyncConfig : SyncConfig {
@@ -107,8 +115,8 @@ struct SchulcloudSyncConfig : SyncConfig {
 
 struct SyncHelper {
 
-    static let syncConfiguration = SchulcloudSyncConfig()
-    static let syncStrategy: SyncStrategy = SchulcloudSyncStrategy()
+    private static let syncConfiguration = SchulcloudSyncConfig()
+    private static let syncStrategy: SyncStrategy = MainSchulcloudSyncStrategy()
 
     static func syncResources<Resource>(withFetchRequest fetchRequest: NSFetchRequest<Resource>,
                                         withQuery query: MultipleResourcesQuery<Resource>,

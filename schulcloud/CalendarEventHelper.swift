@@ -15,11 +15,13 @@ import Result
 
 struct CalendarEventHelper {
 
+    static let syncStrategy = CalendarSchulcloudSyncStrategy()
+
     static func syncEvents() -> Future<SyncEngine.SyncMultipleResult, SCError> {
         let fetchRequest = EventData.fetchRequest() as NSFetchRequest<EventData>
         var query = MultipleResourcesQuery(type: EventData.self)
         query.addFilter(forKey: "all", withValue: true)
-        return SyncHelper.syncResources(withFetchRequest: fetchRequest, withQuery: query)
+        return SyncHelper.syncResources(withFetchRequest: fetchRequest, withQuery: query, withStrategy: CalendarEventHelper.syncStrategy)
     }
     
 //    static func synchronizeEvent() -> Future<[CalendarEvent], SCError> {
