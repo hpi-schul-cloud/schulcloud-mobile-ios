@@ -40,39 +40,3 @@ extension Lesson : Pullable {
     }
 
 }
-
-//// MARK: Generated accessors for contents
-//extension Lesson {
-//
-//    @objc(insertObject:inContentsAtIndex:)
-//    @NSManaged public func insertIntoContents(_ value: Content, at idx: Int)
-//
-//    @objc(removeObjectFromContentsAtIndex:)
-//    @NSManaged public func removeFromContents(at idx: Int)
-//
-//    @objc(insertContents:atIndexes:)
-//    @NSManaged public func insertIntoContents(_ values: [Content], at indexes: NSIndexSet)
-//
-//    @objc(removeContentsAtIndexes:)
-//    @NSManaged public func removeFromContents(at indexes: NSIndexSet)
-//
-//    @objc(replaceObjectInContentsAtIndex:withObject:)
-//    @NSManaged public func replaceContents(at idx: Int, with value: Content)
-//
-//    @objc(replaceContentsAtIndexes:withContents:)
-//    @NSManaged public func replaceContents(at indexes: NSIndexSet, with values: [Content])
-//
-//    @objc(addContentsObject:)
-//    @NSManaged public func addToContents(_ value: Content)
-//
-//    @objc(removeContentsObject:)
-//    @NSManaged public func removeFromContents(_ value: Content)
-//
-//    @objc(addContents:)
-//    @NSManaged public func addToContents(_ values: NSOrderedSet)
-//
-//    @objc(removeContents:)
-//    @NSManaged public func removeFromContents(_ values: NSOrderedSet)
-//
-//}
-

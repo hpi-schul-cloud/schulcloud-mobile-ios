@@ -19,11 +19,6 @@ enum SyncError: Error {
     case invalidURL(String?)
     case invalidResourceURL
     case invalidURLComponents(URL)
-
-    //    case coreData(Error)
-    //    case coreDataObjectNotFound
-    //    case coreDataMoreThanOneObjectFound
-    //    case coreDataTypeMismatch(expected: Any, found: Any)
 }
 
 enum APIError : Error {
@@ -32,7 +27,6 @@ enum APIError : Error {
     case response(statusCode: Int, headers: [AnyHashable: Any])
     case unknownServerError
     case serverError(message: String)
-//    case resourceNotFound
     case serialization(SerializationError)
 }
 

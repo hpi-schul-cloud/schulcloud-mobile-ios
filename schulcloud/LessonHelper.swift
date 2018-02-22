@@ -20,36 +20,5 @@ struct LessonHelper {
         return SyncHelper.syncResources(withFetchRequest: fetchRequest, withQuery: query)
     }
 
-//    typealias FetchResult = Future<Void, SCError>
-//    
-//    static func fetchFromServer(belongingTo course: Course) -> FetchResult {
-//        
-//        let privateMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-//        privateMOC.parent = CoreDataHelper.managedObjectContext
-//        
-//        let parameters: Parameters = [
-//            "courseId": course.id
-//        ]
-//        return ApiHelper.request("lessons", parameters: parameters).jsonArrayFuture(keyPath: "data")
-//            .flatMap(privateMOC.perform, f: { json -> FetchResult in
-//                do {
-//                    let updatedLessons = try json.map{ try Lesson.upsert(data: $0, context: privateMOC) }
-//                    let ids = updatedLessons.map({$0.id})
-//                    let deleteRequest: NSFetchRequest<Lesson> = Lesson.fetchRequest()
-//                    deleteRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
-//                        NSPredicate(format: "NOT (id IN %@)", ids),
-//                        NSPredicate(format: "course == %@", course)
-//                    ])
-//                    try CoreDataHelper.delete(fetchRequest: deleteRequest, context: privateMOC)
-//                    return Future(value: Void())
-//                } catch let error {
-//                    return Future(error: .database(error.localizedDescription))
-//                }
-//            })
-//            .flatMap { _ -> FetchResult in
-//                return CoreDataHelper.save(privateContext: privateMOC)
-//            }
-//    }
-//    
 }
 

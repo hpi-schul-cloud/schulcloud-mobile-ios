@@ -183,34 +183,3 @@ extension NSManagedObjectContext {
         }
     }
 }
-
-//@objc protocol IdObject {
-//    var id: String { get set }
-//    static var entityName: String { get }
-//}
-
-//extension IdObject where Self: NSManagedObject {
-//    
-//    static func findOrCreateWithId(data: MarshaledObject, context: NSManagedObjectContext) throws -> Self {
-//        let id: String = try data.value(for: "_id")
-//        if let object = try self.find(by: id, context: context) {
-//            return object
-//        } else {
-//            let object = self.init(context: context)
-//            object.id = id
-//            return object
-//        }
-//    }
-//    
-//    static func find(by id: String, context: NSManagedObjectContext) throws -> Self? {
-//        let fetchRequest = NSFetchRequest(entityName: self.entityName) as NSFetchRequest<Self>
-//        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-//        let result = try context.fetch(fetchRequest)
-//        if result.count > 1 {
-//            log.error("Found more than one result for \(fetchRequest): \(result)")
-////            throw SCError.database("Found more than one result for \(fetchRequest)")
-//        }
-//        return result.first
-//    }
-//}
-

@@ -32,18 +32,3 @@ extension Date : ValueType {
     }
 
 }
-
-//extension NSDate : ValueType {
-//    public static func value(from object: Any) throws -> NSDate {
-//        guard let dateString = object as? String else {
-//            throw MarshalError.typeMismatch(expected: String.self, actual: type(of: object))
-//        }
-//
-//        guard let date = Date.iso8601Formatter.date(from: dateString) as NSDate? else {
-//            throw MarshalError.typeMismatch(expected: "ISO8601 date string", actual: dateString)
-//        }
-//        return date
-//    }
-//}
-
-
