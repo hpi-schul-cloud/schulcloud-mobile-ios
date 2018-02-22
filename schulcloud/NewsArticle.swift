@@ -36,7 +36,7 @@ extension NewsArticle : Pullable {
         self.title = try object.value(for: "title")
         self.updatedAt = try object.value(for: "updatedAt")
 
-        try self.updateRelationship(forKeyPath: \NewsArticle.creator, forKey: "creatorId", fromObject: object, in: context)
+        try self.updateRelationship(forKeyPath: \NewsArticle.creator, forKey: "creatorId", fromObject: object, with: context)
     }
 
 }

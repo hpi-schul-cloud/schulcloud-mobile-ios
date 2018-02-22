@@ -11,7 +11,7 @@ import CoreData
 
 struct UserHelper {
 
-    static func syncUser(withId id: String) -> Future<SyncEngine.SyncSingleResult, SyncError> {
+    static func syncUser(withId id: String) -> Future<SyncEngine.SyncSingleResult, SCError> {
         let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
         let query = SingleResourceQuery(type: User.self, id: id)

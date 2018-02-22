@@ -15,7 +15,7 @@ import Result
 
 public struct CalendarEventHelper {
 
-    static func syncEvents() -> Future<SyncEngine.SyncMultipleResult, SyncError> {
+    static func syncEvents() -> Future<SyncEngine.SyncMultipleResult, SCError> {
         let fetchRequest = EventData.fetchRequest() as NSFetchRequest<EventData>
         var query = MultipleResourcesQuery(type: EventData.self)
         query.addFilter(forKey: "all", withValue: true)

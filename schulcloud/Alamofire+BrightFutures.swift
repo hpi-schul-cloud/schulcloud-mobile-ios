@@ -16,7 +16,7 @@ extension Alamofire.DataRequest {
     /// Returns a future that is completed once the request has finished.
     ///
     /// - parameter queue:             The queue on which the completion handler is dispatched.
-    public func responseFuture(queue: DispatchQueue? = nil) -> Future<DefaultDataResponse, SCError> {
+    func responseFuture(queue: DispatchQueue? = nil) -> Future<DefaultDataResponse, SCError> {
         let promise = Promise<DefaultDataResponse, SCError>()
         
         let completionHandler = { (response: DefaultDataResponse) -> Void in
@@ -34,7 +34,7 @@ extension Alamofire.DataRequest {
     /// - parameter responseSerializer: The serializer responsible for serializing the response
     ///
     
-    public func responseFuture<T: DataResponseSerializerProtocol, E: Error>(
+    func responseFuture<T: DataResponseSerializerProtocol, E: Error>(
         queue: DispatchQueue? = nil,
         responseSerializer: T)
         -> Future<DataResponse<T.SerializedObject>, E>
@@ -56,7 +56,7 @@ extension Alamofire.DownloadRequest {
     ///
     /// - parameter queue:              The queue on which the completion handler is dispatched.
     ///
-    public func responseDataFuture(queue: DispatchQueue? = nil) -> Future<Data, SCError> {
+    func responseDataFuture(queue: DispatchQueue? = nil) -> Future<Data, SCError> {
         let promise = Promise<Data, SCError>()
         
         let completionHandler = { (response: DownloadResponse<Data>) -> Void in
@@ -78,7 +78,7 @@ extension Alamofire.DataRequest {
     ///
     /// - parameter queue:              The queue on which the completion handler is dispatched.
     ///
-    public func responseDataFuture(queue: DispatchQueue? = nil) -> Future<Data, SCError> {
+    func responseDataFuture(queue: DispatchQueue? = nil) -> Future<Data, SCError> {
         let promise = Promise<Data, SCError>()
         
         let completionHandler = { (response: DataResponse<Data>) -> Void in
@@ -99,7 +99,7 @@ extension Alamofire.DataRequest {
     ///
     /// - parameter queue:              The queue on which the completion handler is dispatched.
     ///
-    public func responseStringFuture(queue: DispatchQueue? = nil) -> Future<String, SCError> {
+    func responseStringFuture(queue: DispatchQueue? = nil) -> Future<String, SCError> {
         let promise = Promise<String, SCError>()
         
         let completionHandler = { (response: DataResponse<String>) -> Void in
@@ -120,7 +120,7 @@ extension Alamofire.DataRequest {
     ///
     /// - parameter queue:              The queue on which the completion handler is dispatched.
     ///
-    public func responseJSONFuture(queue: DispatchQueue? = nil, options: JSONSerialization.ReadingOptions = .allowFragments) -> Future<Any, SCError> {
+    func responseJSONFuture(queue: DispatchQueue? = nil, options: JSONSerialization.ReadingOptions = .allowFragments) -> Future<Any, SCError> {
         let promise = Promise<Any, SCError>()
         
         let completionHandler = { (response: DataResponse<Any>) -> Void in

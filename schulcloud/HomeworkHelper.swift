@@ -13,7 +13,7 @@ import CoreData
 
 public class HomeworkHelper {
 
-    static func syncHomework() -> Future<SyncEngine.SyncMultipleResult, SyncError> {
+    static func syncHomework() -> Future<SyncEngine.SyncMultipleResult, SCError> {
         let fetchRequest = Homework.fetchRequest() as NSFetchRequest<Homework>
         var query = MultipleResourcesQuery(type: Homework.self)
         query.include("courseId")

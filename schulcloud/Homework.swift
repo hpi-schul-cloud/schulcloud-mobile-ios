@@ -107,7 +107,7 @@ extension Homework : Pullable {
         self.name = try object.value(for: "name")
         self.publicSubmissions = try object.value(for: "publicSubmissions")
 
-        try self.updateRelationship(forKeyPath: \Homework.course, forKey: "courseId", fromObject: object, in: context)
+        try self.updateRelationship(forKeyPath: \Homework.course, forKey: "courseId", fromObject: object, with: context)
     }
 
 }

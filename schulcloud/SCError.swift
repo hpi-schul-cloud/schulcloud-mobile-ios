@@ -9,7 +9,7 @@
 import Foundation
 import Marshal
 
-public enum SCError: Error {
+enum SCError: Error {
     case apiError(Int, String)
     case network(Error?)
     case unknown
@@ -23,6 +23,8 @@ public enum SCError: Error {
     case coreData(Error)
     case coreDataObjectNotFound
     case coreDataMoreThanOneObjectFound
+
+    case synchronization(SyncError)
     
     init(value: SCError) {
         self = value

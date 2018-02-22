@@ -13,7 +13,7 @@ import CoreData
 
 public class CourseHelper {
 
-    static func syncCourses() -> Future<SyncEngine.SyncMultipleResult, SyncError> {
+    static func syncCourses() -> Future<SyncEngine.SyncMultipleResult, SCError> {
         let fetchRequest = Course.fetchRequest() as NSFetchRequest<Course>
         var query = MultipleResourcesQuery(type: Course.self)
         query.addFilter(forKey: "$or[0][userIds]", withValue: Globals.account!.userId)

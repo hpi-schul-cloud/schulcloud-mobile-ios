@@ -107,11 +107,13 @@ struct SyncHelper {
 
     static func syncResources<Resource>(withFetchRequest fetchRequest: NSFetchRequest<Resource>,
                                         withQuery query: MultipleResourcesQuery<Resource>,
-                                        deleteNotExistingResources: Bool = true) -> Future<SyncEngine.SyncMultipleResult, SyncError> where Resource: NSManagedObject & Pullable {
+                                        deleteNotExistingResources: Bool = true) -> Future<SyncEngine.SyncMultipleResult, SCError> where Resource: NSManagedObject & Pullable {
         return SyncEngine.syncResources(withFetchRequest: fetchRequest,
                                         withQuery: query,
                                         withConfiguration: self.syncConfiguration,
-                                        deleteNotExistingResources: deleteNotExistingResources).onSuccess { syncResult in
+                                        deleteNotExistingResources: deleteNotExistingResources).mapError { syncError -> SCError in
+            return .synchronization(syncError)
+        }.onSuccess { syncResult in
             log.info("Successfully merged resources of type: \(Resource.type)")
         }.onFailure { error in
             log.error("Failed to sync resources of type: \(Resource.type) ==> \(error)")
@@ -119,34 +121,42 @@ struct SyncHelper {
     }
 
     static func syncResource<Resource>(withFetchRequest fetchRequest: NSFetchRequest<Resource>,
-                                       withQuery query: SingleResourceQuery<Resource>) -> Future<SyncEngine.SyncSingleResult, SyncError> where Resource: NSManagedObject & Pullable {
+                                       withQuery query: SingleResourceQuery<Resource>) -> Future<SyncEngine.SyncSingleResult, SCError> where Resource: NSManagedObject & Pullable {
         return SyncEngine.syncResource(withFetchRequest: fetchRequest,
                                        withQuery: query,
-                                       withConfiguration: self.syncConfiguration).onSuccess { syncResult in
+                                       withConfiguration: self.syncConfiguration).mapError { syncError -> SCError in
+            return .synchronization(syncError)
+        }.onSuccess { syncResult in
             log.info("Successfully merged resource of type: \(Resource.type)")
         }.onFailure { error in
             log.error("Failed to sync resource of type: \(Resource.type) ==> \(error)")
         }
     }
 
-    @discardableResult static func saveResource(_ resource: Pushable) -> Future<Void, SyncError> {
-        return SyncEngine.saveResource(resource, withConfiguration: self.syncConfiguration).onSuccess { _ in
+    @discardableResult static func saveResource(_ resource: Pushable) -> Future<Void, SCError> {
+        return SyncEngine.saveResource(resource, withConfiguration: self.syncConfiguration).mapError { syncError -> SCError in
+            return .synchronization(syncError)
+        }.onSuccess { _ in
             log.info("Successfully saved resource of type: \(type(of: resource).type)")
         }.onFailure { error in
             log.error("Failed to save resource of type: \(resource) ==> \(error)")
         }
     }
 
-    @discardableResult static func saveResource(_ resource: Pushable & Pullable) -> Future<Void, SyncError> {
-        return SyncEngine.saveResource(resource, withConfiguration: self.syncConfiguration).onSuccess { _ in
+    @discardableResult static func saveResource(_ resource: Pushable & Pullable) -> Future<Void, SCError> {
+        return SyncEngine.saveResource(resource, withConfiguration: self.syncConfiguration).mapError { syncError -> SCError in
+            return .synchronization(syncError)
+        }.onSuccess { _ in
             log.info("Successfully saved resource of type: \(type(of: resource).type)")
         }.onFailure { error in
             log.error("Failed to save resource of type: \(resource) ==> \(error)")
         }
     }
 
-    @discardableResult static func deleteResource(_ resource: Pushable & Pullable) -> Future<Void, SyncError> {
-        return SyncEngine.deleteResource(resource, withConfiguration: self.syncConfiguration).onSuccess { _ in
+    @discardableResult static func deleteResource(_ resource: Pushable & Pullable) -> Future<Void, SCError> {
+        return SyncEngine.deleteResource(resource, withConfiguration: self.syncConfiguration).mapError { syncError -> SCError in
+            return .synchronization(syncError)
+        }.onSuccess { _ in
             log.info("Successfully deleted resource of type: \(type(of: resource).type)")
         }.onFailure { error in
             log.error("Failed to delete resource: \(resource) ==> \(error)")

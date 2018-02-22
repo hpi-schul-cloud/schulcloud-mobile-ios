@@ -13,7 +13,7 @@ import CoreData
 
 public class NewsArticleHelper {
 
-    static func syncNewsArticles() -> Future<SyncEngine.SyncMultipleResult, SyncError> {
+    static func syncNewsArticles() -> Future<SyncEngine.SyncMultipleResult, SCError> {
         let fetchRequest = NewsArticle.fetchRequest() as NSFetchRequest<NewsArticle>
         let query = MultipleResourcesQuery(type: NewsArticle.self)
         return SyncHelper.syncResources(withFetchRequest: fetchRequest, withQuery: query)

@@ -46,9 +46,9 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
     }
     
     @IBAction func didTriggerRefresh() {
-        var future : Future<Any, SCError>?
+        let future: Future<Void, SCError>
         if FileHelper.coursesDirectoryID == currentFolder.id {
-            CourseHelper.fetchFromServer()
+            future = CourseHelper.syncCourses().asVoid()
         } else if FileHelper.sharedDirectoryID == currentFolder.id {
             future = fileSync.downloadSharedFiles()
             .andThen { result in
@@ -57,22 +57,17 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
                         FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json)
                     }
                 }
-            }
-            .map { (objects) -> Any in
-                return objects as Any
-            }
+            }.asVoid()
         } else {
             future = fileSync.downloadContent(for: currentFolder)
             .andThen { result in
                 if let json = result.value {
                     FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json)
                 }
-            }.map { object -> Any in
-                    return object as Any
-            }
+            }.asVoid()
         }
         
-        future?.onSuccess { (_) in
+        future.onSuccess { (_) in
             DispatchQueue.main.async {
                 self.performFetch()
             }
@@ -135,20 +130,18 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
     }
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        
         if editingStyle == .delete {
             guard let file = self.fetchedResultsController.sections?[indexPath.section].objects?[indexPath.row] as? File else { return }
-            FileHelper.delete(file: file)
-            .onSuccess { _ in
-                managedObjectContext.delete(file)
-                try! managedObjectContext.save()
-                DispatchQueue.main.async {
-                    try! self.fetchedResultsController.performFetch()
-                    tableView.deleteRows(at: [indexPath], with: .automatic)
+            FileHelper.delete(file: file).onSuccess { _ in
+                CoreDataHelper.persistentContainer.performBackgroundTask { context in
+                    context.delete(file)
+                    try! context.save()
+                    DispatchQueue.main.async {
+                        try! self.fetchedResultsController.performFetch()
+                        tableView.deleteRows(at: [indexPath], with: .automatic)
+                    }
                 }
-            }
-            .onFailure { error in
-                managedObjectContext.rollback()
+            }.onFailure { error in
                 DispatchQueue.main.async {
                     let alertVC = UIAlertController(title: "Something unexpected happened", message: error.localizedDescription, preferredStyle: .alert)
                     let dismissAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
@@ -207,36 +200,38 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
 
 extension FilesViewController {
     func registerCourseChanges() -> NSObjectProtocol {
-        return NotificationCenter.default.addObserver(forName: Notification.Name.NSManagedObjectContextObjectsDidChange, object: nil, queue: OperationQueue.main) { (notification: Notification) in
-            
-            guard managedObjectContext == notification.object as? NSManagedObjectContext else { return }
-
-            let root = FileHelper.rootFolder
-            let courseRoot = root.contents!.map { $0 as! File }.filter { $0.id == FileHelper.coursesDirectoryID }.first!
-            
-            var changes : [String : [Course]] = [:]
+        return NotificationCenter.default.addObserver(forName: Notification.Name.NSManagedObjectContextObjectsDidChange,
+                                                      object: CoreDataHelper.viewContext,
+                                                      queue: OperationQueue.main) { (notification: Notification) in
+            var changes : [String : [(id: String, name: String)]] = [:]
             if let insertedObjects = notification.userInfo?[NSInsertedObjectsKey] as? Set<NSManagedObject>, !insertedObjects.isEmpty {
                 let courses = insertedObjects.flatMap { $0 as? Course }
                 if !courses.isEmpty {
-                    changes[NSInsertedObjectsKey] = courses
+                    changes[NSInsertedObjectsKey] = courses.map { (id: $0.id, name: $0.name) }
                 }
             }
+
             if let updatedObjects = notification.userInfo?[NSUpdatedObjectsKey] as? Set<NSManagedObject>, !updatedObjects.isEmpty {
                 let courses = updatedObjects.flatMap { $0 as? Course }
                 if !courses.isEmpty {
-                    changes[NSUpdatedObjectsKey] = courses
+                    changes[NSUpdatedObjectsKey] = courses.map { (id: $0.id, name: $0.name) }
                 }
             }
+
             if let deletedObjects = (notification.userInfo?[NSDeletedObjectsKey]) as? Set<NSManagedObject>, !deletedObjects.isEmpty {
                 let courses = deletedObjects.flatMap { $0 as? Course }
                 if !courses.isEmpty {
-                    changes[NSDeletedObjectsKey] = courses
+                    changes[NSDeletedObjectsKey] = courses.map { (id: $0.id, name: $0.name) }
                 }
             }
+
             if !changes.isEmpty {
-                FileHelper.process(changes: changes, inFolder: courseRoot, managedObjectContext: managedObjectContext)
-                try! managedObjectContext.save()
+                FileHelper.processCourseUpdates(changes: changes)
                 self.performFetch()
+
+                CoreDataHelper.persistentContainer.performBackgroundTask { context in
+                    try! context.save()
+                }
             }
         }
     }

@@ -64,7 +64,7 @@ class ApiHelper {
 
 extension Alamofire.DataRequest {
     
-    public func jsonArrayFuture(keyPath: String?) -> Future<[[String: Any]], SCError> {
+    func jsonArrayFuture(keyPath: String?) -> Future<[[String: Any]], SCError> {
         return self.responseJSONFuture().flatMap { json -> Future<[[String: Any]], SCError> in
             let array: [[String: Any]]?
             if let keyPath = keyPath {
@@ -81,7 +81,7 @@ extension Alamofire.DataRequest {
         }
     }
     
-    public func jsonObjectFuture() -> Future<[String: Any], SCError> {
+    func jsonObjectFuture() -> Future<[String: Any], SCError> {
         return self.responseJSONFuture().flatMap { json -> Future<[String: Any], SCError> in
             if let object = json as? [String: Any] {
                 return Future(value: object)
@@ -91,7 +91,7 @@ extension Alamofire.DataRequest {
         }
     }
     
-    public func deserialize<T: Unmarshaling>(keyPath: String, queue: DispatchQueue? = nil) -> Future<T, SCError> {
+    func deserialize<T: Unmarshaling>(keyPath: String, queue: DispatchQueue? = nil) -> Future<T, SCError> {
         return self.responseDataFuture().flatMap { data -> Future<T, SCError> in
             guard let deserialized = try? JSONSerialization.jsonObject(with: data, options: []),
                 let json = deserialized as? [String: Any] else {
@@ -106,7 +106,7 @@ extension Alamofire.DataRequest {
         }
     }
     
-    public func deserialize<T: Unmarshaling>(keyPath: String, queue: DispatchQueue? = nil) -> Future<[T], SCError> {
+    func deserialize<T: Unmarshaling>(keyPath: String, queue: DispatchQueue? = nil) -> Future<[T], SCError> {
         return self.responseDataFuture().flatMap { data -> Future<[T], SCError> in
             guard let deserialized = try? JSONSerialization.jsonObject(with: data, options: []),
                 let json = deserialized as? [String: Any] else {

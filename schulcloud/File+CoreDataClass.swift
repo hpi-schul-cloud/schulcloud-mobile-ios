@@ -24,27 +24,27 @@ final class File: NSManagedObject {
     @NSManaged public var mimeType: String?
     @NSManaged public var size: NSNumber?
     @NSManaged public var parentDirectory: File?
-    @NSManaged public var contents: NSSet?
+    @NSManaged public var contents: Set<File>
     @NSManaged public var permissions_: Int64
     
 }
 
-// MARK: Generated accessors for contents
-extension File {
-    
-    @objc(addContentsObject:)
-    @NSManaged public func addToContents(_ value: File)
-    
-    @objc(removeContentsObject:)
-    @NSManaged public func removeFromContents(_ value: File)
-    
-    @objc(addContents:)
-    @NSManaged public func addToContents(_ values: NSSet)
-    
-    @objc(removeContents:)
-    @NSManaged public func removeFromContents(_ values: NSSet)
-    
-}
+//// MARK: Generated accessors for contents
+//extension File {
+//    
+//    @objc(addContentsObject:)
+//    @NSManaged public func addToContents(_ value: File)
+//    
+//    @objc(removeContentsObject:)
+//    @NSManaged public func removeFromContents(_ value: File)
+//    
+//    @objc(addContents:)
+//    @NSManaged public func addToContents(_ values: NSSet)
+//    
+//    @objc(removeContents:)
+//    @NSManaged public func removeFromContents(_ values: NSSet)
+//    
+//}
 
 extension File {
     
