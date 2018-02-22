@@ -23,17 +23,12 @@ protocol IncludedPushable {
 
 protocol Pushable : ResourceTypeRepresentable, IncludedPushable, NSFetchRequestResult {
     var objectState: ObjectState { get }
-    var deleteAfterSync: Bool { get }
 
     func resourceRelationships() -> [String: AnyObject]?
     func markAsUnchanged()
 }
 
 extension Pushable {
-
-    var deleteAfterSync: Bool {
-        return false
-    }
 
     func resourceRelationships() -> [String: AnyObject]? {
         return nil
