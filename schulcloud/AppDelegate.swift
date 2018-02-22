@@ -70,7 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func prepareInitialViewController(with account: SchulCloudAccount) {
         Globals.account = account
         SCNotifications.initializeMessaging()
-        ApiHelper.updateData()
+        LoginHelper.renewAccessToken()
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

@@ -98,6 +98,6 @@ class PreviewItem: NSObject, QLPreviewItem {
      * @discussion The URL must be a file URL.
      */
     
-    public var previewItemURL: URL?
+    var previewItemURL: URL?
     
 }

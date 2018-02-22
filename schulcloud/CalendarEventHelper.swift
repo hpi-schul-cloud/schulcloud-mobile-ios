@@ -13,7 +13,7 @@ import DateToolsSwift
 //import Alamofire
 import Result
 
-public struct CalendarEventHelper {
+struct CalendarEventHelper {
 
     static func syncEvents() -> Future<SyncEngine.SyncMultipleResult, SCError> {
         let fetchRequest = EventData.fetchRequest() as NSFetchRequest<EventData>

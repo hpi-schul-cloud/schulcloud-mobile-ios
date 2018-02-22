@@ -288,18 +288,18 @@ class FileHelper {
         fatalError("Implement deleting files")
     }
 
-    static func getSignedUrl(forFile file: File) -> Future<URL, SCError> {
-        let parameters: Parameters = [
-            "path": file.url.absoluteString.removingPercentEncoding!,
-            //"fileType": mime.lookup(file),
-            "action": "getObject"
-        ]
-        let request: Future<SignedUrl, SCError> = ApiHelper.request("fileStorage/signedUrl", method: .post, parameters: parameters, encoding: JSONEncoding.default).deserialize(keyPath: "")
-        
-        return request.flatMap { signedUrl -> Future<URL, SCError> in
-            return Future(value: signedUrl.url)
-        }
-    }
+//    static func getSignedUrl(forFile file: File) -> Future<URL, SCError> {
+//        let parameters: Parameters = [
+//            "path": file.url.absoluteString.removingPercentEncoding!,
+//            //"fileType": mime.lookup(file),
+//            "action": "getObject"
+//        ]
+//        let request: Future<SignedUrl, SCError> = ApiHelper.request("fileStorage/signedUrl", method: .post, parameters: parameters, encoding: JSONEncoding.default).deserialize(keyPath: "")
+//        
+//        return request.flatMap { signedUrl -> Future<URL, SCError> in
+//            return Future(value: signedUrl.url)
+//        }
+//    }
 
     static func processCourseUpdates(changes: [String: [(id: String, name: String)]]) {
         let rootObjectId = FileHelper.rootFolder.objectID

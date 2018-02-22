@@ -155,12 +155,12 @@ class DashboardViewController: UIViewController {
     }
 
     func fetchNotifications() {
-        let request: Future<[SCNotification], SCError> = ApiHelper.request("notification?$limit=50").deserialize(keyPath: "data")
-        request.onSuccess { notifications in
-            self.notifications = notifications
-            self.notificationOverview.notifications = self.notifications
-            self.updateNotificationBarButton()
-        }
+//        let request: Future<[SCNotification], SCError> = ApiHelper.request("notification?$limit=50").deserialize(keyPath: "data")
+//        request.onSuccess { notifications in
+//            self.notifications = notifications
+//            self.notificationOverview.notifications = self.notifications
+//            self.updateNotificationBarButton()
+//        }
     }
 
 }

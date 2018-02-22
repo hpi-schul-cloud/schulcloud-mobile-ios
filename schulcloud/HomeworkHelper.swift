@@ -11,7 +11,7 @@ import Alamofire
 import BrightFutures
 import CoreData
 
-public class HomeworkHelper {
+struct HomeworkHelper {
 
     static func syncHomework() -> Future<SyncEngine.SyncMultipleResult, SCError> {
         let fetchRequest = Homework.fetchRequest() as NSFetchRequest<Homework>

@@ -71,7 +71,7 @@ struct CoreDataHelper {
         CoreDataObserver.shared.startObserving()
     }
 
-    public static func delete<T>(fetchRequest: NSFetchRequest<T>, context: NSManagedObjectContext) throws {
+    static func delete<T>(fetchRequest: NSFetchRequest<T>, context: NSManagedObjectContext) throws {
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest as! NSFetchRequest<NSFetchRequestResult>)
         try context.execute(deleteRequest)
     }
