@@ -10,8 +10,7 @@ import Foundation
 import CoreData
 import Marshal
 
-@objc(File)
-public class File: NSManagedObject {
+final class File: NSManagedObject {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<File> {
         return NSFetchRequest<File>(entityName: "File")
@@ -25,25 +24,8 @@ public class File: NSManagedObject {
     @NSManaged public var mimeType: String?
     @NSManaged public var size: NSNumber?
     @NSManaged public var parentDirectory: File?
-    @NSManaged public var contents: NSSet?
+    @NSManaged public var contents: Set<File>
     @NSManaged public var permissions_: Int64
-    
-}
-
-// MARK: Generated accessors for contents
-extension File {
-    
-    @objc(addContentsObject:)
-    @NSManaged public func addToContents(_ value: File)
-    
-    @objc(removeContentsObject:)
-    @NSManaged public func removeFromContents(_ value: File)
-    
-    @objc(addContents:)
-    @NSManaged public func addToContents(_ values: NSSet)
-    
-    @objc(removeContents:)
-    @NSManaged public func removeFromContents(_ values: NSSet)
     
 }
 

@@ -53,7 +53,6 @@ class LoginViewController: UIViewController {
         
         LoginHelper.login(username: username, password: password)
             .onSuccess {
-                ApiHelper.updateData(includingAuthorization: false)
                 self.performSegue(withIdentifier: "loginDidSucceed", sender: nil)
             }
             .onFailure { error in

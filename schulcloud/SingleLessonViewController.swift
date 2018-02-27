@@ -38,18 +38,16 @@ class SingleLessonViewController: UIViewController, WKUIDelegate {
 
         self.title = lesson.name
 
-        if let contents = lesson.contents {
-            self.loadContents(contents)
-        }
+        self.loadContents(lesson.contents)
     }
 
-    func loadContents(_ contents: NSOrderedSet) {
-        let rendered = (contents.array as! [Content]).map(htmlForElement)
+    func loadContents(_ contents: Set<LessonContent>) {
+        let rendered = contents.map(htmlForElement)
         let concatenated = "<html><head>\(Constants.textStyleHtml)<meta name=\"viewport\" content=\"initial-scale=1.0\"></head>" + rendered.joined(separator: "<hr>") + "</body></html>"
         webView.loadHTMLString(concatenated, baseURL: Constants.Servers.web.url)
     }
     
-    func htmlForElement(_ content: Content) -> String {
+    func htmlForElement(_ content: LessonContent) -> String {
         switch(content.type) {
         case .text:
             var rendered = ""

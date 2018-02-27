@@ -9,7 +9,7 @@
 import Foundation
 import Marshal
 
-public enum SCError: Error {
+enum SCError: Error {
     case apiError(Int, String)
     case network(Error?)
     case unknown
@@ -19,6 +19,12 @@ public enum SCError: Error {
     case loginFailed(String)
     case wrongCredentials
     case other(String)
+
+    case coreData(Error)
+    case coreDataObjectNotFound
+    case coreDataMoreThanOneObjectFound
+
+    case synchronization(SyncError)
     
     init(value: SCError) {
         self = value
@@ -54,7 +60,7 @@ public enum SCError: Error {
 }
 
 extension SCError: CustomStringConvertible {
-    public var description: String {
+    var description: String {
         switch self {
         case .apiError(let code, let message):
             return "API error \(code): \(message)"

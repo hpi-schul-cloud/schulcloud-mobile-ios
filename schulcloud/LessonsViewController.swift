@@ -15,13 +15,7 @@ class LessonsViewController: UITableViewController, NSFetchedResultsControllerDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
+
         tableView.rowHeight = UITableViewAutomaticDimension
         self.title = course.name
         performFetch()
@@ -33,15 +27,12 @@ class LessonsViewController: UITableViewController, NSFetchedResultsControllerDe
     }
     
     func updateData() {
-        LessonHelper.fetchFromServer(belongingTo: course)
-            .onSuccess { _ in
-                self.performFetch()
-            }
-            .onFailure { error in
-                log.error(error)
-            }
-            .onComplete { _ in
-                self.refreshControl?.endRefreshing()
+        LessonHelper.syncLessons(for: self.course).onSuccess { result in
+            self.performFetch()
+        }.onFailure { error in
+            log.error(error)
+        }.onComplete { _ in
+            self.refreshControl?.endRefreshing()
         }
     }
     
@@ -56,7 +47,7 @@ class LessonsViewController: UITableViewController, NSFetchedResultsControllerDe
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         
         // Create Fetched Results Controller
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataHelper.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         
         // Configure Fetched Results Controller
         fetchedResultsController.delegate = self
@@ -78,13 +69,7 @@ class LessonsViewController: UITableViewController, NSFetchedResultsControllerDe
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        guard let sec = fetchedResultsController.sections?[section],
-            let count = sec.objects?.count else {
-                log.error("Error loading object count in section \(section)")
-                return 0
-        }
-        return count
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
     override func tableView(_ tableView: UITableView,
@@ -94,37 +79,14 @@ class LessonsViewController: UITableViewController, NSFetchedResultsControllerDe
         
         let lesson = fetchedResultsController.object(at: indexPath)
         cell.textLabel?.text = lesson.name
-        cell.detailTextLabel?.text = lesson.descriptionString
+        cell.detailTextLabel?.text = lesson.descriptionText
         return cell
     }
-    
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    
+
     // MARK: - Navigation
-    
+
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         switch(segue.identifier) {
         case .some("singleLesson"):
             let selectedCell = sender as! UITableViewCell
@@ -136,5 +98,5 @@ class LessonsViewController: UITableViewController, NSFetchedResultsControllerDe
             break
         }
     }
-    
+
 }
