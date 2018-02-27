@@ -47,11 +47,9 @@ class LoginHelper {
     }
 
     static func login(username: String?, password: String?) -> Future<Void, SCError> {
-        let privateMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        privateMOC.parent = managedObjectContext
-        
+
         return getAccessToken(username: username, password: password).flatMap(saveToken).flatMap { _ in
-            return User.fetch(by: Globals.account!.userId, inContext: privateMOC)
+            return UserHelper.syncUser(withId: Globals.account!.userId)
         }.asVoid()
     }
 

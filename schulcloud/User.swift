@@ -18,6 +18,7 @@ final class User: NSManagedObject {
     @NSManaged public var courses: Set<Course>
     @NSManaged public var taughtCourses: Set<Course>
     @NSManaged public var assignedHomeworks: Set<Homework>
+    @NSManaged public var permissions_: [Int64]
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<User> {
         return NSFetchRequest<User>(entityName: "User")
@@ -51,6 +52,10 @@ extension User : Pullable {
         self.email = try object.value(for: "email")
         self.firstName = try object.value(for: "firstName")
         self.lastName = try object.value(for: "lastName")
+        let permissions : [String] = try object.value(for: "permissions")
+        self.permissions = permissions.flatMap{ UserPermissions(str: $0) }.reduce(UserPermissions(), { (acc, permission) -> UserPermissions in
+            return acc.union(permission)
+        })
     }
 
 }
