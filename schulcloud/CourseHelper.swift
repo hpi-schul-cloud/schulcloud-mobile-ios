@@ -6,8 +6,6 @@
 //  Copyright © 2017 Hasso-Plattner-Institut. All rights reserved.
 //
 
-//import Foundation
-//import Alamofire
 import BrightFutures
 import CoreData
 
