@@ -26,6 +26,7 @@ extension User {
     @NSManaged public var assignedHomeworks: NSSet?
     @NSManaged public var newsCreated: NSSet?
     @NSManaged public var newsUpdated: NSSet?
+    @NSManaged public var permissions_: [Int64]
 
 }
 

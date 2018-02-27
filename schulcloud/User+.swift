@@ -20,6 +20,10 @@ extension User {
         user.schoolId = try data.value(for: "schoolId")
         user.firstName = try data.value(for: "firstName")
         user.lastName = try data.value(for: "lastName")
+        let permissions : [String] = try data.value(for: "permissions")
+        user.permissions = permissions.flatMap { UserPermissions.init(str: $0) }.reduce(UserPermissions(), { (acc, permissions) -> UserPermissions in
+            return acc.union(permissions)
+        })
         
         return user
     }

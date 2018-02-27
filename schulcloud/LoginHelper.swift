@@ -11,6 +11,7 @@ import Alamofire
 import BrightFutures
 import Locksmith
 import JWTDecode
+import CoreData
 
 open class LoginHelper {
     
@@ -46,7 +47,12 @@ open class LoginHelper {
     }
     
     static func login(username: String?, password: String?) -> Future<Void, SCError> {
-        return getAccessToken(username: username, password: password).flatMap(saveToken)
+        let privateMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        privateMOC.parent = managedObjectContext
+        
+        return getAccessToken(username: username, password: password).flatMap(saveToken).flatMap { _ in
+            return User.fetch(by: Globals.account!.userId, inContext: privateMOC)
+        }.asVoid()
     }
     
     static func saveToken(accessToken: String) -> Future<Void, SCError> {
