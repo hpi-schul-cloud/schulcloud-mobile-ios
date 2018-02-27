@@ -11,8 +11,8 @@ import Foundation
 struct UserPermissions : OptionSet {
     //                     MSB    LSB
     typealias RawValue = (Int64, Int64)
-    let rawValue: (Int64, Int64)
-    init(rawValue: (Int64, Int64) ) {
+    let rawValue: RawValue
+    init(rawValue: RawValue ) {
         self.rawValue = rawValue
     }
     
@@ -293,13 +293,3 @@ extension UserPermissions : SetAlgebra {
     }
 }
 
-extension User {
-    var permissions : UserPermissions {
-        get {
-            return UserPermissions(rawValue: (permissions_.byte0, permissions_.byte1) )
-        }
-        set {
-            permissions_ = PermissionStorage(byte0: newValue.rawValue.0, byte1: newValue.rawValue.1)
-        }
-    }
-}

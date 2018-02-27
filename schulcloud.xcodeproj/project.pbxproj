@@ -90,7 +90,7 @@
 		C3FEB92B1F67E7F400BAD9D7 /* UIColor+Branding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FEB92A1F67E7F400BAD9D7 /* UIColor+Branding.swift */; };
 		C63FB1F9B25BA375BFE83DFB /* Pods_schulcloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09D7CC393E1856DD7EF9B21F /* Pods_schulcloud.framework */; };
 		CE1DAC592004CE0200CEE4C2 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1DAC582004CE0200CEE4C2 /* String+.swift */; };
-		CE2FF77A2045A15900D5AF8E /* User+Permission.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2FF7792045A15900D5AF8E /* User+Permission.swift */; };
+		CE2FF77A2045A15900D5AF8E /* UserPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2FF7792045A15900D5AF8E /* UserPermissions.swift */; };
 		CE644E8920232710003AE700 /* UIColor+hexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE644E8820232710003AE700 /* UIColor+hexString.swift */; };
 		CE737A4C1FFE6354006DAB54 /* TabNews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE737A4B1FFE6354006DAB54 /* TabNews.storyboard */; };
 		CE737A4E1FFE65B0006DAB54 /* NewsArticleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE737A4D1FFE65B0006DAB54 /* NewsArticleCell.swift */; };
@@ -227,7 +227,7 @@
 		C3C3CAB01EF5CBB6009601AE /* SingleLessonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleLessonViewController.swift; sourceTree = "<group>"; };
 		C3FEB92A1F67E7F400BAD9D7 /* UIColor+Branding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Branding.swift"; sourceTree = "<group>"; };
 		CE1DAC582004CE0200CEE4C2 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
-		CE2FF7792045A15900D5AF8E /* User+Permission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+Permission.swift"; sourceTree = "<group>"; };
+		CE2FF7792045A15900D5AF8E /* UserPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPermissions.swift; sourceTree = "<group>"; };
 		CE644E8820232710003AE700 /* UIColor+hexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+hexString.swift"; sourceTree = "<group>"; };
 		CE737A4B1FFE6354006DAB54 /* TabNews.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabNews.storyboard; sourceTree = "<group>"; };
 		CE737A4D1FFE65B0006DAB54 /* NewsArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsArticleCell.swift; sourceTree = "<group>"; };
@@ -534,7 +534,7 @@
 				CEC66C732011E92300B785F8 /* CalendarEventHelper+EventKit.swift */,
 				CEF363F12010D9B300793D63 /* CalendarEvent.swift */,
 				CEC042841FFE205E004E9A20 /* NewsHelper.swift */,
-				CE2FF7792045A15900D5AF8E /* User+Permission.swift */,
+				CE2FF7792045A15900D5AF8E /* UserPermissions.swift */,
 				5083AB58203D517F002E6E47 /* UserHelper.swift */,
 			);
 			name = Data;
@@ -880,7 +880,7 @@
 				509A933A1F541668001167DE /* ShortNotificationViewController.swift in Sources */,
 				50F3985C202D9B0000ADAE5D /* JsonAPISyncStrategy.swift in Sources */,
 				C3B7DB141EF5EB1800A2F2B5 /* HtmlTableViewCell.swift in Sources */,
-				CE2FF77A2045A15900D5AF8E /* User+Permission.swift in Sources */,
+				CE2FF77A2045A15900D5AF8E /* UserPermissions.swift in Sources */,
 				C3165F1D1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift in Sources */,
 				C3A5A9031EBCC17600825DBF /* AppDelegate.swift in Sources */,
 				CEB0027D2008BF9C007084C9 /* CalendarEventHelper.swift in Sources */,
