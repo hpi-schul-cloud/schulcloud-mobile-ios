@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="17D47" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="16G1114" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Course" representedClassName=".Course" syncable="YES">
         <attribute name="colorString" attributeType="String" syncable="YES"/>
         <attribute name="descriptionText" optional="YES" attributeType="String" syncable="YES"/>
@@ -80,6 +80,7 @@
         <attribute name="firstName" attributeType="String" syncable="YES"/>
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="lastName" attributeType="String" syncable="YES"/>
+        <attribute name="permissionStorage" optional="YES" attributeType="Transformable" syncable="YES"/>
         <relationship name="assignedHomeworks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Homework" inverseName="teacher" inverseEntity="Homework" syncable="YES"/>
         <relationship name="courses" toMany="YES" deletionRule="Nullify" destinationEntity="Course" inverseName="users" inverseEntity="Course" syncable="YES"/>
         <relationship name="newsCreated" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="NewsArticle" inverseName="creator" inverseEntity="NewsArticle" syncable="YES"/>
@@ -96,6 +97,6 @@
         <element name="Lesson" positionX="-369" positionY="-126" width="128" height="133"/>
         <element name="LessonContent" positionX="-558" positionY="-126" width="128" height="133"/>
         <element name="NewsArticle" positionX="286" positionY="-198" width="128" height="135"/>
-        <element name="User" positionX="70" positionY="-181" width="137" height="163"/>
+        <element name="User" positionX="205" positionY="225" width="137" height="195"/>
     </elements>
 </model>

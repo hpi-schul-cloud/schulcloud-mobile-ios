@@ -46,7 +46,10 @@ class LoginHelper {
     }
 
     static func login(username: String?, password: String?) -> Future<Void, SCError> {
-        return getAccessToken(username: username, password: password).flatMap(saveToken)
+
+        return getAccessToken(username: username, password: password).flatMap(saveToken).flatMap { _ in
+            return UserHelper.syncUser(withId: Globals.account!.userId)
+        }.asVoid()
     }
 
     static func saveToken(accessToken: String) -> Future<Void, SCError> {
