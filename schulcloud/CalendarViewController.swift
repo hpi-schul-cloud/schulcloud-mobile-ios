@@ -12,8 +12,6 @@ class CalendarViewController: DayViewController {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isTranslucent = false
 
-        self.syncEvents()
-
         // scroll to current time
         let date = Date()
         let cal = Calendar.current
@@ -22,12 +20,19 @@ class CalendarViewController: DayViewController {
         self.dayView.scrollTo(hour24: hour - 1 + minute)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.syncEvents()
+    }
+
     private func syncEvents() {
         // Assumes event where already fetched
-        CalendarEventHelper.fetchCalendarEvent(inContext: managedObjectContext)
-        .onSuccess { events in
+        switch CalendarEventHelper.fetchCalendarEvents(inContext: CoreDataHelper.viewContext) {
+        case let .success(events):
             self.calendarEvents = events
             self.reloadData()
+        case let .failure(error):
+            log.error("Fetching calendar events failed: \(error)")
         }
     }
 
@@ -55,7 +60,7 @@ extension CalendarEvent {
     var calendarKitEvent : Event {
         let event = Event()
         event.datePeriod = TimePeriod(beginning: self.start, end: self.end)
-        event.text = self.title
+        event.text = self.title ?? "Unknown"
         event.color = UIColor.red
         return event
     }

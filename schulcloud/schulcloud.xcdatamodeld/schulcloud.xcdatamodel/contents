@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="16G1114" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Content" representedClassName="Content" syncable="YES">
-        <attribute name="component" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="hidden" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="id" attributeType="String" syncable="YES"/>
-        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="lesson" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Lesson" inverseName="contents" inverseEntity="Lesson" syncable="YES"/>
-    </entity>
-    <entity name="Course" representedClassName="Course" parentEntity="UserGroup" syncable="YES">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="17D47" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Course" representedClassName=".Course" syncable="YES">
         <attribute name="colorString" attributeType="String" syncable="YES"/>
         <attribute name="descriptionText" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="includedHomeworks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Homework" inverseName="course" inverseEntity="Homework" syncable="YES"/>
         <relationship name="lessons" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Lesson" inverseName="course" inverseEntity="Lesson" syncable="YES"/>
         <relationship name="teachers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="taughtCourses" inverseEntity="User" syncable="YES"/>
+        <relationship name="users" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="courses" inverseEntity="User" syncable="YES"/>
     </entity>
-    <entity name="EventData" representedClassName="EventData" syncable="YES">
+    <entity name="EventData" representedClassName=".EventData" syncable="YES">
         <attribute name="detail" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="ekIdentifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="end" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -29,7 +24,7 @@
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="course" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Course" syncable="YES"/>
     </entity>
-    <entity name="File" representedClassName="File" syncable="YES">
+    <entity name="File" representedClassName=".File" syncable="YES">
         <attribute name="cacheURL_" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="currentPath" attributeType="String" minValueString="1" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
@@ -44,7 +39,7 @@
             <fetchIndexElement property="currentPath" type="Binary" order="ascending"/>
         </fetchIndex>
     </entity>
-    <entity name="Homework" representedClassName="Homework" syncable="YES">
+    <entity name="Homework" representedClassName=".Homework" syncable="YES">
         <attribute name="availableDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="descriptionText" attributeType="String" syncable="YES"/>
         <attribute name="dueDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -56,55 +51,51 @@
         <relationship name="course" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Course" inverseName="includedHomeworks" inverseEntity="Course" syncable="YES"/>
         <relationship name="teacher" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="assignedHomeworks" inverseEntity="User" syncable="YES"/>
     </entity>
-    <entity name="Lesson" representedClassName="Lesson" syncable="YES">
-        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="descriptionString" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="hidden" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+    <entity name="Lesson" representedClassName=".Lesson" syncable="YES">
+        <attribute name="date" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="descriptionText" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="contents" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Content" inverseName="lesson" inverseEntity="Content" syncable="YES"/>
+        <relationship name="contents" toMany="YES" deletionRule="Nullify" destinationEntity="LessonContent" inverseName="lesson" inverseEntity="LessonContent" syncable="YES"/>
         <relationship name="course" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Course" inverseName="lessons" inverseEntity="Course" syncable="YES"/>
     </entity>
-    <entity name="NewsArticle" representedClassName="NewsArticle" syncable="YES">
-        <attribute name="content" attributeType="String" syncable="YES"/>
-        <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="displayAt" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="history" attributeType="Transformable" syncable="YES"/>
+    <entity name="LessonContent" representedClassName=".LessonContent" syncable="YES">
+        <attribute name="component" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hidden" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="id" attributeType="String" syncable="YES"/>
-        <attribute name="schoolId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="lesson" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Lesson" inverseName="contents" inverseEntity="Lesson" syncable="YES"/>
+    </entity>
+    <entity name="NewsArticle" representedClassName=".NewsArticle" syncable="YES">
+        <attribute name="content" attributeType="String" syncable="YES"/>
+        <attribute name="displayAt" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="title" attributeType="String" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="creator" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="newsCreated" inverseEntity="User" syncable="YES"/>
     </entity>
-    <entity name="User" representedClassName="User" syncable="YES">
+    <entity name="User" representedClassName=".User" syncable="YES">
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="firstName" attributeType="String" syncable="YES"/>
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="lastName" attributeType="String" syncable="YES"/>
-        <attribute name="schoolId" attributeType="String" syncable="YES"/>
         <relationship name="assignedHomeworks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Homework" inverseName="teacher" inverseEntity="Homework" syncable="YES"/>
-        <relationship name="groups" toMany="YES" deletionRule="Nullify" destinationEntity="UserGroup" inverseName="users" inverseEntity="UserGroup" syncable="YES"/>
+        <relationship name="courses" toMany="YES" deletionRule="Nullify" destinationEntity="Course" inverseName="users" inverseEntity="Course" syncable="YES"/>
         <relationship name="newsCreated" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="NewsArticle" inverseName="creator" inverseEntity="NewsArticle" syncable="YES"/>
         <relationship name="taughtCourses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Course" inverseName="teachers" inverseEntity="Course" syncable="YES"/>
         <fetchIndex name="byIdIndex">
             <fetchIndexElement property="id" type="Binary" order="ascending"/>
         </fetchIndex>
     </entity>
-    <entity name="UserGroup" representedClassName="UserGroup" syncable="YES">
-        <attribute name="id" attributeType="String" syncable="YES"/>
-        <attribute name="name" attributeType="String" syncable="YES"/>
-        <attribute name="schoolId" attributeType="String" syncable="YES"/>
-        <relationship name="users" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="groups" inverseEntity="User" syncable="YES"/>
-    </entity>
     <elements>
-        <element name="Content" positionX="-99" positionY="171" width="128" height="135"/>
-        <element name="Course" positionX="-99" positionY="144" width="128" height="120"/>
-        <element name="EventData" positionX="-63" positionY="207" width="128" height="90"/>
-        <element name="File" positionX="-342" positionY="291" width="128" height="195"/>
-        <element name="Homework" positionX="-99" positionY="288" width="128" height="178"/>
-        <element name="Lesson" positionX="-108" positionY="162" width="128" height="150"/>
-        <element name="NewsArticle" positionX="-63" positionY="216" width="128" height="180"/>
-        <element name="User" positionX="205" positionY="225" width="137" height="180"/>
-        <element name="UserGroup" positionX="-9" positionY="-18" width="128" height="105"/>
+        <element name="Course" positionX="-171" positionY="-111" width="128" height="163"/>
+        <element name="EventData" positionX="-371" positionY="63" width="128" height="225"/>
+        <element name="File" positionX="-549" positionY="291" width="128" height="193"/>
+        <element name="Homework" positionX="-90" positionY="189" width="128" height="195"/>
+        <element name="Lesson" positionX="-369" positionY="-126" width="128" height="133"/>
+        <element name="LessonContent" positionX="-558" positionY="-126" width="128" height="133"/>
+        <element name="NewsArticle" positionX="286" positionY="-198" width="128" height="135"/>
+        <element name="User" positionX="70" positionY="-181" width="137" height="163"/>
     </elements>
 </model>

@@ -142,7 +142,7 @@ class FileSync : NSObject {
         return promise.future
     }
     
-    private func confirmNetworkResponse(data: Data?, response: URLResponse?, error: Error?) throws -> Data{
+    private func confirmNetworkResponse(data: Data?, response: URLResponse?, error: Error?) throws -> Data {
         guard error == nil else {
             throw SCError.network(error)
         }
@@ -217,34 +217,35 @@ class FileHelper {
     fileprivate static func fetchRootFolder() -> File? {
         let fetchRequest = NSFetchRequest(entityName: "File") as NSFetchRequest<File>
         fetchRequest.predicate = NSPredicate(format: "currentPath == %@", rootDirectoryID)
-        
-        do {
-            let result = try managedObjectContext.fetch(fetchRequest)
-            return result.first
-        } catch _ {
+
+        let result = CoreDataHelper.viewContext.fetchSingle(fetchRequest)
+        if case let .success(file) = result {
+            return file
+        } else {
             return nil
         }
     }
     
     /// Create the basic folder structure and return main Root
     fileprivate static func createBaseStructure() -> File {
-        do {
-            let rootFolder = File(context: managedObjectContext)
+        let context = CoreDataHelper.persistentContainer.newBackgroundContext()
+        let rootFolderObjectId: NSManagedObjectID = context.performAndWait {
+            let rootFolder = File(context: context)
             rootFolder.id = rootDirectoryID
             rootFolder.name = "Dateien"
             rootFolder.isDirectory = true
             rootFolder.currentPath = rootDirectoryID
             rootFolder.permissions = .read
-            
-            let userRootFolder = File(context: managedObjectContext)
+
+            let userRootFolder = File(context: context)
             userRootFolder.id = userDataRootURL.absoluteString
             userRootFolder.name = "Mein Dateien"
             userRootFolder.isDirectory = true
             userRootFolder.currentPath = userDataRootURL.absoluteString
             userRootFolder.parentDirectory = rootFolder
             userRootFolder.permissions = .read
-            
-            let coursesRootFolder = File(context: managedObjectContext)
+
+            let coursesRootFolder = File(context: context)
             coursesRootFolder.id = coursesDirectoryID
             coursesRootFolder.name = "Kurs-Dateien"
             coursesRootFolder.isDirectory = true
@@ -252,7 +253,7 @@ class FileHelper {
             coursesRootFolder.parentDirectory = rootFolder
             coursesRootFolder.permissions = .read
 
-            let sharedRootFolder = File(context: managedObjectContext)
+            let sharedRootFolder = File(context: context)
             sharedRootFolder.id = sharedDirectoryID
             sharedRootFolder.name = "geteilte Dateien"
             sharedRootFolder.isDirectory = true
@@ -260,29 +261,17 @@ class FileHelper {
             sharedRootFolder.parentDirectory = rootFolder
             sharedRootFolder.permissions = .read
 
-            try managedObjectContext.save()
-            
-            return rootFolder
-        } catch let error {
-            fatalError("Unresolved error \(error)") // TODO: replace this with something more friendly
-        }
-    }
-    
-    static func getFolder(withPath path: String) -> File? {
-        let fetchRequest: NSFetchRequest<File> = File.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "currentPath == %@", path)
-        do {
-            let result = try managedObjectContext.fetch(fetchRequest)
-            if let file = result.first {
-                return file
+            if case let .failure(error) = context.saveWithResult() {
+                fatalError("Unresolved error \(error)") // TODO: replace this with something more friendly
             }
-        } catch let error {
-            log.error("Unresolved error \(error)")
+
+            return rootFolder.objectID
         }
-        return nil
+
+        return CoreDataHelper.viewContext.typedObject(with: rootFolderObjectId) as File
     }
-    
-    static func delete(file: File) -> Future< Void, SCError> {
+
+    static func delete(file: File) -> Future<Void, SCError> {
         struct DidSuccess : Unmarshaling {
             init(object: MarshaledObject) throws {
             }
@@ -295,88 +284,92 @@ class FileHelper {
         let parameters: Parameters = ["path": file.currentPath]
         
         //TODO: Figure out the success structure
-        let request : Future<DidSuccess, SCError> = ApiHelper.request(path!.absoluteString, method: .delete, parameters: parameters, encoding: JSONEncoding.default).deserialize(keyPath: "")
-        return request.map { _ in
-            return Void()
-        }
+//        let request: Future<DidSuccess, SCError> = ApiHelper.request(path!.absoluteString, method: .delete, parameters: parameters, encoding: JSONEncoding.default).deserialize(keyPath: "").asVoid()
+        fatalError("Implement deleting files")
     }
-    
-    static func getSignedUrl(forFile file: File) -> Future<URL, SCError> {
-        let parameters: Parameters = [
-            "path": file.url.absoluteString.removingPercentEncoding!,
-            //"fileType": mime.lookup(file),
-            "action": "getObject"
-        ]
-        let request: Future<SignedUrl, SCError> = ApiHelper.request("fileStorage/signedUrl", method: .post, parameters: parameters, encoding: JSONEncoding.default).deserialize(keyPath: "")
-        
-        return request.flatMap { signedUrl -> Future<URL, SCError> in
-            return Future(value: signedUrl.url)
-        }
-    }
-    
-    static func process(changes: [String: [Course] ], inFolder parentFolder: File, managedObjectContext: NSManagedObjectContext) {
-        if let deletedCourses = changes[NSDeletedObjectsKey], !deletedCourses.isEmpty {
-            let contents = parentFolder.mutableSetValue(forKey: "contents")
-            for course in deletedCourses {
-                contents.remove(course)
+
+    static func processCourseUpdates(changes: [String: [(id: String, name: String)]]) {
+        let rootObjectId = FileHelper.rootFolder.objectID
+
+        CoreDataHelper.persistentContainer.performBackgroundTask { context in
+            guard let rootFolder = context.existingTypedObject(with: rootObjectId) as? File,
+                let parentFolder = rootFolder.contents.first(where: { $0.id == FileHelper.coursesDirectoryID }) else {
+                log.error("Unable to find course directory")
+                return
             }
-        }
-        if let updated = changes[NSUpdatedObjectsKey], !updated.isEmpty,
-            let contents = parentFolder.contents as? Set<File> {
-            for course in updated {
-                guard let file = contents.first(where: { $0.id == course.id }) else { continue; }
-                
-                file.currentPath = parentFolder.url.appendingPathComponent(course.id, isDirectory: true).absoluteString
-                file.name = course.name
-                file.isDirectory = true
-                file.parentDirectory = parentFolder
+
+            if let deletedCourses = changes[NSDeletedObjectsKey], !deletedCourses.isEmpty {
+                for (courseId, _) in deletedCourses {
+                    guard let content = parentFolder.contents.first(where: { $0.id == courseId }) else { continue }
+                    parentFolder.contents.remove(content)
+                }
             }
-        }
-        if let inserted = changes[NSInsertedObjectsKey], !inserted.isEmpty {
-            for course in inserted {
-                let file = File(context: managedObjectContext)
-                
-                file.id = course.id
-                file.currentPath = parentFolder.url.appendingPathComponent(course.id, isDirectory: true).absoluteString
-                file.name = course.name
-                file.isDirectory = true
-                file.parentDirectory = parentFolder
+
+            if let updatedCourses = changes[NSUpdatedObjectsKey], !updatedCourses.isEmpty {
+                for (courseId, courseName) in updatedCourses {
+                    if let file = parentFolder.contents.first(where: { $0.id == courseId }) {
+                        file.name = courseName
+                    } else {
+                        let file = File(context: context)
+                        file.id = courseId
+                        file.currentPath = parentFolder.url.appendingPathComponent(courseId, isDirectory: true).absoluteString
+                        file.name = courseName
+                        file.isDirectory = true
+                        file.parentDirectory = parentFolder
+                    }
+                }
             }
+
+            if let insertedCourses = changes[NSInsertedObjectsKey], !insertedCourses.isEmpty {
+                for (courseId, courseName) in insertedCourses {
+                    let file = File(context: context)
+                    file.id = courseId
+                    file.currentPath = parentFolder.url.appendingPathComponent(courseId, isDirectory: true).absoluteString
+                    file.name = courseName
+                    file.isDirectory = true
+                    file.parentDirectory = parentFolder
+                }
+            }
+
+            context.saveWithResult()
         }
     }
     
     static func updateDatabase(contentsOf parentFolder: File, using contents: [String: Any]) {
-        do {
-            let files: [[String: Any]] = try contents.value(for: "files")
-            let folders: [[String: Any]] = try contents.value(for: "directories")
-            
-            let createdFiles = try files.map({ try File.createOrUpdate(inContext: managedObjectContext, parentFolder: parentFolder, isDirectory: false, data: $0) })
-            let createdFolders = try folders.map({ try File.createOrUpdate(inContext: managedObjectContext, parentFolder: parentFolder, isDirectory: true, data: $0) })
-            
-            // remove deleted files or folders
-            let foundPaths = createdFiles.map({$0.currentPath}) + createdFolders.map({$0.currentPath})
-            let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
-            let notOnServerPredicate = NSPredicate(format: "NOT (currentPath IN %@)", foundPaths)
-            let fetchRequest = NSFetchRequest<File>(entityName: "File")
-            fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [notOnServerPredicate, parentFolderPredicate])
-            
-            try CoreDataHelper.delete(fetchRequest: fetchRequest)
-        } catch let error {
-            log.error(error)
+        let parentFolderObjectId = parentFolder.objectID
+
+        CoreDataHelper.persistentContainer.performBackgroundTask { context in
+            do {
+                let files: [[String: Any]] = try contents.value(for: "files")
+                let folders: [[String: Any]] = try contents.value(for: "directories")
+                guard let parentFolder = context.existingTypedObject(with: parentFolderObjectId) as? File else {
+                    log.error("Unable to find parent folder")
+                    return
+                }
+
+                let createdFiles = try files.map({ try File.createOrUpdate(inContext: context, parentFolder: parentFolder, isDirectory: false, data: $0) })
+                let createdFolders = try folders.map({ try File.createOrUpdate(inContext: context, parentFolder: parentFolder, isDirectory: true, data: $0) })
+
+                // remove deleted files or folders
+                let foundPaths = createdFiles.map({$0.currentPath}) + createdFolders.map({$0.currentPath})
+                let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
+                let notOnServerPredicate = NSPredicate(format: "NOT (currentPath IN %@)", foundPaths)
+                let fetchRequest = NSFetchRequest<File>(entityName: "File")
+                fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [notOnServerPredicate, parentFolderPredicate])
+
+                try CoreDataHelper.delete(fetchRequest: fetchRequest, context: context)
+                try context.save()
+            } catch let error {
+                log.error(error)
+            }
         }
-        
-        saveContext()
     }
 }
 
 struct SignedUrl: Unmarshaling {
     let url: URL
-    
+
     init(object: MarshaledObject) throws {
         url = try object.value(for: "url")
     }
-}
-
-func blah() {
-    
 }
