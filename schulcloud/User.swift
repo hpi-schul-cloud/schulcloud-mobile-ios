@@ -18,12 +18,35 @@ final class User: NSManagedObject {
     @NSManaged public var courses: Set<Course>
     @NSManaged public var taughtCourses: Set<Course>
     @NSManaged public var assignedHomeworks: Set<Homework>
-    @NSManaged public var permissions_: [Int64]
+    @NSManaged public var permissions_: PermissionStorage
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<User> {
         return NSFetchRequest<User>(entityName: "User")
     }
 
+}
+
+final class PermissionStorage : NSObject, NSCoding {
+    
+    var byte0 : Int64 = 0
+    var byte1 : Int64 = 0
+
+    init(byte0: Int64, byte1: Int64) {
+        self.byte0 = byte0
+        self.byte1 = byte1
+        super.init()
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(byte0, forKey: "byte0")
+        aCoder.encode(byte1, forKey: "byte1")
+    }
+    
+    init?(coder aDecoder: NSCoder) {
+        self.byte0 = aDecoder.decodeInt64(forKey: "byte0")
+        self.byte1 = aDecoder.decodeInt64(forKey: "byte1")
+    }
+    
 }
 
 extension User {

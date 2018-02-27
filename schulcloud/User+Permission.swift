@@ -296,10 +296,10 @@ extension UserPermissions : SetAlgebra {
 extension User {
     var permissions : UserPermissions {
         get {
-            return UserPermissions(rawValue: (permissions_[0], permissions_[1]) )
+            return UserPermissions(rawValue: (permissions_.byte0, permissions_.byte1) )
         }
         set {
-            permissions_ = [newValue.rawValue.0, newValue.rawValue.1]
+            permissions_ = PermissionStorage(byte0: newValue.rawValue.0, byte1: newValue.rawValue.1)
         }
     }
 }
