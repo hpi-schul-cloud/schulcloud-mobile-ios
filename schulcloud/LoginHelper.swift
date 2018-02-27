@@ -11,7 +11,6 @@ import Alamofire
 import BrightFutures
 import Locksmith
 import JWTDecode
-import CoreData
 
 class LoginHelper {
 
