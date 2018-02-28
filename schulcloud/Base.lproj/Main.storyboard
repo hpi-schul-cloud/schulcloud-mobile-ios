@@ -87,6 +87,7 @@
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.90196078431372551" green="0.88627450980392153" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="Ukn-5N-Zpp" firstAttribute="trailing" secondItem="LF5-zW-Ywq" secondAttribute="trailing" constant="16" id="0Cr-Rj-70N"/>
                             <constraint firstItem="LF5-zW-Ywq" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="G0q-ke-pzx"/>
@@ -105,6 +106,9 @@
                                 <exclude reference="dDH-Pj-p4y"/>
                             </mask>
                         </variation>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="nG0-ws-i87" appends="YES" id="o8B-9l-dhz"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="centerInputConstraints" destination="G0q-ke-pzx" id="Rmf-pY-wVH"/>
@@ -116,6 +120,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="nG0-ws-i87">
+                    <connections>
+                        <action selector="tapOnBackground:" destination="BYZ-38-t0r" id="8UW-Ow-7OG"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-68" y="398.95052473763121"/>
         </scene>

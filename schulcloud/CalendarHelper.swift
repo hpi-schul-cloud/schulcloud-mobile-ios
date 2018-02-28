@@ -31,6 +31,7 @@ public struct CalendarHelper {
         let userDefaults = UserDefaults.standard
         let updateCalendarAndComplete: (EKCalendar?) -> Void = { calendar in
             self.schulCloudCalendar = calendar
+            self.schulCloudCalendarWasInitialized = calendar == nil ? false : true
             completion(calendar)
         }
 
@@ -60,8 +61,6 @@ public struct CalendarHelper {
 
             self.askUserAboutEvents(in: calendar, on: controller, completion: updateCalendarAndComplete)
         }
-
-        self.schulCloudCalendarWasInitialized = true
     }
 
     private static func retrieveSchulCloudCalendarByTitle() -> EKCalendar? {

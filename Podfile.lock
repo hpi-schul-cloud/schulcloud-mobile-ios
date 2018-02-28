@@ -6,6 +6,8 @@ PODS:
     - DateToolsSwift
     - Neon
   - DateToolsSwift (2.0.3)
+  - Firebase (3.17.0):
+    - Firebase/Core (= 3.17.0)
   - Firebase/Auth (3.17.0):
     - Firebase/Core
     - FirebaseAuth (= 3.1.1)
@@ -59,6 +61,7 @@ DEPENDENCIES:
   - Alamofire (= 4.4.0)
   - BrightFutures (= 6.0.0)
   - CalendarKit (= 0.2.0)
+  - Firebase
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Messaging
@@ -102,6 +105,6 @@ SPEC CHECKSUMS:
   SwiftyBeaver: 6d10886c590bc0c7bd42f8c6f54c6bfea71c49d6
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: 6a48a40d62ba275a9e787059933b00c253501a73
+PODFILE CHECKSUM: edb43b3abe148415c9e3db0e5a6cb15987379178
 
 COCOAPODS: 1.4.0

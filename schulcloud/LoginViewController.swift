@@ -100,6 +100,10 @@ class LoginViewController: UIViewController {
         }
     }
     
+    @IBAction func tapOnBackground(_ sender: UITapGestureRecognizer) {
+        self.usernameInput.resignFirstResponder()
+        self.passwordInput.resignFirstResponder()
+    }
 }
 
 extension LoginViewController: UITextFieldDelegate {

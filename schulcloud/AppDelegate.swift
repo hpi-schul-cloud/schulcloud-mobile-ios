@@ -52,6 +52,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     /// Check for existing login credentials and return appropriate view controller
     func selectInitialViewController(application: UIApplication) {
+        guard UserDefaults.standard.bool(forKey: "forceLogin") else {
+            showLogin()
+            return
+        }
+
         guard let account = LoginHelper.loadAccount() else {
             showLogin()
             return

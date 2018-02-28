@@ -1,0 +1,188 @@
+fastlane_version "2.83.0"
+
+default_platform :ios
+
+platform :ios do
+  desc "Increments the version number for a new patch version"
+  lane :increment_version_patch do
+    new_version_number = increment_version_number(
+      bump_type: "patch",
+    )
+    revert_tvOS_changes()
+    commit_version_bump(
+      message: "New version #{new_version_number}"
+    )
+  end
+
+  desc "Increments the version number for a new minor version"
+  lane :increment_version_minor do
+    new_version_number = increment_version_number(
+      bump_type: "minor",
+    )
+    revert_tvOS_changes()
+    commit_version_bump(
+      message: "New version #{new_version_number}"
+    )
+  end
+
+  desc "Increments the version number for a new major version"
+  lane :increment_version_major do
+    new_version_number = increment_version_number(
+      bump_type: "major",
+    )
+    revert_tvOS_changes()
+    commit_version_bump(
+      message: "New version #{new_version_number}"
+    )
+  end
+
+  desc "Determines the commit for a given build number"
+  desc "- pass build number via 'build_number:xxx'"
+  lane :determine_commit do |options|
+    if options[:build_number]
+      build_components = options[:build_number].split(".")
+      if build_components.length == 1
+        commit_count = build_components[0].to_i
+        branch_name = "master"
+      elsif build_components.length == 2
+        commit_count_master = build_components[0].to_i
+        commit_count_dev_diff = build_components[1].to_i
+        commit_count = commit_count_master + commit_count_dev_diff
+        branch_name = "dev"
+      elsif build_components.length == 3
+        UI.user_error! "Detected feature branch build. Only builds from `master` or `dev` are supported."
+      else
+        UI.user_error! "Supplied malformed build number"
+      end
+
+      puts "Branch: #{branch_name}"
+      puts "Commit count: #{commit_count}"
+
+      error_callback = proc do |error|
+        UI.user_error! "Branch `#{branch_name}` does not exist."
+      end
+      sh("git rev-parse --verify #{branch_name}", error_callback: error_callback)
+
+      total_commit_count = sh("git rev-list #{branch_name} | wc -l | sed 's/^ *//;s/ *$//'").to_i
+      puts "Total commit count on #{branch_name}: #{total_commit_count}"
+
+      commit_count_diff = total_commit_count - commit_count
+      puts "Commit count difference: #{commit_count_diff}"
+
+      if commit_count_diff < 0
+        UI.user_error! "The supplied build number refers to a commit which is to far ahead. Have you pulled the latest changes for the branch `#{branch_name}`?"
+      end
+
+      commit_id = sh("git rev-parse --short #{branch_name}~#{commit_count_diff}").strip!
+      commit_title = sh("git log #{commit_id} --pretty=format:'%s' --max-count=1")
+      commit_author = sh("git log #{commit_id} --pretty=format:'%an' --max-count=1")
+
+      UI.header "Found commit for build_number #{options[:build_number]}"
+      UI.success "Branch: #{branch_name}"
+      UI.success "Commit id: #{commit_id}"
+      UI.success "Commit title: #{commit_title}"
+      UI.success "Commit author: #{commit_author}"
+    else
+      UI.user_error! "No build number supplied (use `fastlane determine_commit build_number:xxx`)"
+    end
+  end
+
+  desc "Create screenshots"
+  lane :make_screenshots do
+    snapshot(
+      scheme: "schulcloud",
+    )
+  end
+
+  desc "Upload only screenshots to iTunesConnect"
+  desc "No upload of screenshots or IPA"
+  lane :upload_screenshots do
+    deliver(
+      app_identifier: "org.schulcloud",
+      app_version: get_version_number,
+      overwrite_screenshots: true,
+      skip_binary_upload: true,
+      skip_metadata: true,
+    )
+  end
+
+  desc "Upload only metadata to iTunesConnect"
+  desc "No upload of screenshots or IPA"
+  lane :upload_metadata do
+    deliver(
+      app_identifier: "org.schulcloud",
+      app_version: get_version_number,
+      skip_binary_upload: true,
+      skip_screenshots: true,
+      force: true,
+    )
+  end
+
+  desc "Build and upload only IPA and metadata to iTunesConnect"
+  desc "No upload of screenshots"
+  lane :release do
+    ensure_git_branch(branch: 'master')
+    upload_ipa
+  end
+
+
+  desc "Build and upload only IPA (beta) to iTunesConnect"
+  desc "No upload of screenshots or metadata"
+  lane :beta do
+    ensure_git_branch(branch: 'dev')
+    upload_ipa(skip_metadata: true)
+  end
+
+  private_lane :upload_ipa do |options|
+    skip_metadata = (options[:skip_metadata] ? true : false)
+    gym(
+      scheme: "#schulcloud",
+      include_bitcode: true,
+      include_symbols: true,
+      export_method: "app-store",
+      export_options: {
+        provisioningProfiles: {
+          "org.schulcloud" => "SchulCloud_AppStore_DistrProfile",
+        }
+      },
+    )
+    deliver(
+      app_identifier: "org.schulcloud",
+      app_version: get_version_number,
+      skip_screenshots: true,
+      skip_metadata: skip_metadata,
+    )
+  end
+
+  lane :tag_release do
+    version_number = get_version_number
+    last_commit_id = sh("git rev-parse HEAD")
+    last_commit_id.strip!
+    release_notes = File.read("#{fastlane_dir}/metadata/de-DE/release_notes.txt") rescue "No changelog provided"
+    set_github_release(
+      repository_name: "schul-cloud/schulcloud-mobile-ios",
+      name: "iOS v#{version_number}",
+      tag_name: "ios-v#{version_number}",
+      description: release_notes,
+      commitish: last_commit_id,
+    )
+  end
+
+  desc "Download dSYMS files from iTunesConnect and upload them to Firebase"
+  lane :refresh_dsyms do
+    download_dsyms(
+      app_identifier: "org.schulcloud",
+      version: get_version_number,
+    )
+    upload_symbols_to_crashlytics(
+      gsp_path: "schulcloud/GoogleService-Info-Release.plist",
+    )
+    clean_build_artifacts
+  end
+
+  lane :changelog do
+    git_pull(only_tags: true)
+    changelog_from_git_commits(pretty: '%h %s')
+  end
+
+end

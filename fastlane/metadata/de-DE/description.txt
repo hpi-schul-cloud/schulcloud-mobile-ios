@@ -1,0 +1,1 @@
+Der mobile Client des Schul-Cloud-Projektes.

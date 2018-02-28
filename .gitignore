@@ -54,14 +54,17 @@ Pods/
 
 Carthage/Build
 
-# fastlane
-#
-# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
-# screenshots whenever they are needed.
-# For more information about the recommended setup visit:
-# https://docs.fastlane.tools/best-practices/source-control/#source-control
-
+# Fastlane specific
 fastlane/report.xml
+# deliver temporary files
 fastlane/Preview.html
+Preview.html
+# snapshot generated screenshots
 fastlane/screenshots
+# scan temporary files
 fastlane/test_output
+# Appfile with sensitive values
+fastlane/Appfile
+
+# Exclude secrets
+schulcloudUITests/Credentials.plist
