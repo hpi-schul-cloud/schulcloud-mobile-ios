@@ -67,4 +67,4 @@ fastlane/test_output
 fastlane/Appfile
 
 # Exclude secrets
-schulcloudUITests/Secrets.plist
+schulcloudUITests/Credentials.plist

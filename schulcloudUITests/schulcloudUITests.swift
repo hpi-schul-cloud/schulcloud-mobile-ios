@@ -43,7 +43,7 @@ class schulcloudUITests: XCTestCase {
     }
 
     func testSnapshots() {
-        guard let filePath = Bundle(for: type(of: self)).path(forResource: "Secrets", ofType: "plist"),
+        guard let filePath = Bundle(for: type(of: self)).path(forResource: "Credentials", ofType: "plist"),
             let plist = NSDictionary(contentsOfFile: filePath),
             let username = plist["UI_TEST_USERNAME"] as? String,
             let password = plist["UI_TEST_PASSWORD"] as? String else {

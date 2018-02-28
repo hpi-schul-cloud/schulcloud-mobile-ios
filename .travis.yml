@@ -16,8 +16,8 @@ install:
 
 before_script:
   - cp schulcloudUITests/Secrets.plist.dummy schulcloudUITests/Secrets.plist
-  - defaults write schulcloudUITests/Secrets UI_TEST_USERNAME $UI_TEST_USERNAME
-  - defaults write schulcloudUITests/Secrets UI_TEST_PASSWORD $UI_TEST_PASSWORD
+  - defaults write schulcloudUITests/Credentials UI_TEST_USERNAME $UI_TEST_USERNAME
+  - defaults write schulcloudUITests/Credentials UI_TEST_PASSWORD $UI_TEST_PASSWORD
 
 script:
   - set -o pipefail
