@@ -88,9 +88,9 @@ platform :ios do
   end
 
   desc "Create screenshots"
-  lane :makescreenshots do
+  lane :make_screenshots do
     snapshot(
-      scheme: "schulcloud-UITests",
+      scheme: "schulcloud",
     )
   end
 
