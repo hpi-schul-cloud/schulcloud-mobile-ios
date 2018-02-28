@@ -33,9 +33,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C3A5A9151EBCC17600825DBF"
-               BuildableName = "schulcloudTests.xctest"
-               BlueprintName = "schulcloudTests"
+               BlueprintIdentifier = "5024103C2046B01A0033D75A"
+               BuildableName = "schulcloud-Tests.xctest"
+               BlueprintName = "schulcloud-Tests"
                ReferencedContainer = "container:schulcloud.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -44,8 +44,18 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C3A5A9201EBCC17600825DBF"
-               BuildableName = "schulcloudUITests.xctest"
-               BlueprintName = "schulcloudUITests"
+               BuildableName = "schulcloud-UITests.xctest"
+               BlueprintName = "schulcloud-UITests"
+               ReferencedContainer = "container:schulcloud.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "5024102E2046AFD60033D75A"
+               BuildableName = "schulcloud-Tests.xctest"
+               BlueprintName = "schulcloud-Tests"
                ReferencedContainer = "container:schulcloud.xcodeproj">
             </BuildableReference>
          </TestableReference>

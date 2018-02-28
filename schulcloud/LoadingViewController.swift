@@ -32,6 +32,7 @@
 import Alamofire
 import Foundation
 import QuickLook
+import BrightFutures
 
 
 class LoadingViewController: UIViewController  {
@@ -44,8 +45,8 @@ class LoadingViewController: UIViewController  {
     
     var downloadTask: URLSessionDownloadTask?
     
+    let fileSync = FileSync()
     var file: File!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,35 +65,27 @@ class LoadingViewController: UIViewController  {
     }
     
     func startDownload() {
-        FileHelper.getSignedUrl(forFile: file)
-            .onSuccess { url in
+        fileSync.signedURL(for: file)
+        .flatMap { url -> Future<Data, SCError> in
+            DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
+                self.progressView.isHidden = false
+            }
+            let future = self.fileSync.download(url: url, progressHandler: { (progress) in
                 DispatchQueue.main.async {
-                    self.activityIndicator.stopAnimating()
-                    self.progressView.isHidden = false
+                    self.progressView.setProgress(progress, animated: true)
                 }
-                
-                // TODO: save files to disk insead of memory
-                Alamofire.request(url)
-                    .downloadProgress(queue: DispatchQueue.main) { progress in
-                        self.progressView.setProgress(Float(progress.fractionCompleted), animated: true)
-                    }
-                    .responseData { response in
-                    log.debug("All Response Info: \(response)")
-                    
-                    if let data = response.result.value {
-                        if let string = String(data: data, encoding: .utf8) {
-                            log.debug("Got file response \(string)")
-                        }
-                        self.showFile(data: data)
-                    } else {
-                        self.show(error: response.error ?? SCError.unknown)
-                    }
-                }
-        }
-            .onFailure { error in
+            })
+            return future
+        }.onSuccess { (fileData) in
+            DispatchQueue.main.async {
+                self.showFile(data: fileData)
+            }
+        }.onFailure { (error) in
+            DispatchQueue.main.async {
                 self.show(error: error)
+            }
         }
-        
     }
     
     func showFile(data: Data) {

@@ -16,8 +16,12 @@ extension NSMutableAttributedString {
         guard let data = modifiedFont.data(using: String.Encoding.utf16, allowLossyConversion: false) else {
             return nil
         }
-        
-        guard let attributedString = try? NSMutableAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil) else {
+
+        let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
+            .documentType: NSAttributedString.DocumentType.html,
+            .characterEncoding: NSNumber(value: String.Encoding.utf8.rawValue)
+        ]
+        guard let attributedString = try? NSMutableAttributedString(data: data, options: options, documentAttributes: nil) else {
             return nil
         }
         

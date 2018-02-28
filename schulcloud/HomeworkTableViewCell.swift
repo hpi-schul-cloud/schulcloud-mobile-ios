@@ -36,7 +36,7 @@ class HomeworkTableViewCell: UITableViewCell {
         let description = homework.cleanedDescriptionText
         if let attributedString = NSMutableAttributedString(html: description) {
             let range = NSMakeRange(0, attributedString.string.count)
-            attributedString.addAttribute(NSFontAttributeName, value: UIFont.preferredFont(forTextStyle: .body), range: range)
+            attributedString.addAttribute(NSAttributedStringKey.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
             self.contentLabel.text = attributedString.trailingNewlineChopped.string
         } else {
             self.contentLabel.text = description

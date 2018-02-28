@@ -14,58 +14,62 @@ import BrightFutures
 import Marshal
 
 class DashboardViewController: UIViewController {
-    @IBOutlet var notificationBarButton: UIBarButtonItem!
-    @IBOutlet var dashboardCells: [UIView]!
 
-    @IBOutlet weak var widthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var notificationContainerHeight: NSLayoutConstraint!
+    enum Design {
+        case reduced
+        case everything
+    }
+
+    var displayedDesign: Design?
+
+    @IBOutlet weak var stackView: UIStackView!
+    @IBOutlet weak var reducedStackView: UIStackView!
+    @IBOutlet weak var everythingStackView: UIStackView!
+    @IBOutlet var notificationBarButton: UIBarButtonItem!
 
     var notifications: [SCNotification] = []
-    var notificationViewController: ShortNotificationViewController?
+    var notificationContainerHeight: NSLayoutConstraint?
+
+    lazy var calendarOverview: CalendarOverviewViewController = self.buildFromStoryboard(withIdentifier: "CalendarOverview")
+    lazy var homeworkOverview: HomeworkOverviewViewController = self.buildFromStoryboard(withIdentifier: "HomeworkOverview")
+    lazy var notificationOverview: ShortNotificationViewController = self.buildNotificationOverviewFromStroyboard()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.addContentViewController(self.calendarOverview, to: self.reducedStackView)
+        self.addContentViewController(self.homeworkOverview, to: self.reducedStackView)
+        self.addContentViewController(self.notificationOverview, to: self.everythingStackView)
+
+        let heightConstraint = NSLayoutConstraint(item: self.notificationOverview.view,
+                                                  attribute: .height,
+                                                  relatedBy: .equal,
+                                                  toItem: nil,
+                                                  attribute: .notAnAttribute,
+                                                  multiplier: 1.0,
+                                                  constant: 0)
+        self.notificationOverview.view.addConstraint(heightConstraint)
+        self.notificationContainerHeight = heightConstraint
+
+        self.calendarOverview.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.showCalendar)))
+        self.homeworkOverview.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.showTasks)))
+
         self.updateNotificationBarButton()
-
-        // is only applied/installed on size class wR hR
-        let horizontalPadding: CGFloat = 32.0
-        self.widthConstraint.constant = min(self.view.frame.size.width, self.view.frame.size.height) - horizontalPadding
-
         self.fetchNotifications()
     }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
+    override func viewWillLayoutSubviews() {
+        let size = self.view.bounds.size
+        let newDesign = self.decideDesign(basedOn: size)
 
-        if self.traitCollection.horizontalSizeClass != previousTraitCollection?.horizontalSizeClass {
-            self.updateUIAfterTraitCollectionChange()
-        }
-    }
-
-    private func updateUIAfterTraitCollectionChange() {
-        // update notification button in navigation bar
-        if self.traitCollection.horizontalSizeClass == .regular {
-            self.navigationItem.rightBarButtonItem = nil
-        } else {
-            self.navigationItem.rightBarButtonItem = self.notificationBarButton
+        if self.displayedDesign != newDesign {
+            self.applyDesign(newDesign)
+            self.displayedDesign = newDesign
         }
 
-        // update corner radius of dashboard cells
-        let cornerRadius: CGFloat = self.traitCollection.horizontalSizeClass == .regular ? 4.0 : 0.0
-        for cell in dashboardCells {
-            cell.layer.cornerRadius = cornerRadius
-            cell.layer.masksToBounds = true
-        }
     }
 
-    @IBAction func tappedCalendarCell(_ sender: UITapGestureRecognizer) {
-        self.performSegue(withIdentifier: "showCalendar", sender: sender)
-    }
-
-    @IBAction func tappedTasksCell(_ sender: UITapGestureRecognizer) {
-        self.performSegue(withIdentifier: "showTasks", sender: sender)
-    }
+    // MARK: segues
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
@@ -73,20 +77,69 @@ class DashboardViewController: UIViewController {
             guard let navigationViewController = segue.destination as? UINavigationController else { return }
             guard let notificationViewController = navigationViewController.topViewController as? NotificationViewController else { return }
             notificationViewController.notifications = self.notifications
-        case "showNotificationsEmbedded"?:
-            guard let shortNotificationViewController = segue.destination as? ShortNotificationViewController else { return }
-            self.notificationViewController = shortNotificationViewController
-            shortNotificationViewController.delegate = self
-        case "showCalendarOverviewEmbedded"?:
-            segue.destination.view.translatesAutoresizingMaskIntoConstraints = false
         default:
             super.prepare(for: segue, sender: sender)
         }
     }
 
-    private func updateNotificationView() {
-        self.notificationViewController?.notifications = self.notifications
+    @objc func showNotifications() {
+        self.performSegue(withIdentifier: "showNotifications", sender: self)
     }
+
+    @objc private func showCalendar() {
+        self.performSegue(withIdentifier: "showCalendar", sender: self)
+    }
+
+    @objc private func showTasks() {
+        self.performSegue(withIdentifier: "showTasks", sender: self)
+    }
+
+    // MARK: view setup
+
+    private func buildFromStoryboard<T>(withIdentifier identifier: String) -> T {
+        let storyboard = UIStoryboard(name: "TabDashboard", bundle: nil)
+        guard let viewController = storyboard.instantiateViewController(withIdentifier: identifier) as? T else {
+            fatalError("Missing \(identifier) in Storyboard")
+        }
+        return viewController
+    }
+
+    private func buildNotificationOverviewFromStroyboard() -> ShortNotificationViewController {
+        let notificationOverview: ShortNotificationViewController = self.buildFromStoryboard(withIdentifier: "NotificationOverview")
+        notificationOverview.delegate = self
+        return notificationOverview
+    }
+
+    private func addContentViewController(_ viewController: UIViewController, to stackView: UIStackView) {
+        viewController.view.translatesAutoresizingMaskIntoConstraints = false
+        self.addChildViewController(viewController)
+        stackView.addArrangedSubview(viewController.view)
+        viewController.didMove(toParentViewController: self)
+    }
+
+    // MARK: design
+
+    private func decideDesign(basedOn size: CGSize) -> Design {
+        return UIDevice.current.userInterfaceIdiom == .pad ? .everything : .reduced
+    }
+
+    private func applyDesign(_ newDesign: Design) {
+        // set notification button in navigation item
+        self.navigationItem.rightBarButtonItem = newDesign == .reduced ? self.notificationBarButton : nil
+
+        // hide right colum
+        self.everythingStackView.isHidden = newDesign == .reduced
+
+        // set corner radius
+        let contentViews = [self.calendarOverview.view, self.homeworkOverview.view, self.notificationOverview.view]
+        let cornerRadius: CGFloat = newDesign == .reduced ? 0.0 : 4.0
+        for contentView in contentViews {
+            contentView?.layer.cornerRadius = cornerRadius
+            contentView?.layer.masksToBounds = true
+        }
+    }
+
+    // MARK: notifications
 
     private func updateNotificationBarButton() {
         let title = self.notifications.isEmpty ? nil : String(self.notifications.count)
@@ -101,16 +154,7 @@ class DashboardViewController: UIViewController {
     }
 
     func fetchNotifications() {
-        let request: Future<[SCNotification], SCError> = ApiHelper.request("notification?$limit=50").deserialize(keyPath: "data")
-        request.onSuccess { notifications in
-            self.notifications = notifications
-            self.updateNotificationView()
-            self.updateNotificationBarButton()
-        }
-    }
-
-    func showNotifications() {
-        self.performSegue(withIdentifier: "showNotifications", sender: self)
+        // TODO: fetch notifications
     }
 
 }
@@ -118,7 +162,7 @@ class DashboardViewController: UIViewController {
 extension DashboardViewController: ShortNotificationViewControllerDelegate {
 
     func viewHeightDidChange(to height: CGFloat) {
-        self.notificationContainerHeight.constant = height
+        self.notificationContainerHeight?.constant = height
     }
 
     func didPressViewMoreButton() {

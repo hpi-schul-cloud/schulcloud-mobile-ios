@@ -12,18 +12,18 @@ import BrightFutures
 import Locksmith
 import JWTDecode
 
-open class LoginHelper {
-    
+class LoginHelper {
+
     static let defaults = UserDefaults.standard
 
-    internal static func getAccessToken(username: String?, password: String?) -> Future<String, SCError> {
+    static func getAccessToken(username: String?, password: String?) -> Future<String, SCError> {
         let promise = Promise<String, SCError>()
-        
+
         let parameters: Parameters = [
             "username": username as Any,
             "password": password as Any
         ]
-        
+
         let loginEndpoint = Constants.backend.url.appendingPathComponent("authentication/")
         Alamofire.request(loginEndpoint, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in
             guard let json = response.result.value as? [String: Any] else {
@@ -41,14 +41,17 @@ open class LoginHelper {
                 promise.failure(.unknown)
             }
         }
-        
+
         return promise.future
     }
-    
+
     static func login(username: String?, password: String?) -> Future<Void, SCError> {
-        return getAccessToken(username: username, password: password).flatMap(saveToken)
+
+        return getAccessToken(username: username, password: password).flatMap(saveToken).flatMap { _ in
+            return UserHelper.syncUser(withId: Globals.account!.userId)
+        }.asVoid()
     }
-    
+
     static func saveToken(accessToken: String) -> Future<Void, SCError> {
         do {
             let jwt = try decode(jwt: accessToken)
@@ -66,25 +69,18 @@ open class LoginHelper {
             return Future(error: SCError.loginFailed(error.localizedDescription))
         }
     }
-    
+
     static func renewAccessToken() -> Future<Void, SCError> {
-        return ApiHelper.request("authentication", method: .post).jsonObjectFuture()
-            .flatMap { response -> Future<Void, SCError> in
-                if let accessToken = response["accessToken"] as? String {
-                    return saveToken(accessToken: accessToken)
-                } else {
-                    return Future(error: SCError(json: response))
-                }
-        }
+        return getAccessToken(username: nil, password: nil).flatMap(saveToken)
     }
     
     static func loadAccount() -> SchulCloudAccount? {
         let defaults = UserDefaults.standard
-        
+
         guard let accountId = defaults.string(forKey: "accountId"),
             let userId = defaults.string(forKey: "userId")
             else { return nil }
-        
+
         var account = SchulCloudAccount(userId: userId, accountId: accountId, accessToken: nil)
         account.loadAccessTokenFromKeychain()
         
@@ -114,8 +110,9 @@ open class LoginHelper {
         defaults.set(nil, forKey: "accountId")
         defaults.set(nil, forKey: "userId")
         do {
-            dropDatabase()
+            CoreDataHelper.dropDatabase()
             try Globals.account!.deleteFromSecureStore()
+            try CalendarEventHelper.deleteSchulcloudCalendar()
         } catch let error {
             log.error(error.localizedDescription)
         }

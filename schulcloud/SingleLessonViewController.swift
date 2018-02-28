@@ -15,7 +15,9 @@ class SingleLessonViewController: UIViewController, WKUIDelegate {
     
     var webView: WKWebView!
     
-    override func loadView() {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
         let userContentController = WKUserContentController()
         let cookieScriptSource = "document.cookie = 'jwt=\(Globals.account!.accessToken!)'"
         let cookieScript = WKUserScript(source: cookieScriptSource, injectionTime: .atDocumentStart, forMainFrameOnly: false)
@@ -24,26 +26,28 @@ class SingleLessonViewController: UIViewController, WKUIDelegate {
         webConfiguration.userContentController = userContentController
         webView = WKWebView(frame: .zero, configuration: webConfiguration)
         webView.uiDelegate = self
-        view = webView
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+
+        self.view.addSubview(webView)
+
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        webView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        webView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        let guide = self.view.readableContentGuide
+        guide.leadingAnchor.constraint(equalTo: webView.leadingAnchor).isActive = true
+        guide.trailingAnchor.constraint(equalTo: webView.trailingAnchor).isActive = true
+
         self.title = lesson.name
 
-        if let contents = lesson.contents {
-            self.loadContents(contents)
-        }
+        self.loadContents(lesson.contents)
     }
 
-    func loadContents(_ contents: NSOrderedSet) {
-        let rendered = (contents.array as! [Content]).map(htmlForElement)
+    func loadContents(_ contents: Set<LessonContent>) {
+        let rendered = contents.map(htmlForElement)
         let concatenated = "<html><head>\(Constants.textStyleHtml)<meta name=\"viewport\" content=\"initial-scale=1.0\"></head>" + rendered.joined(separator: "<hr>") + "</body></html>"
         webView.loadHTMLString(concatenated, baseURL: Constants.Servers.web.url)
     }
     
-    func htmlForElement(_ content: Content) -> String {
+    func htmlForElement(_ content: LessonContent) -> String {
         switch(content.type) {
         case .text:
             var rendered = ""

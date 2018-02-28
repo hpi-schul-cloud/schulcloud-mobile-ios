@@ -118,6 +118,29 @@ public struct CalendarHelper {
         controller.present(alert, animated: true, completion: nil)
     }
 
+    static func deleteSchulcloudCalendar() {
+        guard let calendarIdentifier = UserDefaults.standard.string(forKey: self.calendarIdentifierKey) else {
+            log.warning("Found no calendar to delete")
+            return
+        }
+
+        guard let calendar = self.eventStore.calendar(withIdentifier: calendarIdentifier) else {
+            log.error("Could not retrieve calendar to delete")
+            return
+        }
+
+        do {
+            try self.eventStore.removeCalendar(calendar, commit: true)
+        } catch {
+            log.error("Failed to commit deletion of calendar")
+            return
+        }
+
+        UserDefaults.standard.removeObject(forKey: self.calendarIdentifierKey)
+        UserDefaults.standard.synchronize()
+        log.info("Successfully deleted local Schul-Cloud calendar")
+    }
+
 }
 
 extension CalendarHelper {
@@ -126,9 +149,9 @@ extension CalendarHelper {
 
         self.eventStore.requestAccess(to: .event) { (granted, error) in
             if granted && error == nil {
-                promise.failure(SCError.other("Missing Calendar Permission"))
+                promise.success(())
             } else {
-                promise.success()
+                promise.failure(SCError.other("Missing Calendar Permission"))
             }
         }
 
@@ -206,8 +229,8 @@ extension CalendarHelper {
 
                         do {
                             try self.eventStore.save(event, span: EKSpan.futureEvents, commit: false)
-                        } catch let error {
-                            print("Failed to save event to eventstore: \(error)")
+                        } catch {
+                            log.error("Failed to save event to eventstore: \(error)")
                         }
 
                         eventData.eventId = remoteEvent.id
@@ -220,8 +243,8 @@ extension CalendarHelper {
 
                         do {
                             try self.eventStore.save(event, span: .thisEvent, commit: false)
-                        } catch let error {
-                            print("Failed to save event to eventstore: \(error)")
+                        } catch {
+                            log.error("Failed to save event to eventstore: \(error)")
                         }
 
                         eventData.eventId = remoteEvent.id
@@ -240,8 +263,8 @@ extension CalendarHelper {
 
                     do {
                         try self.eventStore.save(event, span: .thisEvent, commit: false)
-                    } catch let error {
-                        print("Failed to save event to eventstore: \(error)")
+                    } catch {
+                        log.error("Failed to save event to eventstore: \(error)")
                     }
 
                     let newEventData = EventData(context: privateMOC)
@@ -257,8 +280,8 @@ extension CalendarHelper {
                     if let event = self.eventStore.event(withIdentifier: eventData.externalEventId) {
                         try self.eventStore.remove(event, span: EKSpan.futureEvents)
                     }
-                } catch let error {
-                    print("Failed to delete event: \(error)")
+                } catch {
+                    log.error("Failed to delete event: \(error)")
                 }
 
                 privateMOC.delete(eventData)
@@ -267,8 +290,8 @@ extension CalendarHelper {
             // apply changes to the event store
             do {
                 try self.eventStore.commit()
-            } catch let error {
-                print("Failed commit changes to eventstore: \(error)")
+            } catch {
+                log.error("Failed commit changes to eventstore: \(error)")
             }
         }.flatMap {
             // save event data mappings

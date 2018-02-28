@@ -3,109 +3,109 @@
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "appicon40-1.png",
+      "filename" : "schul-cloud-app_icon-inverted-square.png",
       "scale" : "2x"
     },
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "appicon60.png",
+      "filename" : "schul-cloud-app_icon-inverted-square-1.png",
       "scale" : "3x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "appicon58-1.png",
+      "filename" : "schul-cloud-app_icon-inverted-square-2.png",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "appicon87.png",
+      "filename" : "schul-cloud-app_icon-inverted-square-3.png",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "appicon80.png",
+      "filename" : "schul-cloud-app_icon-inverted-square-4.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "appicon120.png",
+      "filename" : "schul-cloud-app_icon-inverted-square-5.png",
       "scale" : "3x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "appicon120-1.png",
+      "filename" : "schul-cloud-app_icon-inverted-square-6.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "appicon180.png",
+      "filename" : "schul-cloud-app_icon-inverted-square-7.png",
       "scale" : "3x"
     },
     {
       "size" : "20x20",
       "idiom" : "ipad",
-      "filename" : "appicon20.png",
+      "filename" : "schul-cloud-app_icon-inverted-square-15.png",
       "scale" : "1x"
     },
     {
       "size" : "20x20",
       "idiom" : "ipad",
-      "filename" : "appicon40.png",
+      "filename" : "schul-cloud-app_icon-inverted-square-8.png",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "appicon29.png",
+      "filename" : "schul-cloud-app_icon-inverted-square-16.png",
       "scale" : "1x"
     },
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "appicon58.png",
+      "filename" : "schul-cloud-app_icon-inverted-square-9.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "appicon40-2.png",
+      "filename" : "schul-cloud-app_icon-inverted-square-10.png",
       "scale" : "1x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "appicon80-1.png",
+      "filename" : "schul-cloud-app_icon-inverted-square-11.png",
       "scale" : "2x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "appicon76.png",
+      "filename" : "schul-cloud-app_icon-inverted-square-17.png",
       "scale" : "1x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "appicon152.png",
+      "filename" : "schul-cloud-app_icon-inverted-square-12.png",
       "scale" : "2x"
     },
     {
       "size" : "83.5x83.5",
       "idiom" : "ipad",
-      "filename" : "appicon167.png",
+      "filename" : "schul-cloud-app_icon-inverted-square-13.png",
       "scale" : "2x"
     },
     {
       "size" : "1024x1024",
       "idiom" : "ios-marketing",
-      "filename" : "appicon1024.png",
+      "filename" : "schul-cloud-app_icon-inverted-square-14.png",
       "scale" : "1x"
     }
   ],

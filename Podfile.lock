@@ -1,13 +1,11 @@
 PODS:
   - Alamofire (4.4.0)
-  - BrightFutures (5.2.0):
-    - Result (~> 3.2)
-  - CalendarKit (0.1.17):
+  - BrightFutures (6.0.0):
+    - Result (~> 3.2.4)
+  - CalendarKit (0.2.0):
     - DateToolsSwift
-    - DynamicColor
     - Neon
   - DateToolsSwift (2.0.3)
-  - DynamicColor (3.3)
   - Firebase/Auth (3.17.0):
     - Firebase/Core
     - FirebaseAuth (= 3.1.1)
@@ -52,15 +50,15 @@ PODS:
   - Marshal (1.2.4)
   - Neon (0.4.0)
   - Protobuf (3.3.0)
-  - Result (3.2.1)
+  - Result (3.2.4)
   - SimpleRoundedButton (1.0)
   - SwiftyBeaver (1.4.0)
   - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
   - Alamofire (= 4.4.0)
-  - BrightFutures (= 5.2.0)
-  - CalendarKit
+  - BrightFutures (= 6.0.0)
+  - CalendarKit (= 0.2.0)
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Messaging
@@ -83,10 +81,9 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
-  BrightFutures: 8681dbb9fa831b69b6e7dc4a498b9e081d5daeb5
-  CalendarKit: cf59e1e76c6a02c69a047cb7f091efc8b20e9881
+  BrightFutures: 9e7604f511aed9f0d6a49b04ac9b3fca6b117758
+  CalendarKit: f5bfd960ca0bf652ae478e6f4effbe61f2500241
   DateToolsSwift: bf69bf9056d9e53c5c03f06e51f219b9b8b02f9e
-  DynamicColor: 3cdaa1e01c16e93ba744e0630f768373e0fc7a7d
   Firebase: 4b66b5b59c43edac745b87f0c87e42cdd0279c13
   FirebaseAnalytics: e5fe8486efc01bec33f6bf82e2fa9fce4b124052
   FirebaseAuth: cc8a1824170adbd351edb7f994490a3fb5c18be6
@@ -100,11 +97,11 @@ SPEC CHECKSUMS:
   Marshal: 8e04e6624e506921db7143b0bfd83caee03f32d6
   Neon: 7fb5a9327e7e57911843f608e08f4893a74deaf9
   Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
-  Result: 2453a22e5c5b11c0c3a478736e82cd02f763b781
+  Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   SimpleRoundedButton: d7f2be107afb25c56149f4c0df541169ca6af48c
   SwiftyBeaver: 6d10886c590bc0c7bd42f8c6f54c6bfea71c49d6
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
 PODFILE CHECKSUM: f595403f0ed6277351c9a5ddaa1bfd74e1da4419
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.4.0

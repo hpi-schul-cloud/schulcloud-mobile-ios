@@ -25,13 +25,11 @@ class CoursesViewController: UICollectionViewController, NSFetchedResultsControl
     }
     
     func updateData() {
-        CourseHelper.fetchFromServer()
-            .onSuccess { _ in
-                self.performFetch()
-            }
-            .onFailure { error in
-                log.error(error)
-            }
+        CourseHelper.syncCourses().onSuccess { _ in
+            self.performFetch()
+        }.onFailure { error in
+            log.error(error)
+        }
     }
     
     // MARK: - Table view data source
@@ -44,7 +42,7 @@ class CoursesViewController: UICollectionViewController, NSFetchedResultsControl
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         
         // Create Fetched Results Controller
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataHelper.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         
         // Configure Fetched Results Controller
         fetchedResultsController.delegate = self
@@ -66,13 +64,7 @@ class CoursesViewController: UICollectionViewController, NSFetchedResultsControl
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        guard let sec = fetchedResultsController.sections?[section],
-            let count = sec.objects?.count else {
-                log.error("Error loading object count in section \(section)")
-                return 0
-        }
-        return count
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
     override func collectionView(_ collectionView: UICollectionView,
@@ -111,32 +103,10 @@ class CoursesViewController: UICollectionViewController, NSFetchedResultsControl
         self.collectionViewLayout.invalidateLayout()
     }
 
-    /*
-     // Override to support conditional editing of the table view.
-     override func collectionView(_ collectionView: UIcollectionView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func collectionView(_ collectionView: UIcollectionView, commit editingStyle: UIcollectionViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     collectionView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         switch(segue.identifier) {
         case .some("courseDetail"):
             let selectedCell = sender as! UICollectionViewCell

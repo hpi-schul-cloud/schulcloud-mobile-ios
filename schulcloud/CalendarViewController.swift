@@ -6,23 +6,11 @@ import DateToolsSwift
 
 class CalendarViewController: DayViewController {
     
+    var calendarEvents : [CalendarEvent] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isTranslucent = false
-
-        switch EKEventStore.authorizationStatus(for: .event) {
-        case .notDetermined:
-            CalendarHelper.requestCalendarPermission().onSuccess {
-                self.syncEvents()
-            }.onFailure { error in
-                self.showCalendarPermissionErrorAlert()
-            }
-        case .authorized:
-            self.syncEvents()
-        case .restricted: fallthrough
-        case .denied:
-            self.showCalendarPermissionErrorAlert()
-        }
 
         // scroll to current time
         let date = Date()
@@ -32,20 +20,19 @@ class CalendarViewController: DayViewController {
         self.dayView.scrollTo(hour24: hour - 1 + minute)
     }
 
-    private func syncEvents() {
-        let syncEvents: (EKCalendar?) -> Void = { someCalendar in
-            guard let calendar = someCalendar else { return }
-            CalendarHelper.syncEvents(in: calendar).onSuccess {
-                DispatchQueue.main.async {
-                    self.reloadData()
-                }
-            }
-        }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.syncEvents()
+    }
 
-        if CalendarHelper.schulCloudCalendarWasInitialized {
-            syncEvents(CalendarHelper.schulCloudCalendar)
-        } else {
-            CalendarHelper.initializeCalendar(on: self, completion: syncEvents)
+    private func syncEvents() {
+        // Assumes event where already fetched
+        switch CalendarEventHelper.fetchCalendarEvents(inContext: CoreDataHelper.viewContext) {
+        case let .success(events):
+            self.calendarEvents = events
+            self.reloadData()
+        case let .failure(error):
+            log.error("Fetching calendar events failed: \(error)")
         }
     }
 
@@ -60,24 +47,20 @@ class CalendarViewController: DayViewController {
     
     // MARK: DayViewDataSource
     override func eventsForDate(_ date: Date) -> [EventDescriptor] {
-        guard EKEventStore.authorizationStatus(for: .event) == .authorized else { return [] }
-        guard let calendar = CalendarHelper.schulCloudCalendar else { return [] }
-
         let startDate = Date(year: date.year, month: date.month, day: date.day)
         let oneDayLater = TimeChunk(seconds: 0, minutes: 0, hours: 0, days: 1, weeks: 0, months: 0, years: 0)
         let endDate = startDate + oneDayLater
-        let predicate = CalendarHelper.eventStore.predicateForEvents(withStart: startDate, end: endDate, calendars: [calendar])
-        return CalendarHelper.eventStore.events(matching: predicate).map { event in event.calendarEvent }
-    }
+        let interval = DateInterval(start: startDate, end: endDate)
 
+        return self.calendarEvents.filter(inInterval: interval).map { $0.calendarKitEvent }
+    }
 }
 
-
-extension EKEvent {
-    var calendarEvent: Event {
+extension CalendarEvent {
+    var calendarKitEvent : Event {
         let event = Event()
-        event.datePeriod = TimePeriod(beginning: self.startDate, end: self.endDate)
-        event.text = self.title
+        event.datePeriod = TimePeriod(beginning: self.start, end: self.end)
+        event.text = self.title ?? "Unknown"
         event.color = UIColor.red
         return event
     }
