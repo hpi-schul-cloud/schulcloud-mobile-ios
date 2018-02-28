@@ -8,33 +8,14 @@ Make sure you have the latest version of the Xcode command line tools installed:
 xcode-select --install
 ```
 
-## Choose your installation method:
-
-<table width="100%" >
-<tr>
-<th width="33%"><a href="http://brew.sh">Homebrew</a></td>
-<th width="33%">Installer Script</td>
-<th width="33%">Rubygems</td>
-</tr>
-<tr>
-<td width="33%" align="center">macOS</td>
-<td width="33%" align="center">macOS</td>
-<td width="33%" align="center">macOS or Linux with Ruby 2.0.0 or above</td>
-</tr>
-<tr>
-<td width="33%"><code>brew cask install fastlane</code></td>
-<td width="33%"><a href="https://download.fastlane.tools">Download the zip file</a>. Then double click on the <code>install</code> script (or run it in a terminal window).</td>
-<td width="33%"><code>sudo gem install fastlane -NV</code></td>
-</tr>
-</table>
+Install _fastlane_ using
+```
+[sudo] gem install fastlane -NV
+```
+or alternatively using `brew cask install fastlane`
 
 # Available Actions
 ## iOS
-### ios increment_build
-```
-fastlane ios increment_build
-```
-Increments the build number for all targets
 ### ios increment_version_patch
 ```
 fastlane ios increment_version_patch
@@ -50,16 +31,61 @@ Increments the version number for a new minor version
 fastlane ios increment_version_major
 ```
 Increments the version number for a new major version
-### ios test
+### ios determine_commit
 ```
-fastlane ios test
+fastlane ios determine_commit
 ```
-Runs all the tests
-### ios metadata
+Determines the commit for a given build number
+
+- pass build number via 'build_number:xxx'
+### ios makescreenshots
 ```
-fastlane ios metadata
+fastlane ios makescreenshots
 ```
-Uploads the application's metadata to iTunes Connect
+Create screenshots
+### ios upload_screenshots
+```
+fastlane ios upload_screenshots
+```
+Upload only screenshots to iTunesConnect
+
+No upload of screenshots or IPA
+### ios upload_metadata
+```
+fastlane ios upload_metadata
+```
+Upload only metadata to iTunesConnect
+
+No upload of screenshots or IPA
+### ios release
+```
+fastlane ios release
+```
+Build and upload only IPA and metadata to iTunesConnect
+
+No upload of screenshots
+### ios beta
+```
+fastlane ios beta
+```
+Build and upload only IPA (beta) to iTunesConnect
+
+No upload of screenshots or metadata
+### ios tag_release
+```
+fastlane ios tag_release
+```
+
+### ios refresh_dsyms
+```
+fastlane ios refresh_dsyms
+```
+Download dSYMS files from iTunesConnect and upload them to Firebase
+### ios changelog
+```
+fastlane ios changelog
+```
+
 
 ----
 
