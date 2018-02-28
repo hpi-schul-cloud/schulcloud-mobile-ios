@@ -22,7 +22,7 @@ class schulcloudUITests: XCTestCase {
         setupSnapshot(app)
         app.launch()
 
-        XCUIDevice.shared().orientation = UIDevice.current.userInterfaceIdiom == .pad ? .landscapeLeft : .portrait
+        XCUIDevice.shared.orientation = UIDevice.current.userInterfaceIdiom == .pad ? .landscapeLeft : .portrait
 
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
@@ -73,8 +73,6 @@ class schulcloudUITests: XCTestCase {
         let app = XCUIApplication()
         let emailAdresseOderNutzernameTextField = app.textFields["Email-Adresse oder Nutzername"]
         emailAdresseOderNutzernameTextField.tap()
-        let deleteText = (emailAdresseOderNutzernameTextField.value as? String ?? "").characters.map { _ in XCUIKeyboardKeyDelete }.joined(separator: "")
-        emailAdresseOderNutzernameTextField.typeText(deleteText)
         emailAdresseOderNutzernameTextField.clearAndEnter(text: username)
 
         let passwortSecureTextField = app.secureTextFields["Passwort"]

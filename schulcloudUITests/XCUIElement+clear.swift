@@ -19,7 +19,7 @@ extension XCUIElement {
         }
 
         self.tap()
-        let deleteString = stringValue.characters.map { _ in XCUIKeyboardKeyDelete }.joined(separator: "")
+        let deleteString = String(repeating: XCUIKeyboardKey.delete.rawValue, count: stringValue.count) // stringValue.map { _ in "\u{8}" }.joined(separator: "")
         self.typeText(deleteString)
     }
 
