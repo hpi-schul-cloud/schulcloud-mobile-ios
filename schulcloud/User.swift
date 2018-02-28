@@ -78,9 +78,7 @@ extension User : Pullable {
         self.lastName = try object.value(for: "lastName")
         
         let permissions : [String] = (try? object.value(for: "permissions")) ?? []
-        self.permissions = permissions.flatMap{ UserPermissions(str: $0) }.reduce(UserPermissions(), { (acc, permission) -> UserPermissions in
-            return acc.union(permission)
-        })
+        self.permissions = UserPermissions(array:permissions)
     }
 
 }
