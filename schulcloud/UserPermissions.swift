@@ -16,6 +16,12 @@ struct UserPermissions : OptionSet {
         self.rawValue = rawValue
     }
     
+    init(array: [String]) {
+        self = array.flatMap{ UserPermissions(str: $0) }.reduce(UserPermissions.none, { (acc, permission) -> UserPermissions in
+            return acc.union(permission)
+        })
+    }
+    
     init?(str: String) {
         switch str {
         case "ACCOUNT_CREATE":
@@ -179,6 +185,7 @@ struct UserPermissions : OptionSet {
         }
     }
     
+    static let none = UserPermissions(rawValue: (0, 0))
     static let accountCreate = UserPermissions(rawValue: ( 0, 1 << 0) )
     static let accountEdit = UserPermissions(rawValue: ( 0, 1 << 1 ) )
     static let adminView = UserPermissions(rawValue: ( 0, 1 << 2 ) )
