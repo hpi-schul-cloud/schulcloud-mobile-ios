@@ -272,8 +272,10 @@ extension UserPermissions : Equatable {
 }
 
 extension UserPermissions : SetAlgebra {
+
+    // This is required by SetAlgebra protocol, user should use UserPermissions.none or rawValue init instead
     init() {
-        rawValue = (0, 0)
+        self = UserPermissions.none
     }
     
     func intersection(_ other: UserPermissions) -> UserPermissions {
