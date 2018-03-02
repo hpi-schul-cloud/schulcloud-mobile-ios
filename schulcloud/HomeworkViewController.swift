@@ -6,6 +6,11 @@
 //  Copyright © 2017 Hasso-Plattner-Institut. All rights reserved.
 //
 
+/// TODO(permissions):
+///     homeworkEdit? - not sure we want to do that
+///     homeworkCreate? - same as above
+///     submissionCreate/submissionEdit/submissionView homeworkEdit for homework submission
+
 import UIKit
 import CoreData
 

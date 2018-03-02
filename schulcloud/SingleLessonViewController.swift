@@ -9,6 +9,8 @@
 import UIKit
 import WebKit
 
+/// TODO(permissions):
+///     contentView? Should we not display the content of lesson if no permission? Seems off
 class SingleLessonViewController: UIViewController, WKUIDelegate {
     
     var lesson: Lesson!

@@ -6,6 +6,10 @@
 //  Copyright © 2017 Hasso-Plattner-Institut. All rights reserved.
 //
 
+/// TODO(permissions):
+///     lessonView?
+
+
 import UIKit
 import CoreData
 

@@ -3,6 +3,8 @@ import EventKit
 import CalendarKit
 import DateToolsSwift
 
+/// TODO(permissions): ?
+///     Allow adding and editing? Don't think so
 
 class CalendarViewController: DayViewController {
     
