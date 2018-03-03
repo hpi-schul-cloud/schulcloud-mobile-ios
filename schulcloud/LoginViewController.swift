@@ -70,7 +70,7 @@ class LoginViewController: UIViewController {
         self.passwordInput.shake()
     }
 
-    func adjustViewForKeyboardShow(_ notification: Notification) {
+    @objc func adjustViewForKeyboardShow(_ notification: Notification) {
         // On some devices, the keyboard can overlap with some UI elements. To prevent this, we move
         // the `inputContainer` upwards. The other views will repostion accordingly.
         let keyboardFrameValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue
@@ -93,7 +93,7 @@ class LoginViewController: UIViewController {
         }
     }
 
-    func adjustViewForKeyboardHide(_ notification: Notification) {
+    @objc func adjustViewForKeyboardHide(_ notification: Notification) {
         self.centerInputConstraints.constant = 0
 
         UIView.animate(withDuration: 0.25) {

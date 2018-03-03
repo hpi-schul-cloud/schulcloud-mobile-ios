@@ -107,7 +107,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         notificationCenter.addObserver(self, selector: #selector(managedObjectContextObjectsDidChange), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: managedObjectContext)
     }
     
-    func managedObjectContextObjectsDidChange(notification: NSNotification) {
+    @objc func managedObjectContextObjectsDidChange(notification: NSNotification) {
         guard let userInfo = notification.userInfo else { return }
         
         if let inserts = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject>, inserts.count > 0 {

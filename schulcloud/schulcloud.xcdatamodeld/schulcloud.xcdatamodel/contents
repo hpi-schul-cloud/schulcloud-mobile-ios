@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13240" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="16G1114" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Content" representedClassName="Content" syncable="YES">
         <attribute name="component" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="hidden" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
@@ -16,9 +16,18 @@
         <relationship name="teachers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="taughtCourses" inverseEntity="User" syncable="YES"/>
     </entity>
     <entity name="EventData" representedClassName="EventData" syncable="YES">
-        <attribute name="courseId" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="eventId" attributeType="String" syncable="YES"/>
-        <attribute name="externalEventId" attributeType="String" syncable="YES"/>
+        <attribute name="detail" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ekIdentifier" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="end" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="id" attributeType="String" syncable="YES"/>
+        <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rrDayOfWeek" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rrEndDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="rrFrequency" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rrInterval" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="start" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="course" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Course" syncable="YES"/>
     </entity>
     <entity name="File" representedClassName="File" syncable="YES">
         <attribute name="cacheUrlString" optional="YES" attributeType="String" syncable="YES"/>
@@ -67,6 +76,17 @@
         <relationship name="contents" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Content" inverseName="lesson" inverseEntity="Content" syncable="YES"/>
         <relationship name="course" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Course" inverseName="lessons" inverseEntity="Course" syncable="YES"/>
     </entity>
+    <entity name="NewsArticle" representedClassName="NewsArticle" syncable="YES">
+        <attribute name="content" attributeType="String" syncable="YES"/>
+        <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="displayAt" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="history" attributeType="Transformable" syncable="YES"/>
+        <attribute name="id" attributeType="String" syncable="YES"/>
+        <attribute name="schoolId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" attributeType="String" syncable="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="creator" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="newsCreated" inverseEntity="User" syncable="YES"/>
+    </entity>
     <entity name="User" representedClassName="User" syncable="YES">
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="firstName" attributeType="String" syncable="YES"/>
@@ -75,6 +95,7 @@
         <attribute name="schoolId" attributeType="String" syncable="YES"/>
         <relationship name="assignedHomeworks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Homework" inverseName="teacher" inverseEntity="Homework" syncable="YES"/>
         <relationship name="groups" toMany="YES" deletionRule="Nullify" destinationEntity="UserGroup" inverseName="users" inverseEntity="UserGroup" syncable="YES"/>
+        <relationship name="newsCreated" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="NewsArticle" inverseName="creator" inverseEntity="NewsArticle" syncable="YES"/>
         <relationship name="homeworkSubmissions" toMany="YES" deletionRule="Cascade" destinationEntity="HomeworkSubmission" inverseName="student" inverseEntity="HomeworkSubmission" syncable="YES"/>
         <relationship name="taughtCourses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Course" inverseName="teachers" inverseEntity="Course" syncable="YES"/>
         <fetchIndex name="byIdIndex">
@@ -90,12 +111,13 @@
     <elements>
         <element name="Content" positionX="-99" positionY="171" width="128" height="135"/>
         <element name="Course" positionX="-99" positionY="144" width="128" height="120"/>
-        <element name="EventData" positionX="-63" positionY="207" width="128" height="90"/>
+        <element name="EventData" positionX="-63" positionY="207" width="128" height="225"/>
         <element name="File" positionX="-342" positionY="291" width="128" height="165"/>
         <element name="Homework" positionX="-99" positionY="288" width="128" height="210"/>
         <element name="HomeworkComment" positionX="-126" positionY="144" width="128" height="60"/>
         <element name="HomeworkSubmission" positionX="-135" positionY="135" width="128" height="150"/>
         <element name="Lesson" positionX="-108" positionY="162" width="128" height="150"/>
+        <element name="NewsArticle" positionX="-63" positionY="216" width="128" height="180"/>
         <element name="User" positionX="205" positionY="225" width="137" height="180"/>
         <element name="UserGroup" positionX="-9" positionY="-18" width="128" height="105"/>
     </elements>

@@ -14,9 +14,6 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.tableView.rowHeight = UITableViewAutomaticDimension
-        self.tableView.estimatedRowHeight = UITableViewAutomaticDimension
-
         self.performFetch()
         self.updateData()
     }
@@ -41,7 +38,7 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dueDate", ascending: true)]
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                                   managedObjectContext: managedObjectContext,
-                                                                  sectionNameKeyPath: #keyPath(Homework.dueDateShort),
+                                                                  sectionNameKeyPath: "dueDateShort",
                                                                   cacheName: nil)
         fetchedResultsController.delegate = self
         
@@ -96,4 +93,11 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
         }
     }
 
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
 }

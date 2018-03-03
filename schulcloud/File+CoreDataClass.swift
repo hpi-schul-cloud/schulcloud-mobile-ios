@@ -97,4 +97,16 @@ extension File {
             cacheUrlString = newValue?.absoluteString
         }
     }
+
+    var detail: String? {
+        guard !self.isDirectory else {
+            return nil
+        }
+
+        guard let size = self.size else {
+            return nil
+        }
+
+        return ByteCountFormatter.string(fromByteCount: Int64(truncating: size), countStyle: .binary)
+    }
 }

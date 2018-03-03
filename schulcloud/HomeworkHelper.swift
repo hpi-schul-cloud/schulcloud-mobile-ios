@@ -33,10 +33,10 @@ public class HomeworkHelper {
                     return Future(error: .database(error.localizedDescription))
                 }
             })
+            }
             .flatMap { save(privateContext: privateMOC) }
             .andThen { _ in
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: Homework.homeworkDidChangeNotificationName), object: nil)
         }
     }
-    
 }
