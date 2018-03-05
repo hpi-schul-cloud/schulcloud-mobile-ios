@@ -31,6 +31,8 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
         
         if currentFolder == nil {
             currentFolder = FileHelper.rootFolder
+        } else if currentFolder.id == FileHelper.coursesDirectoryID {
+            NotificationCenter.default.addObserver(self, selector: #selector(courseStructureDidUpdate(notification:)), name: FileHelper.courseFolderStructureChanged, object: nil)
         }
 
         self.navigationItem.title = self.currentFolder.name
@@ -45,19 +47,17 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
             future = CourseHelper.syncCourses().asVoid()
         } else if FileHelper.sharedDirectoryID == currentFolder.id {
             future = fileSync.downloadSharedFiles()
-            .andThen { result in
-                if let objects = result.value {
-                    for json in objects {
-                        FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json)
-                    }
+            .flatMap { objects -> Future<Void, SCError> in
+                var updates : [Future<Void,SCError>] = []
+                for json in objects {
+                    updates.append(FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json))
                 }
+                return updates.sequence().asVoid()
             }.asVoid()
         } else {
             future = fileSync.downloadContent(for: currentFolder)
-            .andThen { result in
-                if let json = result.value {
-                    FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json)
-                }
+            .flatMap { json -> Future<Void, SCError> in
+                return FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json)
             }.asVoid()
         }
 
@@ -106,6 +106,19 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
         tableView.reloadData()
     }
 
+}
+
+//MARK: course change notification
+extension FilesViewController {
+    @objc func courseStructureDidUpdate(notification: Notification) {
+        DispatchQueue.main.async { [weak self] in
+            self?.performFetch()
+        }
+    }
+}
+
+//MARK: TableView Delegate/DataSource
+extension FilesViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
     }

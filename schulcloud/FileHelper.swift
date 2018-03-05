@@ -288,14 +288,58 @@ class FileHelper {
         fatalError("Implement deleting files")
     }
 
+    static func updateDatabase(contentsOf parentFolder: File, using contents: [String: Any]) -> Future<Void, SCError> {
+        let promise = Promise<Void, SCError>()
+        let parentFolderObjectId = parentFolder.objectID
+
+        CoreDataHelper.persistentContainer.performBackgroundTask { context in
+            do {
+                let files: [[String: Any]] = try contents.value(for: "files")
+                let folders: [[String: Any]] = try contents.value(for: "directories")
+                guard let parentFolder = context.existingTypedObject(with: parentFolderObjectId) as? File else {
+                    log.error("Unable to find parent folder")
+                    return
+                }
+
+                let createdFiles = try files.map({ try File.createOrUpdate(inContext: context, parentFolder: parentFolder, isDirectory: false, data: $0) })
+                let createdFolders = try folders.map({ try File.createOrUpdate(inContext: context, parentFolder: parentFolder, isDirectory: true, data: $0) })
+
+                // remove deleted files or folders
+                let foundPaths = createdFiles.map({$0.currentPath}) + createdFolders.map({$0.currentPath})
+                let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
+                let notOnServerPredicate = NSPredicate(format: "NOT (currentPath IN %@)", foundPaths)
+                let fetchRequest = NSFetchRequest<File>(entityName: "File")
+                fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [notOnServerPredicate, parentFolderPredicate])
+
+                try CoreDataHelper.delete(fetchRequest: fetchRequest, context: context)
+                try context.save()
+                promise.success(())
+            } catch let error as MarshalError {
+                promise.failure(.jsonDeserialization(error.localizedDescription))
+            } catch let error {
+                log.error(error)
+                promise.failure(.database(error.localizedDescription))
+            }
+        }
+
+        return promise.future
+    }
+
+}
+
+// MARK: Course folder structure management
+extension FileHelper {
+
+    static var courseFolderStructureChanged = Notification.Name(rawValue: "courseFolderStructureChangedName")
+
     static func processCourseUpdates(changes: [String: [(id: String, name: String)]]) {
         let rootObjectId = FileHelper.rootFolder.objectID
 
         CoreDataHelper.persistentContainer.performBackgroundTask { context in
             guard let rootFolder = context.existingTypedObject(with: rootObjectId) as? File,
                 let parentFolder = rootFolder.contents.first(where: { $0.id == FileHelper.coursesDirectoryID }) else {
-                log.error("Unable to find course directory")
-                return
+                    log.error("Unable to find course directory")
+                    return
             }
 
             if let deletedCourses = changes[NSDeletedObjectsKey], !deletedCourses.isEmpty {
@@ -332,38 +376,10 @@ class FileHelper {
             }
 
             context.saveWithResult()
+            NotificationCenter.default.post(Notification(name: courseFolderStructureChanged))
         }
     }
-    
-    static func updateDatabase(contentsOf parentFolder: File, using contents: [String: Any]) {
-        let parentFolderObjectId = parentFolder.objectID
 
-        CoreDataHelper.persistentContainer.performBackgroundTask { context in
-            do {
-                let files: [[String: Any]] = try contents.value(for: "files")
-                let folders: [[String: Any]] = try contents.value(for: "directories")
-                guard let parentFolder = context.existingTypedObject(with: parentFolderObjectId) as? File else {
-                    log.error("Unable to find parent folder")
-                    return
-                }
-
-                let createdFiles = try files.map({ try File.createOrUpdate(inContext: context, parentFolder: parentFolder, isDirectory: false, data: $0) })
-                let createdFolders = try folders.map({ try File.createOrUpdate(inContext: context, parentFolder: parentFolder, isDirectory: true, data: $0) })
-
-                // remove deleted files or folders
-                let foundPaths = createdFiles.map({$0.currentPath}) + createdFolders.map({$0.currentPath})
-                let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
-                let notOnServerPredicate = NSPredicate(format: "NOT (currentPath IN %@)", foundPaths)
-                let fetchRequest = NSFetchRequest<File>(entityName: "File")
-                fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [notOnServerPredicate, parentFolderPredicate])
-
-                try CoreDataHelper.delete(fetchRequest: fetchRequest, context: context)
-                try context.save()
-            } catch let error {
-                log.error(error)
-            }
-        }
-    }
 }
 
 struct SignedUrl: Unmarshaling {
