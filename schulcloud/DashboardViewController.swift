@@ -8,7 +8,7 @@
 
 /// TODO(permissions):
 ///     homeworkView (show or not the overview)
-///     calendarView (show or not the overview)
+///     calendarView (show or display permission error)
 
 import UIKit
 

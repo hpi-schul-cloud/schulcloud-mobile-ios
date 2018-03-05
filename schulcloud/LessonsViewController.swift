@@ -7,7 +7,7 @@
 //
 
 /// TODO(permissions):
-///     lessonView?
+///     lessonView? id not, show error message
 
 
 import UIKit

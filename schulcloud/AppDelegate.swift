@@ -15,7 +15,7 @@ import SwiftyBeaver
 let log = SwiftyBeaver.self
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, UITabBarControllerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
 
@@ -41,8 +41,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if !isUnitTesting() {
             FIRApp.configure()
         }
-
-        self.tabBarController?.delegate = self
 
         self.window?.tintColor = UIColor.schulcloudRed
         selectInitialViewController(application: application)
@@ -114,6 +112,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func isUnitTesting() -> Bool {
         return ProcessInfo.processInfo.environment["TEST"] != nil
     }
+}
+
+extension AppDelegate : UITabBarControllerDelegate {
 
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         guard let userID = Globals.account?.userId else { return false }
@@ -146,7 +147,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             self.showError(on: tabBarController, missingPermission: .filestorageView)
             return false
         }
-
 
         return true
     }

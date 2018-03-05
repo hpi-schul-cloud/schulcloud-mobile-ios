@@ -7,9 +7,11 @@
 //
 
 /// TODO(permissions):
+///   teacher only (not needed yet)
 ///     homeworkEdit? - not sure we want to do that
 ///     homeworkCreate? - same as above
-///     submissionCreate/submissionEdit/submissionView homeworkEdit for homework submission
+///   Student only
+///     submissionCreate/submissionEdit/submissionView for homework submission
 
 import UIKit
 import CoreData
