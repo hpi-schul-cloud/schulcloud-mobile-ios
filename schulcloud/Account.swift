@@ -8,8 +8,7 @@
 
 import Foundation
 import Locksmith
-
-
+import CoreData
 
 struct SchulCloudAccount: CreateableSecureStorable, ReadableSecureStorable, DeleteableSecureStorable, GenericPasswordSecureStorable, SecureStorableResultType {
 
@@ -48,4 +47,20 @@ struct SchulCloudAccount: CreateableSecureStorable, ReadableSecureStorable, Dele
 
 class Globals {
     static var account: SchulCloudAccount? = nil
+
+    static var currentUser : User? {
+        guard let userId = account?.userId else { return nil }
+        return CoreDataHelper.viewContext.performAndWait { () -> User? in
+            let fetchRequest : NSFetchRequest<User> = User.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "id == %@", userId)
+
+            switch CoreDataHelper.viewContext.fetchSingle(fetchRequest) {
+            case .success(let user):
+                return user
+            case .failure(let error):
+                print("Failure fetching self user: \(error)")
+                return nil
+            }
+        }
+    }
 }

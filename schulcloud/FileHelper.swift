@@ -337,7 +337,6 @@ class FileHelper {
     
     static func updateDatabase(contentsOf parentFolder: File, using contents: [String: Any]) {
         let parentFolderObjectId = parentFolder.objectID
-
         CoreDataHelper.persistentContainer.performBackgroundTask { context in
             do {
                 let files: [[String: Any]] = try contents.value(for: "files")

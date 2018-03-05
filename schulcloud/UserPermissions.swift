@@ -263,6 +263,11 @@ struct UserPermissions : OptionSet {
     static let userCreate = UserPermissions(rawValue: ( 1 << 10, 0 ) )
     static let userEdit = UserPermissions(rawValue: ( 1 << 11, 0 ) )
     static let userView = UserPermissions(rawValue: ( 1 << 12, 0 ) )
+
+    //NOTE: So far, only filestorageCreate and removed are handled on the backend, I guess in the future, fileCreate/fileMove/fileDelete will be handled
+    static let creatingFiles : UserPermissions = [.filestorageCreate]
+    static let deletingFiles : UserPermissions = [.filestorageRemove]
+    static let movingFiles : UserPermissions = [.filestorageCreate]
 }
 
 extension UserPermissions : Equatable {
@@ -272,7 +277,6 @@ extension UserPermissions : Equatable {
 }
 
 extension UserPermissions : SetAlgebra {
-
     // This is required by SetAlgebra protocol, user should use UserPermissions.none or rawValue init instead
     init() {
         self = UserPermissions.none
