@@ -50,13 +50,13 @@ class CalendarOverviewViewController: UIViewController {
         self.syncEvents()
     }
 
-    var todayInterval : DateInterval = {
+    var todayInterval : DateInterval {
         let now = Date()
         let today = Date(year:now.year, month: now.month, day: now.day)
         let oneDayChunk = TimeChunk(seconds: 0, minutes: 0, hours: 0, days: 1, weeks: 0, months: 0, years: 0)
         let tomorrow = today + oneDayChunk
         return DateInterval(start: now, end: tomorrow)
-    }()
+    }
     
     private func syncEvents() {
         CalendarEventHelper.syncEvents().onSuccess { result in
