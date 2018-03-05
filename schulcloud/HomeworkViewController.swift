@@ -15,6 +15,7 @@
 
 import UIKit
 import CoreData
+import DateToolsSwift
 
 class HomeworkViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
@@ -41,8 +42,13 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
 
     // MARK: - Table view data source
     fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Homework> = {
+
+        let now = Date()
+        let today : NSDate = Date(year: now.year, month: now.month, day: now.day) as NSDate
+
         let fetchRequest: NSFetchRequest<Homework> = Homework.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dueDate", ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "dueDate >= %@", today)
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                                   managedObjectContext: CoreDataHelper.viewContext,
                                                                   sectionNameKeyPath: "dueDateShort",
