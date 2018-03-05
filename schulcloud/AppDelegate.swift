@@ -18,11 +18,18 @@ let log = SwiftyBeaver.self
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
-    
+
+    var tabBarController : UITabBarController? {
+        return self.window?.rootViewController as? UITabBarController
+    }
+
+    static var instance : AppDelegate? {
+        return UIApplication.shared.delegate as? AppDelegate
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
+
         // set up SwiftyBeaver
         let console = ConsoleDestination()  // log to Xcode Console
         console.levelColor.warning = "❗️ "
@@ -34,10 +41,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if !isUnitTesting() {
             FIRApp.configure()
         }
-        
+
         self.window?.tintColor = UIColor.schulcloudRed
         selectInitialViewController(application: application)
-        
+
         CoreDataObserver.shared.startObserving()
         
         return true
@@ -71,7 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // skip login
         prepareInitialViewController(with: validAccount)
     }
-    
+
     func prepareInitialViewController(with account: SchulCloudAccount) {
         Globals.account = account
         SCNotifications.initializeMessaging()
@@ -105,5 +112,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func isUnitTesting() -> Bool {
         return ProcessInfo.processInfo.environment["TEST"] != nil
     }
-    
+}
+
+extension AppDelegate : UITabBarControllerDelegate {
+
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        guard let userID = Globals.account?.userId else { return false }
+        let user_ = CoreDataHelper.viewContext.performAndWait { () -> User? in
+            let fetchRequest : NSFetchRequest<User> = User.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "id == %@", userID)
+            return CoreDataHelper.viewContext.fetchSingle(fetchRequest).value
+        }
+
+        guard let user = user_ else { return false }
+        guard let navController = viewController as? UINavigationController else { return false }
+        guard let rootViewController = navController.viewControllers.first else { return false }
+
+        if rootViewController is DashboardViewController, !user.permissions.contains(.dashboardView) {
+            self.showError(on: tabBarController, missingPermission: .dashboardView)
+            return false
+        }
+
+        if rootViewController is NewsListViewController, !user.permissions.contains(.newsView) {
+            self.showError(on: tabBarController, missingPermission: .newsView)
+            return false
+        }
+
+        if rootViewController is LessonsViewController, !user.permissions.contains(.lessonsView) {
+            self.showError(on: tabBarController, missingPermission: .lessonsView)
+            return false
+        }
+
+        if rootViewController is FilesViewController, !user.permissions.contains(.filestorageView) {
+            self.showError(on: tabBarController, missingPermission: .filestorageView)
+            return false
+        }
+
+        return true
+    }
+
+    func showError(on viewController: UIViewController, missingPermission: UserPermissions) {
+        let alertController = UIAlertController(title: "Permission Error", message: "You are not allowed to access this feature. \(missingPermission)", preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+        alertController.addAction(alertAction)
+        viewController.present(alertController, animated: true, completion: nil)
+    }
 }

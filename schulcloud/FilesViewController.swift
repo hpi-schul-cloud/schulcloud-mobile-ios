@@ -6,6 +6,17 @@
 //
 //
 
+/// TODO: Permissions handling
+///    filestorageView -> Allows displaying of files
+///    filestorageEdit -> ???
+///    filestorageCreate -> ???
+///    filestorageRemove -> ???
+///    fileCreate -> Create a file (requires filestorageEdit)
+///    fileDelete -> Delete a file (requires filestorageEdit)
+///    fileMove   -> Move a file in the structure (requires filestorageEdit)
+///    folderCreate -> Create a folder (requires filestorageEdit)
+///    folderDelete -> Delete a folder (requires filestorageEdit)
+
 import UIKit
 import CoreData
 import BrightFutures

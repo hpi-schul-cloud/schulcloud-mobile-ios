@@ -42,12 +42,12 @@ class CalendarOverviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.state = .noEvents(CalendarOverviewViewController.loadingMessage)
-        self.syncEvents()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.updateEvents()
+        self.syncEvents()
     }
 
     var todayInterval : DateInterval = {

@@ -6,6 +6,13 @@
 //  Copyright © 2017 Hasso-Plattner-Institut. All rights reserved.
 //
 
+/// TODO(permissions):
+///   teacher only (not needed yet)
+///     homeworkEdit? - not sure we want to do that
+///     homeworkCreate? - same as above
+///   Student only
+///     submissionCreate/submissionEdit/submissionView for homework submission
+
 import UIKit
 import CoreData
 

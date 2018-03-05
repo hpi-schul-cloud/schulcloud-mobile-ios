@@ -3,7 +3,6 @@ import EventKit
 import CalendarKit
 import DateToolsSwift
 
-
 class CalendarViewController: DayViewController {
     
     var calendarEvents : [CalendarEvent] = []
