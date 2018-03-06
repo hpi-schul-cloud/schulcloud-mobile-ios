@@ -239,7 +239,7 @@ class FileHelper {
 
             let userRootFolder = File(context: context)
             userRootFolder.id = userDataRootURL.absoluteString
-            userRootFolder.name = "Mein Dateien"
+            userRootFolder.name = "Meine Dateien"
             userRootFolder.isDirectory = true
             userRootFolder.currentPath = userDataRootURL.absoluteString
             userRootFolder.parentDirectory = rootFolder
