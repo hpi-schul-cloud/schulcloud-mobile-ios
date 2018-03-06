@@ -21,7 +21,7 @@ import UIKit
 import CoreData
 import BrightFutures
 
-class FilesViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class FilesViewController: UITableViewController {
 
     var currentFolder: File!
     var fileSync = FileSync()
@@ -31,8 +31,6 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
         
         if currentFolder == nil {
             currentFolder = FileHelper.rootFolder
-        } else if currentFolder.id == FileHelper.coursesDirectoryID {
-            NotificationCenter.default.addObserver(self, selector: #selector(courseStructureDidUpdate(notification:)), name: FileHelper.courseFolderStructureChanged, object: nil)
         }
 
         self.navigationItem.title = self.currentFolder.name
@@ -61,11 +59,7 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
             }.asVoid()
         }
 
-        future.onSuccess { (_) in
-            DispatchQueue.main.async {
-                self.performFetch()
-            }
-        }.onFailure { (error) in
+        future.onFailure { (error) in
             print("Failure: \(error)")
         }.onComplete{ (_) in
             DispatchQueue.main.async {
@@ -108,12 +102,9 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
 
 }
 
-//MARK: course change notification
-extension FilesViewController {
-    @objc func courseStructureDidUpdate(notification: Notification) {
-        DispatchQueue.main.async { [weak self] in
-            self?.performFetch()
-        }
+extension FilesViewController : NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        self.tableView.reloadData()
     }
 }
 
