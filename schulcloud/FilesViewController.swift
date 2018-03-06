@@ -118,11 +118,7 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
     }
 
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        guard let currentUser = Globals.currentUser,
-            //NOTE: I keep this here, no file permissions are set on the files, I suspect it is something that will come
-              let file = self.fetchedResultsController.sections?[indexPath.section].objects?[indexPath.row] as? File else {
-            return false
-        }
+        guard let currentUser = Globals.currentUser else { return false }
         return currentUser.permissions.contains(.movingFiles) || currentUser.permissions.contains(.deletingFiles) //&& file.permissions.contains(.write)
     }
 
@@ -131,14 +127,8 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
         var actions : [UITableViewRowAction] = []
 
         //TODO: Implement!
-        if false && currentUser.permissions.contains(.movingFiles) {
-            actions.append(UITableViewRowAction(style: .normal, title: "Move", handler: { (rowAction, indexPath) in
-            }))
-        }
-
-        //TODO: Implement!
         if false && currentUser.permissions.contains(.deletingFiles) {
-            actions.append( UITableViewRowAction(style: .destructive, title: "Remove", handler: { (rowAction, indexPath) in
+            actions.append( UITableViewRowAction(style: .destructive, title: "Delete", handler: { (rowAction, indexPath) in
                 //TODO: Implement!
                 /*
                 guard let file = self.fetchedResultsController.sections?[indexPath.section].objects?[indexPath.row] as? File else { return }
@@ -160,6 +150,12 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
                         self.present(alertVC, animated: true) {}
                     }
                 }*/
+            }))
+        }
+
+        //TODO: Implement!
+        if false && currentUser.permissions.contains(.movingFiles) {
+            actions.append(UITableViewRowAction(style: .normal, title: "Move", handler: { (rowAction, indexPath) in
             }))
         }
 
