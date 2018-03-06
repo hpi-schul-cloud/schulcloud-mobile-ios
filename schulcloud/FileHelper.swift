@@ -329,9 +329,6 @@ class FileHelper {
 
 // MARK: Course folder structure management
 extension FileHelper {
-
-    static var courseFolderStructureChanged = Notification.Name(rawValue: "courseFolderStructureChangedName")
-
     static func processCourseUpdates(changes: [String: [(id: String, name: String)]]) {
         let rootObjectId = FileHelper.rootFolder.objectID
 
@@ -376,7 +373,6 @@ extension FileHelper {
             }
 
             context.saveWithResult()
-            NotificationCenter.default.post(Notification(name: courseFolderStructureChanged))
         }
     }
 
