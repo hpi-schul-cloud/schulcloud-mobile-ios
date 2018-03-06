@@ -191,6 +191,9 @@ class FileHelper {
     static var rootDirectoryID = "root"
     static var coursesDirectoryID = "courses"
     static var sharedDirectoryID = "shared"
+    static var userDirectoyID : String {
+        return "users/\(Globals.account?.userId ?? "")"
+    }
 
     private static var notSynchronizedPath : [String] = {
         return [rootDirectoryID]
@@ -238,7 +241,7 @@ class FileHelper {
             rootFolder.permissions = .read
 
             let userRootFolder = File(context: context)
-            userRootFolder.id = userDataRootURL.absoluteString
+            userRootFolder.id = userDirectoyID
             userRootFolder.name = "Meine Dateien"
             userRootFolder.isDirectory = true
             userRootFolder.currentPath = userDataRootURL.absoluteString
