@@ -21,7 +21,7 @@ import UIKit
 import CoreData
 import BrightFutures
 
-class FilesViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class FilesViewController: UITableViewController {
 
     var currentFolder: File!
     var fileSync = FileSync()
@@ -45,27 +45,21 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
             future = CourseHelper.syncCourses().asVoid()
         } else if FileHelper.sharedDirectoryID == currentFolder.id {
             future = fileSync.downloadSharedFiles()
-            .andThen { result in
-                if let objects = result.value {
-                    for json in objects {
-                        FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json)
-                    }
+            .flatMap { objects -> Future<Void, SCError> in
+                var updates : [Future<Void,SCError>] = []
+                for json in objects {
+                    updates.append(FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json))
                 }
+                return updates.sequence().asVoid()
             }.asVoid()
         } else {
             future = fileSync.downloadContent(for: currentFolder)
-            .andThen { result in
-                if let json = result.value {
-                    FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json)
-                }
+            .flatMap { json -> Future<Void, SCError> in
+                return FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json)
             }.asVoid()
         }
 
-        future.onSuccess { (_) in
-            DispatchQueue.main.async {
-                self.performFetch()
-            }
-        }.onFailure { (error) in
+        future.onFailure { (error) in
             print("Failure: \(error)")
         }.onComplete{ (_) in
             DispatchQueue.main.async {
@@ -106,6 +100,16 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
         tableView.reloadData()
     }
 
+}
+
+extension FilesViewController : NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        self.tableView.reloadData()
+    }
+}
+
+//MARK: TableView Delegate/DataSource
+extension FilesViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
     }
