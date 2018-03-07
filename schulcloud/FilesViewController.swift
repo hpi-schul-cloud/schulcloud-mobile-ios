@@ -119,8 +119,8 @@ class FilesViewController: UITableViewController, NSFetchedResultsControllerDele
 
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         guard let currentUser = Globals.currentUser else { return false }
-        guard let file = self.fetchedResultsController.sections?[indexPath.section].objects?[indexPath.row] as? File,
-              file.id != FileHelper.rootDirectoryID, file.parentDirectory?.id != FileHelper.rootDirectoryID, file.parentDirectory?.id != FileHelper.userDirectoyID
+        let file = self.fetchedResultsController.object(at: indexPath) as File
+        guard file.id != FileHelper.rootDirectoryID, file.parentDirectory?.id != FileHelper.rootDirectoryID, file.parentDirectory?.id != FileHelper.coursesDirectoryID
             else { return false }
 
         return currentUser.permissions.contains(.movingFiles) || currentUser.permissions.contains(.deletingFiles) //&& file.permissions.contains(.write)
