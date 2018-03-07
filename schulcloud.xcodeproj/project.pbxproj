@@ -101,6 +101,7 @@
 		CE737A4E1FFE65B0006DAB54 /* NewsArticleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE737A4D1FFE65B0006DAB54 /* NewsArticleCell.swift */; };
 		CE737A501FFE6929006DAB54 /* NewsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */; };
 		CE82931320498A1E009D2C84 /* SchulcloudTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE82931220498A1E009D2C84 /* SchulcloudTabBarController.swift */; };
+		CE829317204EB6B3009D2C84 /* DashboardCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE829316204EB6B3009D2C84 /* DashboardCollectionViewController.swift */; };
 		CEB0027D2008BF9C007084C9 /* CalendarEventHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB0027C2008BF9C007084C9 /* CalendarEventHelper.swift */; };
 		CEC042851FFE205E004E9A20 /* NewsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC042841FFE205E004E9A20 /* NewsHelper.swift */; };
 		CEC66C742011E92300B785F8 /* CalendarEventHelper+EventKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC66C732011E92300B785F8 /* CalendarEventHelper+EventKit.swift */; };
@@ -245,6 +246,7 @@
 		CE737A4D1FFE65B0006DAB54 /* NewsArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsArticleCell.swift; sourceTree = "<group>"; };
 		CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListViewController.swift; sourceTree = "<group>"; };
 		CE82931220498A1E009D2C84 /* SchulcloudTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchulcloudTabBarController.swift; sourceTree = "<group>"; };
+		CE829316204EB6B3009D2C84 /* DashboardCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardCollectionViewController.swift; sourceTree = "<group>"; };
 		CEB0027C2008BF9C007084C9 /* CalendarEventHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarEventHelper.swift; sourceTree = "<group>"; };
 		CEC042841FFE205E004E9A20 /* NewsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsHelper.swift; sourceTree = "<group>"; };
 		CEC66C732011E92300B785F8 /* CalendarEventHelper+EventKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CalendarEventHelper+EventKit.swift"; sourceTree = "<group>"; };
@@ -485,6 +487,7 @@
 				50D6432C1F8E09E200A89331 /* HomeworkOverviewViewController.swift */,
 				CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */,
 				CE82931220498A1E009D2C84 /* SchulcloudTabBarController.swift */,
+				CE829316204EB6B3009D2C84 /* DashboardCollectionViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -947,6 +950,7 @@
 				50F39852202C8A2900ADAE5D /* SyncConfig.swift in Sources */,
 				C36C23381EC9DE0700D4163E /* SCError.swift in Sources */,
 				50B44D8A203AAEE1009DC2D3 /* EventData.swift in Sources */,
+				CE829317204EB6B3009D2C84 /* DashboardCollectionViewController.swift in Sources */,
 				50F39856202C8FB300ADAE5D /* Future+retry.swift in Sources */,
 				50B44D89203AAEE1009DC2D3 /* File.swift in Sources */,
 				C31C842E1ECF586500FA070C /* LoadingViewController.swift in Sources */,
