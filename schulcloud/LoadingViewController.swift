@@ -29,6 +29,9 @@
 //    SOFTWARE.
 //
 
+
+/// TODO: Cancel request when poping
+
 import Alamofire
 import Foundation
 import QuickLook
