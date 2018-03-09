@@ -123,7 +123,7 @@ extension FilesViewController {
 
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         guard let currentUser = Globals.currentUser else { return false }
-        let file = self.fetchedResultsController.object(at: indexPath) as File
+        let file = self.fetchedResultsController.object(at: indexPath)
         guard file.id != FileHelper.rootDirectoryID, file.parentDirectory?.id != FileHelper.rootDirectoryID, file.parentDirectory?.id != FileHelper.coursesDirectoryID
             else { return false }
 
