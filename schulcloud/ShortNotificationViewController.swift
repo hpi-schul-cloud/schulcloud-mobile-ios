@@ -33,14 +33,8 @@ class ShortNotificationViewController: UITableViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
         self.tableView.layoutIfNeeded()
-        var viewHeight = self.tableView.contentSize.height
-        if let footer = self.tableView.tableFooterView, footer.isHidden {
-            let bottomPadding: CGFloat = 16.0
-            viewHeight -= footer.frame.size.height - bottomPadding
-        }
-        self.delegate?.viewHeightDidChange(to: viewHeight)
+        self.delegate?.viewHeightDidChange(to: self.height)
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -75,6 +69,17 @@ class ShortNotificationViewController: UITableViewController {
 
     @IBAction func tappedViewMore() {
         self.delegate?.didPressViewMoreButton()
+    }
+}
+
+extension ShortNotificationViewController : ViewControllerHeightDataSource {
+    var height: CGFloat {
+        var viewHeight = self.tableView.contentSize.height
+        if let footer = self.tableView.tableFooterView, footer.isHidden {
+            let bottomPadding: CGFloat = 16.0
+            viewHeight -= footer.frame.size.height - bottomPadding
+        }
+        return viewHeight
     }
 }
 

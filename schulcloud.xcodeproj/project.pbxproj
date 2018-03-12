@@ -95,6 +95,7 @@
 		C3FEB92B1F67E7F400BAD9D7 /* UIColor+Branding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FEB92A1F67E7F400BAD9D7 /* UIColor+Branding.swift */; };
 		C63FB1F9B25BA375BFE83DFB /* Pods_schulcloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09D7CC393E1856DD7EF9B21F /* Pods_schulcloud.framework */; };
 		CE1DAC592004CE0200CEE4C2 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1DAC582004CE0200CEE4C2 /* String+.swift */; };
+		CE23F10E2056B01C00E79E64 /* DashLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE23F10D2056B01C00E79E64 /* DashLayout.swift */; };
 		CE2FF77A2045A15900D5AF8E /* UserPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2FF7792045A15900D5AF8E /* UserPermissions.swift */; };
 		CE644E8920232710003AE700 /* UIColor+hexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE644E8820232710003AE700 /* UIColor+hexString.swift */; };
 		CE737A4C1FFE6354006DAB54 /* TabNews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE737A4B1FFE6354006DAB54 /* TabNews.storyboard */; };
@@ -240,6 +241,7 @@
 		C3C3CAB01EF5CBB6009601AE /* SingleLessonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleLessonViewController.swift; sourceTree = "<group>"; };
 		C3FEB92A1F67E7F400BAD9D7 /* UIColor+Branding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Branding.swift"; sourceTree = "<group>"; };
 		CE1DAC582004CE0200CEE4C2 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		CE23F10D2056B01C00E79E64 /* DashLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashLayout.swift; sourceTree = "<group>"; };
 		CE2FF7792045A15900D5AF8E /* UserPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPermissions.swift; sourceTree = "<group>"; };
 		CE644E8820232710003AE700 /* UIColor+hexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+hexString.swift"; sourceTree = "<group>"; };
 		CE737A4B1FFE6354006DAB54 /* TabNews.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabNews.storyboard; sourceTree = "<group>"; };
@@ -471,6 +473,7 @@
 		C3A5A9351EBCD03600825DBF /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				CE23F10C2056B00800E79E64 /* Dashboard */,
 				C31C84281ECF550C00FA070C /* File Preview */,
 				C3B7DB151EF5EB2200A2F2B5 /* Lesson */,
 				C3418B611ECEE6FB00280E62 /* FilesViewController.swift */,
@@ -487,7 +490,6 @@
 				50D6432C1F8E09E200A89331 /* HomeworkOverviewViewController.swift */,
 				CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */,
 				CE82931220498A1E009D2C84 /* SchulcloudTabBarController.swift */,
-				CE829316204EB6B3009D2C84 /* DashboardCollectionViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -561,6 +563,15 @@
 				5083AB58203D517F002E6E47 /* UserHelper.swift */,
 			);
 			name = Data;
+			sourceTree = "<group>";
+		};
+		CE23F10C2056B00800E79E64 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				CE23F10D2056B01C00E79E64 /* DashLayout.swift */,
+				CE829316204EB6B3009D2C84 /* DashboardCollectionViewController.swift */,
+			);
+			name = Dashboard;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -931,6 +942,7 @@
 				50A1CDE61F501AC5006E9B69 /* NotificationCell.swift in Sources */,
 				50B82F822020C98E0048CB4B /* SyncEngine.swift in Sources */,
 				50B82F8A2020CA370048CB4B /* ResourceIdentifier.swift in Sources */,
+				CE23F10E2056B01C00E79E64 /* DashLayout.swift in Sources */,
 				C3A5A9391EBCD0C600825DBF /* Constants.swift in Sources */,
 				50B82F842020C9C50048CB4B /* ResourceQuery.swift in Sources */,
 				50B82F882020CA080048CB4B /* Pushable.swift in Sources */,
