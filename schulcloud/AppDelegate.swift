@@ -128,7 +128,7 @@ extension AppDelegate : UITabBarControllerDelegate {
         guard let navController = viewController as? UINavigationController else { return false }
         guard let rootViewController = navController.viewControllers.first else { return false }
 
-        if rootViewController is DashboardViewController, !user.permissions.contains(.dashboardView) {
+        if rootViewController is DashboardCollectionViewController, !user.permissions.contains(.dashboardView) {
             self.showError(on: tabBarController, missingPermission: .dashboardView)
             return false
         }
