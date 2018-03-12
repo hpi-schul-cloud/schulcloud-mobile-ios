@@ -554,7 +554,7 @@
             </objects>
             <point key="canvasLocation" x="3493" y="-990"/>
         </scene>
-        <!--Dashboard Collection View Controller-->
+        <!--Dashboard-->
         <scene sceneID="dqA-aP-ZXy">
             <objects>
                 <collectionViewController id="Bik-lY-S0X" customClass="DashboardCollectionViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
@@ -580,8 +580,15 @@
                             <outlet property="delegate" destination="Bik-lY-S0X" id="gep-uQ-QoH"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="NKs-fc-40Z"/>
+                    <navigationItem key="navigationItem" title="Dashboard" id="NKs-fc-40Z">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="bell" id="hgK-5l-fOc">
+                            <connections>
+                                <segue destination="oQI-Xi-650" kind="presentation" id="shz-ls-1JG"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="notificationBarItem" destination="hgK-5l-fOc" id="xxw-Ad-vdL"/>
                         <segue destination="oQI-Xi-650" kind="presentation" identifier="showNotifications" id="WaT-U7-Fve"/>
                         <segue destination="XP3-Qh-qs6" kind="show" identifier="showHomework" id="b1R-SQ-U7X"/>
                         <segue destination="oac-kO-sKD" kind="show" identifier="showCalendar" id="BZP-fh-pJU"/>
@@ -668,6 +675,10 @@
         </scene>
     </scenes>
     <resources>
+        <image name="bell" width="25" height="25"/>
         <image name="home" width="23" height="23"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="shz-ls-1JG"/>
+    </inferredMetricsTieBreakers>
 </document>

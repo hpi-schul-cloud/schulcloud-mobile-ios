@@ -39,6 +39,13 @@ final class DashboardCollectionViewControllerCell: UICollectionViewCell {
 
 final class DashboardCollectionViewController : UICollectionViewController {
 
+    enum Design {
+        case reduced
+        case extended
+    }
+
+    @IBOutlet var notificationBarItem : UIBarButtonItem!
+
     lazy var calendarOverview : CalendarOverviewViewController = self.buildFromStoryboard(withIdentifier: "CalendarOverview")
     lazy var homeworkOverview : HomeworkOverviewViewController = self.buildFromStoryboard(withIdentifier: "HomeworkOverview")
     lazy var notificationOverview = self.buildNotificationOverviewFromStroyboard()
@@ -47,8 +54,14 @@ final class DashboardCollectionViewController : UICollectionViewController {
         return [calendarOverview, homeworkOverview, notificationOverview]
     }()
 
+
+    var currentDesign : Design {
+        return collectionView?.traitCollection.horizontalSizeClass == .regular ? .extended : .reduced
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
         guard let layout = collectionView?.collectionViewLayout as? DashboardLayout else { return }
         layout.dataSource = self
 
@@ -59,6 +72,17 @@ final class DashboardCollectionViewController : UICollectionViewController {
         notificationOverview.view.translatesAutoresizingMaskIntoConstraints = false
         self.addChildViewController(notificationOverview)
 
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.navigationItem.rightBarButtonItem = self.currentDesign == .extended ? nil : self.notificationBarItem
+    }
+
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        collectionView?.collectionViewLayout.invalidateLayout()
+        collectionView?.reloadData()
     }
 
     private func buildFromStoryboard<T>(withIdentifier identifier: String) -> T {
@@ -80,7 +104,7 @@ final class DashboardCollectionViewController : UICollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return UIDevice.current.userInterfaceIdiom == .pad ? 3 : 2
+        return self.currentDesign == .extended ? 3 : 2
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -88,9 +112,11 @@ final class DashboardCollectionViewController : UICollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DashboardCollectionCell", for: indexPath) as! DashboardCollectionViewControllerCell
         cell.configure(for: vc)
         vc.didMove(toParentViewController: self)
-        if UIDevice.current.userInterfaceIdiom == .pad {
+        if self.currentDesign == .extended {
             cell.contentView.layer.cornerRadius = 5.0
             cell.contentView.layer.masksToBounds = true
+        } else {
+            cell.contentView.layer.cornerRadius = 0.0
         }
         return cell
     }
