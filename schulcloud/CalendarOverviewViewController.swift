@@ -128,3 +128,7 @@ class CalendarOverviewViewController: UIViewController {
         }
     }
 }
+
+extension CalendarOverviewViewController : ViewControllerHeightDataSource {
+    var height: CGFloat { return 200 }
+}

@@ -73,3 +73,7 @@ class HomeworkOverviewViewController: UIViewController {
     }
 
 }
+
+extension HomeworkOverviewViewController : ViewControllerHeightDataSource {
+    var height: CGFloat { return 200 }
+}

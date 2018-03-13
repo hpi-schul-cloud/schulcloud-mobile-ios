@@ -1,103 +1,67 @@
 //
-//  DashboardViewController.swift
+//  DashboardCollectionViewController.swift
 //  schulcloud
 //
-//  Created by jan on 22/05/2017.
-//  Copyright © 2017 Hasso-Plattner-Institut. All rights reserved.
+//  Created by Florian Morel on 06.03.18.
+//  Copyright © 2018 Hasso-Plattner-Institut. All rights reserved.
 //
 
-/// TODO(permissions):
-///     homeworkView (show or not the overview)
-///     calendarView (show or display permission error)
-
 import UIKit
+import CoreData
 
-import Alamofire
-import BrightFutures
-import Marshal
 
-class DashboardViewController: UIViewController {
+protocol ViewControllerHeightDataSource: class {
+    var height : CGFloat { get }
+}
+typealias DynamicHeightViewController = UIViewController & ViewControllerHeightDataSource
+
+final class DashboardViewController : UICollectionViewController {
 
     enum Design {
         case reduced
-        case everything
+        case extended
     }
 
-    var displayedDesign: Design?
+    @IBOutlet var notificationBarItem : UIBarButtonItem!
 
-    @IBOutlet weak var stackView: UIStackView!
-    @IBOutlet weak var reducedStackView: UIStackView!
-    @IBOutlet weak var everythingStackView: UIStackView!
-    @IBOutlet var notificationBarButton: UIBarButtonItem!
+    lazy var calendarOverview : CalendarOverviewViewController = self.buildFromStoryboard(withIdentifier: "CalendarOverview")
+    lazy var homeworkOverview : HomeworkOverviewViewController = self.buildFromStoryboard(withIdentifier: "HomeworkOverview")
+    lazy var notificationOverview = self.buildNotificationOverviewFromStroyboard()
 
-    var notifications: [SCNotification] = []
-    var notificationContainerHeight: NSLayoutConstraint?
+    lazy var viewControllers : [DynamicHeightViewController] = {
+        return [calendarOverview, homeworkOverview, notificationOverview]
+    }()
 
-    lazy var calendarOverview: CalendarOverviewViewController = self.buildFromStoryboard(withIdentifier: "CalendarOverview")
-    lazy var homeworkOverview: HomeworkOverviewViewController = self.buildFromStoryboard(withIdentifier: "HomeworkOverview")
-    lazy var notificationOverview: ShortNotificationViewController = self.buildNotificationOverviewFromStroyboard()
+
+    var currentDesign : Design {
+        return collectionView?.traitCollection.horizontalSizeClass == .regular ? .extended : .reduced
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.addContentViewController(self.calendarOverview, to: self.reducedStackView)
-        self.addContentViewController(self.homeworkOverview, to: self.reducedStackView)
-        self.addContentViewController(self.notificationOverview, to: self.everythingStackView)
+        guard let layout = collectionView?.collectionViewLayout as? DashboardLayout else { return }
+        layout.dataSource = self
 
-        let heightConstraint = NSLayoutConstraint(item: self.notificationOverview.view,
-                                                  attribute: .height,
-                                                  relatedBy: .equal,
-                                                  toItem: nil,
-                                                  attribute: .notAnAttribute,
-                                                  multiplier: 1.0,
-                                                  constant: 0)
-        self.notificationOverview.view.addConstraint(heightConstraint)
-        self.notificationContainerHeight = heightConstraint
-
-        self.calendarOverview.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.showCalendar)))
-        self.homeworkOverview.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.showTasks)))
-
-        self.updateNotificationBarButton()
-        self.fetchNotifications()
-    }
-
-    override func viewWillLayoutSubviews() {
-        let size = self.view.bounds.size
-        let newDesign = self.decideDesign(basedOn: size)
-
-        if self.displayedDesign != newDesign {
-            self.applyDesign(newDesign)
-            self.displayedDesign = newDesign
-        }
+        calendarOverview.view.translatesAutoresizingMaskIntoConstraints = false
+        self.addChildViewController(calendarOverview)
+        homeworkOverview.view.translatesAutoresizingMaskIntoConstraints = false
+        self.addChildViewController(homeworkOverview)
+        notificationOverview.view.translatesAutoresizingMaskIntoConstraints = false
+        self.addChildViewController(notificationOverview)
 
     }
 
-    // MARK: segues
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case "showNotifications"?:
-            guard let navigationViewController = segue.destination as? UINavigationController else { return }
-            guard let notificationViewController = navigationViewController.topViewController as? NotificationViewController else { return }
-            notificationViewController.notifications = self.notifications
-        default:
-            super.prepare(for: segue, sender: sender)
-        }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.navigationItem.rightBarButtonItem = self.currentDesign == .extended ? nil : self.notificationBarItem
     }
 
-    @objc func showNotifications() {
-        self.performSegue(withIdentifier: "showNotifications", sender: self)
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        collectionView?.collectionViewLayout.invalidateLayout()
+        collectionView?.reloadData()
     }
-
-    @objc private func showCalendar() {
-        self.performSegue(withIdentifier: "showCalendar", sender: self)
-    }
-
-    @objc private func showTasks() {
-        self.performSegue(withIdentifier: "showTasks", sender: self)
-    }
-
-    // MARK: view setup
 
     private func buildFromStoryboard<T>(withIdentifier identifier: String) -> T {
         let storyboard = UIStoryboard(name: "TabDashboard", bundle: nil)
@@ -113,76 +77,53 @@ class DashboardViewController: UIViewController {
         return notificationOverview
     }
 
-    private func addContentViewController(_ viewController: UIViewController, to stackView: UIStackView) {
-        viewController.view.translatesAutoresizingMaskIntoConstraints = false
-        self.addChildViewController(viewController)
-        stackView.addArrangedSubview(viewController.view)
-        viewController.didMove(toParentViewController: self)
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
     }
 
-    // MARK: design
-
-    private func decideDesign(basedOn size: CGSize) -> Design {
-        return UIDevice.current.userInterfaceIdiom == .pad ? .everything : .reduced
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.currentDesign == .extended ? 3 : 2
     }
 
-    private func applyDesign(_ newDesign: Design) {
-        // set notification button in navigation item
-        self.navigationItem.rightBarButtonItem = newDesign == .reduced ? self.notificationBarButton : nil
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let vc = viewControllers[indexPath.row]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DashboardCollectionCell", for: indexPath) as! DashboardCollectionViewControllerCell
+        cell.configure(for: vc)
+        vc.didMove(toParentViewController: self)
+        if cell.bounds.width < collectionView.bounds.width {
+            cell.contentView.layer.cornerRadius = 5.0
+            cell.contentView.layer.masksToBounds = true
+        } else {
+            cell.contentView.layer.cornerRadius = 0.0
+        }
+        return cell
+    }
 
-        // hide right colum
-        self.everythingStackView.isHidden = newDesign == .reduced
-
-        // set corner radius
-        let contentViews = [self.calendarOverview.view, self.homeworkOverview.view, self.notificationOverview.view]
-        let cornerRadius: CGFloat = newDesign == .reduced ? 0.0 : 4.0
-        for contentView in contentViews {
-            contentView?.layer.cornerRadius = cornerRadius
-            contentView?.layer.masksToBounds = true
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = viewControllers[indexPath.row]
+        if vc == calendarOverview {
+            self.performSegue(withIdentifier: "showCalendar", sender: nil)
+        } else if vc == homeworkOverview {
+            self.performSegue(withIdentifier: "showHomework", sender: nil)
+        } else if vc == notificationOverview {
+            self.performSegue(withIdentifier: "showNotifications", sender: nil)
         }
     }
-
-    // MARK: notifications
-
-    private func updateNotificationBarButton() {
-        let title = self.notifications.isEmpty ? nil : String(self.notifications.count)
-        let imageName = self.notifications.isEmpty ? "bell" : "bell-filled"
-        let image = UIImage(named: imageName)
-        let button = UIButton(type: .system)
-        button.setImage(image, for: .normal)
-        button.setTitle(title, for: .normal)
-        button.sizeToFit()
-        button.addTarget(self, action: #selector(DashboardViewController.showNotifications), for: .touchUpInside)
-        self.notificationBarButton.customView = button
-    }
-
-    func fetchNotifications() {
-        // TODO: fetch notifications
-    }
-
 }
 
 extension DashboardViewController: ShortNotificationViewControllerDelegate {
-
     func viewHeightDidChange(to height: CGFloat) {
-        self.notificationContainerHeight?.constant = height
+        self.collectionView?.collectionViewLayout.invalidateLayout()
     }
 
     func didPressViewMoreButton() {
         self.performSegue(withIdentifier: "showNotifications", sender: self)
     }
-
 }
 
-struct SCNotification: Unmarshaling {
-    let body: String
-    let title: String?
-    let action: URL?
-
-    init(object: MarshaledObject) throws {
-        let message = try object.value(for: "message") as JSONObject
-        body = try message.value(for: "body")
-        title = try? message.value(for: "title")
-        action = try? message.value(for: "action")
+extension DashboardViewController : DashboardLayoutDataSource {
+    func contentHeightForItem(at indexPath: IndexPath) -> CGFloat {
+        return viewControllers[indexPath.row].height
     }
 }
+
