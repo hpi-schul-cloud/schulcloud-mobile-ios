@@ -19,7 +19,14 @@ final class DashboardLayout : UICollectionViewLayout {
     var contentHeight : CGFloat = 0
     var contentWidth : CGFloat {
         guard let collectionView = collectionView else { return 0 }
-        return collectionView.bounds.width
+
+        var rect : CGRect
+        if #available(iOS 11.0, *) {
+            rect = UIEdgeInsetsInsetRect(collectionView.bounds, collectionView.safeAreaInsets)
+        } else {
+            rect = collectionView.bounds
+        }
+        return rect.width
     }
 
     var cache = [UICollectionViewLayoutAttributes]()
@@ -32,8 +39,15 @@ final class DashboardLayout : UICollectionViewLayout {
         let columnCount = collectionView.traitCollection.horizontalSizeClass == .regular ? 2 : 1
         let isSingleColumn = columnCount == 1
 
+        let areaInset : UIEdgeInsets
+        if #available(iOS 11.0, *) {
+            areaInset = collectionView.safeAreaInsets
+        } else {
+            areaInset = UIEdgeInsets()
+        }
+
         let readableFrame = collectionView.readableContentGuide.layoutFrame
-        let xOffsetBase = isSingleColumn ? 0.0 : readableFrame.origin.x
+        let xOffsetBase = isSingleColumn ? areaInset.left : readableFrame.origin.x
         let horizontalInset : CGFloat = isSingleColumn ? 0.0 : 8.0
         let yOffsetBase = readableFrame.origin.y
         let verticalInset = readableFrame.origin.y

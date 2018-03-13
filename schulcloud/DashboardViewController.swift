@@ -13,31 +13,9 @@ import CoreData
 protocol ViewControllerHeightDataSource: class {
     var height : CGFloat { get }
 }
-typealias HeightViewController = UIViewController & ViewControllerHeightDataSource
+typealias DynamicHeightViewController = UIViewController & ViewControllerHeightDataSource
 
-final class DashboardCollectionViewControllerCell: UICollectionViewCell {
-
-    func configure(for viewController: HeightViewController) {
-        contentView.removeConstraints(contentView.constraints)
-        contentView.subviews.first?.removeFromSuperview()
-
-        contentView.addSubview(viewController.view)
-
-        let verticalConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[vc]|",
-                                                                 options: .alignAllCenterY,
-                                                                 metrics: nil,
-                                                                 views: ["vc" : viewController.view])
-        contentView.addConstraints(verticalConstraints)
-
-        let horizontalConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[vc]|",
-                                                        options: .alignAllCenterX,
-                                                        metrics: nil,
-                                                        views: ["vc" : viewController.view])
-        contentView.addConstraints(horizontalConstraints)
-    }
-}
-
-final class DashboardCollectionViewController : UICollectionViewController {
+final class DashboardViewController : UICollectionViewController {
 
     enum Design {
         case reduced
@@ -50,7 +28,7 @@ final class DashboardCollectionViewController : UICollectionViewController {
     lazy var homeworkOverview : HomeworkOverviewViewController = self.buildFromStoryboard(withIdentifier: "HomeworkOverview")
     lazy var notificationOverview = self.buildNotificationOverviewFromStroyboard()
 
-    lazy var viewControllers : [HeightViewController] = {
+    lazy var viewControllers : [DynamicHeightViewController] = {
         return [calendarOverview, homeworkOverview, notificationOverview]
     }()
 
@@ -112,7 +90,7 @@ final class DashboardCollectionViewController : UICollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DashboardCollectionCell", for: indexPath) as! DashboardCollectionViewControllerCell
         cell.configure(for: vc)
         vc.didMove(toParentViewController: self)
-        if self.currentDesign == .extended {
+        if cell.bounds.width < collectionView.bounds.width {
             cell.contentView.layer.cornerRadius = 5.0
             cell.contentView.layer.masksToBounds = true
         } else {
@@ -133,7 +111,7 @@ final class DashboardCollectionViewController : UICollectionViewController {
     }
 }
 
-extension DashboardCollectionViewController: ShortNotificationViewControllerDelegate {
+extension DashboardViewController: ShortNotificationViewControllerDelegate {
     func viewHeightDidChange(to height: CGFloat) {
         self.collectionView?.collectionViewLayout.invalidateLayout()
     }
@@ -143,7 +121,7 @@ extension DashboardCollectionViewController: ShortNotificationViewControllerDele
     }
 }
 
-extension DashboardCollectionViewController : DashboardLayoutDataSource {
+extension DashboardViewController : DashboardLayoutDataSource {
     func contentHeightForItem(at indexPath: IndexPath) -> CGFloat {
         return viewControllers[indexPath.row].height
     }
