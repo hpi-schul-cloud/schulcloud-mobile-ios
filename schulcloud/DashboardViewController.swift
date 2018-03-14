@@ -140,7 +140,8 @@ final class DashboardViewController : UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.currentDesign == .extended ? viewControllers.count : viewControllers.filter({ (vc) -> Bool in
-            return vc != self.notificationOverview
+            guard let vc = vc as? DashboardNoPermissionViewController else { return true }
+            return vc.missingPermission != .notificationView
         }).count
     }
 
