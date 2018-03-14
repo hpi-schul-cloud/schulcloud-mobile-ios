@@ -7,13 +7,17 @@
 //
 
 import UIKit
-import CoreData
-
 
 protocol ViewControllerHeightDataSource: class {
     var height : CGFloat { get }
 }
 typealias DynamicHeightViewController = UIViewController & ViewControllerHeightDataSource
+
+extension User {
+    var canDisplayNotification : Bool {
+        return  self.permissions.contains(.notificationView)
+    }
+}
 
 final class DashboardViewController : UICollectionViewController {
 
@@ -24,37 +28,78 @@ final class DashboardViewController : UICollectionViewController {
 
     @IBOutlet var notificationBarItem : UIBarButtonItem!
 
+    lazy var noPermissionViewController : DashboardNoPermissionViewController = self.buildFromStoryboard(withIdentifier: "NoPermissionViewController")
+
     lazy var calendarOverview : CalendarOverviewViewController = self.buildFromStoryboard(withIdentifier: "CalendarOverview")
     lazy var homeworkOverview : HomeworkOverviewViewController = self.buildFromStoryboard(withIdentifier: "HomeworkOverview")
     lazy var notificationOverview = self.buildNotificationOverviewFromStroyboard()
 
-    lazy var viewControllers : [DynamicHeightViewController] = {
-        return [calendarOverview, homeworkOverview, notificationOverview]
-    }()
-
+    var viewControllers : [DynamicHeightViewController] = []
 
     var currentDesign : Design {
         return collectionView?.traitCollection.horizontalSizeClass == .regular ? .extended : .reduced
     }
 
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        commonInit()
+    }
+
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        commonInit()
+    }
+
+    override init(collectionViewLayout layout: UICollectionViewLayout) {
+        super.init(collectionViewLayout: layout)
+        commonInit()
+    }
+
+    func commonInit() {
+        guard let currentUser = Globals.currentUser else { return }
+
+        if !currentUser.permissions.contains(.dashboardView) {
+            viewControllers.append(self.noPermissionViewController)
+            noPermissionViewController.view.translatesAutoresizingMaskIntoConstraints = false
+            self.addChildViewController(self.noPermissionViewController)
+            return
+        }
+
+        if currentUser.permissions.contains(.calendarView) {
+            viewControllers.append(calendarOverview)
+            calendarOverview.view.translatesAutoresizingMaskIntoConstraints = false
+            self.addChildViewController(calendarOverview)
+        }
+
+        if currentUser.permissions.contains(.homeworkView) {
+            viewControllers.append(homeworkOverview)
+            homeworkOverview.view.translatesAutoresizingMaskIntoConstraints = false
+            self.addChildViewController(homeworkOverview)
+        }
+
+        if currentUser.canDisplayNotification {
+            viewControllers.append(notificationOverview)
+            notificationOverview.view.translatesAutoresizingMaskIntoConstraints = false
+            self.addChildViewController(notificationOverview)
+        }
+
+        if viewControllers.isEmpty {
+            viewControllers.append(self.noPermissionViewController)
+            noPermissionViewController.view.translatesAutoresizingMaskIntoConstraints = false
+            self.addChildViewController(self.noPermissionViewController)
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
         guard let layout = collectionView?.collectionViewLayout as? DashboardLayout else { return }
         layout.dataSource = self
-
-        calendarOverview.view.translatesAutoresizingMaskIntoConstraints = false
-        self.addChildViewController(calendarOverview)
-        homeworkOverview.view.translatesAutoresizingMaskIntoConstraints = false
-        self.addChildViewController(homeworkOverview)
-        notificationOverview.view.translatesAutoresizingMaskIntoConstraints = false
-        self.addChildViewController(notificationOverview)
-
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.navigationItem.rightBarButtonItem = self.currentDesign == .extended ? nil : self.notificationBarItem
+        let canDisplayNotification = self.currentDesign == .reduced && Globals.currentUser!.canDisplayNotification
+        self.navigationItem.rightBarButtonItem = canDisplayNotification ? self.notificationBarItem : nil
     }
 
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -82,7 +127,9 @@ final class DashboardViewController : UICollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.currentDesign == .extended ? 3 : 2
+        return self.currentDesign == .extended ? viewControllers.count : viewControllers.filter({ (vc) -> Bool in
+            return vc != self.notificationOverview
+        }).count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
