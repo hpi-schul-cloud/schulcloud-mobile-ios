@@ -59,34 +59,46 @@ final class DashboardViewController : UICollectionViewController {
         guard let currentUser = Globals.currentUser else { return }
 
         if !currentUser.permissions.contains(.dashboardView) {
-            viewControllers.append(self.noPermissionViewController)
-            noPermissionViewController.view.translatesAutoresizingMaskIntoConstraints = false
-            self.addChildViewController(self.noPermissionViewController)
+            let missingPermissionController : DashboardNoPermissionViewController = self.buildFromStoryboard(withIdentifier: "NoPermissionViewController")
+            missingPermissionController.view.translatesAutoresizingMaskIntoConstraints = false
+            self.addChildViewController(missingPermissionController)
+            
+            missingPermissionController.missingPermission = .dashboardView
+            viewControllers.append(missingPermissionController)
             return
         }
 
+        var missingPermissions = [UserPermissions]()
         if currentUser.permissions.contains(.calendarView) {
             viewControllers.append(calendarOverview)
             calendarOverview.view.translatesAutoresizingMaskIntoConstraints = false
             self.addChildViewController(calendarOverview)
+        } else {
+            missingPermissions.append(.calendarView)
         }
 
         if currentUser.permissions.contains(.homeworkView) {
             viewControllers.append(homeworkOverview)
             homeworkOverview.view.translatesAutoresizingMaskIntoConstraints = false
             self.addChildViewController(homeworkOverview)
+        } else {
+            missingPermissions.append(.homeworkView)
         }
 
         if currentUser.canDisplayNotification {
             viewControllers.append(notificationOverview)
             notificationOverview.view.translatesAutoresizingMaskIntoConstraints = false
             self.addChildViewController(notificationOverview)
+        } else {
+            missingPermissions.append(.notificationView)
         }
 
-        if viewControllers.isEmpty {
-            viewControllers.append(self.noPermissionViewController)
-            noPermissionViewController.view.translatesAutoresizingMaskIntoConstraints = false
-            self.addChildViewController(self.noPermissionViewController)
+        for permission in missingPermissions {
+            let controller : DashboardNoPermissionViewController = self.buildFromStoryboard(withIdentifier: "NoPermissionViewController")
+            controller.view.translatesAutoresizingMaskIntoConstraints = false
+            self.addChildViewController(controller)
+            controller.missingPermission = permission
+            viewControllers.append(controller)
         }
     }
 

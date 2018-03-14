@@ -69,7 +69,6 @@ class FilesViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-
     fileprivate lazy var fetchedResultsController: NSFetchedResultsController<File> = {
         // Create Fetch Request
         let fetchRequest: NSFetchRequest<File> = File.fetchRequest()

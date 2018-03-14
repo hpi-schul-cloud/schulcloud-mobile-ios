@@ -9,6 +9,16 @@
 import UIKit
 
 final class DashboardNoPermissionViewController : UIViewController, ViewControllerHeightDataSource {
+
+    @IBOutlet var label : UILabel!
+    var missingPermission : UserPermissions = UserPermissions.none {
+        didSet {
+            if label != nil {
+                label.text!.append("\n\(missingPermission.description)")
+            }
+        }
+    }
+
     var height: CGFloat {
         return 200.0
     }
