@@ -110,8 +110,8 @@ final class DashboardViewController : UICollectionViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        let canDisplayNotification = self.currentDesign == .reduced && Globals.currentUser!.canDisplayNotification
-        self.navigationItem.rightBarButtonItem = canDisplayNotification ? self.notificationBarItem : nil
+        let itemIsVisible = self.currentDesign == .reduced && Globals.currentUser!.canDisplayNotification
+        self.navigationItem.rightBarButtonItem = itemIsVisible ? self.notificationBarItem : nil
     }
 
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
