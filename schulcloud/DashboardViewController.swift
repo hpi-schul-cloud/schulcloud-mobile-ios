@@ -58,23 +58,27 @@ final class DashboardViewController : UICollectionViewController {
     func commonInit() {
         guard let currentUser = Globals.currentUser else { return }
 
+        func makeNoPermissionController(missingPermission: UserPermissions) -> DashboardNoPermissionViewController {
+            let vc : DashboardNoPermissionViewController = self.buildFromStoryboard(withIdentifier: "NoPermissionViewController")
+            vc.view.translatesAutoresizingMaskIntoConstraints = false
+            self.addChildViewController(vc)
+            vc.missingPermission = missingPermission
+            return vc
+        }
+
         if !currentUser.permissions.contains(.dashboardView) {
-            let missingPermissionController : DashboardNoPermissionViewController = self.buildFromStoryboard(withIdentifier: "NoPermissionViewController")
-            missingPermissionController.view.translatesAutoresizingMaskIntoConstraints = false
-            self.addChildViewController(missingPermissionController)
-            
-            missingPermissionController.missingPermission = .dashboardView
-            viewControllers.append(missingPermissionController)
+            let missingVc = makeNoPermissionController(missingPermission: .dashboardView)
+            viewControllers.append(missingVc)
             return
         }
 
-        var missingPermissions = [UserPermissions]()
         if currentUser.permissions.contains(.calendarView) {
             viewControllers.append(calendarOverview)
             calendarOverview.view.translatesAutoresizingMaskIntoConstraints = false
             self.addChildViewController(calendarOverview)
         } else {
-            missingPermissions.append(.calendarView)
+            let missingVc = makeNoPermissionController(missingPermission: .calendarView)
+            viewControllers.append( missingVc)
         }
 
         if currentUser.permissions.contains(.homeworkView) {
@@ -82,7 +86,8 @@ final class DashboardViewController : UICollectionViewController {
             homeworkOverview.view.translatesAutoresizingMaskIntoConstraints = false
             self.addChildViewController(homeworkOverview)
         } else {
-            missingPermissions.append(.homeworkView)
+            let missingVc = makeNoPermissionController(missingPermission: .homeworkView)
+            viewControllers.append( missingVc)
         }
 
         if currentUser.canDisplayNotification {
@@ -90,15 +95,8 @@ final class DashboardViewController : UICollectionViewController {
             notificationOverview.view.translatesAutoresizingMaskIntoConstraints = false
             self.addChildViewController(notificationOverview)
         } else {
-            missingPermissions.append(.notificationView)
-        }
-
-        for permission in missingPermissions {
-            let controller : DashboardNoPermissionViewController = self.buildFromStoryboard(withIdentifier: "NoPermissionViewController")
-            controller.view.translatesAutoresizingMaskIntoConstraints = false
-            self.addChildViewController(controller)
-            controller.missingPermission = permission
-            viewControllers.append(controller)
+            let missingVc = makeNoPermissionController(missingPermission: .notificationView)
+            viewControllers.append(missingVc)
         }
     }
 
