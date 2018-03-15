@@ -184,7 +184,22 @@ struct UserPermissions : OptionSet {
             return nil
         }
     }
-    
+
+    var description : String {
+        switch self {
+        case UserPermissions.homeworkView:
+            return "HOMEWORK_VIEW"
+        case UserPermissions.dashboardView:
+            return "DASHBOAD_VIEW"
+        case UserPermissions.notificationView:
+            return "NOTIFICATION_VIEW"
+        case UserPermissions.calendarView:
+            return "CALENDAR_VIEW"
+        default:
+            return "\(self.rawValue)"
+        }
+    }
+
     static let none = UserPermissions(rawValue: (0, 0))
     static let accountCreate = UserPermissions(rawValue: ( 0, 1 << 0) )
     static let accountEdit = UserPermissions(rawValue: ( 0, 1 << 1 ) )
