@@ -6,10 +6,6 @@
 //  Copyright © 2017 Hasso-Plattner-Institut. All rights reserved.
 //
 
-/// TODO(permissions):
-///     lessonView? id not, show error message
-
-
 import UIKit
 import CoreData
 
@@ -93,6 +89,14 @@ class LessonsViewController: UITableViewController, NSFetchedResultsControllerDe
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch(segue.identifier) {
         case .some("singleLesson"):
+            guard let currentUser = Globals.currentUser,
+                currentUser.permissions.contains(.contentView) else {
+                    let controller = UIAlertController(title: "Not allowed", message: "You do not have the permission required to view lessons content", preferredStyle: .alert)
+                    let dismissAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    controller.addAction(dismissAction)
+                    self.present(controller, animated: true, completion: nil)
+                    return
+            }
             let selectedCell = sender as! UITableViewCell
             guard let indexPath = tableView.indexPath(for: selectedCell) else { return }
             let selectedLesson = fetchedResultsController.object(at: indexPath)
