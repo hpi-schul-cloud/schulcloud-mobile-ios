@@ -242,8 +242,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You are not allowed to see content:" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OjV-rZ-7PS" userLabel="Title">
-                                <rect key="frame" x="15" y="89" width="345" height="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fehlende Berechtigung" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OjV-rZ-7PS" userLabel="Title">
+                                <rect key="frame" x="16" y="88" width="343" height="24"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -251,12 +251,11 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="9jk-Rn-Nf2" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="OjV-rZ-7PS" secondAttribute="bottom" constant="8" id="8KH-iU-sjL"/>
-                            <constraint firstItem="OjV-rZ-7PS" firstAttribute="centerX" secondItem="9jk-Rn-Nf2" secondAttribute="centerX" id="Eg9-q5-NfO"/>
+                            <constraint firstItem="9jk-Rn-Nf2" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="OjV-rZ-7PS" secondAttribute="bottom" constant="16" id="8KH-iU-sjL"/>
                             <constraint firstItem="OjV-rZ-7PS" firstAttribute="centerY" secondItem="9jk-Rn-Nf2" secondAttribute="centerY" id="J0Q-qr-LmX"/>
-                            <constraint firstItem="OjV-rZ-7PS" firstAttribute="top" relation="greaterThanOrEqual" secondItem="9jk-Rn-Nf2" secondAttribute="top" constant="8" id="Rsi-G6-Zwc"/>
-                            <constraint firstItem="9jk-Rn-Nf2" firstAttribute="trailing" secondItem="OjV-rZ-7PS" secondAttribute="trailing" constant="15" id="Tm1-0I-W1j"/>
-                            <constraint firstItem="OjV-rZ-7PS" firstAttribute="leading" secondItem="9jk-Rn-Nf2" secondAttribute="leading" constant="15" id="qdl-L8-6yj"/>
+                            <constraint firstItem="OjV-rZ-7PS" firstAttribute="top" relation="greaterThanOrEqual" secondItem="9jk-Rn-Nf2" secondAttribute="top" constant="16" id="Rsi-G6-Zwc"/>
+                            <constraint firstItem="9jk-Rn-Nf2" firstAttribute="trailing" secondItem="OjV-rZ-7PS" secondAttribute="trailing" constant="16" id="Tm1-0I-W1j"/>
+                            <constraint firstItem="OjV-rZ-7PS" firstAttribute="leading" secondItem="9jk-Rn-Nf2" secondAttribute="leading" constant="16" id="qdl-L8-6yj"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="9jk-Rn-Nf2"/>
                     </view>

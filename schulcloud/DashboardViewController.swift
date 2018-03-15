@@ -78,7 +78,7 @@ final class DashboardViewController : UICollectionViewController {
             self.addChildViewController(calendarOverview)
         } else {
             let missingVc = makeNoPermissionController(missingPermission: .calendarView)
-            viewControllers.append( missingVc)
+            viewControllers.append(missingVc)
         }
 
         if currentUser.permissions.contains(.homeworkView) {
