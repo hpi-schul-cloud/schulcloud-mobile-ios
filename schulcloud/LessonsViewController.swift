@@ -91,10 +91,8 @@ class LessonsViewController: UITableViewController, NSFetchedResultsControllerDe
         case .some("singleLesson"):
             guard let currentUser = Globals.currentUser,
                 currentUser.permissions.contains(.contentView) else {
-                    let controller = UIAlertController(title: "Not allowed", message: "You do not have the permission required to view lessons content", preferredStyle: .alert)
-                    let dismissAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                    controller.addAction(dismissAction)
-                    self.present(controller, animated: true, completion: nil)
+                    let controller = UIAlertController(forMissingPermission: .contentView)
+                    self.present(controller, animated: true)
                     return
             }
             let selectedCell = sender as! UITableViewCell

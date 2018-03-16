@@ -98,6 +98,7 @@
 		CE2FF77A2045A15900D5AF8E /* UserPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2FF7792045A15900D5AF8E /* UserPermissions.swift */; };
 		CE43B4972057E4D200950EA0 /* DashboardViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43B4962057E4D200950EA0 /* DashboardViewControllerCell.swift */; };
 		CE43B49920594E5D00950EA0 /* DashboardNoPermissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43B49820594E5D00950EA0 /* DashboardNoPermissionViewController.swift */; };
+		CE443937205BDEDD00CC3311 /* UIAlertController+Permission.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE443936205BDEDD00CC3311 /* UIAlertController+Permission.swift */; };
 		CE644E8920232710003AE700 /* UIColor+hexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE644E8820232710003AE700 /* UIColor+hexString.swift */; };
 		CE737A4C1FFE6354006DAB54 /* TabNews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE737A4B1FFE6354006DAB54 /* TabNews.storyboard */; };
 		CE737A4E1FFE65B0006DAB54 /* NewsArticleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE737A4D1FFE65B0006DAB54 /* NewsArticleCell.swift */; };
@@ -245,6 +246,7 @@
 		CE2FF7792045A15900D5AF8E /* UserPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPermissions.swift; sourceTree = "<group>"; };
 		CE43B4962057E4D200950EA0 /* DashboardViewControllerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewControllerCell.swift; sourceTree = "<group>"; };
 		CE43B49820594E5D00950EA0 /* DashboardNoPermissionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardNoPermissionViewController.swift; sourceTree = "<group>"; };
+		CE443936205BDEDD00CC3311 /* UIAlertController+Permission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Permission.swift"; sourceTree = "<group>"; };
 		CE644E8820232710003AE700 /* UIColor+hexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+hexString.swift"; sourceTree = "<group>"; };
 		CE737A4B1FFE6354006DAB54 /* TabNews.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabNews.storyboard; sourceTree = "<group>"; };
 		CE737A4D1FFE65B0006DAB54 /* NewsArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsArticleCell.swift; sourceTree = "<group>"; };
@@ -330,6 +332,7 @@
 				CE1DAC582004CE0200CEE4C2 /* String+.swift */,
 				509B10D52008E5840042AA7D /* NSMutableAttributedString+trim.swift */,
 				CE644E8820232710003AE700 /* UIColor+hexString.swift */,
+				CE443936205BDEDD00CC3311 /* UIAlertController+Permission.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -949,6 +952,7 @@
 				C3A5A9391EBCD0C600825DBF /* Constants.swift in Sources */,
 				50B82F842020C9C50048CB4B /* ResourceQuery.swift in Sources */,
 				50B82F882020CA080048CB4B /* Pushable.swift in Sources */,
+				CE443937205BDEDD00CC3311 /* UIAlertController+Permission.swift in Sources */,
 				C3C080551EE607F6005FA7C3 /* CourseCell.swift in Sources */,
 				C31C842A1ECF553700FA070C /* PreviewManager.swift in Sources */,
 				5083AB57203C5D9D002E6E47 /* CoreDataObserver.swift in Sources */,
