@@ -89,12 +89,12 @@ class LessonsViewController: UITableViewController, NSFetchedResultsControllerDe
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch(segue.identifier) {
         case .some("singleLesson"):
-            guard let currentUser = Globals.currentUser,
-                currentUser.permissions.contains(.contentView) else {
-                    let controller = UIAlertController(forMissingPermission: .contentView)
-                    self.present(controller, animated: true)
-                    return
+            guard let currentUser = Globals.currentUser, currentUser.permissions.contains(.contentView) else {
+                let controller = UIAlertController(forMissingPermission: .contentView)
+                self.present(controller, animated: true)
+                return
             }
+
             let selectedCell = sender as! UITableViewCell
             guard let indexPath = tableView.indexPath(for: selectedCell) else { return }
             let selectedLesson = fetchedResultsController.object(at: indexPath)

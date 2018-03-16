@@ -195,6 +195,8 @@ struct UserPermissions : OptionSet {
             return "NOTIFICATION_VIEW"
         case UserPermissions.calendarView:
             return "CALENDAR_VIEW"
+        case UserPermissions.contentView:
+            return "CONTENT_VIEW"
         default:
             return "\(self.rawValue)"
         }
