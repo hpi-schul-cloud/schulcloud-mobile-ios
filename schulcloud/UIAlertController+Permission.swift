@@ -9,9 +9,13 @@
 import UIKit
 
 extension UIAlertController {
+
     convenience init(forMissingPermission missingPermission: UserPermissions) {
-        self.init(title: "Missing Permission", message: "You do not have the permission required: \(missingPermission.description)", preferredStyle: .alert)
+        self.init(title: "Fehlende Berechtigung",
+                  message: "Folgende Berechtigung ist erforderlich: \(missingPermission.description)",
+                  preferredStyle: .alert)
         let dismissAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         self.addAction(dismissAction)
     }
+
 }
