@@ -13,13 +13,13 @@
         <!--NewsListViewController-->
         <scene sceneID="Eca-NH-KOe">
             <objects>
-                <tableViewController id="uiH-da-GfO" userLabel="NewsListViewController" customClass="NewsListViewController" customModule="Schul_Cloud" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="uiH-da-GfO" userLabel="NewsListViewController" customClass="NewsListViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="3Yw-DO-Zwp" userLabel="News list">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="newsCell" rowHeight="132" id="6KC-PP-7ou" customClass="NewsArticleCell" customModule="Schul_Cloud" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="newsCell" rowHeight="132" id="6KC-PP-7ou" customClass="NewsArticleCell" customModule="schulcloud" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="132"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6KC-PP-7ou" id="RYS-Uu-gYI">

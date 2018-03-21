@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 protocol ViewControllerHeightDataSource: class {
     var height : CGFloat { get }
@@ -26,6 +27,11 @@ final class DashboardViewController : UICollectionViewController {
         case extended
     }
 
+    private enum Sections : Int {
+        case dashboard = 0
+        case newsList = 1
+    }
+
     @IBOutlet var notificationBarItem : UIBarButtonItem!
 
     lazy var noPermissionViewController : DashboardNoPermissionViewController = self.buildFromStoryboard(withIdentifier: "NoPermissionViewController")
@@ -35,6 +41,14 @@ final class DashboardViewController : UICollectionViewController {
     lazy var notificationOverview = self.buildNotificationOverviewFromStroyboard()
 
     var viewControllers : [DynamicHeightViewController] = []
+
+    var newsArticleFetchedController : NSFetchedResultsController<NewsArticle> = {
+        let fetchRequest : NSFetchRequest<NewsArticle> = NewsArticle.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "displayAt", ascending: false)]
+
+        let resultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataHelper.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        return resultController
+    }()
 
     var currentDesign : Design {
         return collectionView?.traitCollection.horizontalSizeClass == .regular ? .extended : .reduced
@@ -100,10 +114,18 @@ final class DashboardViewController : UICollectionViewController {
         }
     }
 
+    // Scroll to top when releading, so make sure things are layed out properly
+    func reloadCollectionView() {
+        self.collectionView?.scrollToItem(at: IndexPath(row: 0, section: 0), at: UICollectionViewScrollPosition.top, animated: false);
+        self.collectionView?.reloadData()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let layout = collectionView?.collectionViewLayout as? DashboardLayout else { return }
         layout.dataSource = self
+        try! newsArticleFetchedController.performFetch()
+        NewsArticleHelper.syncNewsArticles()
     }
 
     override func viewDidLayoutSubviews() {
@@ -114,8 +136,7 @@ final class DashboardViewController : UICollectionViewController {
 
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
-        collectionView?.collectionViewLayout.invalidateLayout()
-        collectionView?.reloadData()
+        self.reloadCollectionView()
     }
 
     private func buildFromStoryboard<T>(withIdentifier identifier: String) -> T {
@@ -133,39 +154,76 @@ final class DashboardViewController : UICollectionViewController {
     }
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        return Globals.currentUser!.permissions.contains(.newsView) ? 2 : 1
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.currentDesign == .extended ? viewControllers.count : viewControllers.filter({ (vc) -> Bool in
-            guard let vc = vc as? DashboardNoPermissionViewController else { return true }
-            return vc.missingPermission != .notificationView
-        }).count
+        guard let sectionType = Sections(rawValue: section) else { return 0 }
+
+        switch sectionType {
+        case .dashboard:
+            return self.currentDesign == .extended ? viewControllers.count : viewControllers.filter({ (vc) -> Bool in
+                guard let vc = vc as? DashboardNoPermissionViewController else { return true }
+                return vc.missingPermission != .notificationView
+            }).count
+        case .newsList:
+            return self.newsArticleFetchedController.fetchedObjects?.count ?? 0
+        }
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let vc = viewControllers[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DashboardCollectionCell", for: indexPath) as! DashboardCollectionViewControllerCell
-        cell.configure(for: vc)
-        vc.didMove(toParentViewController: self)
+        let sectionType = Sections(rawValue: indexPath.section)!
+        let cell : UICollectionViewCell
+
+        switch sectionType {
+        case .dashboard:
+            let vc = viewControllers[indexPath.row]
+            let dashboardCell = collectionView.dequeueReusableCell(withReuseIdentifier: "DashboardCollectionCell", for: indexPath) as! DashboardCollectionViewControllerCell
+            dashboardCell.configure(for: vc)
+            vc.didMove(toParentViewController: self)
+            cell = dashboardCell
+        case .newsList:
+
+            let newsArticle = self.newsArticleFetchedController.object(at: IndexPath(row: indexPath.row, section: 0))
+            let newsCell = collectionView.dequeueReusableCell(withReuseIdentifier: "DashboardNewsCell", for: indexPath) as! DashboardNewsCell
+            newsCell.title.text = newsArticle.title
+            newsCell.date.text = DashboardNewsCell.dateFormatter.string(from: newsArticle.displayAt)
+            newsCell.content.attributedText = newsArticle.content.convertedHTML
+            newsCell.content.isUserInteractionEnabled = false
+
+            cell = newsCell
+        }
+
         if cell.bounds.width < collectionView.bounds.width {
-            cell.contentView.layer.cornerRadius = 5.0
-            cell.contentView.layer.masksToBounds = true
+            cell.layer.cornerRadius = 5.0
+            cell.layer.masksToBounds = true
         } else {
-            cell.contentView.layer.cornerRadius = 0.0
+            cell.layer.cornerRadius = 0.0
         }
         return cell
     }
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = viewControllers[indexPath.row]
-        if vc == calendarOverview {
-            self.performSegue(withIdentifier: "showCalendar", sender: nil)
-        } else if vc == homeworkOverview {
-            self.performSegue(withIdentifier: "showHomework", sender: nil)
-        } else if vc == notificationOverview {
-            self.performSegue(withIdentifier: "showNotifications", sender: nil)
+        let sectionType = Sections(rawValue: indexPath.section)!
+        switch sectionType {
+        case .dashboard:
+            let vc = viewControllers[indexPath.row]
+            if vc == calendarOverview {
+                self.performSegue(withIdentifier: "showCalendar", sender: nil)
+            } else if vc == homeworkOverview {
+                self.performSegue(withIdentifier: "showHomework", sender: nil)
+            } else if vc == notificationOverview {
+                self.performSegue(withIdentifier: "showNotifications", sender: nil)
+            }
+        case .newsList:
+            return
         }
+    }
+}
+
+extension DashboardViewController : NSFetchedResultsControllerDelegate {
+    private func controllerDidChangeContent(_ controller: NSFetchedResultsController<NewsArticle>) {
+        self.reloadCollectionView()
     }
 }
 
@@ -180,8 +238,14 @@ extension DashboardViewController: ShortNotificationViewControllerDelegate {
 }
 
 extension DashboardViewController : DashboardLayoutDataSource {
-    func contentHeightForItem(at indexPath: IndexPath) -> CGFloat {
-        return viewControllers[indexPath.row].height
+    func contentHeightForItem(at indexPath: IndexPath, boundingWidth: CGFloat) -> CGFloat {
+        let sectionType = Sections(rawValue: indexPath.section)!
+        switch sectionType {
+        case .dashboard:
+            return viewControllers[indexPath.row].height
+        case .newsList:
+            let newsArticle = self.newsArticleFetchedController.object(at: IndexPath(row:indexPath.row, section: 0))
+            return DashboardNewsCell.height(for: newsArticle, boundingWidth: boundingWidth)
+        }
     }
 }
-
