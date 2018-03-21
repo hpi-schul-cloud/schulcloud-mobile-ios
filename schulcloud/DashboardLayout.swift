@@ -9,7 +9,7 @@
 import UIKit
 
 protocol DashboardLayoutDataSource: class {
-    func contentHeightForItem(at indexPath: IndexPath) -> CGFloat
+    func contentHeightForItem(at indexPath: IndexPath, boundingWidth: CGFloat) -> CGFloat
 }
 
 final class DashboardLayout : UICollectionViewLayout {
@@ -36,6 +36,11 @@ final class DashboardLayout : UICollectionViewLayout {
         guard let collectionView = collectionView else { return }
         guard let dataSource = self.dataSource else { return }
 
+        //create local cache because calculating html content height is async, can trigger core data refresh
+        //which will reload the collection view, invalidating the cache while it is being computed.
+        //working on a local cache prevent early flushing
+        var localCache = [UICollectionViewLayoutAttributes]()
+
         let columnCount = collectionView.traitCollection.horizontalSizeClass == .regular ? 2 : 1
         let isSingleColumn = columnCount == 1
 
@@ -59,28 +64,40 @@ final class DashboardLayout : UICollectionViewLayout {
         }
         var yOffsets = [CGFloat](repeating: yOffsetBase, count: columnCount)
 
-        for i in 0 ..< collectionView.numberOfItems(inSection: 0) {
-            let indexPath = IndexPath(row: i, section: 0)
-            let itemHeight = dataSource.contentHeightForItem(at: indexPath)
-            let (column, yOffset) = yOffsets.enumerated().min(by: { (i, j) -> Bool in
-                return i.element < j.element
-            })!
-            let xOffset = xOffsets[column]
-            let itemFrame = CGRect(x: xOffset, y: yOffset, width: columnWidth, height: itemHeight)
-            yOffsets[column] = itemFrame.maxY
-            contentHeight = max(contentHeight, itemFrame.maxY)
+        for section in 0 ..< collectionView.numberOfSections {
+            for row in 0 ..< collectionView.numberOfItems(inSection: section) {
+                let (column, yOffset) = yOffsets.enumerated().min(by: { (i, j) -> Bool in
+                    return i.element < j.element
+                })!
+                let xOffset = xOffsets[column]
 
-            let isFirstColumn = column == 0
-            let isLastColumn = column == (columnCount - 1)
-            let leftInset : CGFloat = isFirstColumn ? 0.0 : horizontalInset
-            let rightInset : CGFloat  = isLastColumn ? 0.0 : horizontalInset
-            let edgeInset = UIEdgeInsets(top: verticalInset, left: leftInset, bottom: verticalInset, right: rightInset)
-            let finalFrame = UIEdgeInsetsInsetRect(itemFrame, edgeInset)
+                let isFirstColumn = column == 0
+                let isLastColumn = column == (columnCount - 1)
+                let leftInset : CGFloat = isFirstColumn ? 0.0 : horizontalInset
+                let rightInset : CGFloat  = isLastColumn ? 0.0 : horizontalInset
+                let edgeInset = UIEdgeInsets(top: verticalInset, left: leftInset, bottom: verticalInset, right: rightInset)
 
-            let layoutAttributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-            layoutAttributes.frame = finalFrame
-            cache.append(layoutAttributes)
+                let indexPath = IndexPath(row: row, section: section)
+                let itemHeight = dataSource.contentHeightForItem(at: indexPath, boundingWidth: columnWidth - (horizontalInset * 2))
+                let itemFrame = CGRect(x: xOffset, y: yOffset, width: columnWidth, height: itemHeight)
+
+                let finalFrame = UIEdgeInsetsInsetRect(itemFrame, edgeInset)
+                yOffsets[column] = itemFrame.maxY
+                contentHeight = max(contentHeight, itemFrame.maxY)
+
+                let layoutAttributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+                layoutAttributes.frame = finalFrame
+                localCache.append(layoutAttributes)
+            }
+
+            // next section should start at the next biggest offset, acting as separation
+            let maxYOffset = yOffsets.max()!
+            for i in 0 ..< yOffsets.count {
+                yOffsets[i] = maxYOffset
+            }
         }
+
+        self.cache = localCache
     }
 
     override var collectionViewContentSize: CGSize {
