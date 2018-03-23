@@ -10,6 +10,13 @@ import UIKit
 import EventKit
 import DateToolsSwift
 
+protocol PermissionControllerDelegate {
+    var permission : UserPermissions { get }
+}
+
+extension PermissionControllerDelegate where Self: UIViewController {
+}
+
 class CalendarOverviewViewController: UIViewController {
 
     enum State {

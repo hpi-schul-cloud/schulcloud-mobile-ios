@@ -49,8 +49,8 @@ final class DashboardLayout : UICollectionViewLayout {
         let readableFrame = collectionView.readableContentGuide.layoutFrame
         let xOffsetBase = isSingleColumn ? areaInset.left : readableFrame.origin.x
         let horizontalInset : CGFloat = isSingleColumn ? 0.0 : 8.0
-        let yOffsetBase = readableFrame.origin.y
-        let verticalInset = readableFrame.origin.y
+        let yOffsetBase : CGFloat = 8.0
+        let verticalInset : CGFloat = 8.0
 
         let layoutWidth = isSingleColumn ? contentWidth : readableFrame.width
         let columnWidth = layoutWidth / CGFloat(columnCount)

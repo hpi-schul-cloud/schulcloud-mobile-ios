@@ -140,7 +140,6 @@
                     </tabBar>
                     <connections>
                         <segue destination="z1t-lM-f50" kind="relationship" relationship="viewControllers" id="x1q-hk-iwq"/>
-                        <segue destination="zcB-iO-k72" kind="relationship" relationship="viewControllers" id="N5n-vt-njU"/>
                         <segue destination="nLF-9J-S6l" kind="relationship" relationship="viewControllers" id="ZLD-MS-w2T"/>
                         <segue destination="iRW-Ib-ha7" kind="relationship" relationship="viewControllers" id="DaB-Ku-EJV"/>
                         <segue destination="A9h-fP-m3a" kind="relationship" relationship="viewControllers" id="848-7Z-zKH"/>
@@ -159,16 +158,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tNK-4k-KyY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1556" y="291"/>
-        </scene>
-        <!--TabNews-->
-        <scene sceneID="TWH-FR-6pz">
-            <objects>
-                <viewControllerPlaceholder storyboardName="TabNews" id="zcB-iO-k72" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="News" id="yFY-js-O0S"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="KZP-pD-8PT" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1543" y="352"/>
         </scene>
         <!--TabDashboard-->
         <scene sceneID="QKT-zj-CEJ">
