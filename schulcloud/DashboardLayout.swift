@@ -83,6 +83,7 @@ final class DashboardLayout : UICollectionViewLayout {
             layoutAttributes.frame = finalFrame
             localCache.append(layoutAttributes)
         }
+        contentHeight += yOffsetBase
         cache = localCache
     }
 
