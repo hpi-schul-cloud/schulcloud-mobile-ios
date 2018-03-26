@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+
 protocol DashboardNewsOverviewViewControllerDelegate: class {
     func heightDidChange(_ height: CGFloat)
     func showMorePressed()
