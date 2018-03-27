@@ -1,5 +1,5 @@
 //
-//  DashboardNewsOverviewViewController.swift
+//  NewsOverviewViewController.swift
 //  schulcloud
 //
 //  Created by Florian Morel on 21.03.18.
@@ -9,21 +9,15 @@
 import UIKit
 import CoreData
 
-protocol DashboardNewsOverviewViewControllerDelegate: class {
+protocol NewsOverviewViewControllerDelegate: class {
     func heightDidChange(_ height: CGFloat)
     func showMorePressed()
     func didSelect(news: NewsArticle)
 }
 
-final class DashboardNewsOverviewViewControllerCell : UITableViewCell {
-    @IBOutlet var title: UILabel!
-    @IBOutlet var displayAt: UILabel!
-    @IBOutlet var content: UITextView!
-}
+final class NewsOverviewViewController : UITableViewController {
 
-final class DashboardNewsOverviewViewController : UITableViewController {
-
-    weak var delegate : DashboardNewsOverviewViewControllerDelegate? = nil
+    weak var delegate: NewsOverviewViewControllerDelegate?
 
     fileprivate lazy var fetchedController : NSFetchedResultsController<NewsArticle> = {
         let fetchRequest : NSFetchRequest<NewsArticle> = NewsArticle.fetchRequest()
@@ -60,14 +54,11 @@ final class DashboardNewsOverviewViewController : UITableViewController {
 
         if self.fetchedController.fetchedObjects?.count == 0 {
             let emptyCell = tableView.dequeueReusableCell(withIdentifier: "EmptyNewsCell")
-            emptyCell?.textLabel?.text = "You have no news item"
             cell = emptyCell!
         } else {
             let newsArticle = self.fetchedController.object(at: indexPath)
-            let newsCell = tableView.dequeueReusableCell(withIdentifier: "NewsCell") as! DashboardNewsOverviewViewControllerCell
-            newsCell.title.text = newsArticle.title
-            newsCell.displayAt.text = NewsArticle.displayDateFormatter.string(for: newsArticle.displayAt)
-            newsCell.content.attributedText = newsArticle.content.convertedHTML
+            let newsCell = tableView.dequeueReusableCell(withIdentifier: "NewsCell") as! NewsArticleOverviewCell
+            newsCell.configure(for: newsArticle)
             cell = newsCell
         }
         return cell
@@ -86,13 +77,13 @@ final class DashboardNewsOverviewViewController : UITableViewController {
     }
 }
 
-extension DashboardNewsOverviewViewController : NSFetchedResultsControllerDelegate {
+extension NewsOverviewViewController : NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.reloadData()
     }
 }
 
-extension DashboardNewsOverviewViewController : ViewControllerHeightDataSource {
+extension NewsOverviewViewController : ViewControllerHeightDataSource {
     var height : CGFloat {
         return tableView.contentSize.height
     }

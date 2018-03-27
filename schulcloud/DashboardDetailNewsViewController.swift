@@ -10,17 +10,19 @@ import UIKit
 
 final class DashboardDetailNewsViewController : UIViewController {
 
-    var newsArticle : NewsArticle!
+    var newsArticle: NewsArticle!
 
     @IBOutlet var newsTitle: UILabel!
     @IBOutlet var displayAt: UILabel!
     @IBOutlet var content: UITextView!
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        newsTitle.text = newsArticle.title
-        displayAt.text = NewsArticle.displayDateFormatter.string(from: newsArticle.displayAt)
-        content.attributedText = newsArticle.content.convertedHTML
+        self.newsTitle.text = self.newsArticle.title
+        self.displayAt.text = NewsArticle.displayDateFormatter.string(from: self.newsArticle.displayAt)
+        self.content.attributedText = self.newsArticle.content.convertedHTML
+        self.content.textContainerInset = .zero
+        self.content.textContainer.lineFragmentPadding = 0
     }
+
 }

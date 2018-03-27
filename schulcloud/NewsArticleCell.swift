@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 class NewsArticleCell: UITableViewCell {
     
     @IBOutlet weak var title: UILabel!
@@ -19,6 +18,15 @@ class NewsArticleCell: UITableViewCell {
         super.awakeFromNib()
         self.content.textContainerInset = .zero
         self.content.textContainer.lineFragmentPadding = 0
+    }
+
+    func configure(for newsArticle: NewsArticle) {
+        self.title.text = newsArticle.title
+        self.timeSinceCreated.text = NewsArticle.displayDateFormatter.string(for: newsArticle.displayAt)
+        self.content.attributedText = newsArticle.content.convertedHTML
+        self.content.translatesAutoresizingMaskIntoConstraints = true
+        self.content.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
+        self.content.sizeToFit()
     }
 
 }

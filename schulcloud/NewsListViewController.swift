@@ -67,13 +67,8 @@ class NewsListViewController: UITableViewController,  NSFetchedResultsController
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = self.fetchedResultController.object(at: indexPath)
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell", for: indexPath) as! NewsArticleCell
-        
-        cell.title.text = item.title
-        cell.timeSinceCreated.text = NewsArticle.displayDateFormatter.string(from: item.displayAt as Date)
-        cell.content.attributedText = item.content.convertedHTML
-        cell.content.translatesAutoresizingMaskIntoConstraints = true
-        cell.content.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
-        cell.content.sizeToFit()
+
+        cell.configure(for: item)
 
         return cell
     }

@@ -142,8 +142,8 @@ final class DashboardViewController : UICollectionViewController {
         return notificationOverview
     }
 
-    private func buildNewsOverviewFromStoryboard() -> DashboardNewsOverviewViewController {
-        let vc : DashboardNewsOverviewViewController = self.buildFromStoryboard(withIdentifier: "NewsOverview")
+    private func buildNewsOverviewFromStoryboard() -> NewsOverviewViewController {
+        let vc : NewsOverviewViewController = self.buildFromStoryboard(withIdentifier: "NewsOverview")
         vc.delegate = self
         return vc
     }
@@ -210,7 +210,7 @@ extension DashboardViewController : DashboardLayoutDataSource {
     }
 }
 
-extension DashboardViewController : DashboardNewsOverviewViewControllerDelegate {
+extension DashboardViewController : NewsOverviewViewControllerDelegate {
 
     func heightDidChange(_ height: CGFloat) {
         self.collectionView?.collectionViewLayout.invalidateLayout()
