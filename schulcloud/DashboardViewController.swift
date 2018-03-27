@@ -150,7 +150,7 @@ final class DashboardViewController : UICollectionViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetailNews" {
-            guard let detailNewsVC = segue.destination as? DashboardDetailNewsViewController,
+            guard let detailNewsVC = segue.destination as? NewsDetailViewController,
                   let newsArticle = sender as? NewsArticle else { return }
             detailNewsVC.newsArticle = newsArticle
         }

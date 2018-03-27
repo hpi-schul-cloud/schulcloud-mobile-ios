@@ -94,7 +94,7 @@
 		C3C3CAB11EF5CBB6009601AE /* SingleLessonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3CAB01EF5CBB6009601AE /* SingleLessonViewController.swift */; };
 		C3FEB92B1F67E7F400BAD9D7 /* UIColor+Branding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FEB92A1F67E7F400BAD9D7 /* UIColor+Branding.swift */; };
 		C63FB1F9B25BA375BFE83DFB /* Pods_schulcloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09D7CC393E1856DD7EF9B21F /* Pods_schulcloud.framework */; };
-		CE0F83CB20653C3F00F847D7 /* DashboardDetailNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0F83CA20653C3F00F847D7 /* DashboardDetailNewsViewController.swift */; };
+		CE0F83CB20653C3F00F847D7 /* NewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0F83CA20653C3F00F847D7 /* NewsDetailViewController.swift */; };
 		CE1DAC592004CE0200CEE4C2 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1DAC582004CE0200CEE4C2 /* String+.swift */; };
 		CE23F10E2056B01C00E79E64 /* DashboardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE23F10D2056B01C00E79E64 /* DashboardLayout.swift */; };
 		CE2FF77A2045A15900D5AF8E /* UserPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2FF7792045A15900D5AF8E /* UserPermissions.swift */; };
@@ -244,7 +244,7 @@
 		C3C2AC351EC5AC460060AECA /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		C3C3CAB01EF5CBB6009601AE /* SingleLessonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleLessonViewController.swift; sourceTree = "<group>"; };
 		C3FEB92A1F67E7F400BAD9D7 /* UIColor+Branding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Branding.swift"; sourceTree = "<group>"; };
-		CE0F83CA20653C3F00F847D7 /* DashboardDetailNewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardDetailNewsViewController.swift; sourceTree = "<group>"; };
+		CE0F83CA20653C3F00F847D7 /* NewsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController.swift; sourceTree = "<group>"; };
 		CE1DAC582004CE0200CEE4C2 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		CE23F10D2056B01C00E79E64 /* DashboardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardLayout.swift; sourceTree = "<group>"; };
 		CE2FF7792045A15900D5AF8E /* UserPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPermissions.swift; sourceTree = "<group>"; };
@@ -497,6 +497,8 @@
 				503C1C001F6181BF00CF369D /* CalendarOverviewViewController.swift */,
 				507684BF1F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift */,
 				50D6432C1F8E09E200A89331 /* HomeworkOverviewViewController.swift */,
+				CE9B56C72062A2C400803B3D /* NewsOverviewViewController.swift */,
+				CE0F83CA20653C3F00F847D7 /* NewsDetailViewController.swift */,
 				CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */,
 				CE82931220498A1E009D2C84 /* SchulcloudTabBarController.swift */,
 			);
@@ -580,8 +582,6 @@
 				CE829316204EB6B3009D2C84 /* DashboardViewController.swift */,
 				CE43B4962057E4D200950EA0 /* DashboardViewControllerCell.swift */,
 				CE43B49820594E5D00950EA0 /* DashboardNoPermissionViewController.swift */,
-				CE9B56C72062A2C400803B3D /* NewsOverviewViewController.swift */,
-				CE0F83CA20653C3F00F847D7 /* DashboardDetailNewsViewController.swift */,
 			);
 			name = Dashboard;
 			sourceTree = "<group>";
@@ -986,7 +986,7 @@
 				C3FEB92B1F67E7F400BAD9D7 /* UIColor+Branding.swift in Sources */,
 				C3418B621ECEE6FB00280E62 /* FilesViewController.swift in Sources */,
 				50604580206A452C009569D1 /* NewsArticleOverviewCell.swift in Sources */,
-				CE0F83CB20653C3F00F847D7 /* DashboardDetailNewsViewController.swift in Sources */,
+				CE0F83CB20653C3F00F847D7 /* NewsDetailViewController.swift in Sources */,
 				C32870BE1EDF356800ABA348 /* CourseHelper.swift in Sources */,
 				50B44D8B203AAEE1009DC2D3 /* Homework.swift in Sources */,
 				507A5CC82020D1B2009B1F95 /* SynchronizationError.swift in Sources */,

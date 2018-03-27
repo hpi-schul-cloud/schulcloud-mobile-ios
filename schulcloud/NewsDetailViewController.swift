@@ -1,5 +1,5 @@
 //
-//  DashboardDetailNewsViewController.swift
+//  NewsDetailViewController.swift
 //  schulcloud
 //
 //  Created by Florian Morel on 23.03.18.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class DashboardDetailNewsViewController : UIViewController {
+final class NewsDetailViewController : UIViewController {
 
     var newsArticle: NewsArticle!
 

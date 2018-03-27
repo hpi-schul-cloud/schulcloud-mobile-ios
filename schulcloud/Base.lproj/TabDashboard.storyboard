@@ -908,10 +908,10 @@
             </objects>
             <point key="canvasLocation" x="3492" y="405"/>
         </scene>
-        <!--Dashboard Detail News View Controller-->
+        <!--News Detail View Controller-->
         <scene sceneID="3zC-Ao-BZH">
             <objects>
-                <viewController id="E1p-Er-oEo" customClass="DashboardDetailNewsViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="E1p-Er-oEo" customClass="NewsDetailViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="e7A-Oe-v2C">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
