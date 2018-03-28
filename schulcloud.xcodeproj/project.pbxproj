@@ -23,6 +23,7 @@
 		503C1C011F6181BF00CF369D /* CalendarOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503C1C001F6181BF00CF369D /* CalendarOverviewViewController.swift */; };
 		5059C14B1F62B35900E8023C /* Date+TimeZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5059C14A1F62B35900E8023C /* Date+TimeZone.swift */; };
 		50604580206A452C009569D1 /* NewsArticleOverviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5060457F206A452C009569D1 /* NewsArticleOverviewCell.swift */; };
+		50604584206BA401009569D1 /* schulcloud.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 50604581206BA401009569D1 /* schulcloud.xcdatamodeld */; };
 		506D146F1F56F81D00AA5613 /* UIView+shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D146E1F56F81D00AA5613 /* UIView+shake.swift */; };
 		507684C01F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507684BF1F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift */; };
 		507A5CC82020D1B2009B1F95 /* SynchronizationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507A5CC72020D1B2009B1F95 /* SynchronizationError.swift */; };
@@ -75,7 +76,6 @@
 		C3418B6F1ED5CF1F00280E62 /* Date+Marshal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3418B6E1ED5CF1F00280E62 /* Date+Marshal.swift */; };
 		C36C23381EC9DE0700D4163E /* SCError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36C23371EC9DE0700D4163E /* SCError.swift */; };
 		C36C233B1ECC965400D4163E /* CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36C233A1ECC965400D4163E /* CoreDataHelper.swift */; };
-		C378D2C41ECC976800AE8CEA /* schulcloud.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C378D2C21ECC976800AE8CEA /* schulcloud.xcdatamodeld */; };
 		C3A5A9031EBCC17600825DBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9021EBCC17600825DBF /* AppDelegate.swift */; };
 		C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3A5A9061EBCC17600825DBF /* Main.storyboard */; };
 		C3A5A90D1EBCC17600825DBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3A5A90C1EBCC17600825DBF /* Assets.xcassets */; };
@@ -135,10 +135,10 @@
 		270BA83590B5166B5A30D6B3 /* Pods_schulcloudUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloudUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		389B64CA22013634E6CFD243 /* Pods-schulcloudUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudUITests/Pods-schulcloudUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		3D45737A1EE02065009A30E2 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
-		3DD869101ECE3F6100814392 /* PT_Sans-Web-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PT_Sans-Web-Bold.ttf"; path = "schulcloud/fonts/PT_Sans-Web-Bold.ttf"; sourceTree = "<group>"; };
-		3DD869111ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PT_Sans-Web-BoldItalic.ttf"; path = "schulcloud/fonts/PT_Sans-Web-BoldItalic.ttf"; sourceTree = "<group>"; };
-		3DD869121ECE3F6100814392 /* PT_Sans-Web-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PT_Sans-Web-Italic.ttf"; path = "schulcloud/fonts/PT_Sans-Web-Italic.ttf"; sourceTree = "<group>"; };
-		3DD869131ECE3F6100814392 /* PT_Sans-Web-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PT_Sans-Web-Regular.ttf"; path = "schulcloud/fonts/PT_Sans-Web-Regular.ttf"; sourceTree = "<group>"; };
+		3DD869101ECE3F6100814392 /* PT_Sans-Web-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PT_Sans-Web-Bold.ttf"; sourceTree = "<group>"; };
+		3DD869111ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PT_Sans-Web-BoldItalic.ttf"; sourceTree = "<group>"; };
+		3DD869121ECE3F6100814392 /* PT_Sans-Web-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PT_Sans-Web-Italic.ttf"; sourceTree = "<group>"; };
+		3DD869131ECE3F6100814392 /* PT_Sans-Web-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PT_Sans-Web-Regular.ttf"; sourceTree = "<group>"; };
 		3F676540101964935628234A /* Pods-schulcloud-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloud-Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloud-Tests/Pods-schulcloud-Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		5024103D2046B01A0033D75A /* schulcloud-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "schulcloud-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5024103F2046B01A0033D75A /* schulcloudTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = schulcloudTests.swift; sourceTree = "<group>"; };
@@ -147,9 +147,9 @@
 		50359DA6203F155200D24E0F /* SchulcloudSyncStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchulcloudSyncStrategy.swift; sourceTree = "<group>"; };
 		50359DA8203F159300D24E0F /* SculcloudSyncConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SculcloudSyncConfig.swift; sourceTree = "<group>"; };
 		503A5EFA1F3DB86C00A7695B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/TabSettings.storyboard; sourceTree = "<group>"; };
-		503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = TabCourses.storyboard; path = Base.lproj/TabCourses.storyboard; sourceTree = "<group>"; };
-		503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = TabFiles.storyboard; path = Base.lproj/TabFiles.storyboard; sourceTree = "<group>"; };
-		503A5F001F3DC6C700A7695B /* TabDashboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = TabDashboard.storyboard; path = Base.lproj/TabDashboard.storyboard; sourceTree = "<group>"; };
+		503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabCourses.storyboard; sourceTree = "<group>"; };
+		503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabFiles.storyboard; sourceTree = "<group>"; };
+		503A5F001F3DC6C700A7695B /* TabDashboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabDashboard.storyboard; sourceTree = "<group>"; };
 		503C1C001F6181BF00CF369D /* CalendarOverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarOverviewViewController.swift; sourceTree = "<group>"; };
 		5050AAE71F49C13600EF5CF9 /* Pods_schulcloud_schulcloudTests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_schulcloud_schulcloudTests.framework; path = "Pods/../build/Debug-iphoneos/Pods_schulcloud_schulcloudTests.framework"; sourceTree = "<group>"; };
 		5050AAE81F49C13600EF5CF9 /* Pods_schulcloud_schulcloudUITests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_schulcloud_schulcloudUITests.framework; path = "Pods/../build/Debug-iphoneos/Pods_schulcloud_schulcloudUITests.framework"; sourceTree = "<group>"; };
@@ -157,6 +157,8 @@
 		5050AAEC1F49C15000EF5CF9 /* Pods_schulcloud_schulcloudUITests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_schulcloud_schulcloudUITests.framework; path = "Pods/../build/Debug-iphoneos/Pods_schulcloud_schulcloudUITests.framework"; sourceTree = "<group>"; };
 		5059C14A1F62B35900E8023C /* Date+TimeZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+TimeZone.swift"; sourceTree = "<group>"; };
 		5060457F206A452C009569D1 /* NewsArticleOverviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsArticleOverviewCell.swift; sourceTree = "<group>"; };
+		50604582206BA401009569D1 /* schulcloud.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = schulcloud.xcdatamodel; sourceTree = "<group>"; };
+		50604583206BA401009569D1 /* schulcloud 1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "schulcloud 1.xcdatamodel"; sourceTree = "<group>"; };
 		506D146E1F56F81D00AA5613 /* UIView+shake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+shake.swift"; sourceTree = "<group>"; };
 		507684BF1F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkDetailViewController.swift; sourceTree = "<group>"; };
 		507A5CC72020D1B2009B1F95 /* SynchronizationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizationError.swift; sourceTree = "<group>"; };
@@ -216,12 +218,11 @@
 		C3418B5F1ECDAB9F00280E62 /* FileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileHelper.swift; sourceTree = "<group>"; };
 		C3418B611ECEE6FB00280E62 /* FilesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilesViewController.swift; sourceTree = "<group>"; };
 		C3418B631ED2E89F00280E62 /* FileListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileListCell.swift; sourceTree = "<group>"; };
-		C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PreviewTransitionViewController.xib; path = Base.lproj/PreviewTransitionViewController.xib; sourceTree = "<group>"; };
-		C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WebviewPreviewViewContoller.xib; path = Base.lproj/WebviewPreviewViewContoller.xib; sourceTree = "<group>"; };
+		C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreviewTransitionViewController.xib; sourceTree = "<group>"; };
+		C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebviewPreviewViewContoller.xib; sourceTree = "<group>"; };
 		C3418B6E1ED5CF1F00280E62 /* Date+Marshal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Marshal.swift"; sourceTree = "<group>"; };
 		C36C23371EC9DE0700D4163E /* SCError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCError.swift; sourceTree = "<group>"; };
 		C36C233A1ECC965400D4163E /* CoreDataHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataHelper.swift; sourceTree = "<group>"; };
-		C378D2C31ECC976800AE8CEA /* schulcloud.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = schulcloud.xcdatamodel; sourceTree = "<group>"; };
 		C3A5A8FF1EBCC17600825DBF /* Schulcloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Schulcloud.app; path = schulcloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3A5A9021EBCC17600825DBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3A5A9071EBCC17600825DBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -314,6 +315,7 @@
 				3DD869131ECE3F6100814392 /* PT_Sans-Web-Regular.ttf */,
 			);
 			name = fonts;
+			path = schulcloud/fonts;
 			sourceTree = "<group>";
 		};
 		5024103E2046B01A0033D75A /* schulcloudTests */ = {
@@ -335,10 +337,11 @@
 				C3FEB92A1F67E7F400BAD9D7 /* UIColor+Branding.swift */,
 				CE1DAC582004CE0200CEE4C2 /* String+.swift */,
 				509B10D52008E5840042AA7D /* NSMutableAttributedString+trim.swift */,
+				C3165F1E1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift */,
 				CE644E8820232710003AE700 /* UIColor+hexString.swift */,
 				CE443936205BDEDD00CC3311 /* UIAlertController+Permission.swift */,
 			);
-			name = Extensions;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		50739CC91F56B9C600CD68C7 /* Views */ = {
@@ -350,8 +353,10 @@
 				50A1CDE51F501AC5006E9B69 /* NotificationCell.swift */,
 				CE737A4D1FFE65B0006DAB54 /* NewsArticleCell.swift */,
 				5060457F206A452C009569D1 /* NewsArticleOverviewCell.swift */,
+				C3B7DB131EF5EB1800A2F2B5 /* HtmlTableViewCell.swift */,
+				CE43B4962057E4D200950EA0 /* DashboardViewControllerCell.swift */,
 			);
-			name = Views;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		50B44D7C203AAE39009DC2D3 /* Model */ = {
@@ -366,7 +371,7 @@
 				50B44D84203AAEE1009DC2D3 /* NewsArticle.swift */,
 				50B44D7F203AAEE0009DC2D3 /* User.swift */,
 			);
-			name = Model;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		50B82F802020C9130048CB4B /* Sync */ = {
@@ -417,16 +422,7 @@
 				C31C84291ECF553700FA070C /* PreviewManager.swift */,
 				C31C842D1ECF586500FA070C /* LoadingViewController.swift */,
 			);
-			name = "File Preview";
-			sourceTree = "<group>";
-		};
-		C3418B691ED3360B00280E62 /* Files */ = {
-			isa = PBXGroup;
-			children = (
-				C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */,
-				C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */,
-			);
-			name = Files;
+			path = "File Preview";
 			sourceTree = "<group>";
 		};
 		C3A5A8F61EBCC17600825DBF = {
@@ -455,15 +451,22 @@
 		C3A5A9011EBCC17600825DBF /* schulcloud */ = {
 			isa = PBXGroup;
 			children = (
-				C3A5A9371EBCD07B00825DBF /* Application */,
-				50B82F802020C9130048CB4B /* Sync */,
+				C3A5A9021EBCC17600825DBF /* AppDelegate.swift */,
+				C3A5A9381EBCD0C600825DBF /* Constants.swift */,
+				C3A5A93A1EC0766F00825DBF /* Account.swift */,
+				C36C23371EC9DE0700D4163E /* SCError.swift */,
+				50F3984C202C7CDD00ADAE5D /* GoogleService-Info-Debug.plist */,
+				50F3984D202C7CDD00ADAE5D /* GoogleService-Info-Release.plist */,
+				C3A5A9111EBCC17600825DBF /* Info.plist */,
+				C3C2AC341EC59F0E0060AECA /* schulcloud.entitlements */,
+				506D14701F582BA700AA5613 /* Extensions */,
+				C3C2AC251EC3B3980060AECA /* API */,
 				C3C2AC331EC498F50060AECA /* Data */,
+				50B82F802020C9130048CB4B /* Sync */,
+				C3A5A9361EBCD06200825DBF /* Storyboards */,
 				C3A5A9351EBCD03600825DBF /* Controllers */,
 				50739CC91F56B9C600CD68C7 /* Views */,
-				C3A5A9361EBCD06200825DBF /* Storyboards */,
-				C3C2AC251EC3B3980060AECA /* API */,
-				506D14701F582BA700AA5613 /* Extensions */,
-				C36C23371EC9DE0700D4163E /* SCError.swift */,
+				C3A5A90C1EBCC17600825DBF /* Assets.xcassets */,
 			);
 			path = schulcloud;
 			sourceTree = "<group>";
@@ -494,45 +497,27 @@
 				3D45737A1EE02065009A30E2 /* CalendarViewController.swift */,
 				50A1CDE31F501A0C006E9B69 /* NotificationViewController.swift */,
 				509A93391F541668001167DE /* ShortNotificationViewController.swift */,
-				503C1C001F6181BF00CF369D /* CalendarOverviewViewController.swift */,
 				507684BF1F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift */,
-				50D6432C1F8E09E200A89331 /* HomeworkOverviewViewController.swift */,
-				CE9B56C72062A2C400803B3D /* NewsOverviewViewController.swift */,
 				CE0F83CA20653C3F00F847D7 /* NewsDetailViewController.swift */,
 				CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */,
 				CE82931220498A1E009D2C84 /* SchulcloudTabBarController.swift */,
 			);
-			name = Controllers;
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		C3A5A9361EBCD06200825DBF /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				C3418B691ED3360B00280E62 /* Files */,
 				C3A5A9061EBCC17600825DBF /* Main.storyboard */,
 				503A5F001F3DC6C700A7695B /* TabDashboard.storyboard */,
 				503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */,
 				503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */,
 				503A5EF91F3DB86C00A7695B /* TabSettings.storyboard */,
-				C3A5A90C1EBCC17600825DBF /* Assets.xcassets */,
+				C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */,
+				C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */,
 				C3A5A90E1EBCC17600825DBF /* LaunchScreen.storyboard */,
 			);
-			name = Storyboards;
-			sourceTree = "<group>";
-		};
-		C3A5A9371EBCD07B00825DBF /* Application */ = {
-			isa = PBXGroup;
-			children = (
-				C3A5A9021EBCC17600825DBF /* AppDelegate.swift */,
-				C3A5A9381EBCD0C600825DBF /* Constants.swift */,
-				C3A5A93A1EC0766F00825DBF /* Account.swift */,
-				50F3984C202C7CDD00ADAE5D /* GoogleService-Info-Debug.plist */,
-				50F3984D202C7CDD00ADAE5D /* GoogleService-Info-Release.plist */,
-				C3A5A9111EBCC17600825DBF /* Info.plist */,
-				C3C2AC341EC59F0E0060AECA /* schulcloud.entitlements */,
-				C3165F1E1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift */,
-			);
-			name = Application;
+			path = Storyboards;
 			sourceTree = "<group>";
 		};
 		C3B7DB151EF5EB2200A2F2B5 /* Lesson */ = {
@@ -540,9 +525,8 @@
 			children = (
 				C32870C11EE0250500ABA348 /* LessonsViewController.swift */,
 				C3C3CAB01EF5CBB6009601AE /* SingleLessonViewController.swift */,
-				C3B7DB131EF5EB1800A2F2B5 /* HtmlTableViewCell.swift */,
 			);
-			name = Lesson;
+			path = Lesson;
 			sourceTree = "<group>";
 		};
 		C3C2AC251EC3B3980060AECA /* API */ = {
@@ -551,7 +535,7 @@
 				C3C2AC351EC5AC460060AECA /* Notifications.swift */,
 				C3C2AC231EC3AAA80060AECA /* LoginHelper.swift */,
 			);
-			name = API;
+			path = API;
 			sourceTree = "<group>";
 		};
 		C3C2AC331EC498F50060AECA /* Data */ = {
@@ -560,7 +544,6 @@
 				50B44D7C203AAE39009DC2D3 /* Model */,
 				C36C233A1ECC965400D4163E /* CoreDataHelper.swift */,
 				5083AB56203C5D9D002E6E47 /* CoreDataObserver.swift */,
-				C378D2C21ECC976800AE8CEA /* schulcloud.xcdatamodeld */,
 				C3AB489B1EDAE97600692505 /* HomeworkHelper.swift */,
 				C32870BD1EDF356800ABA348 /* CourseHelper.swift */,
 				C32870BF1EE0228600ABA348 /* LessonHelper.swift */,
@@ -571,8 +554,9 @@
 				CEC042841FFE205E004E9A20 /* NewsHelper.swift */,
 				CE2FF7792045A15900D5AF8E /* UserPermissions.swift */,
 				5083AB58203D517F002E6E47 /* UserHelper.swift */,
+				50604581206BA401009569D1 /* schulcloud.xcdatamodeld */,
 			);
-			name = Data;
+			path = Data;
 			sourceTree = "<group>";
 		};
 		CE23F10C2056B00800E79E64 /* Dashboard */ = {
@@ -580,10 +564,12 @@
 			children = (
 				CE23F10D2056B01C00E79E64 /* DashboardLayout.swift */,
 				CE829316204EB6B3009D2C84 /* DashboardViewController.swift */,
-				CE43B4962057E4D200950EA0 /* DashboardViewControllerCell.swift */,
 				CE43B49820594E5D00950EA0 /* DashboardNoPermissionViewController.swift */,
+				503C1C001F6181BF00CF369D /* CalendarOverviewViewController.swift */,
+				50D6432C1F8E09E200A89331 /* HomeworkOverviewViewController.swift */,
+				CE9B56C72062A2C400803B3D /* NewsOverviewViewController.swift */,
 			);
-			name = Dashboard;
+			path = Dashboard;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -979,7 +965,6 @@
 				50F39856202C8FB300ADAE5D /* Future+retry.swift in Sources */,
 				50B44D89203AAEE1009DC2D3 /* File.swift in Sources */,
 				C31C842E1ECF586500FA070C /* LoadingViewController.swift in Sources */,
-				C378D2C41ECC976800AE8CEA /* schulcloud.xcdatamodeld in Sources */,
 				CE82931320498A1E009D2C84 /* SchulcloudTabBarController.swift in Sources */,
 				CE737A4E1FFE65B0006DAB54 /* NewsArticleCell.swift in Sources */,
 				50359DA7203F155200D24E0F /* SchulcloudSyncStrategy.swift in Sources */,
@@ -997,6 +982,7 @@
 				C3B7DB141EF5EB1800A2F2B5 /* HtmlTableViewCell.swift in Sources */,
 				CE2FF77A2045A15900D5AF8E /* UserPermissions.swift in Sources */,
 				CE9B56C82062A2C400803B3D /* NewsOverviewViewController.swift in Sources */,
+				50604584206BA401009569D1 /* schulcloud.xcdatamodeld in Sources */,
 				C3165F1D1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift in Sources */,
 				C3A5A9031EBCC17600825DBF /* AppDelegate.swift in Sources */,
 				CEB0027D2008BF9C007084C9 /* CalendarEventHelper.swift in Sources */,
@@ -1368,12 +1354,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		C378D2C21ECC976800AE8CEA /* schulcloud.xcdatamodeld */ = {
+		50604581206BA401009569D1 /* schulcloud.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				C378D2C31ECC976800AE8CEA /* schulcloud.xcdatamodel */,
+				50604582206BA401009569D1 /* schulcloud.xcdatamodel */,
+				50604583206BA401009569D1 /* schulcloud 1.xcdatamodel */,
 			);
-			currentVersion = C378D2C31ECC976800AE8CEA /* schulcloud.xcdatamodel */;
+			currentVersion = 50604582206BA401009569D1 /* schulcloud.xcdatamodel */;
 			path = schulcloud.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
