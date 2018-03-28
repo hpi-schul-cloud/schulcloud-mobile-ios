@@ -14,8 +14,6 @@ import JWTDecode
 
 class LoginHelper {
 
-    static let defaults = UserDefaults.standard
-
     static func getAccessToken(username: String?, password: String?) -> Future<String, SCError> {
         let promise = Promise<String, SCError>()
 
@@ -107,10 +105,11 @@ class LoginHelper {
     }
     
     static func logout() {
-        defaults.set(nil, forKey: "accountId")
-        defaults.set(nil, forKey: "userId")
+        UserDefaults.standard.set(nil, forKey: "accountId")
+        UserDefaults.standard.set(nil, forKey: "userId")
+
         do {
-            CoreDataHelper.dropDatabase()
+            CoreDataHelper.clearCoreDataStorage()
             try Globals.account!.deleteFromSecureStore()
             try CalendarEventHelper.deleteSchulcloudCalendar()
         } catch let error {

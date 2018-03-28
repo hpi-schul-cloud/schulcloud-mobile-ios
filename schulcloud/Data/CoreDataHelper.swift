@@ -12,70 +12,58 @@ import Result
 
 struct CoreDataHelper {
 
-    static var persistentContainer = createPersistentContainer()
+    static var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "schulcloud")
+        container.loadPersistentStores { _, error in
+            if let error = error {
+                log.error("Unresolved error \(error)")
+                fatalError("Unresolved error \(error)")
+            }
+
+            container.viewContext.automaticallyMergesChangesFromParent = true
+            container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+        }
+
+        return container
+    }()
 
     static var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
 
-    private static func createPersistentContainer() -> NSPersistentContainer {
-        /*
-         The persistent container for the application. This implementation
-         creates and returns a container, having loaded the store for the
-         application to it. This property is optional since there are legitimate
-         error conditions that could cause the creation of the store to fail.
-         */
-        let persistentContainer = NSPersistentContainer(name: "schulcloud")
-        persistentContainer.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-                // TODO: Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-
-                /*
-                 Typical reasons for an error here include:
-                 * The parent directory does not exist, cannot be created, or disallows writing.
-                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                 * The device is out of space.
-                 * The store could not be migrated to the current model version.
-                 Check the error message to determine what the actual problem was.
-                 */
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-            persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
-            let managedObjectContext = persistentContainer.viewContext
-            managedObjectContext.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
-        })
-
-        return persistentContainer
+    static func clearCoreDataStorage() -> Future<Void, SCError> {
+        return self.persistentContainer.managedObjectModel.entitiesByName.keys.traverse { entityName in
+            return self.clearCoreDataEntity(entityName)
+        }.asVoid()
     }
 
-    static func dropDatabase() {
-        log.debug("Dropping database - recreating persistent container")
-        CoreDataObserver.shared.stopObserving()
+    private static func clearCoreDataEntity(_ entityName: String) -> Future<Void, SCError> {
+        let promise = Promise<Void, SCError>()
 
-        let coordinator = persistentContainer.persistentStoreCoordinator
-        let stores = coordinator.persistentStores
+        self.persistentContainer.performBackgroundTask { privateManagedObjectContext in
+            privateManagedObjectContext.shouldDeleteInaccessibleFaults = true
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+            deleteRequest.resultType = .resultTypeObjectIDs
 
-        do {
-            try stores.forEach {
-                try coordinator.remove($0)
-                if let url = $0.url {
-                    try FileManager.default.removeItem(at: url)
-                }
+            do {
+                let result = try privateManagedObjectContext.execute(deleteRequest) as? NSBatchDeleteResult
+                guard let objectIDArray = result?.result as? [NSManagedObjectID] else { return }
+                let changes = [NSDeletedObjectsKey: objectIDArray]
+                log.verbose("Try to delete all enities of \(entityName) (\(objectIDArray.count) enities)")
+                NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [self.viewContext])
+                try privateManagedObjectContext.save()
+
+                promise.success(())
+            } catch {
+                log.error("Failed to bulk delete all enities of \(entityName) - \(error)")
+                promise.failure(.coreData(error))
             }
-        } catch let error {
-            // TODO: fail more gracefully
-            fatalError(error.description)
         }
 
-        persistentContainer = createPersistentContainer()
-        CoreDataObserver.shared.startObserving()
+        return promise.future
     }
 
-    static func delete<T>(fetchRequest: NSFetchRequest<T>, context: NSManagedObjectContext) throws {
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest as! NSFetchRequest<NSFetchRequestResult>)
-        try context.execute(deleteRequest)
-    }
 }
 
 extension NSManagedObjectContext {

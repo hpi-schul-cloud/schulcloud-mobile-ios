@@ -314,7 +314,9 @@ class FileHelper {
                 let fetchRequest = NSFetchRequest<File>(entityName: "File")
                 fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [notOnServerPredicate, parentFolderPredicate])
 
-                try CoreDataHelper.delete(fetchRequest: fetchRequest, context: context)
+                let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest as! NSFetchRequest<NSFetchRequestResult>)
+                try context.execute(deleteRequest)
+
                 try context.save()
                 promise.success(())
             } catch let error as MarshalError {
