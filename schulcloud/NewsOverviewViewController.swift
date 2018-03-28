@@ -85,6 +85,6 @@ extension NewsOverviewViewController : NSFetchedResultsControllerDelegate {
 
 extension NewsOverviewViewController : ViewControllerHeightDataSource {
     var height : CGFloat {
-        return tableView.contentSize.height
+        return tableView.contentSize.height + 20.0
     }
 }

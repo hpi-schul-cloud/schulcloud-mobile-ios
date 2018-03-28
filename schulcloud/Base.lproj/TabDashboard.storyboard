@@ -239,7 +239,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="NewsOverview" id="Gi9-xE-g0O" customClass="NewsOverviewViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="xnz-Ll-bXq">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="345"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="lqi-5v-8FT">
@@ -266,7 +266,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qIK-At-GKH">
-                                    <rect key="frame" x="20" y="4" width="177" height="36"/>
+                                    <rect key="frame" x="20" y="20" width="177" height="4"/>
                                     <state key="normal" title="Alle Neuigkeiten anzeigen"/>
                                     <connections>
                                         <action selector="showMorePressed" destination="Gi9-xE-g0O" eventType="touchUpInside" id="Bt3-uv-5wc"/>
@@ -275,8 +275,8 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="bottom" secondItem="qIK-At-GKH" secondAttribute="bottom" constant="4" id="77r-M3-roe"/>
-                                <constraint firstItem="qIK-At-GKH" firstAttribute="top" secondItem="QvY-Zu-dYH" secondAttribute="top" constant="4" id="ZQG-3B-apF"/>
+                                <constraint firstAttribute="bottom" secondItem="qIK-At-GKH" secondAttribute="bottom" constant="20" symbolic="YES" id="77r-M3-roe"/>
+                                <constraint firstItem="qIK-At-GKH" firstAttribute="top" secondItem="QvY-Zu-dYH" secondAttribute="top" constant="20" symbolic="YES" id="ZQG-3B-apF"/>
                                 <constraint firstItem="qIK-At-GKH" firstAttribute="leading" secondItem="QvY-Zu-dYH" secondAttribute="leading" constant="20" symbolic="YES" id="bas-nf-vhz"/>
                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="qIK-At-GKH" secondAttribute="trailing" constant="20" symbolic="YES" id="odI-4p-0IQ"/>
                             </constraints>
@@ -355,7 +355,7 @@
                             <outlet property="delegate" destination="Gi9-xE-g0O" id="m5i-xI-G4f"/>
                         </connections>
                     </tableView>
-                    <size key="freeformSize" width="375" height="300"/>
+                    <size key="freeformSize" width="375" height="345"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="stB-iJ-s2n" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -528,8 +528,8 @@
                             <rect key="frame" x="0.0" y="236" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="peN-sj-d2w">
-                                    <rect key="frame" x="20" y="20" width="247" height="4"/>
+                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="peN-sj-d2w">
+                                    <rect key="frame" x="19" y="20" width="247" height="4"/>
                                     <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                                     <state key="normal" title="Alle Benachrichtigungen anzeigen"/>
                                     <connections>
