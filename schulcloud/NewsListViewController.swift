@@ -10,14 +10,6 @@ import UIKit
 import CoreData
 
 class NewsListViewController: UITableViewController,  NSFetchedResultsControllerDelegate {
-    
-    private static let displayDateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .none
-        formatter.locale = Locale.current
-        return formatter
-    }()
 
     // MARK: - UI Methods
     override func viewDidLoad() {
@@ -75,14 +67,13 @@ class NewsListViewController: UITableViewController,  NSFetchedResultsController
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = self.fetchedResultController.object(at: indexPath)
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell", for: indexPath) as! NewsArticleCell
-        
-        cell.title.text = item.title
-        cell.timeSinceCreated.text = NewsListViewController.displayDateFormatter.string(from: item.displayAt as Date)
-        cell.content.attributedText = item.content.convertedHTML
-        cell.content.translatesAutoresizingMaskIntoConstraints = true
-        cell.content.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
-        cell.content.sizeToFit()
+
+        cell.configure(for: item)
 
         return cell
+    }
+
+    @IBAction func donePressed() {
+        self.dismiss(animated: true)
     }
 }

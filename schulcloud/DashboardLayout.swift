@@ -36,6 +36,8 @@ final class DashboardLayout : UICollectionViewLayout {
         guard let collectionView = collectionView else { return }
         guard let dataSource = self.dataSource else { return }
 
+        var localCache = [UICollectionViewLayoutAttributes]()
+
         let columnCount = collectionView.traitCollection.horizontalSizeClass == .regular ? 2 : 1
         let isSingleColumn = columnCount == 1
 
@@ -49,8 +51,8 @@ final class DashboardLayout : UICollectionViewLayout {
         let readableFrame = collectionView.readableContentGuide.layoutFrame
         let xOffsetBase = isSingleColumn ? areaInset.left : readableFrame.origin.x
         let horizontalInset : CGFloat = isSingleColumn ? 0.0 : 8.0
-        let yOffsetBase = readableFrame.origin.y
-        let verticalInset = readableFrame.origin.y
+        let yOffsetBase : CGFloat = 8.0
+        let verticalInset : CGFloat = 8.0
 
         let layoutWidth = isSingleColumn ? contentWidth : readableFrame.width
         let columnWidth = layoutWidth / CGFloat(columnCount)
@@ -79,8 +81,10 @@ final class DashboardLayout : UICollectionViewLayout {
 
             let layoutAttributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
             layoutAttributes.frame = finalFrame
-            cache.append(layoutAttributes)
+            localCache.append(layoutAttributes)
         }
+        contentHeight += yOffsetBase
+        cache = localCache
     }
 
     override var collectionViewContentSize: CGSize {

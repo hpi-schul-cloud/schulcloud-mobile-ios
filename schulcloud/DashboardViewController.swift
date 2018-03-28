@@ -33,6 +33,7 @@ final class DashboardViewController : UICollectionViewController {
     lazy var calendarOverview : CalendarOverviewViewController = self.buildFromStoryboard(withIdentifier: "CalendarOverview")
     lazy var homeworkOverview : HomeworkOverviewViewController = self.buildFromStoryboard(withIdentifier: "HomeworkOverview")
     lazy var notificationOverview = self.buildNotificationOverviewFromStroyboard()
+    lazy var newsOverview  = self.buildNewsOverviewFromStoryboard()
 
     var viewControllers : [DynamicHeightViewController] = []
 
@@ -90,6 +91,15 @@ final class DashboardViewController : UICollectionViewController {
             viewControllers.append( missingVc)
         }
 
+        if currentUser.permissions.contains(.newsView) {
+            viewControllers.append(newsOverview)
+            newsOverview.view.translatesAutoresizingMaskIntoConstraints = false
+            self.addChildViewController(newsOverview)
+        } else {
+            let missingVc = makeNoPermissionController(missingPermission: .newsView)
+            viewControllers.append( missingVc)
+        }
+
         if currentUser.canDisplayNotification {
             viewControllers.append(notificationOverview)
             notificationOverview.view.translatesAutoresizingMaskIntoConstraints = false
@@ -132,6 +142,21 @@ final class DashboardViewController : UICollectionViewController {
         return notificationOverview
     }
 
+    private func buildNewsOverviewFromStoryboard() -> NewsOverviewViewController {
+        let vc : NewsOverviewViewController = self.buildFromStoryboard(withIdentifier: "NewsOverview")
+        vc.delegate = self
+        return vc
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showDetailNews" {
+            guard let detailNewsVC = segue.destination as? NewsDetailViewController,
+                  let newsArticle = sender as? NewsArticle else { return }
+            detailNewsVC.newsArticle = newsArticle
+        }
+    }
+}
+extension DashboardViewController {
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -185,3 +210,17 @@ extension DashboardViewController : DashboardLayoutDataSource {
     }
 }
 
+extension DashboardViewController : NewsOverviewViewControllerDelegate {
+
+    func heightDidChange(_ height: CGFloat) {
+        self.collectionView?.collectionViewLayout.invalidateLayout()
+    }
+
+    func didSelect(news: NewsArticle) {
+        self.performSegue(withIdentifier: "showDetailNews", sender: news)
+    }
+
+    func showMorePressed() {
+        self.performSegue(withIdentifier: "showNewsList", sender: self)
+    }
+}

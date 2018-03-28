@@ -39,4 +39,11 @@ extension NewsArticle : Pullable {
         try self.updateRelationship(forKeyPath: \NewsArticle.creator, forKey: "creatorId", fromObject: object, with: context)
     }
 
+    static let displayDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        formatter.locale = Locale.current
+        return formatter
+    }()
 }
