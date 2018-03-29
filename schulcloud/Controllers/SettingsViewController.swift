@@ -99,7 +99,7 @@ class SettingsViewController: UITableViewController {
                 currentEventKitSettings.shouldSynchonize = false
                 sender.isOn = false
             } catch let error {
-                //TODO: Show error on why we could not delete the calendar
+                // TODO: Show error on why we could not delete the calendar
                 self.showErrorAlert(message: error.localizedDescription)
                 currentEventKitSettings.shouldSynchonize = true
                 sender.isOn = true

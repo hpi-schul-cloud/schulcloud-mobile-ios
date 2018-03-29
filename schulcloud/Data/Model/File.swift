@@ -101,7 +101,7 @@ extension File {
         let permissionsObject: [MarshaledObject]? = try? data.value(for: "permissions")
         let userPermission: MarshaledObject? = permissionsObject?.first { data -> Bool in
             if let userId: String = try? data.value(for: "userId"),
-                userId == Globals.account?.userId { //find permission for current user
+                userId == Globals.account?.userId { // find permission for current user
                 return true
             }
 

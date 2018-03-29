@@ -6,7 +6,7 @@
 import UIKit
 import WebKit
 
-/// Webview for rendering items QuickLook will struggle with.
+// Webview for rendering items QuickLook will struggle with.
 class WebviewPreviewViewContoller: UIViewController {
 
     var webView = WKWebView()
@@ -20,7 +20,7 @@ class WebviewPreviewViewContoller: UIViewController {
 
     var fileData: Data?
 
-    //MARK: Lifecycle
+    // MARK: Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +36,7 @@ class WebviewPreviewViewContoller: UIViewController {
         webView.frame = self.view.bounds
     }
 
-    //MARK: Share
+    // MARK: Share
 
     @objc func shareFile() {
         guard let file = file else {
@@ -57,7 +57,7 @@ class WebviewPreviewViewContoller: UIViewController {
 
     }
 
-    //MARK: Processing
+    // MARK: Processing
 
     func processForDisplay() {
         guard let file = file else {

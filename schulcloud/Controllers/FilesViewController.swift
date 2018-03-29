@@ -67,6 +67,7 @@ class FilesViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
+
     fileprivate lazy var fetchedResultsController: NSFetchedResultsController<File> = {
         // Create Fetch Request
         let fetchRequest: NSFetchRequest<File> = File.fetchRequest()
@@ -105,7 +106,8 @@ extension FilesViewController: NSFetchedResultsControllerDelegate {
     }
 }
 
-//MARK: TableView Delegate/DataSource
+// MARK: TableView Delegate/DataSource
+
 extension FilesViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
@@ -126,17 +128,17 @@ extension FilesViewController {
         guard file.id != FileHelper.rootDirectoryID, file.parentDirectory?.id != FileHelper.rootDirectoryID, file.parentDirectory?.id != FileHelper.coursesDirectoryID
             else { return false }
 
-        return currentUser.permissions.contains(.movingFiles) || currentUser.permissions.contains(.deletingFiles) //&& file.permissions.contains(.write)
+        return currentUser.permissions.contains(.movingFiles) || currentUser.permissions.contains(.deletingFiles) // && file.permissions.contains(.write)
     }
 
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         guard let currentUser = Globals.currentUser else { return nil }
         var actions: [UITableViewRowAction] = []
 
-        //TODO: Implement!
+        // TODO: Implement!
         if false && currentUser.permissions.contains(.deletingFiles) {
             actions.append(UITableViewRowAction(style: .destructive, title: "Delete") { rowAction, indexPath in
-                //TODO: Implement!
+                // TODO: Implement!
                 /*
                 guard let file = self.fetchedResultsController.sections?[indexPath.section].objects?[indexPath.row] as? File else { return }
 
@@ -160,7 +162,7 @@ extension FilesViewController {
             })
         }
 
-        //TODO: Implement!
+        // TODO: Implement!
         if false && currentUser.permissions.contains(.movingFiles) {
             actions.append(UITableViewRowAction(style: .normal, title: "Move") { rowAction, indexPath in
             })

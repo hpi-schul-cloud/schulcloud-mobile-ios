@@ -11,7 +11,7 @@ import Foundation
 import QuickLook
 
 class LoadingViewController: UIViewController  {
-    //MARK: Lifecycle
+    // MARK: Lifecycle
 
     @IBOutlet private var progressView: UIProgressView!
     @IBOutlet private var errorLabel: UILabel!

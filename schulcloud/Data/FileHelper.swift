@@ -95,7 +95,7 @@ class FileSync: NSObject {
 
         let parameters: Any = [
             "path": file.url.absoluteString.removingPercentEncoding!,
-            //"fileType": mime.lookup(file),
+//            "fileType": mime.lookup(file),
             "action": "getObject",
         ]
 
@@ -289,7 +289,7 @@ class FileHelper {
 
         let parameters: Parameters = ["path": file.currentPath]
 
-        //TODO: Figure out the success structure
+        // TODO: Figure out the success structure
 //        let request: Future<DidSuccess, SCError> = ApiHelper.request(path!.absoluteString, method: .delete, parameters: parameters, encoding: JSONEncoding.default).deserialize(keyPath: "").asVoid()
         fatalError("Implement deleting files")
     }

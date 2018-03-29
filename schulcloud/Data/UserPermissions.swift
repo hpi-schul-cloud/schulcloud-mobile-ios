@@ -282,7 +282,7 @@ struct UserPermissions: OptionSet {
     static let userEdit = UserPermissions(rawValue: ( 1 << 11, 0 ) )
     static let userView = UserPermissions(rawValue: ( 1 << 12, 0 ) )
 
-    //NOTE: So far, only filestorageCreate and removed are handled on the backend, I guess in the future, fileCreate/fileMove/fileDelete will be handled
+    // NOTE: So far, only filestorageCreate and removed are handled on the backend, I guess in the future, fileCreate/fileMove/fileDelete will be handled
     static let creatingFiles: UserPermissions = [.filestorageCreate]
     static let deletingFiles: UserPermissions = [.filestorageRemove]
     static let movingFiles: UserPermissions = [.filestorageCreate]
