@@ -73,7 +73,7 @@ struct CalendarEvent {
     }
 
     init(eventData: EventData) {
-        var rule: RecurrenceRule? = nil
+        var rule: RecurrenceRule?
 
         var startDate = eventData.start as Date
         var endDate = eventData.end as Date

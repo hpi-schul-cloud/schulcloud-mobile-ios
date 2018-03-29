@@ -47,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return true
     }
 
-    let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+    let storyboard = UIStoryboard(name: "Main", bundle: nil)
 
     fileprivate func showLogin() {
         let loginViewController = storyboard.instantiateViewController(withIdentifier: "login")

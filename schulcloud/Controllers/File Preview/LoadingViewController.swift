@@ -30,6 +30,7 @@ class LoadingViewController: UIViewController  {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         downloadTask?.cancel()
     }
 

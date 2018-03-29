@@ -66,7 +66,7 @@ class CoursesViewController: UICollectionViewController, NSFetchedResultsControl
     }
 
     override func collectionView(_ collectionView: UICollectionView,
-                            cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+                                 cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let reuseIdentifier = "courseCell"
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CourseCell
 

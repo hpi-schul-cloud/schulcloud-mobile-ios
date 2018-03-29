@@ -43,7 +43,7 @@ struct SchulCloudAccount: CreateableSecureStorable, ReadableSecureStorable, Dele
 }
 
 class Globals {
-    static var account: SchulCloudAccount? = nil
+    static var account: SchulCloudAccount?
 
     static var currentUser: User? {
         guard let userId = account?.userId else { return nil }

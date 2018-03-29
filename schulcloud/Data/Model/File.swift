@@ -91,7 +91,7 @@ extension File {
         file.name = name
         file.isDirectory = isDirectory
         file.currentPath = path.absoluteString
-        file.mimeType = try data.value(for: "type") ?? nil
+        file.mimeType = try? data.value(for: "type")
         if let size = try? data.value(for: "size") as Int64 {
             file.size = size as NSNumber?
         }

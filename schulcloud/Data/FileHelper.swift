@@ -11,7 +11,7 @@ import Marshal
 
 class FileSync: NSObject {
 
-    typealias ProgressHandler = (Float) -> ()
+    typealias ProgressHandler = (Float) -> Void
 
     fileprivate var fileTransferSession: URLSession!
     fileprivate let fileDataSession: URLSession

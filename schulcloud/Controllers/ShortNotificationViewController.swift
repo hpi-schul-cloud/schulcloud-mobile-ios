@@ -23,7 +23,7 @@ class ShortNotificationViewController: UITableViewController {
 
     static let numberOfShownCells = 3
 
-    var delegate: ShortNotificationViewControllerDelegate?
+    weak var delegate: ShortNotificationViewControllerDelegate?
     var notifications: [SCNotification] = [] {
         didSet {
             let moreCellsToShow = self.notifications.count > ShortNotificationViewController.numberOfShownCells
@@ -96,7 +96,7 @@ extension ShortNotificationViewController: ViewControllerHeightDataSource {
     }
 }
 
-protocol ShortNotificationViewControllerDelegate {
+protocol ShortNotificationViewControllerDelegate: class {
 
     func viewHeightDidChange(to: CGFloat)
     func didPressViewMoreButton()

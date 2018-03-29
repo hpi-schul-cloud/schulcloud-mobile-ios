@@ -287,7 +287,7 @@ struct UserPermissions: OptionSet {
 }
 
 extension UserPermissions: Equatable {
-    static func ==(lhs: UserPermissions, rhs: UserPermissions) -> Bool {
+    static func == (lhs: UserPermissions, rhs: UserPermissions) -> Bool {
         return lhs.rawValue == rhs.rawValue
     }
 }

@@ -222,7 +222,7 @@ struct SyncEngine {
                 }
 
                 switch strategy.validateResourceData(resourceData) {
-                case .success(_):
+                case .success:
                     let result = NetworkResult(resourceData: resourceData, headers: urlResponse.allHeaderFields)
                     promise.success(result)
                 case let .failure(error):
