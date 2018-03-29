@@ -1,17 +1,13 @@
 //
-//  NSMutableAttributedString+trim.swift
-//  schulcloud
-//
-//  Created by Max Bothe on 12.01.18.
-//  Copyright © 2018 Hasso-Plattner-Institut. All rights reserved.
-//
-//  Credit goes to https://stackoverflow.com/a/41300031/7414898
+//  Created for schulcloud-mobile-ios under GPL-3.0 license.
+//  Copyright © HPI. All rights reserved.
 //
 
 import Foundation
 
 extension NSMutableAttributedString {
 
+    // Credit goes to https://stackoverflow.com/a/41300031/7414898
     func trimmedAttributedString(set: CharacterSet) -> NSMutableAttributedString {
 
         let invertedSet = set.inverted

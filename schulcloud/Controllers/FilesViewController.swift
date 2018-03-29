@@ -1,9 +1,6 @@
 //
-//  FilesViewController.swift
-//  
-//
-//  Created by Carl Gödecken on 19.05.17.
-//
+//  Created for schulcloud-mobile-ios under GPL-3.0 license.
+//  Copyright © HPI. All rights reserved.
 //
 
 /// TODO: Permissions handling

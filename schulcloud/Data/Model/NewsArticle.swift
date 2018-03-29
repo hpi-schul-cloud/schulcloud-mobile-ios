@@ -1,9 +1,6 @@
 //
-//  NewsArticle.swift
-//  
-//
-//  Created by Florian Morel on 03.01.18.
-//
+//  Created for schulcloud-mobile-ios under GPL-3.0 license.
+//  Copyright © HPI. All rights reserved.
 //
 
 import Foundation

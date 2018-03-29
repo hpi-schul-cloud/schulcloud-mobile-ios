@@ -1,9 +1,6 @@
 //
-//  SettingsViewController.swift
-//  schulcloud
-//
-//  Created by Carl Gödecken on 10.05.17.
-//  Copyright © 2017 Hasso-Plattner-Institut. All rights reserved.
+//  Created for schulcloud-mobile-ios under GPL-3.0 license.
+//  Copyright © HPI. All rights reserved.
 //
 
 import UIKit
