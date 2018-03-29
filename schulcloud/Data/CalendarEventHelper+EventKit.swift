@@ -66,7 +66,7 @@ extension CalendarEventHelper {
         case .authorized:
             promise.success(Void())
         case .notDetermined:
-            self.eventStore.requestAccess(to: .event) { (granted, error) in
+            self.eventStore.requestAccess(to: .event) { granted, error in
                 if granted && error == nil {
                     promise.success(Void())
                 } else {
@@ -151,8 +151,11 @@ extension CalendarEventHelper {
     }
 
     static func remove(events: [CalendarEvent]) throws {
-        let eventsToDelete = events.map {$0.eventKitID }.flatMap { $0 } // get the eventKid IDs and remove the nils
-                                   .map { eventStore.event(withIdentifier: $0) }.flatMap { $0 } // fetch EKEvents for these ids and remove the nils
+        let eventsToDelete = events.flatMap {
+            return $0.eventKitID
+        }.flatMap {
+            return eventStore.event(withIdentifier: $0)
+        }
 
         for event in eventsToDelete {
             try eventStore.remove(event, span: EKSpan.futureEvents, commit: false)

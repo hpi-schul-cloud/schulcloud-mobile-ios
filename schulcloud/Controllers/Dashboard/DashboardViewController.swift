@@ -147,9 +147,9 @@ extension DashboardViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.currentDesign == .extended ? viewControllers.count : viewControllers.filter({ (vc) -> Bool in
-            guard let vc = vc as? DashboardNoPermissionViewController else { return true }
-            return vc.missingPermission != .notificationView
+        return self.currentDesign == .extended ? viewControllers.count : viewControllers.filter({ viewController -> Bool in
+            guard let viewController = viewController as? DashboardNoPermissionViewController else { return true }
+            return viewController.missingPermission != .notificationView
         }).count
     }
 
@@ -181,7 +181,7 @@ extension DashboardViewController {
 }
 
 extension DashboardViewController: ShortNotificationViewControllerDelegate {
-    func viewHeightDidChange(to height: CGFloat) {
+    func viewHeightDidChange(to newHeight: CGFloat) {
         self.collectionView?.collectionViewLayout.invalidateLayout()
     }
 

@@ -5,10 +5,11 @@
 
 import CoreData
 import Firebase
+import SwiftyBeaver
 import UIKit
 import UserNotifications
 
-import SwiftyBeaver
+
 let log = SwiftyBeaver.self
 
 @UIApplicationMain

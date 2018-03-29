@@ -183,7 +183,7 @@ struct SyncEngine {
     private static func doNetworkRequest(_ request: URLRequest, withStrategy strategy: SyncStrategy, expectsData: Bool = true) -> Future<NetworkResult, SyncError> {
         let promise = Promise<NetworkResult, SyncError>()
 
-        let task = self.session.dataTask(with: request) { (data, response, error) in
+        let task = self.session.dataTask(with: request) { data, response, error in
             if let err = error {
                 promise.failure(.network(err))
                 return

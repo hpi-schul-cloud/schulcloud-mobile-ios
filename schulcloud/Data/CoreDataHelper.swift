@@ -138,7 +138,7 @@ extension NSManagedObjectContext {
 extension NSManagedObjectContext {
     func performAndWait<T>(_ block: () throws -> T) rethrows -> T {
         return try _performAndWaitHelper(
-            fn: performAndWait, execute: block, rescue: { throw $0 }
+            task: performAndWait, execute: block, rescue: { throw $0 }
         )
     }
 
@@ -147,16 +147,16 @@ extension NSManagedObjectContext {
     ///
     /// Source: https://github.com/apple/swift/blob/bb157a070ec6534e4b534456d208b03adc07704b/stdlib/public/SDK/Dispatch/Queue.swift#L228-L249
     private func _performAndWaitHelper<T>(
-        fn: (() -> Void) -> Void,
+        task: (() -> Void) -> Void,
         execute work: () throws -> T,
         rescue: ((Error) throws -> (T))) rethrows -> T
     {
         var result: T?
         var error: Error?
-        withoutActuallyEscaping(work) { _work in
-            fn {
+        withoutActuallyEscaping(work) { internalWork in
+            task {
                 do {
-                    result = try _work()
+                    result = try internalWork()
                 } catch let e {
                     error = e
                 }

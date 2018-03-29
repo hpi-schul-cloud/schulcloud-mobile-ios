@@ -57,9 +57,9 @@ class FilesViewController: UITableViewController {
             }.asVoid()
         }
 
-        future.onFailure { (error) in
+        future.onFailure { error in
             print("Failure: \(error)")
-        }.onComplete{ (_) in
+        }.onComplete{ _ in
             DispatchQueue.main.async {
                 self.refreshControl?.endRefreshing()
             }
@@ -135,7 +135,7 @@ extension FilesViewController {
 
         //TODO: Implement!
         if false && currentUser.permissions.contains(.deletingFiles) {
-            actions.append( UITableViewRowAction(style: .destructive, title: "Delete", handler: { (rowAction, indexPath) in
+            actions.append( UITableViewRowAction(style: .destructive, title: "Delete", handler: { rowAction, indexPath in
                 //TODO: Implement!
                 /*
                 guard let file = self.fetchedResultsController.sections?[indexPath.section].objects?[indexPath.row] as? File else { return }
@@ -162,7 +162,7 @@ extension FilesViewController {
 
         //TODO: Implement!
         if false && currentUser.permissions.contains(.movingFiles) {
-            actions.append(UITableViewRowAction(style: .normal, title: "Move", handler: { (rowAction, indexPath) in
+            actions.append(UITableViewRowAction(style: .normal, title: "Move", handler: { rowAction, indexPath in
             }))
         }
 

@@ -47,18 +47,18 @@ class LoadingViewController: UIViewController  {
                 self.progressView.isHidden = false
             }
 
-            let future = self.fileSync.download(url: url, progressHandler: { (progress) in
+            let future = self.fileSync.download(url: url, progressHandler: { progress in
                 DispatchQueue.main.async {
                     self.progressView.setProgress(progress, animated: true)
                 }
             })
 
             return future
-        }.onSuccess { (fileData) in
+        }.onSuccess { fileData in
             DispatchQueue.main.async {
                 self.showFile(data: fileData)
             }
-        }.onFailure { (error) in
+        }.onFailure { error in
             DispatchQueue.main.async {
                 self.show(error: error)
             }

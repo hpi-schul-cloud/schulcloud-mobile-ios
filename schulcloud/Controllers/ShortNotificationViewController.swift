@@ -98,7 +98,7 @@ extension ShortNotificationViewController: ViewControllerHeightDataSource {
 
 protocol ShortNotificationViewControllerDelegate: class {
 
-    func viewHeightDidChange(to: CGFloat)
+    func viewHeightDidChange(to newHeight: CGFloat)
     func didPressViewMoreButton()
 
 }

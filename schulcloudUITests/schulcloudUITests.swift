@@ -58,7 +58,7 @@ class schulcloudUITests: XCTestCase {
             "Ein lokaler Schul-Cloud Kalendar existiert bereits.": "Verwerfen",
         ]
         for (labelText, buttonTitle) in alertDismissals {
-            addUIInterruptionMonitor(withDescription: description) { (alert) -> Bool in
+            addUIInterruptionMonitor(withDescription: description) { alert -> Bool in
                 if alert.label == labelText {
                     alert.buttons[buttonTitle].tap()
                     return true

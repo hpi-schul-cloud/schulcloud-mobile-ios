@@ -55,7 +55,7 @@ class FileSync: NSObject {
 
         let request = self.request(for: getUrl(for: file)! )
         let promise: Promise<[String: Any], SCError> = Promise()
-        fileDataSession.dataTask(with: request) { (data, response, error) in
+        fileDataSession.dataTask(with: request) { data, response, error in
             var responseData: Data
             do {
                 responseData = try self.confirmNetworkResponse(data: data, response: response, error: error)
@@ -102,7 +102,7 @@ class FileSync: NSObject {
         request.httpBody = try! JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
 
         let promise = Promise<URL, SCError>()
-        fileDataSession.dataTask(with: request) { (data, response, error) in
+        fileDataSession.dataTask(with: request) { data, response, error in
             do {
                 let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
                 let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
@@ -121,14 +121,14 @@ class FileSync: NSObject {
         let promise = Promise<[[String: Any]], SCError>()
 
         let request = self.request(for: Constants.backend.url.appendingPathComponent("files") )
-        fileDataSession.dataTask(with: request) { (data, response, error) in
+        fileDataSession.dataTask(with: request) { data, response, error in
             do {
                 let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
                 let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! MarshaledObject
                 let files: [MarshaledObject] = try json.value(for: "data")
-                let sharedFiles = files.filter({ (object) -> Bool in
+                let sharedFiles = files.filter { object -> Bool in
                     return (try? object.value(for: "context")) == "geteilte Datei"
-                })
+                }
 
                 promise.success(sharedFiles as! [[String: Any]])
             } catch let error as SCError {
@@ -311,7 +311,7 @@ class FileHelper {
                 let createdFolders = try folders.map({ try File.createOrUpdate(inContext: context, parentFolder: parentFolder, isDirectory: true, data: $0) })
 
                 // remove deleted files or folders
-                let foundPaths = createdFiles.map({$0.currentPath}) + createdFolders.map({$0.currentPath})
+                let foundPaths = createdFiles.map { $0.currentPath } + createdFolders.map { $0.currentPath }
                 let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
                 let notOnServerPredicate = NSPredicate(format: "NOT (currentPath IN %@)", foundPaths)
                 let fetchRequest = NSFetchRequest<File>(entityName: "File")

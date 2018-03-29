@@ -14,7 +14,7 @@ final class File: NSManagedObject {
     }
 
     @NSManaged public var id: String
-    @NSManaged public var cacheURL_: String?
+    @NSManaged public var cacheURL_: String? // swiftlint:disable:this identifier_name
     @NSManaged public var name: String
     @NSManaged public var isDirectory: Bool
     @NSManaged public var currentPath: String
@@ -22,7 +22,7 @@ final class File: NSManagedObject {
     @NSManaged public var size: NSNumber?
     @NSManaged public var parentDirectory: File?
     @NSManaged public var contents: Set<File>
-    @NSManaged public var permissions_: Int64
+    @NSManaged public var permissions_: Int64 // swiftlint:disable:this identifier_name
 
 }
 
@@ -34,7 +34,7 @@ extension File {
         static let read = Permissions(rawValue: 1 << 1)
         static let write = Permissions(rawValue: 1 << 2)
 
-        static let read_write: Permissions = [.read, .write]
+        static let readWrite: Permissions = [.read, .write]
 
         init(rawValue: Int64) {
             self.rawValue = rawValue
@@ -54,9 +54,9 @@ extension File {
         init(json: MarshaledObject) throws {
             let fetchedPersmissions: [String] = try json.value(for: "permissions")
             let permissions: [Permissions] = fetchedPersmissions.flatMap { Permissions(str: $0) }
-            self.rawValue =  permissions.reduce([], { (acc, permission) -> Permissions in
+            self.rawValue =  permissions.reduce([]) { acc, permission -> Permissions in
                 return acc.union(permission)
-            }).rawValue
+            }.rawValue
         }
     }
 
@@ -99,7 +99,7 @@ extension File {
         file.parentDirectory = parentFolder
 
         let permissionsObject: [MarshaledObject]? = try? data.value(for: "permissions")
-        let userPermission: MarshaledObject? = permissionsObject?.first { (data) -> Bool in
+        let userPermission: MarshaledObject? = permissionsObject?.first { data -> Bool in
             if let userId: String = try? data.value(for: "userId"),
                 userId == Globals.account?.userId { //find permission for current user
                 return true
