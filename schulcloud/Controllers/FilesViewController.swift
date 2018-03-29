@@ -25,7 +25,7 @@ class FilesViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         if currentFolder == nil {
             currentFolder = FileHelper.rootFolder
         }
@@ -85,7 +85,7 @@ class FilesViewController: UITableViewController {
 
         return fetchedResultsController
     }()
-    
+
     func performFetch() {
         do {
             try self.fetchedResultsController.performFetch()

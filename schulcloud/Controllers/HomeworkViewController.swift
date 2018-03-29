@@ -51,7 +51,7 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
                                                                   sectionNameKeyPath: "dueDateShort",
                                                                   cacheName: nil)
         fetchedResultsController.delegate = self
-        
+
         return fetchedResultsController
     }()
 
@@ -67,7 +67,7 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
     override func numberOfSections(in tableView: UITableView) -> Int {
         return self.fetchedResultsController.sections?.count ?? 0
     }
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.fetchedResultsController.sections?[section].objects?.count ?? 0
     }

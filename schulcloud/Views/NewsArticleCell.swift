@@ -6,7 +6,7 @@
 import UIKit
 
 class NewsArticleCell: UITableViewCell {
-    
+
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var timeSinceCreated: UILabel!
     @IBOutlet weak var content: UITextView!

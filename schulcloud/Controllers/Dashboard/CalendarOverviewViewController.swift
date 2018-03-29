@@ -54,7 +54,7 @@ class CalendarOverviewViewController: UIViewController {
         let tomorrow = today + oneDayChunk
         return DateInterval(start: now, end: tomorrow)
     }
-    
+
     private func syncEvents() {
         CalendarEventHelper.syncEvents().onSuccess { result in
             self.updateEvents()

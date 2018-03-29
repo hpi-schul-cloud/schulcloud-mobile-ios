@@ -8,7 +8,7 @@ import WebKit
 
 /// Webview for rendering items QuickLook will struggle with.
 class WebviewPreviewViewContoller: UIViewController {
-    
+
     var webView = WKWebView()
 
     var file: File? {
@@ -17,32 +17,32 @@ class WebviewPreviewViewContoller: UIViewController {
             self.processForDisplay()
         }
     }
-    
+
     var fileData: Data?
 
     //MARK: Lifecycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(webView)
-        
+
         // Add share button
         let shareButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(WebviewPreviewViewContoller.shareFile))
         self.navigationItem.rightBarButtonItem = shareButton
     }
-    
+
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         webView.frame = self.view.bounds
     }
-    
+
     //MARK: Share
-    
+
     @objc func shareFile() {
         guard let file = file else {
             return
         }
-        
+
         let activityItems: [Any]
         if let data = fileData {
             activityItems = [data]
@@ -51,20 +51,20 @@ class WebviewPreviewViewContoller: UIViewController {
         } else {
             return
         }
-        
+
         let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         self.present(activityViewController, animated: true, completion: nil)
 
     }
 
     //MARK: Processing
-    
+
     func processForDisplay() {
         guard let file = file else {
             print("file is not set!")
             return
         }
-        
+
         let data: Data
         if let fileData = fileData {
             data = fileData
@@ -76,9 +76,9 @@ class WebviewPreviewViewContoller: UIViewController {
             print("Could not find data for file!")
             return
         }
-        
+
         var rawString: String?
-        
+
         // Prepare plist for display
         if file.url.pathExtension.lowercased() == "plist" {
             do {
@@ -87,7 +87,7 @@ class WebviewPreviewViewContoller: UIViewController {
                 }
             } catch {}
         }
-        
+
         // Prepare json file for display
         else if file.url.pathExtension.lowercased() == "json" {
             do {
@@ -101,20 +101,20 @@ class WebviewPreviewViewContoller: UIViewController {
                 }
             } catch {}
         }
-        
+
         // Default prepare for display
         if rawString == nil {
             rawString = String(data: data, encoding: String.Encoding.utf8)
         }
-        
+
         // Convert and display string
         if let convertedString = convertSpecialCharacters(rawString) {
             let htmlString = "<html><head><meta name='viewport' content='initial-scale=1.0, user-scalable=no'></head><body><pre>\(convertedString)</pre></body></html>"
             webView.loadHTMLString(htmlString, baseURL: nil)
         }
-        
+
     }
-    
+
 
     // Make sure we convert HTML special characters
     // Code from https://gist.github.com/mikesteele/70ae98d04fdc35cb1d5f

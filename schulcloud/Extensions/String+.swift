@@ -18,7 +18,7 @@ extension String {
         let text = self.trimmingCharacters(in: .whitespacesAndNewlines)
         return "<html><head>\(style ?? "")</head><body>\(text)</body></html>"
     }
-    
+
     var standardStyledHtml : String {
         return self.htmlWrapped(style: Constants.textStyleHtml)
     }

@@ -126,7 +126,7 @@ class RemoteMessageDelegate: NSObject, FIRMessagingDelegate, UNUserNotificationC
             log.error("Could not read remote message \(remoteMessage.appData)")
         }
     }
-    
+
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {

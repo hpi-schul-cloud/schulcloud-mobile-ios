@@ -15,6 +15,6 @@ struct CourseHelper {
         query.addFilter(forKey: "$or[1][teacherIds]", withValue: Globals.account!.userId)
         return SyncHelper.syncResources(withFetchRequest: fetchRequest, withQuery: query)
     }
-   
+
 }
 

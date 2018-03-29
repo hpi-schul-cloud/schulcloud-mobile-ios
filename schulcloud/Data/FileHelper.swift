@@ -12,7 +12,7 @@ import Marshal
 class FileSync : NSObject {
 
     typealias ProgressHandler = (Float) -> ()
-    
+
     fileprivate var fileTransferSession : URLSession!
     fileprivate let fileDataSession : URLSession
 
@@ -22,12 +22,12 @@ class FileSync : NSObject {
     override init() {
         let configuration = URLSessionConfiguration.ephemeral
         fileDataSession = URLSession(configuration: URLSessionConfiguration.default)
-        
+
         super.init()
-        
+
         fileTransferSession = URLSession(configuration: configuration, delegate: self, delegateQueue: OperationQueue.main)
     }
-    
+
     deinit {
         fileDataSession.invalidateAndCancel()
         fileTransferSession.invalidateAndCancel()
@@ -36,23 +36,23 @@ class FileSync : NSObject {
     private var fileStorageURL : URL {
         return Constants.backend.url.appendingPathComponent("fileStorage")
     }
-    
+
     private func getUrl(for file: File) -> URL? {
         var urlComponent = URLComponents(url: fileStorageURL, resolvingAgainstBaseURL: false)!
         urlComponent.query = "path=\(file.url.absoluteString)"
         return try? urlComponent.asURL()
     }
-    
+
     private func request(for url: URL) -> URLRequest {
         var request = URLRequest(url: url)
         request.setValue(Globals.account!.accessToken!, forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
         return request
     }
-    
+
     func downloadContent(for file: File) -> Future<([String : Any]), SCError> {
         guard file.isDirectory else { return Future(error: .other("only works on directory") ) }
-        
+
         let request = self.request(for: getUrl(for: file)! )
         let promise : Promise<[String : Any], SCError> = Promise()
         fileDataSession.dataTask(with: request) { (data, response, error) in
@@ -76,7 +76,7 @@ class FileSync : NSObject {
         }.resume()
         return promise.future
     }
-    
+
     func download(url: URL, progressHandler: @escaping ProgressHandler ) -> Future<Data, SCError> {
         let promise = Promise<Data, SCError>()
         let task = fileTransferSession.downloadTask(with: url)
@@ -85,22 +85,22 @@ class FileSync : NSObject {
         progressHandlers[task.taskIdentifier] = progressHandler
         return promise.future
     }
-    
+
     func signedURL(for file: File) -> Future<URL, SCError> {
         guard !file.isDirectory else { return Future(error: .other("Can't download folder") ) }
-        
+
         var request = self.request(for: fileStorageURL.appendingPathComponent("signedUrl") )
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
+
         let parameters: Any = [
             "path": file.url.absoluteString.removingPercentEncoding!,
             //"fileType": mime.lookup(file),
             "action": "getObject"
         ]
-        
+
         request.httpBody = try! JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
-        
+
         let promise = Promise<URL, SCError>()
         fileDataSession.dataTask(with: request) { (data, response, error) in
             do {
@@ -119,7 +119,7 @@ class FileSync : NSObject {
 
     func downloadSharedFiles() -> Future<[[String:Any]], SCError> {
         let promise = Promise<[[String:Any]], SCError>()
-        
+
         let request = self.request(for: Constants.backend.url.appendingPathComponent("files") )
         fileDataSession.dataTask(with: request) { (data, response, error) in
             do {
@@ -138,7 +138,7 @@ class FileSync : NSObject {
         }.resume()
         return promise.future
     }
-    
+
     private func confirmNetworkResponse(data: Data?, response: URLResponse?, error: Error?) throws -> Data {
         guard error == nil else {
             throw SCError.network(error)
@@ -152,7 +152,7 @@ class FileSync : NSObject {
         }
         return data
     }
-    
+
 }
 
 extension FileSync : URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownloadDelegate {
@@ -165,7 +165,7 @@ extension FileSync : URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownl
             promise?.failure(.other(error.localizedDescription))
         }
     }
-    
+
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         let promise = runningTask[task.taskIdentifier]
         if let error = error {
@@ -174,7 +174,7 @@ extension FileSync : URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownl
         runningTask.removeValue(forKey: task.taskIdentifier)
         progressHandlers.removeValue(forKey: task.taskIdentifier)
     }
-    
+
     // Download progress
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
         if let progressHandler = progressHandlers[downloadTask.taskIdentifier] {
@@ -195,25 +195,25 @@ class FileHelper {
     private static var notSynchronizedPath : [String] = {
         return [rootDirectoryID]
     }()
-    
+
     fileprivate static var userDataRootURL: URL {
         let userId = Globals.account?.userId ?? "0"
         let url = URL(string: "users")!
         return url.appendingPathComponent(userId, isDirectory: true)
     }
-    
+
     fileprivate static var coursesDataRootURL : URL = {
         return URL(string: coursesDirectoryID)!
     }()
-    
+
     fileprivate static var sharedDataRootURL : URL = {
         return URL(string: sharedDirectoryID)!
     }()
-    
+
     static var rootFolder: File {
         return fetchRootFolder() ?? createBaseStructure()
     }
-    
+
     fileprivate static func fetchRootFolder() -> File? {
         let fetchRequest = NSFetchRequest(entityName: "File") as NSFetchRequest<File>
         fetchRequest.predicate = NSPredicate(format: "currentPath == %@", rootDirectoryID)
@@ -225,7 +225,7 @@ class FileHelper {
             return nil
         }
     }
-    
+
     /// Create the basic folder structure and return main Root
     fileprivate static func createBaseStructure() -> File {
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
@@ -276,13 +276,13 @@ class FileHelper {
             init(object: MarshaledObject) throws {
             }
         }
-        
+
         var path = URL(string: "fileStorage")
         if file.isDirectory { path?.appendPathComponent("directories", isDirectory: true) }
         path?.appendPathComponent(file.id)
-        
+
         let parameters: Parameters = ["path": file.currentPath]
-        
+
         //TODO: Figure out the success structure
 //        let request: Future<DidSuccess, SCError> = ApiHelper.request(path!.absoluteString, method: .delete, parameters: parameters, encoding: JSONEncoding.default).deserialize(keyPath: "").asVoid()
         fatalError("Implement deleting files")

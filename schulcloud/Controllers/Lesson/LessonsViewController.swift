@@ -7,9 +7,9 @@ import UIKit
 import CoreData
 
 class LessonsViewController: UITableViewController, NSFetchedResultsControllerDelegate {
-    
+
     var course: Course!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -18,11 +18,11 @@ class LessonsViewController: UITableViewController, NSFetchedResultsControllerDe
         performFetch()
         updateData()
     }
-    
+
     @IBAction func didTriggerRefresh() {
         updateData()
     }
-    
+
     func updateData() {
         LessonHelper.syncLessons(for: self.course).onSuccess { result in
             self.performFetch()
@@ -32,26 +32,26 @@ class LessonsViewController: UITableViewController, NSFetchedResultsControllerDe
             self.refreshControl?.endRefreshing()
         }
     }
-    
+
     // MARK: - Table view data source
-    
+
     fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Lesson> = {
         // Create Fetch Request
         let fetchRequest: NSFetchRequest<Lesson> = Lesson.fetchRequest()
-        
+
         // Configure Fetch Request
         fetchRequest.predicate = NSPredicate(format: "course == %@", self.course)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        
+
         // Create Fetched Results Controller
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataHelper.viewContext, sectionNameKeyPath: nil, cacheName: nil)
-        
+
         // Configure Fetched Results Controller
         fetchedResultsController.delegate = self
-        
+
         return fetchedResultsController
     }()
-    
+
     func performFetch() {
         do {
             try self.fetchedResultsController.performFetch()
@@ -60,20 +60,20 @@ class LessonsViewController: UITableViewController, NSFetchedResultsControllerDe
         }
         tableView.reloadData()
     }
-    
+
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
     }
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
-    
+
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let reuseIdentifier = "lessonCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-        
+
         let lesson = fetchedResultsController.object(at: indexPath)
         cell.textLabel?.text = lesson.name
         cell.detailTextLabel?.text = lesson.descriptionText

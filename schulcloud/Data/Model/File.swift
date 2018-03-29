@@ -12,7 +12,7 @@ final class File: NSManagedObject {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<File> {
         return NSFetchRequest<File>(entityName: "File")
     }
-    
+
     @NSManaged public var id: String
     @NSManaged public var cacheURL_: String?
     @NSManaged public var name: String
@@ -23,23 +23,23 @@ final class File: NSManagedObject {
     @NSManaged public var parentDirectory: File?
     @NSManaged public var contents: Set<File>
     @NSManaged public var permissions_: Int64
-    
+
 }
 
 extension File {
-    
+
     struct Permissions : OptionSet {
         let rawValue: Int64
 
         static let read = Permissions(rawValue: 1 << 1)
         static let write = Permissions(rawValue: 1 << 2)
-        
+
         static let read_write : Permissions = [.read, .write]
-        
+
         init(rawValue: Int64) {
             self.rawValue = rawValue
         }
-        
+
         init?(str: String) {
             switch str {
             case "can_read":
@@ -50,7 +50,7 @@ extension File {
                 return nil
             }
         }
-        
+
         init(json: MarshaledObject) throws {
             let fetchedPersmissions: [String] = try json.value(for: "permissions")
             let permissions : [Permissions] = fetchedPersmissions.flatMap { Permissions(str:$0) }
@@ -59,7 +59,7 @@ extension File {
             }).rawValue
         }
     }
-    
+
     var permissions : Permissions {
         get {
             return Permissions(rawValue: self.permissions_)
@@ -75,18 +75,18 @@ extension File {
     static func createOrUpdate(inContext context: NSManagedObjectContext, parentFolder: File, isDirectory: Bool, data: MarshaledObject) throws -> File {
         let name: String = try data.value(for: "name")
         let path = parentFolder.url.appendingPathComponent(name, isDirectory: isDirectory)
-        
+
         let fetchRequest = NSFetchRequest<File>(entityName: "File")
         let pathPredicate = NSPredicate(format: "currentPath == %@", path.absoluteString)
         let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
         fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [pathPredicate, parentFolderPredicate])
-        
+
         let result = try context.fetch(fetchRequest)
         let file = result.first ?? File(context: context)
         if result.count > 1 {
             throw SCError.database("Found more than one result for \(fetchRequest)")
         }
-        
+
         file.id = try data.value(for: "_id")
         file.name = name
         file.isDirectory = isDirectory
@@ -96,7 +96,7 @@ extension File {
             file.size = size as NSNumber?
         }
         file.parentDirectory = parentFolder
-        
+
         let permissionsObject : [MarshaledObject]? = try? data.value(for: "permissions")
         let userPermission: MarshaledObject? = permissionsObject?.first { (data) -> Bool in
             if let userId: String = try? data.value(for: "userId"),
@@ -115,7 +115,7 @@ extension File {
 
 // MARK: computed properties
 extension File {
-    
+
     var url: URL {
         get {
             return URL(string: currentPath)!
@@ -124,7 +124,7 @@ extension File {
             self.currentPath = newValue.absoluteString
         }
     }
-    
+
     var cacheUrl: URL? {
         get {
             guard let urlString = cacheURL_ else { return nil }

@@ -9,11 +9,11 @@ import WebKit
 /// TODO(permissions):
 ///     contentView? Should we not display the content of lesson if no permission? Seems off
 class SingleLessonViewController: UIViewController, WKUIDelegate {
-    
+
     var lesson: Lesson!
-    
+
     var webView: WKWebView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -45,7 +45,7 @@ class SingleLessonViewController: UIViewController, WKUIDelegate {
         let concatenated = "<html><head>\(Constants.textStyleHtml)<meta name=\"viewport\" content=\"initial-scale=1.0\"></head>" + rendered.joined(separator: "<hr>") + "</body></html>"
         webView.loadHTMLString(concatenated, baseURL: Constants.Servers.web.url)
     }
-    
+
     func htmlForElement(_ content: LessonContent) -> String {
         switch(content.type) {
         case .text:
@@ -59,5 +59,5 @@ class SingleLessonViewController: UIViewController, WKUIDelegate {
             return "<span class=\"not-supported\">Dieser Typ wird leider noch nicht unterstützt.</span>"
         }
     }
-    
+
 }

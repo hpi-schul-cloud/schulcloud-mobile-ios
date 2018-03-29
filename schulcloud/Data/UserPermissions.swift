@@ -12,13 +12,13 @@ struct UserPermissions : OptionSet {
     init(rawValue: RawValue ) {
         self.rawValue = rawValue
     }
-    
+
     init(array: [String]) {
         self = array.flatMap{ UserPermissions(str: $0) }.reduce(UserPermissions.none, { (acc, permission) -> UserPermissions in
             return acc.union(permission)
         })
     }
-    
+
     init?(str: String) {
         switch str {
         case "ACCOUNT_CREATE":
@@ -297,25 +297,25 @@ extension UserPermissions : SetAlgebra {
     init() {
         self = UserPermissions.none
     }
-    
+
     func intersection(_ other: UserPermissions) -> UserPermissions {
         return UserPermissions(rawValue: (self.rawValue.0 & other.rawValue.0,
                                           self.rawValue.1 & other.rawValue.1))
     }
-    
+
     func union(_ other: UserPermissions) -> UserPermissions {
         return UserPermissions(rawValue: (self.rawValue.0 | other.rawValue.0,
                                           self.rawValue.1 | other.rawValue.1))
     }
-    
+
     mutating func formUnion(_ other: UserPermissions) {
         self = self.union(other)
     }
-    
+
     mutating func formIntersection(_ other: UserPermissions) {
         self = self.intersection(other)
     }
-    
+
     mutating func formSymmetricDifference(_ other: UserPermissions) {
         self = UserPermissions(rawValue: (self.rawValue.0 - (self.rawValue.0 & other.rawValue.0),
                                           self.rawValue.1 - (self.rawValue.1 & other.rawValue.1)) )

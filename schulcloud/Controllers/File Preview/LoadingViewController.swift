@@ -13,33 +13,33 @@ import BrightFutures
 
 class LoadingViewController: UIViewController  {
     //MARK: Lifecycle
-    
+
     @IBOutlet var progressView: UIProgressView!
     @IBOutlet var errorLabel: UILabel!
     @IBOutlet var cancelButton: UIButton!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
-    
+
     var downloadTask: URLSessionDownloadTask?
-    
+
     let fileSync = FileSync()
     var file: File!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         progressView.setProgress(0, animated: false)
         startDownload()
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         downloadTask?.cancel()
     }
-    
-    
+
+
     @IBAction func cancelButtonTapped(_ sender: Any) {
         downloadTask?.cancel()
         navigationController?.popViewController(animated: true)
     }
-    
+
     func startDownload() {
         fileSync.signedURL(for: file)
         .flatMap { url -> Future<Data, SCError> in
@@ -63,13 +63,13 @@ class LoadingViewController: UIViewController  {
             }
         }
     }
-    
+
     func showFile(data: Data) {
         let previewManager = PreviewManager(file: file, data: data)
         let controller = previewManager.previewViewController
         controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
         controller.navigationItem.leftItemsSupplementBackButton = true
-        
+
         DispatchQueue.main.async {
             if let nav = self.navigationController {
                 // TODO: add as subview
@@ -87,7 +87,7 @@ class LoadingViewController: UIViewController  {
             }
         }
     }
-    
+
     func show(error: Error) {
         DispatchQueue.main.async {
             self.cancelButton.isHidden = true
@@ -97,6 +97,6 @@ class LoadingViewController: UIViewController  {
             self.activityIndicator.stopAnimating()
         }
     }
-    
+
 }
 

@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         console.levelColor.error = "❌ "
         console.levelColor.info = "👉 "
         log.addDestination(console)
-        
+
         if !isUnitTesting() {
             FIRApp.configure()
         }
@@ -43,17 +43,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         selectInitialViewController(application: application)
 
         CoreDataObserver.shared.startObserving()
-        
+
         return true
     }
-    
+
     let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-    
+
     fileprivate func showLogin() {
         let loginViewController = storyboard.instantiateViewController(withIdentifier: "login")
         self.window?.rootViewController = loginViewController
     }
-    
+
     /// Check for existing login credentials and return appropriate view controller
     func selectInitialViewController(application: UIApplication) {
         if UserDefaults.standard.bool(forKey: "forceLogin") {
@@ -65,13 +65,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             showLogin()
             return
         }
-        
+
         guard let validAccount = LoginHelper.validate(account) else {
             LoginHelper.logout()
             showLogin()
             return
         }
-        
+
         // skip login
         prepareInitialViewController(with: validAccount)
     }
@@ -105,7 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Saves changes in the application's managed object context before the application terminates.
         CoreDataHelper.viewContext.saveWithResult()
     }
-    
+
     func isUnitTesting() -> Bool {
         return ProcessInfo.processInfo.environment["TEST"] != nil
     }

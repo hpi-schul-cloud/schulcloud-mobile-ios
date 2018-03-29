@@ -68,7 +68,7 @@ class LoginHelper {
     static func renewAccessToken() -> Future<Void, SCError> {
         return getAccessToken(username: nil, password: nil).flatMap(saveToken)
     }
-    
+
     static func loadAccount() -> SchulCloudAccount? {
         let defaults = UserDefaults.standard
 
@@ -78,10 +78,10 @@ class LoginHelper {
 
         var account = SchulCloudAccount(userId: userId, accountId: accountId, accessToken: nil)
         account.loadAccessTokenFromKeychain()
-        
+
         return account
     }
-    
+
     static func validate(_ account: SchulCloudAccount) -> SchulCloudAccount? {
         guard let accessToken = account.accessToken else {
             log.error("Could not load access token for account!")
@@ -100,7 +100,7 @@ class LoginHelper {
             return nil
         }
     }
-    
+
     static func logout() {
         UserDefaults.standard.set(nil, forKey: "accountId")
         UserDefaults.standard.set(nil, forKey: "userId")
@@ -113,5 +113,5 @@ class LoginHelper {
             log.error(error.localizedDescription)
         }
     }
-    
+
 }

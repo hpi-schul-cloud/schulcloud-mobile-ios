@@ -9,9 +9,9 @@ import CalendarKit
 import DateToolsSwift
 
 class CalendarViewController: DayViewController {
-    
+
     var calendarEvents : [CalendarEvent] = []
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isTranslucent = false
@@ -48,7 +48,7 @@ class CalendarViewController: DayViewController {
         alert.addAction(okAction)
         self.present(alert, animated: true)
     }
-    
+
     // MARK: DayViewDataSource
     override func eventsForDate(_ date: Date) -> [EventDescriptor] {
         let startDate = Date(year: date.year, month: date.month, day: date.day)

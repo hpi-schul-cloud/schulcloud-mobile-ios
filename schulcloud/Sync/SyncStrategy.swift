@@ -11,7 +11,7 @@ protocol SyncStrategy {
 
     var resourceKeyAttribute: String { get }
 
-    func queryItems<Query>(forQuery query: Query) -> [URLQueryItem] where Query: ResourceQuery 
+    func queryItems<Query>(forQuery query: Query) -> [URLQueryItem] where Query: ResourceQuery
     func validateResourceData(_ resourceData: MarshalDictionary) -> Result<Void, SyncError>
     func validateObjectCreation(object: ResourceData, toHaveType expectedType: String) throws
 

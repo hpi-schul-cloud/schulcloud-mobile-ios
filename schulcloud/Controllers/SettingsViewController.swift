@@ -62,7 +62,7 @@ class SettingsViewController: UITableViewController {
             present(loginViewController, animated: true, completion: nil)
         }
     }
-    
+
     @IBAction func synchronizeToCalendar(_ sender: UISwitch) {
         let newValue = sender.isOn
         if newValue {
@@ -106,7 +106,7 @@ class SettingsViewController: UITableViewController {
             }
         }
     }
-    
+
     private func showErrorAlert(message: String) {
         let alert = UIAlertController(title: "Something went wrong", message: message, preferredStyle: .alert)
         let dismiss = UIAlertAction(title: "OK", style: .cancel, handler: nil)

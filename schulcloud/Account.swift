@@ -11,29 +11,29 @@ struct SchulCloudAccount: CreateableSecureStorable, ReadableSecureStorable, Dele
 
     var userId: String
     var accountId: String
-    
+
     var accessToken: String?
-    
+
     // Required by GenericPasswordSecureStorable
     let service = "Schul-Cloud"
     var account: String { return userId }
-    
+
     // Required by CreateableSecureStorable
     var data: [String: Any] {
         return ["accessToken": accessToken as AnyObject]
     }
-    
+
     mutating func loadAccessTokenFromKeychain() {
         let result = readFromSecureStore()
         accessToken = result?.data?["accessToken"] as? String
     }
-    
+
     func saveCredentials() throws {
         let defaults = UserDefaults.standard
-        
+
         defaults.set(accountId, forKey: "accountId")
         defaults.set(userId, forKey: "userId")
-        
+
         do {
             try createInSecureStore()
         } catch {

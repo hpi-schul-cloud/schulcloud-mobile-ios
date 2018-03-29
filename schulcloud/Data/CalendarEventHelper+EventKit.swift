@@ -10,7 +10,7 @@ import BrightFutures
 
 // MARK: Extension with EvenKit convenience
 extension CalendarEventHelper {
-    
+
     private static var eventStore: EKEventStore = EKEventStore()
     private static var calendar : EKCalendar?
 
@@ -18,9 +18,9 @@ extension CalendarEventHelper {
         static let shouldSynchronize = "org.schul-cloud.calendar.eventKitShouldSynchronize"
         static let calendarIdentifier = "org.schul-cloud.calendar.identifier"
     }
-    
+
     struct EventKitSettings {
-        
+
         static var current : EventKitSettings = EventKitSettings()
         var shouldSynchonize : Bool {
             get {
@@ -31,12 +31,12 @@ extension CalendarEventHelper {
                 UserDefaults.standard.synchronize()
             }
         }
-        
+
         var calendarIdentifier : String? {
             get {
                 return UserDefaults.standard.string(forKey: Keys.calendarIdentifier)
             }
-            
+
             set {
                 UserDefaults.standard.set(newValue, forKey: Keys.calendarIdentifier)
                 UserDefaults.standard.synchronize()
@@ -44,7 +44,7 @@ extension CalendarEventHelper {
         }
         var calendarTitle : String = "Schul-Cloud"
     }
-    
+
     // MARK: Event management
     private static func update(event: EKEvent, with calendarEvent: CalendarEvent) {
         event.title = calendarEvent.title
@@ -57,11 +57,11 @@ extension CalendarEventHelper {
             return [rule.ekRecurrenceRule]
         }()
     }
-    
+
     // MARK: Calendar management
     static func requestCalendarPermission() -> Future<Void, SCError> {
         let promise = Promise<Void, SCError>()
-        
+
         switch EKEventStore.authorizationStatus(for: .event) {
         case .authorized:
             promise.success(Void())
@@ -85,18 +85,18 @@ extension CalendarEventHelper {
 
     static func fetchCalendar() -> EKCalendar? {
         if let calendar = self.calendar { return calendar }
-        
+
         if let calendarIdentifier = EventKitSettings.current.calendarIdentifier,
             let foundCalendar = eventStore.calendar(withIdentifier: calendarIdentifier) {
             self.calendar = foundCalendar
             return calendar
         }
-        
+
         if let calendar = eventStore.calendars(for: .event).first (where:  { $0.title == EventKitSettings.current.calendarTitle }) {
             self.calendar = calendar
             return calendar
         }
-        
+
         return nil
     }
 
@@ -104,17 +104,17 @@ extension CalendarEventHelper {
         guard let source = eventStore.sources.first(where: { return $0.sourceType == EKSourceType.subscribed }) else {
             return nil
         }
-        
+
         let calendar = EKCalendar(for: .event, eventStore: self.eventStore)
         calendar.title = EventKitSettings.current.calendarTitle
         calendar.source = source
-        
+
         do {
             try self.eventStore.saveCalendar(calendar, commit: true)
         } catch {
             return nil
         }
-        
+
         EventKitSettings.current.calendarIdentifier = calendar.calendarIdentifier
 
         self.calendar = calendar
@@ -147,23 +147,23 @@ extension CalendarEventHelper {
         }
 
     }
-    
+
     static func remove(events: [CalendarEvent]) throws {
         let eventsToDelete = events.map {$0.eventKitID }.flatMap { $0 } // get the eventKid IDs and remove the nils
                                    .map { eventStore.event(withIdentifier: $0) }.flatMap { $0 } // fetch EKEvents for these ids and remove the nils
-        
+
         for event in eventsToDelete {
             try eventStore.remove(event, span: EKSpan.futureEvents, commit: false)
         }
         try eventStore.commit()
     }
-    
+
     static func deleteSchulcloudCalendar() throws {
         guard let calendarIdentifier = EventKitSettings.current.calendarIdentifier,
               let calendar = eventStore.calendar(withIdentifier: calendarIdentifier) else { return }
 
         try eventStore.removeCalendar(calendar, commit: true)
-        
+
         EventKitSettings.current.calendarIdentifier = nil
         self.calendar = nil
     }

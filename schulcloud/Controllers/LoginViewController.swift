@@ -40,14 +40,14 @@ class LoginViewController: UIViewController {
             return .portrait
         }
     }
-    
+
     @IBAction func login() {
         self.loginButton.startAnimating()
         let username = usernameInput.text
         let password = passwordInput.text
-        
+
         UserDefaults.standard.set(username, forKey: LoginViewController.usernameKey)
-        
+
         LoginHelper.login(username: username, password: password)
             .onSuccess {
                 self.performSegue(withIdentifier: "loginDidSucceed", sender: nil)
@@ -96,7 +96,7 @@ class LoginViewController: UIViewController {
             self.view.layoutIfNeeded()
         }
     }
-    
+
     @IBAction func tapOnBackground(_ sender: UITapGestureRecognizer) {
         self.usernameInput.resignFirstResponder()
         self.passwordInput.resignFirstResponder()

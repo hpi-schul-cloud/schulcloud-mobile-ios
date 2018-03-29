@@ -22,11 +22,11 @@ enum SCError: Error {
     case coreDataMoreThanOneObjectFound
 
     case synchronization(SyncError)
-    
+
     init(value: SCError) {
         self = value
     }
-    
+
     init(otherError error: Error) {
         if let marshalError = error as? MarshalError {
             self = .jsonDeserialization(marshalError.description)
@@ -34,7 +34,7 @@ enum SCError: Error {
             self = .unknown // TODO
         }
     }
-    
+
     init(apiResponse: Data?) {
         if let data = apiResponse,
             let deserialized = try? JSONSerialization.jsonObject(with: data, options: []),
@@ -45,7 +45,7 @@ enum SCError: Error {
             self.init(value: .unknown)
         }
     }
-    
+
     init(json: [String: Any]) {
         if let errorCode: Int = try? json.value(for: "code"),
             let errorMessage: String = try? json.value(for: "message"){

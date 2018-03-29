@@ -10,14 +10,14 @@ class Constants {
         case staging = "https://schul.tech:3030/"
         case production = "https://schul-cloud.org:8080/"
         case web = "https://schul-cloud.org/"
-        
+
         var url: URL {
             return URL(string: self.rawValue)!
         }
     }
-    
+
     static let backend = Servers.production
-    
+
     static var textStyleHtml: String {
         var style: String = "<style>"
         style += "body { font: -apple-system-body; }"

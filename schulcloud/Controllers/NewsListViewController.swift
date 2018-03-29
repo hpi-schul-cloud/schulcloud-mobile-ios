@@ -19,12 +19,12 @@ class NewsListViewController: UITableViewController,  NSFetchedResultsController
     @IBAction func didTriggerRefresh(_ sender: Any) {
         self.synchronizeNewsArticle()
     }
-    
+
     // MARK: Internal convenience
     fileprivate lazy var fetchedResultController : NSFetchedResultsController<NewsArticle> = {
         let fetchRequest: NSFetchRequest<NewsArticle> = NewsArticle.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "displayAt", ascending: false)]
-        
+
         let fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                                 managedObjectContext: CoreDataHelper.viewContext,
                                                                 sectionNameKeyPath: nil,
@@ -32,7 +32,7 @@ class NewsListViewController: UITableViewController,  NSFetchedResultsController
         fetchResultsController.delegate = self
         return fetchResultsController
     }()
-    
+
     fileprivate func synchronizeNewsArticle() {
         NewsArticleHelper.syncNewsArticles().onSuccess { _ in
             self.fetchNewsArticle()
@@ -42,7 +42,7 @@ class NewsListViewController: UITableViewController,  NSFetchedResultsController
             self.refreshControl?.endRefreshing()
         }
     }
-    
+
     fileprivate func fetchNewsArticle() {
         do {
             try self.fetchedResultController.performFetch()
@@ -51,16 +51,16 @@ class NewsListViewController: UITableViewController,  NSFetchedResultsController
         }
         self.tableView.reloadData()
     }
-    
+
     // MARK: - Table View Delegate methods
     override func numberOfSections(in tableView: UITableView) -> Int {
         return self.fetchedResultController.sections?.count ?? 0
     }
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.fetchedResultController.sections?[section].numberOfObjects ?? 0
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = self.fetchedResultController.object(at: indexPath)
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell", for: indexPath) as! NewsArticleCell

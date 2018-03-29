@@ -26,7 +26,7 @@ class CalendarEventHelperTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        
+
         self.formatter = DateFormatter()
         self.formatter.dateFormat = "dd.MM.yyyy HH:mm"
     }
@@ -44,9 +44,9 @@ class CalendarEventHelperTests: XCTestCase {
 
     func testThatInitializingCalendarEventDoesNotModifyStartAndEndDate() {
         let (start, end) = makeDatePair("28.08.2017 15:00", "28.08.2017 16:00")
-        
+
         let event = CalendarEvent(start: start, end: end, rule: nil)
-        
+
         XCTAssertEqual(start, event.start)
         XCTAssertEqual(end, event.end)
     }

@@ -6,7 +6,7 @@
 import UIKit
 
 class FileListCell: UITableViewCell {
-    
+
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var subtitleLabel: UILabel!
 
