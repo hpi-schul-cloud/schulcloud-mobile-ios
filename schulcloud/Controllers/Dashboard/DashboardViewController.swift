@@ -41,22 +41,7 @@ final class DashboardViewController : UICollectionViewController {
         return collectionView?.traitCollection.horizontalSizeClass == .regular ? .extended : .reduced
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        commonInit()
-    }
-
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        commonInit()
-    }
-
-    override init(collectionViewLayout layout: UICollectionViewLayout) {
-        super.init(collectionViewLayout: layout)
-        commonInit()
-    }
-
-    func commonInit() {
+    func addViewControllers() {
         guard let currentUser = Globals.currentUser else { return }
 
         func makeNoPermissionController(missingPermission: UserPermissions) -> DashboardNoPermissionViewController {
@@ -113,6 +98,7 @@ final class DashboardViewController : UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let layout = collectionView?.collectionViewLayout as? DashboardLayout else { return }
+        self.addViewControllers()
         layout.dataSource = self
     }
 
