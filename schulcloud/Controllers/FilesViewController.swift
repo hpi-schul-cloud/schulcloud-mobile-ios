@@ -47,6 +47,7 @@ class FilesViewController: UITableViewController {
                 for json in objects {
                     updates.append(FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json))
                 }
+
                 return updates.sequence().asVoid()
             }.asVoid()
         } else {
@@ -92,6 +93,7 @@ class FilesViewController: UITableViewController {
         } catch let fetchError as NSError {
             log.error("Unable to Perform Fetch Request: \(fetchError), \(fetchError.localizedDescription)")
         }
+
         tableView.reloadData()
     }
 
@@ -114,6 +116,7 @@ extension FilesViewController {
             log.error("Error loading object count in section \(section)")
             return 0
         }
+
         return count
     }
 
@@ -198,12 +201,14 @@ extension FilesViewController {
             guard let folderVC = storyboard.instantiateViewController(withIdentifier: "FolderVC") as? FilesViewController else {
                 return
             }
+
             folderVC.currentFolder = item
             self.navigationController?.pushViewController(folderVC, animated: true)
         } else {
             guard let fileVC = storyboard.instantiateViewController(withIdentifier: "FileVC") as? LoadingViewController else {
                 return
             }
+
             fileVC.file = item
             self.navigationController?.pushViewController(fileVC, animated: true)
         }

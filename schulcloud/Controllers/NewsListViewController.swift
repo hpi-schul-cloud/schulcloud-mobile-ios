@@ -49,6 +49,7 @@ class NewsListViewController: UITableViewController,  NSFetchedResultsController
         } catch let fetchError as NSError {
             log.error(fetchError)
         }
+
         self.tableView.reloadData()
     }
 

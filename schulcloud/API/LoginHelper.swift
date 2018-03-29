@@ -26,6 +26,7 @@ class LoginHelper {
                 promise.failure(.loginFailed(error.localizedDescription))   // using the error directly isn't possible because Error can't be used as a concrete type
                 return
             }
+
             if let accessToken = json["accessToken"] as? String {
                 promise.success(accessToken)
             } else if let errorMessage = json["message"] as? String, errorMessage != "Error" {
@@ -59,6 +60,7 @@ class LoginHelper {
             DispatchQueue.main.async {
                 SCNotifications.initializeMessaging()
             }
+
             return Future(value: Void())
         } catch let error {
             return Future(error: SCError.loginFailed(error.localizedDescription))
@@ -87,6 +89,7 @@ class LoginHelper {
             log.error("Could not load access token for account!")
             return nil
         }
+
         do {
             let jwt = try decode(jwt: accessToken)
             let expiration = jwt.body["exp"] as! Int64

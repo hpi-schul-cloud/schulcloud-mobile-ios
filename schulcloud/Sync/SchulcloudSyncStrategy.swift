@@ -29,6 +29,7 @@ extension SchulcloudSyncStrategy {
             } else {
                 stringValue = "null"
             }
+
             let queryItem = URLQueryItem(name: key, value: stringValue)
             queryItems.append(queryItem)
         }
@@ -72,6 +73,7 @@ extension SchulcloudSyncStrategy {
                 guard let resourceId = try? $0.value(for: self.resourceKeyAttribute) as String else { return nil }
                 return (id: resourceId, object: $0)
             }
+
             return .included(objects: idsAndObjects, ids: [])
         } else if let resourceIds = try? object.value(for: key) as [String] {
             return .included(objects: [], ids: resourceIds)

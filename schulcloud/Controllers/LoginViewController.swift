@@ -48,16 +48,14 @@ class LoginViewController: UIViewController {
 
         UserDefaults.standard.set(username, forKey: LoginViewController.usernameKey)
 
-        LoginHelper.login(username: username, password: password)
-            .onSuccess {
-                self.performSegue(withIdentifier: "loginDidSucceed", sender: nil)
+        LoginHelper.login(username: username, password: password).onSuccess {
+            self.performSegue(withIdentifier: "loginDidSucceed", sender: nil)
+        }.onFailure { error in
+            DispatchQueue.main.async {
+                self.loginButton.stopAnimating()
+                self.show(error: error)
             }
-            .onFailure { error in
-                DispatchQueue.main.async {
-                    self.loginButton.stopAnimating()
-                    self.show(error: error)
-                }
-            }
+        }
     }
 
     func show(error: SCError) {
@@ -112,6 +110,7 @@ extension LoginViewController: UITextFieldDelegate {
             textField.resignFirstResponder()
             self.login()
         }
+
         return true
     }
 

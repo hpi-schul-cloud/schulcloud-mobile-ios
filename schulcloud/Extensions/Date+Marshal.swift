@@ -25,6 +25,7 @@ extension Date: ValueType {
         guard let date = Date.iso8601Formatter.date(from: dateString) else {
             throw MarshalError.typeMismatch(expected: "ISO8601 date string", actual: dateString)
         }
+
         return date
     }
 

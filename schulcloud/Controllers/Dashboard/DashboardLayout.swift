@@ -23,6 +23,7 @@ final class DashboardLayout: UICollectionViewLayout {
         } else {
             rect = collectionView.bounds
         }
+
         return rect.width
     }
 
@@ -56,6 +57,7 @@ final class DashboardLayout: UICollectionViewLayout {
         let xOffsets = (0..<columnCount).map { i -> CGFloat in
             return (CGFloat(i) * columnWidth) + xOffsetBase
         }
+
         var yOffsets = [CGFloat](repeating: yOffsetBase, count: columnCount)
 
         for i in 0 ..< collectionView.numberOfItems(inSection: 0) {
@@ -80,6 +82,7 @@ final class DashboardLayout: UICollectionViewLayout {
             layoutAttributes.frame = finalFrame
             localCache.append(layoutAttributes)
         }
+
         contentHeight += yOffsetBase
         cache = localCache
     }

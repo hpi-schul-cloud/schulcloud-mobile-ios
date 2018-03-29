@@ -129,6 +129,7 @@ class FileSync: NSObject {
                 let sharedFiles = files.filter({ (object) -> Bool in
                     return (try? object.value(for: "context")) == "geteilte Datei"
                 })
+
                 promise.success(sharedFiles as! [[String: Any]])
             } catch let error as SCError {
                 promise.failure(error)
@@ -136,6 +137,7 @@ class FileSync: NSObject {
                 promise.failure(.jsonDeserialization(error.localizedDescription) )
             }
         }.resume()
+
         return promise.future
     }
 
@@ -143,13 +145,16 @@ class FileSync: NSObject {
         guard error == nil else {
             throw SCError.network(error)
         }
+
         guard let response = response as? HTTPURLResponse,
             200 ... 299 ~= response.statusCode else {
                 throw SCError.network(nil)
         }
+
         guard let data = data else {
             throw SCError.network(nil)
         }
+
         return data
     }
 
@@ -171,6 +176,7 @@ extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownlo
         if let error = error {
             promise?.failure(.network(error))
         }
+
         runningTask.removeValue(forKey: task.taskIdentifier)
         progressHandlers.removeValue(forKey: task.taskIdentifier)
     }
@@ -323,6 +329,7 @@ class FileHelper {
                 promise.failure(.database(error.localizedDescription))
             }
         }
+
         return promise.future
     }
 }

@@ -61,6 +61,7 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
         } catch let fetchError as NSError {
             log.error("Unable to Perform Fetch Request: \(fetchError), \(fetchError.localizedDescription)")
         }
+
         self.tableView.reloadData()
     }
 

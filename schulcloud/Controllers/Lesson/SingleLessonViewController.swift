@@ -53,6 +53,7 @@ class SingleLessonViewController: UIViewController, WKUIDelegate {
             if let title = content.title, !title.isEmpty {
                 rendered += "<h1>\(title)</h1>"
             }
+
             rendered += content.text ?? ""
             return rendered
         case .other:

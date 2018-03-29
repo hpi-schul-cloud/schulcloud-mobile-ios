@@ -95,6 +95,7 @@ extension File {
         if let size = try? data.value(for: "size") as Int64 {
             file.size = size as NSNumber?
         }
+
         file.parentDirectory = parentFolder
 
         let permissionsObject: [MarshaledObject]? = try? data.value(for: "permissions")
@@ -103,8 +104,10 @@ extension File {
                 userId == Globals.account?.userId { //find permission for current user
                 return true
             }
+
             return false
         }
+
         if let userPermission = userPermission {
             file.permissions = try Permissions(json: userPermission)
         }

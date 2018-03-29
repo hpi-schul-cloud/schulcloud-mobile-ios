@@ -46,6 +46,7 @@ class HtmlTableViewCell: UITableViewCell, UIWebViewDelegate {
         } else {
             titleIsHidden = true
         }
+
         let html = "<html><head>\(Constants.textStyleHtml)</head><body>\(content.text ?? "")</body></html>"
         webView.loadHTMLString(html, baseURL: nil)
     }

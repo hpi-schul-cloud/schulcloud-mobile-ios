@@ -63,6 +63,7 @@ class schulcloudUITests: XCTestCase {
                     alert.buttons[buttonTitle].tap()
                     return true
                 }
+
                 return false
             }
         }

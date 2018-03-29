@@ -52,6 +52,7 @@ class HomeworkOverviewViewController: UIViewController {
                         default:
                             self.subtitleLabel.text = ""
                         }
+
                         self.subtitleLabel.isHidden = false
                     } else {
                         self.subtitleLabel.isHidden = true

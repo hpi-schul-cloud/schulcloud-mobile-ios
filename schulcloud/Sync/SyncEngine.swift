@@ -59,6 +59,7 @@ struct SyncEngine {
         if #available(iOS 11, *) {
             configuration.waitsForConnectivity = true
         }
+
         return URLSession(configuration: configuration, delegate: nil, delegateQueue: nil)
     }()
 
@@ -263,6 +264,7 @@ struct SyncEngine {
                     if let index = existingObjects.index(of: existingObject) {
                         existingObjects.remove(at: index)
                     }
+
                     newObjects.append(existingObject)
                 } else {
                     if var fetchedResource = try self.findExistingResource(withId: id, ofType: Resource.self, inContext: coreDataContext) {

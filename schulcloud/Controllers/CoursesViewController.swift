@@ -53,6 +53,7 @@ class CoursesViewController: UICollectionViewController, NSFetchedResultsControl
         } catch let fetchError as NSError {
             log.error("Unable to Perform Fetch Request: \(fetchError), \(fetchError.localizedDescription)")
         }
+
         collectionView?.reloadData()
     }
 

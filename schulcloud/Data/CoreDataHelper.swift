@@ -125,6 +125,7 @@ extension NSManagedObjectContext {
             if self.hasChanges {
                 try self.save()
             }
+
             return .success(())
         } catch {
             return .failure(.coreData(error))
@@ -161,6 +162,7 @@ extension NSManagedObjectContext {
                 }
             }
         }
+
         if let e = error {
             return try rescue(e)
         } else {

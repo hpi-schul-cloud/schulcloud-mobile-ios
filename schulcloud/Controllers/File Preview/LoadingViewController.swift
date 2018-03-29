@@ -47,11 +47,13 @@ class LoadingViewController: UIViewController  {
                 self.activityIndicator.stopAnimating()
                 self.progressView.isHidden = false
             }
+
             let future = self.fileSync.download(url: url, progressHandler: { (progress) in
                 DispatchQueue.main.async {
                     self.progressView.setProgress(progress, animated: true)
                 }
             })
+
             return future
         }.onSuccess { (fileData) in
             DispatchQueue.main.async {
@@ -80,6 +82,7 @@ class LoadingViewController: UIViewController  {
             } else {
                 self.present(controller, animated: false, completion: nil)
             }
+
             if let ql = controller as? QLPreviewController {
                 // fix for dataSource magically disappearing because hey let's store it in a weak variable in QLPreviewController
                 ql.dataSource = previewManager

@@ -56,6 +56,7 @@ class ShortNotificationViewController: UITableViewController {
         if self.notifications.count == 0 {
             return 1
         }
+
         return min(self.notifications.count, ShortNotificationViewController.numberOfShownCells)
     }
 
@@ -90,6 +91,7 @@ extension ShortNotificationViewController: ViewControllerHeightDataSource {
             let bottomPadding: CGFloat = 16.0
             viewHeight -= footer.frame.size.height - bottomPadding
         }
+
         return viewHeight
     }
 }

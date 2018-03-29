@@ -116,6 +116,7 @@ final class DashboardViewController: UICollectionViewController {
         guard let viewController = storyboard.instantiateViewController(withIdentifier: identifier) as? T else {
             fatalError("Missing \(identifier) in Storyboard")
         }
+
         return viewController
     }
 
@@ -139,6 +140,7 @@ final class DashboardViewController: UICollectionViewController {
         }
     }
 }
+
 extension DashboardViewController {
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -162,6 +164,7 @@ extension DashboardViewController {
         } else {
             cell.contentView.layer.cornerRadius = 0.0
         }
+
         return cell
     }
 

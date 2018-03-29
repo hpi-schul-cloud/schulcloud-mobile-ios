@@ -31,7 +31,6 @@ class PreviewManager: NSObject, QLPreviewControllerDataSource {
             quickLookPreviewController.title = self.file.name
             return quickLookPreviewController
         }
-
     }()
 
     // MARK: delegate methods
@@ -45,6 +44,7 @@ class PreviewManager: NSObject, QLPreviewControllerDataSource {
         if let url = file.cacheUrl ?? copyDataToTemporaryDirectory(fileData, file: file) {
             item.previewItemURL = url
         }
+
         return item
     }
 

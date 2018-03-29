@@ -42,6 +42,7 @@ extension CalendarEventHelper {
                 UserDefaults.standard.synchronize()
             }
         }
+
         var calendarTitle: String = "Schul-Cloud"
     }
 
@@ -76,6 +77,7 @@ extension CalendarEventHelper {
         default:
             promise.failure(SCError.other("Cannot request permision for calendar"))
         }
+
         return promise.future
     }
 
@@ -142,6 +144,7 @@ extension CalendarEventHelper {
                 try? eventStore.save(event, span: span, commit: false)
                 calendarEvent.eventKitID = event.eventIdentifier
             }
+
             try? eventStore.commit()
             context.saveWithResult()
         }
@@ -155,6 +158,7 @@ extension CalendarEventHelper {
         for event in eventsToDelete {
             try eventStore.remove(event, span: EKSpan.futureEvents, commit: false)
         }
+
         try eventStore.commit()
     }
 
@@ -178,6 +182,7 @@ extension CalendarEvent.RecurrenceRule {
         } else {
             until = nil
         }
+
         let rule = EKRecurrenceRule(recurrenceWith: self.frequency.ekFrequency,
                                     interval: self.interval == 0 ? 1 : self.interval,
                                     daysOfTheWeek: [self.dayOfTheWeek.ekDayOfTheWeek],

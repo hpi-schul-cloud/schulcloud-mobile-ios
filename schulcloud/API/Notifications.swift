@@ -47,6 +47,7 @@ class SCNotifications {
                 promise.failure(SCError.other("No token obtained"))
             }
         }
+
         return promise.future
     }
 
@@ -60,6 +61,7 @@ class SCNotifications {
             "device_token": deviceToken,
             "OS": "ios"
         ]
+
         return Future(value: ())
 //        return ApiHelper.requestBasic("notification/devices", method: .post, parameters: parameters, encoding: JSONEncoding.default)
 //            .flatMap { response -> Future<Void, SCError> in

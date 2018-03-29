@@ -58,6 +58,7 @@ final class NewsOverviewViewController: UITableViewController {
             newsCell.configure(for: newsArticle)
             cell = newsCell
         }
+
         return cell
     }
 
