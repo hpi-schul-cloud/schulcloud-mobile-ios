@@ -98,7 +98,7 @@ extension ShortNotificationViewController : ViewHeightDataSource {
 }
 
 extension ShortNotificationViewController : PermissionInfoDataSource {
-    static var managedPermissions : UserPermissions { return UserPermissions.notificationView }
+    static let requiredPermission = UserPermissions.notificationView
 }
 
 protocol ShortNotificationViewControllerDelegate {

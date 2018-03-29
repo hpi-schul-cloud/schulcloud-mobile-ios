@@ -26,19 +26,16 @@ extension PermissionInfoDataSource where Self: UIViewController {
 typealias PermissionAbleViewController = UIViewController & ViewHeightDataSource & PermissionInfoDataSource
 
 final class PermissionManagmentViewController<T: PermissionAbleViewController>: UIViewController, ViewHeightDataSource {
-    var containedViewController : T? {
-        didSet {
-            self.view.removeConstraints(self.view.constraints)
-            self.view.subviews.forEach({ $0.removeFromSuperview() })
-        }
-    }
     var height : CGFloat {
         return viewHeightDataSource?.height ?? 0.0
     }
 
+    var containedViewController : T?
     weak var viewHeightDataSource : ViewHeightDataSource?
 
-    var hasPermission : Bool { return Globals.currentUser!.permissions.contains(T.requiredPermission) }
+    var hasPermission : Bool {
+        return Globals.currentUser!.permissions.contains(T.requiredPermission)
+    }
 
     func configure(for wrappedVC: T) {
         let view : UIView
@@ -56,12 +53,17 @@ final class PermissionManagmentViewController<T: PermissionAbleViewController>: 
             view = missingPermissionView
         }
 
+        self.view.removeConstraints(self.view.constraints)
+        self.view.subviews.forEach({ $0.removeFromSuperview() })
+
         self.view.addSubview(view)
         view.translatesAutoresizingMaskIntoConstraints = false
         let hConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(0)-[view]-(0)-|", options: [], metrics: nil, views: ["view":view])
         let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(0)-[view]-(0)-|", options: [], metrics: nil, views: ["view":view])
         self.view.addConstraints(hConstraints + vConstraints)
 
-        if let containedViewController = containedViewController { containedViewController.didMove(toParentViewController: self) }
+        if let containedViewController = containedViewController {
+            containedViewController.didMove(toParentViewController: self)
+        }
     }
 }

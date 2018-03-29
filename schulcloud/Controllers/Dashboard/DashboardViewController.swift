@@ -67,7 +67,7 @@ final class DashboardViewController : UICollectionViewController {
             return vc
         }
 
-        func makePermissionController<T: DynamicHeightViewController & PermissionInfoDataSource>(for wrappedVC: T) -> PermissionManagmentViewController<T> {
+        func makePermissionController<T: PermissionAbleViewController>(for wrappedVC: T) -> PermissionManagmentViewController<T> {
             let vc = PermissionManagmentViewController<T>()
             vc.view.translatesAutoresizingMaskIntoConstraints = false
             vc.configure(for: wrappedVC)
@@ -167,11 +167,14 @@ extension DashboardViewController {
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = (viewControllers[indexPath.row])
-        if let _ = vc as? PermissionManagmentViewController<CalendarOverviewViewController> {
+        if let vc = vc as? PermissionManagmentViewController<CalendarOverviewViewController>,
+               vc.hasPermission {
             self.performSegue(withIdentifier: "showCalendar", sender: nil)
-        } else if let _ = vc as? PermissionManagmentViewController<HomeworkOverviewViewController> {
+        } else if let vc = vc as? PermissionManagmentViewController<HomeworkOverviewViewController>,
+                      vc.hasPermission {
             self.performSegue(withIdentifier: "showHomework", sender: nil)
-        } else if let _ = vc as? PermissionManagmentViewController<ShortNotificationViewController> {
+        } else if let vc = vc as? PermissionManagmentViewController<ShortNotificationViewController>,
+                      vc.hasPermission {
             self.performSegue(withIdentifier: "showNotifications", sender: nil)
         }
     }

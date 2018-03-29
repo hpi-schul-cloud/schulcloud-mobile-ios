@@ -134,5 +134,5 @@ extension CalendarOverviewViewController : ViewHeightDataSource {
 }
 
 extension CalendarOverviewViewController : PermissionInfoDataSource {
-    static var managedPermissions : UserPermissions { return UserPermissions.calendarView }
+    static let requiredPermission = UserPermissions.calendarView
 }

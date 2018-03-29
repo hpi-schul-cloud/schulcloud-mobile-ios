@@ -90,5 +90,5 @@ extension NewsOverviewViewController : ViewHeightDataSource {
 }
 
 extension NewsOverviewViewController : PermissionInfoDataSource {
-    static var requiredPermission : UserPermissions { return UserPermissions.newsView }
+    static let requiredPermission = UserPermissions.newsView
 }

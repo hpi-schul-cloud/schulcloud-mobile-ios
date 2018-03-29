@@ -79,5 +79,5 @@ extension HomeworkOverviewViewController : ViewHeightDataSource {
 }
 
 extension HomeworkOverviewViewController : PermissionInfoDataSource {
-    static var managedPermissions : UserPermissions { return UserPermissions.homeworkView }
+    static let requiredPermission = UserPermissions.homeworkView
 }
