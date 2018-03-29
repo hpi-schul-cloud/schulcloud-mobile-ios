@@ -7,9 +7,9 @@ import UIKit
 
 class CourseCell: UICollectionViewCell {
 
-    @IBOutlet weak var colorView: UIView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var teacherLabel: UILabel!
+    @IBOutlet private weak var colorView: UIView!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var teacherLabel: UILabel!
 
     func configure(for course: Course) {
         self.layer.masksToBounds = true

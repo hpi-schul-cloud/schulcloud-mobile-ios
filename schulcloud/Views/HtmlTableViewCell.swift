@@ -7,12 +7,12 @@ import UIKit
 
 class HtmlTableViewCell: UITableViewCell, UIWebViewDelegate {
 
-    @IBOutlet var webView: UIWebView!
-    @IBOutlet var webViewHeight: NSLayoutConstraint!
+    @IBOutlet private var webView: UIWebView!
+    @IBOutlet private var webViewHeight: NSLayoutConstraint!
 
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var titleTopConstraint: NSLayoutConstraint!
-    @IBOutlet var titleBottomConstraint: NSLayoutConstraint!
+    @IBOutlet private var titleLabel: UILabel!
+    @IBOutlet private var titleTopConstraint: NSLayoutConstraint!
+    @IBOutlet private var titleBottomConstraint: NSLayoutConstraint!
 
     weak var tableView: UITableView?
 

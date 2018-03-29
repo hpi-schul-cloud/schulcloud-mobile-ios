@@ -13,11 +13,11 @@ class LoginViewController: UIViewController {
 
     static let usernameKey = "lastLoggedInUsername"
 
-    @IBOutlet weak var usernameInput: UITextField!
-    @IBOutlet weak var passwordInput: UITextField!
-    @IBOutlet weak var loginButton: SimpleRoundedButton!
-    @IBOutlet weak var inputContainer: UIStackView!
-    @IBOutlet weak var centerInputConstraints: NSLayoutConstraint!
+    @IBOutlet private weak var usernameInput: UITextField!
+    @IBOutlet private weak var passwordInput: UITextField!
+    @IBOutlet private weak var loginButton: SimpleRoundedButton!
+    @IBOutlet private weak var inputContainer: UIStackView!
+    @IBOutlet private weak var centerInputConstraints: NSLayoutConstraint!
 
     override func viewDidLoad() {
         super.viewDidLoad()

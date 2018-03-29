@@ -24,7 +24,7 @@ final class DashboardViewController: UICollectionViewController {
         case extended
     }
 
-    @IBOutlet var notificationBarItem: UIBarButtonItem!
+    @IBOutlet private var notificationBarItem: UIBarButtonItem!
 
     lazy var noPermissionViewController: DashboardNoPermissionViewController = self.buildFromStoryboard(withIdentifier: "NoPermissionViewController")
 

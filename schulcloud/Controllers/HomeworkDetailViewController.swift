@@ -7,11 +7,11 @@ import UIKit
 
 class HomeworkDetailViewController: UIViewController {
 
-    @IBOutlet weak var subjectLabel: UILabel!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var contentLabel: UILabel!
-    @IBOutlet weak var coloredStrip: UIView!
-    @IBOutlet weak var dueLabel: UILabel!
+    @IBOutlet private weak var subjectLabel: UILabel!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var contentLabel: UILabel!
+    @IBOutlet private weak var coloredStrip: UIView!
+    @IBOutlet private weak var dueLabel: UILabel!
 
     var homework: Homework?
 

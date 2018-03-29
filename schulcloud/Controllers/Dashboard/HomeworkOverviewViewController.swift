@@ -8,8 +8,8 @@ import CoreData
 
 class HomeworkOverviewViewController: UIViewController {
 
-    @IBOutlet var numberOfOpenTasksLabel: UILabel!
-    @IBOutlet var subtitleLabel: UILabel!
+    @IBOutlet private var numberOfOpenTasksLabel: UILabel!
+    @IBOutlet private var subtitleLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()

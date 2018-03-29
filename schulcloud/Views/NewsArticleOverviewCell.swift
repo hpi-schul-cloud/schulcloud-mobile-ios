@@ -7,9 +7,9 @@ import UIKit
 
 class NewsArticleOverviewCell: UITableViewCell {
 
-    @IBOutlet weak var title: UILabel!
-    @IBOutlet weak var timeSinceCreated: UILabel!
-    @IBOutlet weak var content: UILabel!
+    @IBOutlet private weak var title: UILabel!
+    @IBOutlet private weak var timeSinceCreated: UILabel!
+    @IBOutlet private weak var content: UILabel!
 
     func configure(for newsArticle: NewsArticle) {
         self.title.text = newsArticle.title

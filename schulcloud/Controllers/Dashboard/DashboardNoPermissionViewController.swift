@@ -7,7 +7,7 @@ import UIKit
 
 final class DashboardNoPermissionViewController: UIViewController, ViewControllerHeightDataSource {
 
-    @IBOutlet var label: UILabel!
+    @IBOutlet private var label: UILabel!
 
     var missingPermission: UserPermissions = UserPermissions.none {
         didSet {

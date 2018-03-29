@@ -11,9 +11,9 @@ private var currentEventKitSettings = CalendarEventHelper.EventKitSettings.curre
 
 class SettingsViewController: UITableViewController {
 
-    @IBOutlet var logoutCell: UITableViewCell!
-    @IBOutlet weak var userNameLabel: UILabel!
-    @IBOutlet var calendarSyncSwitch: UISwitch!
+    @IBOutlet private var logoutCell: UITableViewCell!
+    @IBOutlet private weak var userNameLabel: UILabel!
+    @IBOutlet private var calendarSyncSwitch: UISwitch!
 
     private var user: User? {
         didSet {

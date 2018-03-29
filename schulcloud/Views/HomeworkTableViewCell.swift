@@ -7,11 +7,11 @@ import UIKit
 
 class HomeworkTableViewCell: UITableViewCell {
 
-    @IBOutlet var subjectLabel: UILabel!
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var contentLabel: UILabel!
-    @IBOutlet var coloredStrip: UIView!
-    @IBOutlet var dueLabel: UILabel!
+    @IBOutlet private var subjectLabel: UILabel!
+    @IBOutlet private var titleLabel: UILabel!
+    @IBOutlet private var contentLabel: UILabel!
+    @IBOutlet private var coloredStrip: UIView!
+    @IBOutlet private var dueLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()

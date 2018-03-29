@@ -14,17 +14,17 @@ class CalendarOverviewViewController: UIViewController {
         case noEvents(String)
     }
 
-    @IBOutlet weak var currentEventName: UILabel!
-    @IBOutlet weak var currentEventLocation: UILabel!
-    @IBOutlet weak var currentEventDate: UILabel!
-    @IBOutlet weak var nextEventName: UILabel!
-    @IBOutlet weak var nextEventLocation: UILabel!
-    @IBOutlet weak var nextEventDate: UILabel!
-    @IBOutlet weak var nextEventDetails: UIStackView!
-    @IBOutlet weak var currentEventProgress: UIProgressView!
+    @IBOutlet private weak var currentEventName: UILabel!
+    @IBOutlet private weak var currentEventLocation: UILabel!
+    @IBOutlet private weak var currentEventDate: UILabel!
+    @IBOutlet private weak var nextEventName: UILabel!
+    @IBOutlet private weak var nextEventLocation: UILabel!
+    @IBOutlet private weak var nextEventDate: UILabel!
+    @IBOutlet private weak var nextEventDetails: UIStackView!
+    @IBOutlet private weak var currentEventProgress: UIProgressView!
 
-    @IBOutlet weak var eventsOverview: UIStackView!
-    @IBOutlet weak var noEventsView: UILabel!
+    @IBOutlet private weak var eventsOverview: UIStackView!
+    @IBOutlet private weak var noEventsView: UILabel!
 
     static let noEventsMessage = "Für heute gibt es keine weiteren Termine."
     static let noPermissionMessage = "Fehlende Kalenderberechtigung"

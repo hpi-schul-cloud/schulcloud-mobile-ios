@@ -14,10 +14,10 @@ import BrightFutures
 class LoadingViewController: UIViewController  {
     //MARK: Lifecycle
 
-    @IBOutlet var progressView: UIProgressView!
-    @IBOutlet var errorLabel: UILabel!
-    @IBOutlet var cancelButton: UIButton!
-    @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private var progressView: UIProgressView!
+    @IBOutlet private var errorLabel: UILabel!
+    @IBOutlet private var cancelButton: UIButton!
+    @IBOutlet private var activityIndicator: UIActivityIndicatorView!
 
     var downloadTask: URLSessionDownloadTask?
 
