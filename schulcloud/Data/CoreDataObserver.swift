@@ -97,7 +97,6 @@ class CoreDataObserver {
             }
         }
 
-
         if !courseChanges.isEmpty {
             FileHelper.processCourseUpdates(changes: courseChanges)
         }

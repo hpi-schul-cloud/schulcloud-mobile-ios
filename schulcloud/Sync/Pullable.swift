@@ -7,7 +7,6 @@ import Foundation
 import CoreData
 import Marshal
 
-
 protocol Pullable: ResourceRepresentable {
 
     static func value(from object: ResourceData, with context: SynchronizationContext) throws -> Self

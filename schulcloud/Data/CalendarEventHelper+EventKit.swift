@@ -7,7 +7,6 @@ import Foundation
 import EventKit
 import BrightFutures
 
-
 // MARK: Extension with EvenKit convenience
 extension CalendarEventHelper {
 

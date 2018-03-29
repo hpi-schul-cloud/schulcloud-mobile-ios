@@ -115,7 +115,6 @@ class WebviewPreviewViewContoller: UIViewController {
 
     }
 
-
     // Make sure we convert HTML special characters
     // Code from https://gist.github.com/mikesteele/70ae98d04fdc35cb1d5f
     func convertSpecialCharacters(_ string: String?) -> String? {

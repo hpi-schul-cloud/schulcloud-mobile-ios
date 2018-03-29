@@ -69,9 +69,4 @@ class HtmlTableViewCell: UITableViewCell, UIWebViewDelegate {
         tableView?.endUpdates()
     }
 
-
-
-
-
-
 }

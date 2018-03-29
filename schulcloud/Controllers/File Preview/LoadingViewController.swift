@@ -10,7 +10,6 @@ import Foundation
 import QuickLook
 import BrightFutures
 
-
 class LoadingViewController: UIViewController  {
     //MARK: Lifecycle
 
@@ -33,7 +32,6 @@ class LoadingViewController: UIViewController  {
     override func viewWillDisappear(_ animated: Bool) {
         downloadTask?.cancel()
     }
-
 
     @IBAction func cancelButtonTapped(_ sender: Any) {
         downloadTask?.cancel()

@@ -160,7 +160,6 @@ struct SyncEngine {
         return .success(request)
     }
 
-
     // MARK: - core data operation
 
     private static func fetchCoreDataObjects<Resource>(withFetchRequest fetchRequest: NSFetchRequest<Resource>, inContext context: NSManagedObjectContext) -> Future<[Resource], SyncError> where Resource: NSManagedObject & Pullable {

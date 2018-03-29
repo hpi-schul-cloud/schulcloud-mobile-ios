@@ -7,7 +7,6 @@ import BrightFutures
 import CoreData
 import Foundation
 
-
 struct SyncHelper {
 
     private static let syncConfiguration = SchulcloudSyncConfig()

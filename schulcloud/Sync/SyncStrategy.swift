@@ -18,7 +18,6 @@ protocol SyncStrategy {
     func extractResourceData(from object: ResourceData) throws -> ResourceData
     func extractResourceData(from object: ResourceData) throws -> [ResourceData]
 
-
     func extractIncludedResourceData(from object: ResourceData) -> [ResourceData]
     func findIncludedObject(forKey key: KeyType,
                             ofObject object: ResourceData,

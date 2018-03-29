@@ -6,7 +6,6 @@
 import Marshal
 import Result
 
-
 protocol SchulcloudSyncStrategy: SyncStrategy {}
 
 extension SchulcloudSyncStrategy {
