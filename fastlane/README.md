@@ -38,6 +38,11 @@ fastlane ios determine_commit
 Determines the commit for a given build number
 
 - pass build number via 'build_number:xxx'
+### ios lint
+```
+fastlane ios lint
+```
+Lint swift code with swiftline
 ### ios make_screenshots
 ```
 fastlane ios make_screenshots

@@ -54,6 +54,7 @@ PODS:
   - Protobuf (3.3.0)
   - Result (3.2.4)
   - SimpleRoundedButton (1.0)
+  - SwiftLint (0.25.0)
   - SwiftyBeaver (1.4.0)
   - SwiftyJSON (3.1.4)
 
@@ -69,6 +70,7 @@ DEPENDENCIES:
   - Locksmith
   - Marshal
   - SimpleRoundedButton
+  - SwiftLint (~> 0.25)
   - SwiftyBeaver (from `https://github.com/SwiftyBeaver/SwiftyBeaver.git`, commit `e4563d1`)
   - SwiftyJSON (~> 3)
 
@@ -102,9 +104,10 @@ SPEC CHECKSUMS:
   Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   SimpleRoundedButton: d7f2be107afb25c56149f4c0df541169ca6af48c
+  SwiftLint: e14651157288e9e01d6e1a71db7014fb5744a8ea
   SwiftyBeaver: 6d10886c590bc0c7bd42f8c6f54c6bfea71c49d6
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: edb43b3abe148415c9e3db0e5a6cb15987379178
+PODFILE CHECKSUM: 7955c0b05f5891ba8817e400f8e6fbe1a112645f
 
 COCOAPODS: 1.4.0

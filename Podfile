@@ -3,6 +3,8 @@ inhibit_all_warnings!
 
 platform :ios, '10.0'
 
+pod 'SwiftLint', '~> 0.25'
+
 target 'schulcloud' do
   pod 'Alamofire', '4.4.0'
   pod 'BrightFutures', '6.0.0'
