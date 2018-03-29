@@ -74,6 +74,10 @@ class HomeworkOverviewViewController: UIViewController {
 
 }
 
-extension HomeworkOverviewViewController : ViewControllerHeightDataSource {
+extension HomeworkOverviewViewController : ViewHeightDataSource {
     var height: CGFloat { return 200 }
+}
+
+extension HomeworkOverviewViewController : PermissionInfoDataSource {
+    static var managedPermissions : UserPermissions { return UserPermissions.homeworkView }
 }
