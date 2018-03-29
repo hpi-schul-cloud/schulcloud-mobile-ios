@@ -16,7 +16,7 @@ extension NSMutableAttributedString {
 
         let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
             .documentType: NSAttributedString.DocumentType.html,
-            .characterEncoding: NSNumber(value: String.Encoding.utf8.rawValue)
+            .characterEncoding: NSNumber(value: String.Encoding.utf8.rawValue),
         ]
         guard let attributedString = try? NSMutableAttributedString(data: data, options: options, documentAttributes: nil) else {
             return nil

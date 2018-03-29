@@ -59,7 +59,7 @@ class SCNotifications {
             "name": "iOS device",
             "token": Globals.account!.userId,
             "device_token": deviceToken,
-            "OS": "ios"
+            "OS": "ios",
         ]
 
         return Future(value: ())
@@ -80,13 +80,11 @@ class SCNotifications {
     static func initializeMessaging() {
         UNUserNotificationCenter.current().delegate = UIApplication.shared.delegate as! AppDelegate
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-        UNUserNotificationCenter.current().requestAuthorization(
-            options: authOptions,
-            completionHandler: {_, error in
-                if let error = error {
-                    log.error(error)
-                }
-        })
+        UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { _, error in
+            if let error = error {
+                log.error(error)
+            }
+        }
 
         FIRMessaging.messaging().remoteMessageDelegate = RemoteMessageDelegate.shared
 

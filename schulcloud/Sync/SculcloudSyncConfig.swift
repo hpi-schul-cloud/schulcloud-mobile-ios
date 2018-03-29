@@ -10,7 +10,7 @@ struct SchulcloudSyncConfig: SyncConfig {
     var baseURL: URL = Constants.backend.url
 
     var requestHeaders: [String: String] = [
-        "Authorization": Globals.account!.accessToken!
+        "Authorization": Globals.account!.accessToken!,
     ]
 
     var persistentContainer: NSPersistentContainer {

@@ -137,9 +137,7 @@ extension NSManagedObjectContext {
 // See https://oleb.net/blog/2018/02/performandwait/
 extension NSManagedObjectContext {
     func performAndWait<T>(_ block: () throws -> T) rethrows -> T {
-        return try _performAndWaitHelper(
-            task: performAndWait, execute: block, rescue: { throw $0 }
-        )
+        return try _performAndWaitHelper( task: performAndWait, execute: block) { throw $0 }
     }
 
     /// Helper function for convincing the type checker that

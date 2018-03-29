@@ -323,4 +323,3 @@ extension UserPermissions: SetAlgebra {
                                           self.rawValue.1 - (self.rawValue.1 & other.rawValue.1)) )
     }
 }
-

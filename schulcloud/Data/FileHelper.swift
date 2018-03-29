@@ -96,7 +96,7 @@ class FileSync: NSObject {
         let parameters: Any = [
             "path": file.url.absoluteString.removingPercentEncoding!,
             //"fileType": mime.lookup(file),
-            "action": "getObject"
+            "action": "getObject",
         ]
 
         request.httpBody = try! JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
@@ -307,8 +307,12 @@ class FileHelper {
                     return
                 }
 
-                let createdFiles = try files.map({ try File.createOrUpdate(inContext: context, parentFolder: parentFolder, isDirectory: false, data: $0) })
-                let createdFolders = try folders.map({ try File.createOrUpdate(inContext: context, parentFolder: parentFolder, isDirectory: true, data: $0) })
+                let createdFiles = try files.map {
+                    try File.createOrUpdate(inContext: context, parentFolder: parentFolder, isDirectory: false, data: $0)
+                }
+                let createdFolders = try folders.map {
+                    try File.createOrUpdate(inContext: context, parentFolder: parentFolder, isDirectory: true, data: $0)
+                }
 
                 // remove deleted files or folders
                 let foundPaths = createdFiles.map { $0.currentPath } + createdFolders.map { $0.currentPath }

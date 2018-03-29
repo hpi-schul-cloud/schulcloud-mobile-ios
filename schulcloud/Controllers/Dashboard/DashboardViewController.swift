@@ -147,10 +147,10 @@ extension DashboardViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.currentDesign == .extended ? viewControllers.count : viewControllers.filter({ viewController -> Bool in
+        return self.currentDesign == .extended ? viewControllers.count : viewControllers.filter { viewController -> Bool in
             guard let viewController = viewController as? DashboardNoPermissionViewController else { return true }
             return viewController.missingPermission != .notificationView
-        }).count
+        }.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

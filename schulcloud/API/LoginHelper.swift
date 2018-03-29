@@ -16,7 +16,7 @@ class LoginHelper {
 
         let parameters: Parameters = [
             "username": username as Any,
-            "password": password as Any
+            "password": password as Any,
         ]
 
         let loginEndpoint = Constants.backend.url.appendingPathComponent("authentication/")
