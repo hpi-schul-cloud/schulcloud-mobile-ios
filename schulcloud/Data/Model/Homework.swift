@@ -57,7 +57,7 @@ extension Homework {
     }
 
     var dueTextAndColor: (String, UIColor) {
-        let highlightColor = UIColor(red: 1.0, green: 45/255, blue: 0.0, alpha: 1.0)
+        let highlightColor = UIColor(red: 1.0, green: 45 / 255, blue: 0.0, alpha: 1.0)
         let timeDifference = Calendar.current.dateComponents([.day, .hour], from: Date(), to: self.dueDate as Date)
 
         guard let dueDay = timeDifference.day, !self.publicSubmissions else {

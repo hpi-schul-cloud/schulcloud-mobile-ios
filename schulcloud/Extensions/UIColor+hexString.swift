@@ -9,7 +9,7 @@ extension UIColor {
 
     // Taken from https://gist.github.com/yannickl/16f0ed38f0698d9a8ae7
     convenience init?(hexString: String) {
-        let hexString = hexString.trimmingCharacters(in: .whitespacesAndNewlines )
+        let hexString = hexString.trimmingCharacters(in: .whitespacesAndNewlines)
         let scanner = Scanner(string: hexString)
 
         if (hexString.hasPrefix("#")) {
@@ -27,9 +27,9 @@ extension UIColor {
             let g = Int(color >> 8) & mask
             let b = Int(color) & mask
 
-            red   = CGFloat(r) / 255.0
+            red = CGFloat(r) / 255.0
             green = CGFloat(g) / 255.0
-            blue  = CGFloat(b) / 255.0
+            blue = CGFloat(b) / 255.0
         }
 
         self.init(red: red, green: green, blue: blue, alpha: 1)

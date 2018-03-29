@@ -310,6 +310,7 @@ class FileHelper {
                 let createdFiles = try files.map {
                     try File.createOrUpdate(inContext: context, parentFolder: parentFolder, isDirectory: false, data: $0)
                 }
+
                 let createdFolders = try folders.map {
                     try File.createOrUpdate(inContext: context, parentFolder: parentFolder, isDirectory: true, data: $0)
                 }

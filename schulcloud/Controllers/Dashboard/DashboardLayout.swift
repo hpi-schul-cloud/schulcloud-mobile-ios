@@ -74,7 +74,7 @@ final class DashboardLayout: UICollectionViewLayout {
             let isFirstColumn = column == 0
             let isLastColumn = column == (columnCount - 1)
             let leftInset: CGFloat = isFirstColumn ? 0.0 : horizontalInset
-            let rightInset: CGFloat  = isLastColumn ? 0.0 : horizontalInset
+            let rightInset: CGFloat = isLastColumn ? 0.0 : horizontalInset
             let edgeInset = UIEdgeInsets(top: verticalInset, left: leftInset, bottom: verticalInset, right: rightInset)
             let finalFrame = UIEdgeInsetsInsetRect(itemFrame, edgeInset)
 

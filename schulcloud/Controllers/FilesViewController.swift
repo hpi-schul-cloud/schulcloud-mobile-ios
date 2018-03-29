@@ -43,7 +43,7 @@ class FilesViewController: UITableViewController {
         } else if FileHelper.sharedDirectoryID == currentFolder.id {
             future = fileSync.downloadSharedFiles()
             .flatMap { objects -> Future<Void, SCError> in
-                var updates: [Future<Void,SCError>] = []
+                var updates: [Future<Void, SCError>] = []
                 for json in objects {
                     updates.append(FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json))
                 }

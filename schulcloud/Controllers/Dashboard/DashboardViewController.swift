@@ -31,7 +31,7 @@ final class DashboardViewController: UICollectionViewController {
     lazy var calendarOverview: CalendarOverviewViewController = self.buildFromStoryboard(withIdentifier: "CalendarOverview")
     lazy var homeworkOverview: HomeworkOverviewViewController = self.buildFromStoryboard(withIdentifier: "HomeworkOverview")
     lazy var notificationOverview = self.buildNotificationOverviewFromStroyboard()
-    lazy var newsOverview  = self.buildNewsOverviewFromStoryboard()
+    lazy var newsOverview = self.buildNewsOverviewFromStoryboard()
 
     var viewControllers: [DynamicHeightViewController] = []
 

@@ -9,7 +9,6 @@ import SwiftyBeaver
 import UIKit
 import UserNotifications
 
-
 let log = SwiftyBeaver.self
 
 @UIApplicationMain

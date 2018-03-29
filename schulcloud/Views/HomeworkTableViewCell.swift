@@ -16,13 +16,13 @@ class HomeworkTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        self.coloredStrip.layer.cornerRadius = self.coloredStrip.frame.size.height/2
+        self.coloredStrip.layer.cornerRadius = self.coloredStrip.frame.size.height / 2.0
         self.coloredStrip.layer.masksToBounds = true
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.coloredStrip.layer.cornerRadius = self.coloredStrip.frame.size.height/2.0
+        self.coloredStrip.layer.cornerRadius = self.coloredStrip.frame.size.height / 2.0
     }
 
     func configure(for homework: Homework) {

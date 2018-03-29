@@ -95,7 +95,7 @@ class LoginHelper {
             let expiration = jwt.body["exp"] as! Int64
             let interval = TimeInterval(exactly: expiration)!
             let expirationDate = Date(timeIntervalSince1970: interval)
-            let threeHourBuffer = TimeInterval(exactly: 60*60*3)!
+            let threeHourBuffer = TimeInterval(exactly: 60 * 60 * 3)!
             let isValid = Date() < expirationDate - threeHourBuffer
             return isValid ? account : nil
         } catch let error {

@@ -17,7 +17,7 @@ class HomeworkDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.coloredStrip.layer.cornerRadius = self.coloredStrip.frame.size.height/2.0
+        self.coloredStrip.layer.cornerRadius = self.coloredStrip.frame.size.height / 2.0
 
         guard let homework = self.homework else { return }
         self.configure(for: homework)

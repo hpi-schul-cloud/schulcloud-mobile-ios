@@ -37,7 +37,7 @@ class CalendarEventHelperTests: XCTestCase {
 
     // MARK: convenience
     func makeDatePair(_ startStr: String, _ endStr: String) -> (Date, Date) {
-        return ( self.formatter.date(from: startStr)!, self.formatter.date(from: endStr)! )
+        return (self.formatter.date(from: startStr)!, self.formatter.date(from: endStr)!)
     }
 
     // MARK: Calendar Event initialisation tests
@@ -86,7 +86,7 @@ class CalendarEventHelperTests: XCTestCase {
     }
 
     func testThatItGeneratesForTheGiventInterval() {
-        let (start, end) = makeDatePair("02.10.2017 15:00","02.10.2017 16:00")
+        let (start, end) = makeDatePair("02.10.2017 15:00", "02.10.2017 16:00")
         let interval = 4
 
         let rule = CalendarEvent.RecurrenceRule(frequency: .daily, dayOfTheWeek: .monday, endDate: nil, interval: interval)
@@ -121,7 +121,7 @@ class CalendarEventHelperTests: XCTestCase {
     }
 
     func testThatDatesHaveCorrectFrequenciesForWeeklyEvent() {
-        let (start, end) = makeDatePair("02.10.2017 15:00","02.10.2017 16:00")
+        let (start, end) = makeDatePair("02.10.2017 15:00", "02.10.2017 16:00")
 
         let weeklyRule = CalendarEvent.RecurrenceRule(frequency: .weekly, dayOfTheWeek: .monday, endDate: nil, interval: 1)
         let weeklyEvent = CalendarEvent(start: start, end: end, rule: weeklyRule)
@@ -135,7 +135,7 @@ class CalendarEventHelperTests: XCTestCase {
     }
 
     func testThatDatesHaveCorrectFrequenciesForMonthlyEvent() {
-        let (start, end) = makeDatePair("02.10.2017 15:00","02.10.2017 16:00")
+        let (start, end) = makeDatePair("02.10.2017 15:00", "02.10.2017 16:00")
 
         let monthlyRule = CalendarEvent.RecurrenceRule(frequency: .monthly, dayOfTheWeek: .monday, endDate: nil, interval: 1)
         let monthlyEvent = CalendarEvent(start: start, end: end, rule: monthlyRule)
@@ -149,7 +149,7 @@ class CalendarEventHelperTests: XCTestCase {
     }
 
     func testThatDatesHaveCorrectFrequenciesForYearlyEvent() {
-        let (start, end) = makeDatePair("02.10.2017 15:00","02.10.2017 16:00")
+        let (start, end) = makeDatePair("02.10.2017 15:00", "02.10.2017 16:00")
 
         let yearlyRule = CalendarEvent.RecurrenceRule(frequency: .yearly, dayOfTheWeek: .monday, endDate: nil, interval: 1)
         let yearlyEvent = CalendarEvent(start: start, end: end, rule: yearlyRule)

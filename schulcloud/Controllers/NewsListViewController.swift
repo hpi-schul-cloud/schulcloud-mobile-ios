@@ -6,7 +6,7 @@
 import CoreData
 import UIKit
 
-class NewsListViewController: UITableViewController,  NSFetchedResultsControllerDelegate {
+class NewsListViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
     // MARK: - UI Methods
     override func viewDidLoad() {

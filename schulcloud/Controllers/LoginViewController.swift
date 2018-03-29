@@ -79,7 +79,7 @@ class LoginViewController: UIViewController {
 
         let viewHeight = self.view.frame.size.height - contentInset
 
-        let overlappingOffset = 0.5*viewHeight - keyboardHeight - 0.5*self.inputContainer.frame.size.height - 8.0
+        let overlappingOffset = 0.5 * viewHeight - keyboardHeight - 0.5 * self.inputContainer.frame.size.height - 8.0
         self.centerInputConstraints.constant = min(overlappingOffset, 0)  // we only want to move the container upwards
 
         UIView.animate(withDuration: 0.25) {
