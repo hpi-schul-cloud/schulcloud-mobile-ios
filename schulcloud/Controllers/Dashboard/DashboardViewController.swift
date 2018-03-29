@@ -145,8 +145,8 @@ extension DashboardViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.currentDesign == .extended ? viewControllers.count : viewControllers.filter({ (vc) -> Bool in
-            guard let vc = vc as? DashboardNoPermissionViewController else { return true }
-            return vc.missingPermission != .notificationView
+            guard let vc = vc as? PermissionManagmentViewController<ShortNotificationViewController> else { return true }
+            return vc.hasPermission
         }).count
     }
 
