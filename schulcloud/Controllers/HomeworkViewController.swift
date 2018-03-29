@@ -10,9 +10,9 @@
 ///   Student only
 ///     submissionCreate/submissionEdit/submissionView for homework submission
 
-import UIKit
 import CoreData
 import DateToolsSwift
+import UIKit
 
 class HomeworkViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 

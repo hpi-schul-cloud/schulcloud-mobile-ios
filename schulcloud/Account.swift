@@ -3,9 +3,9 @@
 //  Copyright © HPI. All rights reserved.
 //
 
+import CoreData
 import Foundation
 import Locksmith
-import CoreData
 
 struct SchulCloudAccount: CreateableSecureStorable, ReadableSecureStorable, DeleteableSecureStorable, GenericPasswordSecureStorable, SecureStorableResultType {
 

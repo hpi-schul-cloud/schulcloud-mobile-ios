@@ -3,8 +3,8 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import Foundation
 import DateToolsSwift
+import Foundation
 
 extension Date {
 

@@ -3,9 +3,9 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import UIKit
 import BrightFutures
 import CoreData
+import UIKit
 
 private var currentEventKitSettings = CalendarEventHelper.EventKitSettings.current
 

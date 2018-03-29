@@ -6,9 +6,9 @@
 /// TODO: Cancel request when poping
 
 import Alamofire
+import BrightFutures
 import Foundation
 import QuickLook
-import BrightFutures
 
 class LoadingViewController: UIViewController  {
     //MARK: Lifecycle

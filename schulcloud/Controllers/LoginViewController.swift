@@ -3,11 +3,11 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import UIKit
 import Alamofire
+import JWTDecode
 import Locksmith
 import SimpleRoundedButton
-import JWTDecode
+import UIKit
 
 class LoginViewController: UIViewController {
 

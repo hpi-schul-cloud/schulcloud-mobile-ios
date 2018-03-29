@@ -3,8 +3,8 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import UIKit
 import Marshal
+import UIKit
 
 struct SCNotification: Unmarshaling {
     let body: String

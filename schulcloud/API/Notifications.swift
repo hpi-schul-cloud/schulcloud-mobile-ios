@@ -8,10 +8,10 @@ import BrightFutures
 import Foundation
 
 // firebase messaging
-import UserNotifications
 import Firebase
 import FirebaseInstanceID
 import FirebaseMessaging
+import UserNotifications
 
 class SCNotifications {
 

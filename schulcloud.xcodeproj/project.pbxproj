@@ -70,7 +70,6 @@
 		C32870C21EE0250500ABA348 /* LessonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870C11EE0250500ABA348 /* LessonsViewController.swift */; };
 		C3418B601ECDAB9F00280E62 /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3418B5F1ECDAB9F00280E62 /* FileHelper.swift */; };
 		C3418B621ECEE6FB00280E62 /* FilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3418B611ECEE6FB00280E62 /* FilesViewController.swift */; };
-		C3418B641ED2E89F00280E62 /* FileListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3418B631ED2E89F00280E62 /* FileListCell.swift */; };
 		C3418B671ED335F400280E62 /* PreviewTransitionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */; };
 		C3418B681ED335F400280E62 /* WebviewPreviewViewContoller.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */; };
 		C3418B6F1ED5CF1F00280E62 /* Date+Marshal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3418B6E1ED5CF1F00280E62 /* Date+Marshal.swift */; };
@@ -217,7 +216,6 @@
 		C32870C11EE0250500ABA348 /* LessonsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonsViewController.swift; sourceTree = "<group>"; };
 		C3418B5F1ECDAB9F00280E62 /* FileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileHelper.swift; sourceTree = "<group>"; };
 		C3418B611ECEE6FB00280E62 /* FilesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilesViewController.swift; sourceTree = "<group>"; };
-		C3418B631ED2E89F00280E62 /* FileListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileListCell.swift; sourceTree = "<group>"; };
 		C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreviewTransitionViewController.xib; sourceTree = "<group>"; };
 		C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebviewPreviewViewContoller.xib; sourceTree = "<group>"; };
 		C3418B6E1ED5CF1F00280E62 /* Date+Marshal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Marshal.swift"; sourceTree = "<group>"; };
@@ -349,7 +347,6 @@
 			children = (
 				C3C080541EE607F6005FA7C3 /* CourseCell.swift */,
 				C3165F1C1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift */,
-				C3418B631ED2E89F00280E62 /* FileListCell.swift */,
 				50A1CDE51F501AC5006E9B69 /* NotificationCell.swift */,
 				CE737A4D1FFE65B0006DAB54 /* NewsArticleCell.swift */,
 				5060457F206A452C009569D1 /* NewsArticleOverviewCell.swift */,
@@ -975,7 +972,6 @@
 				C32870BE1EDF356800ABA348 /* CourseHelper.swift in Sources */,
 				50B44D8B203AAEE1009DC2D3 /* Homework.swift in Sources */,
 				507A5CC82020D1B2009B1F95 /* SynchronizationError.swift in Sources */,
-				C3418B641ED2E89F00280E62 /* FileListCell.swift in Sources */,
 				50F39854202C8E7300ADAE5D /* SyncStrategy.swift in Sources */,
 				509A933A1F541668001167DE /* ShortNotificationViewController.swift in Sources */,
 				50F3985C202D9B0000ADAE5D /* JsonAPISyncStrategy.swift in Sources */,

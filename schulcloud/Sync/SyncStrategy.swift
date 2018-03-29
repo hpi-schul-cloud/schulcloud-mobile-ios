@@ -4,8 +4,8 @@
 //
 
 import Foundation
-import Result
 import Marshal
+import Result
 
 protocol SyncStrategy {
 

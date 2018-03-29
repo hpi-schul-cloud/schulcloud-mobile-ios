@@ -3,11 +3,11 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import Foundation
 import Alamofire
 import BrightFutures
-import Locksmith
+import Foundation
 import JWTDecode
+import Locksmith
 
 class LoginHelper {
 

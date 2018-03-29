@@ -3,10 +3,10 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import UIKit
-import EventKit
 import CalendarKit
 import DateToolsSwift
+import EventKit
+import UIKit
 
 class CalendarViewController: DayViewController {
 

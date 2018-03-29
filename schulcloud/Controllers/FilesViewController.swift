@@ -14,9 +14,9 @@
 ///    folderCreate -> Create a folder (requires filestorageCreate). Currently not implemented on backend, only requires filestorageCreate.
 ///    folderDelete -> Delete a folder (requires filestorageRemove). Currently not implemented on backend, only requires filestorageRemove.
 
-import UIKit
-import CoreData
 import BrightFutures
+import CoreData
+import UIKit
 
 class FilesViewController: UITableViewController {
 
@@ -173,7 +173,7 @@ extension FilesViewController {
         let item = fetchedResultsController.object(at: indexPath)
 
         let reuseIdentifier = item.detail == nil ? "item" : "item detail"
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) //as! FileListCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
 
         cell.textLabel?.text = item.name
         cell.detailTextLabel?.text = item.detail

@@ -3,9 +3,9 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import UIKit
-import EventKit
 import DateToolsSwift
+import EventKit
+import UIKit
 
 class CalendarOverviewViewController: UIViewController {
 

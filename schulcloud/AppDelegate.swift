@@ -3,10 +3,10 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import UIKit
 import CoreData
-import UserNotifications
 import Firebase
+import UIKit
+import UserNotifications
 
 import SwiftyBeaver
 let log = SwiftyBeaver.self

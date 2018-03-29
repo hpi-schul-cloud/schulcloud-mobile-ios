@@ -3,9 +3,9 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import Foundation
-import EventKit
 import BrightFutures
+import EventKit
+import Foundation
 
 // MARK: Extension with EvenKit convenience
 extension CalendarEventHelper {
