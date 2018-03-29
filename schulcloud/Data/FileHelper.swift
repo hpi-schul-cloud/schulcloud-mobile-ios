@@ -9,15 +9,15 @@ import BrightFutures
 import CoreData
 import Marshal
 
-class FileSync : NSObject {
+class FileSync: NSObject {
 
     typealias ProgressHandler = (Float) -> ()
 
-    fileprivate var fileTransferSession : URLSession!
-    fileprivate let fileDataSession : URLSession
+    fileprivate var fileTransferSession: URLSession!
+    fileprivate let fileDataSession: URLSession
 
-    var runningTask : [Int: Promise<Data, SCError>] = [:]
-    var progressHandlers : [Int : ProgressHandler] = [:]
+    var runningTask: [Int: Promise<Data, SCError>] = [:]
+    var progressHandlers: [Int: ProgressHandler] = [:]
 
     override init() {
         let configuration = URLSessionConfiguration.ephemeral
@@ -33,7 +33,7 @@ class FileSync : NSObject {
         fileTransferSession.invalidateAndCancel()
     }
 
-    private var fileStorageURL : URL {
+    private var fileStorageURL: URL {
         return Constants.backend.url.appendingPathComponent("fileStorage")
     }
 
@@ -50,11 +50,11 @@ class FileSync : NSObject {
         return request
     }
 
-    func downloadContent(for file: File) -> Future<([String : Any]), SCError> {
+    func downloadContent(for file: File) -> Future<[String: Any], SCError> {
         guard file.isDirectory else { return Future(error: .other("only works on directory") ) }
 
         let request = self.request(for: getUrl(for: file)! )
-        let promise : Promise<[String : Any], SCError> = Promise()
+        let promise: Promise<[String: Any], SCError> = Promise()
         fileDataSession.dataTask(with: request) { (data, response, error) in
             var responseData: Data
             do {
@@ -67,7 +67,7 @@ class FileSync : NSObject {
                 return
             }
 
-            guard let json = (try? JSONSerialization.jsonObject(with: responseData, options: .allowFragments)) as? [String : Any] else {
+            guard let json = (try? JSONSerialization.jsonObject(with: responseData, options: .allowFragments)) as? [String: Any] else {
                 promise.failure(SCError.jsonDeserialization("Can't deserialize"))
                 return
             }
@@ -117,19 +117,19 @@ class FileSync : NSObject {
         return promise.future
     }
 
-    func downloadSharedFiles() -> Future<[[String:Any]], SCError> {
-        let promise = Promise<[[String:Any]], SCError>()
+    func downloadSharedFiles() -> Future<[[String: Any]], SCError> {
+        let promise = Promise<[[String: Any]], SCError>()
 
         let request = self.request(for: Constants.backend.url.appendingPathComponent("files") )
         fileDataSession.dataTask(with: request) { (data, response, error) in
             do {
                 let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
                 let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! MarshaledObject
-                let files : [MarshaledObject] = try json.value(for: "data")
+                let files: [MarshaledObject] = try json.value(for: "data")
                 let sharedFiles = files.filter({ (object) -> Bool in
                     return (try? object.value(for: "context")) == "geteilte Datei"
                 })
-                promise.success(sharedFiles as! [[String:Any]])
+                promise.success(sharedFiles as! [[String: Any]])
             } catch let error as SCError {
                 promise.failure(error)
             } catch let error {
@@ -143,7 +143,7 @@ class FileSync : NSObject {
         guard error == nil else {
             throw SCError.network(error)
         }
-        guard let response = response as?  HTTPURLResponse,
+        guard let response = response as? HTTPURLResponse,
             200 ... 299 ~= response.statusCode else {
                 throw SCError.network(nil)
         }
@@ -155,7 +155,7 @@ class FileSync : NSObject {
 
 }
 
-extension FileSync : URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownloadDelegate {
+extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownloadDelegate {
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         let promise = runningTask[downloadTask.taskIdentifier]
         do {
@@ -188,11 +188,11 @@ class FileHelper {
     static var rootDirectoryID = "root"
     static var coursesDirectoryID = "courses"
     static var sharedDirectoryID = "shared"
-    static var userDirectoyID : String {
+    static var userDirectoyID: String {
         return "users/\(Globals.account?.userId ?? "")"
     }
 
-    private static var notSynchronizedPath : [String] = {
+    private static var notSynchronizedPath: [String] = {
         return [rootDirectoryID]
     }()
 
@@ -202,11 +202,11 @@ class FileHelper {
         return url.appendingPathComponent(userId, isDirectory: true)
     }
 
-    fileprivate static var coursesDataRootURL : URL = {
+    fileprivate static var coursesDataRootURL: URL = {
         return URL(string: coursesDirectoryID)!
     }()
 
-    fileprivate static var sharedDataRootURL : URL = {
+    fileprivate static var sharedDataRootURL: URL = {
         return URL(string: sharedDirectoryID)!
     }()
 
@@ -272,7 +272,7 @@ class FileHelper {
     }
 
     static func delete(file: File) -> Future<Void, SCError> {
-        struct DidSuccess : Unmarshaling {
+        struct DidSuccess: Unmarshaling {
             init(object: MarshaledObject) throws {
             }
         }

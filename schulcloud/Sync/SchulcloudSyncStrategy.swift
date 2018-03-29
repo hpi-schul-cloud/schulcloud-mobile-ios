@@ -7,11 +7,11 @@ import Marshal
 import Result
 
 
-protocol SchulcloudSyncStrategy : SyncStrategy {}
+protocol SchulcloudSyncStrategy: SyncStrategy {}
 
 extension SchulcloudSyncStrategy {
 
-    func queryItems<Query>(forQuery query: Query) -> [URLQueryItem] where Query : ResourceQuery {
+    func queryItems<Query>(forQuery query: Query) -> [URLQueryItem] where Query: ResourceQuery {
         var queryItems: [URLQueryItem] = []
 
         // includes
@@ -86,10 +86,10 @@ extension SchulcloudSyncStrategy {
 
 }
 
-struct MainSchulcloudSyncStrategy : SchulcloudSyncStrategy {
+struct MainSchulcloudSyncStrategy: SchulcloudSyncStrategy {
     var resourceKeyAttribute: String = "_id"
 }
 
-struct CalendarSchulcloudSyncStrategy : SchulcloudSyncStrategy {
+struct CalendarSchulcloudSyncStrategy: SchulcloudSyncStrategy {
     var resourceKeyAttribute: String = "id"
 }

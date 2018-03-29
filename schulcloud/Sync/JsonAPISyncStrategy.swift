@@ -13,7 +13,7 @@ struct JsonAPISyncStrategy: SyncStrategy {
         return "id"
     }
 
-    func queryItems<Query>(forQuery query: Query) -> [URLQueryItem] where Query : ResourceQuery {
+    func queryItems<Query>(forQuery query: Query) -> [URLQueryItem] where Query: ResourceQuery {
         var queryItems: [URLQueryItem] = []
 
         // includes

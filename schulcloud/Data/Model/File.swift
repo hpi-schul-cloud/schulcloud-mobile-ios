@@ -28,13 +28,13 @@ final class File: NSManagedObject {
 
 extension File {
 
-    struct Permissions : OptionSet {
+    struct Permissions: OptionSet {
         let rawValue: Int64
 
         static let read = Permissions(rawValue: 1 << 1)
         static let write = Permissions(rawValue: 1 << 2)
 
-        static let read_write : Permissions = [.read, .write]
+        static let read_write: Permissions = [.read, .write]
 
         init(rawValue: Int64) {
             self.rawValue = rawValue
@@ -53,14 +53,14 @@ extension File {
 
         init(json: MarshaledObject) throws {
             let fetchedPersmissions: [String] = try json.value(for: "permissions")
-            let permissions : [Permissions] = fetchedPersmissions.flatMap { Permissions(str:$0) }
+            let permissions: [Permissions] = fetchedPersmissions.flatMap { Permissions(str: $0) }
             self.rawValue =  permissions.reduce([], { (acc, permission) -> Permissions in
                 return acc.union(permission)
             }).rawValue
         }
     }
 
-    var permissions : Permissions {
+    var permissions: Permissions {
         get {
             return Permissions(rawValue: self.permissions_)
         }
@@ -97,7 +97,7 @@ extension File {
         }
         file.parentDirectory = parentFolder
 
-        let permissionsObject : [MarshaledObject]? = try? data.value(for: "permissions")
+        let permissionsObject: [MarshaledObject]? = try? data.value(for: "permissions")
         let userPermission: MarshaledObject? = permissionsObject?.first { (data) -> Bool in
             if let userId: String = try? data.value(for: "userId"),
                 userId == Globals.account?.userId { //find permission for current user

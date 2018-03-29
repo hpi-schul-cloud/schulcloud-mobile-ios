@@ -43,7 +43,7 @@ class FilesViewController: UITableViewController {
         } else if FileHelper.sharedDirectoryID == currentFolder.id {
             future = fileSync.downloadSharedFiles()
             .flatMap { objects -> Future<Void, SCError> in
-                var updates : [Future<Void,SCError>] = []
+                var updates: [Future<Void,SCError>] = []
                 for json in objects {
                     updates.append(FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json))
                 }
@@ -97,7 +97,7 @@ class FilesViewController: UITableViewController {
 
 }
 
-extension FilesViewController : NSFetchedResultsControllerDelegate {
+extension FilesViewController: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         self.tableView.reloadData()
     }
@@ -128,7 +128,7 @@ extension FilesViewController {
 
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         guard let currentUser = Globals.currentUser else { return nil }
-        var actions : [UITableViewRowAction] = []
+        var actions: [UITableViewRowAction] = []
 
         //TODO: Implement!
         if false && currentUser.permissions.contains(.deletingFiles) {

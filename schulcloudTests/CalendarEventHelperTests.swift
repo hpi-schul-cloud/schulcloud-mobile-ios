@@ -98,7 +98,7 @@ class CalendarEventHelperTests: XCTestCase {
         guard let firstEvent = iterator.next(),
               let secondEvent = iterator.next() else {
             XCTFail()
-            return;
+            return
         }
 
         let component = Calendar.current.dateComponents([.day], from: firstEvent.start, to: secondEvent.start)

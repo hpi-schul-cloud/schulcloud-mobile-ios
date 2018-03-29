@@ -12,7 +12,7 @@ import BrightFutures
 extension CalendarEventHelper {
 
     private static var eventStore: EKEventStore = EKEventStore()
-    private static var calendar : EKCalendar?
+    private static var calendar: EKCalendar?
 
     private struct Keys {
         static let shouldSynchronize = "org.schul-cloud.calendar.eventKitShouldSynchronize"
@@ -21,8 +21,8 @@ extension CalendarEventHelper {
 
     struct EventKitSettings {
 
-        static var current : EventKitSettings = EventKitSettings()
-        var shouldSynchonize : Bool {
+        static var current: EventKitSettings = EventKitSettings()
+        var shouldSynchonize: Bool {
             get {
                 return UserDefaults.standard.bool(forKey: Keys.shouldSynchronize)
             }
@@ -32,7 +32,7 @@ extension CalendarEventHelper {
             }
         }
 
-        var calendarIdentifier : String? {
+        var calendarIdentifier: String? {
             get {
                 return UserDefaults.standard.string(forKey: Keys.calendarIdentifier)
             }
@@ -42,7 +42,7 @@ extension CalendarEventHelper {
                 UserDefaults.standard.synchronize()
             }
         }
-        var calendarTitle : String = "Schul-Cloud"
+        var calendarTitle: String = "Schul-Cloud"
     }
 
     // MARK: Event management
@@ -92,7 +92,7 @@ extension CalendarEventHelper {
             return calendar
         }
 
-        if let calendar = eventStore.calendars(for: .event).first (where:  { $0.title == EventKitSettings.current.calendarTitle }) {
+        if let calendar = eventStore.calendars(for: .event).first (where: { $0.title == EventKitSettings.current.calendarTitle }) {
             self.calendar = calendar
             return calendar
         }
@@ -125,8 +125,8 @@ extension CalendarEventHelper {
     static func push(events: [CalendarEvent], to calendar: EKCalendar) throws {
         CoreDataHelper.persistentContainer.performBackgroundTask { context in
             for var calendarEvent in events {
-                var event : EKEvent
-                var span : EKSpan
+                var event: EKEvent
+                var span: EKSpan
 
                 if let ekEventID = calendarEvent.eventKitID,
                     let foundEvent = eventStore.event(withIdentifier: ekEventID) {
@@ -171,7 +171,7 @@ extension CalendarEventHelper {
 
 // MARK: Convenience conversion
 extension CalendarEvent.RecurrenceRule {
-    var ekRecurrenceRule : EKRecurrenceRule {
+    var ekRecurrenceRule: EKRecurrenceRule {
         let until: EKRecurrenceEnd?
         if let endDate = self.endDate {
             until = EKRecurrenceEnd(end: endDate)
@@ -192,7 +192,7 @@ extension CalendarEvent.RecurrenceRule {
 }
 
 extension CalendarEvent.RecurrenceRule.Frequency {
-    var ekFrequency : EKRecurrenceFrequency {
+    var ekFrequency: EKRecurrenceFrequency {
         switch self {
         case .daily:
             return EKRecurrenceFrequency.daily
@@ -207,7 +207,7 @@ extension CalendarEvent.RecurrenceRule.Frequency {
 }
 
 extension CalendarEvent.RecurrenceRule.DayOfTheWeek {
-    var ekDayOfTheWeek : EKRecurrenceDayOfWeek {
+    var ekDayOfTheWeek: EKRecurrenceDayOfWeek {
         let ekWeekday: EKWeekday = {
             switch self {
             case .monday:

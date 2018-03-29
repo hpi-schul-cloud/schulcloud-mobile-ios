@@ -24,10 +24,10 @@ final class User: NSManagedObject {
 
 }
 
-final class PermissionStorage : NSObject, NSCoding {
+final class PermissionStorage: NSObject, NSCoding {
 
-    var byte0 : Int64 = 0
-    var byte1 : Int64 = 0
+    var byte0: Int64 = 0
+    var byte1: Int64 = 0
 
     init(byte1: Int64, byte0: Int64) {
         self.byte0 = byte0
@@ -63,7 +63,7 @@ extension User {
 
 }
 
-extension User : Pullable {
+extension User: Pullable {
 
     static var type: String {
         return "users"
@@ -74,14 +74,14 @@ extension User : Pullable {
         self.firstName = try object.value(for: "firstName")
         self.lastName = try object.value(for: "lastName")
 
-        let permissions : [String] = (try? object.value(for: "permissions")) ?? []
-        self.permissions = UserPermissions(array:permissions)
+        let permissions: [String] = (try? object.value(for: "permissions")) ?? []
+        self.permissions = UserPermissions(array: permissions)
     }
 
 }
 
 extension User {
-    var permissions : UserPermissions {
+    var permissions: UserPermissions {
         get {
             return UserPermissions(rawValue: (self.permissionStorage.byte0, self.permissionStorage.byte1) )
         }

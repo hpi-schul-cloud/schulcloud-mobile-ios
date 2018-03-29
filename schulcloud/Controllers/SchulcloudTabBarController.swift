@@ -5,7 +5,7 @@
 
 import UIKit
 
-final class SchulcloudTabBarController : UITabBarController {
+final class SchulcloudTabBarController: UITabBarController {
 
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -21,4 +21,5 @@ final class SchulcloudTabBarController : UITabBarController {
     func commonInit() {
         self.delegate = AppDelegate.instance
     }
+
 }

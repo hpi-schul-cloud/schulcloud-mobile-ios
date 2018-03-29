@@ -34,7 +34,7 @@ class schulcloudUITests: XCTestCase {
         let emailAdresseOderNutzernameTextField = app.textFields["Email-Adresse oder Nutzername"]
         emailAdresseOderNutzernameTextField.clear()
 
-        app.otherElements.containing(.image, identifier:"logo-text").element.tap()
+        app.otherElements.containing(.image, identifier: "logo-text").element.tap()
 
         snapshot("0Launch")
     }

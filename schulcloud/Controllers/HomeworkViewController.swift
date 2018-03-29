@@ -41,7 +41,7 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
     fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Homework> = {
 
         let now = Date()
-        let today : NSDate = Date(year: now.year, month: now.month, day: now.day) as NSDate
+        let today: NSDate = Date(year: now.year, month: now.month, day: now.day) as NSDate
 
         let fetchRequest: NSFetchRequest<Homework> = Homework.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dueDate", ascending: true)]

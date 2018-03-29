@@ -7,7 +7,7 @@ import Foundation
 import CoreData
 
 extension EventData {
-    var calendarEvent : CalendarEvent {
+    var calendarEvent: CalendarEvent {
         return CalendarEvent(eventData: self)
     }
 }
@@ -24,12 +24,12 @@ struct CalendarEvent {
     let end: Date
     let recurrenceRule: RecurrenceRule?
 
-    let coreDataID : NSManagedObjectID?
+    let coreDataID: NSManagedObjectID?
 
     var eventKitID: String? {
         didSet {
             if let objectID = self.coreDataID {
-                let event : EventData = CoreDataHelper.viewContext.object(with: objectID) as! EventData
+                let event: EventData = CoreDataHelper.viewContext.object(with: objectID) as! EventData
                 event.ekIdentifier = self.eventKitID
             }
         }
@@ -73,7 +73,7 @@ struct CalendarEvent {
     }
 
     init(eventData: EventData) {
-        var rule : RecurrenceRule? = nil
+        var rule: RecurrenceRule? = nil
 
         var startDate = eventData.start as Date
         var endDate = eventData.end as Date
@@ -85,7 +85,7 @@ struct CalendarEvent {
 
             rule = RecurrenceRule(frequency: frequency,
                                   dayOfTheWeek: dayOfWeek,
-                                  endDate:eventData.rrEndDate as Date?,
+                                  endDate: eventData.rrEndDate as Date?,
                                   interval: Int(eventData.rrInterval))
 
             // We receive date that starts at the beginning of the week when a recurring rule is specified
@@ -99,7 +99,7 @@ struct CalendarEvent {
             // we manually assign weekday indexes for each day, sunday being exception because in a german week sunday is the last day and not the first
             // to make things easy we simply assign sunday 8 (1 + 7days)
 
-            var dayOfWeekIndex : Int = {
+            var dayOfWeekIndex: Int = {
                 switch rule!.dayOfTheWeek {
                 case .sunday:
                     return 8
@@ -141,13 +141,13 @@ struct CalendarEvent {
 // MARK: Date sequence for event
 extension CalendarEvent {
 
-    var dates : EventSequence {
+    var dates: EventSequence {
         return EventSequence(calendarEvent: self, calculatedDate: [])
     }
 
-    struct EventSequence : Sequence {
+    struct EventSequence: Sequence {
 
-        var calendarEvent : CalendarEvent
+        var calendarEvent: CalendarEvent
         var calculatedDate: [CalendarEvent]
 
         func makeIterator() -> EventDateIterator {
@@ -155,10 +155,10 @@ extension CalendarEvent {
         }
     }
 
-    struct EventDateIterator : IteratorProtocol {
+    struct EventDateIterator: IteratorProtocol {
         typealias Element = CalendarEvent
 
-        var sequence : EventSequence
+        var sequence: EventSequence
         var iteration: Int = 0
 
         init(_ sequence: EventSequence) {

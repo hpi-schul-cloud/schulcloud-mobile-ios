@@ -117,7 +117,7 @@ class RemoteMessageDelegate: NSObject, FIRMessagingDelegate, UNUserNotificationC
 
             // dispatch the notification
             let center = UNUserNotificationCenter.current()
-            center.add(request) { (error : Error?) in
+            center.add(request) { (error: Error?) in
                 if let theError = error {
                     log.error(theError.localizedDescription)
                 }

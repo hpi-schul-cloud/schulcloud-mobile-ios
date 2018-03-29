@@ -6,35 +6,36 @@
 import UIKit
 
 protocol ViewControllerHeightDataSource: class {
-    var height : CGFloat { get }
+    var height: CGFloat { get }
 }
+
 typealias DynamicHeightViewController = UIViewController & ViewControllerHeightDataSource
 
 extension User {
-    var canDisplayNotification : Bool {
+    var canDisplayNotification: Bool {
         return  self.permissions.contains(.notificationView)
     }
 }
 
-final class DashboardViewController : UICollectionViewController {
+final class DashboardViewController: UICollectionViewController {
 
     enum Design {
         case reduced
         case extended
     }
 
-    @IBOutlet var notificationBarItem : UIBarButtonItem!
+    @IBOutlet var notificationBarItem: UIBarButtonItem!
 
-    lazy var noPermissionViewController : DashboardNoPermissionViewController = self.buildFromStoryboard(withIdentifier: "NoPermissionViewController")
+    lazy var noPermissionViewController: DashboardNoPermissionViewController = self.buildFromStoryboard(withIdentifier: "NoPermissionViewController")
 
-    lazy var calendarOverview : CalendarOverviewViewController = self.buildFromStoryboard(withIdentifier: "CalendarOverview")
-    lazy var homeworkOverview : HomeworkOverviewViewController = self.buildFromStoryboard(withIdentifier: "HomeworkOverview")
+    lazy var calendarOverview: CalendarOverviewViewController = self.buildFromStoryboard(withIdentifier: "CalendarOverview")
+    lazy var homeworkOverview: HomeworkOverviewViewController = self.buildFromStoryboard(withIdentifier: "HomeworkOverview")
     lazy var notificationOverview = self.buildNotificationOverviewFromStroyboard()
     lazy var newsOverview  = self.buildNewsOverviewFromStoryboard()
 
-    var viewControllers : [DynamicHeightViewController] = []
+    var viewControllers: [DynamicHeightViewController] = []
 
-    var currentDesign : Design {
+    var currentDesign: Design {
         return collectionView?.traitCollection.horizontalSizeClass == .regular ? .extended : .reduced
     }
 
@@ -42,7 +43,7 @@ final class DashboardViewController : UICollectionViewController {
         guard let currentUser = Globals.currentUser else { return }
 
         func makeNoPermissionController(missingPermission: UserPermissions) -> DashboardNoPermissionViewController {
-            let vc : DashboardNoPermissionViewController = self.buildFromStoryboard(withIdentifier: "NoPermissionViewController")
+            let vc: DashboardNoPermissionViewController = self.buildFromStoryboard(withIdentifier: "NoPermissionViewController")
             vc.view.translatesAutoresizingMaskIntoConstraints = false
             self.addChildViewController(vc)
             vc.missingPermission = missingPermission
@@ -125,7 +126,7 @@ final class DashboardViewController : UICollectionViewController {
     }
 
     private func buildNewsOverviewFromStoryboard() -> NewsOverviewViewController {
-        let vc : NewsOverviewViewController = self.buildFromStoryboard(withIdentifier: "NewsOverview")
+        let vc: NewsOverviewViewController = self.buildFromStoryboard(withIdentifier: "NewsOverview")
         vc.delegate = self
         return vc
     }
@@ -186,13 +187,13 @@ extension DashboardViewController: ShortNotificationViewControllerDelegate {
     }
 }
 
-extension DashboardViewController : DashboardLayoutDataSource {
+extension DashboardViewController: DashboardLayoutDataSource {
     func contentHeightForItem(at indexPath: IndexPath) -> CGFloat {
         return viewControllers[indexPath.row].height
     }
 }
 
-extension DashboardViewController : NewsOverviewViewControllerDelegate {
+extension DashboardViewController: NewsOverviewViewControllerDelegate {
 
     func heightDidChange(_ height: CGFloat) {
         self.collectionView?.collectionViewLayout.invalidateLayout()

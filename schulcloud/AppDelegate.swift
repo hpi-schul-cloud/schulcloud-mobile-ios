@@ -16,11 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     var window: UIWindow?
 
-    var tabBarController : UITabBarController? {
+    var tabBarController: UITabBarController? {
         return self.window?.rootViewController as? UITabBarController
     }
 
-    static var instance : AppDelegate? {
+    static var instance: AppDelegate? {
         return UIApplication.shared.delegate as? AppDelegate
     }
 
@@ -111,12 +111,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 }
 
-extension AppDelegate : UITabBarControllerDelegate {
+extension AppDelegate: UITabBarControllerDelegate {
 
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         guard let userID = Globals.account?.userId else { return false }
         let user_ = CoreDataHelper.viewContext.performAndWait { () -> User? in
-            let fetchRequest : NSFetchRequest<User> = User.fetchRequest()
+            let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "id == %@", userID)
             return CoreDataHelper.viewContext.fetchSingle(fetchRequest).value
         }

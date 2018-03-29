@@ -21,7 +21,7 @@ class NewsListViewController: UITableViewController,  NSFetchedResultsController
     }
 
     // MARK: Internal convenience
-    fileprivate lazy var fetchedResultController : NSFetchedResultsController<NewsArticle> = {
+    fileprivate lazy var fetchedResultController: NSFetchedResultsController<NewsArticle> = {
         let fetchRequest: NSFetchRequest<NewsArticle> = NewsArticle.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "displayAt", ascending: false)]
 

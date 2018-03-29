@@ -6,7 +6,7 @@
 import Foundation
 import Marshal
 
-extension Date : ValueType {
+extension Date: ValueType {
 
     static let iso8601Formatter: ISO8601DateFormatter = {
         let formatter = ISO8601DateFormatter()

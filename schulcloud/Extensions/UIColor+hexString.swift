@@ -16,11 +16,11 @@ extension UIColor {
             scanner.scanLocation = 1
         }
 
-        var red:CGFloat = 0.0
-        var green:CGFloat = 0.0
-        var blue:CGFloat = 0.0
+        var red: CGFloat = 0.0
+        var green: CGFloat = 0.0
+        var blue: CGFloat = 0.0
 
-        var color:UInt32 = 0
+        var color: UInt32 = 0
         if scanner.scanHexInt32(&color) {
             let mask = 0x000000FF
             let r = Int(color >> 16) & mask
@@ -32,6 +32,6 @@ extension UIColor {
             blue  = CGFloat(b) / 255.0
         }
 
-        self.init(red:red, green:green, blue:blue, alpha:1)
+        self.init(red: red, green: green, blue: blue, alpha: 1)
     }
 }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-struct UserPermissions : OptionSet {
+struct UserPermissions: OptionSet {
     //                     MSB    LSB
     typealias RawValue = (Int64, Int64)
     let rawValue: RawValue
@@ -182,7 +182,7 @@ struct UserPermissions : OptionSet {
         }
     }
 
-    var description : String {
+    var description: String {
         switch self {
         case UserPermissions.homeworkView:
             return "HOMEWORK_VIEW"
@@ -281,18 +281,18 @@ struct UserPermissions : OptionSet {
     static let userView = UserPermissions(rawValue: ( 1 << 12, 0 ) )
 
     //NOTE: So far, only filestorageCreate and removed are handled on the backend, I guess in the future, fileCreate/fileMove/fileDelete will be handled
-    static let creatingFiles : UserPermissions = [.filestorageCreate]
-    static let deletingFiles : UserPermissions = [.filestorageRemove]
-    static let movingFiles : UserPermissions = [.filestorageCreate]
+    static let creatingFiles: UserPermissions = [.filestorageCreate]
+    static let deletingFiles: UserPermissions = [.filestorageRemove]
+    static let movingFiles: UserPermissions = [.filestorageCreate]
 }
 
-extension UserPermissions : Equatable {
+extension UserPermissions: Equatable {
     static func ==(lhs: UserPermissions, rhs: UserPermissions) -> Bool {
         return lhs.rawValue == rhs.rawValue
     }
 }
 
-extension UserPermissions : SetAlgebra {
+extension UserPermissions: SetAlgebra {
     // This is required by SetAlgebra protocol, user should use UserPermissions.none or rawValue init instead
     init() {
         self = UserPermissions.none

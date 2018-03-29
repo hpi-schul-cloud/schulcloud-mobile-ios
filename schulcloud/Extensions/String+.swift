@@ -7,7 +7,7 @@ import UIKit
 
 // MARK: Localization convenience
 extension String {
-    var localized : String {
+    var localized: String {
         return NSLocalizedString(self, comment: "")
     }
 }
@@ -19,7 +19,7 @@ extension String {
         return "<html><head>\(style ?? "")</head><body>\(text)</body></html>"
     }
 
-    var standardStyledHtml : String {
+    var standardStyledHtml: String {
         return self.htmlWrapped(style: Constants.textStyleHtml)
     }
 

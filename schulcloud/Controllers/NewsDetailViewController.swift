@@ -5,7 +5,7 @@
 
 import UIKit
 
-final class NewsDetailViewController : UIViewController {
+final class NewsDetailViewController: UIViewController {
 
     var newsArticle: NewsArticle!
 

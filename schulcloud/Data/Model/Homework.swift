@@ -92,7 +92,7 @@ extension Homework {
 
 }
 
-extension Homework : Pullable {
+extension Homework: Pullable {
 
     static var type: String {
         return "homework"

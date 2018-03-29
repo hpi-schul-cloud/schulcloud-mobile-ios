@@ -9,15 +9,15 @@ protocol DashboardLayoutDataSource: class {
     func contentHeightForItem(at indexPath: IndexPath) -> CGFloat
 }
 
-final class DashboardLayout : UICollectionViewLayout {
+final class DashboardLayout: UICollectionViewLayout {
 
-    weak var dataSource : DashboardLayoutDataSource?
+    weak var dataSource: DashboardLayoutDataSource?
 
-    var contentHeight : CGFloat = 0
-    var contentWidth : CGFloat {
+    var contentHeight: CGFloat = 0
+    var contentWidth: CGFloat {
         guard let collectionView = collectionView else { return 0 }
 
-        var rect : CGRect
+        var rect: CGRect
         if #available(iOS 11.0, *) {
             rect = UIEdgeInsetsInsetRect(collectionView.bounds, collectionView.safeAreaInsets)
         } else {
@@ -38,7 +38,7 @@ final class DashboardLayout : UICollectionViewLayout {
         let columnCount = collectionView.traitCollection.horizontalSizeClass == .regular ? 2 : 1
         let isSingleColumn = columnCount == 1
 
-        let areaInset : UIEdgeInsets
+        let areaInset: UIEdgeInsets
         if #available(iOS 11.0, *) {
             areaInset = collectionView.safeAreaInsets
         } else {
@@ -47,9 +47,9 @@ final class DashboardLayout : UICollectionViewLayout {
 
         let readableFrame = collectionView.readableContentGuide.layoutFrame
         let xOffsetBase = isSingleColumn ? areaInset.left : readableFrame.origin.x
-        let horizontalInset : CGFloat = isSingleColumn ? 0.0 : 8.0
-        let yOffsetBase : CGFloat = 8.0
-        let verticalInset : CGFloat = 8.0
+        let horizontalInset: CGFloat = isSingleColumn ? 0.0 : 8.0
+        let yOffsetBase: CGFloat = 8.0
+        let verticalInset: CGFloat = 8.0
 
         let layoutWidth = isSingleColumn ? contentWidth : readableFrame.width
         let columnWidth = layoutWidth / CGFloat(columnCount)
@@ -71,8 +71,8 @@ final class DashboardLayout : UICollectionViewLayout {
 
             let isFirstColumn = column == 0
             let isLastColumn = column == (columnCount - 1)
-            let leftInset : CGFloat = isFirstColumn ? 0.0 : horizontalInset
-            let rightInset : CGFloat  = isLastColumn ? 0.0 : horizontalInset
+            let leftInset: CGFloat = isFirstColumn ? 0.0 : horizontalInset
+            let rightInset: CGFloat  = isLastColumn ? 0.0 : horizontalInset
             let edgeInset = UIEdgeInsets(top: verticalInset, left: leftInset, bottom: verticalInset, right: rightInset)
             let finalFrame = UIEdgeInsetsInsetRect(itemFrame, edgeInset)
 

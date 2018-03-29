@@ -83,7 +83,7 @@ class ShortNotificationViewController: UITableViewController {
     }
 }
 
-extension ShortNotificationViewController : ViewControllerHeightDataSource {
+extension ShortNotificationViewController: ViewControllerHeightDataSource {
     var height: CGFloat {
         var viewHeight = self.tableView.contentSize.height
         if let footer = self.tableView.tableFooterView, footer.isHidden {

@@ -21,7 +21,7 @@ final class NewsArticle: NSManagedObject {
 
 }
 
-extension NewsArticle : Pullable {
+extension NewsArticle: Pullable {
 
     static var type: String {
         return "news"

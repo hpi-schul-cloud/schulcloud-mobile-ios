@@ -32,7 +32,7 @@ extension ResourceQuery {
     }
 }
 
-struct SingleResourceQuery<Resource> : ResourceQuery where Resource: ResourceRepresentable {
+struct SingleResourceQuery<Resource>: ResourceQuery where Resource: ResourceRepresentable {
 
     let id: String
     let resourceType: Resource.Type
@@ -55,7 +55,7 @@ struct SingleResourceQuery<Resource> : ResourceQuery where Resource: ResourceRep
 
 }
 
-struct MultipleResourcesQuery<Resource> : ResourceQuery where Resource: ResourceTypeRepresentable {
+struct MultipleResourcesQuery<Resource>: ResourceQuery where Resource: ResourceTypeRepresentable {
 
     let resourceType: Resource.Type
     var filters: [String: Any?] = [:]

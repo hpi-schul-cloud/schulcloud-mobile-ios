@@ -6,7 +6,7 @@
 import Foundation
 import CoreData
 
-final class EventData : NSManagedObject {
+final class EventData: NSManagedObject {
 
     @NSManaged var id: String
     @NSManaged var title: String?
@@ -40,7 +40,7 @@ extension EventData {
 
 }
 
-extension EventData : Pullable {
+extension EventData: Pullable {
 
     static var type: String {
         return "calendar"

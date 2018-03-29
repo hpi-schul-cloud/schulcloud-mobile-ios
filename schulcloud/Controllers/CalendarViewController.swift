@@ -10,7 +10,7 @@ import DateToolsSwift
 
 class CalendarViewController: DayViewController {
 
-    var calendarEvents : [CalendarEvent] = []
+    var calendarEvents: [CalendarEvent] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +61,7 @@ class CalendarViewController: DayViewController {
 }
 
 extension CalendarEvent {
-    var calendarKitEvent : Event {
+    var calendarKitEvent: Event {
         let event = Event()
         event.datePeriod = TimePeriod(beginning: self.start, end: self.end)
         event.text = self.title ?? "Unknown"
