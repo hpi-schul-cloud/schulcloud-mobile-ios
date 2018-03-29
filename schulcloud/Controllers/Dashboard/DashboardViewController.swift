@@ -108,10 +108,9 @@ final class DashboardViewController : UICollectionViewController {
         self.navigationItem.rightBarButtonItem = itemIsVisible ? self.notificationBarItem : nil
     }
 
-    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.willTransition(to: newCollection, with: coordinator)
-        collectionView?.collectionViewLayout.invalidateLayout()
-        collectionView?.reloadData()
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        self.collectionView?.collectionViewLayout.invalidateLayout()
     }
 
     private func buildFromStoryboard<T>(withIdentifier identifier: String) -> T {
