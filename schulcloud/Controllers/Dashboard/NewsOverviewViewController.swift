@@ -80,8 +80,12 @@ extension NewsOverviewViewController : NSFetchedResultsControllerDelegate {
     }
 }
 
-extension NewsOverviewViewController : ViewControllerHeightDataSource {
+extension NewsOverviewViewController : ViewHeightDataSource {
     var height : CGFloat {
         return tableView.contentSize.height + 20.0
     }
+}
+
+extension NewsOverviewViewController : PermissionInfoDataSource {
+    static let requiredPermission = UserPermissions.newsView
 }

@@ -126,6 +126,10 @@ class CalendarOverviewViewController: UIViewController {
     }
 }
 
-extension CalendarOverviewViewController : ViewControllerHeightDataSource {
+extension CalendarOverviewViewController : ViewHeightDataSource {
     var height: CGFloat { return 200 }
+}
+
+extension CalendarOverviewViewController : PermissionInfoDataSource {
+    static let requiredPermission = UserPermissions.calendarView
 }
