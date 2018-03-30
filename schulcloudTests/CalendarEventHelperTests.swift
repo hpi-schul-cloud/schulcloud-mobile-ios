@@ -95,9 +95,8 @@ class CalendarEventHelperTests: XCTestCase {
         let sequence = event.dates
         var iterator = sequence.makeIterator()
 
-        guard let firstEvent = iterator.next(),
-              let secondEvent = iterator.next() else {
-            XCTFail()
+        guard let firstEvent = iterator.next(), let secondEvent = iterator.next() else {
+            XCTFail("Could not find events")
             return
         }
 
