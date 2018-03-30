@@ -82,10 +82,13 @@ extension Homework {
 
     static func relativeDateString(for date: Date) -> String {
         let calendar = NSCalendar.current
-        if calendar.isDateInYesterday(date) { return "Gestern" }
-        else if calendar.isDateInToday(date) { return "Heute" }
-        else if calendar.isDateInTomorrow(date) { return "Morgen" }
-        else {
+        if calendar.isDateInYesterday(date) {
+            return "Gestern"
+        } else if calendar.isDateInToday(date) {
+            return "Heute"
+        } else if calendar.isDateInTomorrow(date) {
+            return "Morgen"
+        } else {
             return DateFormatter.localizedString(from: date, dateStyle: .full, timeStyle: .none)
         }
     }

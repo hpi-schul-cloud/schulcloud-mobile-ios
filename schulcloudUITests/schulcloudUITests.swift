@@ -84,7 +84,7 @@ class SchulCloudUITests: XCTestCase {
         let foundText = app.staticTexts["offene Aufgaben"].waitForExistence(timeout: 120)
         XCTAssertTrue(foundText, "Unable to find text 'offenen Aufgaben'")
 
-        while app.alerts.count > 0 { //swiftlint:disable:this empty_count
+        while app.alerts.count > 0 { // swiftlint:disable:this empty_count
             app.navigationBars.firstMatch.tap()
         }
 

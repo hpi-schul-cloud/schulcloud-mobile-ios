@@ -42,14 +42,14 @@ struct CalendarEvent {
         let endDate: Date?
         let interval: Int
 
-        enum Frequency: String {
+        enum Frequency: String { // swiftlint:disable:this nesting
             case daily = "DAILY"
             case weekly = "WEEKLY"
             case monthly = "MONTHLY"
             case yearly = "YEARLY"
         }
 
-        enum DayOfTheWeek: String {
+        enum DayOfTheWeek: String { // swiftlint:disable:this nesting
             case monday = "MO"
             case tuesday = "TU"
             case wednesday = "WE"

@@ -27,7 +27,7 @@ extension NSMutableAttributedString {
 
     var trailingNewlineChopped: NSAttributedString {
         if self.string.hasSuffix("\n") {
-            return self.attributedSubstring(from: NSMakeRange(0, length - 1))
+            return self.attributedSubstring(from: NSRange(location: 0, length: length - 1))
         } else {
             return self
         }

@@ -282,7 +282,7 @@ class FileHelper {
     }
 
     static func delete(file: File) -> Future<Void, SCError> {
-        struct DidSuccess: Unmarshaling {
+        struct DidSuccess: Unmarshaling { // swiftlint:disable:this nesting
             init(object: MarshaledObject) throws {
             }
         }
