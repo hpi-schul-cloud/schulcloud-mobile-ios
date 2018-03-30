@@ -85,7 +85,7 @@ class CalendarOverviewViewController: UIViewController {
 
     func updateUIForCurrentState() {
         switch self.state {
-        case .events(let currentEvent, let someNextEvent):
+        case let .events(currentEvent, someNextEvent):
             let dateFormatter = DateFormatter()
             dateFormatter.locale = NSLocale.autoupdatingCurrent
             dateFormatter.dateStyle = .none

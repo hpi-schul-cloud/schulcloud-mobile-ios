@@ -57,7 +57,7 @@ enum SCError: Error {
 extension SCError: CustomStringConvertible {
     var description: String {
         switch self {
-        case .apiError(let code, let message):
+        case let .apiError(code, message):
             return "API error \(code): \(message)"
         case .loginFailed(let message):
             return "Error: \(message)"
