@@ -32,8 +32,7 @@ class Constants {
             display: block;
             max-width: 100%;
             width: auto !important;
-            text-align: center
-        }
+            text-align: center}
         """
         style += "</style>"
         return style
