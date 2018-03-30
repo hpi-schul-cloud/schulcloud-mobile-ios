@@ -5,7 +5,7 @@
 
 import XCTest
 
-class schulcloudTests: XCTestCase {
+class SchulCloudTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
