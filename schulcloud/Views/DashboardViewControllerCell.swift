@@ -15,13 +15,13 @@ final class DashboardCollectionViewControllerCell: UICollectionViewCell {
         let verticalConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[vc]|",
                                                                  options: .alignAllCenterY,
                                                                  metrics: nil,
-                                                                 views: ["vc" : viewController.view])
+                                                                 views: ["vc": viewController.view])
         contentView.addConstraints(verticalConstraints)
 
         let horizontalConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[vc]|",
                                                                    options: .alignAllCenterX,
                                                                    metrics: nil,
-                                                                   views: ["vc" : viewController.view])
+                                                                   views: ["vc": viewController.view])
         contentView.addConstraints(horizontalConstraints)
     }
 }

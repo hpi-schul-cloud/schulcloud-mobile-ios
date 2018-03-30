@@ -6,12 +6,11 @@
 import Marshal
 import Result
 
-
-protocol SchulcloudSyncStrategy : SyncStrategy {}
+protocol SchulcloudSyncStrategy: SyncStrategy {}
 
 extension SchulcloudSyncStrategy {
 
-    func queryItems<Query>(forQuery query: Query) -> [URLQueryItem] where Query : ResourceQuery {
+    func queryItems<Query>(forQuery query: Query) -> [URLQueryItem] where Query: ResourceQuery {
         var queryItems: [URLQueryItem] = []
 
         // includes
@@ -29,6 +28,7 @@ extension SchulcloudSyncStrategy {
             } else {
                 stringValue = "null"
             }
+
             let queryItem = URLQueryItem(name: key, value: stringValue)
             queryItems.append(queryItem)
         }
@@ -57,7 +57,8 @@ extension SchulcloudSyncStrategy {
     }
 
     func findIncludedObject(forKey key: KeyType, ofObject object: ResourceData, with context: SynchronizationContext) -> FindIncludedObjectResult {
-        if let resourceData = try? object.value(for: key) as MarshalDictionary, let resourceId = try? resourceData.value(for: self.resourceKeyAttribute) as String {
+        if let resourceData = try? object.value(for: key) as MarshalDictionary,
+           let resourceId = try? resourceData.value(for: self.resourceKeyAttribute) as String {
             return .object(resourceId, resourceData)
         } else if let resourceId = try? object.value(for: key) as String {
             return .id(resourceId)
@@ -72,6 +73,7 @@ extension SchulcloudSyncStrategy {
                 guard let resourceId = try? $0.value(for: self.resourceKeyAttribute) as String else { return nil }
                 return (id: resourceId, object: $0)
             }
+
             return .included(objects: idsAndObjects, ids: [])
         } else if let resourceIds = try? object.value(for: key) as [String] {
             return .included(objects: [], ids: resourceIds)
@@ -86,10 +88,10 @@ extension SchulcloudSyncStrategy {
 
 }
 
-struct MainSchulcloudSyncStrategy : SchulcloudSyncStrategy {
+struct MainSchulcloudSyncStrategy: SchulcloudSyncStrategy {
     var resourceKeyAttribute: String = "_id"
 }
 
-struct CalendarSchulcloudSyncStrategy : SchulcloudSyncStrategy {
+struct CalendarSchulcloudSyncStrategy: SchulcloudSyncStrategy {
     var resourceKeyAttribute: String = "id"
 }

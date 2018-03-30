@@ -3,21 +3,21 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import UIKit
 import Alamofire
+import JWTDecode
 import Locksmith
 import SimpleRoundedButton
-import JWTDecode
+import UIKit
 
 class LoginViewController: UIViewController {
 
     static let usernameKey = "lastLoggedInUsername"
 
-    @IBOutlet weak var usernameInput: UITextField!
-    @IBOutlet weak var passwordInput: UITextField!
-    @IBOutlet weak var loginButton: SimpleRoundedButton!
-    @IBOutlet weak var inputContainer: UIStackView!
-    @IBOutlet weak var centerInputConstraints: NSLayoutConstraint!
+    @IBOutlet private weak var usernameInput: UITextField!
+    @IBOutlet private weak var passwordInput: UITextField!
+    @IBOutlet private weak var loginButton: SimpleRoundedButton!
+    @IBOutlet private weak var inputContainer: UIStackView!
+    @IBOutlet private weak var centerInputConstraints: NSLayoutConstraint!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,8 +25,14 @@ class LoginViewController: UIViewController {
         self.passwordInput.delegate = self
         self.usernameInput.text = UserDefaults.standard.string(forKey: LoginViewController.usernameKey)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(self.adjustViewForKeyboardShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.adjustViewForKeyboardHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(adjustViewForKeyboardShow),
+                                               name: NSNotification.Name.UIKeyboardWillShow,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(adjustViewForKeyboardHide),
+                                               name: NSNotification.Name.UIKeyboardWillHide,
+                                               object: nil)
     }
 
     override var shouldAutorotate: Bool {
@@ -40,24 +46,22 @@ class LoginViewController: UIViewController {
             return .portrait
         }
     }
-    
+
     @IBAction func login() {
         self.loginButton.startAnimating()
         let username = usernameInput.text
         let password = passwordInput.text
-        
+
         UserDefaults.standard.set(username, forKey: LoginViewController.usernameKey)
-        
-        LoginHelper.login(username: username, password: password)
-            .onSuccess {
-                self.performSegue(withIdentifier: "loginDidSucceed", sender: nil)
+
+        LoginHelper.login(username: username, password: password).onSuccess {
+            self.performSegue(withIdentifier: "loginDidSucceed", sender: nil)
+        }.onFailure { error in
+            DispatchQueue.main.async {
+                self.loginButton.stopAnimating()
+                self.show(error: error)
             }
-            .onFailure { error in
-                DispatchQueue.main.async {
-                    self.loginButton.stopAnimating()
-                    self.show(error: error)
-                }
-            }
+        }
     }
 
     func show(error: SCError) {
@@ -81,7 +85,7 @@ class LoginViewController: UIViewController {
 
         let viewHeight = self.view.frame.size.height - contentInset
 
-        let overlappingOffset = 0.5*viewHeight - keyboardHeight - 0.5*self.inputContainer.frame.size.height - 8.0
+        let overlappingOffset = 0.5 * viewHeight - keyboardHeight - 0.5 * self.inputContainer.frame.size.height - 8.0
         self.centerInputConstraints.constant = min(overlappingOffset, 0)  // we only want to move the container upwards
 
         UIView.animate(withDuration: 0.25) {
@@ -96,7 +100,7 @@ class LoginViewController: UIViewController {
             self.view.layoutIfNeeded()
         }
     }
-    
+
     @IBAction func tapOnBackground(_ sender: UITapGestureRecognizer) {
         self.usernameInput.resignFirstResponder()
         self.passwordInput.resignFirstResponder()
@@ -112,6 +116,7 @@ extension LoginViewController: UITextFieldDelegate {
             textField.resignFirstResponder()
             self.login()
         }
+
         return true
     }
 

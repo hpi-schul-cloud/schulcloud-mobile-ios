@@ -7,16 +7,17 @@ import BrightFutures
 
 extension Future {
 
-    func inject(_ context: @escaping ExecutionContext = DefaultThreadingModel(), f: @escaping () -> Future<Void, Value.Error>) -> Future<Value.Value, Value.Error> {
+    func inject(_ context: @escaping ExecutionContext = DefaultThreadingModel(),
+                task: @escaping () -> Future<Void, Value.Error>) -> Future<Value.Value, Value.Error> {
         let promise = Promise<Value.Value, Value.Error>()
 
         self.onComplete(context) { result in
             switch result {
             case .success(let value):
-                f().onSuccess { _ in
+                task().onSuccess { _ in
                     promise.success(value)
-                    }.onFailure { error in
-                        promise.failure(error)
+                }.onFailure { error in
+                    promise.failure(error)
                 }
             case .failure(let error):
                 promise.failure(error)

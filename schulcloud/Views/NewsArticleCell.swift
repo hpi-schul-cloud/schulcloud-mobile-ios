@@ -6,10 +6,10 @@
 import UIKit
 
 class NewsArticleCell: UITableViewCell {
-    
-    @IBOutlet weak var title: UILabel!
-    @IBOutlet weak var timeSinceCreated: UILabel!
-    @IBOutlet weak var content: UITextView!
+
+    @IBOutlet private weak var title: UILabel!
+    @IBOutlet private weak var timeSinceCreated: UILabel!
+    @IBOutlet private weak var content: UITextView!
 
     override func awakeFromNib() {
         super.awakeFromNib()

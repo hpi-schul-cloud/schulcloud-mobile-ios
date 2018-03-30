@@ -14,9 +14,9 @@
 ///    folderCreate -> Create a folder (requires filestorageCreate). Currently not implemented on backend, only requires filestorageCreate.
 ///    folderDelete -> Delete a folder (requires filestorageRemove). Currently not implemented on backend, only requires filestorageRemove.
 
-import UIKit
-import CoreData
 import BrightFutures
+import CoreData
+import UIKit
 
 class FilesViewController: UITableViewController {
 
@@ -25,7 +25,7 @@ class FilesViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         if currentFolder == nil {
             currentFolder = FileHelper.rootFolder
         }
@@ -43,10 +43,11 @@ class FilesViewController: UITableViewController {
         } else if FileHelper.sharedDirectoryID == currentFolder.id {
             future = fileSync.downloadSharedFiles()
             .flatMap { objects -> Future<Void, SCError> in
-                var updates : [Future<Void,SCError>] = []
+                var updates: [Future<Void, SCError>] = []
                 for json in objects {
                     updates.append(FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json))
                 }
+
                 return updates.sequence().asVoid()
             }.asVoid()
         } else {
@@ -56,9 +57,9 @@ class FilesViewController: UITableViewController {
             }.asVoid()
         }
 
-        future.onFailure { (error) in
+        future.onFailure { error in
             print("Failure: \(error)")
-        }.onComplete{ (_) in
+        }.onComplete { _ in
             DispatchQueue.main.async {
                 self.refreshControl?.endRefreshing()
             }
@@ -66,6 +67,7 @@ class FilesViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
+
     fileprivate lazy var fetchedResultsController: NSFetchedResultsController<File> = {
         // Create Fetch Request
         let fetchRequest: NSFetchRequest<File> = File.fetchRequest()
@@ -85,25 +87,27 @@ class FilesViewController: UITableViewController {
 
         return fetchedResultsController
     }()
-    
+
     func performFetch() {
         do {
             try self.fetchedResultsController.performFetch()
         } catch let fetchError as NSError {
             log.error("Unable to Perform Fetch Request: \(fetchError), \(fetchError.localizedDescription)")
         }
+
         tableView.reloadData()
     }
 
 }
 
-extension FilesViewController : NSFetchedResultsControllerDelegate {
+extension FilesViewController: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         self.tableView.reloadData()
     }
 }
 
-//MARK: TableView Delegate/DataSource
+// MARK: TableView Delegate/DataSource
+
 extension FilesViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
@@ -114,26 +118,28 @@ extension FilesViewController {
             log.error("Error loading object count in section \(section)")
             return 0
         }
+
         return count
     }
 
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         guard let currentUser = Globals.currentUser else { return false }
         let file = self.fetchedResultsController.object(at: indexPath)
-        guard file.id != FileHelper.rootDirectoryID, file.parentDirectory?.id != FileHelper.rootDirectoryID, file.parentDirectory?.id != FileHelper.coursesDirectoryID
-            else { return false }
+        guard file.id != FileHelper.rootDirectoryID,
+            file.parentDirectory?.id != FileHelper.rootDirectoryID,
+            file.parentDirectory?.id != FileHelper.coursesDirectoryID else { return false }
 
-        return currentUser.permissions.contains(.movingFiles) || currentUser.permissions.contains(.deletingFiles) //&& file.permissions.contains(.write)
+        return currentUser.permissions.contains(.movingFiles) || currentUser.permissions.contains(.deletingFiles) // && file.permissions.contains(.write)
     }
 
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         guard let currentUser = Globals.currentUser else { return nil }
-        var actions : [UITableViewRowAction] = []
+        var actions: [UITableViewRowAction] = []
 
-        //TODO: Implement!
+        // TODO: Implement!
         if false && currentUser.permissions.contains(.deletingFiles) {
-            actions.append( UITableViewRowAction(style: .destructive, title: "Delete", handler: { (rowAction, indexPath) in
-                //TODO: Implement!
+            actions.append(UITableViewRowAction(style: .destructive, title: "Delete") { _, _ in
+                // TODO: Implement!
                 /*
                 guard let file = self.fetchedResultsController.sections?[indexPath.section].objects?[indexPath.row] as? File else { return }
 
@@ -154,13 +160,13 @@ extension FilesViewController {
                         self.present(alertVC, animated: true) {}
                     }
                 }*/
-            }))
+            })
         }
 
-        //TODO: Implement!
+        // TODO: Implement!
         if false && currentUser.permissions.contains(.movingFiles) {
-            actions.append(UITableViewRowAction(style: .normal, title: "Move", handler: { (rowAction, indexPath) in
-            }))
+            actions.append(UITableViewRowAction(style: .normal, title: "Move") { _, _ in
+            })
         }
 
         return actions
@@ -170,16 +176,16 @@ extension FilesViewController {
         let item = fetchedResultsController.object(at: indexPath)
 
         let reuseIdentifier = item.detail == nil ? "item" : "item detail"
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) //as! FileListCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
 
         cell.textLabel?.text = item.name
         cell.detailTextLabel?.text = item.detail
         cell.accessoryType = item.isDirectory ? .disclosureIndicator : .none
-        cell.imageView?.image = item.isDirectory ? #imageLiteral(resourceName: "folder") : #imageLiteral(resourceName: "document")
+        cell.imageView?.image = item.isDirectory ? UIImage(named: "folder") : UIImage(named: "document")
         cell.imageView?.tintColor = item.isDirectory ? UIColor.schulcloudYellow : UIColor.schulcloudRed
         cell.imageView?.contentMode = .scaleAspectFit
         cell.imageView?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-        if #available(iOS 11.0, *){
+        if #available(iOS 11.0, *) {
             cell.imageView?.adjustsImageSizeForAccessibilityContentSizeCategory = true
         }
 
@@ -198,12 +204,14 @@ extension FilesViewController {
             guard let folderVC = storyboard.instantiateViewController(withIdentifier: "FolderVC") as? FilesViewController else {
                 return
             }
+
             folderVC.currentFolder = item
             self.navigationController?.pushViewController(folderVC, animated: true)
         } else {
             guard let fileVC = storyboard.instantiateViewController(withIdentifier: "FileVC") as? LoadingViewController else {
                 return
             }
+
             fileVC.file = item
             self.navigationController?.pushViewController(fileVC, animated: true)
         }

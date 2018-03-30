@@ -3,8 +3,8 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import UIKit
 import Marshal
+import UIKit
 
 struct SCNotification: Unmarshaling {
     let body: String
@@ -23,7 +23,7 @@ class ShortNotificationViewController: UITableViewController {
 
     static let numberOfShownCells = 3
 
-    var delegate: ShortNotificationViewControllerDelegate?
+    weak var delegate: ShortNotificationViewControllerDelegate?
     var notifications: [SCNotification] = [] {
         didSet {
             let moreCellsToShow = self.notifications.count > ShortNotificationViewController.numberOfShownCells
@@ -53,14 +53,15 @@ class ShortNotificationViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.notifications.count == 0 {
+        if self.notifications.isEmpty {
             return 1
         }
+
         return min(self.notifications.count, ShortNotificationViewController.numberOfShownCells)
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellIdentifier = self.notifications.count == 0 ? "emptyListCell" : "notificationCell"
+        let cellIdentifier = self.notifications.isEmpty ? "emptyListCell" : "notificationCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
 
         if let notificationCell = cell as? NotificationCell {
@@ -83,24 +84,25 @@ class ShortNotificationViewController: UITableViewController {
     }
 }
 
-extension ShortNotificationViewController : ViewHeightDataSource {
+extension ShortNotificationViewController: ViewHeightDataSource {
     var height: CGFloat {
         var viewHeight = self.tableView.contentSize.height
         if let footer = self.tableView.tableFooterView, footer.isHidden {
             let bottomPadding: CGFloat = 16.0
             viewHeight -= footer.frame.size.height - bottomPadding
         }
+
         return viewHeight
     }
 }
 
-extension ShortNotificationViewController : PermissionInfoDataSource {
+extension ShortNotificationViewController: PermissionInfoDataSource {
     static let requiredPermission = UserPermissions.notificationView
 }
 
-protocol ShortNotificationViewControllerDelegate {
+protocol ShortNotificationViewControllerDelegate: class {
 
-    func viewHeightDidChange(to: CGFloat)
+    func viewHeightDidChange(to newHeight: CGFloat)
     func didPressViewMoreButton()
 
 }

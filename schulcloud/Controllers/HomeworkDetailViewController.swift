@@ -7,17 +7,17 @@ import UIKit
 
 class HomeworkDetailViewController: UIViewController {
 
-    @IBOutlet weak var subjectLabel: UILabel!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var contentLabel: UILabel!
-    @IBOutlet weak var coloredStrip: UIView!
-    @IBOutlet weak var dueLabel: UILabel!
+    @IBOutlet private weak var subjectLabel: UILabel!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var contentLabel: UILabel!
+    @IBOutlet private weak var coloredStrip: UIView!
+    @IBOutlet private weak var dueLabel: UILabel!
 
     var homework: Homework?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.coloredStrip.layer.cornerRadius = self.coloredStrip.frame.size.height/2.0
+        self.coloredStrip.layer.cornerRadius = self.coloredStrip.frame.size.height / 2.0
 
         guard let homework = self.homework else { return }
         self.configure(for: homework)
@@ -30,7 +30,7 @@ class HomeworkDetailViewController: UIViewController {
 
         let description = homework.cleanedDescriptionText
         if let attributedString = NSMutableAttributedString(html: description) {
-            let range = NSMakeRange(0, attributedString.string.count)
+            let range = NSRange(location: 0, length: attributedString.string.count)
             attributedString.addAttribute(NSAttributedStringKey.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
             self.contentLabel.attributedText = attributedString.trailingNewlineChopped
         } else {

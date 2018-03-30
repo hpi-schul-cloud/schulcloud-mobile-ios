@@ -3,10 +3,10 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import Foundation
 import BrightFutures
 import CoreData
 import DateToolsSwift
+import Foundation
 import Result
 
 struct CalendarEventHelper {

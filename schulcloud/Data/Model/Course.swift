@@ -3,10 +3,10 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
-final class Course : NSManagedObject {
+final class Course: NSManagedObject {
 
     @NSManaged public var id: String
     @NSManaged public var colorString: String?
@@ -23,7 +23,7 @@ final class Course : NSManagedObject {
 
 }
 
-extension Course : Pullable {
+extension Course: Pullable {
 
     static var type: String {
         return "courses"

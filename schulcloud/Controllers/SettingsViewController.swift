@@ -3,17 +3,17 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import UIKit
 import BrightFutures
 import CoreData
+import UIKit
 
 private var currentEventKitSettings = CalendarEventHelper.EventKitSettings.current
 
 class SettingsViewController: UITableViewController {
 
-    @IBOutlet var logoutCell: UITableViewCell!
-    @IBOutlet weak var userNameLabel: UILabel!
-    @IBOutlet var calendarSyncSwitch: UISwitch!
+    @IBOutlet private var logoutCell: UITableViewCell!
+    @IBOutlet private weak var userNameLabel: UILabel!
+    @IBOutlet private var calendarSyncSwitch: UISwitch!
 
     private var user: User? {
         didSet {
@@ -62,7 +62,7 @@ class SettingsViewController: UITableViewController {
             present(loginViewController, animated: true, completion: nil)
         }
     }
-    
+
     @IBAction func synchronizeToCalendar(_ sender: UISwitch) {
         let newValue = sender.isOn
         if newValue {
@@ -99,14 +99,14 @@ class SettingsViewController: UITableViewController {
                 currentEventKitSettings.shouldSynchonize = false
                 sender.isOn = false
             } catch let error {
-                //TODO: Show error on why we could not delete the calendar
+                // TODO: Show error on why we could not delete the calendar
                 self.showErrorAlert(message: error.localizedDescription)
                 currentEventKitSettings.shouldSynchonize = true
                 sender.isOn = true
             }
         }
     }
-    
+
     private func showErrorAlert(message: String) {
         let alert = UIAlertController(title: "Something went wrong", message: message, preferredStyle: .alert)
         let dismiss = UIAlertAction(title: "OK", style: .cancel, handler: nil)

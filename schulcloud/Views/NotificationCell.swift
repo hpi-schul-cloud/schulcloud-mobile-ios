@@ -7,8 +7,8 @@ import UIKit
 
 class NotificationCell: UITableViewCell {
 
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var detailLabel: UILabel!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var detailLabel: UILabel!
 
     var notification: SCNotification? {
         didSet {

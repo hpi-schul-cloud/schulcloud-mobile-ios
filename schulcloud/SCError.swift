@@ -22,11 +22,11 @@ enum SCError: Error {
     case coreDataMoreThanOneObjectFound
 
     case synchronization(SyncError)
-    
+
     init(value: SCError) {
         self = value
     }
-    
+
     init(otherError error: Error) {
         if let marshalError = error as? MarshalError {
             self = .jsonDeserialization(marshalError.description)
@@ -34,21 +34,19 @@ enum SCError: Error {
             self = .unknown // TODO
         }
     }
-    
+
     init(apiResponse: Data?) {
         if let data = apiResponse,
-            let deserialized = try? JSONSerialization.jsonObject(with: data, options: []),
-            let object = deserialized as? [String: Any]
-        {
+           let deserialized = try? JSONSerialization.jsonObject(with: data, options: []),
+           let object = deserialized as? [String: Any] {
             self.init(json: object)
         } else {
             self.init(value: .unknown)
         }
     }
-    
+
     init(json: [String: Any]) {
-        if let errorCode: Int = try? json.value(for: "code"),
-            let errorMessage: String = try? json.value(for: "message"){
+        if let errorCode: Int = try? json.value(for: "code"), let errorMessage: String = try? json.value(for: "message") {
             self = .apiError(errorCode, errorMessage)
         } else {
             self = .unknown
@@ -59,7 +57,7 @@ enum SCError: Error {
 extension SCError: CustomStringConvertible {
     var description: String {
         switch self {
-        case .apiError(let code, let message):
+        case let .apiError(code, message):
             return "API error \(code): \(message)"
         case .loginFailed(let message):
             return "Error: \(message)"

@@ -3,12 +3,12 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import UIKit
 import CoreData
-import UserNotifications
 import Firebase
-
 import SwiftyBeaver
+import UIKit
+import UserNotifications
+
 let log = SwiftyBeaver.self
 
 @UIApplicationMain
@@ -16,11 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     var window: UIWindow?
 
-    var tabBarController : UITabBarController? {
+    var tabBarController: UITabBarController? {
         return self.window?.rootViewController as? UITabBarController
     }
 
-    static var instance : AppDelegate? {
+    static var instance: AppDelegate? {
         return UIApplication.shared.delegate as? AppDelegate
     }
 
@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         console.levelColor.error = "❌ "
         console.levelColor.info = "👉 "
         log.addDestination(console)
-        
+
         if !isUnitTesting() {
             FIRApp.configure()
         }
@@ -43,17 +43,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         selectInitialViewController(application: application)
 
         CoreDataObserver.shared.startObserving()
-        
+
         return true
     }
-    
-    let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-    
+
+    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+
     fileprivate func showLogin() {
         let loginViewController = storyboard.instantiateViewController(withIdentifier: "login")
         self.window?.rootViewController = loginViewController
     }
-    
+
     /// Check for existing login credentials and return appropriate view controller
     func selectInitialViewController(application: UIApplication) {
         if UserDefaults.standard.bool(forKey: "forceLogin") {
@@ -65,13 +65,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             showLogin()
             return
         }
-        
+
         guard let validAccount = LoginHelper.validate(account) else {
             LoginHelper.logout()
             showLogin()
             return
         }
-        
+
         // skip login
         prepareInitialViewController(with: validAccount)
     }
@@ -82,41 +82,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         LoginHelper.renewAccessToken()
     }
 
-    func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-    }
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    }
-
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-    }
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    }
-
     func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        // Saves changes in the application's managed object context before the application terminates.
         CoreDataHelper.viewContext.saveWithResult()
     }
-    
+
     func isUnitTesting() -> Bool {
         return ProcessInfo.processInfo.environment["TEST"] != nil
     }
 }
 
-extension AppDelegate : UITabBarControllerDelegate {
+extension AppDelegate: UITabBarControllerDelegate {
 
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         guard let userID = Globals.account?.userId else { return false }
         let user_ = CoreDataHelper.viewContext.performAndWait { () -> User? in
-            let fetchRequest : NSFetchRequest<User> = User.fetchRequest()
+            let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "id == %@", userID)
             return CoreDataHelper.viewContext.fetchSingle(fetchRequest).value
         }
@@ -149,7 +129,9 @@ extension AppDelegate : UITabBarControllerDelegate {
     }
 
     func showError(on viewController: UIViewController, missingPermission: UserPermissions) {
-        let alertController = UIAlertController(title: "Permission Error", message: "You are not allowed to access this feature. \(missingPermission)", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Permission Error",
+                                                message: "You are not allowed to access this feature. \(missingPermission)",
+                                                preferredStyle: .alert)
         let alertAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
         alertController.addAction(alertAction)
         viewController.present(alertController, animated: true, completion: nil)

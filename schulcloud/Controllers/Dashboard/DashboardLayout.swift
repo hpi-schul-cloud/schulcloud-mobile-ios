@@ -9,20 +9,21 @@ protocol DashboardLayoutDataSource: class {
     func contentHeightForItem(at indexPath: IndexPath) -> CGFloat
 }
 
-final class DashboardLayout : UICollectionViewLayout {
+final class DashboardLayout: UICollectionViewLayout {
 
-    weak var dataSource : DashboardLayoutDataSource?
+    weak var dataSource: DashboardLayoutDataSource?
 
-    var contentHeight : CGFloat = 0
-    var contentWidth : CGFloat {
+    var contentHeight: CGFloat = 0
+    var contentWidth: CGFloat {
         guard let collectionView = collectionView else { return 0 }
 
-        var rect : CGRect
+        var rect: CGRect
         if #available(iOS 11.0, *) {
             rect = UIEdgeInsetsInsetRect(collectionView.bounds, collectionView.safeAreaInsets)
         } else {
             rect = collectionView.bounds
         }
+
         return rect.width
     }
 
@@ -38,7 +39,7 @@ final class DashboardLayout : UICollectionViewLayout {
         let columnCount = collectionView.traitCollection.horizontalSizeClass == .regular ? 2 : 1
         let isSingleColumn = columnCount == 1
 
-        let areaInset : UIEdgeInsets
+        let areaInset: UIEdgeInsets
         if #available(iOS 11.0, *) {
             areaInset = collectionView.safeAreaInsets
         } else {
@@ -47,23 +48,24 @@ final class DashboardLayout : UICollectionViewLayout {
 
         let readableFrame = collectionView.readableContentGuide.layoutFrame
         let xOffsetBase = isSingleColumn ? areaInset.left : readableFrame.origin.x
-        let horizontalInset : CGFloat = isSingleColumn ? 0.0 : 8.0
-        let yOffsetBase : CGFloat = 8.0
-        let verticalInset : CGFloat = 8.0
+        let horizontalInset: CGFloat = isSingleColumn ? 0.0 : 8.0
+        let yOffsetBase: CGFloat = 8.0
+        let verticalInset: CGFloat = 8.0
 
         let layoutWidth = isSingleColumn ? contentWidth : readableFrame.width
         let columnWidth = layoutWidth / CGFloat(columnCount)
-        let xOffsets = (0..<columnCount).map { i -> CGFloat in
-            return (CGFloat(i) * columnWidth) + xOffsetBase
+        let xOffsets = (0 ..< columnCount).map { column -> CGFloat in
+            return (CGFloat(column) * columnWidth) + xOffsetBase
         }
+
         var yOffsets = [CGFloat](repeating: yOffsetBase, count: columnCount)
 
         for i in 0 ..< collectionView.numberOfItems(inSection: 0) {
             let indexPath = IndexPath(row: i, section: 0)
             let itemHeight = dataSource.contentHeightForItem(at: indexPath)
-            let (column, yOffset) = yOffsets.enumerated().min(by: { (i, j) -> Bool in
-                return i.element < j.element
-            })!
+            let (column, yOffset) = yOffsets.enumerated().min { lhs, rhs -> Bool in
+                return lhs.element < rhs.element
+            }!
             let xOffset = xOffsets[column]
             let itemFrame = CGRect(x: xOffset, y: yOffset, width: columnWidth, height: itemHeight)
             yOffsets[column] = itemFrame.maxY
@@ -71,8 +73,8 @@ final class DashboardLayout : UICollectionViewLayout {
 
             let isFirstColumn = column == 0
             let isLastColumn = column == (columnCount - 1)
-            let leftInset : CGFloat = isFirstColumn ? 0.0 : horizontalInset
-            let rightInset : CGFloat  = isLastColumn ? 0.0 : horizontalInset
+            let leftInset: CGFloat = isFirstColumn ? 0.0 : horizontalInset
+            let rightInset: CGFloat = isLastColumn ? 0.0 : horizontalInset
             let edgeInset = UIEdgeInsets(top: verticalInset, left: leftInset, bottom: verticalInset, right: rightInset)
             let finalFrame = UIEdgeInsetsInsetRect(itemFrame, edgeInset)
 
@@ -80,6 +82,7 @@ final class DashboardLayout : UICollectionViewLayout {
             layoutAttributes.frame = finalFrame
             localCache.append(layoutAttributes)
         }
+
         contentHeight += yOffsetBase
         cache = localCache
     }

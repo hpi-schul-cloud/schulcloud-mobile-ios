@@ -4,8 +4,8 @@
 //
 
 import Foundation
-import Result
 import Marshal
+import Result
 
 struct JsonAPISyncStrategy: SyncStrategy {
 
@@ -13,7 +13,7 @@ struct JsonAPISyncStrategy: SyncStrategy {
         return "id"
     }
 
-    func queryItems<Query>(forQuery query: Query) -> [URLQueryItem] where Query : ResourceQuery {
+    func queryItems<Query>(forQuery query: Query) -> [URLQueryItem] where Query: ResourceQuery {
         var queryItems: [URLQueryItem] = []
 
         // includes
@@ -31,6 +31,7 @@ struct JsonAPISyncStrategy: SyncStrategy {
             } else {
                 stringValue = "null"
             }
+
             let queryItem = URLQueryItem(name: "filter[\(key)]", value: stringValue)
             queryItems.append(queryItem)
         }
@@ -85,6 +86,7 @@ struct JsonAPISyncStrategy: SyncStrategy {
             guard let identifier = try? ResourceIdentifier(object: item) else {
                 return false
             }
+
             return resourceIdentifier.id == identifier.id && resourceIdentifier.type == identifier.type
         }
 
@@ -113,6 +115,7 @@ struct JsonAPISyncStrategy: SyncStrategy {
                 guard let identifier = try? ResourceIdentifier(object: item) else {
                     return false
                 }
+
                 return resourceIdentifier.id == identifier.id && resourceIdentifier.type == identifier.type
             }
 
@@ -156,6 +159,7 @@ struct JsonAPISyncStrategy: SyncStrategy {
                         relationships[relationshipName] = ["data": resources.map { $0.identifier }]
                     }
                 }
+
                 if !relationships.isEmpty {
                     data["relationships"] = relationships
                 }

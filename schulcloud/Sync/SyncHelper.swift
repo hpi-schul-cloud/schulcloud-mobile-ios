@@ -7,7 +7,6 @@ import BrightFutures
 import CoreData
 import Foundation
 
-
 struct SyncHelper {
 
     private static let syncConfiguration = SchulcloudSyncConfig()
@@ -24,7 +23,7 @@ struct SyncHelper {
                                         withStrategy: strategy,
                                         deleteNotExistingResources: deleteNotExistingResources).mapError { syncError -> SCError in
             return .synchronization(syncError)
-        }.onSuccess { syncResult in
+        }.onSuccess { _ in
             log.info("Successfully merged resources of type: \(Resource.type)")
         }.onFailure { error in
             log.error("Failed to sync resources of type: \(Resource.type) ==> \(error)")
@@ -40,7 +39,7 @@ struct SyncHelper {
                                        withConfiguration: configuration,
                                        withStrategy: strategy).mapError { syncError -> SCError in
             return .synchronization(syncError)
-        }.onSuccess { syncResult in
+        }.onSuccess { _ in
             log.info("Successfully merged resource of type: \(Resource.type)")
         }.onFailure { error in
             log.error("Failed to sync resource of type: \(Resource.type) ==> \(error)")

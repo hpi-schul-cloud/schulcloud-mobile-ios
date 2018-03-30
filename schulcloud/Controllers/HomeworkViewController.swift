@@ -10,9 +10,9 @@
 ///   Student only
 ///     submissionCreate/submissionEdit/submissionView for homework submission
 
-import UIKit
 import CoreData
 import DateToolsSwift
+import UIKit
 
 class HomeworkViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
@@ -41,7 +41,7 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
     fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Homework> = {
 
         let now = Date()
-        let today : NSDate = Date(year: now.year, month: now.month, day: now.day) as NSDate
+        let today: NSDate = Date(year: now.year, month: now.month, day: now.day) as NSDate
 
         let fetchRequest: NSFetchRequest<Homework> = Homework.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dueDate", ascending: true)]
@@ -51,7 +51,7 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
                                                                   sectionNameKeyPath: "dueDateShort",
                                                                   cacheName: nil)
         fetchedResultsController.delegate = self
-        
+
         return fetchedResultsController
     }()
 
@@ -61,13 +61,14 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
         } catch let fetchError as NSError {
             log.error("Unable to Perform Fetch Request: \(fetchError), \(fetchError.localizedDescription)")
         }
+
         self.tableView.reloadData()
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return self.fetchedResultsController.sections?.count ?? 0
     }
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.fetchedResultsController.sections?[section].objects?.count ?? 0
     }

@@ -6,11 +6,11 @@
 import UIKit
 
 class CourseCell: UICollectionViewCell {
-    
-    @IBOutlet weak var colorView: UIView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var teacherLabel: UILabel!
-    
+
+    @IBOutlet private weak var colorView: UIView!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var teacherLabel: UILabel!
+
     func configure(for course: Course) {
         self.layer.masksToBounds = true
         self.layer.cornerRadius = 4.0
@@ -25,7 +25,7 @@ class CourseCell: UICollectionViewCell {
             self.teacherLabel.text = namesAbbreviated.joined(separator: ", ")
             self.teacherLabel.isHidden = false
         }
-        
+
         if let color = course.colorString {
             self.colorView.backgroundColor = UIColor(hexString: color)
         }

@@ -3,13 +3,13 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import UIKit
 import CoreData
+import UIKit
 
 class HomeworkOverviewViewController: UIViewController {
 
-    @IBOutlet var numberOfOpenTasksLabel: UILabel!
-    @IBOutlet var subtitleLabel: UILabel!
+    @IBOutlet private var numberOfOpenTasksLabel: UILabel!
+    @IBOutlet private var subtitleLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +52,7 @@ class HomeworkOverviewViewController: UIViewController {
                         default:
                             self.subtitleLabel.text = ""
                         }
+
                         self.subtitleLabel.isHidden = false
                     } else {
                         self.subtitleLabel.isHidden = true
@@ -71,10 +72,10 @@ class HomeworkOverviewViewController: UIViewController {
 
 }
 
-extension HomeworkOverviewViewController : ViewHeightDataSource {
+extension HomeworkOverviewViewController: ViewHeightDataSource {
     var height: CGFloat { return 200 }
 }
 
-extension HomeworkOverviewViewController : PermissionInfoDataSource {
+extension HomeworkOverviewViewController: PermissionInfoDataSource {
     static let requiredPermission = UserPermissions.homeworkView
 }

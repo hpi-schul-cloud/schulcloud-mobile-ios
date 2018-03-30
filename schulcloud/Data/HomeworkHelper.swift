@@ -3,10 +3,10 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import Foundation
 import Alamofire
 import BrightFutures
 import CoreData
+import Foundation
 
 struct HomeworkHelper {
 

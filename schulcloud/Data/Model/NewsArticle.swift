@@ -3,8 +3,8 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 final class NewsArticle: NSManagedObject {
 
@@ -21,7 +21,7 @@ final class NewsArticle: NSManagedObject {
 
 }
 
-extension NewsArticle : Pullable {
+extension NewsArticle: Pullable {
 
     static var type: String {
         return "news"

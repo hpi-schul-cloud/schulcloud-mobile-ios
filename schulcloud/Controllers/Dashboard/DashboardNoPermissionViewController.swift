@@ -5,11 +5,11 @@
 
 import UIKit
 
-final class DashboardNoPermissionViewController : UIViewController, ViewHeightDataSource {
+final class DashboardNoPermissionViewController: UIViewController, ViewHeightDataSource {
 
-    @IBOutlet var label : UILabel!
+    @IBOutlet private var label: UILabel!
 
-    var missingPermission : UserPermissions = UserPermissions.none {
+    var missingPermission: UserPermissions = UserPermissions.none {
         didSet {
             self.label?.text?.append("\n(\(missingPermission.description))")
         }

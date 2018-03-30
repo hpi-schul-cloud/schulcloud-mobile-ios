@@ -3,12 +3,11 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
 import Marshal
 
-
-protocol Pullable : ResourceRepresentable {
+protocol Pullable: ResourceRepresentable {
 
     static func value(from object: ResourceData, with context: SynchronizationContext) throws -> Self
 
@@ -160,7 +159,7 @@ class AbstractPullableContainer<A, B> where A: NSManagedObject & Pullable, B: NS
         self.context = context
     }
 
-    func update<C>(forType type : C.Type) throws where C : NSManagedObject & Pullable {
+    func update<C>(forType type: C.Type) throws where C: NSManagedObject & Pullable {
         let resourceIdentifier = try self.object.value(for: "\(self.key).data") as ResourceIdentifier
 
         guard resourceIdentifier.type == C.type else { return }
@@ -168,7 +167,7 @@ class AbstractPullableContainer<A, B> where A: NSManagedObject & Pullable, B: NS
         switch self.context.strategy.findIncludedObject(forKey: self.key, ofObject: self.object, with: self.context) {
         case let .object(_, includedObject):
             do {
-                if var existingObject = self.resource[keyPath: self.keyPath] as? C{
+                if var existingObject = self.resource[keyPath: self.keyPath] as? C {
                     try existingObject.update(from: includedObject, with: context)
                 } else if let newObject = try C.value(from: includedObject, with: context) as? B {
                     self.resource[keyPath: self.keyPath] = newObject

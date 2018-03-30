@@ -26,7 +26,7 @@ class CalendarEventHelperTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        
+
         self.formatter = DateFormatter()
         self.formatter.dateFormat = "dd.MM.yyyy HH:mm"
     }
@@ -37,16 +37,16 @@ class CalendarEventHelperTests: XCTestCase {
 
     // MARK: convenience
     func makeDatePair(_ startStr: String, _ endStr: String) -> (Date, Date) {
-        return ( self.formatter.date(from: startStr)!, self.formatter.date(from: endStr)! )
+        return (self.formatter.date(from: startStr)!, self.formatter.date(from: endStr)!)
     }
 
     // MARK: Calendar Event initialisation tests
 
     func testThatInitializingCalendarEventDoesNotModifyStartAndEndDate() {
         let (start, end) = makeDatePair("28.08.2017 15:00", "28.08.2017 16:00")
-        
+
         let event = CalendarEvent(start: start, end: end, rule: nil)
-        
+
         XCTAssertEqual(start, event.start)
         XCTAssertEqual(end, event.end)
     }
@@ -86,7 +86,7 @@ class CalendarEventHelperTests: XCTestCase {
     }
 
     func testThatItGeneratesForTheGiventInterval() {
-        let (start, end) = makeDatePair("02.10.2017 15:00","02.10.2017 16:00")
+        let (start, end) = makeDatePair("02.10.2017 15:00", "02.10.2017 16:00")
         let interval = 4
 
         let rule = CalendarEvent.RecurrenceRule(frequency: .daily, dayOfTheWeek: .monday, endDate: nil, interval: interval)
@@ -95,10 +95,9 @@ class CalendarEventHelperTests: XCTestCase {
         let sequence = event.dates
         var iterator = sequence.makeIterator()
 
-        guard let firstEvent = iterator.next(),
-              let secondEvent = iterator.next() else {
-            XCTFail()
-            return;
+        guard let firstEvent = iterator.next(), let secondEvent = iterator.next() else {
+            XCTFail("Could not find events")
+            return
         }
 
         let component = Calendar.current.dateComponents([.day], from: firstEvent.start, to: secondEvent.start)
@@ -121,7 +120,7 @@ class CalendarEventHelperTests: XCTestCase {
     }
 
     func testThatDatesHaveCorrectFrequenciesForWeeklyEvent() {
-        let (start, end) = makeDatePair("02.10.2017 15:00","02.10.2017 16:00")
+        let (start, end) = makeDatePair("02.10.2017 15:00", "02.10.2017 16:00")
 
         let weeklyRule = CalendarEvent.RecurrenceRule(frequency: .weekly, dayOfTheWeek: .monday, endDate: nil, interval: 1)
         let weeklyEvent = CalendarEvent(start: start, end: end, rule: weeklyRule)
@@ -135,7 +134,7 @@ class CalendarEventHelperTests: XCTestCase {
     }
 
     func testThatDatesHaveCorrectFrequenciesForMonthlyEvent() {
-        let (start, end) = makeDatePair("02.10.2017 15:00","02.10.2017 16:00")
+        let (start, end) = makeDatePair("02.10.2017 15:00", "02.10.2017 16:00")
 
         let monthlyRule = CalendarEvent.RecurrenceRule(frequency: .monthly, dayOfTheWeek: .monday, endDate: nil, interval: 1)
         let monthlyEvent = CalendarEvent(start: start, end: end, rule: monthlyRule)
@@ -149,7 +148,7 @@ class CalendarEventHelperTests: XCTestCase {
     }
 
     func testThatDatesHaveCorrectFrequenciesForYearlyEvent() {
-        let (start, end) = makeDatePair("02.10.2017 15:00","02.10.2017 16:00")
+        let (start, end) = makeDatePair("02.10.2017 15:00", "02.10.2017 16:00")
 
         let yearlyRule = CalendarEvent.RecurrenceRule(frequency: .yearly, dayOfTheWeek: .monday, endDate: nil, interval: 1)
         let yearlyEvent = CalendarEvent(start: start, end: end, rule: yearlyRule)

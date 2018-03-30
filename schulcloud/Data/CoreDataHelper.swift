@@ -125,6 +125,7 @@ extension NSManagedObjectContext {
             if self.hasChanges {
                 try self.save()
             }
+
             return .success(())
         } catch {
             return .failure(.coreData(error))
@@ -136,9 +137,7 @@ extension NSManagedObjectContext {
 // See https://oleb.net/blog/2018/02/performandwait/
 extension NSManagedObjectContext {
     func performAndWait<T>(_ block: () throws -> T) rethrows -> T {
-        return try _performAndWaitHelper(
-            fn: performAndWait, execute: block, rescue: { throw $0 }
-        )
+        return try _performAndWaitHelper( task: performAndWait, execute: block) { throw $0 }
     }
 
     /// Helper function for convincing the type checker that
@@ -146,21 +145,21 @@ extension NSManagedObjectContext {
     ///
     /// Source: https://github.com/apple/swift/blob/bb157a070ec6534e4b534456d208b03adc07704b/stdlib/public/SDK/Dispatch/Queue.swift#L228-L249
     private func _performAndWaitHelper<T>(
-        fn: (() -> Void) -> Void,
+        task: (() -> Void) -> Void,
         execute work: () throws -> T,
-        rescue: ((Error) throws -> (T))) rethrows -> T
-    {
+        rescue: ((Error) throws -> (T))) rethrows -> T {
         var result: T?
         var error: Error?
-        withoutActuallyEscaping(work) { _work in
-            fn {
+        withoutActuallyEscaping(work) { internalWork in
+            task {
                 do {
-                    result = try _work()
+                    result = try internalWork()
                 } catch let e {
                     error = e
                 }
             }
         }
+
         if let e = error {
             return try rescue(e)
         } else {

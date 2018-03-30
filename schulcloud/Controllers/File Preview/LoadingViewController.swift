@@ -6,40 +6,39 @@
 /// TODO: Cancel request when poping
 
 import Alamofire
+import BrightFutures
 import Foundation
 import QuickLook
-import BrightFutures
 
+class LoadingViewController: UIViewController {
+    // MARK: Lifecycle
 
-class LoadingViewController: UIViewController  {
-    //MARK: Lifecycle
-    
-    @IBOutlet var progressView: UIProgressView!
-    @IBOutlet var errorLabel: UILabel!
-    @IBOutlet var cancelButton: UIButton!
-    @IBOutlet var activityIndicator: UIActivityIndicatorView!
-    
+    @IBOutlet private var progressView: UIProgressView!
+    @IBOutlet private var errorLabel: UILabel!
+    @IBOutlet private var cancelButton: UIButton!
+    @IBOutlet private var activityIndicator: UIActivityIndicatorView!
+
     var downloadTask: URLSessionDownloadTask?
-    
+
     let fileSync = FileSync()
     var file: File!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         progressView.setProgress(0, animated: false)
         startDownload()
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         downloadTask?.cancel()
     }
-    
-    
+
     @IBAction func cancelButtonTapped(_ sender: Any) {
         downloadTask?.cancel()
         navigationController?.popViewController(animated: true)
     }
-    
+
     func startDownload() {
         fileSync.signedURL(for: file)
         .flatMap { url -> Future<Data, SCError> in
@@ -47,29 +46,31 @@ class LoadingViewController: UIViewController  {
                 self.activityIndicator.stopAnimating()
                 self.progressView.isHidden = false
             }
-            let future = self.fileSync.download(url: url, progressHandler: { (progress) in
+
+            let future = self.fileSync.download(url: url) { progress in
                 DispatchQueue.main.async {
                     self.progressView.setProgress(progress, animated: true)
                 }
-            })
+            }
+
             return future
-        }.onSuccess { (fileData) in
+        }.onSuccess { fileData in
             DispatchQueue.main.async {
                 self.showFile(data: fileData)
             }
-        }.onFailure { (error) in
+        }.onFailure { error in
             DispatchQueue.main.async {
                 self.show(error: error)
             }
         }
     }
-    
+
     func showFile(data: Data) {
         let previewManager = PreviewManager(file: file, data: data)
         let controller = previewManager.previewViewController
         controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
         controller.navigationItem.leftItemsSupplementBackButton = true
-        
+
         DispatchQueue.main.async {
             if let nav = self.navigationController {
                 // TODO: add as subview
@@ -80,6 +81,7 @@ class LoadingViewController: UIViewController  {
             } else {
                 self.present(controller, animated: false, completion: nil)
             }
+
             if let ql = controller as? QLPreviewController {
                 // fix for dataSource magically disappearing because hey let's store it in a weak variable in QLPreviewController
                 ql.dataSource = previewManager
@@ -87,7 +89,7 @@ class LoadingViewController: UIViewController  {
             }
         }
     }
-    
+
     func show(error: Error) {
         DispatchQueue.main.async {
             self.cancelButton.isHidden = true
@@ -97,6 +99,5 @@ class LoadingViewController: UIViewController  {
             self.activityIndicator.stopAnimating()
         }
     }
-    
-}
 
+}

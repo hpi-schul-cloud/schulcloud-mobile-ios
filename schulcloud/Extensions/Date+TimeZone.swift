@@ -3,12 +3,12 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import Foundation
 import DateToolsSwift
+import Foundation
 
 extension Date {
 
-    func dateInCurrentTimeZone() -> Date  {
+    func dateInCurrentTimeZone() -> Date {
         return self.subtract(self.utcOffset())
     }
 

@@ -1,16 +1,15 @@
 //
-//  MissingPermissionView.swift
-//  schulcloud
-//
-//  Created by Florian Morel on 28.03.18.
-//  Copyright © 2018 Hasso-Plattner-Institut. All rights reserved.
+//  Created for schulcloud-mobile-ios under GPL-3.0 license.
+//  Copyright © HPI. All rights reserved.
 //
 
 import UIKit
 
-final class MissingPermissionView : UIView {
-    @IBOutlet var label : UILabel!
-    var missingPermission : UserPermissions = UserPermissions.none {
+final class MissingPermissionView: UIView {
+
+    @IBOutlet private var label: UILabel!
+
+    var missingPermission: UserPermissions = UserPermissions.none {
         didSet {
             if label != nil {
                 label.text = "Fehlende Berechtigung \(missingPermission.description)"
@@ -20,8 +19,8 @@ final class MissingPermissionView : UIView {
     }
 }
 
-extension MissingPermissionView : ViewHeightDataSource {
-    var height : CGFloat {
+extension MissingPermissionView: ViewHeightDataSource {
+    var height: CGFloat {
         return 100.0
     }
 }

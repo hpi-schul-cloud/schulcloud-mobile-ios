@@ -3,15 +3,15 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import UIKit
-import EventKit
 import CalendarKit
 import DateToolsSwift
+import EventKit
+import UIKit
 
 class CalendarViewController: DayViewController {
-    
-    var calendarEvents : [CalendarEvent] = []
-    
+
+    var calendarEvents: [CalendarEvent] = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isTranslucent = false
@@ -48,7 +48,7 @@ class CalendarViewController: DayViewController {
         alert.addAction(okAction)
         self.present(alert, animated: true)
     }
-    
+
     // MARK: DayViewDataSource
     override func eventsForDate(_ date: Date) -> [EventDescriptor] {
         let startDate = Date(year: date.year, month: date.month, day: date.day)
@@ -61,7 +61,7 @@ class CalendarViewController: DayViewController {
 }
 
 extension CalendarEvent {
-    var calendarKitEvent : Event {
+    var calendarKitEvent: Event {
         let event = Event()
         event.datePeriod = TimePeriod(beginning: self.start, end: self.end)
         event.text = self.title ?? "Unknown"

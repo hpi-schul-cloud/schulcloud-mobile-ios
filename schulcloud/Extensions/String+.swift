@@ -7,7 +7,7 @@ import UIKit
 
 // MARK: Localization convenience
 extension String {
-    var localized : String {
+    var localized: String {
         return NSLocalizedString(self, comment: "")
     }
 }
@@ -18,8 +18,8 @@ extension String {
         let text = self.trimmingCharacters(in: .whitespacesAndNewlines)
         return "<html><head>\(style ?? "")</head><body>\(text)</body></html>"
     }
-    
-    var standardStyledHtml : String {
+
+    var standardStyledHtml: String {
         return self.htmlWrapped(style: Constants.textStyleHtml)
     }
 
@@ -30,7 +30,7 @@ extension String {
 
         let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
             .documentType: NSAttributedString.DocumentType.html,
-            .characterEncoding: NSNumber(value: String.Encoding.utf8.rawValue)
+            .characterEncoding: NSNumber(value: String.Encoding.utf8.rawValue),
         ]
         let attributedString = try? NSMutableAttributedString(data: data, options: options, documentAttributes: nil)
         return attributedString?.trimmedAttributedString(set: .whitespacesAndNewlines)

@@ -5,13 +5,13 @@
 
 import XCTest
 
-class schulcloudUITests: XCTestCase {
-        
+class SchulCloudUITests: XCTestCase {
+
     override func setUp() {
         super.setUp()
-        
+
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        
+
         // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
         // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
@@ -21,20 +21,21 @@ class schulcloudUITests: XCTestCase {
 
         XCUIDevice.shared.orientation = UIDevice.current.userInterfaceIdiom == .pad ? .landscapeLeft : .portrait
 
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run.
+        // The setUp method is a good place to do this.
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
+
     func testLaunch() {
         let app = XCUIApplication()
         let emailAdresseOderNutzernameTextField = app.textFields["Email-Adresse oder Nutzername"]
         emailAdresseOderNutzernameTextField.clear()
 
-        app.otherElements.containing(.image, identifier:"logo-text").element.tap()
+        app.otherElements.containing(.image, identifier: "logo-text").element.tap()
 
         snapshot("0Launch")
     }
@@ -58,11 +59,12 @@ class schulcloudUITests: XCTestCase {
             "Ein lokaler Schul-Cloud Kalendar existiert bereits.": "Verwerfen",
         ]
         for (labelText, buttonTitle) in alertDismissals {
-            addUIInterruptionMonitor(withDescription: description) { (alert) -> Bool in
+            addUIInterruptionMonitor(withDescription: description) { alert -> Bool in
                 if alert.label == labelText {
                     alert.buttons[buttonTitle].tap()
                     return true
                 }
+
                 return false
             }
         }
@@ -82,17 +84,17 @@ class schulcloudUITests: XCTestCase {
         let foundText = app.staticTexts["offene Aufgaben"].waitForExistence(timeout: 120)
         XCTAssertTrue(foundText, "Unable to find text 'offenen Aufgaben'")
 
-        while app.alerts.count > 0 {
+        while app.alerts.count > 0 { // swiftlint:disable:this empty_count
             app.navigationBars.firstMatch.tap()
         }
 
         snapshot("1Dashboard")
 
         app.tabBars.buttons["Einstellungen"].tap()
-        app.tables/*@START_MENU_TOKEN@*/.staticTexts["Ausloggen"]/*[[".cells.staticTexts[\"Ausloggen\"]",".staticTexts[\"Ausloggen\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.tables.staticTexts["Ausloggen"].tap()
 
         let foundLoginBotton = app.buttons["Anmelden"].waitForExistence(timeout: 120)
         XCTAssertTrue(foundLoginBotton, "Unable to find login button")
     }
-    
+
 }

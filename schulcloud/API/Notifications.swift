@@ -8,10 +8,10 @@ import BrightFutures
 import Foundation
 
 // firebase messaging
-import UserNotifications
 import Firebase
 import FirebaseInstanceID
 import FirebaseMessaging
+import UserNotifications
 
 class SCNotifications {
 
@@ -47,6 +47,7 @@ class SCNotifications {
                 promise.failure(SCError.other("No token obtained"))
             }
         }
+
         return promise.future
     }
 
@@ -58,8 +59,9 @@ class SCNotifications {
             "name": "iOS device",
             "token": Globals.account!.userId,
             "device_token": deviceToken,
-            "OS": "ios"
+            "OS": "ios",
         ]
+
         return Future(value: ())
 //        return ApiHelper.requestBasic("notification/devices", method: .post, parameters: parameters, encoding: JSONEncoding.default)
 //            .flatMap { response -> Future<Void, SCError> in
@@ -78,13 +80,11 @@ class SCNotifications {
     static func initializeMessaging() {
         UNUserNotificationCenter.current().delegate = UIApplication.shared.delegate as! AppDelegate
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-        UNUserNotificationCenter.current().requestAuthorization(
-            options: authOptions,
-            completionHandler: {_, error in
-                if let error = error {
-                    log.error(error)
-                }
-        })
+        UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { _, error in
+            if let error = error {
+                log.error(error)
+            }
+        }
 
         FIRMessaging.messaging().remoteMessageDelegate = RemoteMessageDelegate.shared
 
@@ -117,7 +117,7 @@ class RemoteMessageDelegate: NSObject, FIRMessagingDelegate, UNUserNotificationC
 
             // dispatch the notification
             let center = UNUserNotificationCenter.current()
-            center.add(request) { (error : Error?) in
+            center.add(request) { (error: Error?) in
                 if let theError = error {
                     log.error(theError.localizedDescription)
                 }
@@ -126,7 +126,7 @@ class RemoteMessageDelegate: NSObject, FIRMessagingDelegate, UNUserNotificationC
             log.error("Could not read remote message \(remoteMessage.appData)")
         }
     }
-    
+
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {

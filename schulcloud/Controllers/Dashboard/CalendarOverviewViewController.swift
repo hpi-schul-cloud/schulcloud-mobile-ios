@@ -3,9 +3,9 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import UIKit
-import EventKit
 import DateToolsSwift
+import EventKit
+import UIKit
 
 class CalendarOverviewViewController: UIViewController {
 
@@ -14,17 +14,17 @@ class CalendarOverviewViewController: UIViewController {
         case noEvents(String)
     }
 
-    @IBOutlet weak var currentEventName: UILabel!
-    @IBOutlet weak var currentEventLocation: UILabel!
-    @IBOutlet weak var currentEventDate: UILabel!
-    @IBOutlet weak var nextEventName: UILabel!
-    @IBOutlet weak var nextEventLocation: UILabel!
-    @IBOutlet weak var nextEventDate: UILabel!
-    @IBOutlet weak var nextEventDetails: UIStackView!
-    @IBOutlet weak var currentEventProgress: UIProgressView!
+    @IBOutlet private weak var currentEventName: UILabel!
+    @IBOutlet private weak var currentEventLocation: UILabel!
+    @IBOutlet private weak var currentEventDate: UILabel!
+    @IBOutlet private weak var nextEventName: UILabel!
+    @IBOutlet private weak var nextEventLocation: UILabel!
+    @IBOutlet private weak var nextEventDate: UILabel!
+    @IBOutlet private weak var nextEventDetails: UIStackView!
+    @IBOutlet private weak var currentEventProgress: UIProgressView!
 
-    @IBOutlet weak var eventsOverview: UIStackView!
-    @IBOutlet weak var noEventsView: UILabel!
+    @IBOutlet private weak var eventsOverview: UIStackView!
+    @IBOutlet private weak var noEventsView: UILabel!
 
     static let noEventsMessage = "Für heute gibt es keine weiteren Termine."
     static let noPermissionMessage = "Fehlende Kalenderberechtigung"
@@ -47,16 +47,16 @@ class CalendarOverviewViewController: UIViewController {
         self.syncEvents()
     }
 
-    var todayInterval : DateInterval {
+    var todayInterval: DateInterval {
         let now = Date()
-        let today = Date(year:now.year, month: now.month, day: now.day)
+        let today = Date(year: now.year, month: now.month, day: now.day)
         let oneDayChunk = TimeChunk(seconds: 0, minutes: 0, hours: 0, days: 1, weeks: 0, months: 0, years: 0)
         let tomorrow = today + oneDayChunk
         return DateInterval(start: now, end: tomorrow)
     }
-    
+
     private func syncEvents() {
-        CalendarEventHelper.syncEvents().onSuccess { result in
+        CalendarEventHelper.syncEvents().onSuccess { _ in
             self.updateEvents()
         }.onFailure { error in
             log.error("Failed to synchronize events: \(error.description)")
@@ -85,7 +85,7 @@ class CalendarOverviewViewController: UIViewController {
 
     func updateUIForCurrentState() {
         switch self.state {
-        case .events(let currentEvent, let someNextEvent):
+        case let .events(currentEvent, someNextEvent):
             let dateFormatter = DateFormatter()
             dateFormatter.locale = NSLocale.autoupdatingCurrent
             dateFormatter.dateStyle = .none
@@ -126,10 +126,10 @@ class CalendarOverviewViewController: UIViewController {
     }
 }
 
-extension CalendarOverviewViewController : ViewHeightDataSource {
+extension CalendarOverviewViewController: ViewHeightDataSource {
     var height: CGFloat { return 200 }
 }
 
-extension CalendarOverviewViewController : PermissionInfoDataSource {
+extension CalendarOverviewViewController: PermissionInfoDataSource {
     static let requiredPermission = UserPermissions.calendarView
 }

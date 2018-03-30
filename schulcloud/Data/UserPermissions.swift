@@ -5,20 +5,22 @@
 
 import Foundation
 
-struct UserPermissions : OptionSet {
+struct UserPermissions: OptionSet {
     //                     MSB    LSB
     typealias RawValue = (Int64, Int64)
+
     let rawValue: RawValue
+
     init(rawValue: RawValue ) {
         self.rawValue = rawValue
     }
-    
+
     init(array: [String]) {
-        self = array.flatMap{ UserPermissions(str: $0) }.reduce(UserPermissions.none, { (acc, permission) -> UserPermissions in
+        self = array.flatMap { UserPermissions(str: $0) }.reduce(UserPermissions.none) { acc, permission -> UserPermissions in
             return acc.union(permission)
-        })
+        }
     }
-    
+
     init?(str: String) {
         switch str {
         case "ACCOUNT_CREATE":
@@ -34,7 +36,7 @@ struct UserPermissions : OptionSet {
         case "CALENDAR_EDIT":
             self = UserPermissions.calendarEdit
         case "CALENDAR_EVENT_CREATE":
-            self = UserPermissions.calendarEvent_create
+            self = UserPermissions.calendarEventCreate
         case "CALENDAR_VIEW":
             self = UserPermissions.calendarView
         case "COMMENTS_CREATE":
@@ -134,7 +136,7 @@ struct UserPermissions : OptionSet {
         case "SCHOOL_EDIT":
             self = UserPermissions.schoolEdit
         case "SCHOOL_NEWS_EDIT":
-            self = UserPermissions.schoolNews_edit
+            self = UserPermissions.schoolNewsEdit
         case "STUDENT_CREATE":
             self = UserPermissions.studentCreate
         case "SUBMISSIONS_CREATE":
@@ -156,7 +158,7 @@ struct UserPermissions : OptionSet {
         case "TOOL_EDIT":
             self = UserPermissions.toolEdit
         case "TOOL_NEW_VIEW":
-            self = UserPermissions.toolNew_view
+            self = UserPermissions.toolNewView
         case "TOOL_VIEW":
             self = UserPermissions.toolView
         case "TOPIC_CREATE":
@@ -182,7 +184,7 @@ struct UserPermissions : OptionSet {
         }
     }
 
-    var description : String {
+    var description: String {
         switch self {
         case UserPermissions.homeworkView:
             return "HOMEWORK_VIEW"
@@ -208,7 +210,7 @@ struct UserPermissions : OptionSet {
     static let baseView = UserPermissions(rawValue: ( 0, 1 << 3 ) )
     static let calendarCreate = UserPermissions(rawValue: ( 0, 1 << 4 ) )
     static let calendarEdit = UserPermissions(rawValue: ( 0, 1 << 5 ) )
-    static let calendarEvent_create = UserPermissions(rawValue: ( 0, 1 << 6 ) )
+    static let calendarEventCreate = UserPermissions(rawValue: ( 0, 1 << 6 ) )
     static let calendarView = UserPermissions(rawValue: ( 0, 1 << 7 ) )
     static let commentsCreate = UserPermissions(rawValue: ( 0, 1 << 8 ) )
     static let commentsEdit = UserPermissions(rawValue: ( 0, 1 << 9 ) )
@@ -257,7 +259,7 @@ struct UserPermissions : OptionSet {
     static let roleView = UserPermissions(rawValue: ( 0, 1 << 52 ) )
     static let schoolCreate = UserPermissions(rawValue: ( 0, 1 << 53 ) )
     static let schoolEdit = UserPermissions(rawValue: ( 0, 1 << 54 ) )
-    static let schoolNews_edit = UserPermissions(rawValue: ( 0, 1 << 55 ) )
+    static let schoolNewsEdit = UserPermissions(rawValue: ( 0, 1 << 55 ) )
     static let studentCreate = UserPermissions(rawValue: ( 0, 1 << 56 ) )
     static let submissionsCreate = UserPermissions(rawValue: ( 0, 1 << 57 ) )
     static let submissionsEdit = UserPermissions(rawValue: ( 0, 1 << 58 ) )
@@ -268,7 +270,7 @@ struct UserPermissions : OptionSet {
     static let teacherCreate = UserPermissions(rawValue: ( 0, 1 << 63 ) )
     static let toolCreate = UserPermissions(rawValue: ( 1 << 0, 0 ) )
     static let toolEdit = UserPermissions(rawValue: ( 1 << 1, 0 ) )
-    static let toolNew_view = UserPermissions(rawValue: ( 1 << 2, 0 ) )
+    static let toolNewView = UserPermissions(rawValue: ( 1 << 2, 0 ) )
     static let toolView = UserPermissions(rawValue: ( 1 << 3, 0 ) )
     static let topicCreate = UserPermissions(rawValue: ( 1 << 4, 0 ) )
     static let topicEdit = UserPermissions(rawValue: ( 1 << 5, 0 ) )
@@ -280,45 +282,44 @@ struct UserPermissions : OptionSet {
     static let userEdit = UserPermissions(rawValue: ( 1 << 11, 0 ) )
     static let userView = UserPermissions(rawValue: ( 1 << 12, 0 ) )
 
-    //NOTE: So far, only filestorageCreate and removed are handled on the backend, I guess in the future, fileCreate/fileMove/fileDelete will be handled
-    static let creatingFiles : UserPermissions = [.filestorageCreate]
-    static let deletingFiles : UserPermissions = [.filestorageRemove]
-    static let movingFiles : UserPermissions = [.filestorageCreate]
+    // NOTE: So far, only filestorageCreate and removed are handled on the backend, I guess in the future, fileCreate/fileMove/fileDelete will be handled
+    static let creatingFiles: UserPermissions = [.filestorageCreate]
+    static let deletingFiles: UserPermissions = [.filestorageRemove]
+    static let movingFiles: UserPermissions = [.filestorageCreate]
 }
 
-extension UserPermissions : Equatable {
-    static func ==(lhs: UserPermissions, rhs: UserPermissions) -> Bool {
+extension UserPermissions: Equatable {
+    static func == (lhs: UserPermissions, rhs: UserPermissions) -> Bool {
         return lhs.rawValue == rhs.rawValue
     }
 }
 
-extension UserPermissions : SetAlgebra {
+extension UserPermissions: SetAlgebra {
     // This is required by SetAlgebra protocol, user should use UserPermissions.none or rawValue init instead
     init() {
         self = UserPermissions.none
     }
-    
+
     func intersection(_ other: UserPermissions) -> UserPermissions {
         return UserPermissions(rawValue: (self.rawValue.0 & other.rawValue.0,
                                           self.rawValue.1 & other.rawValue.1))
     }
-    
+
     func union(_ other: UserPermissions) -> UserPermissions {
         return UserPermissions(rawValue: (self.rawValue.0 | other.rawValue.0,
                                           self.rawValue.1 | other.rawValue.1))
     }
-    
+
     mutating func formUnion(_ other: UserPermissions) {
         self = self.union(other)
     }
-    
+
     mutating func formIntersection(_ other: UserPermissions) {
         self = self.intersection(other)
     }
-    
+
     mutating func formSymmetricDifference(_ other: UserPermissions) {
         self = UserPermissions(rawValue: (self.rawValue.0 - (self.rawValue.0 & other.rawValue.0),
                                           self.rawValue.1 - (self.rawValue.1 & other.rawValue.1)) )
     }
 }
-

@@ -5,12 +5,12 @@
 
 import CoreData
 
-struct SchulcloudSyncConfig : SyncConfig {
+struct SchulcloudSyncConfig: SyncConfig {
 
     var baseURL: URL = Constants.backend.url
 
-    var requestHeaders: [String : String] = [
-        "Authorization": Globals.account!.accessToken!
+    var requestHeaders: [String: String] = [
+        "Authorization": Globals.account!.accessToken!,
     ]
 
     var persistentContainer: NSPersistentContainer {

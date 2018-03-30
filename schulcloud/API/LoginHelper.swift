@@ -3,11 +3,11 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import Foundation
 import Alamofire
 import BrightFutures
-import Locksmith
+import Foundation
 import JWTDecode
+import Locksmith
 
 class LoginHelper {
 
@@ -16,16 +16,18 @@ class LoginHelper {
 
         let parameters: Parameters = [
             "username": username as Any,
-            "password": password as Any
+            "password": password as Any,
         ]
 
         let loginEndpoint = Constants.backend.url.appendingPathComponent("authentication/")
         Alamofire.request(loginEndpoint, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in
             guard let json = response.result.value as? [String: Any] else {
                 let error = response.error!
-                promise.failure(.loginFailed(error.localizedDescription))   // using the error directly isn't possible because Error can't be used as a concrete type
+                // using the error directly isn't possible because Error can't be used as a concrete type
+                promise.failure(.loginFailed(error.localizedDescription))
                 return
             }
+
             if let accessToken = json["accessToken"] as? String {
                 promise.success(accessToken)
             } else if let errorMessage = json["message"] as? String, errorMessage != "Error" {
@@ -59,6 +61,7 @@ class LoginHelper {
             DispatchQueue.main.async {
                 SCNotifications.initializeMessaging()
             }
+
             return Future(value: Void())
         } catch let error {
             return Future(error: SCError.loginFailed(error.localizedDescription))
@@ -68,7 +71,7 @@ class LoginHelper {
     static func renewAccessToken() -> Future<Void, SCError> {
         return getAccessToken(username: nil, password: nil).flatMap(saveToken)
     }
-    
+
     static func loadAccount() -> SchulCloudAccount? {
         let defaults = UserDefaults.standard
 
@@ -78,21 +81,22 @@ class LoginHelper {
 
         var account = SchulCloudAccount(userId: userId, accountId: accountId, accessToken: nil)
         account.loadAccessTokenFromKeychain()
-        
+
         return account
     }
-    
+
     static func validate(_ account: SchulCloudAccount) -> SchulCloudAccount? {
         guard let accessToken = account.accessToken else {
             log.error("Could not load access token for account!")
             return nil
         }
+
         do {
             let jwt = try decode(jwt: accessToken)
             let expiration = jwt.body["exp"] as! Int64
             let interval = TimeInterval(exactly: expiration)!
             let expirationDate = Date(timeIntervalSince1970: interval)
-            let threeHourBuffer = TimeInterval(exactly: 60*60*3)!
+            let threeHourBuffer = TimeInterval(exactly: 60 * 60 * 3)!
             let isValid = Date() < expirationDate - threeHourBuffer
             return isValid ? account : nil
         } catch let error {
@@ -100,7 +104,7 @@ class LoginHelper {
             return nil
         }
     }
-    
+
     static func logout() {
         UserDefaults.standard.set(nil, forKey: "accountId")
         UserDefaults.standard.set(nil, forKey: "userId")
@@ -113,5 +117,5 @@ class LoginHelper {
             log.error(error.localizedDescription)
         }
     }
-    
+
 }

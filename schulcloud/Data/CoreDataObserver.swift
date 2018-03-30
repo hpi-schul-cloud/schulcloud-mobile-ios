@@ -25,7 +25,7 @@ class CoreDataObserver {
     @objc func managedObjectContextObjectsDidChange(notification: NSNotification) {
         guard let userInfo = notification.userInfo else { return }
 
-        var courseChanges : [String : [(id: String, name: String)]] = [:]
+        var courseChanges: [String: [(id: String, name: String)]] = [:]
 
         if let inserts = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject>, !inserts.isEmpty {
             if CalendarEventHelper.EventKitSettings.current.shouldSynchonize {
@@ -96,7 +96,6 @@ class CoreDataObserver {
                 courseChanges[NSRefreshedObjectsKey] = courses.map { (id: $0.id, name: $0.name) }
             }
         }
-
 
         if !courseChanges.isEmpty {
             FileHelper.processCourseUpdates(changes: courseChanges)

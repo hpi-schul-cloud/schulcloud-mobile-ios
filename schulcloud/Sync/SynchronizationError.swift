@@ -18,7 +18,7 @@ enum SyncError: Error {
     case invalidURLComponents(URL)
 }
 
-enum APIError : Error {
+enum APIError: Error {
     case invalidResponse
     case noData
     case response(statusCode: Int, headers: [AnyHashable: Any])
@@ -27,7 +27,7 @@ enum APIError : Error {
     case serialization(SerializationError)
 }
 
-enum SerializationError : Error {
+enum SerializationError: Error {
     case invalidDocumentStructure
     case topLevelEntryMissing
     case topLevelDataAndErrorsCoexist
@@ -37,7 +37,7 @@ enum SerializationError : Error {
     case includedModelDeserialization(Error, onType: String, forIncludedType: String, forKey: String)
 }
 
-enum SynchronizationError : Error {
+enum SynchronizationError: Error {
     case noRelationshipBetweenEnities(from: Any, to: Any)
     case toManyRelationshipBetweenEnities(from: Any, to: Any)
     case abstractRelationshipNotUpdated(from: Any, to: Any, withKey: KeyType)

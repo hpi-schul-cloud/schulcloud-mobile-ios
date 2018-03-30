@@ -3,37 +3,37 @@
 //  Copyright © HPI. All rights reserved.
 //
 
+import CoreData
 import Foundation
 import Locksmith
-import CoreData
 
 struct SchulCloudAccount: CreateableSecureStorable, ReadableSecureStorable, DeleteableSecureStorable, GenericPasswordSecureStorable, SecureStorableResultType {
 
     var userId: String
     var accountId: String
-    
+
     var accessToken: String?
-    
+
     // Required by GenericPasswordSecureStorable
     let service = "Schul-Cloud"
     var account: String { return userId }
-    
+
     // Required by CreateableSecureStorable
     var data: [String: Any] {
         return ["accessToken": accessToken as AnyObject]
     }
-    
+
     mutating func loadAccessTokenFromKeychain() {
         let result = readFromSecureStore()
         accessToken = result?.data?["accessToken"] as? String
     }
-    
+
     func saveCredentials() throws {
         let defaults = UserDefaults.standard
-        
+
         defaults.set(accountId, forKey: "accountId")
         defaults.set(userId, forKey: "userId")
-        
+
         do {
             try createInSecureStore()
         } catch {
@@ -43,12 +43,12 @@ struct SchulCloudAccount: CreateableSecureStorable, ReadableSecureStorable, Dele
 }
 
 class Globals {
-    static var account: SchulCloudAccount? = nil
+    static var account: SchulCloudAccount?
 
-    static var currentUser : User? {
+    static var currentUser: User? {
         guard let userId = account?.userId else { return nil }
         return CoreDataHelper.viewContext.performAndWait { () -> User? in
-            let fetchRequest : NSFetchRequest<User> = User.fetchRequest()
+            let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "id == %@", userId)
 
             switch CoreDataHelper.viewContext.fetchSingle(fetchRequest) {

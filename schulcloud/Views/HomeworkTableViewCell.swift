@@ -7,22 +7,22 @@ import UIKit
 
 class HomeworkTableViewCell: UITableViewCell {
 
-    @IBOutlet var subjectLabel: UILabel!
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var contentLabel: UILabel!
-    @IBOutlet var coloredStrip: UIView!
-    @IBOutlet var dueLabel: UILabel!
+    @IBOutlet private var subjectLabel: UILabel!
+    @IBOutlet private var titleLabel: UILabel!
+    @IBOutlet private var contentLabel: UILabel!
+    @IBOutlet private var coloredStrip: UIView!
+    @IBOutlet private var dueLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        self.coloredStrip.layer.cornerRadius = self.coloredStrip.frame.size.height/2
+        self.coloredStrip.layer.cornerRadius = self.coloredStrip.frame.size.height / 2.0
         self.coloredStrip.layer.masksToBounds = true
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.coloredStrip.layer.cornerRadius = self.coloredStrip.frame.size.height/2.0
+        self.coloredStrip.layer.cornerRadius = self.coloredStrip.frame.size.height / 2.0
     }
 
     func configure(for homework: Homework) {
@@ -32,7 +32,7 @@ class HomeworkTableViewCell: UITableViewCell {
 
         let description = homework.cleanedDescriptionText
         if let attributedString = NSMutableAttributedString(html: description) {
-            let range = NSMakeRange(0, attributedString.string.count)
+            let range = NSRange(location: 0, length: attributedString.string.count)
             attributedString.addAttribute(NSAttributedStringKey.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
             self.contentLabel.text = attributedString.trailingNewlineChopped.string
         } else {

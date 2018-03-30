@@ -57,7 +57,7 @@ extension Homework {
     }
 
     var dueTextAndColor: (String, UIColor) {
-        let highlightColor = UIColor(red: 1.0, green: 45/255, blue: 0.0, alpha: 1.0)
+        let highlightColor = UIColor(red: 1.0, green: 45 / 255, blue: 0.0, alpha: 1.0)
         let timeDifference = Calendar.current.dateComponents([.day, .hour], from: Date(), to: self.dueDate as Date)
 
         guard let dueDay = timeDifference.day, !self.publicSubmissions else {
@@ -82,17 +82,20 @@ extension Homework {
 
     static func relativeDateString(for date: Date) -> String {
         let calendar = NSCalendar.current
-        if calendar.isDateInYesterday(date) { return "Gestern" }
-        else if calendar.isDateInToday(date) { return "Heute" }
-        else if calendar.isDateInTomorrow(date) { return "Morgen" }
-        else {
+        if calendar.isDateInYesterday(date) {
+            return "Gestern"
+        } else if calendar.isDateInToday(date) {
+            return "Heute"
+        } else if calendar.isDateInTomorrow(date) {
+            return "Morgen"
+        } else {
             return DateFormatter.localizedString(from: date, dateStyle: .full, timeStyle: .none)
         }
     }
 
 }
 
-extension Homework : Pullable {
+extension Homework: Pullable {
 
     static var type: String {
         return "homework"

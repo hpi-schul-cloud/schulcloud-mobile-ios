@@ -3,10 +3,10 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
-final class Lesson : NSManagedObject {
+final class Lesson: NSManagedObject {
 
     @NSManaged public var id: String
     @NSManaged public var name: String?
@@ -21,7 +21,7 @@ final class Lesson : NSManagedObject {
 
 }
 
-extension Lesson : Pullable {
+extension Lesson: Pullable {
 
     static var type: String {
         return "lessons"

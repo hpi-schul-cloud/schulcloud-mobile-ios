@@ -3,8 +3,8 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import UIKit
 import CoreData
+import UIKit
 
 protocol NewsOverviewViewControllerDelegate: class {
     func heightDidChange(_ height: CGFloat)
@@ -12,15 +12,18 @@ protocol NewsOverviewViewControllerDelegate: class {
     func didSelect(news: NewsArticle)
 }
 
-final class NewsOverviewViewController : UITableViewController {
+final class NewsOverviewViewController: UITableViewController {
 
     weak var delegate: NewsOverviewViewControllerDelegate?
 
-    fileprivate lazy var fetchedController : NSFetchedResultsController<NewsArticle> = {
-        let fetchRequest : NSFetchRequest<NewsArticle> = NewsArticle.fetchRequest()
+    fileprivate lazy var fetchedController: NSFetchedResultsController<NewsArticle> = {
+        let fetchRequest: NSFetchRequest<NewsArticle> = NewsArticle.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "displayAt", ascending: false)]
 
-        let controller = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataHelper.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        let controller = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                    managedObjectContext: CoreDataHelper.viewContext,
+                                                    sectionNameKeyPath: nil,
+                                                    cacheName: nil)
         controller.delegate = self
         return controller
     }()
@@ -47,9 +50,9 @@ final class NewsOverviewViewController : UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell : UITableViewCell
+        let cell: UITableViewCell
 
-        if self.fetchedController.fetchedObjects?.count == 0 {
+        if self.fetchedController.fetchedObjects?.isEmpty ?? true {
             let emptyCell = tableView.dequeueReusableCell(withIdentifier: "EmptyNewsCell")
             cell = emptyCell!
         } else {
@@ -58,15 +61,14 @@ final class NewsOverviewViewController : UITableViewController {
             newsCell.configure(for: newsArticle)
             cell = newsCell
         }
+
         return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let fetchedObject = fetchedController.fetchedObjects,
-                  fetchedObject.count > 0 else { return }
-        defer { tableView.deselectRow(at: indexPath, animated: false) }
-        let newsArticle = fetchedObject[indexPath.row];
+        let newsArticle = self.fetchedController.object(at: indexPath)
         self.delegate?.didSelect(news: newsArticle)
+        self.tableView.deselectRow(at: indexPath, animated: true)
     }
 
     @IBAction func showMorePressed() {
@@ -74,18 +76,18 @@ final class NewsOverviewViewController : UITableViewController {
     }
 }
 
-extension NewsOverviewViewController : NSFetchedResultsControllerDelegate {
+extension NewsOverviewViewController: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.reloadData()
     }
 }
 
-extension NewsOverviewViewController : ViewHeightDataSource {
-    var height : CGFloat {
+extension NewsOverviewViewController: ViewHeightDataSource {
+    var height: CGFloat {
         return tableView.contentSize.height + 20.0
     }
 }
 
-extension NewsOverviewViewController : PermissionInfoDataSource {
+extension NewsOverviewViewController: PermissionInfoDataSource {
     static let requiredPermission = UserPermissions.newsView
 }
