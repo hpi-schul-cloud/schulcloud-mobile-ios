@@ -23,7 +23,8 @@ class LoginHelper {
         Alamofire.request(loginEndpoint, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in
             guard let json = response.result.value as? [String: Any] else {
                 let error = response.error!
-                promise.failure(.loginFailed(error.localizedDescription))   // using the error directly isn't possible because Error can't be used as a concrete type
+                // using the error directly isn't possible because Error can't be used as a concrete type
+                promise.failure(.loginFailed(error.localizedDescription))
                 return
             }
 

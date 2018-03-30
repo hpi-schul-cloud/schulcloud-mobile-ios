@@ -21,7 +21,8 @@ class schulcloudUITests: XCTestCase {
 
         XCUIDevice.shared.orientation = UIDevice.current.userInterfaceIdiom == .pad ? .landscapeLeft : .portrait
 
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run.
+        // The setUp method is a good place to do this.
     }
 
     override func tearDown() {
@@ -90,7 +91,7 @@ class schulcloudUITests: XCTestCase {
         snapshot("1Dashboard")
 
         app.tabBars.buttons["Einstellungen"].tap()
-        app.tables/*@START_MENU_TOKEN@*/.staticTexts["Ausloggen"]/*[[".cells.staticTexts[\"Ausloggen\"]",".staticTexts[\"Ausloggen\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.tables.staticTexts["Ausloggen"].tap()
 
         let foundLoginBotton = app.buttons["Anmelden"].waitForExistence(timeout: 120)
         XCTAssertTrue(foundLoginBotton, "Unable to find login button")

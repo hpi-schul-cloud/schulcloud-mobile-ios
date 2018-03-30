@@ -20,7 +20,10 @@ final class NewsOverviewViewController: UITableViewController {
         let fetchRequest: NSFetchRequest<NewsArticle> = NewsArticle.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "displayAt", ascending: false)]
 
-        let controller = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataHelper.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        let controller = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                    managedObjectContext: CoreDataHelper.viewContext,
+                                                    sectionNameKeyPath: nil,
+                                                    cacheName: nil)
         controller.delegate = self
         return controller
     }()

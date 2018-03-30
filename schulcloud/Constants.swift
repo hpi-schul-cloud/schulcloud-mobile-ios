@@ -24,7 +24,17 @@ class Constants {
         style += "h1 { font: -apple-system-title1; }"
         style += "a {color: #b10438; text-decoration: none}"
         style += "img {display: block; max-width: 100%; width: auto !important; height: auto !important;}"
-        style += ".not-supported {border: 1px solid #aaa; background-color: #ddd; border-radius: 2px; padding: 8px 4px; display: block; max-width: 100%; width: auto !important; text-align: center}"
+        style += """
+        .not-supported {border: 1px solid #aaa;
+            background-color: #ddd;
+            border-radius: 2px;
+            padding: 8px 4px;
+            display: block;
+            max-width: 100%;
+            width: auto !important;
+            text-align: center
+        }
+        """
         style += "</style>"
         return style
     }

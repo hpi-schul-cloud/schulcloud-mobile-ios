@@ -57,7 +57,8 @@ extension SchulcloudSyncStrategy {
     }
 
     func findIncludedObject(forKey key: KeyType, ofObject object: ResourceData, with context: SynchronizationContext) -> FindIncludedObjectResult {
-        if let resourceData = try? object.value(for: key) as MarshalDictionary, let resourceId = try? resourceData.value(for: self.resourceKeyAttribute) as String {
+        if let resourceData = try? object.value(for: key) as MarshalDictionary,
+           let resourceId = try? resourceData.value(for: self.resourceKeyAttribute) as String {
             return .object(resourceId, resourceData)
         } else if let resourceId = try? object.value(for: key) as String {
             return .id(resourceId)

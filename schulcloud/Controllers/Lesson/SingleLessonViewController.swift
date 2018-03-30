@@ -42,7 +42,12 @@ class SingleLessonViewController: UIViewController, WKUIDelegate {
 
     func loadContents(_ contents: Set<LessonContent>) {
         let rendered = contents.map(htmlForElement)
-        let concatenated = "<html><head>\(Constants.textStyleHtml)<meta name=\"viewport\" content=\"initial-scale=1.0\"></head>" + rendered.joined(separator: "<hr>") + "</body></html>"
+        let concatenated = """
+        <html>
+        <head>\(Constants.textStyleHtml)<meta name=\"viewport\" content=\"initial-scale=1.0\"></head>
+        <body>\(rendered.joined(separator: "<hr>"))</body>
+        </html>
+        """
         webView.loadHTMLString(concatenated, baseURL: Constants.Servers.web.url)
     }
 

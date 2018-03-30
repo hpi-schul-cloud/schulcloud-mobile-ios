@@ -109,7 +109,12 @@ class WebviewPreviewViewContoller: UIViewController {
 
         // Convert and display string
         if let convertedString = convertSpecialCharacters(rawString) {
-            let htmlString = "<html><head><meta name='viewport' content='initial-scale=1.0, user-scalable=no'></head><body><pre>\(convertedString)</pre></body></html>"
+            let htmlString = """
+            <html>
+            <head><meta name='viewport' content='initial-scale=1.0, user-scalable=no'></head>
+            <body><pre>\(convertedString)</pre></body>
+            </html>
+            """
             webView.loadHTMLString(htmlString, baseURL: nil)
         }
 

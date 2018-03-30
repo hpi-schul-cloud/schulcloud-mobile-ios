@@ -25,8 +25,14 @@ class LoginViewController: UIViewController {
         self.passwordInput.delegate = self
         self.usernameInput.text = UserDefaults.standard.string(forKey: LoginViewController.usernameKey)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(self.adjustViewForKeyboardShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.adjustViewForKeyboardHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(adjustViewForKeyboardShow),
+                                               name: NSNotification.Name.UIKeyboardWillShow,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(adjustViewForKeyboardHide),
+                                               name: NSNotification.Name.UIKeyboardWillHide,
+                                               object: nil)
     }
 
     override var shouldAutorotate: Bool {

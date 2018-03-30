@@ -182,7 +182,11 @@ extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownlo
     }
 
     // Download progress
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+    func urlSession(_ session: URLSession,
+                    downloadTask: URLSessionDownloadTask,
+                    didWriteData bytesWritten: Int64,
+                    totalBytesWritten: Int64,
+                    totalBytesExpectedToWrite: Int64) {
         if let progressHandler = progressHandlers[downloadTask.taskIdentifier] {
             let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
             progressHandler(progress)
@@ -290,7 +294,10 @@ class FileHelper {
         let parameters: Parameters = ["path": file.currentPath]
 
         // TODO: Figure out the success structure
-//        let request: Future<DidSuccess, SCError> = ApiHelper.request(path!.absoluteString, method: .delete, parameters: parameters, encoding: JSONEncoding.default).deserialize(keyPath: "").asVoid()
+//        let request: Future<DidSuccess, SCError> = ApiHelper.request(path!.absoluteString,
+//                                                                     method: .delete,
+//                                                                     parameters: parameters,
+//                                                                     encoding: JSONEncoding.default).deserialize(keyPath: "").asVoid()
         fatalError("Implement deleting files")
     }
 

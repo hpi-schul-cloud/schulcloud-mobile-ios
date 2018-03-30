@@ -44,7 +44,10 @@ class LessonsViewController: UITableViewController, NSFetchedResultsControllerDe
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
 
         // Create Fetched Results Controller
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataHelper.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                                  managedObjectContext: CoreDataHelper.viewContext,
+                                                                  sectionNameKeyPath: nil,
+                                                                  cacheName: nil)
 
         // Configure Fetched Results Controller
         fetchedResultsController.delegate = self

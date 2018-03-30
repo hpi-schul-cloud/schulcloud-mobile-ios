@@ -60,7 +60,15 @@ struct CalendarEvent {
         }
     }
 
-    init(id: String, title: String?, description: String?, location: String?, startDate: Date, endDate: Date, rule: RecurrenceRule?, coreDataID: NSManagedObjectID?, ekEventID: String?) {
+    init(id: String,
+         title: String?,
+         description: String?,
+         location: String?,
+         startDate: Date,
+         endDate: Date,
+         rule: RecurrenceRule?,
+         coreDataID: NSManagedObjectID?,
+         ekEventID: String?) {
         self.id = id
         self.title = title
         self.description = description
@@ -119,7 +127,8 @@ struct CalendarEvent {
             }()
 
             var dateComponent = DateComponents()
-            if dayOfWeekIndex < internalEventWeekDay { dayOfWeekIndex += 7 } // we always move to the next day with dayOfWeek (never go back in time to create event
+            // we always move to the next day with dayOfWeek (never go back in time to create event
+            if dayOfWeekIndex < internalEventWeekDay { dayOfWeekIndex += 7 }
             dateComponent.day = dayOfWeekIndex - internalEventWeekDay // calculate how many days to move foward the dates
 
             startDate = Calendar.current.date(byAdding: dateComponent, to: startDate)!
