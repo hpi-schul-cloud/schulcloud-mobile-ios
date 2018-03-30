@@ -49,7 +49,7 @@ final class NewsOverviewViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
 
-        if self.fetchedController.fetchedObjects?.count == 0 {
+        if self.fetchedController.fetchedObjects?.isEmpty ?? true {
             let emptyCell = tableView.dequeueReusableCell(withIdentifier: "EmptyNewsCell")
             cell = emptyCell!
         } else {
@@ -63,11 +63,9 @@ final class NewsOverviewViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let fetchedObject = fetchedController.fetchedObjects,
-                  fetchedObject.count > 0 else { return }
-        defer { tableView.deselectRow(at: indexPath, animated: false) }
-        let newsArticle = fetchedObject[indexPath.row]
+        let newsArticle = self.fetchedController.object(at: indexPath)
         self.delegate?.didSelect(news: newsArticle)
+        self.tableView.deselectRow(at: indexPath, animated: true)
     }
 
     @IBAction func showMorePressed() {

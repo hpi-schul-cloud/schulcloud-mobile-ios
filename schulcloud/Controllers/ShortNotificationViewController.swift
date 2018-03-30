@@ -53,7 +53,7 @@ class ShortNotificationViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.notifications.count == 0 {
+        if self.notifications.isEmpty {
             return 1
         }
 
@@ -61,7 +61,7 @@ class ShortNotificationViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellIdentifier = self.notifications.count == 0 ? "emptyListCell" : "notificationCell"
+        let cellIdentifier = self.notifications.isEmpty ? "emptyListCell" : "notificationCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
 
         if let notificationCell = cell as? NotificationCell {
