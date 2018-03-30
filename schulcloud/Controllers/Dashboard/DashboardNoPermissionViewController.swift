@@ -5,7 +5,7 @@
 
 import UIKit
 
-final class DashboardNoPermissionViewController: UIViewController, ViewControllerHeightDataSource {
+final class DashboardNoPermissionViewController: UIViewController, ViewHeightDataSource {
 
     @IBOutlet private var label: UILabel!
 

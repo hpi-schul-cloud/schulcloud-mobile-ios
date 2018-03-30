@@ -97,6 +97,9 @@
 		CE1DAC592004CE0200CEE4C2 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1DAC582004CE0200CEE4C2 /* String+.swift */; };
 		CE23F10E2056B01C00E79E64 /* DashboardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE23F10D2056B01C00E79E64 /* DashboardLayout.swift */; };
 		CE2FF77A2045A15900D5AF8E /* UserPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2FF7792045A15900D5AF8E /* UserPermissions.swift */; };
+		CE3C5573206BD6BB00B79034 /* MissingPermissionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE3C5572206BD6BB00B79034 /* MissingPermissionView.xib */; };
+		CE3C5575206BE07200B79034 /* MissingPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C5574206BE07200B79034 /* MissingPermissionView.swift */; };
+		CE3C5577206BE0DA00B79034 /* PermissionManagmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C5576206BE0DA00B79034 /* PermissionManagmentViewController.swift */; };
 		CE43B4972057E4D200950EA0 /* DashboardViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43B4962057E4D200950EA0 /* DashboardViewControllerCell.swift */; };
 		CE43B49920594E5D00950EA0 /* DashboardNoPermissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43B49820594E5D00950EA0 /* DashboardNoPermissionViewController.swift */; };
 		CE443937205BDEDD00CC3311 /* UIAlertController+Permission.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE443936205BDEDD00CC3311 /* UIAlertController+Permission.swift */; };
@@ -247,6 +250,9 @@
 		CE1DAC582004CE0200CEE4C2 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		CE23F10D2056B01C00E79E64 /* DashboardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardLayout.swift; sourceTree = "<group>"; };
 		CE2FF7792045A15900D5AF8E /* UserPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPermissions.swift; sourceTree = "<group>"; };
+		CE3C5572206BD6BB00B79034 /* MissingPermissionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MissingPermissionView.xib; sourceTree = "<group>"; };
+		CE3C5574206BE07200B79034 /* MissingPermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissingPermissionView.swift; sourceTree = "<group>"; };
+		CE3C5576206BE0DA00B79034 /* PermissionManagmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManagmentViewController.swift; sourceTree = "<group>"; };
 		CE43B4962057E4D200950EA0 /* DashboardViewControllerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewControllerCell.swift; sourceTree = "<group>"; };
 		CE43B49820594E5D00950EA0 /* DashboardNoPermissionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardNoPermissionViewController.swift; sourceTree = "<group>"; };
 		CE443936205BDEDD00CC3311 /* UIAlertController+Permission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Permission.swift"; sourceTree = "<group>"; };
@@ -513,6 +519,7 @@
 				C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */,
 				C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */,
 				C3A5A90E1EBCC17600825DBF /* LaunchScreen.storyboard */,
+				CE3C5572206BD6BB00B79034 /* MissingPermissionView.xib */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -565,6 +572,8 @@
 				503C1C001F6181BF00CF369D /* CalendarOverviewViewController.swift */,
 				50D6432C1F8E09E200A89331 /* HomeworkOverviewViewController.swift */,
 				CE9B56C72062A2C400803B3D /* NewsOverviewViewController.swift */,
+				CE3C5574206BE07200B79034 /* MissingPermissionView.swift */,
+				CE3C5576206BE0DA00B79034 /* PermissionManagmentViewController.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -708,6 +717,7 @@
 				C3A5A9101EBCC17600825DBF /* LaunchScreen.storyboard in Resources */,
 				503A5EFB1F3DB86C00A7695B /* TabSettings.storyboard in Resources */,
 				503A5EFD1F3DC5DC00A7695B /* TabCourses.storyboard in Resources */,
+				CE3C5573206BD6BB00B79034 /* MissingPermissionView.xib in Resources */,
 				503A5EFF1F3DC6A400A7695B /* TabFiles.storyboard in Resources */,
 				C3418B671ED335F400280E62 /* PreviewTransitionViewController.xib in Resources */,
 				C3A5A90D1EBCC17600825DBF /* Assets.xcassets in Resources */,
@@ -976,6 +986,7 @@
 				509A933A1F541668001167DE /* ShortNotificationViewController.swift in Sources */,
 				50F3985C202D9B0000ADAE5D /* JsonAPISyncStrategy.swift in Sources */,
 				C3B7DB141EF5EB1800A2F2B5 /* HtmlTableViewCell.swift in Sources */,
+				CE3C5575206BE07200B79034 /* MissingPermissionView.swift in Sources */,
 				CE2FF77A2045A15900D5AF8E /* UserPermissions.swift in Sources */,
 				CE9B56C82062A2C400803B3D /* NewsOverviewViewController.swift in Sources */,
 				50604584206BA401009569D1 /* schulcloud.xcdatamodeld in Sources */,
@@ -998,6 +1009,7 @@
 				50D6432D1F8E09E200A89331 /* HomeworkOverviewViewController.swift in Sources */,
 				CEC042851FFE205E004E9A20 /* NewsHelper.swift in Sources */,
 				C3418B601ECDAB9F00280E62 /* FileHelper.swift in Sources */,
+				CE3C5577206BE0DA00B79034 /* PermissionManagmentViewController.swift in Sources */,
 				CE737A501FFE6929006DAB54 /* NewsListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
