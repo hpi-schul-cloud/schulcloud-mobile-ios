@@ -48,8 +48,7 @@ class PreviewManager: NSObject, QLPreviewControllerDataSource {
         return item
     }
 
-    func copyDataToTemporaryDirectory(_ data: Data, file: File) -> URL?
-    {
+    func copyDataToTemporaryDirectory(_ data: Data, file: File) -> URL? {
         let tempDirectoryURL = NSURL.fileURL(withPath: NSTemporaryDirectory(), isDirectory: true)
         let fileExtension = file.url.pathExtension
         let targetURL = tempDirectoryURL.appendingPathComponent("\(file.name).\(fileExtension)")  // TODO: better file extensions

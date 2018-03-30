@@ -167,7 +167,7 @@ class AbstractPullableContainer<A, B> where A: NSManagedObject & Pullable, B: NS
         switch self.context.strategy.findIncludedObject(forKey: self.key, ofObject: self.object, with: self.context) {
         case let .object(_, includedObject):
             do {
-                if var existingObject = self.resource[keyPath: self.keyPath] as? C{
+                if var existingObject = self.resource[keyPath: self.keyPath] as? C {
                     try existingObject.update(from: includedObject, with: context)
                 } else if let newObject = try C.value(from: includedObject, with: context) as? B {
                     self.resource[keyPath: self.keyPath] = newObject

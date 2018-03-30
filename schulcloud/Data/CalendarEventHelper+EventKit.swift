@@ -52,7 +52,7 @@ extension CalendarEventHelper {
         event.location = calendarEvent.location
         event.startDate = calendarEvent.start
         event.endDate = calendarEvent.end
-        event.recurrenceRules =  {
+        event.recurrenceRules = {
             guard let rule = calendarEvent.recurrenceRule else { return nil }
             return [rule.ekRecurrenceRule]
         }()

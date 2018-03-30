@@ -54,7 +54,7 @@ extension User {
             return self.firstName ?? ""
         }
 
-        if let intialCharacter = self.firstName?.first  {
+        if let intialCharacter = self.firstName?.first {
             return "\(String(intialCharacter)). \(lastName)"
         } else {
             return lastName

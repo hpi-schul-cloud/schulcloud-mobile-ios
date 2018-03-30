@@ -59,7 +59,7 @@ class FilesViewController: UITableViewController {
 
         future.onFailure { error in
             print("Failure: \(error)")
-        }.onComplete{ _ in
+        }.onComplete { _ in
             DispatchQueue.main.async {
                 self.refreshControl?.endRefreshing()
             }
@@ -185,7 +185,7 @@ extension FilesViewController {
         cell.imageView?.tintColor = item.isDirectory ? UIColor.schulcloudYellow : UIColor.schulcloudRed
         cell.imageView?.contentMode = .scaleAspectFit
         cell.imageView?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-        if #available(iOS 11.0, *){
+        if #available(iOS 11.0, *) {
             cell.imageView?.adjustsImageSizeForAccessibilityContentSizeCategory = true
         }
 

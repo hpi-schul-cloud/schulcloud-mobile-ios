@@ -10,7 +10,7 @@ import BrightFutures
 import Foundation
 import QuickLook
 
-class LoadingViewController: UIViewController  {
+class LoadingViewController: UIViewController {
     // MARK: Lifecycle
 
     @IBOutlet private var progressView: UIProgressView!

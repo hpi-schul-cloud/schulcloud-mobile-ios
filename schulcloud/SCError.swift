@@ -37,9 +37,8 @@ enum SCError: Error {
 
     init(apiResponse: Data?) {
         if let data = apiResponse,
-            let deserialized = try? JSONSerialization.jsonObject(with: data, options: []),
-            let object = deserialized as? [String: Any]
-        {
+           let deserialized = try? JSONSerialization.jsonObject(with: data, options: []),
+           let object = deserialized as? [String: Any] {
             self.init(json: object)
         } else {
             self.init(value: .unknown)
@@ -47,8 +46,7 @@ enum SCError: Error {
     }
 
     init(json: [String: Any]) {
-        if let errorCode: Int = try? json.value(for: "code"),
-            let errorMessage: String = try? json.value(for: "message"){
+        if let errorCode: Int = try? json.value(for: "code"), let errorMessage: String = try? json.value(for: "message") {
             self = .apiError(errorCode, errorMessage)
         } else {
             self = .unknown

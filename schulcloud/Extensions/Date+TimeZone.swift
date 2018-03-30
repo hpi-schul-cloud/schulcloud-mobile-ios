@@ -8,7 +8,7 @@ import Foundation
 
 extension Date {
 
-    func dateInCurrentTimeZone() -> Date  {
+    func dateInCurrentTimeZone() -> Date {
         return self.subtract(self.utcOffset())
     }
 

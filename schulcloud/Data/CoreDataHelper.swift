@@ -147,8 +147,7 @@ extension NSManagedObjectContext {
     private func _performAndWaitHelper<T>(
         task: (() -> Void) -> Void,
         execute work: () throws -> T,
-        rescue: ((Error) throws -> (T))) rethrows -> T
-    {
+        rescue: ((Error) throws -> (T))) rethrows -> T {
         var result: T?
         var error: Error?
         withoutActuallyEscaping(work) { internalWork in
