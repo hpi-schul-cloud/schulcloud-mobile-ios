@@ -18,7 +18,7 @@ class PreviewManager: NSObject, QLPreviewControllerDataSource {
 
     lazy var previewViewController: UIViewController = {
 
-        switch(self.file.url.pathExtension) {
+        switch self.file.url.pathExtension {
         case "plist", "json", "txt":
             let webviewPreviewViewContoller = WebviewPreviewViewContoller(nibName: "WebviewPreviewViewContoller",
                                                                           bundle: Bundle(for: WebviewPreviewViewContoller.self))

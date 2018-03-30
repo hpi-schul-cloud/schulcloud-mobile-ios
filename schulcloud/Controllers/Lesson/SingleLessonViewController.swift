@@ -52,7 +52,7 @@ class SingleLessonViewController: UIViewController, WKUIDelegate {
     }
 
     func htmlForElement(_ content: LessonContent) -> String {
-        switch(content.type) {
+        switch content.type {
         case .text:
             var rendered = ""
             if let title = content.title, !title.isEmpty {

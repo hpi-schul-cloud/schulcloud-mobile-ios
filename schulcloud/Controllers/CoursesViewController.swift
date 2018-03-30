@@ -108,7 +108,7 @@ class CoursesViewController: UICollectionViewController, NSFetchedResultsControl
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch(segue.identifier) {
+        switch segue.identifier {
         case .some("courseDetail"):
             let selectedCell = sender as! UICollectionViewCell
             guard let indexPath = self.collectionView!.indexPath(for: selectedCell) else { return }

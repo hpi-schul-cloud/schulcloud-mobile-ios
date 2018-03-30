@@ -88,7 +88,7 @@ class LessonsViewController: UITableViewController, NSFetchedResultsControllerDe
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch(segue.identifier) {
+        switch segue.identifier {
         case .some("singleLesson"):
             guard let currentUser = Globals.currentUser, currentUser.permissions.contains(.contentView) else {
                 let controller = UIAlertController(forMissingPermission: .contentView)
