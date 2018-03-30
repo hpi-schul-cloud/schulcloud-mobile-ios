@@ -138,7 +138,7 @@ extension FilesViewController {
 
         // TODO: Implement!
         if false && currentUser.permissions.contains(.deletingFiles) {
-            actions.append(UITableViewRowAction(style: .destructive, title: "Delete") { rowAction, indexPath in
+            actions.append(UITableViewRowAction(style: .destructive, title: "Delete") { _, _ in
                 // TODO: Implement!
                 /*
                 guard let file = self.fetchedResultsController.sections?[indexPath.section].objects?[indexPath.row] as? File else { return }
@@ -165,7 +165,7 @@ extension FilesViewController {
 
         // TODO: Implement!
         if false && currentUser.permissions.contains(.movingFiles) {
-            actions.append(UITableViewRowAction(style: .normal, title: "Move") { rowAction, indexPath in
+            actions.append(UITableViewRowAction(style: .normal, title: "Move") { _, _ in
             })
         }
 

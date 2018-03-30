@@ -56,7 +56,7 @@ class CalendarOverviewViewController: UIViewController {
     }
 
     private func syncEvents() {
-        CalendarEventHelper.syncEvents().onSuccess { result in
+        CalendarEventHelper.syncEvents().onSuccess { _ in
             self.updateEvents()
         }.onFailure { error in
             log.error("Failed to synchronize events: \(error.description)")

@@ -24,7 +24,7 @@ class LessonsViewController: UITableViewController, NSFetchedResultsControllerDe
     }
 
     func updateData() {
-        LessonHelper.syncLessons(for: self.course).onSuccess { result in
+        LessonHelper.syncLessons(for: self.course).onSuccess { _ in
             self.performFetch()
         }.onFailure { error in
             log.error(error)
