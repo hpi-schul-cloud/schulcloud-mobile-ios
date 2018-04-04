@@ -3,16 +3,43 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import CoreData
 import UIKit
+import CoreData
+import DateToolsSwift
 
-class HomeworkOverviewViewController: UIViewController {
+protocol HomeworkOverviewDelegate: class {
+    func heightDidChange(height: CGFloat)
+}
 
-    @IBOutlet private var numberOfOpenTasksLabel: UILabel!
-    @IBOutlet private var subtitleLabel: UILabel!
+final class HomeworkOverviewViewController: UIViewController {
+
+    @IBOutlet private weak var numberOfOpenTasksLabel: UILabel!
+    @IBOutlet private weak var subtitleLabel: UILabel!
+    @IBOutlet private weak var tableView: UITableView!
+
+    lazy var resultController : NSFetchedResultsController<Homework> = {
+        let fetchedRequest : NSFetchRequest<Homework> = Homework.fetchRequest()
+        fetchedRequest.sortDescriptors = []
+
+        let result = NSFetchedResultsController(fetchRequest: fetchedRequest, managedObjectContext: CoreDataHelper.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        result.delegate = self
+        return result
+    }()
+
+    weak var delegate: HomeworkOverviewDelegate?
+
+    var organizedHomeworkData : [Course : [Homework]] = [:]
+    var weekInterval : DateInterval {
+        let now = Date()
+        let today = Date(year: now.year, month: now.month, day: now.day)
+        let weekChunk = TimeChunk(seconds: 0, minutes: 0, hours: 0, days: 0, weeks: 1, months: 0, years: 0)
+        return DateInterval(start: today, end: today + weekChunk)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.delegate = self
+        tableView.dataSource = self
 
         self.numberOfOpenTasksLabel.text = "?"
         NotificationCenter.default.addObserver(self,
@@ -23,46 +50,42 @@ class HomeworkOverviewViewController: UIViewController {
                                                selector: #selector(didChangePreferredContentSize),
                                                name: NSNotification.Name.UIContentSizeCategoryDidChange,
                                                object: nil)
+
+        HomeworkHelper.syncHomework()
+        try! self.resultController.performFetch()
         self.updateHomeworkCount()
         self.didChangePreferredContentSize()
     }
 
     @objc func updateHomeworkCount() {
-        CoreDataHelper.viewContext.perform {
-            let fetchRequest: NSFetchRequest<Homework> = Homework.fetchRequest()
-            let oneWeek = DateComponents(day: 8)
-            let inOneWeek = Calendar.current.date(byAdding: oneWeek, to: Date())!
-            fetchRequest.predicate = NSPredicate(format: "dueDate >= %@ && dueDate <= %@ ", argumentArray: [Date() as NSDate, inOneWeek as NSDate])
-            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dueDate", ascending: true)]
-            do {
-                let resultsInNextWeek = try CoreDataHelper.viewContext.fetch(fetchRequest)
-                DispatchQueue.main.async {
-                    self.numberOfOpenTasksLabel.text = String(resultsInNextWeek.count)
-                    if let nextTask = resultsInNextWeek.first {
-                        let timeDifference = Calendar.current.dateComponents([.day, .hour], from: Date(), to: nextTask.dueDate as Date)
-                        switch timeDifference.day! {
-                        case 0..<1:
-                            self.subtitleLabel.text = "Nächste in \(timeDifference.hour!) Stunden fällig"
-                        case 1:
-                            self.subtitleLabel.text = "Nächste morgen fällig"
-                        case 2:
-                            self.subtitleLabel.text = "Nächste übermorgen fällig"
-                        case 3...7:
-                            self.subtitleLabel.text = "Nächste in \(timeDifference.day!) Tagen fällig"
-                        default:
-                            self.subtitleLabel.text = ""
-                        }
+        let fetchedObject = (self.resultController.fetchedObjects ?? []) as [Homework]
 
-                        self.subtitleLabel.isHidden = false
-                    } else {
-                        self.subtitleLabel.isHidden = true
-                    }
-                }
-            } catch {
-                log.error(error)
+        let resultsInNextWeek = fetchedObject.filter({ (homework) -> Bool in
+            return weekInterval.contains(homework.dueDate)
+        })
+
+        self.numberOfOpenTasksLabel.text = String(resultsInNextWeek.count)
+        if let nextTask = resultsInNextWeek.first {
+            let timeDifference = Calendar.current.dateComponents([.day, .hour], from: Date(), to: nextTask.dueDate as Date)
+            switch timeDifference.day! {
+            case 0..<1:
+                self.subtitleLabel.text = "Nächste in \(timeDifference.hour!) Stunden fällig"
+            case 1:
+                self.subtitleLabel.text = "Nächste morgen fällig"
+            case 2:
+                self.subtitleLabel.text = "Nächste übermorgen fällig"
+            case 3...7:
+                self.subtitleLabel.text = "Nächste in \(timeDifference.day!) Tagen fällig"
+            default:
+                self.subtitleLabel.text = ""
             }
+
+            self.subtitleLabel.isHidden = false
+        } else {
+            self.subtitleLabel.isHidden = true
         }
     }
+
 
     @objc func didChangePreferredContentSize() {
         var font = UIFont.preferredFont(forTextStyle: .title1)
@@ -72,8 +95,55 @@ class HomeworkOverviewViewController: UIViewController {
 
 }
 
+extension HomeworkOverviewViewController : UITableViewDelegate, UITableViewDataSource {
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return organizedHomeworkData.keys.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "HomeworkOverviewCell") as! HomeworkOverviewCell
+
+        let (_, course) = organizedHomeworkData.keys.enumerated().first { (offset: Int, _) -> Bool in
+            return offset == indexPath.row
+        }!
+        cell.configure(course: course, homeworkCount: organizedHomeworkData[course]!.count)
+
+        return cell
+    }
+}
+
+
+extension HomeworkOverviewViewController : NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        organizedHomeworkData.removeAll()
+        let fetchedObject = (controller.fetchedObjects ?? []) as! [Homework]
+        let filterHomework = fetchedObject.filter({ (homework) -> Bool in
+            return weekInterval.contains(homework.dueDate)
+        })
+
+        for homework in filterHomework {
+            guard let course = homework.course else { continue }
+            if var homeworks = organizedHomeworkData[course] {
+                homeworks.append(homework)
+            } else {
+                organizedHomeworkData[course] = [homework]
+            }
+        }
+        self.updateHomeworkCount()
+        tableView.reloadData()
+        self.delegate?.heightDidChange(height: self.height)
+    }
+}
+
 extension HomeworkOverviewViewController: ViewHeightDataSource {
-    var height: CGFloat { return 200 }
+    var height: CGFloat {
+        return tableView.frame.minY + tableView.contentSize.height + 16.0
+    }
 }
 
 extension HomeworkOverviewViewController: PermissionInfoDataSource {
