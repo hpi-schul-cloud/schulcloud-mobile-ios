@@ -121,6 +121,12 @@ final class DashboardViewController: UICollectionViewController {
                   let newsArticle = sender as? NewsArticle else { return }
             detailNewsVC.newsArticle = newsArticle
         }
+        if segue.identifier == "showUpcomingHomework" {
+            guard let vc = segue.destination as? UpcomingHomeworkViewController,
+                let upcomingHomework = sender as? [Course: [Homework]] else { return }
+            vc.upcomingHomeworks = upcomingHomework
+
+        }
     }
 }
 
@@ -157,9 +163,6 @@ extension DashboardViewController {
         if let vc = vc as? PermissionManagmentViewController<CalendarOverviewViewController>,
                vc.hasPermission {
             self.performSegue(withIdentifier: "showCalendar", sender: nil)
-        } else if let vc = vc as? PermissionManagmentViewController<HomeworkOverviewViewController>,
-                      vc.hasPermission {
-            self.performSegue(withIdentifier: "showHomework", sender: nil)
         } else if let vc = vc as? PermissionManagmentViewController<ShortNotificationViewController>,
                       vc.hasPermission {
             self.performSegue(withIdentifier: "showNotifications", sender: nil)
@@ -184,7 +187,6 @@ extension DashboardViewController: DashboardLayoutDataSource {
 }
 
 extension DashboardViewController: NewsOverviewViewControllerDelegate {
-
     func heightDidChange(_ height: CGFloat) {
         self.collectionView?.collectionViewLayout.invalidateLayout()
     }
@@ -201,5 +203,13 @@ extension DashboardViewController: NewsOverviewViewControllerDelegate {
 extension DashboardViewController: HomeworkOverviewDelegate {
     func heightDidChange(height: CGFloat) {
         self.collectionView?.collectionViewLayout.invalidateLayout()
+    }
+
+    func didPressHomeworkList() {
+        self.performSegue(withIdentifier: "showHomework", sender: nil)
+    }
+
+    func didPressTableView(homeworkData: [Course : [Homework]]) {
+        self.performSegue(withIdentifier: "showUpcomingHomework", sender: homeworkData)
     }
 }

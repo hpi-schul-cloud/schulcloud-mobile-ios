@@ -7,12 +7,104 @@ import UIKit
 import CoreData
 import DateToolsSwift
 
+final class UpcomingHomeworkCell : UITableViewCell {
+    @IBOutlet weak var title : UILabel!
+    @IBOutlet weak var descriptionText : UILabel!
+}
+
+final class UpcomingHomeworkViewController : UITableViewController {
+
+    var upcomingHomeworks : [Course : [Homework]]? = nil
+
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return upcomingHomeworks?.keys.count ?? 0
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let upcomingHomeworks = upcomingHomeworks else { return 0 }
+
+        var index = upcomingHomeworks.keys.startIndex
+        upcomingHomeworks.formIndex(&index, offsetBy: section)
+
+        let course = upcomingHomeworks.keys[index]
+        let homeworks = upcomingHomeworks[course]
+        return homeworks?.count ?? 0
+    }
+
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let upcomingHomeworks = upcomingHomeworks else { return nil }
+
+        var index = upcomingHomeworks.keys.startIndex
+        upcomingHomeworks.formIndex(&index, offsetBy: section)
+
+        let course = upcomingHomeworks.keys[index]
+
+        let view = UIView()
+        view.backgroundColor = UIColor(hexString: course.colorString!)
+        let label = UILabel()
+        label.text = course.name
+
+        view.addSubview(label)
+        let constraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(0)-[label]-(0)-|", options: [], metrics: nil, views: ["label" : label]) +
+            NSLayoutConstraint.constraints(withVisualFormat: "V:|-(0)-[label]-(0)-|", options: [], metrics: nil, views: ["label": label])
+        view.addConstraints(constraints)
+        view.layoutSubviews()
+        return view
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "UpcomingHomework") as! UpcomingHomeworkCell
+
+        guard let upcomingHomeworks = upcomingHomeworks else { return cell }
+
+        var index = upcomingHomeworks.keys.startIndex
+        upcomingHomeworks.formIndex(&index, offsetBy: indexPath.section)
+
+        let course = upcomingHomeworks.keys[index]
+        let homeworks = upcomingHomeworks[course]!
+        let homework = homeworks[indexPath.row]
+
+        cell.title?.text = homework.name
+        let description = homework.cleanedDescriptionText
+        if let attributedString = NSMutableAttributedString(html: description) {
+            let range = NSRange(location: 0, length: attributedString.string.count)
+            attributedString.addAttribute(NSAttributedStringKey.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
+            cell.descriptionText.text = attributedString.trailingNewlineChopped.string
+        } else {
+            cell.descriptionText.text = description
+        }
+
+        return cell
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let upcomingHomeworks = upcomingHomeworks else { return }
+        var index = upcomingHomeworks.keys.startIndex
+        upcomingHomeworks.formIndex(&index, offsetBy: indexPath.section)
+
+        let course = upcomingHomeworks.keys[index]
+        let homeworks = upcomingHomeworks[course]!
+        let homework = homeworks[indexPath.row]
+
+        self.performSegue(withIdentifier: "taskDetail", sender: homework)
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "taskDetail" {
+            guard let detailVC = segue.destination as? HomeworkDetailViewController else { return }
+            guard let homework = sender as? Homework else { return }
+            detailVC.homework = homework
+        }
+    }
+}
+
 protocol HomeworkOverviewDelegate: class {
     func heightDidChange(height: CGFloat)
+    func didPressHomeworkList()
+    func didPressTableView(homeworkData: [Course: [Homework]])
 }
 
 final class HomeworkOverviewViewController: UIViewController {
-
     @IBOutlet private weak var numberOfOpenTasksLabel: UILabel!
     @IBOutlet private weak var subtitleLabel: UILabel!
     @IBOutlet private weak var tableView: UITableView!
@@ -32,7 +124,7 @@ final class HomeworkOverviewViewController: UIViewController {
     var weekInterval : DateInterval {
         let now = Date()
         let today = Date(year: now.year, month: now.month, day: now.day)
-        let weekChunk = TimeChunk(seconds: 0, minutes: 0, hours: 0, days: 0, weeks: 1, months: 0, years: 0)
+        let weekChunk = TimeChunk(seconds: 0, minutes: 0, hours: 0, days: 0, weeks: 1, months: 0, years: 1)
         return DateInterval(start: today, end: today + weekChunk)
     }
 
@@ -59,7 +151,6 @@ final class HomeworkOverviewViewController: UIViewController {
 
     @objc func updateHomeworkCount() {
         let fetchedObject = (self.resultController.fetchedObjects ?? []) as [Homework]
-
         let resultsInNextWeek = fetchedObject.filter({ (homework) -> Bool in
             return weekInterval.contains(homework.dueDate)
         })
@@ -86,13 +177,15 @@ final class HomeworkOverviewViewController: UIViewController {
         }
     }
 
-
     @objc func didChangePreferredContentSize() {
         var font = UIFont.preferredFont(forTextStyle: .title1)
         font = font.withSize(font.pointSize * 3)
         self.numberOfOpenTasksLabel.font = font
     }
 
+    @IBAction func homeworkListPressed() {
+        self.delegate?.didPressHomeworkList()
+    }
 }
 
 extension HomeworkOverviewViewController : UITableViewDelegate, UITableViewDataSource {
@@ -108,15 +201,23 @@ extension HomeworkOverviewViewController : UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HomeworkOverviewCell") as! HomeworkOverviewCell
 
-        let (_, course) = organizedHomeworkData.keys.enumerated().first { (offset: Int, _) -> Bool in
-            return offset == indexPath.row
-        }!
-        cell.configure(course: course, homeworkCount: organizedHomeworkData[course]!.count)
+        var index = organizedHomeworkData.keys.startIndex
+        organizedHomeworkData.formIndex(&index, offsetBy: indexPath.row)
+
+        let course = organizedHomeworkData.keys[index]
+        let homeworks = organizedHomeworkData[course]
+        cell.configure(course: course, homeworkCount: homeworks?.count ?? 0)
 
         return cell
     }
-}
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        defer {
+            tableView.deselectRow(at: indexPath, animated: false)
+        }
+        self.delegate?.didPressTableView(homeworkData: organizedHomeworkData)
+    }
+}
 
 extension HomeworkOverviewViewController : NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -126,14 +227,19 @@ extension HomeworkOverviewViewController : NSFetchedResultsControllerDelegate {
             return weekInterval.contains(homework.dueDate)
         })
 
+        var result = [Course : [Homework]]()
+
         for homework in filterHomework {
             guard let course = homework.course else { continue }
-            if var homeworks = organizedHomeworkData[course] {
+            if var homeworks = result[course] {
                 homeworks.append(homework)
+                result[course] = homeworks
             } else {
-                organizedHomeworkData[course] = [homework]
+                result[course] = [homework]
             }
         }
+
+        organizedHomeworkData =  [Course : [Homework]](pairs: result.sorted(by: { $0.0.name < $1.0.name }) )
         self.updateHomeworkCount()
         tableView.reloadData()
         self.delegate?.heightDidChange(height: self.height)
