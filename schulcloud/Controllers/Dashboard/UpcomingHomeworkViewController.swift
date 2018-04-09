@@ -5,25 +5,9 @@
 
 import UIKit
 
-final class UpcomingHomeworkCell : UITableViewCell {
-    @IBOutlet weak var title : UILabel!
-    @IBOutlet weak var dueDate: UILabel!
-    @IBOutlet weak var descriptionText : UILabel!
-}
+final class UpcomingHomeworkViewController: UITableViewController {
 
-final class UpcomingHomeworkHeaderView : UITableViewHeaderFooterView {
-    @IBOutlet weak var label: UILabel!
-}
-
-final class UpcomingHomeworkViewController : UITableViewController {
-
-    lazy var formatter : DateComponentsFormatter = {
-        let componentFormatter = DateComponentsFormatter()
-        componentFormatter.unitsStyle = .abbreviated
-        return componentFormatter
-    }()
-
-    var upcomingHomeworks : [Course : [Homework]]? = nil
+    var upcomingHomeworks: [Course: [Homework]]? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,12 +42,7 @@ final class UpcomingHomeworkViewController : UITableViewController {
         upcomingHomeworks.formIndex(&index, offsetBy: section)
         let course = upcomingHomeworks.keys[index]
 
-        if view.backgroundView == nil {
-            view.backgroundView = UIView()
-        }
-        let backgroundView = view.backgroundView
-        backgroundView?.backgroundColor = UIColor(hexString: course.colorString!)
-        view.label.text = course.name
+        view.configure(title: course.name, backgroundColor: UIColor(hexString: course.colorString!)!)
 
         return view
     }
@@ -80,16 +59,7 @@ final class UpcomingHomeworkViewController : UITableViewController {
         let homeworks = upcomingHomeworks[course]!
         let homework = homeworks[indexPath.row]
 
-        cell.title?.text = homework.name
-        cell.dueDate?.text = "\(formatter.string(from: Date(), to: homework.dueDate)!) left"
-        let description = homework.cleanedDescriptionText
-        if let attributedString = NSMutableAttributedString(html: description) {
-            let range = NSRange(location: 0, length: attributedString.string.count)
-            attributedString.addAttribute(NSAttributedStringKey.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
-            cell.descriptionText.text = attributedString.trailingNewlineChopped.string
-        } else {
-            cell.descriptionText.text = description
-        }
+        cell.configure(with: homework)
 
         return cell
     }

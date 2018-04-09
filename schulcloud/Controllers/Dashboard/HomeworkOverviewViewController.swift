@@ -3,10 +3,9 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import UIKit
 import CoreData
 import DateToolsSwift
-
+import UIKit
 
 protocol HomeworkOverviewDelegate: class {
     func heightDidChange(height: CGFloat)
@@ -20,10 +19,13 @@ final class HomeworkOverviewViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
 
     lazy var resultController: NSFetchedResultsController<Homework> = {
-        let fetchedRequest : NSFetchRequest<Homework> = Homework.fetchRequest()
+        let fetchedRequest: NSFetchRequest<Homework> = Homework.fetchRequest()
         fetchedRequest.sortDescriptors = []
 
-        let result = NSFetchedResultsController(fetchRequest: fetchedRequest, managedObjectContext: CoreDataHelper.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        let result = NSFetchedResultsController(fetchRequest: fetchedRequest,
+                                                managedObjectContext: CoreDataHelper.viewContext,
+                                                sectionNameKeyPath: nil,
+                                                cacheName: nil)
         result.delegate = self
         return result
     }()
@@ -61,7 +63,7 @@ final class HomeworkOverviewViewController: UIViewController {
 
     @objc func updateHomeworkCount() {
         let fetchedObject = (self.resultController.fetchedObjects ?? []) as [Homework]
-        let resultsInNextWeek = fetchedObject.filter { (homework) -> Bool in
+        let resultsInNextWeek = fetchedObject.filter { homework -> Bool in
             return weekInterval.contains(homework.dueDate)
         }
 
@@ -134,7 +136,7 @@ extension HomeworkOverviewViewController: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         organizedHomeworkData.removeAll()
         let fetchedObject = (controller.fetchedObjects ?? []) as! [Homework]
-        let filterHomework = fetchedObject.filter { (homework) -> Bool in
+        let filterHomework = fetchedObject.filter { homework -> Bool in
             return weekInterval.contains(homework.dueDate)
         }
 
@@ -150,7 +152,7 @@ extension HomeworkOverviewViewController: NSFetchedResultsControllerDelegate {
             }
         }
 
-        organizedHomeworkData =  [Course : [Homework]](pairs: result.sorted(by: { $0.0.name < $1.0.name }) )
+        organizedHomeworkData =  [Course: [Homework]](pairs: result.sorted { $0.0.name < $1.0.name } )
         self.updateHomeworkCount()
         tableView.reloadData()
         self.delegate?.heightDidChange(height: self.height)

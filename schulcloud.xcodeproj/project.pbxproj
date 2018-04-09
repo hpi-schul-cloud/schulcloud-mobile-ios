@@ -113,6 +113,8 @@
 		CEB0027D2008BF9C007084C9 /* CalendarEventHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB0027C2008BF9C007084C9 /* CalendarEventHelper.swift */; };
 		CEBE1547207B63DC00238D1F /* UpcomingHomeworkHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBE1546207B63DC00238D1F /* UpcomingHomeworkHeaderView.xib */; };
 		CEBE1549207B782C00238D1F /* UpcomingHomeworkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE1548207B782C00238D1F /* UpcomingHomeworkViewController.swift */; };
+		CEBE154B207B9BE900238D1F /* UpcomingHomeworkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE154A207B9BE900238D1F /* UpcomingHomeworkCell.swift */; };
+		CEBE154D207B9D0300238D1F /* UpcomingHomeworkHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE154C207B9D0300238D1F /* UpcomingHomeworkHeaderView.swift */; };
 		CEC042851FFE205E004E9A20 /* NewsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC042841FFE205E004E9A20 /* NewsHelper.swift */; };
 		CEC66C742011E92300B785F8 /* CalendarEventHelper+EventKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC66C732011E92300B785F8 /* CalendarEventHelper+EventKit.swift */; };
 		CEF363F22010D9B300793D63 /* CalendarEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF363F12010D9B300793D63 /* CalendarEvent.swift */; };
@@ -269,6 +271,8 @@
 		CEB0027C2008BF9C007084C9 /* CalendarEventHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarEventHelper.swift; sourceTree = "<group>"; };
 		CEBE1546207B63DC00238D1F /* UpcomingHomeworkHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UpcomingHomeworkHeaderView.xib; sourceTree = "<group>"; };
 		CEBE1548207B782C00238D1F /* UpcomingHomeworkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingHomeworkViewController.swift; sourceTree = "<group>"; };
+		CEBE154A207B9BE900238D1F /* UpcomingHomeworkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingHomeworkCell.swift; sourceTree = "<group>"; };
+		CEBE154C207B9D0300238D1F /* UpcomingHomeworkHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingHomeworkHeaderView.swift; sourceTree = "<group>"; };
 		CEC042841FFE205E004E9A20 /* NewsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsHelper.swift; sourceTree = "<group>"; };
 		CEC66C732011E92300B785F8 /* CalendarEventHelper+EventKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CalendarEventHelper+EventKit.swift"; sourceTree = "<group>"; };
 		CEF363F12010D9B300793D63 /* CalendarEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEvent.swift; sourceTree = "<group>"; };
@@ -583,6 +587,8 @@
 				CE3C5576206BE0DA00B79034 /* PermissionManagmentViewController.swift */,
 				CE99358A2074F667008E7EB0 /* HomeworkOverviewCell.swift */,
 				CEBE1548207B782C00238D1F /* UpcomingHomeworkViewController.swift */,
+				CEBE154A207B9BE900238D1F /* UpcomingHomeworkCell.swift */,
+				CEBE154C207B9D0300238D1F /* UpcomingHomeworkHeaderView.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -1011,12 +1017,14 @@
 				C3C3CAB11EF5CBB6009601AE /* SingleLessonViewController.swift in Sources */,
 				50A1CDE41F501A0D006E9B69 /* NotificationViewController.swift in Sources */,
 				50B44D88203AAEE1009DC2D3 /* Course.swift in Sources */,
+				CEBE154D207B9D0300238D1F /* UpcomingHomeworkHeaderView.swift in Sources */,
 				50B44D86203AAEE1009DC2D3 /* LessonContent.swift in Sources */,
 				50B82F862020C9E80048CB4B /* Pullable.swift in Sources */,
 				C3C2AC241EC3AAA80060AECA /* LoginHelper.swift in Sources */,
 				C3AB489C1EDAE97600692505 /* HomeworkHelper.swift in Sources */,
 				CE99358B2074F667008E7EB0 /* HomeworkOverviewCell.swift in Sources */,
 				C36C233B1ECC965400D4163E /* CoreDataHelper.swift in Sources */,
+				CEBE154B207B9BE900238D1F /* UpcomingHomeworkCell.swift in Sources */,
 				50D6432D1F8E09E200A89331 /* HomeworkOverviewViewController.swift in Sources */,
 				CEC042851FFE205E004E9A20 /* NewsHelper.swift in Sources */,
 				CEBE1549207B782C00238D1F /* UpcomingHomeworkViewController.swift in Sources */,

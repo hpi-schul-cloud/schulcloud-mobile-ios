@@ -5,10 +5,10 @@
 
 import UIKit
 
-final class HomeworkOverviewCell : UITableViewCell {
-    @IBOutlet weak var colorView: UIView!
-    @IBOutlet weak var lessonName: UILabel!
-    @IBOutlet weak var homeworkDueCount: UILabel!
+final class HomeworkOverviewCell: UITableViewCell {
+    @IBOutlet private weak var colorView: UIView!
+    @IBOutlet private weak var lessonName: UILabel!
+    @IBOutlet private weak var homeworkDueCount: UILabel!
 
     func configure(course: Course, homeworkCount: Int) {
         self.colorView.layer.cornerRadius = self.colorView.bounds.width / 2.0
