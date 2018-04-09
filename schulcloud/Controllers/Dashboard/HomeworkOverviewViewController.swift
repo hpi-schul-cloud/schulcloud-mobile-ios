@@ -7,96 +7,6 @@ import UIKit
 import CoreData
 import DateToolsSwift
 
-final class UpcomingHomeworkCell : UITableViewCell {
-    @IBOutlet weak var title : UILabel!
-    @IBOutlet weak var descriptionText : UILabel!
-}
-
-final class UpcomingHomeworkViewController : UITableViewController {
-
-    var upcomingHomeworks : [Course : [Homework]]? = nil
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return upcomingHomeworks?.keys.count ?? 0
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let upcomingHomeworks = upcomingHomeworks else { return 0 }
-
-        var index = upcomingHomeworks.keys.startIndex
-        upcomingHomeworks.formIndex(&index, offsetBy: section)
-
-        let course = upcomingHomeworks.keys[index]
-        let homeworks = upcomingHomeworks[course]
-        return homeworks?.count ?? 0
-    }
-
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let upcomingHomeworks = upcomingHomeworks else { return nil }
-
-        var index = upcomingHomeworks.keys.startIndex
-        upcomingHomeworks.formIndex(&index, offsetBy: section)
-
-        let course = upcomingHomeworks.keys[index]
-
-        let view = UIView()
-        view.backgroundColor = UIColor(hexString: course.colorString!)
-        let label = UILabel()
-        label.text = course.name
-
-        view.addSubview(label)
-        let constraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(0)-[label]-(0)-|", options: [], metrics: nil, views: ["label" : label]) +
-            NSLayoutConstraint.constraints(withVisualFormat: "V:|-(0)-[label]-(0)-|", options: [], metrics: nil, views: ["label": label])
-        view.addConstraints(constraints)
-        view.layoutSubviews()
-        return view
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "UpcomingHomework") as! UpcomingHomeworkCell
-
-        guard let upcomingHomeworks = upcomingHomeworks else { return cell }
-
-        var index = upcomingHomeworks.keys.startIndex
-        upcomingHomeworks.formIndex(&index, offsetBy: indexPath.section)
-
-        let course = upcomingHomeworks.keys[index]
-        let homeworks = upcomingHomeworks[course]!
-        let homework = homeworks[indexPath.row]
-
-        cell.title?.text = homework.name
-        let description = homework.cleanedDescriptionText
-        if let attributedString = NSMutableAttributedString(html: description) {
-            let range = NSRange(location: 0, length: attributedString.string.count)
-            attributedString.addAttribute(NSAttributedStringKey.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
-            cell.descriptionText.text = attributedString.trailingNewlineChopped.string
-        } else {
-            cell.descriptionText.text = description
-        }
-
-        return cell
-    }
-
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let upcomingHomeworks = upcomingHomeworks else { return }
-        var index = upcomingHomeworks.keys.startIndex
-        upcomingHomeworks.formIndex(&index, offsetBy: indexPath.section)
-
-        let course = upcomingHomeworks.keys[index]
-        let homeworks = upcomingHomeworks[course]!
-        let homework = homeworks[indexPath.row]
-
-        self.performSegue(withIdentifier: "taskDetail", sender: homework)
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "taskDetail" {
-            guard let detailVC = segue.destination as? HomeworkDetailViewController else { return }
-            guard let homework = sender as? Homework else { return }
-            detailVC.homework = homework
-        }
-    }
-}
 
 protocol HomeworkOverviewDelegate: class {
     func heightDidChange(height: CGFloat)
@@ -124,7 +34,7 @@ final class HomeworkOverviewViewController: UIViewController {
     var weekInterval : DateInterval {
         let now = Date()
         let today = Date(year: now.year, month: now.month, day: now.day)
-        let weekChunk = TimeChunk(seconds: 0, minutes: 0, hours: 0, days: 0, weeks: 1, months: 0, years: 1)
+        let weekChunk = TimeChunk(seconds: 0, minutes: 0, hours: 0, days: 0, weeks: 1, months: 0, years: 0)
         return DateInterval(start: today, end: today + weekChunk)
     }
 
