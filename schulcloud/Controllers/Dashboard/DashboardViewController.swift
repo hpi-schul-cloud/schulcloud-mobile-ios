@@ -121,11 +121,11 @@ final class DashboardViewController: UICollectionViewController {
                   let newsArticle = sender as? NewsArticle else { return }
             detailNewsVC.newsArticle = newsArticle
         }
+
         if segue.identifier == "showUpcomingHomework" {
             guard let vc = segue.destination as? UpcomingHomeworkViewController,
                 let upcomingHomework = sender as? [Course: [Homework]] else { return }
             vc.upcomingHomeworks = upcomingHomework
-
         }
     }
 }
@@ -209,7 +209,7 @@ extension DashboardViewController: HomeworkOverviewDelegate {
         self.performSegue(withIdentifier: "showHomework", sender: nil)
     }
 
-    func didPressTableView(homeworkData: [Course : [Homework]]) {
+    func didPressTableView(homeworkData: [Course:[Homework]]) {
         self.performSegue(withIdentifier: "showUpcomingHomework", sender: homeworkData)
     }
 }

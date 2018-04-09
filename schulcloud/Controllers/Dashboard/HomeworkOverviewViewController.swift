@@ -19,7 +19,7 @@ final class HomeworkOverviewViewController: UIViewController {
     @IBOutlet private weak var subtitleLabel: UILabel!
     @IBOutlet private weak var tableView: UITableView!
 
-    lazy var resultController : NSFetchedResultsController<Homework> = {
+    lazy var resultController: NSFetchedResultsController<Homework> = {
         let fetchedRequest : NSFetchRequest<Homework> = Homework.fetchRequest()
         fetchedRequest.sortDescriptors = []
 
@@ -30,8 +30,8 @@ final class HomeworkOverviewViewController: UIViewController {
 
     weak var delegate: HomeworkOverviewDelegate?
 
-    var organizedHomeworkData : [Course : [Homework]] = [:]
-    var weekInterval : DateInterval {
+    var organizedHomeworkData: [Course: [Homework]] = [:]
+    var weekInterval: DateInterval {
         let now = Date()
         let today = Date(year: now.year, month: now.month, day: now.day)
         let weekChunk = TimeChunk(seconds: 0, minutes: 0, hours: 0, days: 0, weeks: 1, months: 0, years: 0)
@@ -61,9 +61,9 @@ final class HomeworkOverviewViewController: UIViewController {
 
     @objc func updateHomeworkCount() {
         let fetchedObject = (self.resultController.fetchedObjects ?? []) as [Homework]
-        let resultsInNextWeek = fetchedObject.filter({ (homework) -> Bool in
+        let resultsInNextWeek = fetchedObject.filter { (homework) -> Bool in
             return weekInterval.contains(homework.dueDate)
-        })
+        }
 
         self.numberOfOpenTasksLabel.text = String(resultsInNextWeek.count)
         if let nextTask = resultsInNextWeek.first {
@@ -98,7 +98,7 @@ final class HomeworkOverviewViewController: UIViewController {
     }
 }
 
-extension HomeworkOverviewViewController : UITableViewDelegate, UITableViewDataSource {
+extension HomeworkOverviewViewController: UITableViewDelegate, UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -125,19 +125,20 @@ extension HomeworkOverviewViewController : UITableViewDelegate, UITableViewDataS
         defer {
             tableView.deselectRow(at: indexPath, animated: false)
         }
+
         self.delegate?.didPressTableView(homeworkData: organizedHomeworkData)
     }
 }
 
-extension HomeworkOverviewViewController : NSFetchedResultsControllerDelegate {
+extension HomeworkOverviewViewController: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         organizedHomeworkData.removeAll()
         let fetchedObject = (controller.fetchedObjects ?? []) as! [Homework]
-        let filterHomework = fetchedObject.filter({ (homework) -> Bool in
+        let filterHomework = fetchedObject.filter { (homework) -> Bool in
             return weekInterval.contains(homework.dueDate)
-        })
+        }
 
-        var result = [Course : [Homework]]()
+        var result = [Course: [Homework]]()
 
         for homework in filterHomework {
             guard let course = homework.course else { continue }
