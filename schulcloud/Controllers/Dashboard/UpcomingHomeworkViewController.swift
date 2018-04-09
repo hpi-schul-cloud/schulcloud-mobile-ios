@@ -58,9 +58,11 @@ final class UpcomingHomeworkViewController : UITableViewController {
         upcomingHomeworks.formIndex(&index, offsetBy: section)
         let course = upcomingHomeworks.keys[index]
 
-        let backgroundView = UIView()
-        backgroundView.backgroundColor = UIColor(hexString: course.colorString!)
-        view.backgroundView = backgroundView
+        if view.backgroundView == nil {
+            view.backgroundView = UIView()
+        }
+        let backgroundView = view.backgroundView
+        backgroundView?.backgroundColor = UIColor(hexString: course.colorString!)
         view.label.text = course.name
 
         return view
