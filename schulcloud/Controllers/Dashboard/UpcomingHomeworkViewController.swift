@@ -6,8 +6,7 @@
 import UIKit
 
 final class UpcomingHomeworkViewController: UITableViewController {
-
-    var upcomingHomeworks: [Course: [Homework]]? = nil
+    var upcomingHomeworks: [Course: [Homework]]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +35,8 @@ final class UpcomingHomeworkViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let upcomingHomeworks = upcomingHomeworks,
-            let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "UpcomingHomeworkHeaderView") as? UpcomingHomeworkHeaderView else { return nil }
+            let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "UpcomingHomeworkHeaderView") as? UpcomingHomeworkHeaderView
+            else { return nil }
 
         var index = upcomingHomeworks.keys.startIndex
         upcomingHomeworks.formIndex(&index, offsetBy: section)
@@ -49,7 +49,6 @@ final class UpcomingHomeworkViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UpcomingHomework") as! UpcomingHomeworkCell
-
         guard let upcomingHomeworks = upcomingHomeworks else { return cell }
 
         var index = upcomingHomeworks.keys.startIndex

@@ -5,7 +5,7 @@
 
 import UIKit
 
-final class UpcomingHomeworkCell : UITableViewCell {
+final class UpcomingHomeworkCell: UITableViewCell {
 
     static var formatter: DateComponentsFormatter = {
         let componentFormatter = DateComponentsFormatter()
