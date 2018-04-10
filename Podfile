@@ -7,7 +7,7 @@ pod 'SwiftLint', '~> 0.25'
 
 target 'schulcloud' do
   pod 'Alamofire', '4.4.0'
-  pod 'BrightFutures', '6.0.0'
+  pod 'BrightFutures', '~> 6.0'
   pod 'CalendarKit', '0.2.0'
   pod 'Firebase/Auth'
   pod 'Firebase/Core'
