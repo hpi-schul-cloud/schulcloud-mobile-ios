@@ -16,8 +16,16 @@
             <rect key="frame" x="0.0" y="0.0" width="309" height="44"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pH1-x3-zdZ">
+                    <rect key="frame" x="7" y="12" width="20" height="20"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="cMP-bT-dla"/>
+                        <constraint firstAttribute="width" constant="20" id="eP7-Ph-MYN"/>
+                    </constraints>
+                </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Urx-Vo-mSs">
-                    <rect key="frame" x="5" y="0.0" width="299" height="44"/>
+                    <rect key="frame" x="34" y="0.0" width="270" height="44"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -26,16 +34,19 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Urx-Vo-mSs" secondAttribute="bottom" id="6ms-a8-XJx"/>
+                <constraint firstItem="pH1-x3-zdZ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="7" id="Alw-uc-ANe"/>
+                <constraint firstItem="pH1-x3-zdZ" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="KJi-sr-K0X"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Urx-Vo-mSs" secondAttribute="trailing" constant="5" id="aL5-xw-XxG"/>
-                <constraint firstItem="Urx-Vo-mSs" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="jLp-27-SP5"/>
+                <constraint firstItem="Urx-Vo-mSs" firstAttribute="leading" secondItem="pH1-x3-zdZ" secondAttribute="trailing" constant="7" id="dVS-yO-QZn"/>
                 <constraint firstItem="Urx-Vo-mSs" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="mla-aS-SvM"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
+                <outlet property="dotView" destination="pH1-x3-zdZ" id="kke-Zt-mIg"/>
                 <outlet property="label" destination="Urx-Vo-mSs" id="Yy5-7c-jpr"/>
             </connections>
-            <point key="canvasLocation" x="-404" y="20"/>
+            <point key="canvasLocation" x="-404.5" y="20"/>
         </view>
     </objects>
 </document>

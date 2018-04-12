@@ -6,14 +6,17 @@
 import UIKit
 
 final class UpcomingHomeworkHeaderView: UITableViewHeaderFooterView {
+    @IBOutlet private weak var dotView: UIView!
     @IBOutlet private weak var label: UILabel!
 
     func configure(title: String, backgroundColor: UIColor) {
-        if self.backgroundView == nil {
-            self.backgroundView = UIView()
-        }
 
-        self.backgroundView?.backgroundColor = backgroundColor
+        if backgroundView == nil {
+            backgroundView = UIView()
+            backgroundView!.backgroundColor = UIColor.white
+        }
+        dotView.backgroundColor = backgroundColor
+        dotView.layer.cornerRadius = dotView.width / 2.0
         label.text = title
     }
 }

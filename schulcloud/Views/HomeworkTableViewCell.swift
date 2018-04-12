@@ -30,14 +30,19 @@ class HomeworkTableViewCell: UITableViewCell {
         self.titleLabel.text = homework.name
         self.coloredStrip.backgroundColor = homework.color
 
-        let description = homework.cleanedDescriptionText
-        if let attributedString = NSMutableAttributedString(html: description) {
-            let range = NSRange(location: 0, length: attributedString.string.count)
-            attributedString.addAttribute(NSAttributedStringKey.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
-            self.contentLabel.text = attributedString.trailingNewlineChopped.string
-        } else {
-            self.contentLabel.text = description
+        let homeworkDescription = homework.cleanedDescriptionText
+        var renderedString = cachedDescriptionString[homework.id]
+        if renderedString == nil {
+            if let attributedString = NSMutableAttributedString(html: homeworkDescription) {
+                let range = NSRange(location: 0, length: attributedString.string.count)
+                attributedString.addAttribute(NSAttributedStringKey.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
+                renderedString = attributedString.trailingNewlineChopped.string
+            } else {
+                renderedString = homeworkDescription
+            }
+            cachedDescriptionString[homework.id] = renderedString
         }
+        self.contentLabel.text = renderedString
 
         let (dueText, dueColor) = homework.dueTextAndColor
         self.dueLabel.text = dueText

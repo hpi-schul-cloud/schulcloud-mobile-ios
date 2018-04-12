@@ -14,13 +14,32 @@ import CoreData
 import DateToolsSwift
 import UIKit
 
-class HomeworkViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class HomeworkViewController: UITableViewController {
+    @IBOutlet weak private var segmentedControl: UISegmentedControl!
+
+    struct VisualizationData {
+        let keypath: String
+        let sortDescriptor: String
+        let cellIdentifier: String
+    }
+
+    let states = [VisualizationData(keypath: "dueDateShort", sortDescriptor: "dueDate", cellIdentifier: "task"),
+                  VisualizationData(keypath: "course.name", sortDescriptor: "course.name", cellIdentifier: "courseTask")]
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let nib = UINib(nibName: "UpcomingHomeworkHeaderView", bundle: nil)
+        self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: "UpcomingHomeworkHeaderView")
+
         self.performFetch()
         self.updateData()
+    }
+
+    @IBAction func changedVisualization(_ sender: Any) {
+        let visualization = states[segmentedControl.selectedSegmentIndex]
+        fetchedResultsController = makeFetchedResultsController(with: visualization.keypath, sortDescriptor: visualization.sortDescriptor)
+        self.performFetch()
     }
 
     @IBAction func didTriggerRefresh() {
@@ -37,9 +56,7 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
         }
     }
 
-    // MARK: - Table view data source
     fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Homework> = {
-
         let now = Date()
         let today: NSDate = Date(year: now.year, month: now.month, day: now.day) as NSDate
 
@@ -55,6 +72,22 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
         return fetchedResultsController
     }()
 
+    func makeFetchedResultsController(with keypath: String, sortDescriptor: String) -> NSFetchedResultsController<Homework> {
+        let now = Date()
+        let today: NSDate = Date(year: now.year, month: now.month, day: now.day) as NSDate
+
+        let fetchRequest: NSFetchRequest<Homework> = Homework.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: sortDescriptor, ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "dueDate >= %@", today)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                                  managedObjectContext: CoreDataHelper.viewContext,
+                                                                  sectionNameKeyPath: keypath,
+                                                                  cacheName: nil)
+        fetchedResultsController.delegate = self
+
+        return fetchedResultsController
+    }
+
     func performFetch() {
         do {
             try self.fetchedResultsController.performFetch()
@@ -65,6 +98,7 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
         self.tableView.reloadData()
     }
 
+    // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return self.fetchedResultsController.sections?.count ?? 0
     }
@@ -73,29 +107,49 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
         return self.fetchedResultsController.sections?[section].objects?.count ?? 0
     }
 
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let sectionInfo = fetchedResultsController.sections?[section] else {
-            log.error("Unexpected Section")
-            return nil
-        }
-
-        guard let date = Homework.shortDateFormatter.date(from: sectionInfo.name) else {
-            log.error("Could not parse \(sectionInfo.name)")
-            return nil
-        }
-
-        return Homework.relativeDateString(for: date)
-    }
-
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "task", for: indexPath)
+        let state = states[segmentedControl.selectedSegmentIndex]
+        let cell = tableView.dequeueReusableCell(withIdentifier: state.cellIdentifier, for: indexPath)
 
+        let homework = self.fetchedResultsController.object(at: indexPath)
         if let homeworkCell = cell as? HomeworkTableViewCell {
-            let homework = self.fetchedResultsController.object(at: indexPath)
             homeworkCell.configure(for: homework)
         }
 
+        if let upcomingHomeworkCell = cell as? UpcomingHomeworkCell {
+            upcomingHomeworkCell.configure(with: homework)
+        }
+
         return cell
+    }
+
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+
+        let sectionInfo = self.fetchedResultsController.sections![section]
+        guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "UpcomingHomeworkHeaderView") as? UpcomingHomeworkHeaderView else {
+            return nil
+        }
+
+        let fetchRequest: NSFetchRequest<Course> = Course.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", sectionInfo.name)
+        let result = CoreDataHelper.viewContext.fetchSingle(fetchRequest)
+
+        let title: String
+        let backgroundColor: UIColor
+
+        if let course = result.value,
+           let colorString = course.colorString {
+            title = course.name
+            backgroundColor = UIColor(hexString: colorString)!
+        } else {
+            let date = Homework.shortDateFormatter.date(from: sectionInfo.name)!
+            title = UpcomingHomeworkCell.formatter.string(from: date)
+            backgroundColor = tableView.backgroundColor!
+        }
+
+        view.configure(title: title, backgroundColor: backgroundColor)
+
+        return view
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -117,5 +171,12 @@ class HomeworkViewController: UITableViewController, NSFetchedResultsControllerD
 
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
+    }
+}
+
+extension HomeworkViewController: NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        cachedDescriptionString.removeAll()
+        self.tableView.reloadData()
     }
 }
