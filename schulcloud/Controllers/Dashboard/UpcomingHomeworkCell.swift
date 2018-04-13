@@ -5,8 +5,6 @@
 
 import UIKit
 
-var cachedDescriptionString = [String: String]()
-
 final class UpcomingHomeworkCell: UITableViewCell {
 
     static var formatter: DateFormatter = {
@@ -25,18 +23,12 @@ final class UpcomingHomeworkCell: UITableViewCell {
         title?.text = homework.name
         dueDate?.text = "\(UpcomingHomeworkCell.formatter.string(from: homework.dueDate))"
 
-        let homeworkDescription = homework.cleanedDescriptionText
-        var renderedString = cachedDescriptionString[homework.id]
-        if renderedString == nil {
-            if let attributedString = NSMutableAttributedString(html: homeworkDescription) {
-                let range = NSRange(location: 0, length: attributedString.string.count)
-                attributedString.addAttribute(NSAttributedStringKey.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
-                renderedString = attributedString.trailingNewlineChopped.string
-            } else {
-                renderedString = homeworkDescription
-            }
-            cachedDescriptionString[homework.id] = renderedString
+        var homeworkDescription = homework.cleanedDescriptionText
+        if let attributedString = NSMutableAttributedString(html: homeworkDescription) {
+            let range = NSRange(location: 0, length: attributedString.string.count)
+            attributedString.addAttribute(NSAttributedStringKey.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
+            homeworkDescription = attributedString.trailingNewlineChopped.string
         }
-        descriptionText.text = renderedString
+        descriptionText.text = homeworkDescription
     }
 }

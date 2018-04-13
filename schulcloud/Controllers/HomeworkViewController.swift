@@ -176,7 +176,6 @@ class HomeworkViewController: UITableViewController {
 
 extension HomeworkViewController: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        cachedDescriptionString.removeAll()
         self.tableView.reloadData()
     }
 }
