@@ -17,14 +17,14 @@ import UIKit
 class HomeworkViewController: UITableViewController {
     @IBOutlet weak private var segmentedControl: UISegmentedControl!
 
-    struct VisualizationData {
+    struct DataConfiguration {
         let keypath: String
         let sortDescriptor: String
         let cellIdentifier: String
     }
 
-    let states = [VisualizationData(keypath: "dueDateShort", sortDescriptor: "dueDate", cellIdentifier: "task"),
-                  VisualizationData(keypath: "course.name", sortDescriptor: "course.name", cellIdentifier: "courseTask")]
+    let states = [DataConfiguration(keypath: "dueDateShort", sortDescriptor: "dueDate", cellIdentifier: "task"),
+                  DataConfiguration(keypath: "course.name", sortDescriptor: "course.name", cellIdentifier: "courseTask")]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -152,13 +152,19 @@ class HomeworkViewController: UITableViewController {
         return view
     }
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        defer {
+            tableView.deselectRow(at: indexPath, animated: false)
+        }
+
+        self.performSegue(withIdentifier: "taskDetail", sender: self.fetchedResultsController.object(at: indexPath))
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case "taskDetail"?:
             guard let detailVC = segue.destination as? HomeworkDetailViewController else { return }
-            guard let cell = sender as? UITableViewCell else { return }
-            guard let indexPath = self.tableView.indexPath(for: cell) else { return }
-            let homework = self.fetchedResultsController.object(at: indexPath)
+            let homework = sender as! Homework
             detailVC.homework = homework
         default:
             super.prepare(for: segue, sender: sender)

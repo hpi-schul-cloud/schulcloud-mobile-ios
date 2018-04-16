@@ -17,6 +17,7 @@ final class HomeworkOverviewViewController: UIViewController {
     @IBOutlet private weak var numberOfOpenTasksLabel: UILabel!
     @IBOutlet private weak var subtitleLabel: UILabel!
     @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var showAllHomework: UIButton!
 
     lazy var resultController: NSFetchedResultsController<Homework> = {
         let fetchedRequest: NSFetchRequest<Homework> = Homework.fetchRequest()
@@ -63,6 +64,13 @@ final class HomeworkOverviewViewController: UIViewController {
 
     @objc func updateHomeworkCount() {
         let fetchedObject = (self.resultController.fetchedObjects ?? []) as [Homework]
+        if fetchedObject.count > 0 {
+            self.showAllHomework.isEnabled = true
+            self.showAllHomework.setTitle("Show All(\(fetchedObject.count))", for: .normal)
+        } else {
+            self.showAllHomework.isEnabled = false
+        }
+
         let resultsInNextWeek = fetchedObject.filter { homework -> Bool in
             return weekInterval.contains(homework.dueDate)
         }
@@ -87,6 +95,7 @@ final class HomeworkOverviewViewController: UIViewController {
         } else {
             self.subtitleLabel.isHidden = true
         }
+
     }
 
     @objc func didChangePreferredContentSize() {
@@ -121,14 +130,6 @@ extension HomeworkOverviewViewController: UITableViewDelegate, UITableViewDataSo
         cell.configure(course: course, homeworkCount: homeworks?.count ?? 0)
 
         return cell
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        defer {
-            tableView.deselectRow(at: indexPath, animated: false)
-        }
-
-        self.delegate?.didPressTableView(homeworkData: organizedHomeworkData)
     }
 }
 

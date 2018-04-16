@@ -17,7 +17,7 @@
         <scene sceneID="vdJ-hp-wNi">
             <objects>
                 <tableViewController hidesBottomBarWhenPushed="YES" id="XP3-Qh-qs6" customClass="HomeworkViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="20" sectionFooterHeight="20" id="rU2-y4-zBC">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="30" sectionFooterHeight="30" id="rU2-y4-zBC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -25,7 +25,7 @@
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="task" rowHeight="150" id="lAf-rl-u5E" customClass="HomeworkTableViewCell" customModule="schulcloud" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="20" width="375" height="150"/>
+                                <rect key="frame" x="0.0" y="30" width="375" height="150"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lAf-rl-u5E" id="4WP-Un-nwz">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="149.5"/>
@@ -93,11 +93,10 @@
                                     <outlet property="dueLabel" destination="kii-YD-xFb" id="fVf-du-IA0"/>
                                     <outlet property="subjectLabel" destination="qKu-R5-ihr" id="hzO-xl-XEf"/>
                                     <outlet property="titleLabel" destination="SNS-pf-gdk" id="gQR-LF-hQu"/>
-                                    <segue destination="vgk-05-mo5" kind="show" identifier="taskDetail" id="YOA-2n-Tix"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="courseTask" rowHeight="114" id="dAE-gY-w9f" userLabel="courseTask" customClass="UpcomingHomeworkCell" customModule="schulcloud" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="170" width="375" height="114"/>
+                                <rect key="frame" x="0.0" y="180" width="375" height="114"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dAE-gY-w9f" id="cIS-jD-NyM">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="113.5"/>
@@ -177,6 +176,7 @@
                     </refreshControl>
                     <connections>
                         <outlet property="segmentedControl" destination="0Wm-Iq-yxP" id="QJJ-t6-ELf"/>
+                        <segue destination="vgk-05-mo5" kind="show" identifier="taskDetail" id="cV1-tO-IcK"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zzX-CF-QSE" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -890,6 +890,7 @@
                                     <rect key="frame" x="0.0" y="72" width="300" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" title="Homework list"/>
+                                    <state key="disabled" title="No Homeworks"/>
                                     <connections>
                                         <action selector="homeworkListPressed" destination="wGI-hB-R97" eventType="touchUpInside" id="Feg-Qd-ef9"/>
                                     </connections>
@@ -960,6 +961,7 @@
                     <size key="freeformSize" width="300" height="300"/>
                     <connections>
                         <outlet property="numberOfOpenTasksLabel" destination="eiy-DB-OsR" id="haU-Uo-bWf"/>
+                        <outlet property="showAllHomework" destination="EXm-m8-sQD" id="1Pv-Nj-A8T"/>
                         <outlet property="subtitleLabel" destination="KNi-qD-0ME" id="JFx-sG-0s8"/>
                         <outlet property="tableView" destination="Zjv-6b-Nze" id="sqC-zF-C2g"/>
                     </connections>
@@ -1049,13 +1051,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mMT-81-qDy">
-                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nsg-Ix-dpt" userLabel="Scroll Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="94"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="114.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="dG4-su-NI3">
-                                                <rect key="frame" x="0.0" y="20" width="0.0" height="54.5"/>
+                                                <rect key="frame" x="20" y="20" width="335" height="75"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VjF-sJ-jcc">
                                                         <rect key="frame" x="0.0" y="0.0" width="43.5" height="20.5"/>
@@ -1070,7 +1072,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="News Text" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5Hv-1M-WdD">
-                                                        <rect key="frame" x="0.0" y="54.5" width="0.0" height="0.0"/>
+                                                        <rect key="frame" x="0.0" y="54.5" width="0.0" height="20.5"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
