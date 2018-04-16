@@ -30,7 +30,7 @@ final class UpcomingHomeworkViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30.0
+        return 44.0
     }
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -42,7 +42,11 @@ final class UpcomingHomeworkViewController: UITableViewController {
         upcomingHomeworks.formIndex(&index, offsetBy: section)
         let course = upcomingHomeworks.keys[index]
 
-        view.configure(title: course.name, backgroundColor: UIColor(hexString: course.colorString!)!)
+        if let colorString = course.colorString {
+            view.configure(title: course.name, withColor: UIColor(hexString: colorString))
+        } else {
+            view.configure(title: course.name)
+        }
 
         return view
     }

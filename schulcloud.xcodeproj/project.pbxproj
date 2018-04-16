@@ -368,6 +368,9 @@
 				5060457F206A452C009569D1 /* NewsArticleOverviewCell.swift */,
 				C3B7DB131EF5EB1800A2F2B5 /* HtmlTableViewCell.swift */,
 				CE43B4962057E4D200950EA0 /* DashboardViewControllerCell.swift */,
+				CE99358A2074F667008E7EB0 /* HomeworkOverviewCell.swift */,
+				CEBE154A207B9BE900238D1F /* UpcomingHomeworkCell.swift */,
+				CEBE154C207B9D0300238D1F /* UpcomingHomeworkHeaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -504,6 +507,7 @@
 				C3B7DB151EF5EB2200A2F2B5 /* Lesson */,
 				C3418B611ECEE6FB00280E62 /* FilesViewController.swift */,
 				C3AB48991EDAE8A800692505 /* HomeworkViewController.swift */,
+				CEBE1548207B782C00238D1F /* UpcomingHomeworkViewController.swift */,
 				C32870BB1EDF32C600ABA348 /* CoursesViewController.swift */,
 				C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */,
 				C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */,
@@ -585,10 +589,6 @@
 				CE9B56C72062A2C400803B3D /* NewsOverviewViewController.swift */,
 				CE3C5574206BE07200B79034 /* MissingPermissionView.swift */,
 				CE3C5576206BE0DA00B79034 /* PermissionManagmentViewController.swift */,
-				CE99358A2074F667008E7EB0 /* HomeworkOverviewCell.swift */,
-				CEBE1548207B782C00238D1F /* UpcomingHomeworkViewController.swift */,
-				CEBE154A207B9BE900238D1F /* UpcomingHomeworkCell.swift */,
-				CEBE154C207B9D0300238D1F /* UpcomingHomeworkHeaderView.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";

@@ -123,8 +123,11 @@ class HomeworkViewController: UITableViewController {
         return cell
     }
 
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 44.0
+    }
 
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sectionInfo = self.fetchedResultsController.sections![section]
         guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "UpcomingHomeworkHeaderView") as? UpcomingHomeworkHeaderView else {
             return nil
@@ -135,19 +138,18 @@ class HomeworkViewController: UITableViewController {
         let result = CoreDataHelper.viewContext.fetchSingle(fetchRequest)
 
         let title: String
-        let backgroundColor: UIColor
+        var backgroundColor: UIColor?
 
         if let course = result.value,
            let colorString = course.colorString {
             title = course.name
-            backgroundColor = UIColor(hexString: colorString)!
+            backgroundColor = UIColor(hexString: colorString)
         } else {
             let date = Homework.shortDateFormatter.date(from: sectionInfo.name)!
             title = UpcomingHomeworkCell.formatter.string(from: date)
-            backgroundColor = tableView.backgroundColor!
         }
 
-        view.configure(title: title, backgroundColor: backgroundColor)
+        view.configure(title: title, withColor: backgroundColor)
 
         return view
     }
