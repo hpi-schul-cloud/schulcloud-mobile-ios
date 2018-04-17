@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ULK-kh-W0G">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ULK-kh-W0G">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -13,18 +13,18 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Homework View Controller-->
+        <!--Aufgaben-->
         <scene sceneID="vdJ-hp-wNi">
             <objects>
                 <tableViewController hidesBottomBarWhenPushed="YES" id="XP3-Qh-qs6" customClass="HomeworkViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="30" sectionFooterHeight="30" id="rU2-y4-zBC">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="rU2-y4-zBC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="task" rowHeight="150" id="lAf-rl-u5E" customClass="HomeworkTableViewCell" customModule="schulcloud" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="30" width="375" height="150"/>
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="150"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lAf-rl-u5E" id="4WP-Un-nwz">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="149.5"/>
@@ -95,7 +95,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="courseTask" rowHeight="114" id="dAE-gY-w9f" userLabel="courseTask" customClass="UpcomingHomeworkCell" customModule="schulcloud" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="180" width="375" height="114"/>
+                                <rect key="frame" x="0.0" y="205.5" width="375" height="114"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dAE-gY-w9f" id="cIS-jD-NyM">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="113.5"/>
@@ -108,13 +108,13 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="335" height="19.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HAx-c0-2o0">
-                                                            <rect key="frame" x="0.0" y="0.0" width="167.5" height="19.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="0.0" height="19.5"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4NO-Y6-hgq" userLabel="Due Date">
-                                                            <rect key="frame" x="175.5" y="1.5" width="159.5" height="18"/>
+                                                            <rect key="frame" x="-20" y="1.5" width="0.0" height="18"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                             <color key="textColor" white="0.55000000000000004" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -151,19 +151,12 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="34U-cp-Zdj">
-                        <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="0Wm-Iq-yxP">
-                            <rect key="frame" x="126" y="7" width="123" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <segments>
-                                <segment title="Date"/>
-                                <segment title="Subject"/>
-                            </segments>
+                    <navigationItem key="navigationItem" title="Aufgaben" id="34U-cp-Zdj">
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="pX8-Yj-9xo">
                             <connections>
-                                <action selector="changedVisualization:" destination="XP3-Qh-qs6" eventType="valueChanged" id="RQy-Z9-ZMr"/>
+                                <action selector="sortOptionPressed:" destination="XP3-Qh-qs6" id="2qy-Mh-Owb"/>
                             </connections>
-                        </segmentedControl>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="vkP-NI-kz1">
@@ -174,7 +167,6 @@
                         </connections>
                     </refreshControl>
                     <connections>
-                        <outlet property="segmentedControl" destination="0Wm-Iq-yxP" id="QJJ-t6-ELf"/>
                         <segue destination="vgk-05-mo5" kind="show" identifier="taskDetail" id="cV1-tO-IcK"/>
                     </connections>
                 </tableViewController>
@@ -363,13 +355,13 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="335" height="20.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9JS-Ev-wKw" userLabel="Title">
-                                                            <rect key="frame" x="0.0" y="0.0" width="43.5" height="20.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="0.0" height="20.5"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dIc-Jl-AI7" userLabel="DisplayAt">
-                                                            <rect key="frame" x="51.5" y="0.0" width="283.5" height="20.5"/>
+                                                            <rect key="frame" x="-20" y="0.0" width="0.0" height="20.5"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                             <color key="textColor" white="0.55000000000000004" alpha="0.84999999999999998" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -474,13 +466,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fcn-bQ-Jpg">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="291"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="247"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="e6e-ui-FSv">
-                                                <rect key="frame" x="20" y="20" width="335" height="251"/>
+                                                <rect key="frame" x="20" y="20" width="375" height="207"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" spacingType="standard" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JJK-cH-mDV">
-                                                        <rect key="frame" x="0.0" y="0.0" width="335" height="18"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="18"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Mathematik" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Byz-Oq-tjl">
                                                                 <rect key="frame" x="0.0" y="0.0" width="81" height="18"/>
@@ -499,7 +491,7 @@
                                                                 </userDefinedRuntimeAttributes>
                                                             </view>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="⚐ In 2 Stunden fällig" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c6m-PL-6vk">
-                                                                <rect key="frame" x="115" y="0.0" width="220" height="18"/>
+                                                                <rect key="frame" x="115" y="0.0" width="375" height="18"/>
                                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                                 <color key="textColor" red="1" green="0.1764705882" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -507,13 +499,13 @@
                                                         </subviews>
                                                     </stackView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Hier könnte Ihre Hausaufgabe stehen!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lgd-6b-D41">
-                                                        <rect key="frame" x="0.0" y="26" width="335" height="20.5"/>
+                                                        <rect key="frame" x="0.0" y="26" width="375" height="20.5"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dU4-aO-Dw5">
-                                                        <rect key="frame" x="0.0" y="54.5" width="335" height="196.5"/>
+                                                        <rect key="frame" x="0.0" y="54.5" width="375" height="152.5"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" priority="500" constant="21" id="WhT-BA-Bnv"/>
                                                         </constraints>
@@ -621,16 +613,16 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Fdz-aw-qp7">
-                                            <rect key="frame" x="20" y="19" width="280" height="52.5"/>
+                                            <rect key="frame" x="20" y="19" width="0.0" height="52.5"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vwg-P2-sr9">
-                                                    <rect key="frame" x="0.0" y="0.0" width="280" height="20.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="20.5"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="detail" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g11-MQ-ZwE">
-                                                    <rect key="frame" x="0.0" y="24.5" width="280" height="28"/>
+                                                    <rect key="frame" x="0.0" y="24.5" width="0.0" height="28"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -890,9 +882,6 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" title="Homework list"/>
                                     <state key="disabled" title="No Homeworks"/>
-                                    <connections>
-                                        <action selector="homeworkListPressed" destination="wGI-hB-R97" eventType="touchUpInside" id="Feg-Qd-ef9"/>
-                                    </connections>
                                 </button>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="HomeworkOverviewCell" rowHeight="44" id="snw-B0-1VX" customClass="HomeworkOverviewCell" customModule="schulcloud" customModuleProvider="target">
@@ -1053,10 +1042,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nsg-Ix-dpt" userLabel="Scroll Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="132"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="114.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="dG4-su-NI3">
-                                                <rect key="frame" x="20" y="20" width="335" height="92.5"/>
+                                                <rect key="frame" x="20" y="20" width="335" height="75"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VjF-sJ-jcc">
                                                         <rect key="frame" x="0.0" y="0.0" width="43.5" height="20.5"/>
@@ -1071,7 +1060,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="News Text" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5Hv-1M-WdD">
-                                                        <rect key="frame" x="0.0" y="54.5" width="89.5" height="38"/>
+                                                        <rect key="frame" x="0.0" y="54.5" width="0.0" height="20.5"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>

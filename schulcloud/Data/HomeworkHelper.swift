@@ -14,9 +14,7 @@ struct HomeworkHelper {
         let fetchRequest = Homework.fetchRequest() as NSFetchRequest<Homework>
         var query = MultipleResourcesQuery(type: Homework.self)
         query.include("courseId")
-        return SyncHelper.syncResources(withFetchRequest: fetchRequest, withQuery: query).onSuccess { _ in
-            NotificationCenter.default.post(name: Homework.homeworkCountDidChange, object: nil)
-        }
+        return SyncHelper.syncResources(withFetchRequest: fetchRequest, withQuery: query)
     }
 
 }

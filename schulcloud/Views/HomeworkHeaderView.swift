@@ -5,7 +5,7 @@
 
 import UIKit
 
-final class UpcomingHomeworkHeaderView: UITableViewHeaderFooterView {
+final class HomeworkHeaderView: UITableViewHeaderFooterView {
 
     @IBOutlet private weak var dotView: UIView!
     @IBOutlet private weak var label: UILabel!

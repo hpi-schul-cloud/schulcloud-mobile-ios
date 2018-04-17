@@ -15,31 +15,55 @@ import DateToolsSwift
 import UIKit
 
 class HomeworkViewController: UITableViewController {
-    @IBOutlet weak private var segmentedControl: UISegmentedControl!
 
-    struct DataConfiguration {
+    private struct DataConfiguration {
         let keypath: String
         let sortDescriptor: String
         let cellIdentifier: String
     }
 
-    let states = [DataConfiguration(keypath: "dueDateShort", sortDescriptor: "dueDate", cellIdentifier: "task"),
-                  DataConfiguration(keypath: "course.name", sortDescriptor: "course.name", cellIdentifier: "courseTask")]
+    private enum SortingStyle: Int {
+        case dueDate = 0
+        case subject = 1
+    }
+
+    private let states = [DataConfiguration(keypath: "dueDateShort", sortDescriptor: "dueDate", cellIdentifier: "task"),
+                          DataConfiguration(keypath: "course.name", sortDescriptor: "course.name", cellIdentifier: "courseTask")]
+
+    private var selectedSortingStyle = SortingStyle.dueDate {
+        didSet {
+            let state = states[selectedSortingStyle.rawValue]
+            fetchedResultsController = makeFetchedResultsController(with: state.keypath, sortDescriptor: state.sortDescriptor)
+            self.performFetch()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let nib = UINib(nibName: "UpcomingHomeworkHeaderView", bundle: nil)
-        self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: "UpcomingHomeworkHeaderView")
+        let nib = UINib(nibName: "HomeworkHeaderView", bundle: nil)
+        self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: "HomeworkHeaderView")
 
         self.performFetch()
         self.updateData()
     }
 
-    @IBAction func changedVisualization(_ sender: Any) {
-        let visualization = states[segmentedControl.selectedSegmentIndex]
-        fetchedResultsController = makeFetchedResultsController(with: visualization.keypath, sortDescriptor: visualization.sortDescriptor)
-        self.performFetch()
+    @IBAction func sortOptionPressed(_ sender: Any) {
+        let controller = UIAlertController(title: "Sorting style", message: nil, preferredStyle: .actionSheet)
+
+        let dueDateAction = UIAlertAction(title: "Due Date", style: .default) {[unowned self] _ in
+            self.selectedSortingStyle = .dueDate
+        }
+
+        let subjectAction = UIAlertAction(title: "Subject", style: .default) { [unowned self] _ in
+            self.selectedSortingStyle = .subject
+        }
+
+        controller.addAction(dueDateAction)
+        controller.addAction(subjectAction)
+
+        self.present(controller, animated: true)
+
     }
 
     @IBAction func didTriggerRefresh() {
@@ -108,7 +132,7 @@ class HomeworkViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let state = states[segmentedControl.selectedSegmentIndex]
+        let state = states[selectedSortingStyle.rawValue]
         let cell = tableView.dequeueReusableCell(withIdentifier: state.cellIdentifier, for: indexPath)
 
         let homework = self.fetchedResultsController.object(at: indexPath)
@@ -129,7 +153,7 @@ class HomeworkViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sectionInfo = self.fetchedResultsController.sections![section]
-        guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "UpcomingHomeworkHeaderView") as? UpcomingHomeworkHeaderView else {
+        guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HomeworkHeaderView") as? HomeworkHeaderView else {
             return nil
         }
 

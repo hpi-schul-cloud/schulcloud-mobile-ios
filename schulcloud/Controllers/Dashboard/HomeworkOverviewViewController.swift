@@ -9,8 +9,6 @@ import UIKit
 
 protocol HomeworkOverviewDelegate: class {
     func heightDidChange(height: CGFloat)
-    func didPressHomeworkList()
-    func didPressTableView(homeworkData: [Course: [Homework]])
 }
 
 final class HomeworkOverviewViewController: UIViewController {
@@ -33,7 +31,8 @@ final class HomeworkOverviewViewController: UIViewController {
 
     weak var delegate: HomeworkOverviewDelegate?
 
-    var organizedHomeworkData: [Course: [Homework]] = [:]
+    // TODO: Change map to homwork count
+    var organizedHomeworkData: [Course: Int] = [:]
     var weekInterval: DateInterval {
         let now = Date()
         let today = Date(year: now.year, month: now.month, day: now.day)
@@ -47,10 +46,6 @@ final class HomeworkOverviewViewController: UIViewController {
         tableView.dataSource = self
 
         self.numberOfOpenTasksLabel.text = "?"
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(updateHomeworkCount),
-                                               name: Homework.homeworkCountDidChange,
-                                               object: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(didChangePreferredContentSize),
                                                name: NSNotification.Name.UIContentSizeCategoryDidChange,
@@ -103,10 +98,6 @@ final class HomeworkOverviewViewController: UIViewController {
         font = font.withSize(font.pointSize * 3)
         self.numberOfOpenTasksLabel.font = font
     }
-
-    @IBAction func homeworkListPressed() {
-        self.delegate?.didPressHomeworkList()
-    }
 }
 
 extension HomeworkOverviewViewController: UITableViewDelegate, UITableViewDataSource {
@@ -126,8 +117,8 @@ extension HomeworkOverviewViewController: UITableViewDelegate, UITableViewDataSo
         organizedHomeworkData.formIndex(&index, offsetBy: indexPath.row)
 
         let course = organizedHomeworkData.keys[index]
-        let homeworks = organizedHomeworkData[course]
-        cell.configure(course: course, homeworkCount: homeworks?.count ?? 0)
+        let homeworkCount = organizedHomeworkData[course]
+        cell.configure(course: course, homeworkCount: homeworkCount ?? 0)
 
         return cell
     }
@@ -141,19 +132,14 @@ extension HomeworkOverviewViewController: NSFetchedResultsControllerDelegate {
             return weekInterval.contains(homework.dueDate)
         }
 
-        var result = [Course: [Homework]]()
+        var result = [Course: Int]()
 
         for homework in filterHomework {
             guard let course = homework.course else { continue }
-            if var homeworks = result[course] {
-                homeworks.append(homework)
-                result[course] = homeworks
-            } else {
-                result[course] = [homework]
-            }
+            result[course] = (result[course] ?? 0) + 1
         }
 
-        organizedHomeworkData =  [Course: [Homework]](pairs: result.sorted { $0.0.name < $1.0.name })
+        organizedHomeworkData =  [Course: Int](pairs: result.sorted { $0.0.name < $1.0.name })
         self.updateHomeworkCount()
         tableView.reloadData()
         self.delegate?.heightDidChange(height: self.height)
