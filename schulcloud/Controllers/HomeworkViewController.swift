@@ -120,6 +120,7 @@ class HomeworkViewController: UITableViewController {
         }
 
         self.tableView.reloadData()
+        self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
     }
 
     // MARK: - Table view data source
