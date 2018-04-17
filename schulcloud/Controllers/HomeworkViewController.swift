@@ -17,23 +17,32 @@ import UIKit
 class HomeworkViewController: UITableViewController {
 
     private struct DataConfiguration {
+        let title: String
         let keypath: String
         let sortDescriptor: String
         let cellIdentifier: String
     }
 
-    private enum SortingStyle: Int {
-        case dueDate = 0
-        case subject = 1
-    }
+    private enum SortingStyle {
+        case dueDate
+        case subject
 
-    private let states = [DataConfiguration(keypath: "dueDateShort", sortDescriptor: "dueDate", cellIdentifier: "task"),
-                          DataConfiguration(keypath: "course.name", sortDescriptor: "course.name", cellIdentifier: "courseTask")]
+        var configuration: DataConfiguration {
+            switch self {
+            case .dueDate:
+                return DataConfiguration(title: "Due Date", keypath: "dueDateShort", sortDescriptor: "dueDate", cellIdentifier: "task")
+            case .subject:
+                return DataConfiguration(title: "Subject", keypath: "course.name", sortDescriptor: "course.name", cellIdentifier: "courseTask")
+            }
+        }
+
+        static var allValues = [SortingStyle.dueDate, SortingStyle.subject]
+    }
 
     private var selectedSortingStyle = SortingStyle.dueDate {
         didSet {
-            let state = states[selectedSortingStyle.rawValue]
-            fetchedResultsController = makeFetchedResultsController(with: state.keypath, sortDescriptor: state.sortDescriptor)
+            let configuration = selectedSortingStyle.configuration
+            fetchedResultsController = makeFetchedResultsController(with: configuration.keypath, sortDescriptor: configuration.sortDescriptor)
             self.performFetch()
         }
     }
@@ -51,19 +60,13 @@ class HomeworkViewController: UITableViewController {
     @IBAction func sortOptionPressed(_ sender: Any) {
         let controller = UIAlertController(title: "Sorting style", message: nil, preferredStyle: .actionSheet)
 
-        let dueDateAction = UIAlertAction(title: "Due Date", style: .default) {[unowned self] _ in
-            self.selectedSortingStyle = .dueDate
+        for sortingStyle in SortingStyle.allValues {
+            let action = UIAlertAction(title: sortingStyle.configuration.title, style: .default) {[weak self] _ in
+                self?.selectedSortingStyle = sortingStyle
+            }
+            controller.addAction(action)
         }
-
-        let subjectAction = UIAlertAction(title: "Subject", style: .default) { [unowned self] _ in
-            self.selectedSortingStyle = .subject
-        }
-
-        controller.addAction(dueDateAction)
-        controller.addAction(subjectAction)
-
         self.present(controller, animated: true)
-
     }
 
     @IBAction func didTriggerRefresh() {
@@ -133,7 +136,7 @@ class HomeworkViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let state = states[selectedSortingStyle.rawValue]
+        let state = selectedSortingStyle.configuration
         let cell = tableView.dequeueReusableCell(withIdentifier: state.cellIdentifier, for: indexPath)
 
         let homework = self.fetchedResultsController.object(at: indexPath)
