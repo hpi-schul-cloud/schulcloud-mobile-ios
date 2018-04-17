@@ -66,6 +66,10 @@ class HomeworkViewController: UITableViewController {
             }
             controller.addAction(action)
         }
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        controller.addAction(cancelAction)
+        
         self.present(controller, animated: true)
     }
 
