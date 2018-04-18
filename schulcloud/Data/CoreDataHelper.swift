@@ -10,7 +10,14 @@ import Result
 struct CoreDataHelper {
 
     static var persistentContainer: NSPersistentContainer = {
+
+        guard let securedContainerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.org.schulcloud") else {
+            fatalError("Can't access shared container")
+        }
+
+        let storeDescription = NSPersistentStoreDescription(url: securedContainerURL.appendingPathComponent("schulcloud.sqlite"))
         let container = NSPersistentContainer(name: "schulcloud")
+        container.persistentStoreDescriptions.append(storeDescription)
         container.loadPersistentStores { _, error in
             if let error = error {
                 log.error("Unresolved error \(error)")
