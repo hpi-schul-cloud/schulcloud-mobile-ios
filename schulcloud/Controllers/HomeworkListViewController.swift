@@ -68,10 +68,9 @@ class HomeworkListViewController: UITableViewController {
         let controller = UIAlertController(title: "Aufgaben sortieren nach", message: nil, preferredStyle: .actionSheet)
 
         for sortingStyle in SortingMode.allValues {
-            let action = UIAlertAction(title: sortingStyle.title, style: .default) {[weak self] _ in
+            let action = UIAlertAction(title: sortingStyle.title, style: .default) { [weak self] _ in
                 self?.selectedSortingStyle = sortingStyle
             }
-            
             controller.addAction(action)
         }
 
