@@ -71,6 +71,7 @@ class HomeworkListViewController: UITableViewController {
             let action = UIAlertAction(title: sortingStyle.title, style: .default) { [weak self] _ in
                 self?.selectedSortingStyle = sortingStyle
             }
+
             controller.addAction(action)
         }
 
