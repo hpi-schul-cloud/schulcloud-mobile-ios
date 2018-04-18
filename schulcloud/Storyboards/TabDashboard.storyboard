@@ -24,7 +24,7 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="task" rowHeight="150" id="lAf-rl-u5E" customClass="HomeworkTableViewCell" customModule="schulcloud" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="task" rowHeight="150" id="lAf-rl-u5E" customClass="HomeworkByDateCell" customModule="schulcloud" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="55.5" width="375" height="150"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lAf-rl-u5E" id="4WP-Un-nwz">
@@ -95,7 +95,7 @@
                                     <outlet property="titleLabel" destination="SNS-pf-gdk" id="gQR-LF-hQu"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="courseTask" rowHeight="114" id="dAE-gY-w9f" userLabel="courseTask" customClass="HomeworkCell" customModule="schulcloud" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="courseTask" rowHeight="114" id="dAE-gY-w9f" userLabel="courseTask" customClass="HomeworkByCourseCell" customModule="schulcloud" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="205.5" width="375" height="114"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dAE-gY-w9f" id="cIS-jD-NyM">

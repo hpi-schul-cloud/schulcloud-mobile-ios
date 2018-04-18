@@ -5,7 +5,7 @@
 
 import UIKit
 
-class HomeworkTableViewCell: UITableViewCell {
+class HomeworkByDateCell: UITableViewCell {
 
     @IBOutlet private var subjectLabel: UILabel!
     @IBOutlet private var titleLabel: UILabel!

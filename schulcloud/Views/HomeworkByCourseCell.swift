@@ -5,7 +5,7 @@
 
 import UIKit
 
-final class HomeworkCell: UITableViewCell {
+final class HomeworkByCourseCell: UITableViewCell {
 
     static var formatter: DateFormatter = {
         let dateFormatter = DateFormatter()
@@ -21,7 +21,7 @@ final class HomeworkCell: UITableViewCell {
     func configure(with homework: Homework) {
 
         title?.text = homework.name
-        dueDate?.text = "\(HomeworkCell.formatter.string(from: homework.dueDate))"
+        dueDate?.text = "\(HomeworkByCourseCell.formatter.string(from: homework.dueDate))"
 
         var homeworkDescription = homework.cleanedDescriptionText
         if let attributedString = NSMutableAttributedString(html: homeworkDescription) {
@@ -29,6 +29,7 @@ final class HomeworkCell: UITableViewCell {
             attributedString.addAttribute(NSAttributedStringKey.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
             homeworkDescription = attributedString.trailingNewlineChopped.string
         }
+
         descriptionText.text = homeworkDescription
     }
 }

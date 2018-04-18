@@ -139,11 +139,11 @@ class HomeworkListViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: state.cellIdentifier, for: indexPath)
 
         let homework = self.fetchedResultsController.object(at: indexPath)
-        if let homeworkCell = cell as? HomeworkTableViewCell {
+        if let homeworkCell = cell as? HomeworkByDateCell {
             homeworkCell.configure(for: homework)
         }
 
-        if let upcomingHomeworkCell = cell as? HomeworkCell {
+        if let upcomingHomeworkCell = cell as? HomeworkByCourseCell {
             upcomingHomeworkCell.configure(with: homework)
         }
 
@@ -173,7 +173,7 @@ class HomeworkListViewController: UITableViewController {
             backgroundColor = UIColor(hexString: colorString)
         } else {
             let date = Homework.shortDateFormatter.date(from: sectionInfo.name)!
-            title = HomeworkCell.formatter.string(from: date)
+            title = HomeworkByCourseCell.formatter.string(from: date)
         }
 
         view.configure(title: title, withColor: backgroundColor)
