@@ -73,12 +73,13 @@ class HomeworkViewController: UITableViewController {
             let action = UIAlertAction(title: sortingStyle.title, style: .default) {[weak self] _ in
                 self?.selectedSortingStyle = sortingStyle
             }
+            
             controller.addAction(action)
         }
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         controller.addAction(cancelAction)
-        
+
         self.present(controller, animated: true)
     }
 

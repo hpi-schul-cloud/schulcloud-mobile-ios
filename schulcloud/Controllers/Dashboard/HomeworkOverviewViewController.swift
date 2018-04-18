@@ -59,11 +59,9 @@ final class HomeworkOverviewViewController: UIViewController {
 
     @objc func updateHomeworkCount() {
         let fetchedObject = (self.resultController.fetchedObjects ?? []) as [Homework]
-        if fetchedObject.count > 0 {
-            self.showAllHomework.isEnabled = true
+        self.showAllHomework.isEnabled = !fetchedObject.isEmpty
+        if !fetchedObject.isEmpty {
             self.showAllHomework.setTitle("Show All(\(fetchedObject.count))", for: .normal)
-        } else {
-            self.showAllHomework.isEnabled = false
         }
 
         let resultsInNextWeek = fetchedObject.filter { homework -> Bool in
