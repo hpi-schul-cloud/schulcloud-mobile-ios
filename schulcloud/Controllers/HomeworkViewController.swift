@@ -17,29 +17,38 @@ import UIKit
 class HomeworkViewController: UITableViewController {
 
     private struct DataConfiguration {
-        let title: String
         let keypath: String
         let sortDescriptor: String
         let cellIdentifier: String
     }
 
-    private enum SortingStyle {
+    private enum SortingMode {
         case dueDate
         case subject
+
+        var title: String {
+
+            switch self {
+            case .dueDate:
+                return "Due Date"
+            case .subject:
+                return "Subject"
+            }
+        }
 
         var configuration: DataConfiguration {
             switch self {
             case .dueDate:
-                return DataConfiguration(title: "Due Date", keypath: "dueDateShort", sortDescriptor: "dueDate", cellIdentifier: "task")
+                return DataConfiguration(keypath: "dueDateShort", sortDescriptor: "dueDate", cellIdentifier: "task")
             case .subject:
-                return DataConfiguration(title: "Subject", keypath: "course.name", sortDescriptor: "course.name", cellIdentifier: "courseTask")
+                return DataConfiguration(keypath: "course.name", sortDescriptor: "course.name", cellIdentifier: "courseTask")
             }
         }
 
-        static var allValues = [SortingStyle.dueDate, SortingStyle.subject]
+        static var allValues = [SortingMode.dueDate, SortingMode.subject]
     }
 
-    private var selectedSortingStyle = SortingStyle.dueDate {
+    private var selectedSortingStyle = SortingMode.dueDate {
         didSet {
             let configuration = selectedSortingStyle.configuration
             fetchedResultsController = makeFetchedResultsController(with: configuration.keypath, sortDescriptor: configuration.sortDescriptor)
@@ -60,8 +69,8 @@ class HomeworkViewController: UITableViewController {
     @IBAction func sortOptionPressed(_ sender: Any) {
         let controller = UIAlertController(title: "Sorting style", message: nil, preferredStyle: .actionSheet)
 
-        for sortingStyle in SortingStyle.allValues {
-            let action = UIAlertAction(title: sortingStyle.configuration.title, style: .default) {[weak self] _ in
+        for sortingStyle in SortingMode.allValues {
+            let action = UIAlertAction(title: sortingStyle.title, style: .default) {[weak self] _ in
                 self?.selectedSortingStyle = sortingStyle
             }
             controller.addAction(action)
