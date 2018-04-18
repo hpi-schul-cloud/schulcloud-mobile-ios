@@ -83,7 +83,7 @@
 		C3A5A9341EBCCE3B00825DBF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */; };
 		C3A5A9391EBCD0C600825DBF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9381EBCD0C600825DBF /* Constants.swift */; };
 		C3A5A93B1EC0766F00825DBF /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A93A1EC0766F00825DBF /* Account.swift */; };
-		C3AB489A1EDAE8A800692505 /* HomeworkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB48991EDAE8A800692505 /* HomeworkViewController.swift */; };
+		C3AB489A1EDAE8A800692505 /* HomeworkListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB48991EDAE8A800692505 /* HomeworkListViewController.swift */; };
 		C3AB489C1EDAE97600692505 /* HomeworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB489B1EDAE97600692505 /* HomeworkHelper.swift */; };
 		C3B7DB141EF5EB1800A2F2B5 /* HtmlTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B7DB131EF5EB1800A2F2B5 /* HtmlTableViewCell.swift */; };
 		C3C080551EE607F6005FA7C3 /* CourseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C080541EE607F6005FA7C3 /* CourseCell.swift */; };
@@ -240,7 +240,7 @@
 		C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C3A5A9381EBCD0C600825DBF /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C3A5A93A1EC0766F00825DBF /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
-		C3AB48991EDAE8A800692505 /* HomeworkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeworkViewController.swift; sourceTree = "<group>"; };
+		C3AB48991EDAE8A800692505 /* HomeworkListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeworkListViewController.swift; sourceTree = "<group>"; };
 		C3AB489B1EDAE97600692505 /* HomeworkHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeworkHelper.swift; sourceTree = "<group>"; };
 		C3B7DB131EF5EB1800A2F2B5 /* HtmlTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HtmlTableViewCell.swift; sourceTree = "<group>"; };
 		C3C080541EE607F6005FA7C3 /* CourseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCell.swift; sourceTree = "<group>"; };
@@ -504,7 +504,7 @@
 				C31C84281ECF550C00FA070C /* File Preview */,
 				C3B7DB151EF5EB2200A2F2B5 /* Lesson */,
 				C3418B611ECEE6FB00280E62 /* FilesViewController.swift */,
-				C3AB48991EDAE8A800692505 /* HomeworkViewController.swift */,
+				C3AB48991EDAE8A800692505 /* HomeworkListViewController.swift */,
 				C32870BB1EDF32C600ABA348 /* CoursesViewController.swift */,
 				C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */,
 				C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */,
@@ -958,7 +958,7 @@
 				50B44D8C203AAEE1009DC2D3 /* NewsArticle.swift in Sources */,
 				503C1C011F6181BF00CF369D /* CalendarOverviewViewController.swift in Sources */,
 				C32870C21EE0250500ABA348 /* LessonsViewController.swift in Sources */,
-				C3AB489A1EDAE8A800692505 /* HomeworkViewController.swift in Sources */,
+				C3AB489A1EDAE8A800692505 /* HomeworkListViewController.swift in Sources */,
 				50A1CDE61F501AC5006E9B69 /* NotificationCell.swift in Sources */,
 				50B82F822020C98E0048CB4B /* SyncEngine.swift in Sources */,
 				50B82F8A2020CA370048CB4B /* ResourceIdentifier.swift in Sources */,

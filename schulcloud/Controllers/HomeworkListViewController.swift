@@ -14,7 +14,7 @@ import CoreData
 import DateToolsSwift
 import UIKit
 
-class HomeworkViewController: UITableViewController {
+class HomeworkListViewController: UITableViewController {
 
     private struct SortingConfiguration {
         let keypath: String
@@ -24,14 +24,14 @@ class HomeworkViewController: UITableViewController {
 
     private enum SortingMode {
         case dueDate
-        case subject
+        case course
 
         var title: String {
             switch self {
             case .dueDate:
-                return "Due Date"
-            case .subject:
-                return "Subject"
+                return "Abgabetermin"
+            case .course:
+                return "Kurs"
             }
         }
 
@@ -39,12 +39,12 @@ class HomeworkViewController: UITableViewController {
             switch self {
             case .dueDate:
                 return SortingConfiguration(keypath: "dueDateShort", sortDescriptor: "dueDate", cellIdentifier: "task")
-            case .subject:
+            case .course:
                 return SortingConfiguration(keypath: "course.name", sortDescriptor: "course.name", cellIdentifier: "courseTask")
             }
         }
 
-        static var allValues = [SortingMode.dueDate, SortingMode.subject]
+        static var allValues = [SortingMode.dueDate, SortingMode.course]
     }
 
     private var selectedSortingStyle = SortingMode.dueDate {
@@ -65,7 +65,7 @@ class HomeworkViewController: UITableViewController {
     }
 
     @IBAction func sortOptionPressed(_ sender: Any) {
-        let controller = UIAlertController(title: "Sorting style", message: nil, preferredStyle: .actionSheet)
+        let controller = UIAlertController(title: "Aufgaben sortieren nach", message: nil, preferredStyle: .actionSheet)
 
         for sortingStyle in SortingMode.allValues {
             let action = UIAlertAction(title: sortingStyle.title, style: .default) {[weak self] _ in
@@ -151,6 +151,10 @@ class HomeworkViewController: UITableViewController {
         return cell
     }
 
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 44
+    }
+
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sectionInfo = self.fetchedResultsController.sections![section]
         guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HomeworkHeaderView") as? HomeworkHeaderView else {
@@ -206,7 +210,7 @@ class HomeworkViewController: UITableViewController {
     }
 }
 
-extension HomeworkViewController: NSFetchedResultsControllerDelegate {
+extension HomeworkListViewController: NSFetchedResultsControllerDelegate {
 
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         self.tableView.reloadData()
