@@ -31,7 +31,6 @@ final class HomeworkOverviewViewController: UIViewController {
 
     weak var delegate: HomeworkOverviewDelegate?
 
-    // TODO: Change map to homwork count
     var organizedHomeworkData: [Course: Int] = [:]
     var weekInterval: DateInterval {
         let now = Date()
@@ -81,7 +80,7 @@ final class HomeworkOverviewViewController: UIViewController {
             case 3...7:
                 self.subtitleLabel.text = "Nächste in \(timeDifference.day!) Tagen fällig"
             default:
-                self.subtitleLabel.text = ""
+                self.subtitleLabel.text = nil
             }
 
             self.subtitleLabel.isHidden = false
@@ -123,9 +122,10 @@ extension HomeworkOverviewViewController: UITableViewDelegate, UITableViewDataSo
 }
 
 extension HomeworkOverviewViewController: NSFetchedResultsControllerDelegate {
+
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         organizedHomeworkData.removeAll()
-        let fetchedObject = (controller.fetchedObjects ?? []) as! [Homework]
+        let fetchedObject = controller.fetchedObjects as? [Homework] ?? []
         let filterHomework = fetchedObject.filter { homework -> Bool in
             return weekInterval.contains(homework.dueDate)
         }
@@ -142,6 +142,7 @@ extension HomeworkOverviewViewController: NSFetchedResultsControllerDelegate {
         tableView.reloadData()
         self.delegate?.heightDidChange(height: self.height)
     }
+
 }
 
 extension HomeworkOverviewViewController: ViewHeightDataSource {

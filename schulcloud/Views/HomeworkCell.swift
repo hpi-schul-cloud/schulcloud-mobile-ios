@@ -5,7 +5,7 @@
 
 import UIKit
 
-final class UpcomingHomeworkCell: UITableViewCell {
+final class HomeworkCell: UITableViewCell {
 
     static var formatter: DateFormatter = {
         let dateFormatter = DateFormatter()
@@ -21,7 +21,7 @@ final class UpcomingHomeworkCell: UITableViewCell {
     func configure(with homework: Homework) {
 
         title?.text = homework.name
-        dueDate?.text = "\(UpcomingHomeworkCell.formatter.string(from: homework.dueDate))"
+        dueDate?.text = "\(HomeworkCell.formatter.string(from: homework.dueDate))"
 
         var homeworkDescription = homework.cleanedDescriptionText
         if let attributedString = NSMutableAttributedString(html: homeworkDescription) {

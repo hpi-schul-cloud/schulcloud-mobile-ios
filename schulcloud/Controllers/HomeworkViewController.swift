@@ -16,7 +16,7 @@ import UIKit
 
 class HomeworkViewController: UITableViewController {
 
-    private struct DataConfiguration {
+    private struct SortingConfiguration {
         let keypath: String
         let sortDescriptor: String
         let cellIdentifier: String
@@ -27,7 +27,6 @@ class HomeworkViewController: UITableViewController {
         case subject
 
         var title: String {
-
             switch self {
             case .dueDate:
                 return "Due Date"
@@ -36,12 +35,12 @@ class HomeworkViewController: UITableViewController {
             }
         }
 
-        var configuration: DataConfiguration {
+        var configuration: SortingConfiguration {
             switch self {
             case .dueDate:
-                return DataConfiguration(keypath: "dueDateShort", sortDescriptor: "dueDate", cellIdentifier: "task")
+                return SortingConfiguration(keypath: "dueDateShort", sortDescriptor: "dueDate", cellIdentifier: "task")
             case .subject:
-                return DataConfiguration(keypath: "course.name", sortDescriptor: "course.name", cellIdentifier: "courseTask")
+                return SortingConfiguration(keypath: "course.name", sortDescriptor: "course.name", cellIdentifier: "courseTask")
             }
         }
 
@@ -50,8 +49,7 @@ class HomeworkViewController: UITableViewController {
 
     private var selectedSortingStyle = SortingMode.dueDate {
         didSet {
-            let configuration = selectedSortingStyle.configuration
-            fetchedResultsController = makeFetchedResultsController(with: configuration.keypath, sortDescriptor: configuration.sortDescriptor)
+            self.fetchedResultsController = self.makeFetchedResultsController(for: self.selectedSortingStyle.configuration)
             self.performFetch()
         }
     }
@@ -98,31 +96,19 @@ class HomeworkViewController: UITableViewController {
     }
 
     fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Homework> = {
-        let now = Date()
-        let today: NSDate = Date(year: now.year, month: now.month, day: now.day) as NSDate
-
-        let fetchRequest: NSFetchRequest<Homework> = Homework.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dueDate", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "dueDate >= %@", today)
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                                  managedObjectContext: CoreDataHelper.viewContext,
-                                                                  sectionNameKeyPath: "dueDateShort",
-                                                                  cacheName: nil)
-        fetchedResultsController.delegate = self
-
-        return fetchedResultsController
+        return self.makeFetchedResultsController(for: self.selectedSortingStyle.configuration)
     }()
 
-    func makeFetchedResultsController(with keypath: String, sortDescriptor: String) -> NSFetchedResultsController<Homework> {
+    private func makeFetchedResultsController(for configuration: SortingConfiguration) -> NSFetchedResultsController<Homework> {
         let now = Date()
         let today: NSDate = Date(year: now.year, month: now.month, day: now.day) as NSDate
 
         let fetchRequest: NSFetchRequest<Homework> = Homework.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: sortDescriptor, ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: configuration.sortDescriptor, ascending: true)]
         fetchRequest.predicate = NSPredicate(format: "dueDate >= %@", today)
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                                   managedObjectContext: CoreDataHelper.viewContext,
-                                                                  sectionNameKeyPath: keypath,
+                                                                  sectionNameKeyPath: configuration.keypath,
                                                                   cacheName: nil)
         fetchedResultsController.delegate = self
 
@@ -158,15 +144,11 @@ class HomeworkViewController: UITableViewController {
             homeworkCell.configure(for: homework)
         }
 
-        if let upcomingHomeworkCell = cell as? UpcomingHomeworkCell {
+        if let upcomingHomeworkCell = cell as? HomeworkCell {
             upcomingHomeworkCell.configure(with: homework)
         }
 
         return cell
-    }
-
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 44.0
     }
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -188,7 +170,7 @@ class HomeworkViewController: UITableViewController {
             backgroundColor = UIColor(hexString: colorString)
         } else {
             let date = Homework.shortDateFormatter.date(from: sectionInfo.name)!
-            title = UpcomingHomeworkCell.formatter.string(from: date)
+            title = HomeworkCell.formatter.string(from: date)
         }
 
         view.configure(title: title, withColor: backgroundColor)
@@ -225,7 +207,9 @@ class HomeworkViewController: UITableViewController {
 }
 
 extension HomeworkViewController: NSFetchedResultsControllerDelegate {
+
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         self.tableView.reloadData()
     }
+
 }

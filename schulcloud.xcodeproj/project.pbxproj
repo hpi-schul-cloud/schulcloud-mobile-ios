@@ -112,7 +112,7 @@
 		CE9B56C82062A2C400803B3D /* NewsOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9B56C72062A2C400803B3D /* NewsOverviewViewController.swift */; };
 		CEB0027D2008BF9C007084C9 /* CalendarEventHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB0027C2008BF9C007084C9 /* CalendarEventHelper.swift */; };
 		CEBE1547207B63DC00238D1F /* HomeworkHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBE1546207B63DC00238D1F /* HomeworkHeaderView.xib */; };
-		CEBE154B207B9BE900238D1F /* UpcomingHomeworkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE154A207B9BE900238D1F /* UpcomingHomeworkCell.swift */; };
+		CEBE154B207B9BE900238D1F /* HomeworkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE154A207B9BE900238D1F /* HomeworkCell.swift */; };
 		CEBE154D207B9D0300238D1F /* HomeworkHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE154C207B9D0300238D1F /* HomeworkHeaderView.swift */; };
 		CEC042851FFE205E004E9A20 /* NewsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC042841FFE205E004E9A20 /* NewsHelper.swift */; };
 		CEC66C742011E92300B785F8 /* CalendarEventHelper+EventKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC66C732011E92300B785F8 /* CalendarEventHelper+EventKit.swift */; };
@@ -269,7 +269,7 @@
 		CE9B56C72062A2C400803B3D /* NewsOverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsOverviewViewController.swift; sourceTree = "<group>"; };
 		CEB0027C2008BF9C007084C9 /* CalendarEventHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarEventHelper.swift; sourceTree = "<group>"; };
 		CEBE1546207B63DC00238D1F /* HomeworkHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeworkHeaderView.xib; sourceTree = "<group>"; };
-		CEBE154A207B9BE900238D1F /* UpcomingHomeworkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingHomeworkCell.swift; sourceTree = "<group>"; };
+		CEBE154A207B9BE900238D1F /* HomeworkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkCell.swift; sourceTree = "<group>"; };
 		CEBE154C207B9D0300238D1F /* HomeworkHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkHeaderView.swift; sourceTree = "<group>"; };
 		CEC042841FFE205E004E9A20 /* NewsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsHelper.swift; sourceTree = "<group>"; };
 		CEC66C732011E92300B785F8 /* CalendarEventHelper+EventKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CalendarEventHelper+EventKit.swift"; sourceTree = "<group>"; };
@@ -367,7 +367,7 @@
 				C3B7DB131EF5EB1800A2F2B5 /* HtmlTableViewCell.swift */,
 				CE43B4962057E4D200950EA0 /* DashboardViewControllerCell.swift */,
 				CE99358A2074F667008E7EB0 /* HomeworkOverviewCell.swift */,
-				CEBE154A207B9BE900238D1F /* UpcomingHomeworkCell.swift */,
+				CEBE154A207B9BE900238D1F /* HomeworkCell.swift */,
 				CEBE154C207B9D0300238D1F /* HomeworkHeaderView.swift */,
 			);
 			path = Views;
@@ -1024,7 +1024,7 @@
 				C3AB489C1EDAE97600692505 /* HomeworkHelper.swift in Sources */,
 				CE99358B2074F667008E7EB0 /* HomeworkOverviewCell.swift in Sources */,
 				C36C233B1ECC965400D4163E /* CoreDataHelper.swift in Sources */,
-				CEBE154B207B9BE900238D1F /* UpcomingHomeworkCell.swift in Sources */,
+				CEBE154B207B9BE900238D1F /* HomeworkCell.swift in Sources */,
 				50D6432D1F8E09E200A89331 /* HomeworkOverviewViewController.swift in Sources */,
 				CEC042851FFE205E004E9A20 /* NewsHelper.swift in Sources */,
 				C3418B601ECDAB9F00280E62 /* FileHelper.swift in Sources */,
