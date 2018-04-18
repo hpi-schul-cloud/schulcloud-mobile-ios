@@ -59,7 +59,7 @@
 		50FCAD6F2031C3ED00C4C481 /* SyncHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FCAD6E2031C3ED00C4C481 /* SyncHelper.swift */; };
 		50FCAD712032D1E800C4C481 /* SynchronizationContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FCAD702032D1E800C4C481 /* SynchronizationContext.swift */; };
 		B4E75D134DB297D8745EE7BF /* Pods_schulcloud_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFC8C574D284EB0B69BA4899 /* Pods_schulcloud_Tests.framework */; };
-		C3165F1D1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3165F1C1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift */; };
+		C3165F1D1EDC1BAE005F5B8E /* HomeworkByDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3165F1C1EDC1BAE005F5B8E /* HomeworkByDateCell.swift */; };
 		C3165F1F1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3165F1E1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift */; };
 		C31C84271ECF546E00FA070C /* WebviewPreviewViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31C84261ECF546E00FA070C /* WebviewPreviewViewContoller.swift */; };
 		C31C842A1ECF553700FA070C /* PreviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31C84291ECF553700FA070C /* PreviewManager.swift */; };
@@ -83,7 +83,7 @@
 		C3A5A9341EBCCE3B00825DBF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */; };
 		C3A5A9391EBCD0C600825DBF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9381EBCD0C600825DBF /* Constants.swift */; };
 		C3A5A93B1EC0766F00825DBF /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A93A1EC0766F00825DBF /* Account.swift */; };
-		C3AB489A1EDAE8A800692505 /* HomeworkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB48991EDAE8A800692505 /* HomeworkViewController.swift */; };
+		C3AB489A1EDAE8A800692505 /* HomeworkListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB48991EDAE8A800692505 /* HomeworkListViewController.swift */; };
 		C3AB489C1EDAE97600692505 /* HomeworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB489B1EDAE97600692505 /* HomeworkHelper.swift */; };
 		C3B7DB141EF5EB1800A2F2B5 /* HtmlTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B7DB131EF5EB1800A2F2B5 /* HtmlTableViewCell.swift */; };
 		C3C080551EE607F6005FA7C3 /* CourseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C080541EE607F6005FA7C3 /* CourseCell.swift */; };
@@ -108,8 +108,12 @@
 		CE737A501FFE6929006DAB54 /* NewsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */; };
 		CE82931320498A1E009D2C84 /* SchulcloudTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE82931220498A1E009D2C84 /* SchulcloudTabBarController.swift */; };
 		CE829317204EB6B3009D2C84 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE829316204EB6B3009D2C84 /* DashboardViewController.swift */; };
+		CE99358B2074F667008E7EB0 /* HomeworkOverviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE99358A2074F667008E7EB0 /* HomeworkOverviewCell.swift */; };
 		CE9B56C82062A2C400803B3D /* NewsOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9B56C72062A2C400803B3D /* NewsOverviewViewController.swift */; };
 		CEB0027D2008BF9C007084C9 /* CalendarEventHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB0027C2008BF9C007084C9 /* CalendarEventHelper.swift */; };
+		CEBE1547207B63DC00238D1F /* HomeworkHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBE1546207B63DC00238D1F /* HomeworkHeaderView.xib */; };
+		CEBE154B207B9BE900238D1F /* HomeworkByCourseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE154A207B9BE900238D1F /* HomeworkByCourseCell.swift */; };
+		CEBE154D207B9D0300238D1F /* HomeworkHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE154C207B9D0300238D1F /* HomeworkHeaderView.swift */; };
 		CEC042851FFE205E004E9A20 /* NewsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC042841FFE205E004E9A20 /* NewsHelper.swift */; };
 		CEC66C742011E92300B785F8 /* CalendarEventHelper+EventKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC66C732011E92300B785F8 /* CalendarEventHelper+EventKit.swift */; };
 		CEF363F22010D9B300793D63 /* CalendarEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF363F12010D9B300793D63 /* CalendarEvent.swift */; };
@@ -208,7 +212,7 @@
 		AFC8C574D284EB0B69BA4899 /* Pods_schulcloud_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloud_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFBD1AD7CC68AD6AE57843C4 /* Pods_schulcloud_schulcloudTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloud_schulcloudTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C00572D0E333691EC3007D54 /* Pods-schulcloudTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudTests/Pods-schulcloudTests.debug.xcconfig"; sourceTree = "<group>"; };
-		C3165F1C1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeworkTableViewCell.swift; sourceTree = "<group>"; };
+		C3165F1C1EDC1BAE005F5B8E /* HomeworkByDateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeworkByDateCell.swift; sourceTree = "<group>"; };
 		C3165F1E1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+HTML.swift"; sourceTree = "<group>"; };
 		C31C84261ECF546E00FA070C /* WebviewPreviewViewContoller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebviewPreviewViewContoller.swift; sourceTree = "<group>"; };
 		C31C84291ECF553700FA070C /* PreviewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewManager.swift; sourceTree = "<group>"; };
@@ -236,7 +240,7 @@
 		C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C3A5A9381EBCD0C600825DBF /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C3A5A93A1EC0766F00825DBF /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
-		C3AB48991EDAE8A800692505 /* HomeworkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeworkViewController.swift; sourceTree = "<group>"; };
+		C3AB48991EDAE8A800692505 /* HomeworkListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeworkListViewController.swift; sourceTree = "<group>"; };
 		C3AB489B1EDAE97600692505 /* HomeworkHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeworkHelper.swift; sourceTree = "<group>"; };
 		C3B7DB131EF5EB1800A2F2B5 /* HtmlTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HtmlTableViewCell.swift; sourceTree = "<group>"; };
 		C3C080541EE607F6005FA7C3 /* CourseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCell.swift; sourceTree = "<group>"; };
@@ -261,8 +265,12 @@
 		CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListViewController.swift; sourceTree = "<group>"; };
 		CE82931220498A1E009D2C84 /* SchulcloudTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchulcloudTabBarController.swift; sourceTree = "<group>"; };
 		CE829316204EB6B3009D2C84 /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
+		CE99358A2074F667008E7EB0 /* HomeworkOverviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkOverviewCell.swift; sourceTree = "<group>"; };
 		CE9B56C72062A2C400803B3D /* NewsOverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsOverviewViewController.swift; sourceTree = "<group>"; };
 		CEB0027C2008BF9C007084C9 /* CalendarEventHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarEventHelper.swift; sourceTree = "<group>"; };
+		CEBE1546207B63DC00238D1F /* HomeworkHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeworkHeaderView.xib; sourceTree = "<group>"; };
+		CEBE154A207B9BE900238D1F /* HomeworkByCourseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkByCourseCell.swift; sourceTree = "<group>"; };
+		CEBE154C207B9D0300238D1F /* HomeworkHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkHeaderView.swift; sourceTree = "<group>"; };
 		CEC042841FFE205E004E9A20 /* NewsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsHelper.swift; sourceTree = "<group>"; };
 		CEC66C732011E92300B785F8 /* CalendarEventHelper+EventKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CalendarEventHelper+EventKit.swift"; sourceTree = "<group>"; };
 		CEF363F12010D9B300793D63 /* CalendarEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEvent.swift; sourceTree = "<group>"; };
@@ -352,12 +360,15 @@
 			isa = PBXGroup;
 			children = (
 				C3C080541EE607F6005FA7C3 /* CourseCell.swift */,
-				C3165F1C1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift */,
 				50A1CDE51F501AC5006E9B69 /* NotificationCell.swift */,
 				CE737A4D1FFE65B0006DAB54 /* NewsArticleCell.swift */,
 				5060457F206A452C009569D1 /* NewsArticleOverviewCell.swift */,
 				C3B7DB131EF5EB1800A2F2B5 /* HtmlTableViewCell.swift */,
 				CE43B4962057E4D200950EA0 /* DashboardViewControllerCell.swift */,
+				CE99358A2074F667008E7EB0 /* HomeworkOverviewCell.swift */,
+				CEBE154A207B9BE900238D1F /* HomeworkByCourseCell.swift */,
+				C3165F1C1EDC1BAE005F5B8E /* HomeworkByDateCell.swift */,
+				CEBE154C207B9D0300238D1F /* HomeworkHeaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -493,7 +504,7 @@
 				C31C84281ECF550C00FA070C /* File Preview */,
 				C3B7DB151EF5EB2200A2F2B5 /* Lesson */,
 				C3418B611ECEE6FB00280E62 /* FilesViewController.swift */,
-				C3AB48991EDAE8A800692505 /* HomeworkViewController.swift */,
+				C3AB48991EDAE8A800692505 /* HomeworkListViewController.swift */,
 				C32870BB1EDF32C600ABA348 /* CoursesViewController.swift */,
 				C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */,
 				C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */,
@@ -520,6 +531,7 @@
 				C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */,
 				C3A5A90E1EBCC17600825DBF /* LaunchScreen.storyboard */,
 				CE3C5572206BD6BB00B79034 /* MissingPermissionView.xib */,
+				CEBE1546207B63DC00238D1F /* HomeworkHeaderView.xib */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -665,6 +677,9 @@
 						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 0;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -724,6 +739,7 @@
 				3DD869171ECE3F6100814392 /* PT_Sans-Web-Regular.ttf in Resources */,
 				3DD869151ECE3F6100814392 /* PT_Sans-Web-BoldItalic.ttf in Resources */,
 				C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */,
+				CEBE1547207B63DC00238D1F /* HomeworkHeaderView.xib in Resources */,
 				503A5F011F3DC6C700A7695B /* TabDashboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -942,7 +958,7 @@
 				50B44D8C203AAEE1009DC2D3 /* NewsArticle.swift in Sources */,
 				503C1C011F6181BF00CF369D /* CalendarOverviewViewController.swift in Sources */,
 				C32870C21EE0250500ABA348 /* LessonsViewController.swift in Sources */,
-				C3AB489A1EDAE8A800692505 /* HomeworkViewController.swift in Sources */,
+				C3AB489A1EDAE8A800692505 /* HomeworkListViewController.swift in Sources */,
 				50A1CDE61F501AC5006E9B69 /* NotificationCell.swift in Sources */,
 				50B82F822020C98E0048CB4B /* SyncEngine.swift in Sources */,
 				50B82F8A2020CA370048CB4B /* ResourceIdentifier.swift in Sources */,
@@ -990,7 +1006,7 @@
 				CE2FF77A2045A15900D5AF8E /* UserPermissions.swift in Sources */,
 				CE9B56C82062A2C400803B3D /* NewsOverviewViewController.swift in Sources */,
 				50604584206BA401009569D1 /* schulcloud.xcdatamodeld in Sources */,
-				C3165F1D1EDC1BAE005F5B8E /* HomeworkTableViewCell.swift in Sources */,
+				C3165F1D1EDC1BAE005F5B8E /* HomeworkByDateCell.swift in Sources */,
 				C3A5A9031EBCC17600825DBF /* AppDelegate.swift in Sources */,
 				CEB0027D2008BF9C007084C9 /* CalendarEventHelper.swift in Sources */,
 				50B82F8C2020CA670048CB4B /* ResourceRepresentable.swift in Sources */,
@@ -1001,11 +1017,14 @@
 				C3C3CAB11EF5CBB6009601AE /* SingleLessonViewController.swift in Sources */,
 				50A1CDE41F501A0D006E9B69 /* NotificationViewController.swift in Sources */,
 				50B44D88203AAEE1009DC2D3 /* Course.swift in Sources */,
+				CEBE154D207B9D0300238D1F /* HomeworkHeaderView.swift in Sources */,
 				50B44D86203AAEE1009DC2D3 /* LessonContent.swift in Sources */,
 				50B82F862020C9E80048CB4B /* Pullable.swift in Sources */,
 				C3C2AC241EC3AAA80060AECA /* LoginHelper.swift in Sources */,
 				C3AB489C1EDAE97600692505 /* HomeworkHelper.swift in Sources */,
+				CE99358B2074F667008E7EB0 /* HomeworkOverviewCell.swift in Sources */,
 				C36C233B1ECC965400D4163E /* CoreDataHelper.swift in Sources */,
+				CEBE154B207B9BE900238D1F /* HomeworkByCourseCell.swift in Sources */,
 				50D6432D1F8E09E200A89331 /* HomeworkOverviewViewController.swift in Sources */,
 				CEC042851FFE205E004E9A20 /* NewsHelper.swift in Sources */,
 				C3418B601ECDAB9F00280E62 /* FileHelper.swift in Sources */,

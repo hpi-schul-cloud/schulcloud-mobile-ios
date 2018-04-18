@@ -64,7 +64,9 @@ final class DashboardViewController: UICollectionViewController {
         }
 
         viewControllers.append(makePermissionController(for: calendarOverview))
-        viewControllers.append(makePermissionController(for: homeworkOverview))
+        let homeworkWrappedVc = makePermissionController(for: homeworkOverview)
+        homeworkWrappedVc.containedViewController?.delegate = self
+        viewControllers.append(homeworkWrappedVc)
         let newsWrappedVc = makePermissionController(for: newsOverview)
         newsWrappedVc.containedViewController?.delegate = self
         viewControllers.append(newsWrappedVc)
@@ -155,12 +157,12 @@ extension DashboardViewController {
         if let vc = vc as? PermissionManagmentViewController<CalendarOverviewViewController>,
                vc.hasPermission {
             self.performSegue(withIdentifier: "showCalendar", sender: nil)
-        } else if let vc = vc as? PermissionManagmentViewController<HomeworkOverviewViewController>,
-                      vc.hasPermission {
-            self.performSegue(withIdentifier: "showHomework", sender: nil)
         } else if let vc = vc as? PermissionManagmentViewController<ShortNotificationViewController>,
                       vc.hasPermission {
             self.performSegue(withIdentifier: "showNotifications", sender: nil)
+        } else if let vc = vc as? PermissionManagmentViewController<HomeworkOverviewViewController>,
+                      vc.hasPermission {
+            self.performSegue(withIdentifier: "showHomework", sender: nil)
         }
     }
 }
@@ -182,7 +184,6 @@ extension DashboardViewController: DashboardLayoutDataSource {
 }
 
 extension DashboardViewController: NewsOverviewViewControllerDelegate {
-
     func heightDidChange(_ height: CGFloat) {
         self.collectionView?.collectionViewLayout.invalidateLayout()
     }
@@ -193,5 +194,11 @@ extension DashboardViewController: NewsOverviewViewControllerDelegate {
 
     func showMorePressed() {
         self.performSegue(withIdentifier: "showNewsList", sender: self)
+    }
+}
+
+extension DashboardViewController: HomeworkOverviewDelegate {
+    func heightDidChange(height: CGFloat) {
+        self.collectionView?.collectionViewLayout.invalidateLayout()
     }
 }

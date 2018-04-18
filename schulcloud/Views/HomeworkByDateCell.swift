@@ -5,7 +5,7 @@
 
 import UIKit
 
-class HomeworkTableViewCell: UITableViewCell {
+class HomeworkByDateCell: UITableViewCell {
 
     @IBOutlet private var subjectLabel: UILabel!
     @IBOutlet private var titleLabel: UILabel!
@@ -30,14 +30,14 @@ class HomeworkTableViewCell: UITableViewCell {
         self.titleLabel.text = homework.name
         self.coloredStrip.backgroundColor = homework.color
 
-        let description = homework.cleanedDescriptionText
-        if let attributedString = NSMutableAttributedString(html: description) {
+        var homeworkDescription = homework.cleanedDescriptionText
+        if let attributedString = NSMutableAttributedString(html: homeworkDescription) {
             let range = NSRange(location: 0, length: attributedString.string.count)
             attributedString.addAttribute(NSAttributedStringKey.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
-            self.contentLabel.text = attributedString.trailingNewlineChopped.string
-        } else {
-            self.contentLabel.text = description
+            homeworkDescription = attributedString.trailingNewlineChopped.string
         }
+
+        self.contentLabel.text = homeworkDescription
 
         let (dueText, dueColor) = homework.dueTextAndColor
         self.dueLabel.text = dueText

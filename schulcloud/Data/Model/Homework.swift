@@ -27,8 +27,6 @@ final class Homework: NSManagedObject {
 
 extension Homework {
 
-    static let homeworkCountDidChange = Notification.Name(rawValue: "homeworkCountDidChange")
-
     static let shortDateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
