@@ -22,21 +22,24 @@
 	<string>1</string>
 	<key>NSExtension</key>
 	<dict>
-		<key>NSExtensionFileProviderActions</key>
-		<array>
-			<dict>
-				<key>NSExtensionFileProviderActionActivationRule</key>
-				<string>TRUEPREDICATE</string>
-				<key>NSExtensionFileProviderActionIdentifier</key>
-				<string>com.mycompany.FileProviderUI.CustomAction</string>
-				<key>NSExtensionFileProviderActionName</key>
-				<string>Custom Action</string>
-			</dict>
-		</array>
+		<key>NSExtensionAttributes</key>
+		<dict>
+			<key>UIDocumentPickerModes</key>
+			<array>
+				<string>UIDocumentPickerModeImport</string>
+				<string>UIDocumentPickerModeOpen</string>
+				<string>UIDocumentPickerModeExportToService</string>
+				<string>UIDocumentPickerModeMoveToService</string>
+			</array>
+			<key>UIDocumentPickerSupportedFileTypes</key>
+			<array>
+				<string>public.content</string>
+			</array>
+		</dict>
 		<key>NSExtensionMainStoryboard</key>
 		<string>MainInterface</string>
 		<key>NSExtensionPointIdentifier</key>
-		<string>com.apple.fileprovider-actionsui</string>
+		<string>com.apple.fileprovider-ui</string>
 	</dict>
 </dict>
 </plist>
