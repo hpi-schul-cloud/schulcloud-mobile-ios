@@ -690,7 +690,6 @@
 				5024103A2046B01A0033D75A /* Frameworks */,
 				5024103B2046B01A0033D75A /* Resources */,
 				0173A0DB04B163DBB56A1808 /* [CP] Embed Pods Frameworks */,
-				7F11E21C165D6761DB5FE34F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -713,7 +712,6 @@
 				C3A5A8FD1EBCC17600825DBF /* Resources */,
 				50F39850202C7E9200ADAE5D /* Copy GoogleServices-Info.plist */,
 				DFB669BB58F24B67E05FBDAF /* [CP] Embed Pods Frameworks */,
-				92F1821EE71547F849FC612C /* [CP] Copy Pods Resources */,
 				50B44D7B203A0377009DC2D3 /* Clear Build number */,
 				CE8193BE208885A6007693A6 /* Embed App Extensions */,
 			);
@@ -972,21 +970,6 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ \"${CONFIGURATION}\" == \"Release\" ]; then\n    suffix=\"Release\"\nelse\n    suffix=\"Debug\"\nfi\n\necho \"Using GoogleService-Info.plist for ${suffix} mode\"\ncp \"${PROJECT_DIR}/schulcloud/GoogleService-Info-${suffix}.plist\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\"";
 		};
-		7F11E21C165D6761DB5FE34F /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-schulcloud-Tests/Pods-schulcloud-Tests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		92AF1094A1614F30A8A8E107 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1003,21 +986,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		92F1821EE71547F849FC612C /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-schulcloud/Pods-schulcloud-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DFB669BB58F24B67E05FBDAF /* [CP] Embed Pods Frameworks */ = {
