@@ -4,12 +4,28 @@
 //
 
 import FileProvider
+import SwiftyBeaver
+import CoreData
+import BrightFutures
+
+let log = SwiftyBeaver.self
 
 class FileProviderExtension: NSFileProviderExtension {
-    
-    var fileManager = FileManager()
-    
+
+    let root : File
+    let fileSync = FileSync()
+
     override init() {
+
+        guard let account = LoginHelper.loadAccount() else {
+            fatalError()
+        }
+
+        guard let validAccount = LoginHelper.validate(account) else {
+            fatalError()
+        }
+        Globals.account = validAccount
+        root = FileHelper.rootFolder
         super.init()
     }
     
@@ -17,31 +33,28 @@ class FileProviderExtension: NSFileProviderExtension {
         // resolve the given identifier to a record in the model
         
         // TODO: implement the actual lookup
-        return FileProviderItem()
+        let fetchRequest : NSFetchRequest<File> = File.fetchRequest()
+        fetchRequest.sortDescriptors = []
+        fetchRequest.predicate = NSPredicate(format: "id == %@", identifier.rawValue)
+        let file = CoreDataHelper.viewContext.fetchSingle(fetchRequest)
+        return FileProviderItem(file: file.value!)
     }
     
     override func urlForItem(withPersistentIdentifier identifier: NSFileProviderItemIdentifier) -> URL? {
-        // resolve the given identifier to a file on disk
-        guard let item = try? item(for: identifier) else {
-            return nil
-        }
-        
-        // in this implementation, all paths are structured as <base storage directory>/<item identifier>/<item file name>
-        let manager = NSFileProviderManager.default
-        let perItemDirectory = manager.documentStorageURL.appendingPathComponent(identifier.rawValue, isDirectory: true)
-        
-        return perItemDirectory.appendingPathComponent(item.filename, isDirectory:false)
+        let fetchRequest : NSFetchRequest<File> = File.fetchRequest()
+        fetchRequest.sortDescriptors = []
+        fetchRequest.predicate = NSPredicate(format: "id == %@", identifier.rawValue)
+        let result = CoreDataHelper.viewContext.fetchSingle(fetchRequest)
+        return result.value?.url
     }
     
     override func persistentIdentifierForItem(at url: URL) -> NSFileProviderItemIdentifier? {
         // resolve the given URL to a persistent identifier using a database
-        let pathComponents = url.pathComponents
-        
-        // exploit the fact that the path structure has been defined as
-        // <base storage directory>/<item identifier>/<item file name> above
-        assert(pathComponents.count > 2)
-        
-        return NSFileProviderItemIdentifier(pathComponents[pathComponents.count - 2])
+
+        guard let item = File.file(at: url, root: root) else {
+            return nil
+        }
+        return NSFileProviderItemIdentifier(item.id)
     }
     
     override func providePlaceholder(at url: URL, completionHandler: @escaping (Error?) -> Void) {
@@ -51,10 +64,16 @@ class FileProviderExtension: NSFileProviderExtension {
         }
 
         do {
-            let fileProviderItem = try item(for: identifier)
-            let placeholderURL = NSFileProviderManager.placeholderURL(for: url)
-            try NSFileProviderManager.writePlaceholder(at: placeholderURL,withMetadata: fileProviderItem)
+            if #available(iOS 11.0, *) {
+                let fileProviderItem = try item(for: identifier)
+                let placeholderURL = NSFileProviderManager.placeholderURL(for: url)
+                try NSFileProviderManager.writePlaceholder(at: placeholderURL,withMetadata: fileProviderItem)
+            } else {
+                let file = File.file(at: url, root: root)
+                try! NSFileProviderExtension.writePlaceholder(at: url, withMetadata: [URLResourceKey.isDirectoryKey : file!.isDirectory])
+            }
             completionHandler(nil)
+
         } catch let error {
             completionHandler(error)
         }
@@ -62,32 +81,35 @@ class FileProviderExtension: NSFileProviderExtension {
 
     override func startProvidingItem(at url: URL, completionHandler: @escaping ((_ error: Error?) -> Void)) {
         // Should ensure that the actual file is in the position returned by URLForItemWithIdentifier:, then call the completion handler
-        
-        /* TODO:
-         This is one of the main entry points of the file provider. We need to check whether the file already exists on disk,
-         whether we know of a more recent version of the file, and implement a policy for these cases. Pseudocode:
-         
-         if !fileOnDisk {
-             downloadRemoteFile()
-             callCompletion(downloadErrorOrNil)
-         } else if fileIsCurrent {
-             callCompletion(nil)
-         } else {
-             if localFileHasChanges {
-                 // in this case, a version of the file is on disk, but we know of a more recent version
-                 // we need to implement a strategy to resolve this conflict
-                 moveLocalFileAside()
-                 scheduleUploadOfLocalFile()
-                 downloadRemoteFile()
-                 callCompletion(downloadErrorOrNil)
-             } else {
-                 downloadRemoteFile()
-                 callCompletion(downloadErrorOrNil)
-             }
-         }
-         */
-        
-        completionHandler(NSError(domain: NSCocoaErrorDomain, code: NSFeatureUnsupportedError, userInfo:[:]))
+        guard let item = File.file(at: url, root: root) else {
+            completionHandler(NSError(domain: NSCocoaErrorDomain, code: NSFileNoSuchFileError, userInfo:[:]))
+            return
+        }
+
+        let successHandler : () -> Void = {
+            completionHandler(nil)
+        }
+        let errorHandler : (SCError) -> Void = { error in
+            completionHandler(error)
+        }
+
+        if item.isDirectory {
+            fileSync.downloadContent(for: item)
+            .flatMap { (json) -> Future<Void, SCError> in
+                    return FileHelper.updateDatabase(contentsOf: item, using: json)
+            }.onSuccess(callback: successHandler).onFailure(callback: errorHandler)
+        } else {
+            self.providePlaceholder(at: url) { _ in
+                self.fileSync.signedURL(for: item).flatMap { [weak self] url -> Future<Data, SCError> in
+                    return self!.fileSync.download(url: item.url, progressHandler: nil)
+                    }.andThen { result in
+                        if let data = result.value {
+
+                            try! data.write(to: url)
+                        }
+                    }.asVoid().onSuccess(callback: successHandler).onFailure(callback: errorHandler)
+            }
+        }
     }
     
     
@@ -136,7 +158,6 @@ class FileProviderExtension: NSFileProviderExtension {
      */
     
     // MARK: - Enumeration
-    
     override func enumerator(for containerItemIdentifier: NSFileProviderItemIdentifier) throws -> NSFileProviderEnumerator {
         let maybeEnumerator: NSFileProviderEnumerator? = nil
         if (containerItemIdentifier == NSFileProviderItemIdentifier.rootContainer) {
@@ -153,5 +174,22 @@ class FileProviderExtension: NSFileProviderExtension {
         }
         return enumerator
     }
-    
+}
+
+extension File {
+    fileprivate static func file(at url: URL, root: File) -> File? {
+        var item = root
+        let pathComponents = url.pathComponents[1...]
+
+        compoIt: for compo in pathComponents {
+            for itemChild in item.contents {
+                if itemChild.url.pathComponents.last == compo {
+                    item = itemChild
+                    continue compoIt
+                }
+            }
+            return nil //didn't find children, return early
+        }
+        return item
+    }
 }

@@ -19,8 +19,16 @@ target 'schulcloud' do
   pod 'SwiftyBeaver', :git => 'https://github.com/SwiftyBeaver/SwiftyBeaver.git', :commit => 'e4563d1'
   pod 'SwiftyJSON', '~> 3'
 
+  target 'schulcloud-fileprovider' do
+    inherit! :search_paths
+  end
+
+  target 'schulcloud-fileproviderUI' do
+    inherit! :search_paths
+  end
+
   target 'schulcloud-Tests' do
     inherit! :search_paths
     pod 'Firebase'
-end
+  end
 end

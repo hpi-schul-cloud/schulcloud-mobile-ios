@@ -11,7 +11,7 @@ import Marshal
 
 class FileSync: NSObject {
 
-    typealias ProgressHandler = (Float) -> Void
+    typealias ProgressHandler = ((Float) -> Void)
 
     fileprivate var fileTransferSession: URLSession!
     fileprivate let fileDataSession: URLSession
@@ -77,12 +77,14 @@ class FileSync: NSObject {
         return promise.future
     }
 
-    func download(url: URL, progressHandler: @escaping ProgressHandler ) -> Future<Data, SCError> {
+    func download(url: URL, progressHandler: ProgressHandler? ) -> Future<Data, SCError> {
         let promise = Promise<Data, SCError>()
         let task = fileTransferSession.downloadTask(with: url)
         task.resume()
         runningTask[task.taskIdentifier] = promise
-        progressHandlers[task.taskIdentifier] = progressHandler
+        if let progressHandler = progressHandler {
+            progressHandlers[task.taskIdentifier] = progressHandler
+        }
         return promise.future
     }
 
