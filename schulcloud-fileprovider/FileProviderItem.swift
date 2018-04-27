@@ -18,11 +18,14 @@ class FileProviderItem: NSObject, NSFileProviderItem {
     }
     
     var itemIdentifier: NSFileProviderItemIdentifier {
-        return NSFileProviderItemIdentifier("")
+        return NSFileProviderItemIdentifier(file.id)
     }
     
     var parentItemIdentifier: NSFileProviderItemIdentifier {
-        return NSFileProviderItemIdentifier("")
+        guard let parent = file.parentDirectory else {
+            return NSFileProviderItemIdentifier("")
+        }
+        return NSFileProviderItemIdentifier(parent.id)
     }
     
     var capabilities: NSFileProviderItemCapabilities {
@@ -30,11 +33,12 @@ class FileProviderItem: NSObject, NSFileProviderItem {
     }
     
     var filename: String {
-        return ""
+        return file.name
     }
     
     var typeIdentifier: String {
-        return ""
+        if file.isDirectory { return "public.folder"  }
+        return file.mimeType ?? ""
     }
     
 }

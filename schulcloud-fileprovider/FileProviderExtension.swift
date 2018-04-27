@@ -10,13 +10,31 @@ import BrightFutures
 
 let log = SwiftyBeaver.self
 
-class FileProviderExtension: NSFileProviderExtension {
+class Course: NSObject {
 
+}
+
+class Homework: NSObject {
+
+}
+
+struct CalendarEventHelper {
+    static func deleteSchulcloudCalendar() {
+        
+    }
+}
+
+struct SCNotifications {
+    static func initializeMessaging() {
+
+    }
+}
+
+class FileProviderExtension: NSFileProviderExtension {
     let root : File
     let fileSync = FileSync()
 
     override init() {
-
         guard let account = LoginHelper.loadAccount() else {
             fatalError()
         }
@@ -31,21 +49,16 @@ class FileProviderExtension: NSFileProviderExtension {
     
     override func item(for identifier: NSFileProviderItemIdentifier) throws -> NSFileProviderItem {
         // resolve the given identifier to a record in the model
-        
-        // TODO: implement the actual lookup
-        let fetchRequest : NSFetchRequest<File> = File.fetchRequest()
-        fetchRequest.sortDescriptors = []
-        fetchRequest.predicate = NSPredicate(format: "id == %@", identifier.rawValue)
-        let file = CoreDataHelper.viewContext.fetchSingle(fetchRequest)
-        return FileProviderItem(file: file.value!)
+        if identifier == NSFileProviderItemIdentifier.rootContainer {
+            return FileProviderItem(file: root)
+        }
+        let file = File.file(with: identifier.rawValue)
+        return FileProviderItem(file: file!)
     }
     
     override func urlForItem(withPersistentIdentifier identifier: NSFileProviderItemIdentifier) -> URL? {
-        let fetchRequest : NSFetchRequest<File> = File.fetchRequest()
-        fetchRequest.sortDescriptors = []
-        fetchRequest.predicate = NSPredicate(format: "id == %@", identifier.rawValue)
-        let result = CoreDataHelper.viewContext.fetchSingle(fetchRequest)
-        return result.value?.url
+        let file = File.file(with: identifier.rawValue)
+        return file?.url
     }
     
     override func persistentIdentifierForItem(at url: URL) -> NSFileProviderItemIdentifier? {
@@ -159,15 +172,19 @@ class FileProviderExtension: NSFileProviderExtension {
     
     // MARK: - Enumeration
     override func enumerator(for containerItemIdentifier: NSFileProviderItemIdentifier) throws -> NSFileProviderEnumerator {
-        let maybeEnumerator: NSFileProviderEnumerator? = nil
+        let maybeEnumerator: NSFileProviderEnumerator?
         if (containerItemIdentifier == NSFileProviderItemIdentifier.rootContainer) {
             // TODO: instantiate an enumerator for the container root
+            maybeEnumerator = FileProviderEnumerator(file: root)
         } else if (containerItemIdentifier == NSFileProviderItemIdentifier.workingSet) {
-            // TODO: instantiate an enumerator for the working set
+            maybeEnumerator = nil
         } else {
+
             // TODO: determine if the item is a directory or a file
             // - for a directory, instantiate an enumerator of its subitems
             // - for a file, instantiate an enumerator that observes changes to the file
+            let file = File.file(with: containerItemIdentifier.rawValue)
+            maybeEnumerator = FileProviderEnumerator(file: file!)
         }
         guard let enumerator = maybeEnumerator else {
             throw NSError(domain: NSCocoaErrorDomain, code: NSFeatureUnsupportedError, userInfo:[:])
@@ -177,7 +194,7 @@ class FileProviderExtension: NSFileProviderExtension {
 }
 
 extension File {
-    fileprivate static func file(at url: URL, root: File) -> File? {
+    static func file(at url: URL, root: File) -> File? {
         var item = root
         let pathComponents = url.pathComponents[1...]
 
@@ -191,5 +208,13 @@ extension File {
             return nil //didn't find children, return early
         }
         return item
+    }
+
+    static func file(with identifier: String) -> File? {
+        let fetchRequest : NSFetchRequest<File> = File.fetchRequest()
+        fetchRequest.sortDescriptors = []
+        fetchRequest.predicate = NSPredicate(format: "id == %@", identifier)
+        let file = CoreDataHelper.viewContext.fetchSingle(fetchRequest)
+        return file.value
     }
 }

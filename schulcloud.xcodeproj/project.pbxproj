@@ -134,6 +134,11 @@
 		CE76C60E208F610B00AFE98A /* SyncHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FCAD6E2031C3ED00C4C481 /* SyncHelper.swift */; };
 		CE76C60F208F610B00AFE98A /* SchulcloudSyncStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50359DA6203F155200D24E0F /* SchulcloudSyncStrategy.swift */; };
 		CE76C610208F610B00AFE98A /* SculcloudSyncConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50359DA8203F159300D24E0F /* SculcloudSyncConfig.swift */; };
+		CE76C6132091CAE600AFE98A /* UserDefault+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE76C6122091CAE600AFE98A /* UserDefault+.swift */; };
+		CE76C6142091CAE600AFE98A /* UserDefault+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE76C6122091CAE600AFE98A /* UserDefault+.swift */; };
+		CE76C6152091CAE600AFE98A /* UserDefault+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE76C6122091CAE600AFE98A /* UserDefault+.swift */; };
+		CE76C6182091DC4D00AFE98A /* schulcloud.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 50604581206BA401009569D1 /* schulcloud.xcdatamodeld */; };
+		CE76C6192091DC4D00AFE98A /* schulcloud.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 50604581206BA401009569D1 /* schulcloud.xcdatamodeld */; };
 		CE81939F208885A6007693A6 /* FileProviderExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE81939E208885A6007693A6 /* FileProviderExtension.swift */; };
 		CE8193A1208885A6007693A6 /* FileProviderItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8193A0208885A6007693A6 /* FileProviderItem.swift */; };
 		CE8193A3208885A6007693A6 /* FileProviderEnumerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8193A2208885A6007693A6 /* FileProviderEnumerator.swift */; };
@@ -331,6 +336,7 @@
 		CE644E8820232710003AE700 /* UIColor+hexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+hexString.swift"; sourceTree = "<group>"; };
 		CE737A4D1FFE65B0006DAB54 /* NewsArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsArticleCell.swift; sourceTree = "<group>"; };
 		CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListViewController.swift; sourceTree = "<group>"; };
+		CE76C6122091CAE600AFE98A /* UserDefault+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefault+.swift"; sourceTree = "<group>"; };
 		CE81939C208885A6007693A6 /* schulcloud-fileprovider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "schulcloud-fileprovider.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE81939E208885A6007693A6 /* FileProviderExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileProviderExtension.swift; sourceTree = "<group>"; };
 		CE8193A0208885A6007693A6 /* FileProviderItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileProviderItem.swift; sourceTree = "<group>"; };
@@ -453,6 +459,7 @@
 				C3165F1E1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift */,
 				CE644E8820232710003AE700 /* UIColor+hexString.swift */,
 				CE443936205BDEDD00CC3311 /* UIAlertController+Permission.swift */,
+				CE76C6122091CAE600AFE98A /* UserDefault+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -847,6 +854,9 @@
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
+							com.apple.Keychain = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -863,6 +873,11 @@
 						CreatedOnToolsVersion = 9.2;
 						DevelopmentTeam = WP53SSE8S6;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 					CE8193A9208885A6007693A6 = {
 						CreatedOnToolsVersion = 9.2;
@@ -870,6 +885,9 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.Keychain = {
 								enabled = 1;
 							};
 						};
@@ -1208,6 +1226,7 @@
 				50F3985C202D9B0000ADAE5D /* JsonAPISyncStrategy.swift in Sources */,
 				C3B7DB141EF5EB1800A2F2B5 /* HtmlTableViewCell.swift in Sources */,
 				CE3C5575206BE07200B79034 /* MissingPermissionView.swift in Sources */,
+				CE76C6132091CAE600AFE98A /* UserDefault+.swift in Sources */,
 				CE2FF77A2045A15900D5AF8E /* UserPermissions.swift in Sources */,
 				CE9B56C82062A2C400803B3D /* NewsOverviewViewController.swift in Sources */,
 				50604584206BA401009569D1 /* schulcloud.xcdatamodeld in Sources */,
@@ -1262,12 +1281,14 @@
 				CE76C608208F610B00AFE98A /* SyncConfig.swift in Sources */,
 				CE76C609208F610B00AFE98A /* SyncStrategy.swift in Sources */,
 				CE76C60A208F610B00AFE98A /* SynchronizationContext.swift in Sources */,
+				CE76C6182091DC4D00AFE98A /* schulcloud.xcdatamodeld in Sources */,
 				CE76C60B208F610B00AFE98A /* Future+retry.swift in Sources */,
 				CE76C60C208F610B00AFE98A /* Future+inject.swift in Sources */,
 				CE76C60D208F610B00AFE98A /* JsonAPISyncStrategy.swift in Sources */,
 				CE76C60E208F610B00AFE98A /* SyncHelper.swift in Sources */,
 				CE76C60F208F610B00AFE98A /* SchulcloudSyncStrategy.swift in Sources */,
 				CE76C610208F610B00AFE98A /* SculcloudSyncConfig.swift in Sources */,
+				CE76C6142091CAE600AFE98A /* UserDefault+.swift in Sources */,
 				CE76C5FE208F60F000AFE98A /* User.swift in Sources */,
 				CE76C5FF208F60F000AFE98A /* UserPermissions.swift in Sources */,
 				CE76C600208F60F000AFE98A /* UserHelper.swift in Sources */,
@@ -1288,7 +1309,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE76C6152091CAE600AFE98A /* UserDefault+.swift in Sources */,
 				CE8193AD208885A6007693A6 /* DocumentActionViewController.swift in Sources */,
+				CE76C6192091DC4D00AFE98A /* schulcloud.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

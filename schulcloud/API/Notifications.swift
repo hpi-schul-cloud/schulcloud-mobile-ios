@@ -137,10 +137,10 @@ class RemoteMessageDelegate: NSObject, FIRMessagingDelegate, UNUserNotificationC
 extension SchulCloudAccount {
     var didRegisterForPushNotifications: Bool {
         get {
-            return UserDefaults.standard.bool(forKey: "didRegisterForPushNotifications\(userId)")
+            return UserDefaults.shared?.bool(forKey: "didRegisterForPushNotifications\(userId)") ?? false
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: "didRegisterForPushNotifications\(userId)")
+            UserDefaults.shared?.set(newValue, forKey: "didRegisterForPushNotifications\(userId)")
         }
     }
 }

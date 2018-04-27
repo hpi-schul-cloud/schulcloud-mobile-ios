@@ -23,7 +23,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         self.usernameInput.delegate = self
         self.passwordInput.delegate = self
-        self.usernameInput.text = UserDefaults.standard.string(forKey: LoginViewController.usernameKey)
+        self.usernameInput.text = UserDefaults.shared?.string(forKey: LoginViewController.usernameKey)
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(adjustViewForKeyboardShow),
@@ -52,7 +52,7 @@ class LoginViewController: UIViewController {
         let username = usernameInput.text
         let password = passwordInput.text
 
-        UserDefaults.standard.set(username, forKey: LoginViewController.usernameKey)
+        UserDefaults.shared?.set(username, forKey: LoginViewController.usernameKey)
 
         LoginHelper.login(username: username, password: password).onSuccess {
             self.performSegue(withIdentifier: "loginDidSucceed", sender: nil)

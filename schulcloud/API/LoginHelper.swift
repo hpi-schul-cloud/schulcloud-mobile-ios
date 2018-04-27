@@ -73,10 +73,10 @@ class LoginHelper {
     }
 
     static func loadAccount() -> SchulCloudAccount? {
-        let defaults = UserDefaults.standard
+        let defaults = UserDefaults.shared
 
-        guard let accountId = defaults.string(forKey: "accountId"),
-            let userId = defaults.string(forKey: "userId")
+        guard let accountId = defaults?.string(forKey: "accountId"),
+            let userId = defaults?.string(forKey: "userId")
             else { return nil }
 
         var account = SchulCloudAccount(userId: userId, accountId: accountId, accessToken: nil)
@@ -106,8 +106,8 @@ class LoginHelper {
     }
 
     static func logout() {
-        UserDefaults.standard.set(nil, forKey: "accountId")
-        UserDefaults.standard.set(nil, forKey: "userId")
+        UserDefaults.shared?.set(nil, forKey: "accountId")
+        UserDefaults.shared?.set(nil, forKey: "userId")
 
         do {
             CoreDataHelper.clearCoreDataStorage()
@@ -117,5 +117,4 @@ class LoginHelper {
             log.error(error.localizedDescription)
         }
     }
-
 }

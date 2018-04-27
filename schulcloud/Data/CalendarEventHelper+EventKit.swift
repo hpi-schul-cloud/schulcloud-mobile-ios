@@ -23,22 +23,22 @@ extension CalendarEventHelper {
         static var current: EventKitSettings = EventKitSettings()
         var shouldSynchonize: Bool {
             get {
-                return UserDefaults.standard.bool(forKey: Keys.shouldSynchronize)
+                return UserDefaults.shared?.bool(forKey: Keys.shouldSynchronize) ?? false
             }
             set {
-                UserDefaults.standard.set(newValue, forKey: Keys.shouldSynchronize)
-                UserDefaults.standard.synchronize()
+                UserDefaults.shared?.set(newValue, forKey: Keys.shouldSynchronize)
+                UserDefaults.shared?.synchronize()
             }
         }
 
         var calendarIdentifier: String? {
             get {
-                return UserDefaults.standard.string(forKey: Keys.calendarIdentifier)
+                return UserDefaults.shared?.string(forKey: Keys.calendarIdentifier)
             }
 
             set {
-                UserDefaults.standard.set(newValue, forKey: Keys.calendarIdentifier)
-                UserDefaults.standard.synchronize()
+                UserDefaults.shared?.set(newValue, forKey: Keys.calendarIdentifier)
+                UserDefaults.shared?.synchronize()
             }
         }
 
