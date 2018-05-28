@@ -65,8 +65,12 @@ extension Homework {
         switch dueDay {
         case Int.min..<0:
             return ("⚐ Überfällig", highlightColor)
-        case 0..<1:
-            return ("⚐ In \(timeDifference.hour!) Stunden fällig", highlightColor)
+        case 0:
+            if let dueHour = timeDifference.hour, dueHour > 0 {
+                return ("⚐ In \(dueHour) Stunden fällig", highlightColor)
+            } else {
+                return ("⚐ Überfällig", highlightColor)
+            }
         case 1:
             return ("⚐ Morgen fällig", highlightColor)
         case 2:
