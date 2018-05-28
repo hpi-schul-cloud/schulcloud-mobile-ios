@@ -876,15 +876,16 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Zjv-6b-Nze">
+                            <tableView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Zjv-6b-Nze">
                                 <rect key="frame" x="0.0" y="124" width="300" height="177"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <button key="tableFooterView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="EXm-m8-sQD" userLabel="Show all homeworks">
+                                <label key="tableFooterView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alle Aufgaben anzeigen" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mrW-jt-WCW">
                                     <rect key="frame" x="0.0" y="72" width="300" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" title="Alle Aufgaben anzeigen"/>
-                                    <state key="disabled" title="No Homeworks"/>
-                                </button>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="HomeworkOverviewCell" rowHeight="44" id="snw-B0-1VX" customClass="HomeworkOverviewCell" customModule="schulcloud" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="300" height="44"/>
@@ -893,38 +894,35 @@
                                             <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="2" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UgH-zD-2hl">
-                                                    <rect key="frame" x="247" y="0.0" width="38" height="44"/>
-                                                    <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
-                                                    <color key="textColor" red="0.84829163551330566" green="0.11880727857351303" blue="0.00087574333883821964" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bzH-A0-vV8">
-                                                    <rect key="frame" x="5" y="12" width="20" height="20"/>
+                                                    <rect key="frame" x="20" y="12" width="20" height="20"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="TEs-H8-0no"/>
                                                         <constraint firstAttribute="width" constant="20" id="aXs-eb-bgw"/>
                                                     </constraints>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0qP-qy-phq">
-                                                    <rect key="frame" x="38" y="0.0" width="201" height="44"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="44" id="K2V-D0-YEO"/>
-                                                    </constraints>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0qP-qy-phq">
+                                                    <rect key="frame" x="48" y="12" width="214" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UgH-zD-2hl">
+                                                    <rect key="frame" x="270" y="12" width="10" height="20.5"/>
+                                                    <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="UgH-zD-2hl" firstAttribute="centerY" secondItem="R2s-Cm-Yjv" secondAttribute="centerY" id="DNR-MG-TN1"/>
-                                                <constraint firstItem="UgH-zD-2hl" firstAttribute="leading" secondItem="0qP-qy-phq" secondAttribute="trailing" constant="3" id="NmJ-rr-xnu"/>
+                                                <constraint firstItem="UgH-zD-2hl" firstAttribute="leading" secondItem="0qP-qy-phq" secondAttribute="trailing" constant="8" id="NmJ-rr-xnu"/>
                                                 <constraint firstItem="0qP-qy-phq" firstAttribute="centerY" secondItem="R2s-Cm-Yjv" secondAttribute="centerY" id="X4H-UC-scx"/>
                                                 <constraint firstItem="bzH-A0-vV8" firstAttribute="centerY" secondItem="R2s-Cm-Yjv" secondAttribute="centerY" id="jRx-lm-EFE"/>
-                                                <constraint firstItem="bzH-A0-vV8" firstAttribute="leading" secondItem="R2s-Cm-Yjv" secondAttribute="leading" constant="5" id="kUL-zk-wTj"/>
-                                                <constraint firstItem="0qP-qy-phq" firstAttribute="leading" secondItem="bzH-A0-vV8" secondAttribute="trailing" constant="5" id="lZ0-T6-iad"/>
-                                                <constraint firstAttribute="trailing" secondItem="UgH-zD-2hl" secondAttribute="trailing" constant="15" id="vRa-Z5-dYI"/>
+                                                <constraint firstItem="bzH-A0-vV8" firstAttribute="leading" secondItem="R2s-Cm-Yjv" secondAttribute="leading" constant="20" symbolic="YES" id="kUL-zk-wTj"/>
+                                                <constraint firstItem="0qP-qy-phq" firstAttribute="leading" secondItem="bzH-A0-vV8" secondAttribute="trailing" constant="8" id="lZ0-T6-iad"/>
+                                                <constraint firstAttribute="trailing" secondItem="UgH-zD-2hl" secondAttribute="trailing" constant="20" symbolic="YES" id="vRa-Z5-dYI"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -951,7 +949,7 @@
                     <size key="freeformSize" width="300" height="300"/>
                     <connections>
                         <outlet property="numberOfOpenTasksLabel" destination="eiy-DB-OsR" id="haU-Uo-bWf"/>
-                        <outlet property="showAllHomework" destination="EXm-m8-sQD" id="1Pv-Nj-A8T"/>
+                        <outlet property="showAllHomework" destination="mrW-jt-WCW" id="5Cu-Z1-Vbp"/>
                         <outlet property="subtitleLabel" destination="KNi-qD-0ME" id="JFx-sG-0s8"/>
                         <outlet property="tableView" destination="Zjv-6b-Nze" id="sqC-zF-C2g"/>
                     </connections>

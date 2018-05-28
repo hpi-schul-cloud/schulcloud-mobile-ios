@@ -15,7 +15,7 @@ final class HomeworkOverviewViewController: UIViewController {
     @IBOutlet private weak var numberOfOpenTasksLabel: UILabel!
     @IBOutlet private weak var subtitleLabel: UILabel!
     @IBOutlet private weak var tableView: UITableView!
-    @IBOutlet private weak var showAllHomework: UIButton!
+    @IBOutlet private weak var showAllHomework: UILabel!
 
     lazy var resultController: NSFetchedResultsController<Homework> = {
         let fetchedRequest: NSFetchRequest<Homework> = Homework.fetchRequest()
@@ -44,6 +44,8 @@ final class HomeworkOverviewViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
 
+        self.showAllHomework.textColor = UIColor.schulcloudRed
+
         self.numberOfOpenTasksLabel.text = "?"
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(didChangePreferredContentSize),
@@ -60,7 +62,7 @@ final class HomeworkOverviewViewController: UIViewController {
         let fetchedObject = (self.resultController.fetchedObjects ?? []) as [Homework]
         self.showAllHomework.isEnabled = !fetchedObject.isEmpty
         if !fetchedObject.isEmpty {
-            self.showAllHomework.setTitle("All \(fetchedObject.count) Aufgaben anzeigen", for: .normal)
+            self.showAllHomework.text = "Alle \(fetchedObject.count) Aufgaben anzeigen"
         }
 
         let resultsInNextWeek = fetchedObject.filter { homework -> Bool in
