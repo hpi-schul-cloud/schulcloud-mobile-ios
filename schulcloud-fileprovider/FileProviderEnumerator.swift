@@ -7,10 +7,12 @@ import FileProvider
 
 class FileProviderEnumerator: NSObject, NSFileProviderEnumerator {
     
-    var item: File
+    let item: File
+    let enumeratedItemIdentifier: NSFileProviderItemIdentifier
     
-    init(file: File) {
-        item = file
+    init(enumeratedItemIdentifier: NSFileProviderItemIdentifier, file: File) {
+        self.item = file
+        self.enumeratedItemIdentifier = enumeratedItemIdentifier
         super.init()
     }
 

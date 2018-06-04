@@ -175,7 +175,7 @@ class FileProviderExtension: NSFileProviderExtension {
         let maybeEnumerator: NSFileProviderEnumerator?
         if (containerItemIdentifier == NSFileProviderItemIdentifier.rootContainer) {
             // TODO: instantiate an enumerator for the container root
-            maybeEnumerator = FileProviderEnumerator(file: root)
+            maybeEnumerator = FileProviderEnumerator(enumeratedItemIdentifier: NSFileProviderItemIdentifier(root.id), file: root)
         } else if (containerItemIdentifier == NSFileProviderItemIdentifier.workingSet) {
             maybeEnumerator = nil
         } else {
@@ -184,7 +184,7 @@ class FileProviderExtension: NSFileProviderExtension {
             // - for a directory, instantiate an enumerator of its subitems
             // - for a file, instantiate an enumerator that observes changes to the file
             let file = File.file(with: containerItemIdentifier.rawValue)
-            maybeEnumerator = FileProviderEnumerator(file: file!)
+            maybeEnumerator = FileProviderEnumerator(enumeratedItemIdentifier: containerItemIdentifier, file: file!)
         }
         guard let enumerator = maybeEnumerator else {
             throw NSError(domain: NSCocoaErrorDomain, code: NSFeatureUnsupportedError, userInfo:[:])
