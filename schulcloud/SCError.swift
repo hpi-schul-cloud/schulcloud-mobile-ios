@@ -5,6 +5,7 @@
 
 import Foundation
 import Marshal
+import SyncEngine
 
 enum SCError: Error {
     case apiError(Int, String)

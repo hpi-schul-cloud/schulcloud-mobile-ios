@@ -9,7 +9,7 @@ import Foundation
 import Marshal
 import Result
 
-struct SyncEngine {
+public struct SyncEngine {
 
     static var log: ((String, SyncLogLevel) -> Void)?
     static var networkActivity: ((SyncNetworkActivityType) -> Void)?
@@ -28,13 +28,13 @@ struct SyncEngine {
         case stop
     }
 
-    struct SyncMultipleResult {
-        let objectIds: [NSManagedObjectID]
+    public struct SyncMultipleResult {
+        public let objectIds: [NSManagedObjectID]
         let headers: [AnyHashable: Any]
     }
 
-    struct SyncSingleResult {
-        let objectId: NSManagedObjectID
+    public struct SyncSingleResult {
+        public let objectId: NSManagedObjectID
         let headers: [AnyHashable: Any]
     }
 
@@ -336,7 +336,7 @@ struct SyncEngine {
 
     // MARK: - sync
 
-    static func syncResources<Resource>(withFetchRequest fetchRequest: NSFetchRequest<Resource>,
+    public static func syncResources<Resource>(withFetchRequest fetchRequest: NSFetchRequest<Resource>,
                                         withQuery query: MultipleResourcesQuery<Resource>,
                                         withConfiguration configuration: SyncConfig,
                                         withStrategy strategy: SyncStrategy,
@@ -378,7 +378,7 @@ struct SyncEngine {
         return promise.future
     }
 
-    static func syncResource<Resource>(withFetchRequest fetchRequest: NSFetchRequest<Resource>,
+    public static func syncResource<Resource>(withFetchRequest fetchRequest: NSFetchRequest<Resource>,
                                        withQuery query: SingleResourceQuery<Resource>,
                                        withConfiguration configuration: SyncConfig,
                                        withStrategy strategy: SyncStrategy) -> Future<SyncSingleResult, SyncError> where Resource: NSManagedObject & Pullable {
@@ -420,7 +420,7 @@ struct SyncEngine {
 
     // MARK: - creating
 
-    @discardableResult static func createResource<Resource>(ofType resourceType: Resource.Type,
+    @discardableResult public static func createResource<Resource>(ofType resourceType: Resource.Type,
                                                             withData resourceData: Data,
                                                             withConfiguration configuration: SyncConfig,
                                                             withStrategy strategy: SyncStrategy) -> Future<SyncSingleResult, SyncError> where Resource: NSManagedObject & Pullable & Pushable {
@@ -433,7 +433,7 @@ struct SyncEngine {
 
         let promise = Promise<SyncSingleResult, SyncError>()
 
-        CoreDataHelper.persistentContainer.performBackgroundTask { coreDataContext in
+        configuration.persistentContainer.performBackgroundTask { coreDataContext in
             coreDataContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
 
             let context = SynchronizationContext(coreDataContext: coreDataContext, strategy: strategy, includedResourceData: [])
@@ -466,7 +466,7 @@ struct SyncEngine {
         return promise.future
     }
 
-    @discardableResult static func createResource(_ resource: Pushable,
+    @discardableResult public static func createResource(_ resource: Pushable,
                                                   withConfiguration configuration: SyncConfig,
                                                   withStrategy strategy: SyncStrategy) -> Future<Void, SyncError> {
         let resourceType = type(of: resource).type
@@ -482,7 +482,7 @@ struct SyncEngine {
 
     // MARK: - saving
 
-    @discardableResult static func saveResource(_ resource: Pullable & Pushable,
+    @discardableResult public static func saveResource(_ resource: Pullable & Pushable,
                                                 withConfiguration configuration: SyncConfig,
                                                 withStrategy strategy: SyncStrategy) -> Future<Void, SyncError> {
         let resourceType = type(of: resource).type
@@ -498,7 +498,7 @@ struct SyncEngine {
 
     // MARK: - deleting
 
-    @discardableResult static func deleteResource(_ resource: Pushable & Pullable,
+    @discardableResult public static func deleteResource(_ resource: Pushable & Pullable,
                                                   withConfiguration configuration: SyncConfig,
                                                   withStrategy strategy: SyncStrategy) -> Future<Void, SyncError> {
         let resourceType = type(of: resource).type

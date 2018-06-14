@@ -6,6 +6,7 @@
 import CoreData
 import Foundation
 import UIKit
+import SyncEngine
 
 final class Homework: NSManagedObject {
 

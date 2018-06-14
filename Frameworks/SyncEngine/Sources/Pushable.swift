@@ -7,18 +7,18 @@ import CoreData
 import Foundation
 import Result
 
-enum ObjectState: Int16 {
+public enum ObjectState: Int16 {
     case unchanged = 0
     case new
     case modified
     case deleted
 }
 
-protocol IncludedPushable {
+public protocol IncludedPushable {
     func resourceAttributes() -> [String: Any]
 }
 
-protocol Pushable: ResourceTypeRepresentable, IncludedPushable, NSFetchRequestResult {
+public protocol Pushable: ResourceTypeRepresentable, IncludedPushable, NSFetchRequestResult {
     var objectState: ObjectState { get }
 
     func resourceRelationships() -> [String: AnyObject]?

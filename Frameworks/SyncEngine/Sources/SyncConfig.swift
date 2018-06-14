@@ -6,7 +6,7 @@
 import CoreData
 import Foundation
 
-protocol SyncConfig {
+public protocol SyncConfig {
     // Requests
     var baseURL: URL { get }
     var requestHeaders: [String: String] { get }

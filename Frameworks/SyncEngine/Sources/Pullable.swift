@@ -7,7 +7,7 @@ import CoreData
 import Foundation
 import Marshal
 
-protocol Pullable: ResourceRepresentable {
+public protocol Pullable: ResourceRepresentable {
 
     static func value(from object: ResourceData, with context: SynchronizationContext) throws -> Self
 
@@ -17,7 +17,7 @@ protocol Pullable: ResourceRepresentable {
 
 extension Pullable where Self: NSManagedObject {
 
-    static func value(from object: ResourceData, with context: SynchronizationContext) throws -> Self {
+    public static func value(from object: ResourceData, with context: SynchronizationContext) throws -> Self {
         try context.strategy.validateObjectCreation(object: object, toHaveType: Self.type)
         var managedObject = self.init(entity: self.entity(), insertInto: context.coreDataContext)
         try managedObject.id = object.value(for: context.strategy.resourceKeyAttribute)
@@ -25,7 +25,7 @@ extension Pullable where Self: NSManagedObject {
         return managedObject
     }
 
-    func updateRelationship<A>(forKeyPath keyPath: ReferenceWritableKeyPath<Self, A>,
+    public func updateRelationship<A>(forKeyPath keyPath: ReferenceWritableKeyPath<Self, A>,
                                forKey key: KeyType,
                                fromObject object: ResourceData,
                                with context: SynchronizationContext) throws where A: NSManagedObject & Pullable {
@@ -42,7 +42,7 @@ extension Pullable where Self: NSManagedObject {
         }
     }
 
-    func updateRelationship<A>(forKeyPath keyPath: ReferenceWritableKeyPath<Self, A?>,
+    public func updateRelationship<A>(forKeyPath keyPath: ReferenceWritableKeyPath<Self, A?>,
                                forKey key: KeyType,
                                fromObject object: ResourceData,
                                with context: SynchronizationContext) throws where A: NSManagedObject & Pullable {
@@ -74,7 +74,7 @@ extension Pullable where Self: NSManagedObject {
         }
     }
 
-    func updateRelationship<A>(forKeyPath keyPath: ReferenceWritableKeyPath<Self, Set<A>>,
+    public func updateRelationship<A>(forKeyPath keyPath: ReferenceWritableKeyPath<Self, Set<A>>,
                                forKey key: KeyType,
                                fromObject object: ResourceData,
                                with context: SynchronizationContext) throws where A: NSManagedObject & Pullable {

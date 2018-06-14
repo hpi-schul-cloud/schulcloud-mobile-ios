@@ -5,6 +5,7 @@
 
 import CoreData
 import Foundation
+import SyncEngine
 
 final class User: NSManagedObject {
 

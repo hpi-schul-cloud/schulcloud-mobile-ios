@@ -7,6 +7,7 @@ import Alamofire
 import BrightFutures
 import CoreData
 import Foundation
+import SyncEngine
 
 struct HomeworkHelper {
 

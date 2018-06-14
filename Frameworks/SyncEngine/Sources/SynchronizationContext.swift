@@ -6,7 +6,7 @@
 import CoreData
 import Foundation
 
-struct SynchronizationContext {
+public struct SynchronizationContext {
 
     let coreDataContext: NSManagedObjectContext
     let strategy: SyncStrategy

@@ -5,6 +5,7 @@
 
 import BrightFutures
 import CoreData
+import SyncEngine
 
 struct NewsArticleHelper {
 

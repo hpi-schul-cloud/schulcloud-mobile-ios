@@ -6,6 +6,7 @@
 import BrightFutures
 import CoreData
 import Foundation
+import SyncEngine
 
 struct SyncHelper {
 

@@ -7,7 +7,7 @@ import Foundation
 import Marshal
 import Result
 
-protocol SyncStrategy {
+public protocol SyncStrategy {
 
     var resourceKeyAttribute: String { get }
 
@@ -30,13 +30,13 @@ protocol SyncStrategy {
 
 }
 
-enum FindIncludedObjectResult {
+public enum FindIncludedObjectResult {
     case notExisting
     case id(String)
     case object(String, ResourceData)
 }
 
-enum FindIncludedObjectsResult {
+public enum FindIncludedObjectsResult {
     case notExisting
     case included(objects: [(id: String, object: ResourceData)], ids: [String])
 }

@@ -8,6 +8,7 @@ import CoreData
 import DateToolsSwift
 import Foundation
 import Result
+import SyncEngine
 
 struct CalendarEventHelper {
 
