@@ -5,8 +5,8 @@
 
 /// TODO: Cancel request when poping
 
-import Alamofire
 import BrightFutures
+import Common
 import Foundation
 import QuickLook
 

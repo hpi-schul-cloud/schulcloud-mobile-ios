@@ -39,7 +39,7 @@ TODO: Add long description of the pod here.
   # }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
+  s.frameworks = 'CoreData'
   s.dependency 'BrightFutures', '~> 6.0'
   s.dependency 'Marshal', '~> 1.2'
 end

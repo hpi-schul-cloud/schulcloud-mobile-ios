@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import Common
 
 final class MissingPermissionView: UIView {
 

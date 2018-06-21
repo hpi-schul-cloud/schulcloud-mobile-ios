@@ -3,8 +3,10 @@
 //  Copyright © HPI. All rights reserved.
 //
 
+import Common
 import CoreData
 import DateToolsSwift
+import SyncEngine
 import UIKit
 
 protocol HomeworkOverviewDelegate: class {

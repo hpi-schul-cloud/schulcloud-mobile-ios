@@ -6,6 +6,8 @@
 import Foundation
 import Marshal
 
+public typealias JsonDictionary = MarshalDictionary
+public typealias JsonKey = KeyType
 public typealias ResourceData = MarshaledObject
 public typealias JSON = JSONObject
 public typealias IncludedPullable = Unmarshaling

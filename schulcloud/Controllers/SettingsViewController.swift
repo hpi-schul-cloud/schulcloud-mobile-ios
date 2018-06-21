@@ -4,6 +4,7 @@
 //
 
 import BrightFutures
+import Common
 import CoreData
 import UIKit
 
@@ -64,8 +65,7 @@ class SettingsViewController: UITableViewController {
     }
 
     @IBAction func synchronizeToCalendar(_ sender: UISwitch) {
-        let newValue = sender.isOn
-        if newValue {
+        if sender.isOn {
             CalendarEventHelper.requestCalendarPermission().flatMap { _ in
                    return CalendarEventHelper.fetchCalendarEvents(inContext: CoreDataHelper.viewContext)
             }.flatMap { events -> Future<Void, SCError> in

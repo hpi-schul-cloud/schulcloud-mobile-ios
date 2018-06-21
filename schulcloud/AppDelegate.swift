@@ -8,13 +8,15 @@ import Firebase
 import SwiftyBeaver
 import UIKit
 import UserNotifications
+import Common
+import iOS
 
-let log = SwiftyBeaver.self
+let log = Common.log
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+public class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
-    var window: UIWindow?
+    public var window: UIWindow?
 
     var tabBarController: UITabBarController? {
         return self.window?.rootViewController as? UITabBarController
@@ -24,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return UIApplication.shared.delegate as? AppDelegate
     }
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
         // set up SwiftyBeaver
@@ -82,7 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         LoginHelper.renewAccessToken()
     }
 
-    func applicationWillTerminate(_ application: UIApplication) {
+    public func applicationWillTerminate(_ application: UIApplication) {
         CoreDataHelper.viewContext.saveWithResult()
     }
 
@@ -93,7 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
 extension AppDelegate: UITabBarControllerDelegate {
 
-    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+    public func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         guard let userID = Globals.account?.userId else { return false }
         let user_ = CoreDataHelper.viewContext.performAndWait { () -> User? in
             let fetchRequest: NSFetchRequest<User> = User.fetchRequest()

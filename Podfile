@@ -19,9 +19,26 @@ target 'schulcloud' do
   pod 'SwiftyBeaver', :git => 'https://github.com/SwiftyBeaver/SwiftyBeaver.git', :commit => 'e4563d1'
   pod 'SwiftyJSON', '~> 3'
   pod 'SyncEngine', :path => './Frameworks/SyncEngine'
-
   target 'schulcloud-Tests' do
     inherit! :search_paths
     pod 'Firebase'
+  end
+end
+
+target 'Common' do
+  pod 'Alamofire', '4.4.0'
+  pod 'BrightFutures', '~> 6.0'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
+  pod 'JWTDecode'
+  pod 'Locksmith'
+  pod 'SwiftyBeaver', :git => 'https://github.com/SwiftyBeaver/SwiftyBeaver.git', :commit => 'e4563d1'
+  pod 'SyncEngine', :path => './Frameworks/SyncEngine'
+
+  target 'iOS' do    
+    pod 'CalendarKit', '0.2.0'
+    pod 'SimpleRoundedButton'
+    pod 'SwiftyBeaver', :git => 'https://github.com/SwiftyBeaver/SwiftyBeaver.git', :commit => 'e4563d1'
   end
 end
