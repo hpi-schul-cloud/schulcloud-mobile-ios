@@ -22,7 +22,6 @@
 		507B78851F7BA32E0071A0C2 /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 507B78821F7BA2D00071A0C2 /* Credentials.plist */; };
 		507B78871F7BAF440071A0C2 /* XCUIElement+clear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507B78861F7BAF440071A0C2 /* XCUIElement+clear.swift */; };
 		B4E75D134DB297D8745EE7BF /* Pods_schulcloud_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFC8C574D284EB0B69BA4899 /* Pods_schulcloud_Tests.framework */; };
-		B8D6AD420F9F56A203E6A1FE /* Pods_Common_schulcloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60AD062D9E376F7D103D39F3 /* Pods_Common_schulcloud.framework */; };
 		C3418B671ED335F400280E62 /* PreviewTransitionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */; };
 		C3418B681ED335F400280E62 /* WebviewPreviewViewContoller.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */; };
 		C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3A5A9061EBCC17600825DBF /* Main.storyboard */; };
@@ -310,7 +309,6 @@
 			files = (
 				C63FB1F9B25BA375BFE83DFB /* Pods_schulcloud.framework in Frameworks */,
 				CEEE0A1220D2AA7C00B0C2CE /* Common.framework in Frameworks */,
-				B8D6AD420F9F56A203E6A1FE /* Pods_Common_schulcloud.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
