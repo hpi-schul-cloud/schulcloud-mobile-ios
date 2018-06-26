@@ -68,3 +68,6 @@ fastlane/Appfile
 
 # Exclude secrets
 schulcloudUITests/Credentials.plist
+
+#generated branded assets
+iOS/Assets-brand-ios.generated.xcassets

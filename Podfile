@@ -16,11 +16,11 @@ target 'Common' do
   pod 'Locksmith'
   pod 'SwiftyBeaver', :git => 'https://github.com/SwiftyBeaver/SwiftyBeaver.git', :commit => 'e4563d1'
   pod 'SyncEngine', :path => './Frameworks/SyncEngine'
-    target 'schulcloud' do
+    target 'iOS' do
     inherit! :search_paths
       pod 'CalendarKit', '0.2.0'
       pod 'SimpleRoundedButton'
-      target 'schulcloud-Tests' do
+      target 'iOS-Tests' do
         inherit! :search_paths
         pod 'Firebase'
       end

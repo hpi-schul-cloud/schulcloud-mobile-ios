@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>colors</key>
+	<dict>
+		<key>primary</key>
+		<string>#B10438</string>
+		<key>secondary</key>
+		<string>#CC671E</string>
+		<key>tertiary</key>
+		<string>#FAA61A</string>
+	</dict>
+	<key>servers</key>
+	<dict>
+		<key>web</key>
+		<string>https://schul-cloud.org/</string>
+		<key>production</key>
+		<string>https://schul-cloud.org:8080/</string>
+	</dict>
+</dict>
+</plist>
