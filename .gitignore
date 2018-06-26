@@ -70,4 +70,4 @@ fastlane/Appfile
 schulcloudUITests/Credentials.plist
 
 #generated branded assets
-iOS/Assets-brand-ios.generated.xcassets
+iOS/Assets-ios-brand.generated.xcassets

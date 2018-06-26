@@ -3,9 +3,12 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-#include "../../Pods/Target Support Files/Pods-iOS/Pods-iOS.debug.xcconfig"
-#include "../Base.xcconfig"
+#include "../../Pods/Target Support Files/Pods-iOS/Pods-iOS.schulcloud-debug.xcconfig"
+#include "../Debug.xcconfig"
 
 PRODUCT_NAME = schulcloud
+PRODUCT_MODULE_NAME = iOS
 PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud.debug
 CODE_SIGN_ENTITLEMENTS = ios/Branding/schulcloud/ios.entitlements
+
+ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon-Dev

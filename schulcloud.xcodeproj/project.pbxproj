@@ -26,7 +26,6 @@
 		C3A5A90D1EBCC17600825DBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3A5A90C1EBCC17600825DBF /* Assets.xcassets */; };
 		C3A5A9101EBCC17600825DBF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3A5A90E1EBCC17600825DBF /* LaunchScreen.storyboard */; };
 		C3A5A9261EBCC17600825DBF /* schulcloudUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9251EBCC17600825DBF /* schulcloudUITests.swift */; };
-		C63FB1F9B25BA375BFE83DFB /* Pods_schulcloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09D7CC393E1856DD7EF9B21F /* Pods_schulcloud.framework */; };
 		CE3C5573206BD6BB00B79034 /* MissingPermissionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE3C5572206BD6BB00B79034 /* MissingPermissionView.xib */; };
 		CE41521720D9370000739CE2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9021EBCC17600825DBF /* AppDelegate.swift */; };
 		CE41528920DBD9F000739CE2 /* DashboardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE23F10D2056B01C00E79E64 /* DashboardLayout.swift */; };
@@ -66,8 +65,7 @@
 		CE4152AB20DBDA3300739CE2 /* HomeworkHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE154C207B9D0300238D1F /* HomeworkHeaderView.swift */; };
 		CE4152AC20DBDA4D00739CE2 /* LessonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870C11EE0250500ABA348 /* LessonsViewController.swift */; };
 		CE4152AD20DBDA4D00739CE2 /* SingleLessonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3CAB01EF5CBB6009601AE /* SingleLessonViewController.swift */; };
-		CE4152AF20E280F900739CE2 /* Assets-brand-ios.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE4152AE20E280F900739CE2 /* Assets-brand-ios.xcassets */; };
-		CE4152B620E2854900739CE2 /* Assets-brand-ios.generated.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE4152B520E2854900739CE2 /* Assets-brand-ios.generated.xcassets */; };
+		CE4152B620E2854900739CE2 /* Assets-ios-brand.generated.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE4152B520E2854900739CE2 /* Assets-ios-brand.generated.xcassets */; };
 		CEBE1547207B63DC00238D1F /* HomeworkHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBE1546207B63DC00238D1F /* HomeworkHeaderView.xib */; };
 		CEEE0A0F20D2AA7C00B0C2CE /* Common.h in Headers */ = {isa = PBXBuildFile; fileRef = CEEE0A0D20D2AA7C00B0C2CE /* Common.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEEE0A1220D2AA7C00B0C2CE /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE0A0B20D2AA7C00B0C2CE /* Common.framework */; };
@@ -155,8 +153,10 @@
 		0769D595BF79628EF0A48FFE /* Pods-iOS-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-Tests/Pods-iOS-Tests.release.xcconfig"; sourceTree = "<group>"; };
 		09D7CC393E1856DD7EF9B21F /* Pods_schulcloud.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloud.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		270BA83590B5166B5A30D6B3 /* Pods_schulcloudUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloudUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		33FB39722356922361DF3BBB /* Pods-Common.schulcloud-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common.schulcloud-debug.xcconfig"; path = "Pods/Target Support Files/Pods-Common/Pods-Common.schulcloud-debug.xcconfig"; sourceTree = "<group>"; };
 		389B64CA22013634E6CFD243 /* Pods-schulcloudUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudUITests/Pods-schulcloudUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		3D45737A1EE02065009A30E2 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
+		3ED956473F645615154850DC /* Pods-Common.schulcloud-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common.schulcloud-release.xcconfig"; path = "Pods/Target Support Files/Pods-Common/Pods-Common.schulcloud-release.xcconfig"; sourceTree = "<group>"; };
 		3F676540101964935628234A /* Pods-schulcloud-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloud-Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloud-Tests/Pods-schulcloud-Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		457256821799B5F625B4A803 /* Pods-Common.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Common/Pods-Common.debug.xcconfig"; sourceTree = "<group>"; };
 		5024103D2046B01A0033D75A /* iOS-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "iOS-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -215,6 +215,7 @@
 		A7453D6B0608647AAC1BEDAB /* Pods_Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEF555F98C1272FD8FF4D666 /* Pods-schulcloud-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloud-Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloud-Tests/Pods-schulcloud-Tests.release.xcconfig"; sourceTree = "<group>"; };
 		AFC8C574D284EB0B69BA4899 /* Pods_schulcloud_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloud_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD68EFA340CA082E0309EE0B /* Pods-iOS-Tests.schulcloud-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-Tests.schulcloud-release.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-Tests/Pods-iOS-Tests.schulcloud-release.xcconfig"; sourceTree = "<group>"; };
 		BFBD1AD7CC68AD6AE57843C4 /* Pods_schulcloud_schulcloudTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloud_schulcloudTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C00572D0E333691EC3007D54 /* Pods-schulcloudTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudTests/Pods-schulcloudTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C3165F1C1EDC1BAE005F5B8E /* HomeworkByDateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeworkByDateCell.swift; sourceTree = "<group>"; };
@@ -255,6 +256,7 @@
 		C3C2AC351EC5AC460060AECA /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		C3C3CAB01EF5CBB6009601AE /* SingleLessonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleLessonViewController.swift; sourceTree = "<group>"; };
 		C3FEB92A1F67E7F400BAD9D7 /* UIColor+Branding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Branding.swift"; sourceTree = "<group>"; };
+		CB112CDBC082D3D24F448259 /* Pods-iOS-Tests.schulcloud-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-Tests.schulcloud-debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-Tests/Pods-iOS-Tests.schulcloud-debug.xcconfig"; sourceTree = "<group>"; };
 		CE0F83CA20653C3F00F847D7 /* NewsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController.swift; sourceTree = "<group>"; };
 		CE1DAC582004CE0200CEE4C2 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		CE23F10D2056B01C00E79E64 /* DashboardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardLayout.swift; sourceTree = "<group>"; };
@@ -263,12 +265,13 @@
 		CE3C5574206BE07200B79034 /* MissingPermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissingPermissionView.swift; sourceTree = "<group>"; };
 		CE3C5576206BE0DA00B79034 /* PermissionManagmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManagmentViewController.swift; sourceTree = "<group>"; };
 		CE409AF620D29D93009876A9 /* SyncHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncHelper.swift; sourceTree = "<group>"; };
-		CE41528620DBCF2C00739CE2 /* Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
 		CE41528720DBCF5800739CE2 /* Schulcloud_Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Schulcloud_Release.xcconfig; sourceTree = "<group>"; };
 		CE41528820DBCF6A00739CE2 /* Schulcloud_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Schulcloud_Debug.xcconfig; sourceTree = "<group>"; };
-		CE4152AE20E280F900739CE2 /* Assets-brand-ios.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets-brand-ios.xcassets"; sourceTree = "<group>"; };
-		CE4152B420E2821B00739CE2 /* BrandConfiguration.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = BrandConfiguration.plist; path = "Assets-brand-ios.xcassets/BrandConfiguration.dataset/BrandConfiguration.plist"; sourceTree = "<group>"; };
-		CE4152B520E2854900739CE2 /* Assets-brand-ios.generated.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets-brand-ios.generated.xcassets"; sourceTree = "<group>"; };
+		CE4152AE20E280F900739CE2 /* Assets-ios-brand.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets-ios-brand.xcassets"; sourceTree = "<group>"; };
+		CE4152B520E2854900739CE2 /* Assets-ios-brand.generated.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets-ios-brand.generated.xcassets"; sourceTree = "<group>"; };
+		CE4152BE20E288C300739CE2 /* BrandConfiguration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = BrandConfiguration.plist; path = "iOS/Assets-ios-brand.generated.xcassets/BrandConfiguration.dataset/BrandConfiguration.plist"; sourceTree = SOURCE_ROOT; };
+		CE4152C020E289CC00739CE2 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		CE4152C120E28A2600739CE2 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		CE43B4962057E4D200950EA0 /* DashboardViewControllerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewControllerCell.swift; sourceTree = "<group>"; };
 		CE43B49820594E5D00950EA0 /* DashboardNoPermissionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardNoPermissionViewController.swift; sourceTree = "<group>"; };
 		CE443936205BDEDD00CC3311 /* UIAlertController+Permission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Permission.swift"; sourceTree = "<group>"; };
@@ -310,7 +313,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C63FB1F9B25BA375BFE83DFB /* Pods_schulcloud.framework in Frameworks */,
 				CEEE0A1220D2AA7C00B0C2CE /* Common.framework in Frameworks */,
 				3E64DABF207A8D6F5DB59E59 /* Pods_iOS.framework in Frameworks */,
 			);
@@ -353,6 +355,10 @@
 				065184F97721984979329D08 /* Pods-Common-iOS.release.xcconfig */,
 				6B698CDAEEFA8E871D0D03C3 /* Pods-iOS-Tests.debug.xcconfig */,
 				0769D595BF79628EF0A48FFE /* Pods-iOS-Tests.release.xcconfig */,
+				33FB39722356922361DF3BBB /* Pods-Common.schulcloud-debug.xcconfig */,
+				3ED956473F645615154850DC /* Pods-Common.schulcloud-release.xcconfig */,
+				CB112CDBC082D3D24F448259 /* Pods-iOS-Tests.schulcloud-debug.xcconfig */,
+				BD68EFA340CA082E0309EE0B /* Pods-iOS-Tests.schulcloud-release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -492,7 +498,7 @@
 				CEEE0A1F20D2AB2E00B0C2CE /* iOS.h */,
 				C3A5A9021EBCC17600825DBF /* AppDelegate.swift */,
 				C3A5A9111EBCC17600825DBF /* Info.plist */,
-				CE4152B520E2854900739CE2 /* Assets-brand-ios.generated.xcassets */,
+				CE4152B520E2854900739CE2 /* Assets-ios-brand.generated.xcassets */,
 				C3A5A90C1EBCC17600825DBF /* Assets.xcassets */,
 			);
 			path = iOS;
@@ -607,7 +613,8 @@
 			isa = PBXGroup;
 			children = (
 				CE4152B720E2873100739CE2 /* schulcloud */,
-				CE41528620DBCF2C00739CE2 /* Base.xcconfig */,
+				CE4152C020E289CC00739CE2 /* Debug.xcconfig */,
+				CE4152C120E28A2600739CE2 /* Release.xcconfig */,
 			);
 			path = Configurations;
 			sourceTree = "<group>";
@@ -623,11 +630,11 @@
 		CE4152B120E2818400739CE2 /* schulcloud */ = {
 			isa = PBXGroup;
 			children = (
-				CE4152AE20E280F900739CE2 /* Assets-brand-ios.xcassets */,
+				CE4152AE20E280F900739CE2 /* Assets-ios-brand.xcassets */,
 				50F3984C202C7CDD00ADAE5D /* GoogleService-Info-Debug.plist */,
 				50F3984D202C7CDD00ADAE5D /* GoogleService-Info-Release.plist */,
 				C3C2AC341EC59F0E0060AECA /* ios.entitlements */,
-				CE4152B420E2821B00739CE2 /* BrandConfiguration.plist */,
+				CE4152BE20E288C300739CE2 /* BrandConfiguration.plist */,
 			);
 			path = schulcloud;
 			sourceTree = "<group>";
@@ -707,6 +714,7 @@
 			buildPhases = (
 				92AF1094A1614F30A8A8E107 /* [CP] Check Pods Manifest.lock */,
 				50B44D7A203A0328009DC2D3 /* Set Build number */,
+				CE4152BD20E2883200739CE2 /* Copy brand assets */,
 				C3A5A8FB1EBCC17600825DBF /* Sources */,
 				C3A5A8FC1EBCC17600825DBF /* Frameworks */,
 				C3A5A8FD1EBCC17600825DBF /* Resources */,
@@ -841,8 +849,7 @@
 			files = (
 				C3418B681ED335F400280E62 /* WebviewPreviewViewContoller.xib in Resources */,
 				C3A5A9101EBCC17600825DBF /* LaunchScreen.storyboard in Resources */,
-				CE4152B620E2854900739CE2 /* Assets-brand-ios.generated.xcassets in Resources */,
-				CE4152AF20E280F900739CE2 /* Assets-brand-ios.xcassets in Resources */,
+				CE4152B620E2854900739CE2 /* Assets-ios-brand.generated.xcassets in Resources */,
 				503A5EFB1F3DB86C00A7695B /* TabSettings.storyboard in Resources */,
 				503A5EFD1F3DC5DC00A7695B /* TabCourses.storyboard in Resources */,
 				CE3C5573206BD6BB00B79034 /* MissingPermissionView.xib in Resources */,
@@ -931,7 +938,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"${CONFIGURATION}\" == \"Release\" ]; then\n    suffix=\"Release\"\nelse\n    suffix=\"Debug\"\nfi\n\necho \"Using GoogleService-Info.plist for ${suffix} mode\"\ncp \"${PROJECT_DIR}/schulcloud/GoogleService-Info-${suffix}.plist\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\"";
+			shellScript = "if [ \"${CONFIGURATION}\" == \"Release\" ]; then\n    suffix=\"Release\"\nelse\n    suffix=\"Debug\"\nfi\n\necho \"Using GoogleService-Info.plist for ${suffix} mode\"\ncp \"${PROJECT_DIR}/iOS/Branding/${PRODUCT_NAME}/GoogleService-Info-${suffix}.plist\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\"";
 		};
 		92AF1094A1614F30A8A8E107 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -968,6 +975,20 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		CE4152BD20E2883200739CE2 /* Copy brand assets */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy brand assets";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rm -rf ${PROJECT_DIR}/iOS/Assets-ios-brand.generated.xcassets\ncp -R ${PROJECT_DIR}/iOS/Branding/${PRODUCT_NAME}/Assets-ios-brand.xcassets ${PROJECT_DIR}/iOS/Assets-ios-brand.generated.xcassets";
 		};
 		DFB669BB58F24B67E05FBDAF /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1194,7 +1215,7 @@
 /* Begin XCBuildConfiguration section */
 		502410452046B01A0033D75A /* schulcloud-Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6B698CDAEEFA8E871D0D03C3 /* Pods-iOS-Tests.debug.xcconfig */;
+			baseConfigurationReference = CB112CDBC082D3D24F448259 /* Pods-iOS-Tests.schulcloud-debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1223,7 +1244,7 @@
 		};
 		502410462046B01A0033D75A /* schulcloud-Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0769D595BF79628EF0A48FFE /* Pods-iOS-Tests.release.xcconfig */;
+			baseConfigurationReference = BD68EFA340CA082E0309EE0B /* Pods-iOS-Tests.schulcloud-release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1350,26 +1371,12 @@
 			baseConfigurationReference = CE41528820DBCF6A00739CE2 /* Schulcloud_Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WP53SSE8S6;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"${PODS_ROOT}/Firebase/Core/Sources",
-					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
-					"\"${PODS_ROOT}/Headers/Public/FirebaseAnalytics\"",
-					"\"${PODS_ROOT}/Headers/Public/FirebaseAuth\"",
-					"\"${PODS_ROOT}/Headers/Public/FirebaseCore\"",
-					"\"${PODS_ROOT}/Headers/Public/FirebaseInstanceID\"",
-					"\"${PODS_ROOT}/Headers/Public/FirebaseMessaging\"",
-				);
-				INFOPLIST_FILE = schulcloud/Info.plist;
+				INFOPLIST_FILE = iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -1382,26 +1389,12 @@
 			baseConfigurationReference = CE41528720DBCF5800739CE2 /* Schulcloud_Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WP53SSE8S6;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"${PODS_ROOT}/Firebase/Core/Sources",
-					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
-					"\"${PODS_ROOT}/Headers/Public/FirebaseAnalytics\"",
-					"\"${PODS_ROOT}/Headers/Public/FirebaseAuth\"",
-					"\"${PODS_ROOT}/Headers/Public/FirebaseCore\"",
-					"\"${PODS_ROOT}/Headers/Public/FirebaseInstanceID\"",
-					"\"${PODS_ROOT}/Headers/Public/FirebaseMessaging\"",
-				);
-				INFOPLIST_FILE = schulcloud/Info.plist;
+				INFOPLIST_FILE = iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -1445,7 +1438,7 @@
 		};
 		CEEE0A1520D2AA7C00B0C2CE /* schulcloud-Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 457256821799B5F625B4A803 /* Pods-Common.debug.xcconfig */;
+			baseConfigurationReference = 33FB39722356922361DF3BBB /* Pods-Common.schulcloud-debug.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
@@ -1480,7 +1473,7 @@
 		};
 		CEEE0A1620D2AA7C00B0C2CE /* schulcloud-Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 79A5D305E558DF616795C230 /* Pods-Common.release.xcconfig */;
+			baseConfigurationReference = 3ED956473F645615154850DC /* Pods-Common.schulcloud-release.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
