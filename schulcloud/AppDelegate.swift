@@ -9,7 +9,6 @@ import SwiftyBeaver
 import UIKit
 import UserNotifications
 import Common
-import iOS
 
 let log = Common.log
 
