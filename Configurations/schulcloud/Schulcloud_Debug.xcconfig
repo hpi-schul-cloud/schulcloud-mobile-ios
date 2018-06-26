@@ -3,9 +3,9 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-#include "../Pods/Target Support Files/Pods-iOS/Pods-iOS.release.xcconfig"
-#include "Base.xcconfig"
+#include "../../Pods/Target Support Files/Pods-iOS/Pods-iOS.debug.xcconfig"
+#include "../Base.xcconfig"
 
 PRODUCT_NAME = schulcloud
-PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud
+PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud.debug
 CODE_SIGN_ENTITLEMENTS = ios/Branding/schulcloud/ios.entitlements

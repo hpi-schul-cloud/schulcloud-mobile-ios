@@ -606,9 +606,8 @@
 		CE41528520DBCF0200739CE2 /* Configurations */ = {
 			isa = PBXGroup;
 			children = (
+				CE4152B720E2873100739CE2 /* schulcloud */,
 				CE41528620DBCF2C00739CE2 /* Base.xcconfig */,
-				CE41528820DBCF6A00739CE2 /* Schulcloud_Debug.xcconfig */,
-				CE41528720DBCF5800739CE2 /* Schulcloud_Release.xcconfig */,
 			);
 			path = Configurations;
 			sourceTree = "<group>";
@@ -629,6 +628,15 @@
 				50F3984D202C7CDD00ADAE5D /* GoogleService-Info-Release.plist */,
 				C3C2AC341EC59F0E0060AECA /* ios.entitlements */,
 				CE4152B420E2821B00739CE2 /* BrandConfiguration.plist */,
+			);
+			path = schulcloud;
+			sourceTree = "<group>";
+		};
+		CE4152B720E2873100739CE2 /* schulcloud */ = {
+			isa = PBXGroup;
+			children = (
+				CE41528820DBCF6A00739CE2 /* Schulcloud_Debug.xcconfig */,
+				CE41528720DBCF5800739CE2 /* Schulcloud_Release.xcconfig */,
 			);
 			path = schulcloud;
 			sourceTree = "<group>";
@@ -1184,7 +1192,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		502410452046B01A0033D75A /* Debug */ = {
+		502410452046B01A0033D75A /* schulcloud-Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6B698CDAEEFA8E871D0D03C3 /* Pods-iOS-Tests.debug.xcconfig */;
 			buildSettings = {
@@ -1211,9 +1219,9 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/schulcloud.app/schulcloud";
 			};
-			name = Debug;
+			name = "schulcloud-Debug";
 		};
-		502410462046B01A0033D75A /* Release */ = {
+		502410462046B01A0033D75A /* schulcloud-Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0769D595BF79628EF0A48FFE /* Pods-iOS-Tests.release.xcconfig */;
 			buildSettings = {
@@ -1240,9 +1248,9 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/schulcloud.app/schulcloud";
 			};
-			name = Release;
+			name = "schulcloud-Release";
 		};
-		C3A5A9281EBCC17600825DBF /* Debug */ = {
+		C3A5A9281EBCC17600825DBF /* schulcloud-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1291,9 +1299,9 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Debug;
+			name = "schulcloud-Debug";
 		};
-		C3A5A9291EBCC17600825DBF /* Release */ = {
+		C3A5A9291EBCC17600825DBF /* schulcloud-Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1335,9 +1343,9 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = "schulcloud-Release";
 		};
-		C3A5A92B1EBCC17600825DBF /* Debug */ = {
+		C3A5A92B1EBCC17600825DBF /* schulcloud-Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE41528820DBCF6A00739CE2 /* Schulcloud_Debug.xcconfig */;
 			buildSettings = {
@@ -1367,9 +1375,9 @@
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
-			name = Debug;
+			name = "schulcloud-Debug";
 		};
-		C3A5A92C1EBCC17600825DBF /* Release */ = {
+		C3A5A92C1EBCC17600825DBF /* schulcloud-Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE41528720DBCF5800739CE2 /* Schulcloud_Release.xcconfig */;
 			buildSettings = {
@@ -1399,9 +1407,9 @@
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
-			name = Release;
+			name = "schulcloud-Release";
 		};
-		C3A5A9311EBCC17600825DBF /* Debug */ = {
+		C3A5A9311EBCC17600825DBF /* schulcloud-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -1416,9 +1424,9 @@
 				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = schulcloud;
 			};
-			name = Debug;
+			name = "schulcloud-Debug";
 		};
-		C3A5A9321EBCC17600825DBF /* Release */ = {
+		C3A5A9321EBCC17600825DBF /* schulcloud-Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -1433,9 +1441,9 @@
 				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = schulcloud;
 			};
-			name = Release;
+			name = "schulcloud-Release";
 		};
-		CEEE0A1520D2AA7C00B0C2CE /* Debug */ = {
+		CEEE0A1520D2AA7C00B0C2CE /* schulcloud-Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 457256821799B5F625B4A803 /* Pods-Common.debug.xcconfig */;
 			buildSettings = {
@@ -1468,9 +1476,9 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = "schulcloud-Debug";
 		};
-		CEEE0A1620D2AA7C00B0C2CE /* Release */ = {
+		CEEE0A1620D2AA7C00B0C2CE /* schulcloud-Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 79A5D305E558DF616795C230 /* Pods-Common.release.xcconfig */;
 			buildSettings = {
@@ -1503,7 +1511,7 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
+			name = "schulcloud-Release";
 		};
 /* End XCBuildConfiguration section */
 
@@ -1511,47 +1519,47 @@
 		502410442046B01A0033D75A /* Build configuration list for PBXNativeTarget "iOS-Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				502410452046B01A0033D75A /* Debug */,
-				502410462046B01A0033D75A /* Release */,
+				502410452046B01A0033D75A /* schulcloud-Debug */,
+				502410462046B01A0033D75A /* schulcloud-Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = "schulcloud-Release";
 		};
 		C3A5A8FA1EBCC17600825DBF /* Build configuration list for PBXProject "schulcloud" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C3A5A9281EBCC17600825DBF /* Debug */,
-				C3A5A9291EBCC17600825DBF /* Release */,
+				C3A5A9281EBCC17600825DBF /* schulcloud-Debug */,
+				C3A5A9291EBCC17600825DBF /* schulcloud-Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = "schulcloud-Release";
 		};
 		C3A5A92A1EBCC17600825DBF /* Build configuration list for PBXNativeTarget "iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C3A5A92B1EBCC17600825DBF /* Debug */,
-				C3A5A92C1EBCC17600825DBF /* Release */,
+				C3A5A92B1EBCC17600825DBF /* schulcloud-Debug */,
+				C3A5A92C1EBCC17600825DBF /* schulcloud-Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = "schulcloud-Release";
 		};
 		C3A5A9301EBCC17600825DBF /* Build configuration list for PBXNativeTarget "iOS-UITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C3A5A9311EBCC17600825DBF /* Debug */,
-				C3A5A9321EBCC17600825DBF /* Release */,
+				C3A5A9311EBCC17600825DBF /* schulcloud-Debug */,
+				C3A5A9321EBCC17600825DBF /* schulcloud-Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = "schulcloud-Release";
 		};
 		CEEE0A1720D2AA7C00B0C2CE /* Build configuration list for PBXNativeTarget "Common" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CEEE0A1520D2AA7C00B0C2CE /* Debug */,
-				CEEE0A1620D2AA7C00B0C2CE /* Release */,
+				CEEE0A1520D2AA7C00B0C2CE /* schulcloud-Debug */,
+				CEEE0A1620D2AA7C00B0C2CE /* schulcloud-Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = "schulcloud-Release";
 		};
 /* End XCConfigurationList section */
 
