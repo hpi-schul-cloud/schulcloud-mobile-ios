@@ -56,7 +56,6 @@ PODS:
   - SimpleRoundedButton (1.0)
   - SwiftLint (0.25.0)
   - SwiftyBeaver (1.4.0)
-  - SwiftyJSON (3.1.4)
   - SyncEngine (0.1.0):
     - BrightFutures (~> 6.0)
     - Marshal (~> 1.2)
@@ -71,11 +70,9 @@ DEPENDENCIES:
   - Firebase/Messaging
   - JWTDecode
   - Locksmith
-  - Marshal
   - SimpleRoundedButton
   - SwiftLint (~> 0.25)
   - SwiftyBeaver (from `https://github.com/SwiftyBeaver/SwiftyBeaver.git`, commit `e4563d1`)
-  - SwiftyJSON (~> 3)
   - SyncEngine (from `./Frameworks/SyncEngine`)
 
 SPEC REPOS:
@@ -100,7 +97,6 @@ SPEC REPOS:
     - Result
     - SimpleRoundedButton
     - SwiftLint
-    - SwiftyJSON
 
 EXTERNAL SOURCES:
   SwiftyBeaver:
@@ -136,9 +132,8 @@ SPEC CHECKSUMS:
   SimpleRoundedButton: d7f2be107afb25c56149f4c0df541169ca6af48c
   SwiftLint: e14651157288e9e01d6e1a71db7014fb5744a8ea
   SwiftyBeaver: 6d10886c590bc0c7bd42f8c6f54c6bfea71c49d6
-  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   SyncEngine: 7dd96977bd1cec292364451c0ef16679cc941b2e
 
-PODFILE CHECKSUM: 93bf2285aaf75df7920eef1298a2470e15955e28
+PODFILE CHECKSUM: 4d7b5a52eea9e005fd247e38fa2272954d70fb20
 
 COCOAPODS: 1.5.0

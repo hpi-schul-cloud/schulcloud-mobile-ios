@@ -59,7 +59,7 @@ public class LoginHelper {
             log.info("Successfully saved login data for user \(userId) with account \(accountId)")
             Globals.account = account
             DispatchQueue.main.async {
-                SCNotifications.initializeMessaging()
+//                SCNotifications.initializeMessaging()
             }
 
             return Future(value: Void())

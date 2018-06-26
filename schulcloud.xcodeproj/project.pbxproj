@@ -22,6 +22,7 @@
 		507B78851F7BA32E0071A0C2 /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 507B78821F7BA2D00071A0C2 /* Credentials.plist */; };
 		507B78871F7BAF440071A0C2 /* XCUIElement+clear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507B78861F7BAF440071A0C2 /* XCUIElement+clear.swift */; };
 		B4E75D134DB297D8745EE7BF /* Pods_schulcloud_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFC8C574D284EB0B69BA4899 /* Pods_schulcloud_Tests.framework */; };
+		B8D6AD420F9F56A203E6A1FE /* Pods_Common_schulcloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60AD062D9E376F7D103D39F3 /* Pods_Common_schulcloud.framework */; };
 		C3418B671ED335F400280E62 /* PreviewTransitionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */; };
 		C3418B681ED335F400280E62 /* WebviewPreviewViewContoller.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */; };
 		C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3A5A9061EBCC17600825DBF /* Main.storyboard */; };
@@ -205,6 +206,7 @@
 		50F3984C202C7CDD00ADAE5D /* GoogleService-Info-Debug.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Debug.plist"; sourceTree = "<group>"; };
 		50F3984D202C7CDD00ADAE5D /* GoogleService-Info-Release.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = "GoogleService-Info-Release.plist"; sourceTree = "<group>"; };
 		545C97A8DFD815A5CDCD6C3F /* Pods-schulcloud.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloud.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloud/Pods-schulcloud.release.xcconfig"; sourceTree = "<group>"; };
+		60AD062D9E376F7D103D39F3 /* Pods_Common_schulcloud.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Common_schulcloud.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6202C4172802EF2A0B49B22E /* Pods-schulcloudTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-schulcloudTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-schulcloudTests/Pods-schulcloudTests.release.xcconfig"; sourceTree = "<group>"; };
 		6A95051FD2A0A46DC119427B /* Pods_schulcloudTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloudTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		79A5D305E558DF616795C230 /* Pods-Common.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common.release.xcconfig"; path = "Pods/Target Support Files/Pods-Common/Pods-Common.release.xcconfig"; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 			files = (
 				C63FB1F9B25BA375BFE83DFB /* Pods_schulcloud.framework in Frameworks */,
 				CEEE0A1220D2AA7C00B0C2CE /* Common.framework in Frameworks */,
+				B8D6AD420F9F56A203E6A1FE /* Pods_Common_schulcloud.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,6 +448,7 @@
 				A7453D6B0608647AAC1BEDAB /* Pods_Common.framework */,
 				D32E014BC215A558A2D90EA8 /* Pods_iOS.framework */,
 				060453293998EF378CE1C45F /* Pods_Common_iOS.framework */,
+				60AD062D9E376F7D103D39F3 /* Pods_Common_schulcloud.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -955,40 +959,38 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-schulcloud/Pods-schulcloud-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/BrightFutures/BrightFutures.framework",
 				"${BUILT_PRODUCTS_DIR}/CalendarKit/CalendarKit.framework",
 				"${BUILT_PRODUCTS_DIR}/DateToolsSwift/DateToolsSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Neon/Neon.framework",
+				"${BUILT_PRODUCTS_DIR}/SimpleRoundedButton/SimpleRoundedButton.framework",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/BrightFutures/BrightFutures.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac-615f275e/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/JWTDecode/JWTDecode.framework",
 				"${BUILT_PRODUCTS_DIR}/Locksmith/Locksmith.framework",
 				"${BUILT_PRODUCTS_DIR}/Marshal/Marshal.framework",
-				"${BUILT_PRODUCTS_DIR}/Neon/Neon.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
-				"${BUILT_PRODUCTS_DIR}/SimpleRoundedButton/SimpleRoundedButton.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyBeaver/SwiftyBeaver.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/SyncEngine/SyncEngine.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BrightFutures.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CalendarKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateToolsSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Neon.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SimpleRoundedButton.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BrightFutures.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JWTDecode.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Locksmith.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Marshal.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Neon.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SimpleRoundedButton.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyBeaver.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SyncEngine.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
