@@ -7,5 +7,5 @@
 #include "Base.xcconfig"
 
 PRODUCT_NAME = schulcloud
-PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud
+PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud.debug
 CODE_SIGN_ENTITLEMENTS = schulcloud/schulcloud.entitlements

@@ -37,11 +37,11 @@ public class SCNotifications {
 
     static internal func connectFirMessaging() -> Future<String, SCError> {
         let promise = Promise<String, SCError>()
-        FIRMessaging.messaging().disconnect()
-        FIRMessaging.messaging().connect { error in
+        Messaging.messaging().disconnect()
+        Messaging.messaging().connect { error in
             if let error = error {
                 promise.failure(SCError.firebase(error))
-            } else if let token = FIRInstanceID.instanceID().token() {
+            } else if let token = InstanceID.instanceID().token() {
                 promise.success(token)
             } else {
                 promise.failure(SCError.other("No token obtained"))
@@ -86,7 +86,7 @@ public class SCNotifications {
             }
         }
 
-        FIRMessaging.messaging().remoteMessageDelegate = RemoteMessageDelegate.shared
+        Messaging.messaging().delegate = RemoteMessageDelegate.shared
 
         UIApplication.shared.registerForRemoteNotifications()
 
@@ -99,10 +99,10 @@ public class SCNotifications {
 
 }
 
-class RemoteMessageDelegate: NSObject, FIRMessagingDelegate, UNUserNotificationCenterDelegate {
+class RemoteMessageDelegate: NSObject, MessagingDelegate, UNUserNotificationCenterDelegate {
     static let shared = RemoteMessageDelegate()
 
-    func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
+    func applicationReceivedRemoteMessage(_ remoteMessage: MessagingRemoteMessage) {
         let content = UNMutableNotificationContent()
 
         if let newsString = remoteMessage.appData["news"] as? String,
