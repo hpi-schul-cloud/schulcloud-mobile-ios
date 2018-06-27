@@ -3,12 +3,12 @@
 //  Copyright © HPI. All rights reserved.
 //
 
+import Common
 import CoreData
 import Firebase
 import SwiftyBeaver
 import UIKit
 import UserNotifications
-import Common
 
 let log = Common.log
 

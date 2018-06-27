@@ -3,8 +3,8 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import UIKit
 import Common
+import UIKit
 
 final class DashboardNoPermissionViewController: UIViewController, ViewHeightDataSource {
 
