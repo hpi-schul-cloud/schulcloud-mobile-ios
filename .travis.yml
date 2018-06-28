@@ -1,7 +1,7 @@
 language: objective-c
 osx_image: xcode9.2
 xcode_workspace: schulcloud.xcworkspace
-xcode_scheme: schulcloud
+xcode_scheme: iOS
 xcode_sdk: iphonesimulator
 
 env:
@@ -18,7 +18,7 @@ install:
   - bundle exec pod install
 
 before_script:
-  - cp schulcloudUITests/Credentials.plist.dummy schulcloudUITests/Credentials.plist
+  - cp iOSUITests/Credentials.plist.dummy iOSUITests/Credentials.plist
   - defaults write schulcloudUITests/Credentials UI_TEST_USERNAME $UI_TEST_USERNAME
   - defaults write schulcloudUITests/Credentials UI_TEST_PASSWORD $UI_TEST_PASSWORD
 
