@@ -75,7 +75,7 @@ public class LessonsViewController: UITableViewController, NSFetchedResultsContr
     }
 
     public override func tableView(_ tableView: UITableView,
-                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+                                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let reuseIdentifier = "lessonCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
 
