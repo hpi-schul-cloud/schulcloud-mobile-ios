@@ -10,6 +10,7 @@
 ///   Student only
 ///     submissionCreate/submissionEdit/submissionView for homework submission
 
+import Common
 import CoreData
 import DateToolsSwift
 import UIKit

@@ -3,6 +3,7 @@
 //  Copyright © HPI. All rights reserved.
 //
 
+import Common
 import UIKit
 
 protocol ViewHeightDataSource: class {
@@ -17,7 +18,7 @@ extension User {
     }
 }
 
-final class DashboardViewController: UICollectionViewController {
+public final class DashboardViewController: UICollectionViewController {
 
     enum Design {
         case reduced
@@ -76,20 +77,20 @@ final class DashboardViewController: UICollectionViewController {
 
     }
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         guard let layout = collectionView?.collectionViewLayout as? DashboardLayout else { return }
         self.addViewControllers()
         layout.dataSource = self
     }
 
-    override func viewDidLayoutSubviews() {
+    public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let itemIsVisible = self.currentDesign == .reduced && Globals.currentUser!.canDisplayNotification
         self.navigationItem.rightBarButtonItem = itemIsVisible ? self.notificationBarItem : nil
     }
 
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         self.collectionView?.collectionViewLayout.invalidateLayout()
     }
@@ -115,7 +116,7 @@ final class DashboardViewController: UICollectionViewController {
         return vc
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    public override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetailNews" {
             guard let detailNewsVC = segue.destination as? NewsDetailViewController,
                   let newsArticle = sender as? NewsArticle else { return }
@@ -125,18 +126,18 @@ final class DashboardViewController: UICollectionViewController {
 }
 
 extension DashboardViewController {
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+    public override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.currentDesign == .extended ? viewControllers.count : viewControllers.filter { viewController -> Bool in
             guard let viewController = viewController as? PermissionManagmentViewController<ShortNotificationViewController> else { return true }
             return viewController.hasPermission
         }.count
     }
 
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let vc = viewControllers[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DashboardCollectionCell", for: indexPath) as! DashboardCollectionViewControllerCell
         cell.configure(for: vc)
@@ -152,7 +153,7 @@ extension DashboardViewController {
         return cell
     }
 
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    public override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = (viewControllers[indexPath.row])
         if let vc = vc as? PermissionManagmentViewController<CalendarOverviewViewController>,
                vc.hasPermission {

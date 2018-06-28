@@ -18,7 +18,7 @@ final class SchulcloudTabBarController: UITabBarController {
     }
 
     func commonInit() {
-        self.delegate = AppDelegate.instance
+        //self.delegate = AppDelegate.instance
     }
 
 }

@@ -3,14 +3,15 @@
 //  Copyright © HPI. All rights reserved.
 //
 
+import Common
 import CoreData
 import UIKit
 
-class LessonsViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+public class LessonsViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
     var course: Course!
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -65,16 +66,16 @@ class LessonsViewController: UITableViewController, NSFetchedResultsControllerDe
         tableView.reloadData()
     }
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    public override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
-    override func tableView(_ tableView: UITableView,
-                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public override func tableView(_ tableView: UITableView,
+                                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let reuseIdentifier = "lessonCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
 
@@ -87,7 +88,7 @@ class LessonsViewController: UITableViewController, NSFetchedResultsControllerDe
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    public override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case .some("singleLesson"):
             guard let currentUser = Globals.currentUser, currentUser.permissions.contains(.contentView) else {

@@ -15,15 +15,16 @@
 ///    folderDelete -> Delete a folder (requires filestorageRemove). Currently not implemented on backend, only requires filestorageRemove.
 
 import BrightFutures
+import Common
 import CoreData
 import UIKit
 
-class FilesViewController: UITableViewController {
+public class FilesViewController: UITableViewController {
 
     var currentFolder: File!
     var fileSync = FileSync()
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         if currentFolder == nil {
@@ -101,7 +102,7 @@ class FilesViewController: UITableViewController {
 }
 
 extension FilesViewController: NSFetchedResultsControllerDelegate {
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         self.tableView.reloadData()
     }
 }
@@ -109,11 +110,11 @@ extension FilesViewController: NSFetchedResultsControllerDelegate {
 // MARK: TableView Delegate/DataSource
 
 extension FilesViewController {
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    public override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let count = fetchedResultsController.sections?[section].objects?.count else {
             log.error("Error loading object count in section \(section)")
             return 0
@@ -122,7 +123,7 @@ extension FilesViewController {
         return count
     }
 
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    public override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         guard let currentUser = Globals.currentUser else { return false }
         let file = self.fetchedResultsController.object(at: indexPath)
         guard file.id != FileHelper.rootDirectoryID,
@@ -132,7 +133,7 @@ extension FilesViewController {
         return currentUser.permissions.contains(.movingFiles) || currentUser.permissions.contains(.deletingFiles) // && file.permissions.contains(.write)
     }
 
-    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+    public override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         guard let currentUser = Globals.currentUser else { return nil }
         var actions: [UITableViewRowAction] = []
 
@@ -172,7 +173,7 @@ extension FilesViewController {
         return actions
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = fetchedResultsController.object(at: indexPath)
 
         let reuseIdentifier = item.detail == nil ? "item" : "item detail"
@@ -192,7 +193,7 @@ extension FilesViewController {
         return cell
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         defer {
             tableView.deselectRow(at: indexPath, animated: true)
         }

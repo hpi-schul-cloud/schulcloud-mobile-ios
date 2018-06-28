@@ -3,9 +3,7 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import Alamofire
-import JWTDecode
-import Locksmith
+import Common
 import SimpleRoundedButton
 import UIKit
 
