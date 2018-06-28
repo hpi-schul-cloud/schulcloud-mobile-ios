@@ -1,7 +1,7 @@
 language: objective-c
 osx_image: xcode9.2
 xcode_workspace: schulcloud.xcworkspace
-xcode_scheme: iOS
+xcode_scheme: schulcloud
 xcode_sdk: iphonesimulator
 
 env:
