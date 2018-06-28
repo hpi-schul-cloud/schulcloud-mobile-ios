@@ -49,7 +49,7 @@ class SingleLessonViewController: UIViewController, WKUIDelegate {
         <body>\(rendered.joined(separator: "<hr>"))</body>
         </html>
         """
-        webView.loadHTMLString(concatenated, baseURL: Constants.Servers.web.url)
+        webView.loadHTMLString(concatenated, baseURL: Brand.default.servers.web)
     }
 
     func htmlForElement(_ content: LessonContent) -> String {

@@ -1,0 +1,15 @@
+//
+//  Created for schulcloud-mobile-ios under GPL-3.0 license.
+//  Copyright © HPI. All rights reserved.
+//
+
+#include "../../Pods/Target Support Files/Pods-iOS/Pods-iOS.niedersachsencloud-debug.xcconfig"
+#include "../Debug.xcconfig"
+
+PRODUCT_NAME = Niedersachsencloud
+DISPLAY_NAME = Niedersachsen-cloud
+PRODUCT_MODULE_NAME = iOS
+PRODUCT_BUNDLE_IDENTIFIER = org.niedersachsencloud.debug
+CODE_SIGN_ENTITLEMENTS = ios/Branding/Niedersachsencloud/ios.entitlements
+
+ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon-Dev

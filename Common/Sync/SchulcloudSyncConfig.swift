@@ -8,7 +8,7 @@ import SyncEngine
 
 struct SchulcloudSyncConfig: SyncConfig {
 
-    var baseURL: URL = Constants.backend.url
+    var baseURL: URL = Brand.default.servers.backend
 
     var requestHeaders: [String: String] = [
         "Authorization": Globals.account!.accessToken!,

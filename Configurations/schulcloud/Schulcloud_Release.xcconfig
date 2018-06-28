@@ -7,6 +7,7 @@
 #include "../Release.xcconfig"
 
 PRODUCT_NAME = schulcloud
+DISPLAY_NAME = Schul-Cloud
 PRODUCT_MODULE_NAME = iOS
 PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud
 CODE_SIGN_ENTITLEMENTS = ios/Branding/schulcloud/ios.entitlements

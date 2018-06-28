@@ -28,10 +28,13 @@ public class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotification
     public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
+        self.window?.tintColor = Brand.default.colors.primary
+
         // set up SwiftyBeaver
         let console = ConsoleDestination()  // log to Xcode Console
         console.levelColor.warning = "❗️ "
         console.levelColor.debug = "🔍 "
+
         console.levelColor.error = "❌ "
         console.levelColor.info = "👉 "
         log.addDestination(console)
@@ -40,7 +43,6 @@ public class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotification
             FirebaseApp.configure()
         }
 
-        self.window?.tintColor = UIColor.schulcloudRed
         selectInitialViewController(application: application)
 
         CoreDataObserver.shared.startObserving()

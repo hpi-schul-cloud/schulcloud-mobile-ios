@@ -19,7 +19,7 @@ public class LoginHelper {
             "password": password as Any,
         ]
 
-        let loginEndpoint = Constants.backend.url.appendingPathComponent("authentication/")
+        let loginEndpoint = Brand.default.servers.backend.appendingPathComponent("authentication/")
         Alamofire.request(loginEndpoint, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in
             guard let json = response.result.value as? [String: Any] else {
                 let error = response.error!

@@ -183,7 +183,7 @@ extension FilesViewController {
         cell.detailTextLabel?.text = item.detail
         cell.accessoryType = item.isDirectory ? .disclosureIndicator : .none
         cell.imageView?.image = item.isDirectory ? UIImage(named: "folder") : UIImage(named: "document")
-        cell.imageView?.tintColor = item.isDirectory ? UIColor.schulcloudYellow : UIColor.schulcloudRed
+        cell.imageView?.tintColor = item.isDirectory ? Brand.default.colors.secondary : Brand.default.colors.primary
         cell.imageView?.contentMode = .scaleAspectFit
         cell.imageView?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         if #available(iOS 11.0, *) {

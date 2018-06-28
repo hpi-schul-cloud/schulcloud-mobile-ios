@@ -46,7 +46,7 @@ final class HomeworkOverviewViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
 
-        self.showAllHomework.textColor = UIColor.schulcloudRed
+        self.showAllHomework.textColor = Brand.default.colors.primary
 
         self.numberOfOpenTasksLabel.text = "?"
         NotificationCenter.default.addObserver(self,
