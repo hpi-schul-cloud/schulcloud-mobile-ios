@@ -3,12 +3,12 @@
 //  Copyright © HPI. All rights reserved.
 //
 
+import Common
 import CoreData
 import Firebase
 import SwiftyBeaver
 import UIKit
 import UserNotifications
-import Common
 
 let log = Common.log
 
@@ -37,7 +37,7 @@ public class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotification
         log.addDestination(console)
 
         if !isUnitTesting() {
-            FIRApp.configure()
+            FirebaseApp.configure()
         }
 
         self.window?.tintColor = UIColor.schulcloudRed
@@ -96,8 +96,8 @@ extension AppDelegate: UITabBarControllerDelegate {
 
     public func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         guard let userID = Globals.account?.userId else { return false }
-        let user_ = CoreDataHelper.viewContext.performAndWait { () -> User? in
-            let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
+        let user_ = CoreDataHelper.viewContext.performAndWait { () -> Common.User? in
+            let fetchRequest: NSFetchRequest<Common.User> = Common.User.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "id == %@", userID)
             return CoreDataHelper.viewContext.fetchSingle(fetchRequest).value
         }

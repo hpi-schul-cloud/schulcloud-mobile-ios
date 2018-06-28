@@ -1,6 +1,9 @@
 # Schul-cloud for iOS
 native iOS application for https://schul-cloud.org/
 
+### Issues
+The [issues for this project](https://ticketsystem.schul-cloud.org/projects/IOS/issues) are managed in the global ticket system for Schul-Cloud.
+
 ### Development toolchain
 - Xcode 9.2
 - bundler: `gem install bundler`
