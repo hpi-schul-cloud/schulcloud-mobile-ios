@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ULK-kh-W0G">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ULK-kh-W0G">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -17,14 +17,14 @@
         <!--Aufgaben-->
         <scene sceneID="vdJ-hp-wNi">
             <objects>
-                <tableViewController hidesBottomBarWhenPushed="YES" id="XP3-Qh-qs6" customClass="HomeworkListViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="XP3-Qh-qs6" customClass="HomeworkListViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="44" sectionFooterHeight="18" id="rU2-y4-zBC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="task" rowHeight="150" id="lAf-rl-u5E" customClass="HomeworkByDateCell" customModule="schulcloud" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="task" rowHeight="150" id="lAf-rl-u5E" customClass="HomeworkByDateCell" customModule="iOS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="55.5" width="375" height="150"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lAf-rl-u5E" id="4WP-Un-nwz">
@@ -95,7 +95,7 @@
                                     <outlet property="titleLabel" destination="SNS-pf-gdk" id="gQR-LF-hQu"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="courseTask" rowHeight="114" id="dAE-gY-w9f" userLabel="courseTask" customClass="HomeworkByCourseCell" customModule="schulcloud" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="courseTask" rowHeight="114" id="dAE-gY-w9f" userLabel="courseTask" customClass="HomeworkByCourseCell" customModule="iOS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="205.5" width="375" height="114"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dAE-gY-w9f" id="cIS-jD-NyM">
@@ -173,7 +173,7 @@
         <!--Calendar Overview View Controller-->
         <scene sceneID="tN3-Rz-sFA">
             <objects>
-                <viewController storyboardIdentifier="CalendarOverview" id="Czr-96-wPa" customClass="CalendarOverviewViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CalendarOverview" id="Czr-96-wPa" customClass="CalendarOverviewViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SY4-0G-OOu">
                         <rect key="frame" x="0.0" y="0.0" width="300" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -292,17 +292,17 @@
         <!--News Overview View Controller-->
         <scene sceneID="Q07-FE-agY">
             <objects>
-                <tableViewController storyboardIdentifier="NewsOverview" id="Gi9-xE-g0O" customClass="NewsOverviewViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="NewsOverview" id="Gi9-xE-g0O" customClass="NewsOverviewViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="xnz-Ll-bXq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="345"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="lqi-5v-8FT">
+                        <view key="tableHeaderView" contentMode="scaleToFill" misplaced="YES" id="lqi-5v-8FT">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="84"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Neuigkeiten" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="inT-Bz-Nfi">
-                                    <rect key="frame" x="20" y="20" width="335" height="44"/>
+                                    <rect key="frame" x="20" y="20" width="335" height="31.5"/>
                                     <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
@@ -316,12 +316,12 @@
                                 <constraint firstAttribute="trailing" secondItem="inT-Bz-Nfi" secondAttribute="trailing" constant="20" symbolic="YES" id="ha8-Vt-sCb"/>
                             </constraints>
                         </view>
-                        <view key="tableFooterView" contentMode="scaleToFill" id="QvY-Zu-dYH">
+                        <view key="tableFooterView" contentMode="scaleToFill" misplaced="YES" id="QvY-Zu-dYH">
                             <rect key="frame" x="0.0" y="301" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qIK-At-GKH">
-                                    <rect key="frame" x="20" y="20" width="177" height="4"/>
+                                    <rect key="frame" x="20" y="20" width="177" height="30"/>
                                     <state key="normal" title="Alle Neuigkeiten anzeigen"/>
                                     <connections>
                                         <action selector="showMorePressed" destination="Gi9-xE-g0O" eventType="touchUpInside" id="Bt3-uv-5wc"/>
@@ -337,7 +337,7 @@
                             </constraints>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="NewsCell" rowHeight="145" id="NY0-5Y-jla" customClass="NewsArticleOverviewCell" customModule="schulcloud" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="NewsCell" rowHeight="145" id="NY0-5Y-jla" customClass="NewsArticleOverviewCell" customModule="iOS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="112" width="375" height="145"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="NY0-5Y-jla" id="IfO-CB-kp5">
@@ -351,13 +351,13 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="335" height="20.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9JS-Ev-wKw" userLabel="Title">
-                                                            <rect key="frame" x="0.0" y="0.0" width="0.0" height="20.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="43.5" height="20.5"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dIc-Jl-AI7" userLabel="DisplayAt">
-                                                            <rect key="frame" x="-20" y="0.0" width="0.0" height="20.5"/>
+                                                            <rect key="frame" x="51.5" y="0.0" width="283.5" height="20.5"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                             <color key="textColor" white="0.55000000000000004" alpha="0.84999999999999998" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -419,7 +419,7 @@
         <!--No Permission View Controller-->
         <scene sceneID="LQ0-pa-P2j">
             <objects>
-                <viewController storyboardIdentifier="NoPermissionViewController" id="wLe-gH-3wg" userLabel="No Permission View Controller" customClass="DashboardNoPermissionViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NoPermissionViewController" id="wLe-gH-3wg" userLabel="No Permission View Controller" customClass="DashboardNoPermissionViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jUg-Wi-HLf">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -453,7 +453,7 @@
         <!--Homework Detail View Controller-->
         <scene sceneID="TG1-c9-F0S">
             <objects>
-                <viewController id="vgk-05-mo5" customClass="HomeworkDetailViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="vgk-05-mo5" customClass="HomeworkDetailViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" id="7tD-Zc-nfd">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -462,13 +462,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fcn-bQ-Jpg">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="247"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="291"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="e6e-ui-FSv">
-                                                <rect key="frame" x="20" y="20" width="375" height="207"/>
+                                                <rect key="frame" x="20" y="20" width="335" height="251"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" spacingType="standard" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JJK-cH-mDV">
-                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="18"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="335" height="18"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Mathematik" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Byz-Oq-tjl">
                                                                 <rect key="frame" x="0.0" y="0.0" width="81" height="18"/>
@@ -487,7 +487,7 @@
                                                                 </userDefinedRuntimeAttributes>
                                                             </view>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="⚐ In 2 Stunden fällig" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c6m-PL-6vk">
-                                                                <rect key="frame" x="115" y="0.0" width="375" height="18"/>
+                                                                <rect key="frame" x="115" y="0.0" width="220" height="18"/>
                                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                                 <color key="textColor" red="1" green="0.1764705882" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -495,13 +495,13 @@
                                                         </subviews>
                                                     </stackView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Hier könnte Ihre Hausaufgabe stehen!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lgd-6b-D41">
-                                                        <rect key="frame" x="0.0" y="26" width="375" height="20.5"/>
+                                                        <rect key="frame" x="0.0" y="26" width="335" height="20.5"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dU4-aO-Dw5">
-                                                        <rect key="frame" x="0.0" y="54.5" width="375" height="152.5"/>
+                                                        <rect key="frame" x="0.0" y="54.5" width="335" height="196.5"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" priority="500" constant="21" id="WhT-BA-Bnv"/>
                                                         </constraints>
@@ -555,17 +555,17 @@
         <!--Short Notification View Controller-->
         <scene sceneID="NIq-hi-MW4">
             <objects>
-                <tableViewController storyboardIdentifier="NotificationOverview" id="Bbj-2V-m9E" customClass="ShortNotificationViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="NotificationOverview" id="Bbj-2V-m9E" customClass="ShortNotificationViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Rtm-26-jyT">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="ZUG-YE-BcN">
+                        <view key="tableHeaderView" contentMode="scaleToFill" misplaced="YES" id="ZUG-YE-BcN">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="84"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Benachrichtigungen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qCj-BL-BmB">
-                                    <rect key="frame" x="20" y="20" width="226" height="44"/>
+                                    <rect key="frame" x="20" y="20" width="226" height="31.5"/>
                                     <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
@@ -579,7 +579,7 @@
                                 <constraint firstItem="qCj-BL-BmB" firstAttribute="top" secondItem="ZUG-YE-BcN" secondAttribute="top" constant="20" symbolic="YES" id="mY5-qz-5A2"/>
                             </constraints>
                         </view>
-                        <view key="tableFooterView" contentMode="scaleToFill" id="OYv-ce-Xri">
+                        <view key="tableFooterView" contentMode="scaleToFill" misplaced="YES" id="OYv-ce-Xri">
                             <rect key="frame" x="0.0" y="236" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
@@ -601,7 +601,7 @@
                             </constraints>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="notificationCell" rowHeight="80" id="CYa-ab-9eL" customClass="NotificationCell" customModule="schulcloud" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="notificationCell" rowHeight="80" id="CYa-ab-9eL" customClass="NotificationCell" customModule="iOS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="112" width="320" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CYa-ab-9eL" id="Jm2-VD-KOg">
@@ -609,16 +609,16 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Fdz-aw-qp7">
-                                            <rect key="frame" x="20" y="19" width="0.0" height="52.5"/>
+                                            <rect key="frame" x="20" y="19" width="280" height="52.5"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vwg-P2-sr9">
-                                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="20.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="280" height="20.5"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="detail" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g11-MQ-ZwE">
-                                                    <rect key="frame" x="0.0" y="24.5" width="0.0" height="28"/>
+                                                    <rect key="frame" x="0.0" y="24.5" width="280" height="28"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -691,13 +691,13 @@
         <!--Benachrichtigungen-->
         <scene sceneID="9JG-sD-gFf">
             <objects>
-                <tableViewController id="7ZX-Vz-kdM" customClass="NotificationViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="7ZX-Vz-kdM" customClass="NotificationViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="5xQ-YN-7ci">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="notificationCell" rowHeight="80" id="HpJ-oE-01o" customClass="NotificationCell" customModule="schulcloud" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="notificationCell" rowHeight="80" id="HpJ-oE-01o" customClass="NotificationCell" customModule="iOS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HpJ-oE-01o" id="4yb-bA-dse">
@@ -755,7 +755,7 @@
         <!--Kalender-->
         <scene sceneID="kv7-Tv-z0W">
             <objects>
-                <viewController id="oac-kO-sKD" customClass="CalendarViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="oac-kO-sKD" customClass="CalendarViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="37m-iQ-mBU">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -773,16 +773,16 @@
         <!--Dashboard-->
         <scene sceneID="dqA-aP-ZXy">
             <objects>
-                <collectionViewController id="Bik-lY-S0X" customClass="DashboardViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController id="Bik-lY-S0X" customClass="DashboardViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" id="ODr-AP-Vf1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <viewLayoutGuide key="safeArea" id="ZOG-nw-4Ox"/>
                         <inset key="scrollIndicatorInsets" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
-                        <collectionViewLayout key="collectionViewLayout" id="tBD-4Y-paX" customClass="DashboardLayout" customModule="schulcloud" customModuleProvider="target"/>
+                        <collectionViewLayout key="collectionViewLayout" id="tBD-4Y-paX" customClass="DashboardLayout" customModule="iOS" customModuleProvider="target"/>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="DashboardCollectionCell" id="QqM-4x-QuS" customClass="DashboardCollectionViewControllerCell" customModule="schulcloud" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="DashboardCollectionCell" id="QqM-4x-QuS" customClass="DashboardCollectionViewControllerCell" customModule="iOS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -837,7 +837,7 @@
         <!--Homework Overview View Controller-->
         <scene sceneID="VQs-Jy-bac">
             <objects>
-                <viewController storyboardIdentifier="HomeworkOverview" id="wGI-hB-R97" customClass="HomeworkOverviewViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeworkOverview" id="wGI-hB-R97" customClass="HomeworkOverviewViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="U4R-fy-KBI">
                         <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -887,7 +887,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="HomeworkOverviewCell" rowHeight="44" id="snw-B0-1VX" customClass="HomeworkOverviewCell" customModule="schulcloud" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="HomeworkOverviewCell" rowHeight="44" id="snw-B0-1VX" customClass="HomeworkOverviewCell" customModule="iOS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="300" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="snw-B0-1VX" id="R2s-Cm-Yjv">
@@ -961,13 +961,13 @@
         <!--NewsListViewController-->
         <scene sceneID="Wdc-HL-BnG">
             <objects>
-                <tableViewController id="jQZ-q5-AHs" userLabel="NewsListViewController" customClass="NewsListViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="jQZ-q5-AHs" userLabel="NewsListViewController" customClass="NewsListViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="zqb-3L-0Z6" userLabel="News list">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="newsCell" rowHeight="132" id="ouB-r7-Jp7" customClass="NewsArticleCell" customModule="schulcloud" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="newsCell" rowHeight="132" id="ouB-r7-Jp7" customClass="NewsArticleCell" customModule="iOS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="132"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ouB-r7-Jp7" id="vib-DE-mpp">
@@ -1033,19 +1033,19 @@
         <!--News Detail View Controller-->
         <scene sceneID="3zC-Ao-BZH">
             <objects>
-                <viewController id="E1p-Er-oEo" customClass="NewsDetailViewController" customModule="schulcloud" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="E1p-Er-oEo" customClass="NewsDetailViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="e7A-Oe-v2C">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mMT-81-qDy">
-                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nsg-Ix-dpt" userLabel="Scroll Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="94"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="132"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="dG4-su-NI3">
-                                                <rect key="frame" x="0.0" y="20" width="0.0" height="54.5"/>
+                                                <rect key="frame" x="20" y="20" width="335" height="92.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VjF-sJ-jcc">
                                                         <rect key="frame" x="0.0" y="0.0" width="43.5" height="20.5"/>
@@ -1060,7 +1060,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="News Text" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5Hv-1M-WdD">
-                                                        <rect key="frame" x="0.0" y="54.5" width="0.0" height="0.0"/>
+                                                        <rect key="frame" x="0.0" y="54.5" width="89.5" height="38"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>

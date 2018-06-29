@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3Wt-WC-Ly3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3Wt-WC-Ly3">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="PT_Sans-Web-Regular.ttf">
-            <string>PTSans-Regular</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Kurse-->
         <scene sceneID="cb7-ee-lg3">
             <objects>
-                <collectionViewController id="8a4-xT-nkL" customClass="CoursesViewController" customModule="Schul_Cloud" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController id="8a4-xT-nkL" customClass="CoursesViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="9Ao-OB-ojV">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -31,7 +26,7 @@
                             <inset key="sectionInset" minX="16" minY="8" maxX="16" maxY="8"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="courseCell" id="miQ-oh-DD6" customClass="CourseCell" customModule="Schul_Cloud" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="courseCell" id="miQ-oh-DD6" customClass="CourseCell" customModule="iOS" customModuleProvider="target">
                                 <rect key="frame" x="16" y="8" width="140" height="140"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -78,9 +73,7 @@
                                     <outlet property="colorView" destination="lgb-WZ-UxN" id="cfz-SQ-msc"/>
                                     <outlet property="teacherLabel" destination="aHW-0P-UoN" id="qcQ-sd-IMl"/>
                                     <outlet property="titleLabel" destination="ikC-ib-QfB" id="syW-Ox-FNq"/>
-                                    <segue destination="zLM-lw-5Ax" kind="show" identifier="courseDetail" id="bRQ-TC-LTK">
-                                        <nil key="action"/>
-                                    </segue>
+                                    <segue destination="zLM-lw-5Ax" kind="show" identifier="courseDetail" id="bRQ-TC-LTK"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -98,7 +91,7 @@
         <!--Lessons View Controller-->
         <scene sceneID="rPB-DY-GHP">
             <objects>
-                <tableViewController id="zLM-lw-5Ax" customClass="LessonsViewController" customModule="Schul_Cloud" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="zLM-lw-5Ax" customClass="LessonsViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="oM4-4W-CDs">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -108,7 +101,7 @@
                                 <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lBf-Ei-KfL" id="TQm-nt-Kkb">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                                 <connections>
@@ -149,7 +142,7 @@
         <!--Single Lesson View Controller-->
         <scene sceneID="kz0-YB-959">
             <objects>
-                <viewController id="Zni-aX-KFj" customClass="SingleLessonViewController" customModule="Schul_Cloud" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Zni-aX-KFj" customClass="SingleLessonViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ZOH-6R-SMS">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
