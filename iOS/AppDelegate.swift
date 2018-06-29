@@ -34,7 +34,6 @@ public class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotification
         let console = ConsoleDestination()  // log to Xcode Console
         console.levelColor.warning = "❗️ "
         console.levelColor.debug = "🔍 "
-
         console.levelColor.error = "❌ "
         console.levelColor.info = "👉 "
         log.addDestination(console)
