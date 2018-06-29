@@ -1366,7 +1366,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE41528820DBCF6A00739CE2 /* Schulcloud_Debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1385,7 +1384,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE41528720DBCF5800739CE2 /* Schulcloud_Release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1511,7 +1509,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE1EAE9E20E516BB00C66DDD /* Niedersachsencloud_Debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1630,7 +1627,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE1EAE9D20E516BB00C66DDD /* Niedersachsencloud_Release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
