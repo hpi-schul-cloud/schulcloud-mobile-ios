@@ -410,6 +410,16 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		5081D62620E6645100288F3A /* Branding */ = {
+			isa = PBXGroup;
+			children = (
+				CE1EAE8B20E500F800C66DDD /* Brand.swift */,
+				CE1EAE8D20E5036E00C66DDD /* BrandColors.swift */,
+				CE1EAE8F20E503C600C66DDD /* BrandServers.swift */,
+			);
+			path = Branding;
+			sourceTree = "<group>";
+		};
 		50B44D7C203AAE39009DC2D3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -472,10 +482,10 @@
 			isa = PBXGroup;
 			children = (
 				CE41528520DBCF0200739CE2 /* Configurations */,
+				CEEE0A0C20D2AA7C00B0C2CE /* Common */,
 				C3A5A9011EBCC17600825DBF /* iOS */,
 				5024103E2046B01A0033D75A /* iOSTests */,
 				C3A5A9241EBCC17600825DBF /* iOSUITests */,
-				CEEE0A0C20D2AA7C00B0C2CE /* Common */,
 				C3A5A9001EBCC17600825DBF /* Products */,
 				3C4FFC2AB418A9FEA57D0908 /* Pods */,
 				7EDF8CE117CA0B1F9E1A25E7 /* Frameworks */,
@@ -639,10 +649,10 @@
 		CE41528520DBCF0200739CE2 /* Configurations */ = {
 			isa = PBXGroup;
 			children = (
-				CE1EAE9C20E5168500C66DDD /* Niedersachsencloud */,
-				CE4152B720E2873100739CE2 /* schulcloud */,
 				CE4152C020E289CC00739CE2 /* Debug.xcconfig */,
 				CE4152C120E28A2600739CE2 /* Release.xcconfig */,
+				CE4152B720E2873100739CE2 /* schulcloud */,
+				CE1EAE9C20E5168500C66DDD /* Niedersachsencloud */,
 			);
 			path = Configurations;
 			sourceTree = "<group>";
@@ -650,8 +660,8 @@
 		CE4152B020E2817A00739CE2 /* Branding */ = {
 			isa = PBXGroup;
 			children = (
-				CE1EAE9220E50F7600C66DDD /* Niedersachsencloud */,
 				CE4152B120E2818400739CE2 /* schulcloud */,
+				CE1EAE9220E50F7600C66DDD /* Niedersachsencloud */,
 			);
 			path = Branding;
 			sourceTree = "<group>";
@@ -684,15 +694,13 @@
 				C3C2AC331EC498F50060AECA /* Data */,
 				506D14701F582BA700AA5613 /* Extensions */,
 				50B82F802020C9130048CB4B /* Sync */,
+				5081D62620E6645100288F3A /* Branding */,
 				C36C23371EC9DE0700D4163E /* SCError.swift */,
 				C3A5A93A1EC0766F00825DBF /* Account.swift */,
 				CEEE0A7F20D2AF9200B0C2CE /* Logger.swift */,
 				C3A5A9381EBCD0C600825DBF /* Constants.swift */,
 				CEEE0A0D20D2AA7C00B0C2CE /* Common.h */,
 				CEEE0A0E20D2AA7C00B0C2CE /* Info.plist */,
-				CE1EAE8B20E500F800C66DDD /* Brand.swift */,
-				CE1EAE8D20E5036E00C66DDD /* BrandColors.swift */,
-				CE1EAE8F20E503C600C66DDD /* BrandServers.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
