@@ -36,7 +36,7 @@ included:
 - iOSUITests
 
 excluded:
-- schulcloudUITests/SnapshotHelper.swift
+- iOSUITests/SnapshotHelper.swift
 
 line_length: 160
 
