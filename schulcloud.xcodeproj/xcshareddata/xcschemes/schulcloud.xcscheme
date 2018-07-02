@@ -16,17 +16,16 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C3A5A8FE1EBCC17600825DBF"
                BuildableName = "schulcloud.app"
-               BlueprintName = "schulcloud"
+               BlueprintName = "iOS"
                ReferencedContainer = "container:schulcloud.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "schulcloud-Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
@@ -34,8 +33,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "5024103C2046B01A0033D75A"
-               BuildableName = "schulcloud-Tests.xctest"
-               BlueprintName = "schulcloud-Tests"
+               BuildableName = "iOS-Tests.xctest"
+               BlueprintName = "iOS-Tests"
                ReferencedContainer = "container:schulcloud.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -44,8 +43,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C3A5A9201EBCC17600825DBF"
-               BuildableName = "schulcloud-UITests.xctest"
-               BlueprintName = "schulcloud-UITests"
+               BuildableName = "iOS-UITests.xctest"
+               BlueprintName = "iOS-UITests"
                ReferencedContainer = "container:schulcloud.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -55,7 +54,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C3A5A8FE1EBCC17600825DBF"
             BuildableName = "schulcloud.app"
-            BlueprintName = "schulcloud"
+            BlueprintName = "iOS"
             ReferencedContainer = "container:schulcloud.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,10 +62,9 @@
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "schulcloud-Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      language = ""
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -79,7 +77,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C3A5A8FE1EBCC17600825DBF"
             BuildableName = "schulcloud.app"
-            BlueprintName = "schulcloud"
+            BlueprintName = "iOS"
             ReferencedContainer = "container:schulcloud.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -87,7 +85,7 @@
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
-      buildConfiguration = "Release"
+      buildConfiguration = "schulcloud-Release"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
@@ -98,16 +96,16 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C3A5A8FE1EBCC17600825DBF"
             BuildableName = "schulcloud.app"
-            BlueprintName = "schulcloud"
+            BlueprintName = "iOS"
             ReferencedContainer = "container:schulcloud.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Debug">
+      buildConfiguration = "schulcloud-Debug">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Release"
+      buildConfiguration = "schulcloud-Release"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

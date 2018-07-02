@@ -34,7 +34,7 @@ public class FileSync: NSObject {
     }
 
     private var fileStorageURL: URL {
-        return Constants.backend.url.appendingPathComponent("fileStorage")
+        return Brand.default.servers.backend.appendingPathComponent("fileStorage")
     }
 
     private func getUrl(for file: File) -> URL? {
@@ -120,7 +120,7 @@ public class FileSync: NSObject {
     public func downloadSharedFiles() -> Future<[[String: Any]], SCError> {
         let promise = Promise<[[String: Any]], SCError>()
 
-        let request = self.request(for: Constants.backend.url.appendingPathComponent("files") )
+        let request = self.request(for: Brand.default.servers.backend.appendingPathComponent("files") )
         fileDataSession.dataTask(with: request) { data, response, error in
             do {
                 let data = try self.confirmNetworkResponse(data: data, response: response, error: error)

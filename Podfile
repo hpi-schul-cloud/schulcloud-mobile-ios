@@ -21,7 +21,7 @@ target 'Common' do
   common_pods
 end
 
-target 'schulcloud' do
+target 'iOS' do
   pod 'CalendarKit', '0.2.0'
   pod 'SimpleRoundedButton'
 end
@@ -29,7 +29,7 @@ end
 post_install do |installer|
   sharedLibrary = installer.aggregate_targets.find { |aggregate_target| aggregate_target.name == 'Pods-Common' }
   installer.aggregate_targets.each do |aggregate_target|
-    if aggregate_target.name == 'Pods-schulcloud'
+    if aggregate_target.name == 'Pods-iOS'
       aggregate_target.xcconfigs.each do |config_name, config_file|
         sharedLibraryPodTargets = sharedLibrary.pod_targets
         aggregate_target.pod_targets.select { |pod_target| sharedLibraryPodTargets.include?(pod_target) }.each do |pod_target|

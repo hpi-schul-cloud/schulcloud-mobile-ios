@@ -1,0 +1,15 @@
+//
+//  Created for schulcloud-mobile-ios under GPL-3.0 license.
+//  Copyright © HPI. All rights reserved.
+//
+
+#include "../../Pods/Target Support Files/Pods-iOS/Pods-iOS.schulcloud-release.xcconfig"
+#include "../Release.xcconfig"
+
+PRODUCT_NAME = schulcloud
+DISPLAY_NAME = Schul-Cloud
+PRODUCT_MODULE_NAME = iOS
+PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud
+CODE_SIGN_ENTITLEMENTS = ios/Branding/schulcloud/ios.entitlements
+
+ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon

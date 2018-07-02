@@ -31,12 +31,12 @@ disabled_rules:
 - explicit_enum_raw_value
 
 included:
-- schulcloud
-- schulcloudTests
-- schulcloudUITests
+- iOS
+- iOSTests
+- iOSUITests
 
 excluded:
-- schulcloudUITests/SnapshotHelper.swift
+- iOSUITests/SnapshotHelper.swift
 
 line_length: 160
 
