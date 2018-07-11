@@ -932,7 +932,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"${CONFIGURATION}\" =~ *Release ]; then\n    suffix=\"Release\"\nelse\n    suffix=\"Debug\"\nfi\n\necho \"Using GoogleService-Info.plist for ${suffix} mode\"\ncp \"${PROJECT_DIR}/iOS/Branding/${PRODUCT_NAME}/GoogleService-Info-${suffix}.plist\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\"";
+			shellScript = "if [[ \"${CONFIGURATION}\" == *Release ]]; then\n    suffix=\"Release\"\nelse\n    suffix=\"Debug\"\nfi\n\necho \"Using GoogleService-Info.plist for ${suffix} mode\"\ncp \"${PROJECT_DIR}/iOS/Branding/${PRODUCT_NAME}/GoogleService-Info-${suffix}.plist\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\"";
 		};
 		92AF1094A1614F30A8A8E107 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
