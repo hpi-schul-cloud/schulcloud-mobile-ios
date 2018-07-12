@@ -8,7 +8,6 @@ platform :ios do
     new_version_number = increment_version_number(
       bump_type: "patch",
     )
-    revert_tvOS_changes()
     commit_version_bump(
       message: "New version #{new_version_number}"
     )
@@ -19,7 +18,6 @@ platform :ios do
     new_version_number = increment_version_number(
       bump_type: "minor",
     )
-    revert_tvOS_changes()
     commit_version_bump(
       message: "New version #{new_version_number}"
     )
@@ -30,7 +28,6 @@ platform :ios do
     new_version_number = increment_version_number(
       bump_type: "major",
     )
-    revert_tvOS_changes()
     commit_version_bump(
       message: "New version #{new_version_number}"
     )
@@ -146,7 +143,7 @@ platform :ios do
   private_lane :upload_ipa do |options|
     skip_metadata = (options[:skip_metadata] ? true : false)
     gym(
-      scheme: "#schulcloud",
+      scheme: "schulcloud",
       include_bitcode: true,
       include_symbols: true,
       export_method: "app-store",
@@ -158,14 +155,14 @@ platform :ios do
     )
     deliver(
       app_identifier: "org.schulcloud",
-      app_version: get_version_number,
+      app_version: get_version_number(target: "iOS"),
       skip_screenshots: true,
       skip_metadata: skip_metadata,
     )
   end
 
   lane :tag_release do
-    version_number = get_version_number
+    version_number = get_version_number(target: "iOS")
     last_commit_id = sh("git rev-parse HEAD")
     last_commit_id.strip!
     release_notes = File.read("#{fastlane_dir}/metadata/de-DE/release_notes.txt") rescue "No changelog provided"
