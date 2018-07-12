@@ -1422,10 +1422,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 33FB39722356922361DF3BBB /* Pods-Common.schulcloud-debug.xcconfig */;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = "$(SRCROOT)/Common/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud.Common;
 				PRODUCT_NAME = Common;
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "schulcloud-Debug";
 		};
@@ -1433,10 +1436,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3ED956473F645615154850DC /* Pods-Common.schulcloud-release.xcconfig */;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = "$(SRCROOT)/Common/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud.Common;
 				PRODUCT_NAME = Common;
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "schulcloud-Release";
 		};
@@ -1558,10 +1564,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CD400EC3BD251E35484218B4 /* Pods-Common.n21-debug.xcconfig */;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = "$(SRCROOT)/Common/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud.Common;
 				PRODUCT_NAME = Common;
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "n21-Debug";
 		};
@@ -1676,10 +1685,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BF3058195EEE67AAE27872AC /* Pods-Common.n21-release.xcconfig */;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = "$(SRCROOT)/Common/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud.Common;
 				PRODUCT_NAME = Common;
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "n21-Release";
 		};
