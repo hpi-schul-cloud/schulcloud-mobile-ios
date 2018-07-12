@@ -18,6 +18,7 @@
 		507B78841F7BA2DB0071A0C2 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507B78831F7BA2DB0071A0C2 /* SnapshotHelper.swift */; };
 		507B78851F7BA32E0071A0C2 /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 507B78821F7BA2D00071A0C2 /* Credentials.plist */; };
 		507B78871F7BAF440071A0C2 /* XCUIElement+clear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507B78861F7BAF440071A0C2 /* XCUIElement+clear.swift */; };
+		50CB76E920F613860056E262 /* TestAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB76E820F613850056E262 /* TestAccount.swift */; };
 		C3418B671ED335F400280E62 /* PreviewTransitionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */; };
 		C3418B681ED335F400280E62 /* WebviewPreviewViewContoller.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */; };
 		C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3A5A9061EBCC17600825DBF /* Main.storyboard */; };
@@ -193,6 +194,7 @@
 		50B44D82203AAEE1009DC2D3 /* EventData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventData.swift; sourceTree = "<group>"; };
 		50B44D83203AAEE1009DC2D3 /* Homework.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Homework.swift; sourceTree = "<group>"; };
 		50B44D84203AAEE1009DC2D3 /* NewsArticle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsArticle.swift; sourceTree = "<group>"; };
+		50CB76E820F613850056E262 /* TestAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAccount.swift; sourceTree = "<group>"; };
 		50D6432C1F8E09E200A89331 /* HomeworkOverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkOverviewViewController.swift; sourceTree = "<group>"; };
 		50ED3C4B1F49E62C00CD8466 /* Pods_schulcloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_schulcloud.framework; path = "../../../Library/Developer/Xcode/DerivedData/schulcloud-avlkvehcgbgawffjtgnfanivmgvf/Build/Products/Debug-iphonesimulator/Pods_schulcloud.framework"; sourceTree = "<group>"; };
 		50F3984C202C7CDD00ADAE5D /* GoogleService-Info-Debug.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Debug.plist"; sourceTree = "<group>"; };
@@ -391,6 +393,7 @@
 				CE1EAE8B20E500F800C66DDD /* Brand.swift */,
 				CE1EAE8D20E5036E00C66DDD /* BrandColors.swift */,
 				CE1EAE8F20E503C600C66DDD /* BrandServers.swift */,
+				50CB76E820F613850056E262 /* TestAccount.swift */,
 			);
 			path = Branding;
 			sourceTree = "<group>";
@@ -932,7 +935,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"${CONFIGURATION}\" =~ *Release ]; then\n    suffix=\"Release\"\nelse\n    suffix=\"Debug\"\nfi\n\necho \"Using GoogleService-Info.plist for ${suffix} mode\"\ncp \"${PROJECT_DIR}/iOS/Branding/${PRODUCT_NAME}/GoogleService-Info-${suffix}.plist\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\"";
+			shellScript = "if [[ \"${CONFIGURATION}\" == *Release ]]; then\n    suffix=\"Release\"\nelse\n    suffix=\"Debug\"\nfi\n\necho \"Using GoogleService-Info.plist for ${suffix} mode\"\ncp \"${PROJECT_DIR}/iOS/Branding/${PRODUCT_NAME}/GoogleService-Info-${suffix}.plist\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\"";
 		};
 		92AF1094A1614F30A8A8E107 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1104,6 +1107,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEEE0A4E20D2ADB300B0C2CE /* SchulcloudSyncStrategy.swift in Sources */,
+				50CB76E920F613860056E262 /* TestAccount.swift in Sources */,
 				CEEE0A3F20D2AD9000B0C2CE /* CalendarEventHelper.swift in Sources */,
 				CEEE0A3820D2AD8400B0C2CE /* User.swift in Sources */,
 				CEEE0A3D20D2AD9000B0C2CE /* LessonHelper.swift in Sources */,
@@ -1418,10 +1422,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 33FB39722356922361DF3BBB /* Pods-Common.schulcloud-debug.xcconfig */;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = "$(SRCROOT)/Common/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud.Common;
 				PRODUCT_NAME = Common;
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "schulcloud-Debug";
 		};
@@ -1429,10 +1436,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3ED956473F645615154850DC /* Pods-Common.schulcloud-release.xcconfig */;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = "$(SRCROOT)/Common/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud.Common;
 				PRODUCT_NAME = Common;
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "schulcloud-Release";
 		};
@@ -1554,10 +1564,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CD400EC3BD251E35484218B4 /* Pods-Common.n21-debug.xcconfig */;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = "$(SRCROOT)/Common/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud.Common;
 				PRODUCT_NAME = Common;
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "n21-Debug";
 		};
@@ -1672,10 +1685,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BF3058195EEE67AAE27872AC /* Pods-Common.n21-release.xcconfig */;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = "$(SRCROOT)/Common/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud.Common;
 				PRODUCT_NAME = Common;
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "n21-Release";
 		};

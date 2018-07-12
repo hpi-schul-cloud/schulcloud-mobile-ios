@@ -8,11 +8,6 @@ import UIKit
 
 public struct Brand: Decodable {
 
-    private enum CodingKeys: CodingKey {
-        case servers
-        case colors
-    }
-
     public static let `default`: Brand = {
         let data = NSDataAsset(name: "BrandConfiguration")?.data
         let decoder = PropertyListDecoder()
@@ -21,11 +16,6 @@ public struct Brand: Decodable {
 
     public let servers: BrandServers
     public let colors: BrandColors
+    public let testAccounts: TestAccounts
 
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        self.colors = try container.decode(BrandColors.self, forKey: .colors)
-        self.servers = try container.decode(BrandServers.self, forKey: .servers)
-    }
 }
