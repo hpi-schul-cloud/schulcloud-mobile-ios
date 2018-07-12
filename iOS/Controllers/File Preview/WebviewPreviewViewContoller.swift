@@ -47,8 +47,8 @@ class WebviewPreviewViewContoller: UIViewController {
         let activityItems: [Any]
         if let data = fileData {
             activityItems = [data]
-        } else if let url = file.cacheUrl {
-            activityItems = [url]
+        } else if file.downloadState == .downloaded {
+            activityItems = [file.localURL]
         } else {
             return
         }
@@ -69,9 +69,9 @@ class WebviewPreviewViewContoller: UIViewController {
         let data: Data
         if let fileData = fileData {
             data = fileData
-        } else if let localFileUrl = file.cacheUrl,
+        } else if let localFileUrl = file.fileLocation,
             localFileUrl.scheme == "file",
-            let fileData = try? Data(contentsOf: localFileUrl) {
+            let fileData = try? Data(contentsOf: file.localURL) {
             data = fileData
         } else {
             print("Could not find data for file!")
@@ -81,7 +81,7 @@ class WebviewPreviewViewContoller: UIViewController {
         var rawString: String?
 
         // Prepare plist for display
-        if file.url.pathExtension.lowercased() == "plist" {
+        if file.localURL.pathExtension.lowercased() == "plist" {
             do {
                 if let plistDescription = try (PropertyListSerialization.propertyList(from: data, options: [], format: nil) as AnyObject).description {
                     rawString = plistDescription
@@ -90,7 +90,7 @@ class WebviewPreviewViewContoller: UIViewController {
         }
 
         // Prepare json file for display
-        else if file.url.pathExtension.lowercased() == "json" {
+        else if file.localURL.pathExtension.lowercased() == "json" {
             do {
                 let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
                 if JSONSerialization.isValidJSONObject(jsonObject) {

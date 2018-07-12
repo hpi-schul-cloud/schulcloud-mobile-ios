@@ -20,7 +20,7 @@ class LoadingViewController: UIViewController {
 
     var downloadTask: URLSessionDownloadTask?
 
-    let fileSync = FileSync()
+    let fileSync = FileSync.default
     var file: File!
 
     override func viewDidLoad() {
@@ -40,23 +40,14 @@ class LoadingViewController: UIViewController {
     }
 
     func startDownload() {
-        fileSync.signedURL(for: file)
-        .flatMap { url -> Future<Data, SCError> in
+        fileSync.download(file) { progress in
             DispatchQueue.main.async {
-                self.activityIndicator.stopAnimating()
-                self.progressView.isHidden = false
+                self.progressView.setProgress(progress, animated: true)
             }
+        }.onSuccess { url in
 
-            let future = self.fileSync.download(url: url) { progress in
-                DispatchQueue.main.async {
-                    self.progressView.setProgress(progress, animated: true)
-                }
-            }
-
-            return future
-        }.onSuccess { fileData in
             DispatchQueue.main.async {
-                self.showFile(data: fileData)
+                self.showFile()
             }
         }.onFailure { error in
             DispatchQueue.main.async {
@@ -65,8 +56,8 @@ class LoadingViewController: UIViewController {
         }
     }
 
-    func showFile(data: Data) {
-        let previewManager = PreviewManager(file: file, data: data)
+    func showFile() {
+        let previewManager = PreviewManager(file: file)
         let controller = previewManager.previewViewController
         controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
         controller.navigationItem.leftItemsSupplementBackButton = true

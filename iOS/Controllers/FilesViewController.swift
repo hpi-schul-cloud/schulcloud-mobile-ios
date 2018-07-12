@@ -22,7 +22,7 @@ import UIKit
 public class FilesViewController: UITableViewController {
 
     var currentFolder: File!
-    var fileSync = FileSync()
+    var fileSync = FileSync.default
 
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +38,8 @@ public class FilesViewController: UITableViewController {
     }
 
     @IBAction func didTriggerRefresh() {
+
+        guard FileHelper.rootDirectoryID != currentFolder.id else { return }
         let future: Future<Void, SCError>
         if FileHelper.coursesDirectoryID == currentFolder.id {
             future = CourseHelper.syncCourses().asVoid()

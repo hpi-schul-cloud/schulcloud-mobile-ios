@@ -14,33 +14,37 @@ public final class File: NSManagedObject {
     }
 
     @NSManaged public var id: String
-    @NSManaged public var cacheURL_: String? // swiftlint:disable:this identifier_name
+    @NSManaged public var remoteURL_: String? // swiftlint:disable:this identifier_name
+    @NSManaged public var thumbnailRemoteURL_: String? // swiftlint:disable:this identifier_name
+
     @NSManaged public var name: String
     @NSManaged public var isDirectory: Bool
-    @NSManaged public var currentPath: String
     @NSManaged public var mimeType: String?
-    @NSManaged public var size: NSNumber?
+    @NSManaged public var size: Int64
+
+    @NSManaged public var permissions_: Int64 // swiftlint:disable:this identifier_name
+    @NSManaged public var downloadState_: Int64 // swiftlint:disable:this identifier_name
+    @NSManaged public var uploadState_: Int64 // swiftlint:disable:this identifier_name
+
     @NSManaged public var parentDirectory: File?
     @NSManaged public var contents: Set<File>
-    @NSManaged public var permissions_: Int64 // swiftlint:disable:this identifier_name
-
 }
 
-extension File {
+public extension File {
 
-    struct Permissions: OptionSet {
-        let rawValue: Int64
+    public struct Permissions: OptionSet {
+        public let rawValue: Int64
 
         static let read = Permissions(rawValue: 1 << 1)
         static let write = Permissions(rawValue: 1 << 2)
 
         static let readWrite: Permissions = [.read, .write]
 
-        init(rawValue: Int64) {
+        public init(rawValue: Int64) {
             self.rawValue = rawValue
         }
 
-        init?(str: String) {
+        public init?(str: String) {
             switch str {
             case "can_read":
                 self = Permissions.read
@@ -70,31 +74,96 @@ extension File {
     }
 }
 
+public extension File {
+    public enum DownloadState: Int64 {
+        case notDownloaded = 0
+        case downloading = 1
+        case downloaded = 2
+        case downloadFailed = 3
+    }
+
+    public var downloadState: DownloadState {
+        get {
+            return DownloadState(rawValue: self.downloadState_)!
+        }
+
+        set {
+            self.downloadState_ = newValue.rawValue
+        }
+    }
+}
+
+public extension File {
+    public enum UploadState: Int64 {
+        case uploading = 0
+        case uploaded = 1
+        case uploadError = 2
+    }
+
+    public var uploadState: UploadState {
+        get {
+            return UploadState(rawValue: self.uploadState_)!
+        }
+        set {
+            self.uploadState_ = newValue.rawValue
+        }
+    }
+}
+
 extension File {
+
+    static func createLocal(context: NSManagedObjectContext, id: String, name: String, parentFolder: File?, isDirectory: Bool) -> File {
+        return createLocal(context: context, id: id, name: name, parentFolder: parentFolder, isDirectory: isDirectory, remoteURL: nil)
+    }
+
+    static func createLocal(context: NSManagedObjectContext, id: String, name: String, parentFolder: File?, isDirectory: Bool, remoteURL: String?) -> File {
+        let file = File(context: context)
+        file.id = id
+
+        file.remoteURL_ = remoteURL
+        file.thumbnailRemoteURL_ = nil
+
+        file.name = name
+        file.isDirectory = isDirectory
+        file.parentDirectory = parentFolder
+
+        file.permissions = .read
+        file.uploadState = .uploaded
+        file.downloadState = . downloaded
+
+        return file
+
+    }
 
     static func createOrUpdate(inContext context: NSManagedObjectContext, parentFolder: File, isDirectory: Bool, data: MarshaledObject) throws -> File {
         let name: String = try data.value(for: "name")
-        let path = parentFolder.url.appendingPathComponent(name, isDirectory: isDirectory)
+        let id: String = try data.value(for: "_id")
 
         let fetchRequest = NSFetchRequest<File>(entityName: "File")
-        let pathPredicate = NSPredicate(format: "currentPath == %@", path.absoluteString)
+        let pathPredicate = NSPredicate(format: "id == %@", id)
         let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
         fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [pathPredicate, parentFolderPredicate])
 
         let result = try context.fetch(fetchRequest)
-        let file = result.first ?? File(context: context)
         if result.count > 1 {
             throw SCError.database("Found more than one result for \(fetchRequest)")
         }
+        let file = result.first ?? File(context: context)
 
-        file.id = try data.value(for: "_id")
+        file.id = id
+
+        let allowedCharacters = CharacterSet.whitespacesAndNewlines.inverted
+
+        file.remoteURL_ = (try data.value(for: "key") as String?)?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
+        file.thumbnailRemoteURL_ = (try data.value(for: "thumbnail") as String?)?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
+
         file.name = name
         file.isDirectory = isDirectory
-        file.currentPath = path.absoluteString
         file.mimeType = try? data.value(for: "type")
-        if let size = try? data.value(for: "size") as Int64 {
-            file.size = size as NSNumber?
-        }
+        file.size = try data.value(for: "size")
+
+        file.downloadState = isDirectory ? .downloaded : .notDownloaded
+        file.uploadState = .uploaded
 
         file.parentDirectory = parentFolder
 
@@ -104,7 +173,6 @@ extension File {
                 userId == Globals.account?.userId { // find permission for current user
                 return true
             }
-
             return false
         }
 
@@ -119,23 +187,37 @@ extension File {
 // MARK: computed properties
 extension File {
 
-    public var url: URL {
-        get {
-            return URL(string: currentPath)!
-        }
-        set {
-            self.currentPath = newValue.absoluteString
-        }
+    static var localContainerURL: URL {
+        //TODO: replace with fileprovidermanager when implemented
+
+//        return NSURL.fileURL(withPath: NSTemporaryDirectory()).appendingPathComponent("UserFileData")
+        return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.org.schulcloud")!.appendingPathComponent("File Provider Storage")
+        /*
+         if #available(iOS 11.0, *) {
+            return NSFileProviderManager.default.documentStorageURL
+         } else {
+            return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.org.schulcloud")!
+         }
+ */
     }
 
-    public var cacheUrl: URL? {
-        get {
-            guard let urlString = cacheURL_ else { return nil }
-            return URL(string: urlString)!
-        }
-        set {
-            cacheURL_ = newValue?.absoluteString
-        }
+    public var fileLocation: URL? {
+        guard self.downloadState == .downloaded else { return nil }
+        return self.localURL
+    }
+
+    public var localURL: URL {
+        return File.localContainerURL.appendingPathComponent("\(self.id)__\(self.name.addingPercentEncoding(withAllowedCharacters: CharacterSet.whitespacesAndNewlines.inverted)!)")
+    }
+
+    public var remoteURL: URL? {
+        guard let urlString = self.remoteURL_ else { return nil }
+        return URL(string: urlString)!
+    }
+
+    public var thumbnailRemoteURL: URL? {
+        guard let urlString = self.thumbnailRemoteURL_ else { return nil }
+        return URL(string: urlString)!
     }
 
     public var detail: String? {
@@ -143,10 +225,6 @@ extension File {
             return nil
         }
 
-        guard let size = self.size else {
-            return nil
-        }
-
-        return ByteCountFormatter.string(fromByteCount: Int64(truncating: size), countStyle: .binary)
+        return ByteCountFormatter.string(fromByteCount: self.size, countStyle: .binary)
     }
 }
