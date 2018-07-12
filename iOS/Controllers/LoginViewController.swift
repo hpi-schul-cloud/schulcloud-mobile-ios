@@ -46,24 +46,40 @@ class LoginViewController: UIViewController {
     }
 
     @IBAction func login() {
-        self.loginButton.startAnimating()
-        let username = usernameInput.text
-        let password = passwordInput.text
+        guard let username = self.usernameInput.text, let password = self.passwordInput.text else {
+            self.showLoginError()
+            return
+        }
 
         UserDefaults.standard.set(username, forKey: LoginViewController.usernameKey)
+        self.login(username: username, password: password)
+    }
 
+    @IBAction func loginAsTestStudent() {
+        self.login(account: Brand.default.testAccounts.student)
+    }
+
+    @IBAction func loginAsTestTeacher() {
+        self.login(account: Brand.default.testAccounts.teacher)
+    }
+
+    private func login(account: TestAccount) {
+        self.login(username: account.username, password: account.password)
+    }
+
+    private func login(username: String, password: String) {
+        self.loginButton.startAnimating()
         LoginHelper.login(username: username, password: password).onSuccess {
             self.performSegue(withIdentifier: "loginDidSucceed", sender: nil)
-        }.onFailure { error in
+        }.onFailure { _ in
             DispatchQueue.main.async {
                 self.loginButton.stopAnimating()
-                self.show(error: error)
+                self.showLoginError()
             }
         }
     }
 
-    func show(error: SCError) {
-        log.error(error.description)
+    func showLoginError() {
         self.usernameInput.shake()
         self.passwordInput.shake()
     }
@@ -83,7 +99,7 @@ class LoginViewController: UIViewController {
 
         let viewHeight = self.view.frame.size.height - contentInset
 
-        let overlappingOffset = 0.5 * viewHeight - keyboardHeight - 0.5 * self.inputContainer.frame.size.height - 8.0
+        let overlappingOffset = 0.5 * viewHeight - keyboardHeight - 0.5 * self.inputContainer.frame.size.height
         self.centerInputConstraints.constant = min(overlappingOffset, 0)  // we only want to move the container upwards
 
         UIView.animate(withDuration: 0.25) {

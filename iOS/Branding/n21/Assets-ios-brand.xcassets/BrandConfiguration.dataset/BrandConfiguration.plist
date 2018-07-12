@@ -18,5 +18,22 @@
 		<key>backend</key>
 		<string>https://schul-cloud.org:8080/</string>
 	</dict>
+	<key>testAccounts</key>
+	<dict>
+		<key>student</key>
+		<dict>
+			<key>username</key>
+			<string>demo-schueler@schul-cloud.org</string>
+			<key>password</key>
+			<string>schulcloud</string>
+		</dict>
+		<key>teacher</key>
+		<dict>
+			<key>username</key>
+			<string>demo-lehrer@schul-cloud.org</string>
+			<key>password</key>
+			<string>schulcloud</string>
+		</dict>
+	</dict>
 </dict>
 </plist>
