@@ -1,1 +1,1 @@
-schulcloud/GoogleService-Info-Release.plist filter=git-crypt diff=git-crypt
+**/GoogleService-Info-Release.plist filter=git-crypt diff=git-crypt
