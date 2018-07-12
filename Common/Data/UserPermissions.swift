@@ -16,7 +16,7 @@ public struct UserPermissions: OptionSet {
     }
 
     init(array: [String]) {
-        self = array.flatMap { UserPermissions(str: $0) }.reduce(UserPermissions.none) { acc, permission -> UserPermissions in
+        self = array.compactMap { UserPermissions(str: $0) }.reduce(UserPermissions.none) { acc, permission -> UserPermissions in
             return acc.union(permission)
         }
     }

@@ -20,7 +20,7 @@ class SettingsViewController: UITableViewController {
         didSet {
             if self.user != oldValue {
                 DispatchQueue.main.async {
-                    let names = [self.user?.firstName, self.user?.lastName].flatMap { $0 }
+                    let names = [self.user?.firstName, self.user?.lastName].compactMap { $0 }
                     self.userNameLabel.text = names.joined(separator: " ")
                 }
             }

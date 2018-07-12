@@ -29,7 +29,7 @@ public class CoreDataObserver {
 
         if let inserts = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject>, !inserts.isEmpty {
             if CalendarEventHelper.EventKitSettings.current.shouldSynchonize {
-                let insertedEvents = inserts.flatMap { $0 as? EventData }
+                let insertedEvents = inserts.compactMap { $0 as? EventData }
                 if !insertedEvents.isEmpty {
                     CalendarEventHelper.requestCalendarPermission().andThen { _ in
                         if let calendar = CalendarEventHelper.fetchCalendar() ?? CalendarEventHelper.createCalendar() {
@@ -39,7 +39,7 @@ public class CoreDataObserver {
                 }
             }
 
-            let courses = inserts.flatMap { $0 as? Course }
+            let courses = inserts.compactMap { $0 as? Course }
             if !courses.isEmpty {
                 courseChanges[NSInsertedObjectsKey] = courses.map { (id: $0.id, name: $0.name) }
             }
@@ -47,7 +47,7 @@ public class CoreDataObserver {
 
         if let updates = userInfo[NSUpdatedObjectsKey] as? Set<NSManagedObject>, !updates.isEmpty {
             if CalendarEventHelper.EventKitSettings.current.shouldSynchonize {
-                let updatedEvents = updates.flatMap { $0 as? EventData }
+                let updatedEvents = updates.compactMap { $0 as? EventData }
                 if !updatedEvents.isEmpty {
                     CalendarEventHelper.requestCalendarPermission().andThen { _ in
                         if let calendar = CalendarEventHelper.fetchCalendar() ?? CalendarEventHelper.createCalendar() {
@@ -57,7 +57,7 @@ public class CoreDataObserver {
                 }
             }
 
-            let courses = updates.flatMap { $0 as? Course }
+            let courses = updates.compactMap { $0 as? Course }
             if !courses.isEmpty {
                 courseChanges[NSUpdatedObjectsKey] = courses.map { (id: $0.id, name: $0.name) }
             }
@@ -65,7 +65,7 @@ public class CoreDataObserver {
 
         if let deletes = userInfo[NSDeletedObjectsKey] as? Set<NSManagedObject>, !deletes.isEmpty {
             if CalendarEventHelper.EventKitSettings.current.shouldSynchonize {
-                let deletedEvents = deletes.flatMap { $0 as? EventData }
+                let deletedEvents = deletes.compactMap { $0 as? EventData }
                 if !deletedEvents.isEmpty {
                     CalendarEventHelper.requestCalendarPermission().andThen { _ in
                         try? CalendarEventHelper.remove(events: deletedEvents.map { $0.calendarEvent })
@@ -73,7 +73,7 @@ public class CoreDataObserver {
                 }
             }
 
-            let courses = deletes.flatMap { $0 as? Course }
+            let courses = deletes.compactMap { $0 as? Course }
             if !courses.isEmpty {
                 courseChanges[NSDeletedObjectsKey] = courses.map { (id: $0.id, name: $0.name) }
             }
@@ -81,7 +81,7 @@ public class CoreDataObserver {
 
         if let refreshed = userInfo[NSRefreshedObjectsKey] as? Set<NSManagedObject>, !refreshed.isEmpty {
             if CalendarEventHelper.EventKitSettings.current.shouldSynchonize {
-                let refreshedEvents = refreshed.flatMap { $0 as? EventData }
+                let refreshedEvents = refreshed.compactMap { $0 as? EventData }
                 if !refreshedEvents.isEmpty {
                     CalendarEventHelper.requestCalendarPermission().andThen { _ in
                         if let calendar = CalendarEventHelper.fetchCalendar() ?? CalendarEventHelper.createCalendar() {
@@ -91,7 +91,7 @@ public class CoreDataObserver {
                 }
             }
 
-            let courses = refreshed.flatMap { $0 as? Course }
+            let courses = refreshed.compactMap { $0 as? Course }
             if !courses.isEmpty {
                 courseChanges[NSRefreshedObjectsKey] = courses.map { (id: $0.id, name: $0.name) }
             }
