@@ -44,7 +44,4 @@ class NotificationViewController: UITableViewController {
         return UITableViewAutomaticDimension
     }
 
-    @IBAction func tappedDoneButton(_ sender: UIBarButtonItem) {
-        self.dismiss(animated: true)
-    }
 }
