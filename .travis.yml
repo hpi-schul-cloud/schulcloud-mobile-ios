@@ -7,8 +7,8 @@ xcode_sdk: iphonesimulator
 env:
   matrix:
     - LINT=1
-    - TEST=1 scheme="Common"
-    - TEST=1 scheme="schulcloud"
+    - TEST=1 SCHEME="Common"
+    - TEST=1 SCHEME="schulcloud"
 
 install:
   - bundle install --without documentation
