@@ -38,16 +38,6 @@
                ReferencedContainer = "container:schulcloud.xcodeproj">
             </BuildableReference>
          </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C3A5A9201EBCC17600825DBF"
-               BuildableName = "iOS-UITests.xctest"
-               BlueprintName = "iOS-UITests"
-               ReferencedContainer = "container:schulcloud.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

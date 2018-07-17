@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		197EC25ADE53536DC7304C1A /* Pods_Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7453D6B0608647AAC1BEDAB /* Pods_Common.framework */; };
 		3E64DABF207A8D6F5DB59E59 /* Pods_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D32E014BC215A558A2D90EA8 /* Pods_iOS.framework */; };
-		502410482046B0740033D75A /* CalendarEventHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502410472046B0740033D75A /* CalendarEventHelperTests.swift */; };
 		503A5EFB1F3DB86C00A7695B /* TabSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EF91F3DB86C00A7695B /* TabSettings.storyboard */; };
 		503A5EFD1F3DC5DC00A7695B /* TabCourses.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */; };
 		503A5EFF1F3DC6A400A7695B /* TabFiles.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */; };
@@ -17,9 +16,10 @@
 		507B78841F7BA2DB0071A0C2 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507B78831F7BA2DB0071A0C2 /* SnapshotHelper.swift */; };
 		507B78851F7BA32E0071A0C2 /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 507B78821F7BA2D00071A0C2 /* Credentials.plist */; };
 		507B78871F7BAF440071A0C2 /* XCUIElement+clear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507B78861F7BAF440071A0C2 /* XCUIElement+clear.swift */; };
-		50C9C79320FDD25D00AC914F /* CommonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9C79220FDD25D00AC914F /* CommonTests.swift */; };
 		50C9C79520FDD25D00AC914F /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE0A0B20D2AA7C00B0C2CE /* Common.framework */; };
 		50C9C79D20FDED0C00AC914F /* Common.h in Headers */ = {isa = PBXBuildFile; fileRef = CEEE0A0D20D2AA7C00B0C2CE /* Common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		50C9C7A620FE147E00AC914F /* CalendarEventHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502410472046B0740033D75A /* CalendarEventHelperTests.swift */; };
+		50C9C7A720FE148300AC914F /* iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9C79220FDD25D00AC914F /* iOSTests.swift */; };
 		50CB76E920F613860056E262 /* TestAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB76E820F613850056E262 /* TestAccount.swift */; };
 		C3418B671ED335F400280E62 /* PreviewTransitionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */; };
 		C3418B681ED335F400280E62 /* WebviewPreviewViewContoller.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */; };
@@ -203,7 +203,7 @@
 		50B44D83203AAEE1009DC2D3 /* Homework.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Homework.swift; sourceTree = "<group>"; };
 		50B44D84203AAEE1009DC2D3 /* NewsArticle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsArticle.swift; sourceTree = "<group>"; };
 		50C9C79020FDD25D00AC914F /* Common-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Common-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		50C9C79220FDD25D00AC914F /* CommonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTests.swift; sourceTree = "<group>"; };
+		50C9C79220FDD25D00AC914F /* iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSTests.swift; sourceTree = "<group>"; };
 		50C9C79420FDD25D00AC914F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50CB76E820F613850056E262 /* TestAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAccount.swift; sourceTree = "<group>"; };
 		50D6432C1F8E09E200A89331 /* HomeworkOverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkOverviewViewController.swift; sourceTree = "<group>"; };
@@ -379,8 +379,8 @@
 		5024103E2046B01A0033D75A /* iOS-Tests */ = {
 			isa = PBXGroup;
 			children = (
+				50C9C79220FDD25D00AC914F /* iOSTests.swift */,
 				502410412046B01A0033D75A /* Info.plist */,
-				502410472046B0740033D75A /* CalendarEventHelperTests.swift */,
 			);
 			path = "iOS-Tests";
 			sourceTree = "<group>";
@@ -454,7 +454,7 @@
 		50C9C79120FDD25D00AC914F /* Common-Tests */ = {
 			isa = PBXGroup;
 			children = (
-				50C9C79220FDD25D00AC914F /* CommonTests.swift */,
+				502410472046B0740033D75A /* CalendarEventHelperTests.swift */,
 				50C9C79420FDD25D00AC914F /* Info.plist */,
 			);
 			path = "Common-Tests";
@@ -1173,7 +1173,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				502410482046B0740033D75A /* CalendarEventHelperTests.swift in Sources */,
+				50C9C7A720FE148300AC914F /* iOSTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1181,7 +1181,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50C9C79320FDD25D00AC914F /* CommonTests.swift in Sources */,
+				50C9C7A620FE147E00AC914F /* CalendarEventHelperTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1357,10 +1357,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WP53SSE8S6;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = schulcloudTests/Info.plist;
+				INFOPLIST_FILE = "iOS-Tests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.schulcloud.ios-tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1385,10 +1385,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WP53SSE8S6;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = schulcloudTests/Info.plist;
+				INFOPLIST_FILE = "iOS-Tests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.schulcloud.ios-tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1804,9 +1804,9 @@
 				DEVELOPMENT_TEAM = WP53SSE8S6;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/**";
-				INFOPLIST_FILE = schulcloudUITests/Info.plist;
+				INFOPLIST_FILE = "iOS-UITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
-				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.schulcloud.ios-uitests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
@@ -1821,9 +1821,9 @@
 				DEVELOPMENT_TEAM = WP53SSE8S6;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/**";
-				INFOPLIST_FILE = schulcloudUITests/Info.plist;
+				INFOPLIST_FILE = "iOS-UITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
-				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.schulcloud.ios-uitests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
@@ -2064,10 +2064,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WP53SSE8S6;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = schulcloudTests/Info.plist;
+				INFOPLIST_FILE = "iOS-Tests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.schulcloud.ios-tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2082,9 +2082,9 @@
 				DEVELOPMENT_TEAM = WP53SSE8S6;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/**";
-				INFOPLIST_FILE = schulcloudUITests/Info.plist;
+				INFOPLIST_FILE = "iOS-UITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
-				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.schulcloud.ios-uitests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
@@ -2257,10 +2257,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WP53SSE8S6;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = schulcloudTests/Info.plist;
+				INFOPLIST_FILE = "iOS-Tests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.schulcloud.ios-tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2275,9 +2275,9 @@
 				DEVELOPMENT_TEAM = WP53SSE8S6;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/**";
-				INFOPLIST_FILE = schulcloudUITests/Info.plist;
+				INFOPLIST_FILE = "iOS-UITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
-				PRODUCT_BUNDLE_IDENTIFIER = org.schulcloud.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.schulcloud.ios-uitests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
