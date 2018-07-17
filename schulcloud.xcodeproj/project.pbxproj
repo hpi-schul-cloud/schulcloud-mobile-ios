@@ -14,7 +14,6 @@
 		503A5EFF1F3DC6A400A7695B /* TabFiles.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */; };
 		503A5F011F3DC6C700A7695B /* TabDashboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5F001F3DC6C700A7695B /* TabDashboard.storyboard */; };
 		507B78841F7BA2DB0071A0C2 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507B78831F7BA2DB0071A0C2 /* SnapshotHelper.swift */; };
-		507B78851F7BA32E0071A0C2 /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 507B78821F7BA2D00071A0C2 /* Credentials.plist */; };
 		507B78871F7BAF440071A0C2 /* XCUIElement+clear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507B78861F7BAF440071A0C2 /* XCUIElement+clear.swift */; };
 		50C9C79520FDD25D00AC914F /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE0A0B20D2AA7C00B0C2CE /* Common.framework */; };
 		50C9C79D20FDED0C00AC914F /* Common.h in Headers */ = {isa = PBXBuildFile; fileRef = CEEE0A0D20D2AA7C00B0C2CE /* Common.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -185,7 +184,6 @@
 		50604583206BA401009569D1 /* schulcloud 1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "schulcloud 1.xcdatamodel"; sourceTree = "<group>"; };
 		506D146E1F56F81D00AA5613 /* UIView+shake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+shake.swift"; sourceTree = "<group>"; };
 		507684BF1F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkDetailViewController.swift; sourceTree = "<group>"; };
-		507B78821F7BA2D00071A0C2 /* Credentials.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Credentials.plist; sourceTree = "<group>"; };
 		507B78831F7BA2DB0071A0C2 /* SnapshotHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = "iOS-UITests/SnapshotHelper.swift"; sourceTree = SOURCE_ROOT; };
 		507B78861F7BAF440071A0C2 /* XCUIElement+clear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+clear.swift"; sourceTree = "<group>"; };
 		5083AB56203C5D9D002E6E47 /* CoreDataObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataObserver.swift; sourceTree = "<group>"; };
@@ -544,7 +542,6 @@
 				C3A5A9251EBCC17600825DBF /* Snapshots.swift */,
 				507B78861F7BAF440071A0C2 /* XCUIElement+clear.swift */,
 				C3A5A9271EBCC17600825DBF /* Info.plist */,
-				507B78821F7BA2D00071A0C2 /* Credentials.plist */,
 			);
 			path = "iOS-UITests";
 			sourceTree = "<group>";
@@ -954,7 +951,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				507B78851F7BA32E0071A0C2 /* Credentials.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1800,34 +1796,32 @@
 		C3A5A9311EBCC17600825DBF /* schulcloud-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = WP53SSE8S6;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/**";
 				INFOPLIST_FILE = "iOS-UITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.schulcloud.ios-uitests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
-				TEST_TARGET_NAME = schulcloud;
+				TEST_TARGET_NAME = iOS;
 			};
 			name = "schulcloud-Debug";
 		};
 		C3A5A9321EBCC17600825DBF /* schulcloud-Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = WP53SSE8S6;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/**";
 				INFOPLIST_FILE = "iOS-UITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.schulcloud.ios-uitests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
-				TEST_TARGET_NAME = schulcloud;
+				TEST_TARGET_NAME = iOS;
 			};
 			name = "schulcloud-Release";
 		};
@@ -2078,17 +2072,16 @@
 		CE1EAEA420E5179A00C66DDD /* n21-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = WP53SSE8S6;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/**";
 				INFOPLIST_FILE = "iOS-UITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.schulcloud.ios-uitests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
-				TEST_TARGET_NAME = schulcloud;
+				TEST_TARGET_NAME = iOS;
 			};
 			name = "n21-Debug";
 		};
@@ -2271,17 +2264,16 @@
 		CE1EAEA920E517AA00C66DDD /* n21-Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = WP53SSE8S6;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/**";
 				INFOPLIST_FILE = "iOS-UITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.schulcloud.ios-uitests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
-				TEST_TARGET_NAME = schulcloud;
+				TEST_TARGET_NAME = iOS;
 			};
 			name = "n21-Release";
 		};

@@ -10,24 +10,15 @@ class Snapshots: XCTestCase {
     override func setUp() {
         super.setUp()
 
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
         // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
+
         // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
         let app = XCUIApplication()
         setupSnapshot(app)
         app.launch()
 
         XCUIDevice.shared.orientation = UIDevice.current.userInterfaceIdiom == .pad ? .landscapeLeft : .portrait
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run.
-        // The setUp method is a good place to do this.
-    }
-
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
     }
 
     func testLaunch() {
@@ -41,14 +32,6 @@ class Snapshots: XCTestCase {
     }
 
     func testSnapshots() {
-        guard let filePath = Bundle(for: type(of: self)).path(forResource: "Credentials", ofType: "plist"),
-            let plist = NSDictionary(contentsOfFile: filePath),
-            let username = plist["UI_TEST_USERNAME"] as? String,
-            let password = plist["UI_TEST_PASSWORD"] as? String else {
-            XCTFail("No username and password provided!")
-            return
-        }
-
         let alertDismissals: [String: String] = [
             // english
             "“Schul-Cloud” Would Like to Access Your Calendar": "OK",
@@ -58,6 +41,7 @@ class Snapshots: XCTestCase {
             "“Schul-Cloud” möchte auf deinen Kalendar zugreifen": "OK",
             "Ein lokaler Schul-Cloud Kalendar existiert bereits.": "Verwerfen",
         ]
+
         for (labelText, buttonTitle) in alertDismissals {
             addUIInterruptionMonitor(withDescription: description) { alert -> Bool in
                 if alert.label == labelText {
@@ -70,15 +54,8 @@ class Snapshots: XCTestCase {
         }
 
         let app = XCUIApplication()
-        let emailAdresseOderNutzernameTextField = app.textFields["Email-Adresse oder Nutzername"]
-        emailAdresseOderNutzernameTextField.tap()
-        emailAdresseOderNutzernameTextField.clearAndEnter(text: username)
 
-        let passwortSecureTextField = app.secureTextFields["Passwort"]
-        passwortSecureTextField.tap()
-        passwortSecureTextField.typeText(password)
-
-        let anmeldenButton = app.buttons["Anmelden"]
+        let anmeldenButton = app.buttons["Als Schüler einloggen"]
         anmeldenButton.tap()
 
         let foundText = app.staticTexts["offene Aufgaben"].waitForExistence(timeout: 120)
