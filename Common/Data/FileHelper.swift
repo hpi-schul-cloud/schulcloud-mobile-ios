@@ -11,11 +11,10 @@ import Marshal
 
 public class FileSync: NSObject {
 
-
     static public var `default`: FileSync = FileSync()
 
     public typealias ProgressHandler = (Float) -> Void
-    
+
     fileprivate var backgroundSession: URLSession!
     fileprivate var foregroundSession: URLSession!
     fileprivate let metadataSession: URLSession
@@ -24,16 +23,18 @@ public class FileSync: NSObject {
     var progressHandlers: [Int: ProgressHandler] = [:]
 
     public override init() {
-        let configuration = URLSessionConfiguration.background(withIdentifier: "org.schulcloud.file.background")
+
         metadataSession = URLSession(configuration: URLSessionConfiguration.default)
 
         super.init()
 
-        foregroundSession = URLSession(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: OperationQueue.main)
+        let configuration = URLSessionConfiguration.background(withIdentifier: "org.schulcloud.file.background")
         backgroundSession = URLSession(configuration: configuration, delegate: self, delegateQueue: OperationQueue.main)
+        foregroundSession = URLSession(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: OperationQueue.main)
     }
 
     deinit {
+        backgroundSession.finishTasksAndInvalidate()
         metadataSession.invalidateAndCancel()
         foregroundSession.invalidateAndCancel()
     }
@@ -84,18 +85,20 @@ public class FileSync: NSObject {
         return promise.future
     }
 
-    public func download(_ file: File, progressHandler: @escaping ProgressHandler ) -> Future<URL, SCError> {
+    public func download(_ file: File, background: Bool = false, onDownloadInitialised: @escaping () -> (), progressHandler: @escaping ProgressHandler ) -> Future<URL, SCError> {
         let localURL = file.localURL
+        let downloadSession: URLSession = background ? self.backgroundSession : self.foregroundSession
 
         guard !FileManager.default.fileExists(atPath: file.localURL.path) else { return Future<URL, SCError>(value: localURL) }
-        return signedURL(for: file).flatMap { url in
-            return self.download(signedURL: url, moveTo: localURL, progressHandler: progressHandler)
+        return signedURL(for: file).flatMap { url -> Future<URL, SCError> in
+            onDownloadInitialised()
+            return self.download(signedURL: url, moveTo: localURL, downloadSession: downloadSession, progressHandler: progressHandler)
         }
     }
 
-    fileprivate func download(signedURL: URL, moveTo localURL: URL, progressHandler: @escaping ProgressHandler) -> Future<URL, SCError> {
+    fileprivate func download(signedURL: URL, moveTo localURL: URL, downloadSession: URLSession, progressHandler: @escaping ProgressHandler) -> Future<URL, SCError> {
         let promise = Promise<URL, SCError>()
-        let task = foregroundSession.downloadTask(with: signedURL)
+        let task = downloadSession.downloadTask(with: signedURL)
         task.taskDescription = localURL.absoluteString
         task.resume()
         runningTask[task.taskIdentifier] = promise
@@ -315,9 +318,9 @@ public class FileHelper {
                 }
 
                 // remove deleted files or folders
-                let foundPaths: [String] = [] // createdFiles.map { $0.remoteURL.absoluteString } + createdFolders.map { $0.remoteURL.absoluteString }
+                let currentItemsIDs: [String] =  createdFiles.map { $0.id } + createdFolders.map { $0.id }
                 let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
-                let notOnServerPredicate = NSPredicate(format: "NOT (id IN %@)", foundPaths)
+                let notOnServerPredicate = NSPredicate(format: "NOT (id IN %@)", currentItemsIDs)
                 let fetchRequest = NSFetchRequest<File>(entityName: "File")
                 fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [notOnServerPredicate, parentFolderPredicate])
 

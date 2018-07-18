@@ -40,12 +40,17 @@ class LoadingViewController: UIViewController {
     }
 
     func startDownload() {
-        fileSync.download(file) { progress in
+        fileSync.download(file, onDownloadInitialised: {
+            DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
+                self.activityIndicator.isHidden = true
+                self.progressView.isHidden = false
+            }
+        }, progressHandler: { progress in
             DispatchQueue.main.async {
                 self.progressView.setProgress(progress, animated: true)
             }
-        }.onSuccess { url in
-
+        }).onSuccess { url in
             DispatchQueue.main.async {
                 self.showFile()
             }
@@ -62,33 +67,28 @@ class LoadingViewController: UIViewController {
         controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
         controller.navigationItem.leftItemsSupplementBackButton = true
 
-        DispatchQueue.main.async {
-            if let nav = self.navigationController {
-                // TODO: add as subview
-                var viewControllers = nav.viewControllers
-                viewControllers.removeLast(1)
-                viewControllers.append(controller)
-                nav.setViewControllers(viewControllers, animated: false)
-            } else {
-                self.present(controller, animated: false, completion: nil)
-            }
+        if let nav = self.navigationController {
+            // TODO: add as subview
+            var viewControllers = nav.viewControllers
+            viewControllers.removeLast(1)
+            viewControllers.append(controller)
+            nav.setViewControllers(viewControllers, animated: false)
+        } else {
+            self.present(controller, animated: false, completion: nil)
+        }
 
-            if let ql = controller as? QLPreviewController {
-                // fix for dataSource magically disappearing because hey let's store it in a weak variable in QLPreviewController
-                ql.dataSource = previewManager
-                ql.reloadData()
-            }
+        if let ql = controller as? QLPreviewController {
+            // fix for dataSource magically disappearing because hey let's store it in a weak variable in QLPreviewController
+            ql.dataSource = previewManager
+            ql.reloadData()
         }
     }
 
     func show(error: Error) {
-        DispatchQueue.main.async {
-            self.cancelButton.isHidden = true
-            self.progressView.isHidden = true
-            self.errorLabel.text = error.localizedDescription
-            self.errorLabel.isHidden = false
-            self.activityIndicator.stopAnimating()
-        }
+        self.cancelButton.isHidden = true
+        self.progressView.isHidden = true
+        self.errorLabel.text = error.localizedDescription
+        self.errorLabel.isHidden = false
+        self.activityIndicator.stopAnimating()
     }
-
 }

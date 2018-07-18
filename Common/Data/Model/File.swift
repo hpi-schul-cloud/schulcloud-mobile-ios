@@ -190,7 +190,6 @@ extension File {
     static var localContainerURL: URL {
         //TODO: replace with fileprovidermanager when implemented
 
-//        return NSURL.fileURL(withPath: NSTemporaryDirectory()).appendingPathComponent("UserFileData")
         return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.org.schulcloud")!.appendingPathComponent("File Provider Storage")
         /*
          if #available(iOS 11.0, *) {
