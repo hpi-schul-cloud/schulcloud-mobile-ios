@@ -31,6 +31,7 @@ disabled_rules:
 - explicit_enum_raw_value
 
 included:
+- Common
 - iOS
 - iOSTests
 - iOSUITests
