@@ -735,8 +735,8 @@
 				C3A5A8FD1EBCC17600825DBF /* Resources */,
 				50F39850202C7E9200ADAE5D /* Copy GoogleServices-Info.plist */,
 				DFB669BB58F24B67E05FBDAF /* [CP] Embed Pods Frameworks */,
-				50B44D7B203A0377009DC2D3 /* Clear Build number */,
 				CEEE0A1320D2AA7C00B0C2CE /* Embed Frameworks */,
+				50B44D7B203A0377009DC2D3 /* Clear Build number */,
 			);
 			buildRules = (
 			);
@@ -907,7 +907,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "git=`sh /etc/profile; which git`\nmerge_base=`$git merge-base master HEAD`\nbranch_name=`$git symbolic-ref HEAD | sed -e 's,.*/\\\\(.*\\\\),\\\\1,'`\ncommit_count_merge_base=`$git rev-list --count $merge_base`\ncommit_count_diff_head=`$git rev-list --count $merge_base..HEAD`\n\nbuild_number=$commit_count_merge_base\nif [ \"$branch_name\" != \"master\" ]; then\n    build_number=\"$build_number.$commit_count_diff_head\"\n    if [ \"$branch_name\" != \"dev\" ]; then\n        build_number=\"$build_number.0\"\n    fi\nfi\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $build_number\" \"${PRODUCT_SETTINGS_PATH}\"\n\necho \"Updated build number in ${PRODUCT_SETTINGS_PATH} to $build_number\"";
+			shellScript = "$SRCROOT/Build\\ Phases/set-build-number.sh";
 		};
 		50B44D7B203A0377009DC2D3 /* Clear Build number */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -921,7 +921,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion 0\" \"${PRODUCT_SETTINGS_PATH}\"\necho \"Cleared build number in ${PRODUCT_SETTINGS_PATH}\"";
+			shellScript = "$SRCROOT/Build\\ Phases/clear-build-number.sh";
 		};
 		50F39850202C7E9200ADAE5D /* Copy GoogleServices-Info.plist */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -935,7 +935,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ \"${CONFIGURATION}\" == *Release ]]; then\n    suffix=\"Release\"\nelse\n    suffix=\"Debug\"\nfi\n\necho \"Using GoogleService-Info.plist for ${suffix} mode\"\ncp \"${PROJECT_DIR}/iOS/Branding/${PRODUCT_NAME}/GoogleService-Info-${suffix}.plist\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\"";
+			shellScript = "$SRCROOT/Build\\ Phases/copy-google-services-plist.sh";
 		};
 		92AF1094A1614F30A8A8E107 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -985,7 +985,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -rf ${PROJECT_DIR}/iOS/Assets-ios-brand.generated.xcassets\ncp -R ${PROJECT_DIR}/iOS/Branding/${PRODUCT_NAME}/Assets-ios-brand.xcassets ${PROJECT_DIR}/iOS/Assets-ios-brand.generated.xcassets";
+			shellScript = "$SRCROOT/Build\\ Phases/copy-brand-assets.sh";
 		};
 		DFB669BB58F24B67E05FBDAF /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

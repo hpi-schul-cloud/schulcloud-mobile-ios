@@ -1,5 +1,5 @@
 language: objective-c
-osx_image: xcode9.2
+osx_image: xcode9.4
 xcode_workspace: schulcloud.xcworkspace
 xcode_scheme: schulcloud
 xcode_sdk: iphonesimulator
@@ -19,8 +19,8 @@ install:
 
 before_script:
   - cp iOSUITests/Credentials.plist.dummy iOSUITests/Credentials.plist
-  - defaults write schulcloudUITests/Credentials UI_TEST_USERNAME $UI_TEST_USERNAME
-  - defaults write schulcloudUITests/Credentials UI_TEST_PASSWORD $UI_TEST_PASSWORD
+  - defaults write iOSUITests/Credentials UI_TEST_USERNAME $UI_TEST_USERNAME
+  - defaults write iOSUITests/Credentials UI_TEST_PASSWORD $UI_TEST_PASSWORD
 
 script:
   - set -o pipefail

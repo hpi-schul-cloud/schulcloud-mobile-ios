@@ -70,7 +70,7 @@ extension SchulcloudSyncStrategy {
 
     func findIncludedObjects(forKey key: JsonKey, ofObject object: ResourceData, with context: SynchronizationContext) -> FindIncludedObjectsResult {
         if let resourceData = try? object.value(for: key) as [JsonDictionary] {
-            let idsAndObjects: [(id: String, object: ResourceData)] = resourceData.flatMap {
+            let idsAndObjects: [(id: String, object: ResourceData)] = resourceData.compactMap {
                 guard let resourceId = try? $0.value(for: self.resourceKeyAttribute) as String else { return nil }
                 return (id: resourceId, object: $0)
             }

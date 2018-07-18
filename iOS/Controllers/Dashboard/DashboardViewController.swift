@@ -123,6 +123,11 @@ public final class DashboardViewController: UICollectionViewController {
             detailNewsVC.newsArticle = newsArticle
         }
     }
+
+    @IBAction func tappedOnNotificationButton(_ sender: UIBarButtonItem) {
+        self.performSegue(withIdentifier: "showNotifications", sender: self)
+    }
+
 }
 
 extension DashboardViewController {

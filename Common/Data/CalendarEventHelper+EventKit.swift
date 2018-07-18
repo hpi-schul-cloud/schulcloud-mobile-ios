@@ -151,9 +151,9 @@ extension CalendarEventHelper {
     }
 
     public static func remove(events: [CalendarEvent]) throws {
-        let eventsToDelete = events.flatMap {
+        let eventsToDelete = events.compactMap {
             return $0.eventKitID
-        }.flatMap {
+        }.compactMap {
             return eventStore.event(withIdentifier: $0)
         }
 

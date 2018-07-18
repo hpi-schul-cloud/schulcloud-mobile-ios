@@ -246,7 +246,7 @@ extension Array where Array.Element == CalendarEvent {
             }
 
             return nil
-        }.flatMap { $0 }.sorted { event1, event2 -> Bool in
+        }.compactMap { $0 }.sorted { event1, event2 -> Bool in
             event1.start < event2.start
         }
     }
