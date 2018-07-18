@@ -44,36 +44,36 @@ public final class DashboardViewController: UICollectionViewController {
         guard let currentUser = Globals.currentUser else { return }
 
         func makeNoPermissionController(missingPermission: UserPermissions) -> DashboardNoPermissionViewController {
-            let vc: DashboardNoPermissionViewController = self.buildFromStoryboard(withIdentifier: "NoPermissionViewController")
-            vc.view.translatesAutoresizingMaskIntoConstraints = false
-            self.addChildViewController(vc)
-            vc.missingPermission = missingPermission
-            return vc
+            let viewController: DashboardNoPermissionViewController = self.buildFromStoryboard(withIdentifier: "NoPermissionViewController")
+            viewController.view.translatesAutoresizingMaskIntoConstraints = false
+            self.addChildViewController(viewController)
+            viewController.missingPermission = missingPermission
+            return viewController
         }
 
-        func makePermissionController<T: PermissionAbleViewController>(for wrappedVC: T) -> PermissionManagmentViewController<T> {
-            let vc = PermissionManagmentViewController<T>()
-            vc.view.translatesAutoresizingMaskIntoConstraints = false
-            vc.configure(for: wrappedVC)
-            return vc
+        func makePermissionController<T: PermissionAbleViewController>(for wrappedViewController: T) -> PermissionManagmentViewController<T> {
+            let viewController = PermissionManagmentViewController<T>()
+            viewController.view.translatesAutoresizingMaskIntoConstraints = false
+            viewController.configure(for: wrappedViewController)
+            return viewController
         }
 
         if !currentUser.permissions.contains(.dashboardView) {
-            let missingVc = makeNoPermissionController(missingPermission: .dashboardView)
-            viewControllers.append(missingVc)
+            let missingViewController = makeNoPermissionController(missingPermission: .dashboardView)
+            self.viewControllers.append(missingViewController)
             return
         }
 
-        viewControllers.append(makePermissionController(for: calendarOverview))
-        let homeworkWrappedVc = makePermissionController(for: homeworkOverview)
-        homeworkWrappedVc.containedViewController?.delegate = self
-        viewControllers.append(homeworkWrappedVc)
-        let newsWrappedVc = makePermissionController(for: newsOverview)
-        newsWrappedVc.containedViewController?.delegate = self
-        viewControllers.append(newsWrappedVc)
-        let notificationWrappedVc = makePermissionController(for: notificationOverview)
-        notificationWrappedVc.containedViewController?.delegate = self
-        viewControllers.append(notificationWrappedVc)
+        self.viewControllers.append(makePermissionController(for: self.calendarOverview))
+        let homeworkWrappedViewController = makePermissionController(for: self.homeworkOverview)
+        homeworkWrappedViewController.containedViewController?.delegate = self
+        self.viewControllers.append(homeworkWrappedViewController)
+        let newsWrappedViewController = makePermissionController(for: self.newsOverview)
+        newsWrappedViewController.containedViewController?.delegate = self
+        self.viewControllers.append(newsWrappedViewController)
+        let notificationWrappedViewController = makePermissionController(for: notificationOverview)
+        notificationWrappedViewController.containedViewController?.delegate = self
+        self.viewControllers.append(notificationWrappedViewController)
 
     }
 
@@ -111,16 +111,16 @@ public final class DashboardViewController: UICollectionViewController {
     }
 
     private func buildNewsOverviewFromStoryboard() -> NewsOverviewViewController {
-        let vc: NewsOverviewViewController = self.buildFromStoryboard(withIdentifier: "NewsOverview")
-        vc.delegate = self
-        return vc
+        let viewController: NewsOverviewViewController = self.buildFromStoryboard(withIdentifier: "NewsOverview")
+        viewController.delegate = self
+        return viewController
     }
 
     public override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetailNews" {
-            guard let detailNewsVC = segue.destination as? NewsDetailViewController,
+            guard let detailNewsViewController = segue.destination as? NewsDetailViewController,
                   let newsArticle = sender as? NewsArticle else { return }
-            detailNewsVC.newsArticle = newsArticle
+            detailNewsViewController.newsArticle = newsArticle
         }
     }
 
@@ -143,10 +143,11 @@ extension DashboardViewController {
     }
 
     public override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let vc = viewControllers[indexPath.row]
+        let viewController = self.viewControllers[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DashboardCollectionCell", for: indexPath) as! DashboardCollectionViewControllerCell
-        cell.configure(for: vc)
-        vc.didMove(toParentViewController: self)
+        cell.configure(for: viewController)
+        viewController.didMove(toParentViewController: self)
+
         if cell.bounds.width < collectionView.bounds.width {
             cell.contentView.layer.cornerRadius = 5.0
             cell.contentView.layer.masksToBounds = true
@@ -159,15 +160,15 @@ extension DashboardViewController {
     }
 
     public override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = (viewControllers[indexPath.row])
-        if let vc = vc as? PermissionManagmentViewController<CalendarOverviewViewController>,
-               vc.hasPermission {
+        let viewController = (viewControllers[indexPath.row])
+        if let viewController = viewController as? PermissionManagmentViewController<CalendarOverviewViewController>,
+               viewController.hasPermission {
             self.performSegue(withIdentifier: "showCalendar", sender: nil)
-        } else if let vc = vc as? PermissionManagmentViewController<ShortNotificationViewController>,
-                      vc.hasPermission {
+        } else if let viewController = viewController as? PermissionManagmentViewController<ShortNotificationViewController>,
+                      viewController.hasPermission {
             self.performSegue(withIdentifier: "showNotifications", sender: nil)
-        } else if let vc = vc as? PermissionManagmentViewController<HomeworkOverviewViewController>,
-                      vc.hasPermission {
+        } else if let viewController = viewController as? PermissionManagmentViewController<HomeworkOverviewViewController>,
+                      viewController.hasPermission {
             self.performSegue(withIdentifier: "showHomework", sender: nil)
         }
     }
@@ -185,7 +186,7 @@ extension DashboardViewController: ShortNotificationViewControllerDelegate {
 
 extension DashboardViewController: DashboardLayoutDataSource {
     func contentHeightForItem(at indexPath: IndexPath) -> CGFloat {
-        return viewControllers[indexPath.row].height
+        return self.viewControllers[indexPath.row].height
     }
 }
 

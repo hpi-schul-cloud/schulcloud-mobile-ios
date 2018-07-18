@@ -40,8 +40,7 @@ class LoadingViewController: UIViewController {
     }
 
     func startDownload() {
-        fileSync.signedURL(for: file)
-        .flatMap { url -> Future<Data, SCError> in
+        fileSync.signedURL(for: file).flatMap { url -> Future<Data, SCError> in
             DispatchQueue.main.async {
                 self.activityIndicator.stopAnimating()
                 self.progressView.isHidden = false
@@ -73,7 +72,6 @@ class LoadingViewController: UIViewController {
 
         DispatchQueue.main.async {
             if let nav = self.navigationController {
-                // TODO: add as subview
                 var viewControllers = nav.viewControllers
                 viewControllers.removeLast(1)
                 viewControllers.append(controller)
@@ -82,10 +80,10 @@ class LoadingViewController: UIViewController {
                 self.present(controller, animated: false, completion: nil)
             }
 
-            if let ql = controller as? QLPreviewController {
+            if let quickLookController = controller as? QLPreviewController {
                 // fix for dataSource magically disappearing because hey let's store it in a weak variable in QLPreviewController
-                ql.dataSource = previewManager
-                ql.reloadData()
+                quickLookController.dataSource = previewManager
+                quickLookController.reloadData()
             }
         }
     }

@@ -60,8 +60,8 @@ final class DashboardLayout: UICollectionViewLayout {
 
         var yOffsets = [CGFloat](repeating: yOffsetBase, count: columnCount)
 
-        for i in 0 ..< collectionView.numberOfItems(inSection: 0) {
-            let indexPath = IndexPath(row: i, section: 0)
+        for index in 0 ..< collectionView.numberOfItems(inSection: 0) {
+            let indexPath = IndexPath(row: index, section: 0)
             let itemHeight = dataSource.contentHeightForItem(at: indexPath)
             let (column, yOffset) = yOffsets.enumerated().min { lhs, rhs -> Bool in
                 return lhs.element < rhs.element

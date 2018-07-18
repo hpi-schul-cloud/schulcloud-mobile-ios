@@ -52,7 +52,6 @@
 		CE41529C20DBD9F900739CE2 /* HomeworkDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507684BF1F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift */; };
 		CE41529D20DBD9F900739CE2 /* NewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0F83CA20653C3F00F847D7 /* NewsDetailViewController.swift */; };
 		CE41529E20DBD9F900739CE2 /* NewsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */; };
-		CE41529F20DBD9F900739CE2 /* SchulcloudTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE82931220498A1E009D2C84 /* SchulcloudTabBarController.swift */; };
 		CE4152A020DBD9FE00739CE2 /* UIView+shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D146E1F56F81D00AA5613 /* UIView+shake.swift */; };
 		CE4152A120DBD9FE00739CE2 /* UIAlertController+Permission.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE443936205BDEDD00CC3311 /* UIAlertController+Permission.swift */; };
 		CE4152A220DBDA3300739CE2 /* CourseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C080541EE607F6005FA7C3 /* CourseCell.swift */; };
@@ -277,7 +276,6 @@
 		CE644E8820232710003AE700 /* UIColor+hexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+hexString.swift"; sourceTree = "<group>"; };
 		CE737A4D1FFE65B0006DAB54 /* NewsArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsArticleCell.swift; sourceTree = "<group>"; };
 		CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListViewController.swift; sourceTree = "<group>"; };
-		CE82931220498A1E009D2C84 /* SchulcloudTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchulcloudTabBarController.swift; sourceTree = "<group>"; };
 		CE829316204EB6B3009D2C84 /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		CE99358A2074F667008E7EB0 /* HomeworkOverviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkOverviewCell.swift; sourceTree = "<group>"; };
 		CE9B56C72062A2C400803B3D /* NewsOverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsOverviewViewController.swift; sourceTree = "<group>"; };
@@ -526,7 +524,6 @@
 				507684BF1F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift */,
 				CE0F83CA20653C3F00F847D7 /* NewsDetailViewController.swift */,
 				CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */,
-				CE82931220498A1E009D2C84 /* SchulcloudTabBarController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1054,7 +1051,6 @@
 				CE4152A820DBDA3300739CE2 /* HomeworkOverviewCell.swift in Sources */,
 				CE41529120DBD9F500739CE2 /* WebviewPreviewViewContoller.swift in Sources */,
 				CE41529220DBD9F500739CE2 /* PreviewManager.swift in Sources */,
-				CE41529F20DBD9F900739CE2 /* SchulcloudTabBarController.swift in Sources */,
 				CE41529020DBD9F000739CE2 /* PermissionManagmentViewController.swift in Sources */,
 				CE4152A420DBDA3300739CE2 /* NewsArticleCell.swift in Sources */,
 				CE41528920DBD9F000739CE2 /* DashboardLayout.swift in Sources */,

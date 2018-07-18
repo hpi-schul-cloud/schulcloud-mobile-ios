@@ -195,7 +195,7 @@ class HomeworkListViewController: UITableViewController {
         switch segue.identifier {
         case "taskDetail"?:
             guard let detailVC = segue.destination as? HomeworkDetailViewController else { return }
-            let homework = sender as! Homework
+            guard let homework = sender as? Homework else { return }
             detailVC.homework = homework
         default:
             super.prepare(for: segue, sender: sender)

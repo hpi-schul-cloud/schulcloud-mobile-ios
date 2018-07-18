@@ -6,19 +6,20 @@
 import Common
 import UIKit
 
-struct SCNotification { //}: Unmarshaling {
+struct SCNotification { // }: Unmarshaling {
     let body: String
     let title: String?
     let action: URL?
 
-    /*
+/*
     init(object: MarshaledObject) throws {
         let message = try object.value(for: "message") as JSONObject
         body = try message.value(for: "body")
         title = try? message.value(for: "title")
         action = try? message.value(for: "action")
     }
- */
+
+*/
 }
 
 class ShortNotificationViewController: UITableViewController {
