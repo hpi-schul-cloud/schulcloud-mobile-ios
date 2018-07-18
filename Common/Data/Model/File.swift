@@ -14,17 +14,17 @@ public final class File: NSManagedObject {
     }
 
     @NSManaged public var id: String
-    @NSManaged public var remoteURL_: String? // swiftlint:disable:this identifier_name
-    @NSManaged public var thumbnailRemoteURL_: String? // swiftlint:disable:this identifier_name
+    @NSManaged private var remoteURL_: String? // swiftlint:disable:this identifier_name
+    @NSManaged private var thumbnailRemoteURL_: String? // swiftlint:disable:this identifier_name
 
     @NSManaged public var name: String
     @NSManaged public var isDirectory: Bool
     @NSManaged public var mimeType: String?
     @NSManaged public var size: Int64
 
-    @NSManaged public var permissions_: Int64 // swiftlint:disable:this identifier_name
-    @NSManaged public var downloadState_: Int64 // swiftlint:disable:this identifier_name
-    @NSManaged public var uploadState_: Int64 // swiftlint:disable:this identifier_name
+    @NSManaged private var permissions_: Int64 // swiftlint:disable:this identifier_name
+    @NSManaged private var downloadState_: Int64 // swiftlint:disable:this identifier_name
+    @NSManaged private var uploadState_: Int64 // swiftlint:disable:this identifier_name
 
     @NSManaged public var parentDirectory: File?
     @NSManaged public var contents: Set<File>
@@ -57,7 +57,7 @@ public extension File {
 
         init(json: MarshaledObject) throws {
             let fetchedPersmissions: [String] = try json.value(for: "permissions")
-            let permissions: [Permissions] = fetchedPersmissions.flatMap { Permissions(str: $0) }
+            let permissions: [Permissions] = fetchedPersmissions.compactMap { Permissions(str: $0) }
             self.rawValue = permissions.reduce([]) { acc, permission -> Permissions in
                 return acc.union(permission)
             }.rawValue
@@ -112,11 +112,12 @@ public extension File {
 
 extension File {
 
-    static func createLocal(context: NSManagedObjectContext, id: String, name: String, parentFolder: File?, isDirectory: Bool) -> File {
-        return createLocal(context: context, id: id, name: name, parentFolder: parentFolder, isDirectory: isDirectory, remoteURL: nil)
-    }
-
-    static func createLocal(context: NSManagedObjectContext, id: String, name: String, parentFolder: File?, isDirectory: Bool, remoteURL: String?) -> File {
+    @discardableResult static func createLocal(context: NSManagedObjectContext,
+                                               id: String,
+                                               name: String,
+                                               parentFolder: File?,
+                                               isDirectory: Bool,
+                                               remoteURL: String? = nil) -> File {
         let file = File(context: context)
         file.id = id
 
@@ -132,7 +133,6 @@ extension File {
         file.downloadState = . downloaded
 
         return file
-
     }
 
     static func createOrUpdate(inContext context: NSManagedObjectContext, parentFolder: File, isDirectory: Bool, data: MarshaledObject) throws -> File {
@@ -148,12 +148,11 @@ extension File {
         if result.count > 1 {
             throw SCError.database("Found more than one result for \(fetchRequest)")
         }
-        let file = result.first ?? File(context: context)
 
+        let file = result.first ?? File(context: context)
         file.id = id
 
         let allowedCharacters = CharacterSet.whitespacesAndNewlines.inverted
-
         file.remoteURL_ = (try data.value(for: "key") as String?)?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
         file.thumbnailRemoteURL_ = (try data.value(for: "thumbnail") as String?)?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
 
@@ -173,6 +172,7 @@ extension File {
                 userId == Globals.account?.userId { // find permission for current user
                 return true
             }
+
             return false
         }
 
@@ -187,17 +187,9 @@ extension File {
 // MARK: computed properties
 extension File {
 
+    // TODO: replace with fileprovidermanager when implemented
     static var localContainerURL: URL {
-        //TODO: replace with fileprovidermanager when implemented
-
         return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.org.schulcloud")!.appendingPathComponent("File Provider Storage")
-        /*
-         if #available(iOS 11.0, *) {
-            return NSFileProviderManager.default.documentStorageURL
-         } else {
-            return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.org.schulcloud")!
-         }
- */
     }
 
     public var fileLocation: URL? {
@@ -206,7 +198,8 @@ extension File {
     }
 
     public var localURL: URL {
-        return File.localContainerURL.appendingPathComponent("\(self.id)__\(self.name.addingPercentEncoding(withAllowedCharacters: CharacterSet.whitespacesAndNewlines.inverted)!)")
+        let allowedCharacters = CharacterSet.whitespacesAndNewlines.inverted
+        return File.localContainerURL.appendingPathComponent("\(self.id)__\(self.name.addingPercentEncoding(withAllowedCharacters: allowedCharacters)!)")
     }
 
     public var remoteURL: URL? {

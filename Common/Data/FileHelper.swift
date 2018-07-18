@@ -23,7 +23,6 @@ public class FileSync: NSObject {
     var progressHandlers: [Int: ProgressHandler] = [:]
 
     public override init() {
-
         metadataSession = URLSession(configuration: URLSessionConfiguration.default)
 
         super.init()
@@ -44,7 +43,7 @@ public class FileSync: NSObject {
         return Brand.default.servers.backend.appendingPathComponent("fileStorage")
     }
 
-    private func getUrl(for file: File) -> URL? {
+    private func getQueryURL(for file: File) -> URL? {
         guard let remoteURL = file.remoteURL else { return nil }
 
         var urlComponent = URLComponents(url: fileStorageURL, resolvingAgainstBaseURL: false)!
@@ -79,34 +78,34 @@ public class FileSync: NSObject {
     // MARK: Directory download management
 
     public func updateContent(of directory: File) -> Future<Void, SCError> {
-        guard FileHelper.rootDirectoryID != directory.id else { return Future(error: SCError.unknown)}
+        guard FileHelper.rootDirectoryID != directory.id else {
+            return Future(error: SCError.unknown)
+        }
 
         switch directory.id {
         case FileHelper.coursesDirectoryID:
             return CourseHelper.syncCourses().asVoid()
 
         case FileHelper.sharedDirectoryID:
-            return self.downloadSharedFiles()
-                .flatMap { objects -> Future<Void, SCError> in
-                    var updates: [Future<Void, SCError>] = []
-                    for json in objects {
-                        updates.append(FileHelper.updateDatabase(contentsOf: directory, using: json))
-                    }
+            return self.downloadSharedFiles().flatMap { objects -> Future<Void, SCError> in
+                var updates: [Future<Void, SCError>] = []
+                for json in objects {
+                    updates.append(FileHelper.updateDatabase(contentsOf: directory, using: json))
+                }
 
-                    return updates.sequence().asVoid()
-                }.asVoid()
+                return updates.sequence().asVoid()
+            }.asVoid()
         default:
-            return self.downloadContent(of: directory)
-                .flatMap { json -> Future<Void, SCError> in
-                    return FileHelper.updateDatabase(contentsOf: directory, using: json)
-                }.asVoid()
+            return self.downloadContent(of: directory).flatMap { json -> Future<Void, SCError> in
+                return FileHelper.updateDatabase(contentsOf: directory, using: json)
+            }.asVoid()
         }
     }
 
     fileprivate func downloadContent(of directory: File) -> Future<[String: Any], SCError> {
         guard directory.isDirectory else { return Future(error: .other("only works on directory") ) }
 
-        let request = self.request(for: getUrl(for: directory)! )
+        let request = self.request(for: getQueryURL(for: directory)! )
         let promise: Promise<[String: Any], SCError> = Promise()
         metadataSession.dataTask(with: request) { data, response, error in
             var responseData: Data
@@ -149,16 +148,20 @@ public class FileSync: NSObject {
             } catch let error {
                 promise.failure(.jsonDeserialization(error.localizedDescription) )
             }
-            }.resume()
-
+        }.resume()
         return promise.future
     }
 
     // MARK: File materialization
-    public func download(_ file: File, background: Bool = false, onDownloadInitialised: @escaping () -> (), progressHandler: @escaping ProgressHandler ) -> Future<URL, SCError> {
+    public func download(_ file: File,
+                         background: Bool = false,
+                         onDownloadInitialised: @escaping () -> Void,
+                         progressHandler: @escaping ProgressHandler ) -> Future<URL, SCError> {
         let localURL = file.localURL
         let downloadSession: URLSession = background ? self.backgroundSession : self.foregroundSession
-        guard [File.DownloadState.notDownloaded, File.DownloadState.downloadFailed].contains(file.downloadState) else { return Future<URL, SCError>(value: localURL) }
+        guard [File.DownloadState.notDownloaded, File.DownloadState.downloadFailed].contains(file.downloadState) else {
+            return Future<URL, SCError>(value: localURL)
+        }
 
         file.downloadState = .downloading
         return signedURL(for: file).flatMap { url -> Future<URL, SCError> in
@@ -187,18 +190,21 @@ public class FileSync: NSObject {
             do {
                 let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
                 let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                let signedURL = try SignedUrl(object: json as! MarshaledObject)
-                promise.success(signedURL.url)
+                let signedURL: URL = try (json as! MarshaledObject).value(for: "url")
+                promise.success(signedURL)
             } catch let error as SCError {
                 promise.failure(error)
             } catch let error {
                 promise.failure(.jsonDeserialization(error.localizedDescription) )
             }
-            }.resume()
+        }.resume()
         return promise.future
     }
 
-    fileprivate func download(signedURL: URL, moveTo localURL: URL, downloadSession: URLSession, progressHandler: @escaping ProgressHandler) -> Future<URL, SCError> {
+    fileprivate func download(signedURL: URL,
+                              moveTo localURL: URL,
+                              downloadSession: URLSession,
+                              progressHandler: @escaping ProgressHandler) -> Future<URL, SCError> {
         let promise = Promise<URL, SCError>()
         let task = downloadSession.downloadTask(with: signedURL)
         task.taskDescription = localURL.absoluteString
@@ -237,10 +243,10 @@ extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownlo
 
     // Download progress
     public func urlSession(_ session: URLSession,
-                    downloadTask: URLSessionDownloadTask,
-                    didWriteData bytesWritten: Int64,
-                    totalBytesWritten: Int64,
-                    totalBytesExpectedToWrite: Int64) {
+                           downloadTask: URLSessionDownloadTask,
+                           didWriteData bytesWritten: Int64,
+                           totalBytesWritten: Int64,
+                           totalBytesExpectedToWrite: Int64) {
         if let progressHandler = progressHandlers[downloadTask.taskIdentifier] {
             let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
             progressHandler(progress)
@@ -284,16 +290,19 @@ public class FileHelper {
 
     /// Create the basic folder structure and return main Root
     fileprivate static func createBaseStructure() -> File {
-
-        try! FileManager.default.createDirectory(at: File.localContainerURL, withIntermediateDirectories: true, attributes: nil)
+        do {
+            try FileManager.default.createDirectory(at: File.localContainerURL, withIntermediateDirectories: true, attributes: nil)
+        } catch {
+            fatalError("Can't create local file container")
+        }
 
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
         let rootFolderObjectId: NSManagedObjectID = context.performAndWait {
             let rootFolder = File.createLocal(context: context, id: rootDirectoryID, name: "Dateien", parentFolder: nil, isDirectory: true)
 
-            let _ = File.createLocal(context: context, id: userDirectoryID, name: "Meine Dateien", parentFolder: rootFolder, isDirectory: true, remoteURL: userDirectoryID)
-            let _ = File.createLocal(context: context, id: coursesDirectoryID, name: "Kurs-Dateien", parentFolder: rootFolder, isDirectory: true)
-            let _ = File.createLocal(context: context, id: sharedDirectoryID, name: "geteilte Dateien", parentFolder: rootFolder, isDirectory: true)
+            File.createLocal(context: context, id: userDirectoryID, name: "Meine Dateien", parentFolder: rootFolder, isDirectory: true, remoteURL: userDirectoryID)
+            File.createLocal(context: context, id: coursesDirectoryID, name: "Kurs-Dateien", parentFolder: rootFolder, isDirectory: true)
+            File.createLocal(context: context, id: sharedDirectoryID, name: "geteilte Dateien", parentFolder: rootFolder, isDirectory: true)
 
             if case let .failure(error) = context.saveWithResult() {
                 fatalError("Unresolved error \(error)") // TODO: replace this with something more friendly
@@ -326,8 +335,6 @@ public class FileHelper {
     }
 
     public static func updateDatabase(contentsOf parentFolder: File, using contents: [String: Any]) -> Future<Void, SCError> {
-        //TODO: Rethink this
-
         let promise = Promise<Void, SCError>()
         let parentFolderObjectId = parentFolder.objectID
 
@@ -352,13 +359,25 @@ public class FileHelper {
                 let currentItemsIDs: [String] =  createdFiles.map { $0.id } + createdFolders.map { $0.id }
                 let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
                 let notOnServerPredicate = NSPredicate(format: "NOT (id IN %@)", currentItemsIDs)
-                let fetchRequest = NSFetchRequest<File>(entityName: "File")
-                fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [notOnServerPredicate, parentFolderPredicate])
+                let isDownloadedPredicate = NSPredicate(format: "downloadState_ == \(File.DownloadState.downloaded.rawValue)")
 
-                let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest as! NSFetchRequest<NSFetchRequestResult>)
+                let locallyCachedFiles = NSFetchRequest<File>(entityName: "File")
+                locallyCachedFiles.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [notOnServerPredicate,
+                                                                                                   parentFolderPredicate,
+                                                                                                   isDownloadedPredicate, ])
+
+                let deletedFilesWithLocalCache = context.fetchMultiple(locallyCachedFiles).value ?? []
+                for file in deletedFilesWithLocalCache {
+                    try FileManager.default.removeItem(at: file.localURL)
+                }
+
+                let deletedFileFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "File")
+                deletedFileFetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [notOnServerPredicate, parentFolderPredicate])
+                let deleteRequest = NSBatchDeleteRequest(fetchRequest: deletedFileFetchRequest)
                 try context.execute(deleteRequest)
 
                 try context.save()
+                // TODO(FileProvider): Signal changes in the parent folder here
                 promise.success(())
             } catch let error as MarshalError {
                 promise.failure(.jsonDeserialization(error.localizedDescription))
@@ -396,26 +415,28 @@ extension FileHelper {
                     if let file = parentFolder.contents.first(where: { $0.id == courseId }) {
                         file.name = courseName
                     } else {
-                        let _ = File.createLocal(context: context, id: courseId, name: courseName, parentFolder: parentFolder, isDirectory: true, remoteURL: "courses/\(courseId)/")
+                        File.createLocal(context: context,
+                                         id: courseId,
+                                         name: courseName,
+                                         parentFolder: parentFolder,
+                                         isDirectory: true,
+                                         remoteURL: "courses/\(courseId)/")
                     }
                 }
             }
 
             if let insertedCourses = changes[NSInsertedObjectsKey], !insertedCourses.isEmpty {
                 for (courseId, courseName) in insertedCourses {
-                    let _ = File.createLocal(context: context, id: courseId, name: courseName, parentFolder: parentFolder, isDirectory: true, remoteURL: "courses/\(courseId)/")
+                    File.createLocal(context: context,
+                                     id: courseId,
+                                     name: courseName,
+                                     parentFolder: parentFolder,
+                                     isDirectory: true,
+                                     remoteURL: "courses/\(courseId)/")
                 }
             }
 
-            context.saveWithResult()
+            _ = context.saveWithResult()
         }
-    }
-}
-
-struct SignedUrl: Unmarshaling {
-    let url: URL
-
-    init(object: MarshaledObject) throws {
-        url = try object.value(for: "url")
     }
 }
