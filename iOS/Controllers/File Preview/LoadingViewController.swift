@@ -52,10 +52,12 @@ class LoadingViewController: UIViewController {
             }
         }).onSuccess { url in
             DispatchQueue.main.async {
+                self.file.downloadState = .downloaded
                 self.showFile()
             }
         }.onFailure { error in
             DispatchQueue.main.async {
+                self.file.downloadState = .downloadFailed
                 self.show(error: error)
             }
         }

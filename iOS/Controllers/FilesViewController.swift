@@ -38,29 +38,8 @@ public class FilesViewController: UITableViewController {
     }
 
     @IBAction func didTriggerRefresh() {
-
-        guard FileHelper.rootDirectoryID != currentFolder.id else { return }
-        let future: Future<Void, SCError>
-        if FileHelper.coursesDirectoryID == currentFolder.id {
-            future = CourseHelper.syncCourses().asVoid()
-        } else if FileHelper.sharedDirectoryID == currentFolder.id {
-            future = fileSync.downloadSharedFiles()
-            .flatMap { objects -> Future<Void, SCError> in
-                var updates: [Future<Void, SCError>] = []
-                for json in objects {
-                    updates.append(FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json))
-                }
-
-                return updates.sequence().asVoid()
-            }.asVoid()
-        } else {
-            future = fileSync.downloadContent(for: currentFolder)
-            .flatMap { json -> Future<Void, SCError> in
-                return FileHelper.updateDatabase(contentsOf: self.currentFolder, using: json)
-            }.asVoid()
-        }
-
-        future.onFailure { error in
+        self.fileSync.updateContent(of: self.currentFolder)
+        .onFailure { error in
             print("Failure: \(error)")
         }.onComplete { _ in
             DispatchQueue.main.async {
@@ -70,7 +49,6 @@ public class FilesViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-
     fileprivate lazy var fetchedResultsController: NSFetchedResultsController<File> = {
         // Create Fetch Request
         let fetchRequest: NSFetchRequest<File> = File.fetchRequest()

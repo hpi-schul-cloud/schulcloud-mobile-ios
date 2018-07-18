@@ -39,6 +39,7 @@ public class FileSync: NSObject {
         foregroundSession.invalidateAndCancel()
     }
 
+    // MARK: Request building helper
     private var fileStorageURL: URL {
         return Brand.default.servers.backend.appendingPathComponent("fileStorage")
     }
@@ -58,10 +59,54 @@ public class FileSync: NSObject {
         return request
     }
 
-    public func downloadContent(for file: File) -> Future<[String: Any], SCError> {
-        guard file.isDirectory else { return Future(error: .other("only works on directory") ) }
+    private func confirmNetworkResponse(data: Data?, response: URLResponse?, error: Error?) throws -> Data {
+        guard error == nil else {
+            throw SCError.network(error)
+        }
 
-        let request = self.request(for: getUrl(for: file)! )
+        guard let response = response as? HTTPURLResponse,
+            200 ... 299 ~= response.statusCode else {
+                throw SCError.network(nil)
+        }
+
+        guard let data = data else {
+            throw SCError.network(nil)
+        }
+
+        return data
+    }
+
+    // MARK: Directory download management
+
+    public func updateContent(of directory: File) -> Future<Void, SCError> {
+        guard FileHelper.rootDirectoryID != directory.id else { return Future(error: SCError.unknown)}
+
+        switch directory.id {
+        case FileHelper.coursesDirectoryID:
+            return CourseHelper.syncCourses().asVoid()
+
+        case FileHelper.sharedDirectoryID:
+            return self.downloadSharedFiles()
+                .flatMap { objects -> Future<Void, SCError> in
+                    var updates: [Future<Void, SCError>] = []
+                    for json in objects {
+                        updates.append(FileHelper.updateDatabase(contentsOf: directory, using: json))
+                    }
+
+                    return updates.sequence().asVoid()
+                }.asVoid()
+        default:
+            return self.downloadContent(of: directory)
+                .flatMap { json -> Future<Void, SCError> in
+                    return FileHelper.updateDatabase(contentsOf: directory, using: json)
+                }.asVoid()
+        }
+    }
+
+    fileprivate func downloadContent(of directory: File) -> Future<[String: Any], SCError> {
+        guard directory.isDirectory else { return Future(error: .other("only works on directory") ) }
+
+        let request = self.request(for: getUrl(for: directory)! )
         let promise: Promise<[String: Any], SCError> = Promise()
         metadataSession.dataTask(with: request) { data, response, error in
             var responseData: Data
@@ -85,58 +130,6 @@ public class FileSync: NSObject {
         return promise.future
     }
 
-    public func download(_ file: File, background: Bool = false, onDownloadInitialised: @escaping () -> (), progressHandler: @escaping ProgressHandler ) -> Future<URL, SCError> {
-        let localURL = file.localURL
-        let downloadSession: URLSession = background ? self.backgroundSession : self.foregroundSession
-
-        guard !FileManager.default.fileExists(atPath: file.localURL.path) else { return Future<URL, SCError>(value: localURL) }
-        return signedURL(for: file).flatMap { url -> Future<URL, SCError> in
-            onDownloadInitialised()
-            return self.download(signedURL: url, moveTo: localURL, downloadSession: downloadSession, progressHandler: progressHandler)
-        }
-    }
-
-    fileprivate func download(signedURL: URL, moveTo localURL: URL, downloadSession: URLSession, progressHandler: @escaping ProgressHandler) -> Future<URL, SCError> {
-        let promise = Promise<URL, SCError>()
-        let task = downloadSession.downloadTask(with: signedURL)
-        task.taskDescription = localURL.absoluteString
-        task.resume()
-        runningTask[task.taskIdentifier] = promise
-        progressHandlers[task.taskIdentifier] = progressHandler
-        return promise.future
-    }
-
-    fileprivate func signedURL(for file: File) -> Future<URL, SCError> {
-        guard !file.isDirectory else { return Future(error: .other("Can't download folder") ) }
-
-        var request = self.request(for: fileStorageURL.appendingPathComponent("signedUrl") )
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        let parameters: Any = [
-            "path": file.remoteURL!.absoluteString.removingPercentEncoding!,
-//            "fileType": mime.lookup(file),
-            "action": "getObject",
-        ]
-
-        request.httpBody = try! JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
-
-        let promise = Promise<URL, SCError>()
-        metadataSession.dataTask(with: request) { data, response, error in
-            do {
-                let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
-                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                let signedURL = try SignedUrl(object: json as! MarshaledObject)
-                promise.success(signedURL.url)
-            } catch let error as SCError {
-                promise.failure(error)
-            } catch let error {
-                promise.failure(.jsonDeserialization(error.localizedDescription) )
-            }
-        }.resume()
-        return promise.future
-    }
-
     public func downloadSharedFiles() -> Future<[[String: Any]], SCError> {
         let promise = Promise<[[String: Any]], SCError>()
 
@@ -156,27 +149,65 @@ public class FileSync: NSObject {
             } catch let error {
                 promise.failure(.jsonDeserialization(error.localizedDescription) )
             }
-        }.resume()
+            }.resume()
 
         return promise.future
     }
 
-    private func confirmNetworkResponse(data: Data?, response: URLResponse?, error: Error?) throws -> Data {
-        guard error == nil else {
-            throw SCError.network(error)
-        }
+    // MARK: File materialization
+    public func download(_ file: File, background: Bool = false, onDownloadInitialised: @escaping () -> (), progressHandler: @escaping ProgressHandler ) -> Future<URL, SCError> {
+        let localURL = file.localURL
+        let downloadSession: URLSession = background ? self.backgroundSession : self.foregroundSession
+        guard [File.DownloadState.notDownloaded, File.DownloadState.downloadFailed].contains(file.downloadState) else { return Future<URL, SCError>(value: localURL) }
 
-        guard let response = response as? HTTPURLResponse,
-            200 ... 299 ~= response.statusCode else {
-                throw SCError.network(nil)
+        file.downloadState = .downloading
+        return signedURL(for: file).flatMap { url -> Future<URL, SCError> in
+            onDownloadInitialised()
+            return self.download(signedURL: url, moveTo: localURL, downloadSession: downloadSession, progressHandler: progressHandler)
         }
-
-        guard let data = data else {
-            throw SCError.network(nil)
-        }
-
-        return data
     }
+
+    fileprivate func signedURL(for file: File) -> Future<URL, SCError> {
+        guard !file.isDirectory else { return Future(error: .other("Can't download folder") ) }
+
+        var request = self.request(for: fileStorageURL.appendingPathComponent("signedUrl") )
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let parameters: Any = [
+            "path": file.remoteURL!.absoluteString.removingPercentEncoding!,
+            //            "fileType": mime.lookup(file),
+            "action": "getObject",
+            ]
+
+        request.httpBody = try! JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+
+        let promise = Promise<URL, SCError>()
+        metadataSession.dataTask(with: request) { data, response, error in
+            do {
+                let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
+                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                let signedURL = try SignedUrl(object: json as! MarshaledObject)
+                promise.success(signedURL.url)
+            } catch let error as SCError {
+                promise.failure(error)
+            } catch let error {
+                promise.failure(.jsonDeserialization(error.localizedDescription) )
+            }
+            }.resume()
+        return promise.future
+    }
+
+    fileprivate func download(signedURL: URL, moveTo localURL: URL, downloadSession: URLSession, progressHandler: @escaping ProgressHandler) -> Future<URL, SCError> {
+        let promise = Promise<URL, SCError>()
+        let task = downloadSession.downloadTask(with: signedURL)
+        task.taskDescription = localURL.absoluteString
+        task.resume()
+        runningTask[task.taskIdentifier] = promise
+        progressHandlers[task.taskIdentifier] = progressHandler
+        return promise.future
+    }
+
 }
 
 extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownloadDelegate {
