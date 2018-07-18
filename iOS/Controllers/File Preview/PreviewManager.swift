@@ -52,6 +52,7 @@ class PreviewItem: NSObject, QLPreviewItem {
      */
 
     var file: File
+    
     init(file: File) {
         self.file = file
     }
