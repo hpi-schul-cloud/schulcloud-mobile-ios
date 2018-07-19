@@ -366,9 +366,17 @@ public class FileHelper {
                                                                                                    parentFolderPredicate,
                                                                                                    isDownloadedPredicate, ])
 
+                let coordinator = NSFileCoordinator()
                 let deletedFilesWithLocalCache = context.fetchMultiple(locallyCachedFiles).value ?? []
                 for file in deletedFilesWithLocalCache {
-                    try FileManager.default.removeItem(at: file.localURL)
+                    var error: NSError? = nil
+                    coordinator.coordinate(writingItemAt: file.localURL, options: .forDeleting, error: &error) { url in
+                        do {
+                            try FileManager.default.removeItem(at: url)
+                        } catch {
+                            fatalError()
+                        }
+                    }
                 }
 
                 let deletedFileFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "File")
