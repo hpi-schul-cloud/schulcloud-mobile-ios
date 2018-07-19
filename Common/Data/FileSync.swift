@@ -4,8 +4,9 @@
 //
 
 import BrightFutures
-import Marshal
 import Foundation
+import Marshal
+import Result
 
 public class FileSync: NSObject {
 
@@ -13,9 +14,9 @@ public class FileSync: NSObject {
 
     public typealias ProgressHandler = (Float) -> Void
 
-    fileprivate var backgroundSession: URLSession!
-    fileprivate var foregroundSession: URLSession!
-    fileprivate let metadataSession: URLSession
+    private var backgroundSession: URLSession!
+    private var foregroundSession: URLSession!
+    private let metadataSession: URLSession
 
     var runningTask: [Int: Promise<URL, SCError>] = [:]
     var progressHandlers: [Int: ProgressHandler] = [:]
@@ -83,47 +84,43 @@ public class FileSync: NSObject {
         switch directory.id {
         case FileHelper.coursesDirectoryID:
             return CourseHelper.syncCourses().asVoid()
-
         case FileHelper.sharedDirectoryID:
             return self.downloadSharedFiles().flatMap { objects -> Future<Void, SCError> in
-                var updates: [Future<Void, SCError>] = []
-                for json in objects {
-                    updates.append(FileHelper.updateDatabase(contentsOf: directory, using: json))
-                }
-
-                return updates.sequence().asVoid()
-                }.asVoid()
+                return objects.map { json in
+                    return FileHelper.updateDatabase(contentsOf: directory, using: json)
+                }.sequence().asVoid()
+            }
         default:
             return self.downloadContent(of: directory).flatMap { json -> Future<Void, SCError> in
                 return FileHelper.updateDatabase(contentsOf: directory, using: json)
-                }.asVoid()
+            }.asVoid()
         }
     }
 
-    fileprivate func downloadContent(of directory: File) -> Future<[String: Any], SCError> {
-        guard directory.isDirectory else { return Future(error: .other("only works on directory") ) }
+    private func downloadContent(of directory: File) -> Future<[String: Any], SCError> {
+        guard directory.isDirectory else {
+            return Future(error: .other("only works on directory"))
+        }
 
-        let request = self.request(for: getQueryURL(for: directory)! )
+        guard let queryURL = self.getQueryURL(for: directory) else {
+            return Future(error: .other("no remote URL"))
+        }
+
+        let request = self.request(for: queryURL)
         let promise: Promise<[String: Any], SCError> = Promise()
-        metadataSession.dataTask(with: request) { data, response, error in
-            var responseData: Data
-            do {
-                responseData = try self.confirmNetworkResponse(data: data, response: response, error: error)
-            } catch let error as SCError {
-                promise.failure(error)
-                return
-            } catch {
-                promise.failure( .other("Weird"))
-                return
+        self.metadataSession.dataTask(with: request) { data, response, error in
+            let result = Result<Data, SCError> {
+                return try self.confirmNetworkResponse(data: data, response: response, error: error)
+            }.flatMap { responseData -> Result<[String: Any], SCError> in
+                guard let json = (try? JSONSerialization.jsonObject(with: responseData, options: .allowFragments)) as? [String: Any] else {
+                    return .failure(SCError.jsonDeserialization("Can't deserialize"))
+                }
+
+                return .success(json)
             }
 
-            guard let json = (try? JSONSerialization.jsonObject(with: responseData, options: .allowFragments)) as? [String: Any] else {
-                promise.failure(SCError.jsonDeserialization("Can't deserialize"))
-                return
-            }
-
-            promise.success(json)
-            }.resume()
+            promise.complete(result)
+        }.resume()
         return promise.future
     }
 
