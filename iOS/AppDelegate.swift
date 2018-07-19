@@ -97,13 +97,14 @@ extension AppDelegate: UITabBarControllerDelegate {
 
     public func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         guard let userID = Globals.account?.userId else { return false }
-        let user_ = CoreDataHelper.viewContext.performAndWait { () -> Common.User? in
+
+        let fetchedUser = CoreDataHelper.viewContext.performAndWait { () -> Common.User? in
             let fetchRequest: NSFetchRequest<Common.User> = Common.User.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "id == %@", userID)
             return CoreDataHelper.viewContext.fetchSingle(fetchRequest).value
         }
 
-        guard let user = user_ else { return false }
+        guard let user = fetchedUser else { return false }
         guard let navController = viewController as? UINavigationController else { return false }
         guard let rootViewController = navController.viewControllers.first else { return false }
 

@@ -111,11 +111,10 @@ class CoursesViewController: UICollectionViewController, NSFetchedResultsControl
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case .some("courseDetail"):
-            let selectedCell = sender as! UICollectionViewCell
-            guard let indexPath = self.collectionView!.indexPath(for: selectedCell) else { return }
-            let selectedCourse = fetchedResultsController.object(at: indexPath)
-            let destination = segue.destination as! LessonsViewController
-            destination.course = selectedCourse
+            guard let selectedCell = sender as? UICollectionViewCell else { return }
+            guard let indexPath = self.collectionView?.indexPath(for: selectedCell) else { return }
+            guard let destination = segue.destination as? LessonsViewController else { return }
+            destination.course = self.fetchedResultsController.object(at: indexPath)
         default:
             break
         }

@@ -97,10 +97,10 @@ public class LessonsViewController: UITableViewController, NSFetchedResultsContr
                 return
             }
 
-            let selectedCell = sender as! UITableViewCell
+            guard let selectedCell = sender as? UITableViewCell else { return }
             guard let indexPath = tableView.indexPath(for: selectedCell) else { return }
+            guard let destination = segue.destination as? SingleLessonViewController else { return }
             let selectedLesson = fetchedResultsController.object(at: indexPath)
-            let destination = segue.destination as! SingleLessonViewController
             destination.lesson = selectedLesson
         default:
             break

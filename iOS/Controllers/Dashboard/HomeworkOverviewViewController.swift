@@ -55,7 +55,7 @@ final class HomeworkOverviewViewController: UIViewController {
                                                object: nil)
 
         HomeworkHelper.syncHomework()
-        try! self.resultController.performFetch()
+        try? self.resultController.performFetch()
         self.updateHomeworkCount()
         self.didChangePreferredContentSize()
     }
