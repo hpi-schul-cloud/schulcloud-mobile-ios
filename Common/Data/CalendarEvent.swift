@@ -166,8 +166,6 @@ extension CalendarEvent {
     }
 
     struct EventDateIterator: IteratorProtocol {
-        typealias Element = CalendarEvent
-
         var sequence: EventSequence
         var iteration: Int = 0
 

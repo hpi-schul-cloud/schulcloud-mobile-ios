@@ -6,7 +6,6 @@
 import Result
 import SyncEngine
 
-
 protocol SchulcloudSyncStrategy: SyncStrategy {}
 
 extension SchulcloudSyncStrategy {

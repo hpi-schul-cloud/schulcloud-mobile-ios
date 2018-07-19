@@ -5,8 +5,8 @@
 
 import CoreData
 import Foundation
-import UIKit
 import SyncEngine
+import UIKit
 
 public final class Homework: NSManagedObject {
 

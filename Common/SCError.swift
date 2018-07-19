@@ -32,7 +32,7 @@ public enum SCError: Error {
         if let marshalError = error as? MarshalError {
             self = .jsonDeserialization(marshalError.description)
         } else {
-            self = .unknown // TODO
+            self = .unknown
         }
     }
 

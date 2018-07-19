@@ -157,8 +157,8 @@ extension NSManagedObjectContext {
             task {
                 do {
                     result = try internalWork()
-                } catch let e {
-                    error = e
+                } catch let err {
+                    error = err
                 }
             }
         }
