@@ -371,11 +371,7 @@ public class FileHelper {
                 for file in deletedFilesWithLocalCache {
                     var error: NSError? = nil
                     coordinator.coordinate(writingItemAt: file.localURL, options: .forDeleting, error: &error) { url in
-                        do {
-                            try FileManager.default.removeItem(at: url)
-                        } catch {
-                            fatalError()
-                        }
+                        try? FileManager.default.removeItem(at: url)
                     }
                 }
 
