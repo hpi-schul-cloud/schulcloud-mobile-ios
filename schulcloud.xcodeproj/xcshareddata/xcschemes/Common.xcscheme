@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0830"
+   LastUpgradeVersion = "0940"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C3A5A8FE1EBCC17600825DBF"
-               BuildableName = "schulcloud.app"
-               BlueprintName = "iOS"
+               BlueprintIdentifier = "CEEE0A0A20D2AA7C00B0C2CE"
+               BuildableName = "Common.framework"
+               BlueprintName = "Common"
+               ReferencedContainer = "container:schulcloud.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "50C9C78F20FDD25D00AC914F"
+               BuildableName = "Common-Tests.xctest"
+               BlueprintName = "Common-Tests"
                ReferencedContainer = "container:schulcloud.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +46,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5024103C2046B01A0033D75A"
-               BuildableName = "iOS-Tests.xctest"
-               BlueprintName = "iOS-Tests"
+               BlueprintIdentifier = "50C9C78F20FDD25D00AC914F"
+               BuildableName = "Common-Tests.xctest"
+               BlueprintName = "Common-Tests"
                ReferencedContainer = "container:schulcloud.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -42,9 +56,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C3A5A8FE1EBCC17600825DBF"
-            BuildableName = "schulcloud.app"
-            BlueprintName = "iOS"
+            BlueprintIdentifier = "CEEE0A0A20D2AA7C00B0C2CE"
+            BuildableName = "Common.framework"
+            BlueprintName = "Common"
             ReferencedContainer = "container:schulcloud.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -61,16 +75,15 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C3A5A8FE1EBCC17600825DBF"
-            BuildableName = "schulcloud.app"
-            BlueprintName = "iOS"
+            BlueprintIdentifier = "CEEE0A0A20D2AA7C00B0C2CE"
+            BuildableName = "Common.framework"
+            BlueprintName = "Common"
             ReferencedContainer = "container:schulcloud.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -80,16 +93,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C3A5A8FE1EBCC17600825DBF"
-            BuildableName = "schulcloud.app"
-            BlueprintName = "iOS"
+            BlueprintIdentifier = "CEEE0A0A20D2AA7C00B0C2CE"
+            BuildableName = "Common.framework"
+            BlueprintName = "Common"
             ReferencedContainer = "container:schulcloud.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "schulcloud-Debug">

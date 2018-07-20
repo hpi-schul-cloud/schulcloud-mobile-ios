@@ -3,7 +3,7 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-@testable import schulcloud
+@testable import Common
 import XCTest
 
 extension CalendarEvent {
@@ -22,20 +22,14 @@ extension CalendarEvent {
 
 class CalendarEventHelperTests: XCTestCase {
 
-    var formatter: DateFormatter!
-
-    override func setUp() {
-        super.setUp()
-
-        self.formatter = DateFormatter()
-        self.formatter.dateFormat = "dd.MM.yyyy HH:mm"
-    }
-
-    override func tearDown() {
-        super.tearDown()
-    }
+    let formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy HH:mm"
+        return formatter
+    }()
 
     // MARK: convenience
+
     func makeDatePair(_ startStr: String, _ endStr: String) -> (Date, Date) {
         return (self.formatter.date(from: startStr)!, self.formatter.date(from: endStr)!)
     }
@@ -52,6 +46,7 @@ class CalendarEventHelperTests: XCTestCase {
     }
 
     // MARK: Recurrence rule tests
+
     func testThatItGetOnlyOneDatePairWhenNoRecurrenceRule() {
         let (start, end) = makeDatePair("02.10.2017 15:00", "02.10.2017 16:00")
 
@@ -68,7 +63,6 @@ class CalendarEventHelperTests: XCTestCase {
     }
 
     func testThatItGeneratesDateUntilEndRecurringRule() {
-
         let (start, end) = makeDatePair("02.10.2017 15:00", "02.10.2017 16:00")
         let rule = CalendarEvent.RecurrenceRule(frequency: .daily, dayOfTheWeek: .monday, endDate: nil, interval: 1)
 
