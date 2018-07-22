@@ -65,7 +65,7 @@ class HomeworkListViewController: UITableViewController {
         self.updateData()
     }
 
-    @IBAction func sortOptionPressed(_ sender: Any) {
+    @IBAction func sortOptionPressed(_ sender: UIBarButtonItem) {
         let controller = UIAlertController(title: "Aufgaben sortieren nach", message: nil, preferredStyle: .actionSheet)
 
         for sortingStyle in SortingMode.allValues {
@@ -78,6 +78,8 @@ class HomeworkListViewController: UITableViewController {
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         controller.addAction(cancelAction)
+
+        controller.popoverPresentationController?.barButtonItem = sender
 
         self.present(controller, animated: true)
     }
