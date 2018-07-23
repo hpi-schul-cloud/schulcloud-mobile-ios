@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="21R-vU-bf9">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--News Detail View Controller-->
+        <scene sceneID="CTU-Qi-T2C">
+            <objects>
+                <viewController id="21R-vU-bf9" customClass="NewsDetailViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" id="TPJ-Ci-dWh">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2es-IS-q6n">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eGC-J6-Glo" userLabel="Scroll Content View">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="108.5"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Vka-Y0-hgy">
+                                                <rect key="frame" x="16" y="8" width="343" height="92.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zG7-YK-djq">
+                                                        <rect key="frame" x="0.0" y="0.0" width="43.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QS5-KG-MRH">
+                                                        <rect key="frame" x="0.0" y="28.5" width="37.5" height="18"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                        <color key="textColor" white="0.55000000000000004" alpha="0.84999999999999998" colorSpace="calibratedWhite"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="News Text" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="X58-sT-iXo">
+                                                        <rect key="frame" x="0.0" y="54.5" width="89.5" height="38"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                    </textView>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailingMargin" secondItem="Vka-Y0-hgy" secondAttribute="trailing" id="0JB-1V-aKk"/>
+                                            <constraint firstItem="Vka-Y0-hgy" firstAttribute="leading" secondItem="eGC-J6-Glo" secondAttribute="leadingMargin" id="SJj-nh-tVV"/>
+                                            <constraint firstAttribute="bottomMargin" secondItem="Vka-Y0-hgy" secondAttribute="bottom" id="jg9-CG-jpM"/>
+                                            <constraint firstItem="Vka-Y0-hgy" firstAttribute="top" secondItem="eGC-J6-Glo" secondAttribute="topMargin" id="tdD-xg-cv3"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="eGC-J6-Glo" firstAttribute="leading" secondItem="2es-IS-q6n" secondAttribute="leading" id="03p-6H-xdz"/>
+                                    <constraint firstItem="eGC-J6-Glo" firstAttribute="top" secondItem="2es-IS-q6n" secondAttribute="top" id="2Uw-fj-Uxi"/>
+                                    <constraint firstAttribute="bottom" secondItem="eGC-J6-Glo" secondAttribute="bottom" constant="20" symbolic="YES" id="6ij-wd-ekt"/>
+                                    <constraint firstItem="eGC-J6-Glo" firstAttribute="width" secondItem="2es-IS-q6n" secondAttribute="width" id="Buv-KD-FDN"/>
+                                    <constraint firstAttribute="trailing" secondItem="eGC-J6-Glo" secondAttribute="trailing" id="Ssw-Tg-LlO"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="2es-IS-q6n" secondAttribute="bottom" id="7Xh-QI-0i5"/>
+                            <constraint firstItem="ciy-Dg-7Fe" firstAttribute="trailing" secondItem="2es-IS-q6n" secondAttribute="trailing" id="I73-Sz-tQC"/>
+                            <constraint firstItem="2es-IS-q6n" firstAttribute="top" secondItem="TPJ-Ci-dWh" secondAttribute="top" id="eqU-9H-Cfu"/>
+                            <constraint firstItem="2es-IS-q6n" firstAttribute="leading" secondItem="ciy-Dg-7Fe" secondAttribute="leading" id="xWg-Hz-f7H"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ciy-Dg-7Fe"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ZkF-3L-INv"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="content" destination="X58-sT-iXo" id="7Ob-8n-P8t"/>
+                        <outlet property="displayAt" destination="QS5-KG-MRH" id="dMs-oy-KJn"/>
+                        <outlet property="newsTitle" destination="zG7-YK-djq" id="Ch5-mw-mfN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WD2-7a-UeB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3492" y="1146"/>
+        </scene>
+    </scenes>
+</document>

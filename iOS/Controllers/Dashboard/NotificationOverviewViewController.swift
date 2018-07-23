@@ -22,14 +22,14 @@ struct SCNotification { // }: Unmarshaling {
 */
 }
 
-class ShortNotificationViewController: UITableViewController {
+class NotificationOverviewViewController: UITableViewController {
 
     static let numberOfShownCells = 3
 
     weak var delegate: ShortNotificationViewControllerDelegate?
     var notifications: [SCNotification] = [] {
         didSet {
-            let moreCellsToShow = self.notifications.count > ShortNotificationViewController.numberOfShownCells
+            let moreCellsToShow = self.notifications.count > NotificationOverviewViewController.numberOfShownCells
             self.tableView.tableFooterView?.isHidden = !moreCellsToShow
             self.tableView.reloadData()
         }
@@ -60,7 +60,7 @@ class ShortNotificationViewController: UITableViewController {
             return 1
         }
 
-        return min(self.notifications.count, ShortNotificationViewController.numberOfShownCells)
+        return min(self.notifications.count, NotificationOverviewViewController.numberOfShownCells)
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -87,7 +87,7 @@ class ShortNotificationViewController: UITableViewController {
     }
 }
 
-extension ShortNotificationViewController: ViewHeightDataSource {
+extension NotificationOverviewViewController: ViewHeightDataSource {
     var height: CGFloat {
         var viewHeight = self.tableView.contentSize.height
         if let footer = self.tableView.tableFooterView, footer.isHidden {
@@ -99,7 +99,7 @@ extension ShortNotificationViewController: ViewHeightDataSource {
     }
 }
 
-extension ShortNotificationViewController: PermissionInfoDataSource {
+extension NotificationOverviewViewController: PermissionInfoDataSource {
     static let requiredPermission = UserPermissions.notificationView
 }
 

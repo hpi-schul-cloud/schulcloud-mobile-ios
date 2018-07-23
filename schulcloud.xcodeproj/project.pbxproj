@@ -13,6 +13,16 @@
 		503A5EFD1F3DC5DC00A7695B /* TabCourses.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */; };
 		503A5EFF1F3DC6A400A7695B /* TabFiles.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */; };
 		503A5F011F3DC6C700A7695B /* TabDashboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5F001F3DC6C700A7695B /* TabDashboard.storyboard */; };
+		506D7E22210616340018D9E2 /* CalendarOverview.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E21210616340018D9E2 /* CalendarOverview.storyboard */; };
+		506D7E24210616910018D9E2 /* HomeworkOverview.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E23210616910018D9E2 /* HomeworkOverview.storyboard */; };
+		506D7E26210616A50018D9E2 /* NotificationOverview.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E25210616A50018D9E2 /* NotificationOverview.storyboard */; };
+		506D7E28210616B30018D9E2 /* NewsOverview.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E27210616B30018D9E2 /* NewsOverview.storyboard */; };
+		506D7E2A210616C40018D9E2 /* MissingPermission.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E29210616C40018D9E2 /* MissingPermission.storyboard */; };
+		506D7E2C210618220018D9E2 /* NotificationList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E2B210618220018D9E2 /* NotificationList.storyboard */; };
+		506D7E2E210618320018D9E2 /* Calendar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E2D210618320018D9E2 /* Calendar.storyboard */; };
+		506D7E30210618440018D9E2 /* Homework.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E2F210618440018D9E2 /* Homework.storyboard */; };
+		506D7E32210618640018D9E2 /* NewsList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E31210618640018D9E2 /* NewsList.storyboard */; };
+		506D7E342106186F0018D9E2 /* NewsDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E332106186F0018D9E2 /* NewsDetail.storyboard */; };
 		507B78841F7BA2DB0071A0C2 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507B78831F7BA2DB0071A0C2 /* SnapshotHelper.swift */; };
 		507B78871F7BAF440071A0C2 /* XCUIElement+clear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507B78861F7BAF440071A0C2 /* XCUIElement+clear.swift */; };
 		50C9C79520FDD25D00AC914F /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE0A0B20D2AA7C00B0C2CE /* Common.framework */; };
@@ -48,7 +58,7 @@
 		CE41529820DBD9F900739CE2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */; };
 		CE41529920DBD9F900739CE2 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D45737A1EE02065009A30E2 /* CalendarViewController.swift */; };
 		CE41529A20DBD9F900739CE2 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A1CDE31F501A0C006E9B69 /* NotificationViewController.swift */; };
-		CE41529B20DBD9F900739CE2 /* ShortNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509A93391F541668001167DE /* ShortNotificationViewController.swift */; };
+		CE41529B20DBD9F900739CE2 /* NotificationOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509A93391F541668001167DE /* NotificationOverviewViewController.swift */; };
 		CE41529C20DBD9F900739CE2 /* HomeworkDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507684BF1F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift */; };
 		CE41529D20DBD9F900739CE2 /* NewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0F83CA20653C3F00F847D7 /* NewsDetailViewController.swift */; };
 		CE41529E20DBD9F900739CE2 /* NewsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */; };
@@ -181,12 +191,22 @@
 		50604582206BA401009569D1 /* schulcloud.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = schulcloud.xcdatamodel; sourceTree = "<group>"; };
 		50604583206BA401009569D1 /* schulcloud 1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "schulcloud 1.xcdatamodel"; sourceTree = "<group>"; };
 		506D146E1F56F81D00AA5613 /* UIView+shake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+shake.swift"; sourceTree = "<group>"; };
+		506D7E21210616340018D9E2 /* CalendarOverview.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CalendarOverview.storyboard; sourceTree = "<group>"; };
+		506D7E23210616910018D9E2 /* HomeworkOverview.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HomeworkOverview.storyboard; sourceTree = "<group>"; };
+		506D7E25210616A50018D9E2 /* NotificationOverview.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NotificationOverview.storyboard; sourceTree = "<group>"; };
+		506D7E27210616B30018D9E2 /* NewsOverview.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NewsOverview.storyboard; sourceTree = "<group>"; };
+		506D7E29210616C40018D9E2 /* MissingPermission.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MissingPermission.storyboard; sourceTree = "<group>"; };
+		506D7E2B210618220018D9E2 /* NotificationList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NotificationList.storyboard; sourceTree = "<group>"; };
+		506D7E2D210618320018D9E2 /* Calendar.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Calendar.storyboard; sourceTree = "<group>"; };
+		506D7E2F210618440018D9E2 /* Homework.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Homework.storyboard; sourceTree = "<group>"; };
+		506D7E31210618640018D9E2 /* NewsList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NewsList.storyboard; sourceTree = "<group>"; };
+		506D7E332106186F0018D9E2 /* NewsDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NewsDetail.storyboard; sourceTree = "<group>"; };
 		507684BF1F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkDetailViewController.swift; sourceTree = "<group>"; };
 		507B78831F7BA2DB0071A0C2 /* SnapshotHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = "iOS-UITests/SnapshotHelper.swift"; sourceTree = SOURCE_ROOT; };
 		507B78861F7BAF440071A0C2 /* XCUIElement+clear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+clear.swift"; sourceTree = "<group>"; };
 		5083AB56203C5D9D002E6E47 /* CoreDataObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataObserver.swift; sourceTree = "<group>"; };
 		5083AB58203D517F002E6E47 /* UserHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHelper.swift; sourceTree = "<group>"; };
-		509A93391F541668001167DE /* ShortNotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortNotificationViewController.swift; sourceTree = "<group>"; };
+		509A93391F541668001167DE /* NotificationOverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationOverviewViewController.swift; sourceTree = "<group>"; };
 		509B10D52008E5840042AA7D /* NSMutableAttributedString+trim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+trim.swift"; sourceTree = "<group>"; };
 		50A1CDE31F501A0C006E9B69 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		50A1CDE51F501AC5006E9B69 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
@@ -391,6 +411,18 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		506D7E20210615FC0018D9E2 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				506D7E21210616340018D9E2 /* CalendarOverview.storyboard */,
+				506D7E23210616910018D9E2 /* HomeworkOverview.storyboard */,
+				506D7E25210616A50018D9E2 /* NotificationOverview.storyboard */,
+				506D7E27210616B30018D9E2 /* NewsOverview.storyboard */,
+				506D7E29210616C40018D9E2 /* MissingPermission.storyboard */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
 		50739CC91F56B9C600CD68C7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -554,7 +586,6 @@
 				C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */,
 				3D45737A1EE02065009A30E2 /* CalendarViewController.swift */,
 				50A1CDE31F501A0C006E9B69 /* NotificationViewController.swift */,
-				509A93391F541668001167DE /* ShortNotificationViewController.swift */,
 				507684BF1F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift */,
 				CE0F83CA20653C3F00F847D7 /* NewsDetailViewController.swift */,
 				CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */,
@@ -565,12 +596,18 @@
 		C3A5A9361EBCD06200825DBF /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				C3A5A9061EBCC17600825DBF /* Main.storyboard */,
-				503A5EF91F3DB86C00A7695B /* TabSettings.storyboard */,
+				506D7E20210615FC0018D9E2 /* Dashboard */,
 				C3A5A90E1EBCC17600825DBF /* LaunchScreen.storyboard */,
+				C3A5A9061EBCC17600825DBF /* Main.storyboard */,
 				503A5F001F3DC6C700A7695B /* TabDashboard.storyboard */,
 				503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */,
 				503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */,
+				503A5EF91F3DB86C00A7695B /* TabSettings.storyboard */,
+				506D7E2B210618220018D9E2 /* NotificationList.storyboard */,
+				506D7E2D210618320018D9E2 /* Calendar.storyboard */,
+				506D7E2F210618440018D9E2 /* Homework.storyboard */,
+				506D7E31210618640018D9E2 /* NewsList.storyboard */,
+				506D7E332106186F0018D9E2 /* NewsDetail.storyboard */,
 				C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */,
 				C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */,
 				CE3C5572206BD6BB00B79034 /* MissingPermissionView.xib */,
@@ -649,6 +686,7 @@
 				50D6432C1F8E09E200A89331 /* HomeworkOverviewViewController.swift */,
 				CE9B56C72062A2C400803B3D /* NewsOverviewViewController.swift */,
 				CE3C5574206BE07200B79034 /* MissingPermissionView.swift */,
+				509A93391F541668001167DE /* NotificationOverviewViewController.swift */,
 				CE3C5576206BE0DA00B79034 /* PermissionManagmentViewController.swift */,
 			);
 			path = Dashboard;
@@ -926,7 +964,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				506D7E342106186F0018D9E2 /* NewsDetail.storyboard in Resources */,
 				C3418B681ED335F400280E62 /* WebviewPreviewViewContoller.xib in Resources */,
+				506D7E24210616910018D9E2 /* HomeworkOverview.storyboard in Resources */,
+				506D7E2A210616C40018D9E2 /* MissingPermission.storyboard in Resources */,
+				506D7E2C210618220018D9E2 /* NotificationList.storyboard in Resources */,
+				506D7E28210616B30018D9E2 /* NewsOverview.storyboard in Resources */,
 				C3A5A9101EBCC17600825DBF /* LaunchScreen.storyboard in Resources */,
 				CE4152B620E2854900739CE2 /* Assets-ios-brand.generated.xcassets in Resources */,
 				503A5EFB1F3DB86C00A7695B /* TabSettings.storyboard in Resources */,
@@ -936,8 +979,13 @@
 				C3418B671ED335F400280E62 /* PreviewTransitionViewController.xib in Resources */,
 				C3A5A90D1EBCC17600825DBF /* Assets.xcassets in Resources */,
 				C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */,
+				506D7E30210618440018D9E2 /* Homework.storyboard in Resources */,
 				CEBE1547207B63DC00238D1F /* HomeworkHeaderView.xib in Resources */,
 				503A5F011F3DC6C700A7695B /* TabDashboard.storyboard in Resources */,
+				506D7E32210618640018D9E2 /* NewsList.storyboard in Resources */,
+				506D7E2E210618320018D9E2 /* Calendar.storyboard in Resources */,
+				506D7E26210616A50018D9E2 /* NotificationOverview.storyboard in Resources */,
+				506D7E22210616340018D9E2 /* CalendarOverview.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1213,7 +1261,7 @@
 				CE41529320DBD9F500739CE2 /* LoadingViewController.swift in Sources */,
 				CE4152AD20DBDA4D00739CE2 /* SingleLessonViewController.swift in Sources */,
 				CE4152AC20DBDA4D00739CE2 /* LessonsViewController.swift in Sources */,
-				CE41529B20DBD9F900739CE2 /* ShortNotificationViewController.swift in Sources */,
+				CE41529B20DBD9F900739CE2 /* NotificationOverviewViewController.swift in Sources */,
 				CE41529620DBD9F900739CE2 /* CoursesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
