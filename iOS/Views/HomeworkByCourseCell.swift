@@ -8,21 +8,13 @@ import UIKit
 
 final class HomeworkByCourseCell: UITableViewCell {
 
-    static var formatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.doesRelativeDateFormatting = true
-        dateFormatter.dateStyle = .short
-        return dateFormatter
-    }()
-
     @IBOutlet private weak var title: UILabel!
     @IBOutlet private weak var dueDate: UILabel!
     @IBOutlet private weak var descriptionText: UILabel!
 
     func configure(with homework: Homework) {
-
-        title?.text = homework.name
-        dueDate?.text = "\(HomeworkByCourseCell.formatter.string(from: homework.dueDate))"
+        self.title.text = homework.name
+        self.dueDate.text = Homework.dateTimeFormatter.string(from: homework.dueDate)
 
         var homeworkDescription = homework.cleanedDescriptionText
         if let attributedString = NSMutableAttributedString(html: homeworkDescription) {
@@ -31,6 +23,6 @@ final class HomeworkByCourseCell: UITableViewCell {
             homeworkDescription = attributedString.trailingNewlineChopped.string
         }
 
-        descriptionText.text = homeworkDescription
+        self.descriptionText.text = homeworkDescription
     }
 }

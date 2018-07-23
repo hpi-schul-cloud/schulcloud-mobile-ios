@@ -34,6 +34,29 @@ extension Homework {
         return dateFormatter
     }()
 
+    public static var dateTimeFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.doesRelativeDateFormatting = true
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .short
+        return dateFormatter
+    }()
+
+    public static var dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.doesRelativeDateFormatting = true
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .none
+        return dateFormatter
+    }()
+
+    public static var timeFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .none
+        dateFormatter.timeStyle = .short
+        return dateFormatter
+    }()
+
     /// returns just the day of the due date as yyyy-MM-dd
     @objc public var dueDateShort: String {
         return Homework.shortDateFormatter.string(from: self.dueDate as Date)
@@ -53,47 +76,6 @@ extension Homework {
 
     public var cleanedDescriptionText: String {
         return self.descriptionText.replacingOccurrences(of: "\\s+$", with: "", options: .regularExpression)
-    }
-
-    public var dueTextAndColor: (String, UIColor) {
-        let highlightColor = UIColor(red: 1.0, green: 45 / 255, blue: 0.0, alpha: 1.0)
-        let timeDifference = Calendar.current.dateComponents([.day, .hour], from: Date(), to: self.dueDate as Date)
-
-        guard let dueDay = timeDifference.day, !self.publicSubmissions else {
-            return ("", UIColor.clear)
-        }
-
-        switch dueDay {
-        case Int.min..<0:
-            return ("⚐ Überfällig", highlightColor)
-        case 0:
-            if let dueHour = timeDifference.hour, dueHour > 0 {
-                return ("⚐ In \(dueHour) Stunden fällig", highlightColor)
-            } else {
-                return ("⚐ Überfällig", highlightColor)
-            }
-        case 1:
-            return ("⚐ Morgen fällig", highlightColor)
-        case 2:
-            return ("Übermorgen", UIColor.black)
-        case 3...7:
-            return ("In \(dueDay) Tagen", UIColor.black)
-        default:
-            return ("", UIColor.clear)
-        }
-    }
-
-    static func relativeDateString(for date: Date) -> String {
-        let calendar = NSCalendar.current
-        if calendar.isDateInYesterday(date) {
-            return "Gestern"
-        } else if calendar.isDateInToday(date) {
-            return "Heute"
-        } else if calendar.isDateInTomorrow(date) {
-            return "Morgen"
-        } else {
-            return DateFormatter.localizedString(from: date, dateStyle: .full, timeStyle: .none)
-        }
     }
 
 }
