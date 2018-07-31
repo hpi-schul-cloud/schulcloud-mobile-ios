@@ -23,6 +23,7 @@ public struct BrandColors: Decodable {
         self.secondary = try container.decodeColor(forKey: .secondary)
         self.tertiary = try container.decodeColor(forKey: .tertiary)
     }
+
 }
 
 private extension KeyedDecodingContainer {
@@ -31,5 +32,5 @@ private extension KeyedDecodingContainer {
         let value = try self.decode(String.self, forKey: key)
         return UIColor(hexString: value)!
     }
-}
 
+}

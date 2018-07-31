@@ -41,7 +41,6 @@ class PreviewManager: NSObject, QLPreviewControllerDataSource {
         let item = PreviewItem(file: self.file)
         return item
     }
-
 }
 
 class PreviewItem: NSObject, QLPreviewItem {

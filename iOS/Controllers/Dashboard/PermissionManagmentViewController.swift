@@ -9,7 +9,7 @@ import UIKit
 protocol PermissionInfoDataSource {
 
     static var requiredPermission: UserPermissions { get }
-    static var missingPermissionView: UIView & ViewHeightDataSource { get }
+    static var missingPermissionView: MissingPermissionView { get }
 
 }
 
@@ -19,7 +19,7 @@ extension PermissionInfoDataSource where Self: UIViewController {
         return UserPermissions.none // if no permissiong required, show all the time
     }
 
-    static var missingPermissionView: UIView & ViewHeightDataSource {
+    static var missingPermissionView: MissingPermissionView {
         return UINib(nibName: "MissingPermissionView", bundle: nil).instantiate(withOwner: nil, options: nil).first as! MissingPermissionView
     }
 
@@ -49,7 +49,7 @@ final class PermissionManagmentViewController<T: PermissionAbleViewController>: 
             view = wrappedVC.view
             viewHeightDataSource = wrappedVC
         } else {
-            let missingPermissionView = T.missingPermissionView as! MissingPermissionView
+            let missingPermissionView = T.missingPermissionView
             missingPermissionView.missingPermission = T.requiredPermission
             viewHeightDataSource = missingPermissionView
             view = missingPermissionView
@@ -68,4 +68,5 @@ final class PermissionManagmentViewController<T: PermissionAbleViewController>: 
             containedViewController.didMove(toParentViewController: self)
         }
     }
+
 }

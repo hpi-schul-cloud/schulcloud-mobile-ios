@@ -40,8 +40,7 @@ class LoadingViewController: UIViewController {
     }
 
     func startDownload() {
-        fileSync.download(file,
-                          onDownloadInitialised: {
+        self.fileSync.download(self.file, onDownloadInitialised: {
             DispatchQueue.main.async {
                 self.activityIndicator.stopAnimating()
                 self.activityIndicator.isHidden = true

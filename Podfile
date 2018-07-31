@@ -5,7 +5,7 @@ platform :ios, '10.0'
 
 pod 'SwiftLint', '~> 0.25'
 
-def common_pods
+target 'Common' do
   pod 'Alamofire', '4.4.0'
   pod 'BrightFutures', '~> 6.0'
   pod 'Firebase/Auth'
@@ -15,10 +15,10 @@ def common_pods
   pod 'Locksmith', '3.0.0'
   pod 'SwiftyBeaver', :git => 'https://github.com/SwiftyBeaver/SwiftyBeaver.git', :commit => 'e4563d1'
   pod 'SyncEngine', :path => './Frameworks/SyncEngine'
-end
 
-target 'Common' do
-  common_pods
+  target 'Common-Tests' do
+    inherit! :search_paths
+  end
 end
 
 target 'iOS' do

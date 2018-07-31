@@ -32,12 +32,13 @@ disabled_rules:
 
 included:
 - Common
+- Common-Tests
 - iOS
-- iOSTests
-- iOSUITests
+- iOS-Tests
+- iOS-UITests
 
 excluded:
-- iOSUITests/SnapshotHelper.swift
+- iOS-UITests/SnapshotHelper.swift
 
 line_length: 160
 

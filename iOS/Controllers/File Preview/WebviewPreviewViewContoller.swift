@@ -128,7 +128,7 @@ class WebviewPreviewViewContoller: UIViewController {
         }
 
         var newString = string
-        let charDictionary = [
+        let charMapping = [
             "&amp;": "&",
             "&lt;": "<",
             "&gt;": ">",
@@ -136,7 +136,7 @@ class WebviewPreviewViewContoller: UIViewController {
             "&apos;": "'",
         ]
 
-        for (escapedChar, unescapedChar) in charDictionary {
+        for (escapedChar, unescapedChar) in charMapping {
             newString = newString.replacingOccurrences(of: escapedChar, with: unescapedChar, options: NSString.CompareOptions.regularExpression, range: nil)
         }
 

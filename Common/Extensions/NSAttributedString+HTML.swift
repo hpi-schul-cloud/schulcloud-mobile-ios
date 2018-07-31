@@ -9,7 +9,7 @@ import UIKit
 extension NSMutableAttributedString {
 
     public convenience init?(html: String) {
-        let modifiedFont = Constants.textStyleHtml + html    // TODO: fix bold and italic not working with custom font
+        let modifiedFont = Constants.textStyleHtml + html
         guard let data = modifiedFont.data(using: String.Encoding.utf16, allowLossyConversion: false) else {
             return nil
         }
