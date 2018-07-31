@@ -143,7 +143,7 @@ public class FileSync: NSObject {
             } catch let error {
                 promise.failure(.jsonDeserialization(error.localizedDescription) )
             }
-            }.resume()
+        }.resume()
         return promise.future
     }
 
@@ -192,7 +192,7 @@ public class FileSync: NSObject {
             } catch let error {
                 promise.failure(.jsonDeserialization(error.localizedDescription) )
             }
-            }.resume()
+        }.resume()
         return promise.future
     }
 

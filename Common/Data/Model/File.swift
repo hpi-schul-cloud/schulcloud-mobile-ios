@@ -192,14 +192,13 @@ extension File {
         return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.org.schulcloud")!.appendingPathComponent("File Provider Storage")
     }
 
-    public var fileLocation: URL? {
-        guard self.downloadState == .downloaded else { return nil }
-        return self.localURL
+    public var localFileName: String {
+        return "\(self.id)__\(self.name)"
     }
 
     public var localURL: URL {
         let allowedCharacters = CharacterSet.whitespacesAndNewlines.inverted
-        return File.localContainerURL.appendingPathComponent("\(self.id)__\(self.name.addingPercentEncoding(withAllowedCharacters: allowedCharacters)!)")
+        return File.localContainerURL.appendingPathComponent(self.localFileName.addingPercentEncoding(withAllowedCharacters: allowedCharacters)!)
     }
 
     public var remoteURL: URL? {

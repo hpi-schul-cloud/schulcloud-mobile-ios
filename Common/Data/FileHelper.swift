@@ -54,9 +54,22 @@ public class FileHelper {
         let rootFolderObjectId: NSManagedObjectID = context.performAndWait {
             let rootFolder = File.createLocal(context: context, id: rootDirectoryID, name: "Dateien", parentFolder: nil, isDirectory: true)
 
-            File.createLocal(context: context, id: userDirectoryID, name: "Meine Dateien", parentFolder: rootFolder, isDirectory: true, remoteURL: userDirectoryID)
-            File.createLocal(context: context, id: coursesDirectoryID, name: "Kurs-Dateien", parentFolder: rootFolder, isDirectory: true)
-            File.createLocal(context: context, id: sharedDirectoryID, name: "geteilte Dateien", parentFolder: rootFolder, isDirectory: true)
+            File.createLocal(context: context,
+                             id: userDirectoryID,
+                             name: "Meine Dateien",
+                             parentFolder: rootFolder,
+                             isDirectory: true,
+                             remoteURL: userDirectoryID)
+            File.createLocal(context: context,
+                             id: coursesDirectoryID,
+                             name: "Kurs-Dateien",
+                             parentFolder: rootFolder,
+                             isDirectory: true)
+            File.createLocal(context: context,
+                             id: sharedDirectoryID,
+                             name: "geteilte Dateien",
+                             parentFolder: rootFolder,
+                             isDirectory: true)
 
             if case let .failure(error) = context.saveWithResult() {
                 fatalError("Unresolved error \(error)") // TODO: replace this with something more friendly
