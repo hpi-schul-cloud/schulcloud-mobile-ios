@@ -84,7 +84,7 @@ public extension File {
 
     public var downloadState: DownloadState {
         get {
-            return DownloadState(rawValue: self.downloadState_)!
+            return DownloadState(rawValue: self.downloadState_) ?? .notDownloaded
         }
 
         set {
@@ -95,14 +95,15 @@ public extension File {
 
 public extension File {
     public enum UploadState: Int64 {
-        case uploading = 0
-        case uploaded = 1
-        case uploadError = 2
+        case notUploaded = 0
+        case uploading = 1
+        case uploaded = 2
+        case uploadError = 3
     }
 
     public var uploadState: UploadState {
         get {
-            return UploadState(rawValue: self.uploadState_)!
+            return UploadState(rawValue: self.uploadState_) ?? .notUploaded
         }
         set {
             self.uploadState_ = newValue.rawValue
@@ -140,20 +141,22 @@ extension File {
         let id: String = try data.value(for: "_id")
 
         let fetchRequest = NSFetchRequest<File>(entityName: "File")
-        let pathPredicate = NSPredicate(format: "id == %@", id)
+        let idPredicate = NSPredicate(format: "id == %@", id)
         let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
-        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [pathPredicate, parentFolderPredicate])
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [idPredicate, parentFolderPredicate])
+
 
         let result = try context.fetch(fetchRequest)
         if result.count > 1 {
-            throw SCError.database("Found more than one result for \(fetchRequest)")
+            throw SCError.coreDataMoreThanOneObjectFound
         }
 
         let file = result.first ?? File(context: context)
         file.id = id
 
         let allowedCharacters = CharacterSet.whitespacesAndNewlines.inverted
-        file.remoteURL_ = (try data.value(for: "key") as String?)?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
+        let remoteURLString = try data.value(for: "key") as String?
+        file.remoteURL_ = remoteURLString?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
         file.thumbnailRemoteURL_ = (try data.value(for: "thumbnail") as String?)?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
 
         file.name = name
@@ -189,7 +192,7 @@ extension File {
 
     // TODO: replace with fileprovidermanager when implemented
     static var localContainerURL: URL {
-        return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.org.schulcloud")!.appendingPathComponent("File Provider Storage")
+        return try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
     }
 
     public var localFileName: String {

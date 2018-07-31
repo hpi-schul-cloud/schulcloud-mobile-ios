@@ -154,7 +154,7 @@ public class FileHelper {
                 promise.failure(.jsonDeserialization(error.localizedDescription))
             } catch let error {
                 log.error(error)
-                promise.failure(.database(error.localizedDescription))
+                promise.failure(.coreData(error))
             }
         }
 
