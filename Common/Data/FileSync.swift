@@ -172,6 +172,7 @@ public class FileSync: NSObject {
             let file = backgroundContext.object(with: fileID) as! File
             file.downloadState = .downloading
         }
+
         _ = backgroundContext.saveWithResult()
 
         return signedURL(for: file).flatMap { url -> Future<URL, SCError> in
@@ -227,10 +228,10 @@ public class FileSync: NSObject {
 
 extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownloadDelegate {
     public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-
         guard let transferInfo = runningTask[downloadTask.taskIdentifier] else {
             fatalError("Impossible to download file without providing transferInfo")
         }
+
         do {
             try FileManager.default.moveItem(at: location, to: transferInfo.localFileURL)
         } catch _ {
@@ -239,7 +240,6 @@ extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownlo
     }
 
     public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-
         guard let transferInfo = runningTask[task.taskIdentifier] else {
             fatalError("Impossible to download file without providing transferInfo")
         }

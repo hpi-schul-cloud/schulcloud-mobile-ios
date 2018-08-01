@@ -59,7 +59,7 @@ public class FileHelper {
                              name: "Meine Dateien",
                              parentFolder: rootFolder,
                              isDirectory: true,
-                             remoteURL: userDirectoryID)
+                             remoteURL: URL(string: userDirectoryID) )
             File.createLocal(context: context,
                              id: coursesDirectoryID,
                              name: "Kurs-Dateien",
@@ -126,7 +126,7 @@ public class FileHelper {
                 let currentItemsIDs: [String] =  createdFiles.map { $0.id } + createdFolders.map { $0.id }
                 let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
                 let notOnServerPredicate = NSPredicate(format: "NOT (id IN %@)", currentItemsIDs)
-                let isDownloadedPredicate = NSPredicate(format: "downloadState_ == \(File.DownloadState.downloaded.rawValue)")
+                let isDownloadedPredicate = NSPredicate(format: "downloadStateValue == \(File.DownloadState.downloaded.rawValue)")
 
                 let locallyCachedFiles = NSFetchRequest<File>(entityName: "File")
                 locallyCachedFiles.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [notOnServerPredicate,
@@ -191,7 +191,7 @@ extension FileHelper {
                                          name: courseName,
                                          parentFolder: parentFolder,
                                          isDirectory: true,
-                                         remoteURL: "courses/\(courseId)/")
+                                         remoteURL: URL(string: "courses/\(courseId)/") )
                     }
                 }
             }
@@ -203,7 +203,7 @@ extension FileHelper {
                                      name: courseName,
                                      parentFolder: parentFolder,
                                      isDirectory: true,
-                                     remoteURL: "courses/\(courseId)/")
+                                     remoteURL: URL(string: "courses/\(courseId)/") )
                 }
             }
 

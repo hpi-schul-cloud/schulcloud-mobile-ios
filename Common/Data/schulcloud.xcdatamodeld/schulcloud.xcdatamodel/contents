@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="16G1114" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17G65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Course" representedClassName=".Course" syncable="YES">
         <attribute name="colorString" attributeType="String" syncable="YES"/>
         <attribute name="descriptionText" optional="YES" attributeType="String" syncable="YES"/>
@@ -25,16 +25,16 @@
         <relationship name="course" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Course" syncable="YES"/>
     </entity>
     <entity name="File" representedClassName=".File" syncable="YES">
-        <attribute name="downloadState_" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="downloadStateValue" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isDirectory" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="mimeType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
-        <attribute name="permissions_" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="remoteURL_" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="permissionsValue" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="remoteURL" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="size" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="thumbnailRemoteURL_" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="uploadState_" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="thumbnailRemoteURL" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="uploadStateValue" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="contents" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="File" inverseName="parentDirectory" inverseEntity="File" syncable="YES"/>
         <relationship name="parentDirectory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="File" inverseName="contents" inverseEntity="File" syncable="YES"/>
     </entity>
