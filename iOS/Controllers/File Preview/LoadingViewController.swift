@@ -16,11 +16,8 @@ class LoadingViewController: UIViewController {
     @IBOutlet private var progressView: UIProgressView!
     @IBOutlet private var errorLabel: UILabel!
     @IBOutlet private var cancelButton: UIButton!
-    @IBOutlet private var activityIndicator: UIActivityIndicatorView!
 
-    var downloadTask: URLSessionDownloadTask?
-
-    let fileSync = FileSync()
+    let fileSync = FileSync.default
     var file: File!
 
     override func viewDidLoad() {
@@ -31,31 +28,20 @@ class LoadingViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        downloadTask?.cancel()
     }
 
     @IBAction func cancelButtonTapped(_ sender: Any) {
-        downloadTask?.cancel()
         navigationController?.popViewController(animated: true)
     }
 
     func startDownload() {
-        fileSync.signedURL(for: file).flatMap { url -> Future<Data, SCError> in
+        self.fileSync.download(self.file) { progress in
             DispatchQueue.main.async {
-                self.activityIndicator.stopAnimating()
-                self.progressView.isHidden = false
+                self.progressView.setProgress(progress, animated: true)
             }
-
-            let future = self.fileSync.download(url: url) { progress in
-                DispatchQueue.main.async {
-                    self.progressView.setProgress(progress, animated: true)
-                }
-            }
-
-            return future
-        }.onSuccess { fileData in
+        }.onSuccess { _ in
             DispatchQueue.main.async {
-                self.showFile(data: fileData)
+                self.showFile()
             }
         }.onFailure { error in
             DispatchQueue.main.async {
@@ -64,38 +50,33 @@ class LoadingViewController: UIViewController {
         }
     }
 
-    func showFile(data: Data) {
-        let previewManager = PreviewManager(file: file, data: data)
+    func showFile() {
+        let previewManager = PreviewManager(file: file)
         let controller = previewManager.previewViewController
         controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
         controller.navigationItem.leftItemsSupplementBackButton = true
 
-        DispatchQueue.main.async {
-            if let nav = self.navigationController {
-                var viewControllers = nav.viewControllers
-                viewControllers.removeLast(1)
-                viewControllers.append(controller)
-                nav.setViewControllers(viewControllers, animated: false)
-            } else {
-                self.present(controller, animated: false, completion: nil)
-            }
+        if let nav = self.navigationController {
+            // TODO: add as subview
+            var viewControllers = nav.viewControllers
+            viewControllers.removeLast(1)
+            viewControllers.append(controller)
+            nav.setViewControllers(viewControllers, animated: false)
+        } else {
+            self.present(controller, animated: false, completion: nil)
+        }
 
-            if let quickLookController = controller as? QLPreviewController {
-                // fix for dataSource magically disappearing because hey let's store it in a weak variable in QLPreviewController
-                quickLookController.dataSource = previewManager
-                quickLookController.reloadData()
-            }
+        if let quickLook = controller as? QLPreviewController {
+            // fix for dataSource magically disappearing because hey let's store it in a weak variable in QLPreviewController
+            quickLook.dataSource = previewManager
+            quickLook.reloadData()
         }
     }
 
     func show(error: Error) {
-        DispatchQueue.main.async {
-            self.cancelButton.isHidden = true
-            self.progressView.isHidden = true
-            self.errorLabel.text = error.localizedDescription
-            self.errorLabel.isHidden = false
-            self.activityIndicator.stopAnimating()
-        }
+        self.cancelButton.isHidden = true
+        self.progressView.isHidden = true
+        self.errorLabel.text = error.localizedDescription
+        self.errorLabel.isHidden = false
     }
-
 }

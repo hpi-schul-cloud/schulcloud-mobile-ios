@@ -3,202 +3,16 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import Alamofire
 import BrightFutures
 import CoreData
 import Foundation
 import Marshal
 
-public class FileSync: NSObject {
-
-    public typealias ProgressHandler = (Float) -> Void
-
-    fileprivate var fileTransferSession: URLSession!
-    fileprivate let fileDataSession: URLSession
-
-    var runningTask: [Int: Promise<Data, SCError>] = [:]
-    var progressHandlers: [Int: ProgressHandler] = [:]
-
-    public override init() {
-        let configuration = URLSessionConfiguration.ephemeral
-        fileDataSession = URLSession(configuration: URLSessionConfiguration.default)
-
-        super.init()
-
-        fileTransferSession = URLSession(configuration: configuration, delegate: self, delegateQueue: OperationQueue.main)
-    }
-
-    deinit {
-        fileDataSession.invalidateAndCancel()
-        fileTransferSession.invalidateAndCancel()
-    }
-
-    private var fileStorageURL: URL {
-        return Brand.default.servers.backend.appendingPathComponent("fileStorage")
-    }
-
-    private func getUrl(for file: File) -> URL? {
-        var urlComponent = URLComponents(url: fileStorageURL, resolvingAgainstBaseURL: false)!
-        urlComponent.query = "path=\(file.url.absoluteString)"
-        return try? urlComponent.asURL()
-    }
-
-    private func request(for url: URL) -> URLRequest {
-        var request = URLRequest(url: url)
-        request.setValue(Globals.account!.accessToken!, forHTTPHeaderField: "Authorization")
-        request.httpMethod = "GET"
-        return request
-    }
-
-    public func downloadContent(for file: File) -> Future<[String: Any], SCError> {
-        guard file.isDirectory else { return Future(error: .other("only works on directory") ) }
-
-        let request = self.request(for: getUrl(for: file)! )
-        let promise: Promise<[String: Any], SCError> = Promise()
-        fileDataSession.dataTask(with: request) { data, response, error in
-            var responseData: Data
-            do {
-                responseData = try self.confirmNetworkResponse(data: data, response: response, error: error)
-            } catch let error as SCError {
-                promise.failure(error)
-                return
-            } catch {
-                promise.failure( .other("Weird"))
-                return
-            }
-
-            guard let json = (try? JSONSerialization.jsonObject(with: responseData, options: .allowFragments)) as? [String: Any] else {
-                promise.failure(SCError.jsonDeserialization("Can't deserialize"))
-                return
-            }
-
-            promise.success(json)
-        }.resume()
-        return promise.future
-    }
-
-    public func download(url: URL, progressHandler: @escaping ProgressHandler ) -> Future<Data, SCError> {
-        let promise = Promise<Data, SCError>()
-        let task = fileTransferSession.downloadTask(with: url)
-        task.resume()
-        runningTask[task.taskIdentifier] = promise
-        progressHandlers[task.taskIdentifier] = progressHandler
-        return promise.future
-    }
-
-    public func signedURL(for file: File) -> Future<URL, SCError> {
-        guard !file.isDirectory else { return Future(error: .other("Can't download folder") ) }
-
-        var request = self.request(for: fileStorageURL.appendingPathComponent("signedUrl") )
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        let parameters: Any = [
-            "path": file.url.absoluteString.removingPercentEncoding!,
-//            "fileType": mime.lookup(file),
-            "action": "getObject",
-        ]
-
-        request.httpBody = try! JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
-
-        let promise = Promise<URL, SCError>()
-        fileDataSession.dataTask(with: request) { data, response, error in
-            do {
-                let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
-                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                let signedURL = try SignedUrl(object: json as! MarshaledObject)
-                promise.success(signedURL.url)
-            } catch let error as SCError {
-                promise.failure(error)
-            } catch let error {
-                promise.failure(.jsonDeserialization(error.localizedDescription) )
-            }
-        }.resume()
-        return promise.future
-    }
-
-    public func downloadSharedFiles() -> Future<[[String: Any]], SCError> {
-        let promise = Promise<[[String: Any]], SCError>()
-
-        let request = self.request(for: Brand.default.servers.backend.appendingPathComponent("files") )
-        fileDataSession.dataTask(with: request) { data, response, error in
-            do {
-                let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
-                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! MarshaledObject
-                let files: [MarshaledObject] = try json.value(for: "data")
-                let sharedFiles = files.filter { object -> Bool in
-                    return (try? object.value(for: "context")) == "geteilte Datei"
-                }
-
-                promise.success(sharedFiles as! [[String: Any]])
-            } catch let error as SCError {
-                promise.failure(error)
-            } catch let error {
-                promise.failure(.jsonDeserialization(error.localizedDescription) )
-            }
-        }.resume()
-
-        return promise.future
-    }
-
-    private func confirmNetworkResponse(data: Data?, response: URLResponse?, error: Error?) throws -> Data {
-        guard error == nil else {
-            throw SCError.network(error)
-        }
-
-        guard let response = response as? HTTPURLResponse,
-            200 ... 299 ~= response.statusCode else {
-                throw SCError.network(nil)
-        }
-
-        guard let data = data else {
-            throw SCError.network(nil)
-        }
-
-        return data
-    }
-
-}
-
-extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownloadDelegate {
-    public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        let promise = runningTask[downloadTask.taskIdentifier]
-        do {
-            let data = try Data(contentsOf: location)
-            promise?.success(data)
-        } catch let error {
-            promise?.failure(.other(error.localizedDescription))
-        }
-    }
-
-    public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        let promise = runningTask[task.taskIdentifier]
-        if let error = error {
-            promise?.failure(.network(error))
-        }
-
-        runningTask.removeValue(forKey: task.taskIdentifier)
-        progressHandlers.removeValue(forKey: task.taskIdentifier)
-    }
-
-    // Download progress
-    public func urlSession(_ session: URLSession,
-                           downloadTask: URLSessionDownloadTask,
-                           didWriteData bytesWritten: Int64,
-                           totalBytesWritten: Int64,
-                           totalBytesExpectedToWrite: Int64) {
-        if let progressHandler = progressHandlers[downloadTask.taskIdentifier] {
-            let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
-            progressHandler(progress)
-        }
-    }
-}
-
 public class FileHelper {
     public static var rootDirectoryID = "root"
     public static var coursesDirectoryID = "courses"
     public static var sharedDirectoryID = "shared"
-    public static var userDirectoyID: String {
+    public static var userDirectoryID: String {
         return "users/\(Globals.account?.userId ?? "")"
     }
 
@@ -212,21 +26,13 @@ public class FileHelper {
         return url.appendingPathComponent(userId, isDirectory: true)
     }
 
-    fileprivate static var coursesDataRootURL: URL = {
-        return URL(string: coursesDirectoryID)!
-    }()
-
-    fileprivate static var sharedDataRootURL: URL = {
-        return URL(string: sharedDirectoryID)!
-    }()
-
     public static var rootFolder: File {
         return fetchRootFolder() ?? createBaseStructure()
     }
 
     fileprivate static func fetchRootFolder() -> File? {
         let fetchRequest = NSFetchRequest(entityName: "File") as NSFetchRequest<File>
-        fetchRequest.predicate = NSPredicate(format: "currentPath == %@", rootDirectoryID)
+        fetchRequest.predicate = NSPredicate(format: "id == %@", rootDirectoryID)
 
         let result = CoreDataHelper.viewContext.fetchSingle(fetchRequest)
         if case let .success(file) = result {
@@ -238,38 +44,32 @@ public class FileHelper {
 
     /// Create the basic folder structure and return main Root
     fileprivate static func createBaseStructure() -> File {
+        do {
+            try FileManager.default.createDirectory(at: File.localContainerURL, withIntermediateDirectories: true, attributes: nil)
+        } catch {
+            fatalError("Can't create local file container")
+        }
+
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
         let rootFolderObjectId: NSManagedObjectID = context.performAndWait {
-            let rootFolder = File(context: context)
-            rootFolder.id = rootDirectoryID
-            rootFolder.name = "Dateien"
-            rootFolder.isDirectory = true
-            rootFolder.currentPath = rootDirectoryID
-            rootFolder.permissions = .read
+            let rootFolder = File.createLocal(context: context, id: rootDirectoryID, name: "Dateien", parentFolder: nil, isDirectory: true)
 
-            let userRootFolder = File(context: context)
-            userRootFolder.id = userDirectoyID
-            userRootFolder.name = "Meine Dateien"
-            userRootFolder.isDirectory = true
-            userRootFolder.currentPath = userDataRootURL.absoluteString
-            userRootFolder.parentDirectory = rootFolder
-            userRootFolder.permissions = .read
-
-            let coursesRootFolder = File(context: context)
-            coursesRootFolder.id = coursesDirectoryID
-            coursesRootFolder.name = "Kurs-Dateien"
-            coursesRootFolder.isDirectory = true
-            coursesRootFolder.currentPath = coursesDataRootURL.absoluteString
-            coursesRootFolder.parentDirectory = rootFolder
-            coursesRootFolder.permissions = .read
-
-            let sharedRootFolder = File(context: context)
-            sharedRootFolder.id = sharedDirectoryID
-            sharedRootFolder.name = "geteilte Dateien"
-            sharedRootFolder.isDirectory = true
-            sharedRootFolder.currentPath = sharedDataRootURL.absoluteString
-            sharedRootFolder.parentDirectory = rootFolder
-            sharedRootFolder.permissions = .read
+            File.createLocal(context: context,
+                             id: userDirectoryID,
+                             name: "Meine Dateien",
+                             parentFolder: rootFolder,
+                             isDirectory: true,
+                             remoteURL: URL(string: userDirectoryID) )
+            File.createLocal(context: context,
+                             id: coursesDirectoryID,
+                             name: "Kurs-Dateien",
+                             parentFolder: rootFolder,
+                             isDirectory: true)
+            File.createLocal(context: context,
+                             id: sharedDirectoryID,
+                             name: "geteilte Dateien",
+                             parentFolder: rootFolder,
+                             isDirectory: true)
 
             if case let .failure(error) = context.saveWithResult() {
                 fatalError("Unresolved error \(error)") // TODO: replace this with something more friendly
@@ -291,7 +91,7 @@ public class FileHelper {
         if file.isDirectory { path?.appendPathComponent("directories", isDirectory: true) }
         path?.appendPathComponent(file.id)
 
-        let parameters: Parameters = ["path": file.currentPath]
+        let parameters: [String: Any] = ["path": file.remoteURL!.absoluteString]
 
         // TODO: Figure out the success structure
 //        let request: Future<DidSuccess, SCError> = ApiHelper.request(path!.absoluteString,
@@ -323,22 +123,38 @@ public class FileHelper {
                 }
 
                 // remove deleted files or folders
-                let foundPaths = createdFiles.map { $0.currentPath } + createdFolders.map { $0.currentPath }
+                let currentItemsIDs: [String] =  createdFiles.map { $0.id } + createdFolders.map { $0.id }
                 let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
-                let notOnServerPredicate = NSPredicate(format: "NOT (currentPath IN %@)", foundPaths)
-                let fetchRequest = NSFetchRequest<File>(entityName: "File")
-                fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [notOnServerPredicate, parentFolderPredicate])
+                let notOnServerPredicate = NSPredicate(format: "NOT (id IN %@)", currentItemsIDs)
+                let isDownloadedPredicate = NSPredicate(format: "downloadStateValue == \(File.DownloadState.downloaded.rawValue)")
 
-                let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest as! NSFetchRequest<NSFetchRequestResult>)
+                let locallyCachedFiles = NSFetchRequest<File>(entityName: "File")
+                locallyCachedFiles.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [notOnServerPredicate,
+                                                                                                   parentFolderPredicate,
+                                                                                                   isDownloadedPredicate, ])
+
+                let coordinator = NSFileCoordinator()
+                let deletedFilesWithLocalCache = context.fetchMultiple(locallyCachedFiles).value ?? []
+                for file in deletedFilesWithLocalCache {
+                    var error: NSError?
+                    coordinator.coordinate(writingItemAt: file.localURL, options: .forDeleting, error: &error) { url in
+                        try? FileManager.default.removeItem(at: url)
+                    }
+                }
+
+                let deletedFileFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "File")
+                deletedFileFetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [notOnServerPredicate, parentFolderPredicate])
+                let deleteRequest = NSBatchDeleteRequest(fetchRequest: deletedFileFetchRequest)
                 try context.execute(deleteRequest)
 
                 try context.save()
+                // TODO(FileProvider): Signal changes in the parent folder here
                 promise.success(())
             } catch let error as MarshalError {
                 promise.failure(.jsonDeserialization(error.localizedDescription))
             } catch let error {
                 log.error(error)
-                promise.failure(.database(error.localizedDescription))
+                promise.failure(.coreData(error))
             }
         }
 
@@ -370,36 +186,28 @@ extension FileHelper {
                     if let file = parentFolder.contents.first(where: { $0.id == courseId }) {
                         file.name = courseName
                     } else {
-                        let file = File(context: context)
-                        file.id = courseId
-                        file.currentPath = parentFolder.url.appendingPathComponent(courseId, isDirectory: true).absoluteString
-                        file.name = courseName
-                        file.isDirectory = true
-                        file.parentDirectory = parentFolder
+                        File.createLocal(context: context,
+                                         id: courseId,
+                                         name: courseName,
+                                         parentFolder: parentFolder,
+                                         isDirectory: true,
+                                         remoteURL: URL(string: "courses/\(courseId)/") )
                     }
                 }
             }
 
             if let insertedCourses = changes[NSInsertedObjectsKey], !insertedCourses.isEmpty {
                 for (courseId, courseName) in insertedCourses {
-                    let file = File(context: context)
-                    file.id = courseId
-                    file.currentPath = parentFolder.url.appendingPathComponent(courseId, isDirectory: true).absoluteString
-                    file.name = courseName
-                    file.isDirectory = true
-                    file.parentDirectory = parentFolder
+                    File.createLocal(context: context,
+                                     id: courseId,
+                                     name: courseName,
+                                     parentFolder: parentFolder,
+                                     isDirectory: true,
+                                     remoteURL: URL(string: "courses/\(courseId)/") )
                 }
             }
 
-            context.saveWithResult()
+            _ = context.saveWithResult()
         }
-    }
-}
-
-struct SignedUrl: Unmarshaling {
-    let url: URL
-
-    init(object: MarshaledObject) throws {
-        url = try object.value(for: "url")
     }
 }

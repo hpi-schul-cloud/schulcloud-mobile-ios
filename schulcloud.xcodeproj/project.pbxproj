@@ -77,6 +77,7 @@
 		CE4152AC20DBDA4D00739CE2 /* LessonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870C11EE0250500ABA348 /* LessonsViewController.swift */; };
 		CE4152AD20DBDA4D00739CE2 /* SingleLessonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3CAB01EF5CBB6009601AE /* SingleLessonViewController.swift */; };
 		CE4152B620E2854900739CE2 /* Assets-ios-brand.generated.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE4152B520E2854900739CE2 /* Assets-ios-brand.generated.xcassets */; };
+		CE85F0AF210091B700112085 /* FileSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE85F0AE210091B700112085 /* FileSync.swift */; };
 		CEBE1547207B63DC00238D1F /* HomeworkHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBE1546207B63DC00238D1F /* HomeworkHeaderView.xib */; };
 		CEEE0A1220D2AA7C00B0C2CE /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE0A0B20D2AA7C00B0C2CE /* Common.framework */; };
 		CEEE0A1420D2AA7C00B0C2CE /* Common.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE0A0B20D2AA7C00B0C2CE /* Common.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -308,6 +309,7 @@
 		CE737A4D1FFE65B0006DAB54 /* NewsArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsArticleCell.swift; sourceTree = "<group>"; };
 		CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListViewController.swift; sourceTree = "<group>"; };
 		CE829316204EB6B3009D2C84 /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
+		CE85F0AE210091B700112085 /* FileSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSync.swift; sourceTree = "<group>"; };
 		CE99358A2074F667008E7EB0 /* HomeworkOverviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkOverviewCell.swift; sourceTree = "<group>"; };
 		CE9B56C72062A2C400803B3D /* NewsOverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsOverviewViewController.swift; sourceTree = "<group>"; };
 		CEB0027C2008BF9C007084C9 /* CalendarEventHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarEventHelper.swift; sourceTree = "<group>"; };
@@ -651,6 +653,7 @@
 				CE2FF7792045A15900D5AF8E /* UserPermissions.swift */,
 				5083AB58203D517F002E6E47 /* UserHelper.swift */,
 				50604581206BA401009569D1 /* schulcloud.xcdatamodeld */,
+				CE85F0AE210091B700112085 /* FileSync.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1305,6 +1308,7 @@
 				CEEE0A2C20D2AB5D00B0C2CE /* SCError.swift in Sources */,
 				CEEE0A3320D2AD8400B0C2CE /* File.swift in Sources */,
 				CEEE0A3920D2AD9000B0C2CE /* CoreDataHelper.swift in Sources */,
+				CE85F0AF210091B700112085 /* FileSync.swift in Sources */,
 				CEEE0A4720D2ADAD00B0C2CE /* Date+TimeZone.swift in Sources */,
 				CEEE0A3B20D2AD9000B0C2CE /* HomeworkHelper.swift in Sources */,
 				CEEE0A4C20D2ADAD00B0C2CE /* UIColor+hexString.swift in Sources */,

@@ -40,15 +40,15 @@ class WebviewPreviewViewContoller: UIViewController {
     // MARK: Share
 
     @objc func shareFile() {
-        guard let file = file else {
+        guard let file = self.file else {
             return
         }
 
         let activityItems: [Any]
-        if let data = fileData {
+        if let data = self.fileData {
             activityItems = [data]
-        } else if let url = file.cacheUrl {
-            activityItems = [url]
+        } else if file.downloadState == .downloaded {
+            activityItems = [file.localURL]
         } else {
             return
         }
@@ -61,17 +61,16 @@ class WebviewPreviewViewContoller: UIViewController {
     // MARK: Processing
 
     func processForDisplay() {
-        guard let file = file else {
+        guard let file = self.file else {
             print("file is not set!")
             return
         }
 
         let data: Data
-        if let fileData = fileData {
+        if let fileData = self.fileData {
             data = fileData
-        } else if let localFileUrl = file.cacheUrl,
-            localFileUrl.scheme == "file",
-            let fileData = try? Data(contentsOf: localFileUrl) {
+        } else if file.downloadState == .downloaded,
+            let fileData = try? Data(contentsOf: file.localURL) {
             data = fileData
         } else {
             print("Could not find data for file!")
@@ -81,7 +80,7 @@ class WebviewPreviewViewContoller: UIViewController {
         var rawString: String?
 
         // Prepare plist for display
-        if file.url.pathExtension.lowercased() == "plist" {
+        if file.localURL.pathExtension.lowercased() == "plist" {
             do {
                 if let plistDescription = try (PropertyListSerialization.propertyList(from: data, options: [], format: nil) as AnyObject).description {
                     rawString = plistDescription
@@ -90,7 +89,7 @@ class WebviewPreviewViewContoller: UIViewController {
         }
 
         // Prepare json file for display
-        else if file.url.pathExtension.lowercased() == "json" {
+        else if file.localURL.pathExtension.lowercased() == "json" {
             do {
                 let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
                 if JSONSerialization.isValidJSONObject(jsonObject) {

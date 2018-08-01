@@ -14,33 +14,37 @@ public final class File: NSManagedObject {
     }
 
     @NSManaged public var id: String
-    @NSManaged public var cacheURL_: String? // swiftlint:disable:this identifier_name
+    @NSManaged public var remoteURL: URL?
+    @NSManaged public var thumbnailRemoteURL: URL?
+
     @NSManaged public var name: String
     @NSManaged public var isDirectory: Bool
-    @NSManaged public var currentPath: String
     @NSManaged public var mimeType: String?
-    @NSManaged public var size: NSNumber?
+    @NSManaged public var size: Int64
+
+    @NSManaged private var permissionsValue: Int64
+    @NSManaged private var downloadStateValue: Int64
+    @NSManaged private var uploadStateValue: Int64
+
     @NSManaged public var parentDirectory: File?
     @NSManaged public var contents: Set<File>
-    @NSManaged public var permissions_: Int64 // swiftlint:disable:this identifier_name
-
 }
 
-extension File {
+public extension File {
 
-    struct Permissions: OptionSet {
-        let rawValue: Int64
+    public struct Permissions: OptionSet {
+        public let rawValue: Int64
 
         static let read = Permissions(rawValue: 1 << 1)
         static let write = Permissions(rawValue: 1 << 2)
 
         static let readWrite: Permissions = [.read, .write]
 
-        init(rawValue: Int64) {
+        public init(rawValue: Int64) {
             self.rawValue = rawValue
         }
 
-        init?(str: String) {
+        public init?(str: String) {
             switch str {
             case "can_read":
                 self = Permissions.read
@@ -62,39 +66,108 @@ extension File {
 
     var permissions: Permissions {
         get {
-            return Permissions(rawValue: self.permissions_)
+            return Permissions(rawValue: self.permissionsValue)
         }
         set {
-            self.permissions_ = newValue.rawValue
+            self.permissionsValue = newValue.rawValue
+        }
+    }
+}
+
+public extension File {
+    public enum DownloadState: Int64 {
+        case notDownloaded = 0
+        case downloading = 1
+        case downloaded = 2
+        case downloadFailed = 3
+    }
+
+    public var downloadState: DownloadState {
+        get {
+            return DownloadState(rawValue: self.downloadStateValue) ?? .notDownloaded
+        }
+
+        set {
+            self.downloadStateValue = newValue.rawValue
+        }
+    }
+}
+
+public extension File {
+    public enum UploadState: Int64 {
+        case notUploaded = 0
+        case uploading = 1
+        case uploaded = 2
+        case uploadError = 3
+    }
+
+    public var uploadState: UploadState {
+        get {
+            return UploadState(rawValue: self.uploadStateValue) ?? .notUploaded
+        }
+        set {
+            self.uploadStateValue = newValue.rawValue
         }
     }
 }
 
 extension File {
 
-    static func createOrUpdate(inContext context: NSManagedObjectContext, parentFolder: File, isDirectory: Bool, data: MarshaledObject) throws -> File {
-        let name: String = try data.value(for: "name")
-        let path = parentFolder.url.appendingPathComponent(name, isDirectory: isDirectory)
+    @discardableResult static func createLocal(context: NSManagedObjectContext,
+                                               id: String,
+                                               name: String,
+                                               parentFolder: File?,
+                                               isDirectory: Bool,
+                                               remoteURL: URL? = nil) -> File {
+        let file = File(context: context)
+        file.id = id
 
-        let fetchRequest = NSFetchRequest<File>(entityName: "File")
-        let pathPredicate = NSPredicate(format: "currentPath == %@", path.absoluteString)
-        let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
-        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [pathPredicate, parentFolderPredicate])
+        file.remoteURL = remoteURL
+        file.thumbnailRemoteURL = nil
 
-        let result = try context.fetch(fetchRequest)
-        let file = result.first ?? File(context: context)
-        if result.count > 1 {
-            throw SCError.database("Found more than one result for \(fetchRequest)")
-        }
-
-        file.id = try data.value(for: "_id")
         file.name = name
         file.isDirectory = isDirectory
-        file.currentPath = path.absoluteString
-        file.mimeType = try? data.value(for: "type")
-        if let size = try? data.value(for: "size") as Int64 {
-            file.size = size as NSNumber?
+        file.parentDirectory = parentFolder
+
+        file.permissions = .read
+        file.uploadState = .uploaded
+        file.downloadState = . downloaded
+
+        return file
+    }
+
+    static func createOrUpdate(inContext context: NSManagedObjectContext, parentFolder: File, isDirectory: Bool, data: MarshaledObject) throws -> File {
+        let name: String = try data.value(for: "name")
+        let id: String = try data.value(for: "_id")
+
+        let fetchRequest = NSFetchRequest<File>(entityName: "File")
+        let idPredicate = NSPredicate(format: "id == %@", id)
+        let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [idPredicate, parentFolderPredicate])
+
+        let result = try context.fetch(fetchRequest)
+        if result.count > 1 {
+            throw SCError.coreDataMoreThanOneObjectFound
         }
+
+        let file = result.first ?? File(context: context)
+        file.id = id
+
+        let allowedCharacters = CharacterSet.whitespacesAndNewlines.inverted
+        let remoteURLString = try data.value(for: "key") as String?
+        let percentEncodedURLString = remoteURLString?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
+        file.remoteURL = URL(string: percentEncodedURLString ?? "")
+        let thumbnailRemoteURLString = try data.value(for: "thumbnail") as String?
+        let percentEncodedThumbnailURLString = thumbnailRemoteURLString?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
+        file.thumbnailRemoteURL = URL(string: percentEncodedThumbnailURLString ?? "")
+
+        file.name = name
+        file.isDirectory = isDirectory
+        file.mimeType = try? data.value(for: "type")
+        file.size = try data.value(for: "size")
+
+        file.downloadState = isDirectory ? .downloaded : .notDownloaded
+        file.uploadState = .uploaded
 
         file.parentDirectory = parentFolder
 
@@ -119,23 +192,18 @@ extension File {
 // MARK: computed properties
 extension File {
 
-    public var url: URL {
-        get {
-            return URL(string: currentPath)!
-        }
-        set {
-            self.currentPath = newValue.absoluteString
-        }
+    // TODO: replace with fileprovidermanager when implemented
+    static var localContainerURL: URL {
+        return try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
     }
 
-    public var cacheUrl: URL? {
-        get {
-            guard let urlString = cacheURL_ else { return nil }
-            return URL(string: urlString)!
-        }
-        set {
-            cacheURL_ = newValue?.absoluteString
-        }
+    public var localFileName: String {
+        return "\(self.id)__\(self.name)"
+    }
+
+    public var localURL: URL {
+        let allowedCharacters = CharacterSet.whitespacesAndNewlines.inverted
+        return File.localContainerURL.appendingPathComponent(self.localFileName.addingPercentEncoding(withAllowedCharacters: allowedCharacters)!)
     }
 
     public var detail: String? {
@@ -143,10 +211,6 @@ extension File {
             return nil
         }
 
-        guard let size = self.size else {
-            return nil
-        }
-
-        return ByteCountFormatter.string(fromByteCount: Int64(truncating: size), countStyle: .binary)
+        return ByteCountFormatter.string(fromByteCount: self.size, countStyle: .binary)
     }
 }

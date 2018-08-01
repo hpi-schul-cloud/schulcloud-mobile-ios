@@ -10,20 +10,18 @@ import QuickLook
 class PreviewManager: NSObject, QLPreviewControllerDataSource {
 
     let file: File
-    let fileData: Data
 
-    init(file: File, data: Data) {
+    public init(file: File) {
         self.file = file
-        self.fileData = data
     }
 
     lazy var previewViewController: UIViewController = {
 
-        switch self.file.url.pathExtension {
+        switch self.file.localURL.pathExtension.lowercased() {
         case "plist", "json", "txt":
             let webviewPreviewViewContoller = WebviewPreviewViewContoller(nibName: "WebviewPreviewViewContoller",
                                                                           bundle: Bundle(for: WebviewPreviewViewContoller.self))
-            webviewPreviewViewContoller.fileData = self.fileData
+            webviewPreviewViewContoller.fileData = try? Data(contentsOf: self.file.localURL)
             webviewPreviewViewContoller.file = self.file
             return webviewPreviewViewContoller
         default:
@@ -40,27 +38,7 @@ class PreviewManager: NSObject, QLPreviewControllerDataSource {
     }
 
     func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
-        let item = PreviewItem()
-
-        if let url = file.cacheUrl ?? copyDataToTemporaryDirectory(fileData, file: file) {
-            item.previewItemURL = url
-        }
-
-        return item
-    }
-
-    func copyDataToTemporaryDirectory(_ data: Data, file: File) -> URL? {
-        let tempDirectoryURL = NSURL.fileURL(withPath: NSTemporaryDirectory(), isDirectory: true)
-        let fileExtension = file.url.pathExtension
-        let targetURL = tempDirectoryURL.appendingPathComponent("\(file.name).\(fileExtension)")
-
-        do {
-            try data.write(to: targetURL)
-            return targetURL
-        } catch let error {
-            log.error("Unable to copy file: \(error)")
-            return nil
-        }
+        return PreviewItem(file: self.file)
     }
 }
 
@@ -71,6 +49,18 @@ class PreviewItem: NSObject, QLPreviewItem {
      * @discussion The URL must be a file URL.
      */
 
-    var previewItemURL: URL?
+    var file: File
+    
+    init(file: File) {
+        self.file = file
+    }
+
+    var previewItemURL: URL? {
+        return self.file.localURL
+    }
+
+    var previewItemTitle: String? {
+        return self.file.name
+    }
 
 }
