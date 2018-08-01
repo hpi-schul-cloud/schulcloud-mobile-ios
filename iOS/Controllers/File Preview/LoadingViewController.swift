@@ -16,9 +16,6 @@ class LoadingViewController: UIViewController {
     @IBOutlet private var progressView: UIProgressView!
     @IBOutlet private var errorLabel: UILabel!
     @IBOutlet private var cancelButton: UIButton!
-    @IBOutlet private var activityIndicator: UIActivityIndicatorView!
-
-    var downloadTask: URLSessionDownloadTask?
 
     let fileSync = FileSync.default
     var file: File!
@@ -31,29 +28,19 @@ class LoadingViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        downloadTask?.cancel()
     }
 
     @IBAction func cancelButtonTapped(_ sender: Any) {
-        downloadTask?.cancel()
         navigationController?.popViewController(animated: true)
     }
 
     func startDownload() {
-        fileSync.download(file,
-                          onDownloadInitialised: {
-            DispatchQueue.main.async {
-                self.activityIndicator.stopAnimating()
-                self.activityIndicator.isHidden = true
-                self.progressView.isHidden = false
-            }
-        }, progressHandler: { progress in
+        self.fileSync.download(self.file) { progress in
             DispatchQueue.main.async {
                 self.progressView.setProgress(progress, animated: true)
             }
-        }).onSuccess { _ in
+        }.onSuccess { _ in
             DispatchQueue.main.async {
-                self.file.downloadState = .downloaded
                 self.showFile()
             }
         }.onFailure { error in
@@ -92,6 +79,5 @@ class LoadingViewController: UIViewController {
         self.progressView.isHidden = true
         self.errorLabel.text = error.localizedDescription
         self.errorLabel.isHidden = false
-        self.activityIndicator.stopAnimating()
     }
 }

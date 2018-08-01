@@ -40,12 +40,12 @@ class WebviewPreviewViewContoller: UIViewController {
     // MARK: Share
 
     @objc func shareFile() {
-        guard let file = file else {
+        guard let file = self.file else {
             return
         }
 
         let activityItems: [Any]
-        if let data = fileData {
+        if let data = self.fileData {
             activityItems = [data]
         } else if file.downloadState == .downloaded {
             activityItems = [file.localURL]
@@ -61,16 +61,15 @@ class WebviewPreviewViewContoller: UIViewController {
     // MARK: Processing
 
     func processForDisplay() {
-        guard let file = file else {
+        guard let file = self.file else {
             print("file is not set!")
             return
         }
 
         let data: Data
-        if let fileData = fileData {
+        if let fileData = self.fileData {
             data = fileData
-        } else if let localFileUrl = file.fileLocation,
-            localFileUrl.scheme == "file",
+        } else if file.downloadState == .downloaded,
             let fileData = try? Data(contentsOf: file.localURL) {
             data = fileData
         } else {
@@ -129,7 +128,7 @@ class WebviewPreviewViewContoller: UIViewController {
         }
 
         var newString = string
-        let charDictionary = [
+        let charMapping = [
             "&amp;": "&",
             "&lt;": "<",
             "&gt;": ">",
@@ -137,7 +136,7 @@ class WebviewPreviewViewContoller: UIViewController {
             "&apos;": "'",
         ]
 
-        for (escapedChar, unescapedChar) in charDictionary {
+        for (escapedChar, unescapedChar) in charMapping {
             newString = newString.replacingOccurrences(of: escapedChar, with: unescapedChar, options: NSString.CompareOptions.regularExpression, range: nil)
         }
 

@@ -25,10 +25,6 @@ The following tools will be installed via bundler:
   - `itunes_connect_id` (if required)
 - for all available fastlane commands have a look at the [fastlane Readme](https://github.com/schul-cloud/schulcloud-mobile-ios/tree/master/fastlane/)
 
-#### Setup testing
-- copy the credentials plist dummy file `cp iOSUITests/Credentials.plist.dummy iOSUITests/Credentials.plist`
-- enter your login credentials for testing
-
 ### How to release to apps
 - Install git-crypt via `brew install git-crypt`
 - Retrieve the `schulcloud-mobile-ios.key` from the Schul-cloud team and run `git-crypt unlock /path/to/schulcloud-mobile-ios.key`

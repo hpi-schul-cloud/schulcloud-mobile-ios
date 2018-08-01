@@ -88,17 +88,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6w0-mO-yid">
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6w0-mO-yid">
                                 <rect key="frame" x="32" y="332.5" width="311" height="2"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="2" id="cS3-kt-Y4O"/>
                                 </constraints>
                             </progressView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="hS1-87-jKH">
-                                <rect key="frame" x="177" y="323.5" width="20" height="20"/>
-                            </activityIndicatorView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error: The operation could not be completed" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jkT-cU-zeG">
-                                <rect key="frame" x="16" y="375.5" width="343" height="275.5"/>
+                                <rect key="frame" x="16" y="630.5" width="343" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -116,24 +113,20 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="WFf-hB-pDL" firstAttribute="top" secondItem="hS1-87-jKH" secondAttribute="bottom" constant="32" id="9dc-wr-IbX"/>
+                            <constraint firstItem="WFf-hB-pDL" firstAttribute="top" secondItem="6w0-mO-yid" secondAttribute="bottom" constant="41" id="1il-J6-qZL"/>
                             <constraint firstItem="WFf-hB-pDL" firstAttribute="leading" secondItem="JZG-SW-1y6" secondAttribute="leadingMargin" id="AZU-qp-XnO"/>
                             <constraint firstItem="SWD-UY-9U0" firstAttribute="bottom" secondItem="jkT-cU-zeG" secondAttribute="bottom" constant="16" id="DoP-Df-BE3"/>
                             <constraint firstAttribute="trailingMargin" secondItem="WFf-hB-pDL" secondAttribute="trailing" id="bfj-jn-tDn"/>
                             <constraint firstItem="6w0-mO-yid" firstAttribute="leading" secondItem="JZG-SW-1y6" secondAttribute="leadingMargin" constant="16" id="cvl-tw-GoJ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="6w0-mO-yid" secondAttribute="trailing" constant="16" id="guC-Hq-4bR"/>
-                            <constraint firstItem="jkT-cU-zeG" firstAttribute="top" secondItem="hS1-87-jKH" secondAttribute="bottom" constant="32" id="j8Q-hL-Vmk"/>
-                            <constraint firstItem="hS1-87-jKH" firstAttribute="centerY" secondItem="JZG-SW-1y6" secondAttribute="centerY" id="m6G-za-16J"/>
                             <constraint firstItem="jkT-cU-zeG" firstAttribute="leading" secondItem="JZG-SW-1y6" secondAttribute="leadingMargin" id="uz0-wd-QaR"/>
                             <constraint firstItem="jkT-cU-zeG" firstAttribute="trailing" secondItem="JZG-SW-1y6" secondAttribute="trailingMargin" id="vbE-un-Sw4"/>
-                            <constraint firstItem="hS1-87-jKH" firstAttribute="centerX" secondItem="SWD-UY-9U0" secondAttribute="centerX" id="vfv-2T-80g"/>
                             <constraint firstItem="6w0-mO-yid" firstAttribute="centerY" secondItem="JZG-SW-1y6" secondAttribute="centerY" id="vok-ER-DQg"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="SWD-UY-9U0"/>
                     </view>
                     <navigationItem key="navigationItem" id="kH8-14-H6D"/>
                     <connections>
-                        <outlet property="activityIndicator" destination="hS1-87-jKH" id="3AZ-Ie-Qaa"/>
                         <outlet property="cancelButton" destination="WFf-hB-pDL" id="PV0-pq-qmX"/>
                         <outlet property="errorLabel" destination="jkT-cU-zeG" id="jTU-bv-rvg"/>
                         <outlet property="progressView" destination="6w0-mO-yid" id="WJq-Oc-mZY"/>

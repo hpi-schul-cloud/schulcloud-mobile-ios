@@ -38,10 +38,8 @@ class PreviewManager: NSObject, QLPreviewControllerDataSource {
     }
 
     func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
-        let item = PreviewItem(file: self.file)
-        return item
+        return PreviewItem(file: self.file)
     }
-
 }
 
 class PreviewItem: NSObject, QLPreviewItem {
@@ -58,11 +56,11 @@ class PreviewItem: NSObject, QLPreviewItem {
     }
 
     var previewItemURL: URL? {
-        return file.localURL
+        return self.file.localURL
     }
 
     var previewItemTitle: String? {
-        return file.name
+        return self.file.name
     }
 
 }

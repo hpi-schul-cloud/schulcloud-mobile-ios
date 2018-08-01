@@ -13,7 +13,6 @@ public enum SCError: Error {
     case unknown
     case firebase(Error)
     case jsonDeserialization(String)
-    case database(String)
     case loginFailed(String)
     case wrongCredentials
     case other(String)
@@ -32,7 +31,7 @@ public enum SCError: Error {
         if let marshalError = error as? MarshalError {
             self = .jsonDeserialization(marshalError.description)
         } else {
-            self = .unknown // TODO
+            self = .unknown
         }
     }
 

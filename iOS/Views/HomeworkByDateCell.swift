@@ -29,6 +29,7 @@ class HomeworkByDateCell: UITableViewCell {
     func configure(for homework: Homework) {
         self.subjectLabel.text = homework.courseName.uppercased()
         self.titleLabel.text = homework.name
+        self.dueLabel.text = Homework.timeFormatter.string(from: homework.dueDate)
         self.coloredStrip.backgroundColor = homework.color
 
         var homeworkDescription = homework.cleanedDescriptionText
@@ -39,10 +40,6 @@ class HomeworkByDateCell: UITableViewCell {
         }
 
         self.contentLabel.text = homeworkDescription
-
-        let (dueText, dueColor) = homework.dueTextAndColor
-        self.dueLabel.text = dueText
-        self.dueLabel.textColor = dueColor
     }
 
 }

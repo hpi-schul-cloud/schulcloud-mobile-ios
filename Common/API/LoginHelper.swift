@@ -8,6 +8,7 @@ import BrightFutures
 import Foundation
 import JWTDecode
 import Locksmith
+import Result
 
 public class LoginHelper {
 
@@ -43,7 +44,6 @@ public class LoginHelper {
     }
 
     public static func login(username: String?, password: String?) -> Future<Void, SCError> {
-
         return getAccessToken(username: username, password: password).flatMap(saveToken).flatMap { _ in
             return UserHelper.syncUser(withId: Globals.account!.userId)
         }.asVoid()
@@ -52,15 +52,17 @@ public class LoginHelper {
     public static func saveToken(accessToken: String) -> Future<Void, SCError> {
         do {
             let jwt = try decode(jwt: accessToken)
-            let accountId = jwt.body["accountId"] as! String
-            let userId = jwt.body["userId"] as! String
+            guard let accountId = jwt.body["accountId"] as? String, let userId = jwt.body["userId"] as? String else {
+                return Future(error: SCError.loginFailed("Did not receive account id and user id"))
+            }
+
             let account = SchulCloudAccount(userId: userId, accountId: accountId, accessToken: accessToken)
             try account.saveCredentials()
             log.info("Successfully saved login data for user \(userId) with account \(accountId)")
             Globals.account = account
-            DispatchQueue.main.async {
+//            DispatchQueue.main.async {
 //                SCNotifications.initializeMessaging()
-            }
+//            }
 
             return Future(value: Void())
         } catch let error {
@@ -74,10 +76,9 @@ public class LoginHelper {
 
     public static func loadAccount() -> SchulCloudAccount? {
         let defaults = UserDefaults.standard
-
-        guard let accountId = defaults.string(forKey: "accountId"),
-            let userId = defaults.string(forKey: "userId")
-            else { return nil }
+        guard let accountId = defaults.string(forKey: "accountId"), let userId = defaults.string(forKey: "userId") else {
+            return nil
+        }
 
         var account = SchulCloudAccount(userId: userId, accountId: accountId, accessToken: nil)
         account.loadAccessTokenFromKeychain()

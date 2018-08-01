@@ -54,9 +54,22 @@ public class FileHelper {
         let rootFolderObjectId: NSManagedObjectID = context.performAndWait {
             let rootFolder = File.createLocal(context: context, id: rootDirectoryID, name: "Dateien", parentFolder: nil, isDirectory: true)
 
-            File.createLocal(context: context, id: userDirectoryID, name: "Meine Dateien", parentFolder: rootFolder, isDirectory: true, remoteURL: userDirectoryID)
-            File.createLocal(context: context, id: coursesDirectoryID, name: "Kurs-Dateien", parentFolder: rootFolder, isDirectory: true)
-            File.createLocal(context: context, id: sharedDirectoryID, name: "geteilte Dateien", parentFolder: rootFolder, isDirectory: true)
+            File.createLocal(context: context,
+                             id: userDirectoryID,
+                             name: "Meine Dateien",
+                             parentFolder: rootFolder,
+                             isDirectory: true,
+                             remoteURL: URL(string: userDirectoryID) )
+            File.createLocal(context: context,
+                             id: coursesDirectoryID,
+                             name: "Kurs-Dateien",
+                             parentFolder: rootFolder,
+                             isDirectory: true)
+            File.createLocal(context: context,
+                             id: sharedDirectoryID,
+                             name: "geteilte Dateien",
+                             parentFolder: rootFolder,
+                             isDirectory: true)
 
             if case let .failure(error) = context.saveWithResult() {
                 fatalError("Unresolved error \(error)") // TODO: replace this with something more friendly
@@ -113,7 +126,7 @@ public class FileHelper {
                 let currentItemsIDs: [String] =  createdFiles.map { $0.id } + createdFolders.map { $0.id }
                 let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
                 let notOnServerPredicate = NSPredicate(format: "NOT (id IN %@)", currentItemsIDs)
-                let isDownloadedPredicate = NSPredicate(format: "downloadState_ == \(File.DownloadState.downloaded.rawValue)")
+                let isDownloadedPredicate = NSPredicate(format: "downloadStateValue == \(File.DownloadState.downloaded.rawValue)")
 
                 let locallyCachedFiles = NSFetchRequest<File>(entityName: "File")
                 locallyCachedFiles.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [notOnServerPredicate,
@@ -141,7 +154,7 @@ public class FileHelper {
                 promise.failure(.jsonDeserialization(error.localizedDescription))
             } catch let error {
                 log.error(error)
-                promise.failure(.database(error.localizedDescription))
+                promise.failure(.coreData(error))
             }
         }
 
@@ -178,7 +191,7 @@ extension FileHelper {
                                          name: courseName,
                                          parentFolder: parentFolder,
                                          isDirectory: true,
-                                         remoteURL: "courses/\(courseId)/")
+                                         remoteURL: URL(string: "courses/\(courseId)/") )
                     }
                 }
             }
@@ -190,7 +203,7 @@ extension FileHelper {
                                      name: courseName,
                                      parentFolder: parentFolder,
                                      isDirectory: true,
-                                     remoteURL: "courses/\(courseId)/")
+                                     remoteURL: URL(string: "courses/\(courseId)/") )
                 }
             }
 

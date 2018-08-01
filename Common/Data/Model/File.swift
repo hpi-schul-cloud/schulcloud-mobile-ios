@@ -14,17 +14,16 @@ public final class File: NSManagedObject {
     }
 
     @NSManaged public var id: String
-    @NSManaged private var remoteURL_: String? // swiftlint:disable:this identifier_name
-    @NSManaged private var thumbnailRemoteURL_: String? // swiftlint:disable:this identifier_name
-
+    @NSManaged public var remoteURL: URL?
+    @NSManaged public var thumbnailRemoteURL: URL?
     @NSManaged public var name: String
     @NSManaged public var isDirectory: Bool
     @NSManaged public var mimeType: String?
     @NSManaged public var size: Int64
 
-    @NSManaged private var permissions_: Int64 // swiftlint:disable:this identifier_name
-    @NSManaged private var downloadState_: Int64 // swiftlint:disable:this identifier_name
-    @NSManaged private var uploadState_: Int64 // swiftlint:disable:this identifier_name
+    @NSManaged private var permissionsValue: Int64
+    @NSManaged private var downloadStateValue: Int64
+    @NSManaged private var uploadStateValue: Int64
 
     @NSManaged public var parentDirectory: File?
     @NSManaged public var contents: Set<File>
@@ -66,10 +65,10 @@ public extension File {
 
     var permissions: Permissions {
         get {
-            return Permissions(rawValue: self.permissions_)
+            return Permissions(rawValue: self.permissionsValue)
         }
         set {
-            self.permissions_ = newValue.rawValue
+            self.permissionsValue = newValue.rawValue
         }
     }
 }
@@ -84,28 +83,29 @@ public extension File {
 
     public var downloadState: DownloadState {
         get {
-            return DownloadState(rawValue: self.downloadState_)!
+            return DownloadState(rawValue: self.downloadStateValue) ?? .notDownloaded
         }
 
         set {
-            self.downloadState_ = newValue.rawValue
+            self.downloadStateValue = newValue.rawValue
         }
     }
 }
 
 public extension File {
     public enum UploadState: Int64 {
-        case uploading = 0
-        case uploaded = 1
-        case uploadError = 2
+        case notUploaded = 0
+        case uploading = 1
+        case uploaded = 2
+        case uploadError = 3
     }
 
     public var uploadState: UploadState {
         get {
-            return UploadState(rawValue: self.uploadState_)!
+            return UploadState(rawValue: self.uploadStateValue) ?? .notUploaded
         }
         set {
-            self.uploadState_ = newValue.rawValue
+            self.uploadStateValue = newValue.rawValue
         }
     }
 }
@@ -117,12 +117,12 @@ extension File {
                                                name: String,
                                                parentFolder: File?,
                                                isDirectory: Bool,
-                                               remoteURL: String? = nil) -> File {
+                                               remoteURL: URL? = nil) -> File {
         let file = File(context: context)
         file.id = id
 
-        file.remoteURL_ = remoteURL
-        file.thumbnailRemoteURL_ = nil
+        file.remoteURL = remoteURL
+        file.thumbnailRemoteURL = nil
 
         file.name = name
         file.isDirectory = isDirectory
@@ -140,21 +140,25 @@ extension File {
         let id: String = try data.value(for: "_id")
 
         let fetchRequest = NSFetchRequest<File>(entityName: "File")
-        let pathPredicate = NSPredicate(format: "id == %@", id)
+        let idPredicate = NSPredicate(format: "id == %@", id)
         let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
-        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [pathPredicate, parentFolderPredicate])
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [idPredicate, parentFolderPredicate])
 
         let result = try context.fetch(fetchRequest)
         if result.count > 1 {
-            throw SCError.database("Found more than one result for \(fetchRequest)")
+            throw SCError.coreDataMoreThanOneObjectFound
         }
 
         let file = result.first ?? File(context: context)
         file.id = id
 
         let allowedCharacters = CharacterSet.whitespacesAndNewlines.inverted
-        file.remoteURL_ = (try data.value(for: "key") as String?)?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
-        file.thumbnailRemoteURL_ = (try data.value(for: "thumbnail") as String?)?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
+        let remoteURLString = try data.value(for: "key") as String?
+        let percentEncodedURLString = remoteURLString?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
+        file.remoteURL = URL(string: percentEncodedURLString ?? "")
+        let thumbnailRemoteURLString = try data.value(for: "thumbnail") as String?
+        let percentEncodedThumbnailURLString = thumbnailRemoteURLString?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
+        file.thumbnailRemoteURL = URL(string: percentEncodedThumbnailURLString ?? "")
 
         file.name = name
         file.isDirectory = isDirectory
@@ -192,24 +196,13 @@ extension File {
         return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.org.schulcloud")!.appendingPathComponent("File Provider Storage")
     }
 
-    public var fileLocation: URL? {
-        guard self.downloadState == .downloaded else { return nil }
-        return self.localURL
+    public var localFileName: String {
+        return "\(self.id)__\(self.name)"
     }
 
     public var localURL: URL {
         let allowedCharacters = CharacterSet.whitespacesAndNewlines.inverted
-        return File.localContainerURL.appendingPathComponent("\(self.id)__\(self.name.addingPercentEncoding(withAllowedCharacters: allowedCharacters)!)")
-    }
-
-    public var remoteURL: URL? {
-        guard let urlString = self.remoteURL_ else { return nil }
-        return URL(string: urlString)!
-    }
-
-    public var thumbnailRemoteURL: URL? {
-        guard let urlString = self.thumbnailRemoteURL_ else { return nil }
-        return URL(string: urlString)!
+        return File.localContainerURL.appendingPathComponent(self.localFileName.addingPercentEncoding(withAllowedCharacters: allowedCharacters)!)
     }
 
     public var detail: String? {

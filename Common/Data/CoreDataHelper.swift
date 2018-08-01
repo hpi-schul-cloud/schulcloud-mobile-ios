@@ -7,11 +7,11 @@ import BrightFutures
 import CoreData
 import Result
 
-public struct CoreDataHelper {
+public class CoreDataHelper {
 
     static var persistentContainer: NSPersistentContainer = {
-        let bundle = Bundle(identifier: "org.schulcloud.Common")
-        let modelURL = bundle?.url(forResource: "schulcloud", withExtension: "momd")
+        let bundle = Bundle(for: CoreDataHelper.self)
+        let modelURL = bundle.url(forResource: "schulcloud", withExtension: "momd")
         let model = NSManagedObjectModel(contentsOf: modelURL!)
         let container = NSPersistentContainer(name: "schulcloud", managedObjectModel: model!)
         container.loadPersistentStores { _, error in
@@ -73,11 +73,11 @@ extension NSManagedObjectContext {
             let objects = try self.fetch(fetchRequest)
 
             guard objects.count < 2 else {
-                return .failure(.coreDataObjectNotFound)
+                return .failure(.coreDataMoreThanOneObjectFound)
             }
 
             guard let object = objects.first else {
-                return .failure(.coreDataMoreThanOneObjectFound)
+                return .failure(.coreDataObjectNotFound)
             }
 
             return .success(object)
@@ -157,8 +157,8 @@ extension NSManagedObjectContext {
             task {
                 do {
                     result = try internalWork()
-                } catch let e {
-                    error = e
+                } catch let err {
+                    error = err
                 }
             }
         }

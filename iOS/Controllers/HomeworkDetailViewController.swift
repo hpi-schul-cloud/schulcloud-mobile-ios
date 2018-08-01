@@ -27,6 +27,7 @@ class HomeworkDetailViewController: UIViewController {
     func configure(for homework: Homework) {
         self.subjectLabel.text = homework.courseName.uppercased()
         self.titleLabel.text = homework.name
+        self.dueLabel.text = Homework.dateTimeFormatter.string(from: homework.dueDate)
         self.coloredStrip.backgroundColor = homework.color
 
         let description = homework.cleanedDescriptionText
@@ -38,9 +39,6 @@ class HomeworkDetailViewController: UIViewController {
             self.contentLabel.text = description
         }
 
-        let (dueText, dueColor) = homework.dueTextAndColor
-        self.dueLabel.text = dueText
-        self.dueLabel.textColor = dueColor
     }
 
 }

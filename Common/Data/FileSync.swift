@@ -4,8 +4,10 @@
 //
 
 import BrightFutures
-import Marshal
+import CoreData
 import Foundation
+import Marshal
+import Result
 
 public class FileSync: NSObject {
 
@@ -13,12 +15,18 @@ public class FileSync: NSObject {
 
     public typealias ProgressHandler = (Float) -> Void
 
-    fileprivate var backgroundSession: URLSession!
-    fileprivate var foregroundSession: URLSession!
-    fileprivate let metadataSession: URLSession
+    private var backgroundSession: URLSession!
+    private var foregroundSession: URLSession!
+    private let metadataSession: URLSession
 
-    var runningTask: [Int: Promise<URL, SCError>] = [:]
-    var progressHandlers: [Int: ProgressHandler] = [:]
+    private struct FileTransferInfo {
+        let promise: Promise<URL, SCError>
+        let progressHandler: ProgressHandler
+        let localFileURL: URL
+        let fileID: NSManagedObjectID
+    }
+
+    private var runningTask: [Int: FileTransferInfo] = [:]
 
     public override init() {
         metadataSession = URLSession(configuration: URLSessionConfiguration.default)
@@ -77,53 +85,49 @@ public class FileSync: NSObject {
 
     public func updateContent(of directory: File) -> Future<Void, SCError> {
         guard FileHelper.rootDirectoryID != directory.id else {
-            return Future(error: SCError.unknown)
+            return Future(value: ())
         }
 
         switch directory.id {
         case FileHelper.coursesDirectoryID:
             return CourseHelper.syncCourses().asVoid()
-
         case FileHelper.sharedDirectoryID:
             return self.downloadSharedFiles().flatMap { objects -> Future<Void, SCError> in
-                var updates: [Future<Void, SCError>] = []
-                for json in objects {
-                    updates.append(FileHelper.updateDatabase(contentsOf: directory, using: json))
-                }
-
-                return updates.sequence().asVoid()
-                }.asVoid()
+                return objects.map { json in
+                    return FileHelper.updateDatabase(contentsOf: directory, using: json)
+                }.sequence().asVoid()
+            }
         default:
             return self.downloadContent(of: directory).flatMap { json -> Future<Void, SCError> in
                 return FileHelper.updateDatabase(contentsOf: directory, using: json)
-                }.asVoid()
+            }.asVoid()
         }
     }
 
-    fileprivate func downloadContent(of directory: File) -> Future<[String: Any], SCError> {
-        guard directory.isDirectory else { return Future(error: .other("only works on directory") ) }
+    private func downloadContent(of directory: File) -> Future<[String: Any], SCError> {
+        guard directory.isDirectory else {
+            return Future(error: .other("only works on directory"))
+        }
 
-        let request = self.request(for: getQueryURL(for: directory)! )
+        guard let queryURL = self.getQueryURL(for: directory) else {
+            return Future(error: .other("no remote URL"))
+        }
+
+        let request = self.request(for: queryURL)
         let promise: Promise<[String: Any], SCError> = Promise()
-        metadataSession.dataTask(with: request) { data, response, error in
-            var responseData: Data
-            do {
-                responseData = try self.confirmNetworkResponse(data: data, response: response, error: error)
-            } catch let error as SCError {
-                promise.failure(error)
-                return
-            } catch {
-                promise.failure( .other("Weird"))
-                return
+        self.metadataSession.dataTask(with: request) { data, response, error in
+            let result = Result<Data, SCError> {
+                return try self.confirmNetworkResponse(data: data, response: response, error: error)
+            }.flatMap { responseData -> Result<[String: Any], SCError> in
+                guard let json = (try? JSONSerialization.jsonObject(with: responseData, options: .allowFragments)) as? [String: Any] else {
+                    return .failure(SCError.jsonDeserialization("Can't deserialize"))
+                }
+
+                return .success(json)
             }
 
-            guard let json = (try? JSONSerialization.jsonObject(with: responseData, options: .allowFragments)) as? [String: Any] else {
-                promise.failure(SCError.jsonDeserialization("Can't deserialize"))
-                return
-            }
-
-            promise.success(json)
-            }.resume()
+            promise.complete(result)
+        }.resume()
         return promise.future
     }
 
@@ -146,25 +150,33 @@ public class FileSync: NSObject {
             } catch let error {
                 promise.failure(.jsonDeserialization(error.localizedDescription) )
             }
-            }.resume()
+        }.resume()
         return promise.future
     }
 
     // MARK: File materialization
     public func download(_ file: File,
                          background: Bool = false,
-                         onDownloadInitialised: @escaping () -> Void,
                          progressHandler: @escaping ProgressHandler ) -> Future<URL, SCError> {
+        assert(file.downloadState != .downloading)
         let localURL = file.localURL
         let downloadSession: URLSession = background ? self.backgroundSession : self.foregroundSession
         guard [File.DownloadState.notDownloaded, File.DownloadState.downloadFailed].contains(file.downloadState) else {
+            progressHandler(1.0)
             return Future<URL, SCError>(value: localURL)
         }
 
-        file.downloadState = .downloading
+        let fileID = file.objectID
+        let backgroundContext = CoreDataHelper.persistentContainer.newBackgroundContext()
+        backgroundContext.performAndWait {
+            let file = backgroundContext.object(with: fileID) as! File
+            file.downloadState = .downloading
+        }
+
+        _ = backgroundContext.saveWithResult()
+
         return signedURL(for: file).flatMap { url -> Future<URL, SCError> in
-            onDownloadInitialised()
-            return self.download(signedURL: url, moveTo: localURL, downloadSession: downloadSession, progressHandler: progressHandler)
+            return self.download(signedURL: url, fileID: fileID, moveTo: localURL, downloadSession: downloadSession, progressHandler: progressHandler)
         }
     }
 
@@ -179,7 +191,7 @@ public class FileSync: NSObject {
             "path": file.remoteURL!.absoluteString.removingPercentEncoding!,
             //            "fileType": mime.lookup(file),
             "action": "getObject",
-            ]
+        ]
 
         request.httpBody = try! JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
 
@@ -195,20 +207,20 @@ public class FileSync: NSObject {
             } catch let error {
                 promise.failure(.jsonDeserialization(error.localizedDescription) )
             }
-            }.resume()
+        }.resume()
         return promise.future
     }
 
     fileprivate func download(signedURL: URL,
+                              fileID: NSManagedObjectID,
                               moveTo localURL: URL,
                               downloadSession: URLSession,
                               progressHandler: @escaping ProgressHandler) -> Future<URL, SCError> {
         let promise = Promise<URL, SCError>()
+        let transferInfo = FileTransferInfo(promise: promise, progressHandler: progressHandler, localFileURL: localURL, fileID: fileID)
         let task = downloadSession.downloadTask(with: signedURL)
-        task.taskDescription = localURL.absoluteString
         task.resume()
-        runningTask[task.taskIdentifier] = promise
-        progressHandlers[task.taskIdentifier] = progressHandler
+        runningTask[task.taskIdentifier] = transferInfo
         return promise.future
     }
 
@@ -216,27 +228,36 @@ public class FileSync: NSObject {
 
 extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownloadDelegate {
     public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+        guard let transferInfo = runningTask[downloadTask.taskIdentifier] else {
+            fatalError("Impossible to download file without providing transferInfo")
+        }
 
-        let promise = runningTask[downloadTask.taskIdentifier]
         do {
-            let urlString = downloadTask.taskDescription!
-
-            let localURL = URL(string: urlString)!
-            try FileManager.default.moveItem(at: location, to: localURL)
-            promise?.success(localURL)
-        } catch let error {
-            promise?.failure(.other(error.localizedDescription))
+            try FileManager.default.moveItem(at: location, to: transferInfo.localFileURL)
+        } catch _ {
+            transferInfo.promise.failure(.other("Tried to download file that already is downloaded"))
         }
     }
 
     public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        let promise = runningTask[task.taskIdentifier]
+        guard let transferInfo = runningTask[task.taskIdentifier] else {
+            fatalError("Impossible to download file without providing transferInfo")
+        }
+
         if let error = error {
-            promise?.failure(.network(error))
+            transferInfo.promise.failure(.network(error))
+        } else {
+            transferInfo.promise.success(transferInfo.localFileURL)
+        }
+
+        let fileID = transferInfo.fileID
+        CoreDataHelper.persistentContainer.performBackgroundTask { context in
+            let file = context.object(with: fileID) as! File
+            file.downloadState = .downloaded
+            _ = context.saveWithResult()
         }
 
         runningTask.removeValue(forKey: task.taskIdentifier)
-        progressHandlers.removeValue(forKey: task.taskIdentifier)
     }
 
     // Download progress
@@ -245,7 +266,7 @@ extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownlo
                            didWriteData bytesWritten: Int64,
                            totalBytesWritten: Int64,
                            totalBytesExpectedToWrite: Int64) {
-        if let progressHandler = progressHandlers[downloadTask.taskIdentifier] {
+        if let progressHandler = runningTask[downloadTask.taskIdentifier]?.progressHandler {
             let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
             progressHandler(progress)
         }

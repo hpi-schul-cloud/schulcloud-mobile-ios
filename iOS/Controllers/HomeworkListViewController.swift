@@ -19,7 +19,7 @@ class HomeworkListViewController: UITableViewController {
 
     private struct SortingConfiguration {
         let keypath: String
-        let sortDescriptor: String
+        let sortDescriptors: [String]
         let cellIdentifier: String
     }
 
@@ -39,9 +39,9 @@ class HomeworkListViewController: UITableViewController {
         var configuration: SortingConfiguration {
             switch self {
             case .dueDate:
-                return SortingConfiguration(keypath: "dueDateShort", sortDescriptor: "dueDate", cellIdentifier: "task")
+                return SortingConfiguration(keypath: "dueDateShort", sortDescriptors: ["dueDate"], cellIdentifier: "dateTask")
             case .course:
-                return SortingConfiguration(keypath: "course.name", sortDescriptor: "course.name", cellIdentifier: "courseTask")
+                return SortingConfiguration(keypath: "course.name", sortDescriptors: ["course.name", "dueDate"], cellIdentifier: "courseTask")
             }
         }
 
@@ -65,7 +65,7 @@ class HomeworkListViewController: UITableViewController {
         self.updateData()
     }
 
-    @IBAction func sortOptionPressed(_ sender: Any) {
+    @IBAction func sortOptionPressed(_ sender: UIBarButtonItem) {
         let controller = UIAlertController(title: "Aufgaben sortieren nach", message: nil, preferredStyle: .actionSheet)
 
         for sortingStyle in SortingMode.allValues {
@@ -78,6 +78,8 @@ class HomeworkListViewController: UITableViewController {
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         controller.addAction(cancelAction)
+
+        controller.popoverPresentationController?.barButtonItem = sender
 
         self.present(controller, animated: true)
     }
@@ -105,7 +107,7 @@ class HomeworkListViewController: UITableViewController {
         let today: NSDate = Date(year: now.year, month: now.month, day: now.day) as NSDate
 
         let fetchRequest: NSFetchRequest<Homework> = Homework.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: configuration.sortDescriptor, ascending: true)]
+        fetchRequest.sortDescriptors = configuration.sortDescriptors.map { return NSSortDescriptor(key: $0, ascending: true) }
         fetchRequest.predicate = NSPredicate(format: "dueDate >= %@", today)
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                                   managedObjectContext: CoreDataHelper.viewContext,
@@ -175,7 +177,7 @@ class HomeworkListViewController: UITableViewController {
             backgroundColor = UIColor(hexString: colorString)
         } else {
             let date = Homework.shortDateFormatter.date(from: sectionInfo.name)!
-            title = HomeworkByCourseCell.formatter.string(from: date)
+            title = Homework.dateFormatter.string(from: date)
         }
 
         view.configure(title: title, withColor: backgroundColor)
@@ -195,7 +197,7 @@ class HomeworkListViewController: UITableViewController {
         switch segue.identifier {
         case "taskDetail"?:
             guard let detailVC = segue.destination as? HomeworkDetailViewController else { return }
-            let homework = sender as! Homework
+            guard let homework = sender as? Homework else { return }
             detailVC.homework = homework
         default:
             super.prepare(for: segue, sender: sender)

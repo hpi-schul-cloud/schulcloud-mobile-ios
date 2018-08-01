@@ -31,7 +31,7 @@ public class CoreDataObserver {
             if CalendarEventHelper.EventKitSettings.current.shouldSynchonize {
                 let insertedEvents = inserts.compactMap { $0 as? EventData }
                 if !insertedEvents.isEmpty {
-                    CalendarEventHelper.requestCalendarPermission().andThen { _ in
+                    CalendarEventHelper.requestCalendarPermission().onComplete { _ in
                         if let calendar = CalendarEventHelper.fetchCalendar() ?? CalendarEventHelper.createCalendar() {
                             try? CalendarEventHelper.push(events: insertedEvents.map { $0.calendarEvent }, to: calendar)
                         }
@@ -49,7 +49,7 @@ public class CoreDataObserver {
             if CalendarEventHelper.EventKitSettings.current.shouldSynchonize {
                 let updatedEvents = updates.compactMap { $0 as? EventData }
                 if !updatedEvents.isEmpty {
-                    CalendarEventHelper.requestCalendarPermission().andThen { _ in
+                    CalendarEventHelper.requestCalendarPermission().onComplete { _ in
                         if let calendar = CalendarEventHelper.fetchCalendar() ?? CalendarEventHelper.createCalendar() {
                             try? CalendarEventHelper.push(events: updatedEvents.map { $0.calendarEvent }, to: calendar)
                         }
@@ -67,7 +67,7 @@ public class CoreDataObserver {
             if CalendarEventHelper.EventKitSettings.current.shouldSynchonize {
                 let deletedEvents = deletes.compactMap { $0 as? EventData }
                 if !deletedEvents.isEmpty {
-                    CalendarEventHelper.requestCalendarPermission().andThen { _ in
+                    CalendarEventHelper.requestCalendarPermission().onComplete { _ in
                         try? CalendarEventHelper.remove(events: deletedEvents.map { $0.calendarEvent })
                     }
                 }
@@ -83,7 +83,7 @@ public class CoreDataObserver {
             if CalendarEventHelper.EventKitSettings.current.shouldSynchonize {
                 let refreshedEvents = refreshed.compactMap { $0 as? EventData }
                 if !refreshedEvents.isEmpty {
-                    CalendarEventHelper.requestCalendarPermission().andThen { _ in
+                    CalendarEventHelper.requestCalendarPermission().onComplete { _ in
                         if let calendar = CalendarEventHelper.fetchCalendar() ?? CalendarEventHelper.createCalendar() {
                             try? CalendarEventHelper.push(events: refreshedEvents.map { $0.calendarEvent }, to: calendar)
                         }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public struct UserPermissions: OptionSet {
+public struct UserPermissions: OptionSet { // swiftlint:disable:this type_body_length
     //                     MSB    LSB
     public typealias RawValue = (Int64, Int64)
 
@@ -21,6 +21,7 @@ public struct UserPermissions: OptionSet {
         }
     }
 
+    // swiftlint:disable:next cyclomatic_complexity function_body_length
     init?(str: String) {
         switch str {
         case "ACCOUNT_CREATE":
@@ -121,8 +122,6 @@ public struct UserPermissions: OptionSet {
             self = UserPermissions.releasesCreate
         case "RELEASES_EDIT":
             self = UserPermissions.releasesEdit
-        case "RELEASES_VIEW":
-            self = UserPermissions.releasesView
         case "RELEASES_VIEW":
             self = UserPermissions.releasesView
         case "ROLE_CREATE":
