@@ -39,9 +39,14 @@ public class FileSync: NSObject {
     }
 
     deinit {
-        backgroundSession.finishTasksAndInvalidate()
-        metadataSession.invalidateAndCancel()
-        foregroundSession.invalidateAndCancel()
+        self.invalidate()
+    }
+
+    public func invalidate() {
+        self.backgroundSession.finishTasksAndInvalidate()
+        self.metadataSession.invalidateAndCancel()
+        self.foregroundSession.invalidateAndCancel()
+
     }
 
     // MARK: Request building helper
@@ -83,22 +88,32 @@ public class FileSync: NSObject {
 
     // MARK: Directory download management
 
-    public func updateContent(of directory: File) -> Future<Void, SCError> {
+    public func updateContent(of directory: File) -> Future<[File], SCError> {
         guard FileHelper.rootDirectoryID != directory.id else {
-            return Future(value: ())
+            return Future(value: Array(directory.contents))
         }
 
         switch directory.id {
         case FileHelper.coursesDirectoryID:
-            return CourseHelper.syncCourses().asVoid()
-        case FileHelper.sharedDirectoryID:
-            return self.downloadSharedFiles().flatMap { json -> Future<Void, SCError> in
-                return FileHelper.updateDatabase(contentsOf: directory, using: json)
+            return CourseHelper.syncCourses().flatMap { _ -> Future<[File], SCError> in
+                let fetchRequest = File.fetchRequest() as NSFetchRequest<File>
+                fetchRequest.predicate = NSPredicate(format: "parentDirectory.id == %@", FileHelper.coursesDirectoryID)
+
+                let result = CoreDataHelper.viewContext.fetchMultiple(fetchRequest)
+                guard let files = result.value else {
+                    return Future(error: result.error!)
+                }
+                return Future(value: files)
             }
+        case FileHelper.sharedDirectoryID:
+            return self.downloadSharedFiles().flatMap {
+                return FileHelper.updateDatabase(contentsOf: directory, using: $0)
+            }
+
         default:
-            return self.downloadContent(of: directory).flatMap { json -> Future<Void, SCError> in
-                return FileHelper.updateDatabase(contentsOf: directory, using: json)
-            }.asVoid()
+            return self.downloadContent(of: directory).flatMap {
+                return FileHelper.updateDatabase(contentsOf: directory, using: $0)
+            }
         }
     }
 

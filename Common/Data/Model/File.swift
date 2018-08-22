@@ -154,6 +154,8 @@ extension File {
             throw SCError.coreDataMoreThanOneObjectFound
         }
 
+        let existed = result.count > 0
+
         let file = result.first ?? File(context: context)
         file.id = id
 
@@ -161,14 +163,14 @@ extension File {
         let remoteURLString = try data.value(for: "key") as String?
         let percentEncodedURLString = remoteURLString?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
         file.remoteURL = URL(string: percentEncodedURLString ?? "")
-        let thumbnailRemoteURLString = try data.value(for: "thumbnail") as String?
+        let thumbnailRemoteURLString = try? data.value(for: "thumbnail") as String
         let percentEncodedThumbnailURLString = thumbnailRemoteURLString?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
         file.thumbnailRemoteURL = URL(string: percentEncodedThumbnailURLString ?? "")
 
         file.name = name
         file.isDirectory = isDirectory
-        file.mimeType = try? data.value(for: "type")
-        file.size = try data.value(for: "size")
+        file.mimeType = isDirectory ? "public.folder" : try? data.value(for: "type")
+        file.size = isDirectory ? 0 : try data.value(for: "size")
         file.createdAt = try data.value(for: "createdAt")
         if let updatedAt = try? data.value(for: "updatedAt") as Date {
             file.updatedAt = updatedAt
@@ -176,8 +178,10 @@ extension File {
             file.updatedAt = file.createdAt
         }
 
-        file.downloadState = isDirectory ? .downloaded : .notDownloaded
-        file.uploadState = .uploaded
+        if existed {
+            file.downloadState = isDirectory ? .downloaded : .notDownloaded
+            file.uploadState = .uploaded
+        }
 
         file.parentDirectory = parentFolder
 

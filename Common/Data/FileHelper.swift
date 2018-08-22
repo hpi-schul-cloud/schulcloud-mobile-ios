@@ -101,8 +101,8 @@ public class FileHelper {
         fatalError("Implement deleting files")
     }
 
-    public static func updateDatabase(contentsOf parentFolder: File, using contents: [String: Any]) -> Future<Void, SCError> {
-        let promise = Promise<Void, SCError>()
+    public static func updateDatabase(contentsOf parentFolder: File, using contents: [String: Any]) -> Future<[File], SCError> {
+        let promise = Promise<[File], SCError>()
         let parentFolderObjectId = parentFolder.objectID
 
         CoreDataHelper.persistentContainer.performBackgroundTask { context in
@@ -149,7 +149,7 @@ public class FileHelper {
 
                 try context.save()
                 // TODO(FileProvider): Signal changes in the parent folder here
-                promise.success(())
+                promise.success(createdFiles + createdFolders)
             } catch let error as MarshalError {
                 promise.failure(.jsonDeserialization(error.localizedDescription))
             } catch let error {

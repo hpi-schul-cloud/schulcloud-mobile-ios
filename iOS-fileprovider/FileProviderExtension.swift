@@ -186,7 +186,7 @@ class FileProviderExtension: NSFileProviderExtension {
 
             let itemToEnumerate = try item(for: containerItemIdentifier) as! File
             if itemToEnumerate.isDirectory {
-                maybeEnumerator = FolderEnumerator(file: itemToEnumerate)
+                maybeEnumerator = OnlineFolderEnumerator(file: itemToEnumerate)
             } else {
                 // TODO: Replace with proper file observing enumerator
                 maybeEnumerator = FolderEnumerator(file: itemToEnumerate)
