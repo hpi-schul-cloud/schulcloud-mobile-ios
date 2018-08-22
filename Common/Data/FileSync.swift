@@ -92,10 +92,8 @@ public class FileSync: NSObject {
         case FileHelper.coursesDirectoryID:
             return CourseHelper.syncCourses().asVoid()
         case FileHelper.sharedDirectoryID:
-            return self.downloadSharedFiles().flatMap { objects -> Future<Void, SCError> in
-                return objects.map { json in
-                    return FileHelper.updateDatabase(contentsOf: directory, using: json)
-                }.sequence().asVoid()
+            return self.downloadSharedFiles().flatMap { json -> Future<Void, SCError> in
+                return FileHelper.updateDatabase(contentsOf: directory, using: json)
             }
         default:
             return self.downloadContent(of: directory).flatMap { json -> Future<Void, SCError> in
@@ -131,8 +129,8 @@ public class FileSync: NSObject {
         return promise.future
     }
 
-    public func downloadSharedFiles() -> Future<[[String: Any]], SCError> {
-        let promise = Promise<[[String: Any]], SCError>()
+    public func downloadSharedFiles() -> Future<[String: Any], SCError> {
+        let promise = Promise<[String: Any], SCError>()
 
         let request = self.request(for: Brand.default.servers.backend.appendingPathComponent("files") )
         metadataSession.dataTask(with: request) { data, response, error in
@@ -144,7 +142,12 @@ public class FileSync: NSObject {
                     return (try? object.value(for: "context")) == "geteilte Datei"
                 }
 
-                promise.success(sharedFiles as! [[String: Any]])
+                let result: [String: Any] = [
+                    "files": sharedFiles,
+                    "directories": [],
+                ]
+
+                promise.success(result)
             } catch let error as SCError {
                 promise.failure(error)
             } catch let error {
@@ -244,16 +247,19 @@ extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownlo
             fatalError("Impossible to download file without providing transferInfo")
         }
 
+        let finalDownloadState: File.DownloadState
         if let error = error {
+            finalDownloadState = .downloadFailed
             transferInfo.promise.failure(.network(error))
         } else {
+            finalDownloadState = .downloaded
             transferInfo.promise.success(transferInfo.localFileURL)
         }
 
         let fileID = transferInfo.fileID
         CoreDataHelper.persistentContainer.performBackgroundTask { context in
             let file = context.object(with: fileID) as! File
-            file.downloadState = .downloaded
+            file.downloadState = finalDownloadState
             _ = context.saveWithResult()
         }
 

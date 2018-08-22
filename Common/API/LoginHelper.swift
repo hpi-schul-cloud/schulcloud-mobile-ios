@@ -10,6 +10,12 @@ import JWTDecode
 import Locksmith
 import Result
 
+public extension UserDefaults {
+    public static var appGroupDefaults: UserDefaults? {
+        return UserDefaults(suiteName: "group.org.schulcloud")
+    }
+}
+
 public class LoginHelper {
 
     public static func getAccessToken(username: String?, password: String?) -> Future<String, SCError> {
@@ -75,8 +81,7 @@ public class LoginHelper {
     }
 
     public static func loadAccount() -> SchulCloudAccount? {
-        let defaults = UserDefaults.standard
-        guard let accountId = defaults.string(forKey: "accountId"), let userId = defaults.string(forKey: "userId") else {
+        guard let defaults = UserDefaults.appGroupDefaults, let accountId = defaults.string(forKey: "accountId"), let userId = defaults.string(forKey: "userId") else {
             return nil
         }
 
@@ -107,8 +112,8 @@ public class LoginHelper {
     }
 
     public static func logout() {
-        UserDefaults.standard.set(nil, forKey: "accountId")
-        UserDefaults.standard.set(nil, forKey: "userId")
+        UserDefaults.appGroupDefaults?.set(nil, forKey: "accountId")
+        UserDefaults.appGroupDefaults?.set(nil, forKey: "userId")
 
         do {
             CoreDataHelper.clearCoreDataStorage()

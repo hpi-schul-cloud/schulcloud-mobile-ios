@@ -3,45 +3,66 @@
 //  Copyright © HPI. All rights reserved.
 //
 
+import Common
+import CoreData
 import FileProvider
 
 class FileProviderExtension: NSFileProviderExtension {
     
-    var fileManager = FileManager()
+    let rootDirectory: File
+    var currentDirectory: File
+    let fileSync = FileSync()
     
     override init() {
+        guard let acc = LoginHelper.loadAccount() else {
+            fatalError("No account, login in the main app first")
+        }
+
+        guard let account = LoginHelper.validate(acc) else {
+            fatalError("Invalid Account, login again")
+        }
+
+        Globals.account = account
+
+        rootDirectory = FileHelper.rootFolder
+        currentDirectory = rootDirectory
         super.init()
     }
     
     override func item(for identifier: NSFileProviderItemIdentifier) throws -> NSFileProviderItem {
-        // resolve the given identifier to a record in the model
-        
-        // TODO: implement the actual lookup
-        return FileProviderItem()
+        if identifier == .rootContainer {
+            return rootDirectory
+        } else if identifier == .workingSet {
+            throw NSFileProviderError(.noSuchItem)
+        } else {
+            let fetchRequest: NSFetchRequest<File> = File.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "id == %@", identifier.rawValue)
+
+            let result = CoreDataHelper.viewContext.fetchSingle(fetchRequest)
+            if let file = result.value {
+                return file
+            }
+            throw NSFileProviderError(.noSuchItem)
+        }
     }
     
     override func urlForItem(withPersistentIdentifier identifier: NSFileProviderItemIdentifier) -> URL? {
         // resolve the given identifier to a file on disk
-        guard let item = try? item(for: identifier) else {
+        guard let file = (try? item(for: identifier)) as? File else {
             return nil
         }
-        
-        // in this implementation, all paths are structured as <base storage directory>/<item identifier>/<item file name>
-        let manager = NSFileProviderManager.default
-        let perItemDirectory = manager.documentStorageURL.appendingPathComponent(identifier.rawValue, isDirectory: true)
-        
-        return perItemDirectory.appendingPathComponent(item.filename, isDirectory:false)
+        return file.localURL
     }
     
     override func persistentIdentifierForItem(at url: URL) -> NSFileProviderItemIdentifier? {
         // resolve the given URL to a persistent identifier using a database
-        let pathComponents = url.pathComponents
-        
-        // exploit the fact that the path structure has been defined as
-        // <base storage directory>/<item identifier>/<item file name> above
-        assert(pathComponents.count > 2)
-        
-        return NSFileProviderItemIdentifier(pathComponents[pathComponents.count - 2])
+        // Filename of format fileid__name, extract id from filename, no need to hit the DB
+        let filename = url.lastPathComponent
+        guard let localURLSeparatorRange = filename.range(of: "__") else {
+            return nil
+        }
+        let fileIdentifier = String(filename[filename.startIndex..<localURLSeparatorRange.lowerBound])
+        return NSFileProviderItemIdentifier(fileIdentifier)
     }
     
     override func providePlaceholder(at url: URL, completionHandler: @escaping (Error?) -> Void) {
@@ -53,7 +74,7 @@ class FileProviderExtension: NSFileProviderExtension {
         do {
             let fileProviderItem = try item(for: identifier)
             let placeholderURL = NSFileProviderManager.placeholderURL(for: url)
-            try NSFileProviderManager.writePlaceholder(at: placeholderURL,withMetadata: fileProviderItem)
+            try NSFileProviderManager.writePlaceholder(at: placeholderURL, withMetadata: fileProviderItem)
             completionHandler(nil)
         } catch let error {
             completionHandler(error)
@@ -62,7 +83,22 @@ class FileProviderExtension: NSFileProviderExtension {
 
     override func startProvidingItem(at url: URL, completionHandler: @escaping ((_ error: Error?) -> Void)) {
         // Should ensure that the actual file is in the position returned by URLForItemWithIdentifier:, then call the completion handler
-        
+        guard let identifier = persistentIdentifierForItem(at: url),
+              let file = (try? item(for: identifier)) as? File else {
+                completionHandler(NSFileProviderError(.noSuchItem))
+                return
+        }
+
+        if FileManager.default.fileExists(atPath: url.absoluteString) {
+            completionHandler(nil)
+        } else {
+            fileSync.download(file, background: true, progressHandler: {_ in }).onSuccess { (_) in
+                completionHandler(nil)
+            }.onFailure { (error) in
+                completionHandler(error)
+            }
+        }
+
         /* TODO:
          This is one of the main entry points of the file provider. We need to check whether the file already exists on disk,
          whether we know of a more recent version of the file, and implement a policy for these cases. Pseudocode:
@@ -86,11 +122,8 @@ class FileProviderExtension: NSFileProviderExtension {
              }
          }
          */
-        
-        completionHandler(NSError(domain: NSCocoaErrorDomain, code: NSFeatureUnsupportedError, userInfo:[:]))
     }
-    
-    
+
     override func itemChanged(at url: URL) {
         // Called at some point after the file has changed; the provider may then trigger an upload
         
@@ -109,6 +142,7 @@ class FileProviderExtension: NSFileProviderExtension {
         // Called after the last claim to the file has been released. At this point, it is safe for the file provider to remove the content file.
         
         // TODO: look up whether the file has local changes
+        /*
         let fileHasLocalChanges = false
         
         if !fileHasLocalChanges {
@@ -124,6 +158,7 @@ class FileProviderExtension: NSFileProviderExtension {
                 // TODO: handle any error, do any necessary cleanup
             })
         }
+        */
     }
     
     // MARK: - Actions
@@ -138,20 +173,37 @@ class FileProviderExtension: NSFileProviderExtension {
     // MARK: - Enumeration
     
     override func enumerator(for containerItemIdentifier: NSFileProviderItemIdentifier) throws -> NSFileProviderEnumerator {
-        let maybeEnumerator: NSFileProviderEnumerator? = nil
+        var maybeEnumerator: NSFileProviderEnumerator? = nil
         if (containerItemIdentifier == NSFileProviderItemIdentifier.rootContainer) {
-            // TODO: instantiate an enumerator for the container root
+            maybeEnumerator = FolderEnumerator(file: rootDirectory)
         } else if (containerItemIdentifier == NSFileProviderItemIdentifier.workingSet) {
             // TODO: instantiate an enumerator for the working set
+            maybeEnumerator = WorkingSetEnumerator()
         } else {
             // TODO: determine if the item is a directory or a file
             // - for a directory, instantiate an enumerator of its subitems
             // - for a file, instantiate an enumerator that observes changes to the file
+
+            let itemToEnumerate = try item(for: containerItemIdentifier) as! File
+            if itemToEnumerate.isDirectory {
+                maybeEnumerator = FolderEnumerator(file: itemToEnumerate)
+            } else {
+                // TODO: Replace with proper file observing enumerator
+                maybeEnumerator = FolderEnumerator(file: itemToEnumerate)
+            }
         }
         guard let enumerator = maybeEnumerator else {
             throw NSError(domain: NSCocoaErrorDomain, code: NSFeatureUnsupportedError, userInfo:[:])
         }
         return enumerator
     }
-    
+
+    /*
+    override func fetchThumbnails(for itemIdentifiers: [NSFileProviderItemIdentifier],
+                                  requestedSize size: CGSize,
+                                  perThumbnailCompletionHandler: @escaping (NSFileProviderItemIdentifier, Data?, Error?) -> Void,
+                                  completionHandler: @escaping (Error?) -> Void) -> Progress {
+
+    }
+    */
 }

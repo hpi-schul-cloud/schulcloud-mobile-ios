@@ -6,6 +6,7 @@
 import CoreData
 import Foundation
 import Marshal
+import MobileCoreServices
 
 public final class File: NSManagedObject {
 
@@ -20,6 +21,8 @@ public final class File: NSManagedObject {
     @NSManaged public var isDirectory: Bool
     @NSManaged public var mimeType: String?
     @NSManaged public var size: Int64
+    @NSManaged public var createdAt: Date
+    @NSManaged public var updatedAt: Date
 
     @NSManaged private var permissionsValue: Int64
     @NSManaged private var downloadStateValue: Int64
@@ -127,6 +130,8 @@ extension File {
         file.name = name
         file.isDirectory = isDirectory
         file.parentDirectory = parentFolder
+        file.createdAt = Date()
+        file.updatedAt = file.createdAt
 
         file.permissions = .read
         file.uploadState = .uploaded
@@ -164,6 +169,12 @@ extension File {
         file.isDirectory = isDirectory
         file.mimeType = try? data.value(for: "type")
         file.size = try data.value(for: "size")
+        file.createdAt = try data.value(for: "createdAt")
+        if let updatedAt = try? data.value(for: "updatedAt") as Date {
+            file.updatedAt = updatedAt
+        } else {
+            file.updatedAt = file.createdAt
+        }
 
         file.downloadState = isDirectory ? .downloaded : .notDownloaded
         file.uploadState = .uploaded
@@ -190,10 +201,13 @@ extension File {
 
 // MARK: computed properties
 extension File {
-
-    // TODO: replace with fileprovidermanager when implemented
     static var localContainerURL: URL {
-        return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.org.schulcloud")!.appendingPathComponent("File Provider Storage")
+        if #available(iOS 11.0, *) {
+            return NSFileProviderManager.default.documentStorageURL
+        } else {
+            // This returns the same URL as the iOS 11.0 documentStorageURL
+            return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.org.schulcloud")!.appendingPathComponent("File Provider Storage")
+        }
     }
 
     public var localFileName: String {
@@ -212,4 +226,24 @@ extension File {
 
         return ByteCountFormatter.string(fromByteCount: self.size, countStyle: .binary)
     }
+
+    public var UTI: String? {
+        guard !self.isDirectory else {
+            return kUTTypeFolder as String
+        }
+        guard let mimeType = self.mimeType else {
+            return ""
+        }
+        return File.mimeToUTI(mime: mimeType)
+    }
+
+    private static func mimeToUTI(mime: String) -> String? {
+        let cfMime = mime as CFString
+        guard let strPtr = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, cfMime, nil) else {
+            return nil
+        }
+        let cfUTI = Unmanaged<CFString>.fromOpaque(strPtr.toOpaque()).takeUnretainedValue() as CFString
+        return cfUTI as String
+    }
+
 }

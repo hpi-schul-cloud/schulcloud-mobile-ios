@@ -3,31 +3,37 @@
 //  Copyright © HPI. All rights reserved.
 //
 
+import Common
 import FileProvider
+import MobileCoreServices
 
-class FileProviderItem: NSObject, NSFileProviderItem {
+extension File: NSFileProviderItem {
+    public var itemIdentifier: NSFileProviderItemIdentifier {
+        guard self.id != FileHelper.rootDirectoryID else {
+            return NSFileProviderItemIdentifier.rootContainer
+        }
+        return NSFileProviderItemIdentifier(self.id)
+    }
 
-    // TODO: implement an initializer to create an item from your extension's backing model
-    // TODO: implement the accessors to return the values from your extension's backing model
-    
-    var itemIdentifier: NSFileProviderItemIdentifier {
-        return NSFileProviderItemIdentifier("")
+    public var parentItemIdentifier: NSFileProviderItemIdentifier {
+        guard let parentId = self.parentDirectory?.id else {
+            return NSFileProviderItemIdentifier("")
+        }
+        if parentId == FileHelper.rootDirectoryID {
+            return NSFileProviderItemIdentifier.rootContainer
+        }
+        return NSFileProviderItemIdentifier(parentId)
     }
-    
-    var parentItemIdentifier: NSFileProviderItemIdentifier {
-        return NSFileProviderItemIdentifier("")
-    }
-    
-    var capabilities: NSFileProviderItemCapabilities {
+
+    public var capabilities: NSFileProviderItemCapabilities {
         return .allowsAll
     }
-    
-    var filename: String {
-        return ""
+
+    public var filename: String {
+        return self.name
     }
-    
-    var typeIdentifier: String {
-        return ""
+
+    public var typeIdentifier: String {
+        return self.UTI ?? ""
     }
-    
 }

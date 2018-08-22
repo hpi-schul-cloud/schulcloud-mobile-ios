@@ -13,7 +13,7 @@ public class FileHelper {
     public static var coursesDirectoryID = "courses"
     public static var sharedDirectoryID = "shared"
     public static var userDirectoryID: String {
-        return "users/\(Globals.account?.userId ?? "")"
+        return "users/\(Globals.account?.userId ?? "")/"
     }
 
     private static var notSynchronizedPath: [String] = {
@@ -165,11 +165,10 @@ public class FileHelper {
 // MARK: Course folder structure management
 extension FileHelper {
     public static func processCourseUpdates(changes: [String: [(id: String, name: String)]]) {
-        let rootObjectId = FileHelper.rootFolder.objectID
+        let objectID = FileHelper.rootFolder.contents.first(where: { $0.id == FileHelper.coursesDirectoryID })!.objectID
 
         CoreDataHelper.persistentContainer.performBackgroundTask { context in
-            guard let rootFolder = context.existingTypedObject(with: rootObjectId) as? File,
-                let parentFolder = rootFolder.contents.first(where: { $0.id == FileHelper.coursesDirectoryID }) else {
+            guard let parentFolder = context.typedObject(with: objectID) as? File else {
                     log.error("Unable to find course directory")
                     return
             }

@@ -14,6 +14,11 @@ public class CoreDataHelper {
         let modelURL = bundle.url(forResource: "schulcloud", withExtension: "momd")
         let model = NSManagedObjectModel(contentsOf: modelURL!)
         let container = NSPersistentContainer(name: "schulcloud", managedObjectModel: model!)
+
+        let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.org.schulcloud")!.appendingPathComponent("schulclouddb")
+        let description = NSPersistentStoreDescription(url: url)
+
+        container.persistentStoreDescriptions = [description]
         container.loadPersistentStores { _, error in
             if let error = error {
                 log.error("Unresolved error \(error)")
