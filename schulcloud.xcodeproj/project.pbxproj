@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		197EC25ADE53536DC7304C1A /* Pods_Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7453D6B0608647AAC1BEDAB /* Pods_Common.framework */; };
 		3E64DABF207A8D6F5DB59E59 /* Pods_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D32E014BC215A558A2D90EA8 /* Pods_iOS.framework */; };
+		4496FDB03C08BA952EBA4CD1 /* Pods_iOS_fileprovider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C87D60CBBCD0804B5A1870B /* Pods_iOS_fileprovider.framework */; };
 		503A5EFB1F3DB86C00A7695B /* TabSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EF91F3DB86C00A7695B /* TabSettings.storyboard */; };
 		503A5EFD1F3DC5DC00A7695B /* TabCourses.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */; };
 		503A5EFF1F3DC6A400A7695B /* TabFiles.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */; };
@@ -407,6 +408,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4496FDB03C08BA952EBA4CD1 /* Pods_iOS_fileprovider.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

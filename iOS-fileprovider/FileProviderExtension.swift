@@ -3,6 +3,7 @@
 //  Copyright © HPI. All rights reserved.
 //
 
+import BrightFutures
 import Common
 import CoreData
 import FileProvider
@@ -186,7 +187,7 @@ class FileProviderExtension: NSFileProviderExtension {
 
             let itemToEnumerate = try item(for: containerItemIdentifier) as! File
             if itemToEnumerate.isDirectory {
-                maybeEnumerator = OnlineFolderEnumerator(file: itemToEnumerate)
+                maybeEnumerator = FolderEnumerator(file: itemToEnumerate)
             } else {
                 // TODO: Replace with proper file observing enumerator
                 maybeEnumerator = FolderEnumerator(file: itemToEnumerate)
@@ -198,12 +199,47 @@ class FileProviderExtension: NSFileProviderExtension {
         return enumerator
     }
 
-    /*
     override func fetchThumbnails(for itemIdentifiers: [NSFileProviderItemIdentifier],
                                   requestedSize size: CGSize,
                                   perThumbnailCompletionHandler: @escaping (NSFileProviderItemIdentifier, Data?, Error?) -> Void,
                                   completionHandler: @escaping (Error?) -> Void) -> Progress {
 
+        let progress = Progress(totalUnitCount: Int64(itemIdentifiers.count))
+
+        let files = itemIdentifiers.map { try! item(for: $0) as! File }
+
+        var downloadTasks = [Future<URL, SCError>]()
+
+        for file in files {
+            let itemIdentifier = file.itemIdentifier
+            guard file.thumbnailRemoteURL != nil else {
+                perThumbnailCompletionHandler(itemIdentifier, nil, nil)
+                progress.completedUnitCount += 1
+                continue
+            }
+
+            let future = FileSync.default.downloadThumbnail(from: file, background: true, progressHandler: { _ in }).onSuccess { url in
+                let data = try? Data(contentsOf: url, options: .alwaysMapped)
+                DispatchQueue.main.async {
+                    perThumbnailCompletionHandler(itemIdentifier, data, nil)
+                }
+            }.onFailure { error in
+                DispatchQueue.main.async {
+                    perThumbnailCompletionHandler(itemIdentifier, nil, error)
+                }
+            }.onComplete { _ in
+                progress.completedUnitCount += 1
+            }
+
+            downloadTasks.append(future)
+        }
+
+        downloadTasks.sequence().onSuccess { _ in
+            completionHandler(nil)
+        }.onFailure { error in
+            completionHandler(error)
+        }
+
+        return progress
     }
-    */
 }
