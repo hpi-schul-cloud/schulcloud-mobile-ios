@@ -46,6 +46,7 @@ public class FileHelper {
     fileprivate static func createBaseStructure() -> File {
         do {
             try FileManager.default.createDirectory(at: File.localContainerURL, withIntermediateDirectories: true, attributes: nil)
+            try FileManager.default.createDirectory(at: File.thumbnailContainerURL, withIntermediateDirectories: true, attributes: nil)
         } catch {
             fatalError("Can't create local file container")
         }

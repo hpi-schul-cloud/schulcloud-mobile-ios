@@ -214,6 +214,10 @@ extension File {
         }
     }
 
+    static var thumbnailContainerURL: URL {
+        return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.org.schulcloud")!.appendingPathComponent("Caches")
+    }
+
     public var localFileName: String {
         return "\(self.id)__\(self.name)"
     }
@@ -225,8 +229,7 @@ extension File {
 
     public var localThumbnailURL: URL {
         // TODO: This will be changed to direct to the Caches folder in the shared container.
-        let cacheDirectoryURL = try! FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-        return cacheDirectoryURL.appendingPathComponent("thumnail_\(self.id)_\(self.name)")
+        return File.thumbnailContainerURL.appendingPathComponent("thumnail_\(self.thumbnailRemoteURL!.lastPathComponent)")
     }
 
     public var detail: String? {

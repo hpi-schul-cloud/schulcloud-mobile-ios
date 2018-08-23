@@ -32,8 +32,9 @@ public class FileSync: NSObject {
 
         super.init()
 
-        let configuration = URLSessionConfiguration.background(withIdentifier: "org.schulcloud.file.background")
-        backgroundSession = URLSession(configuration: configuration, delegate: self, delegateQueue: OperationQueue.main)
+        let backgroudConfiguration = URLSessionConfiguration.background(withIdentifier: "org.schulcloud.file.background")
+        backgroudConfiguration.sharedContainerIdentifier = "group.org.schulcloud"
+        backgroundSession = URLSession(configuration: backgroudConfiguration, delegate: self, delegateQueue: OperationQueue.main)
         foregroundSession = URLSession(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: OperationQueue.main)
     }
 
@@ -276,8 +277,8 @@ extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownlo
 
         do {
             try FileManager.default.moveItem(at: location, to: transferInfo.localFileURL)
-        } catch _ {
-            transferInfo.promise.failure(.other("Tried to download file that already is downloaded"))
+        } catch let error {
+            transferInfo.promise.failure(.other(error.localizedDescription))
         }
     }
 

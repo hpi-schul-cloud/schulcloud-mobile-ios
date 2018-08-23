@@ -11,7 +11,6 @@ import FileProvider
 class FileProviderExtension: NSFileProviderExtension {
     
     let rootDirectory: File
-    var currentDirectory: File
     let fileSync = FileSync()
     
     override init() {
@@ -26,7 +25,6 @@ class FileProviderExtension: NSFileProviderExtension {
         Globals.account = account
 
         rootDirectory = FileHelper.rootFolder
-        currentDirectory = rootDirectory
         super.init()
     }
     
@@ -94,9 +92,13 @@ class FileProviderExtension: NSFileProviderExtension {
             completionHandler(nil)
         } else {
             fileSync.download(file, background: true, progressHandler: {_ in }).onSuccess { (_) in
-                completionHandler(nil)
+                DispatchQueue.main.async {
+                    completionHandler(nil)
+                }
             }.onFailure { (error) in
-                completionHandler(error)
+                DispatchQueue.main.async {
+                    completionHandler(error)
+                }
             }
         }
 
@@ -212,13 +214,19 @@ class FileProviderExtension: NSFileProviderExtension {
 
         for file in files {
             let itemIdentifier = file.itemIdentifier
-            guard file.thumbnailRemoteURL != nil else {
+            if file.thumbnailRemoteURL == nil {
                 perThumbnailCompletionHandler(itemIdentifier, nil, nil)
                 progress.completedUnitCount += 1
                 continue
             }
 
-            let future = FileSync.default.downloadThumbnail(from: file, background: true, progressHandler: { _ in }).onSuccess { url in
+            if FileManager.default.fileExists(atPath: file.localThumbnailURL.path) {
+                let data = try! Data(contentsOf: file.localThumbnailURL, options: .alwaysMapped)
+                perThumbnailCompletionHandler(itemIdentifier, data, nil)
+                progress.completedUnitCount += 1
+            }
+
+            let future = fileSync.downloadThumbnail(from: file, background: true, progressHandler: { _ in }).onSuccess { url in
                 let data = try? Data(contentsOf: url, options: .alwaysMapped)
                 DispatchQueue.main.async {
                     perThumbnailCompletionHandler(itemIdentifier, data, nil)
@@ -228,7 +236,9 @@ class FileProviderExtension: NSFileProviderExtension {
                     perThumbnailCompletionHandler(itemIdentifier, nil, error)
                 }
             }.onComplete { _ in
-                progress.completedUnitCount += 1
+                DispatchQueue.main.async {
+                    progress.completedUnitCount += 1
+                }
             }
 
             downloadTasks.append(future)
