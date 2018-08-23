@@ -23,7 +23,6 @@ public class FileSync: NSObject {
         let promise: Promise<URL, SCError>
         let progressHandler: ProgressHandler
         let localFileURL: URL
-        let fileID: NSManagedObjectID
     }
 
     private var runningTask: [Int: FileTransferInfo] = [:]
@@ -177,6 +176,7 @@ public class FileSync: NSObject {
                          background: Bool = false,
                          progressHandler: @escaping ProgressHandler ) -> Future<URL, SCError> {
         assert(file.downloadState != .downloading)
+
         let localURL = file.localURL
         let downloadSession: URLSession = background ? self.backgroundSession : self.foregroundSession
         guard [File.DownloadState.notDownloaded, File.DownloadState.downloadFailed].contains(file.downloadState) else {
@@ -189,12 +189,27 @@ public class FileSync: NSObject {
         backgroundContext.performAndWait {
             let file = backgroundContext.object(with: fileID) as! File
             file.downloadState = .downloading
+            _ = backgroundContext.saveWithResult()
         }
 
         _ = backgroundContext.saveWithResult()
 
         return signedURL(for: file).flatMap { url -> Future<URL, SCError> in
-            return self.download(signedURL: url, fileID: fileID, moveTo: localURL, downloadSession: downloadSession, progressHandler: progressHandler)
+            return self.download(at: url, moveTo: localURL, downloadSession: downloadSession, progressHandler: progressHandler)
+        }.onSuccess { _ in
+            let backgroundContext = CoreDataHelper.persistentContainer.newBackgroundContext()
+            backgroundContext.performAndWait {
+                let file = backgroundContext.object(with: fileID) as! File
+                file.downloadState = .downloaded
+                _ = backgroundContext.saveWithResult()
+            }
+        }.onFailure { _ in
+            let backgroundContext = CoreDataHelper.persistentContainer.newBackgroundContext()
+            backgroundContext.performAndWait {
+                let file = backgroundContext.object(with: fileID) as! File
+                file.downloadState = .downloadFailed
+                _ = backgroundContext.saveWithResult()
+            }
         }
     }
 
@@ -229,19 +244,28 @@ public class FileSync: NSObject {
         return promise.future
     }
 
-    fileprivate func download(signedURL: URL,
-                              fileID: NSManagedObjectID,
+    public func downloadThumbnail(from file: File, background: Bool = false, progressHandler: @escaping ProgressHandler) -> Future<URL, SCError> {
+        guard !FileManager.default.fileExists(atPath: file.localThumbnailURL.path) else {
+            return Future(value: file.localThumbnailURL)
+        }
+        guard let url = file.thumbnailRemoteURL else {
+            return Future(error: SCError.other("No thumbnail to download"))
+        }
+        let downloadSession = background ? self.backgroundSession! : self.foregroundSession!
+        return download(at: url, moveTo: file.localThumbnailURL, downloadSession: downloadSession, progressHandler: progressHandler)
+    }
+
+    fileprivate func download(at remoteURL: URL,
                               moveTo localURL: URL,
                               downloadSession: URLSession,
                               progressHandler: @escaping ProgressHandler) -> Future<URL, SCError> {
         let promise = Promise<URL, SCError>()
-        let transferInfo = FileTransferInfo(promise: promise, progressHandler: progressHandler, localFileURL: localURL, fileID: fileID)
-        let task = downloadSession.downloadTask(with: signedURL)
-        task.resume()
+        let transferInfo = FileTransferInfo(promise: promise, progressHandler: progressHandler, localFileURL: localURL)
+        let task = downloadSession.downloadTask(with: remoteURL)
         runningTask[task.taskIdentifier] = transferInfo
+        task.resume()
         return promise.future
     }
-
 }
 
 extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownloadDelegate {
@@ -262,20 +286,10 @@ extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownlo
             fatalError("Impossible to download file without providing transferInfo")
         }
 
-        let finalDownloadState: File.DownloadState
         if let error = error {
-            finalDownloadState = .downloadFailed
             transferInfo.promise.failure(.network(error))
         } else {
-            finalDownloadState = .downloaded
             transferInfo.promise.success(transferInfo.localFileURL)
-        }
-
-        let fileID = transferInfo.fileID
-        CoreDataHelper.persistentContainer.performBackgroundTask { context in
-            let file = context.object(with: fileID) as! File
-            file.downloadState = finalDownloadState
-            _ = context.saveWithResult()
         }
 
         runningTask.removeValue(forKey: task.taskIdentifier)
