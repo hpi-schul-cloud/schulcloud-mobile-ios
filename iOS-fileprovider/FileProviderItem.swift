@@ -36,4 +36,24 @@ extension File: NSFileProviderItem {
     public var typeIdentifier: String {
         return self.UTI ?? ""
     }
+
+    public var creationDate: Date? {
+        return self.createdAt
+    }
+
+    public var contentModificationDate: Date? {
+        return self.updatedAt
+    }
+
+    public var childItemCount: NSNumber? {
+        guard isDirectory else {
+            return nil
+        }
+
+        return NSNumber(value: self.contents.count)
+    }
+
+    public var documentSize: NSNumber? {
+        return NSNumber(value: self.size)
+    }
 }

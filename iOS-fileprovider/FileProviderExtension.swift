@@ -72,7 +72,9 @@ class FileProviderExtension: NSFileProviderExtension {
 
         do {
             let fileProviderItem = try item(for: identifier)
+
             let placeholderURL = NSFileProviderManager.placeholderURL(for: url)
+
             try NSFileProviderManager.writePlaceholder(at: placeholderURL, withMetadata: fileProviderItem)
             completionHandler(nil)
         } catch let error {
@@ -88,7 +90,7 @@ class FileProviderExtension: NSFileProviderExtension {
                 return
         }
 
-        if FileManager.default.fileExists(atPath: url.absoluteString) {
+        if FileManager.default.fileExists(atPath: url.path) {
             completionHandler(nil)
         } else {
             fileSync.download(file, background: true, progressHandler: {_ in }).onSuccess { (_) in
@@ -189,7 +191,7 @@ class FileProviderExtension: NSFileProviderExtension {
 
             let itemToEnumerate = try item(for: containerItemIdentifier) as! File
             if itemToEnumerate.isDirectory {
-                maybeEnumerator = FolderEnumerator(file: itemToEnumerate)
+                maybeEnumerator = OnlineFolderEnumerator(file: itemToEnumerate)
             } else {
                 // TODO: Replace with proper file observing enumerator
                 maybeEnumerator = FolderEnumerator(file: itemToEnumerate)
