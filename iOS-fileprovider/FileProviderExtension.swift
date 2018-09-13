@@ -201,10 +201,6 @@ class FileProviderExtension: NSFileProviderExtension {
 
             maybeEnumerator = WorkingSetEnumerator(workingSet: result)
         } else {
-            // TODO: determine if the item is a directory or a file
-            // - for a directory, instantiate an enumerator of its subitems
-            // - for a file, instantiate an enumerator that observes changes to the file
-
             let item = try self.item(for: containerItemIdentifier) as! FileProviderItem
             let id = item.itemIdentifier == .rootContainer ? FileHelper.rootDirectoryID : item.itemIdentifier.rawValue
 
@@ -214,8 +210,7 @@ class FileProviderExtension: NSFileProviderExtension {
             let context = CoreDataHelper.persistentContainer.newBackgroundContext()
             let file = context.fetchSingle(fetchRequest).value!
             if file.isDirectory {
-                let items = file.contents.map(FileProviderItem.init(file:))
-                maybeEnumerator = FolderEnumerator(item: containerItemIdentifier)
+                maybeEnumerator = OnlineFolderEnumerator(itemIdentifier: containerItemIdentifier, fileSync: self.fileSync)
             } else {
                 maybeEnumerator = FileEnumerator(file: file)
             }

@@ -97,8 +97,7 @@ class OnlineFolderEnumerator: NSObject, NSFileProviderEnumerator {
         super.init()
     }
 
-    func invalidate() {
-    }
+    func invalidate() { }
 
     func enumerateItems(for observer: NSFileProviderEnumerationObserver, startingAt page: NSFileProviderPage) {
 
@@ -118,8 +117,7 @@ class OnlineFolderEnumerator: NSObject, NSFileProviderEnumerator {
         }
 
         fileSync.updateContent(of: file).onSuccess { files in
-            let sortedFiles = files.sorted(by: self.compareFunc)
-            let ids = sortedFiles.map { $0.objectID }
+            let ids = files.sorted(by: self.compareFunc).map { $0.objectID }
             DispatchQueue.main.async {
                 let localItems = ids.map { CoreDataHelper.viewContext.typedObject(with: $0) as File }.map(FileProviderItem.init(file:))
                 observer.didEnumerate(localItems)
