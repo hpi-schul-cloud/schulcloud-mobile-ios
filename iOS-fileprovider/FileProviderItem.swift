@@ -7,53 +7,70 @@ import Common
 import FileProvider
 import MobileCoreServices
 
-extension File: NSFileProviderItem {
-    public var itemIdentifier: NSFileProviderItemIdentifier {
-        guard self.id != FileHelper.rootDirectoryID else {
-            return NSFileProviderItemIdentifier.rootContainer
-        }
-        return NSFileProviderItemIdentifier(self.id)
-    }
 
-    public var parentItemIdentifier: NSFileProviderItemIdentifier {
-        guard let parentId = self.parentDirectory?.id else {
-            return NSFileProviderItemIdentifier("")
-        }
-        if parentId == FileHelper.rootDirectoryID {
-            return NSFileProviderItemIdentifier.rootContainer
-        }
-        return NSFileProviderItemIdentifier(parentId)
-    }
+class FileProviderItem: NSObject, NSFileProviderItem {
 
-    public var capabilities: NSFileProviderItemCapabilities {
-        return .allowsAll
-    }
+    let itemIdentifier: NSFileProviderItemIdentifier
+    let parentItemIdentifier: NSFileProviderItemIdentifier
+    let capabilities: NSFileProviderItemCapabilities
+    let filename: String
+    let typeIdentifier: String
 
-    public var filename: String {
-        return self.name
-    }
+    let creationDate: Date?
+    let contentModificationDate: Date?
+    let childItemCount: NSNumber?
+    let documentSize: NSNumber?
 
-    public var typeIdentifier: String {
-        return self.UTI ?? ""
-    }
+    let isUploaded: Bool
+    let isUploading: Bool
+    let uploadingError: Error?
+    let isDownloaded: Bool
+    let isDownloading: Bool
+    let downloadingError: Error?
 
-    public var creationDate: Date? {
-        return self.createdAt
-    }
+    let lastUsedDate: Date?
+    let favoriteRank: NSNumber?
+    let tagData: Data?
 
-    public var contentModificationDate: Date? {
-        return self.updatedAt
-    }
+    let isTrashed: Bool
+    let isShared: Bool
 
-    public var childItemCount: NSNumber? {
-        guard isDirectory else {
-            return nil
+    init(file: File) {
+        if #available(iOS 11.0, *) {
+            self.itemIdentifier = file.id == FileHelper.rootDirectoryID ? NSFileProviderItemIdentifier.rootContainer : NSFileProviderItemIdentifier(file.id)
+            if let parent = file.parentDirectory {
+                self.parentItemIdentifier = parent.id == FileHelper.rootDirectoryID ? NSFileProviderItemIdentifier.rootContainer : NSFileProviderItemIdentifier(parent.id)
+            } else {
+                self.parentItemIdentifier = NSFileProviderItemIdentifier("")
+            }
+        } else {
+            self.itemIdentifier = NSFileProviderItemIdentifier(file.id)
+            self.parentItemIdentifier = file.parentDirectory != nil ? NSFileProviderItemIdentifier(file.parentDirectory!.id) : NSFileProviderItemIdentifier("")
         }
 
-        return NSNumber(value: self.contents.count)
-    }
+        self.capabilities = .allowsAll
+        self.filename = file.name
+        self.typeIdentifier = file.UTI ?? ""
+        self.creationDate = file.createdAt
+        self.contentModificationDate = file.updatedAt
+        self.childItemCount = file.isDirectory ? NSNumber(value: file.contents.count) : NSNumber(value:0)
+        self.documentSize = NSNumber(value: file.size)
 
-    public var documentSize: NSNumber? {
-        return NSNumber(value: self.size)
+        self.isUploaded = file.uploadState == .uploaded
+        self.isUploading = file.uploadState == .uploading
+        self.uploadingError = nil
+
+        self.isDownloaded = file.downloadState == .downloaded
+        self.isDownloading = file.downloadState == .downloading
+        self.downloadingError = nil
+
+        self.lastUsedDate = file.lastReadAt
+        self.favoriteRank = NSNumber(value: file.favoriteRankValue)
+        self.tagData = file.localTagData
+
+        self.isTrashed = false
+        self.isShared = false
+
+        super.init()
     }
 }

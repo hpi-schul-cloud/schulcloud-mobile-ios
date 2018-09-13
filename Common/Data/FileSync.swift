@@ -11,7 +11,7 @@ import Result
 
 public class FileSync: NSObject {
 
-    static public var `default`: FileSync = FileSync()
+    static public var `default`: FileSync = FileSync(backgroundSessionIdentifier: "org.schulcloud.file.background")
 
     public typealias ProgressHandler = (Float) -> Void
 
@@ -25,27 +25,34 @@ public class FileSync: NSObject {
         let localFileURL: URL
     }
 
-    private var runningTask: [Int: FileTransferInfo] = [:]
+    private var runningTask: [String: FileTransferInfo] = [:]
 
-    public override init() {
+    public init(backgroundSessionIdentifier: String) {
         metadataSession = URLSession(configuration: URLSessionConfiguration.default)
 
         super.init()
 
-        let backgroudConfiguration = URLSessionConfiguration.background(withIdentifier: "org.schulcloud.file.background")
+        let backgroudConfiguration = URLSessionConfiguration.background(withIdentifier: backgroundSessionIdentifier)
         backgroudConfiguration.sharedContainerIdentifier = "group.org.schulcloud"
         backgroundSession = URLSession(configuration: backgroudConfiguration, delegate: self, delegateQueue: OperationQueue.main)
         foregroundSession = URLSession(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: OperationQueue.main)
-    }
-
-    deinit {
-        self.invalidate()
     }
 
     public func invalidate() {
         self.backgroundSession.finishTasksAndInvalidate()
         self.metadataSession.invalidateAndCancel()
         self.foregroundSession.invalidateAndCancel()
+    }
+
+    public func cancelThumbnailsTasks() {
+
+    }
+
+    public func cancelDownloadTasks() {
+
+    }
+
+    public func cancelUploadTasks() {
 
     }
 
@@ -180,7 +187,7 @@ public class FileSync: NSObject {
 
         let localURL = file.localURL
         let downloadSession: URLSession = background ? self.backgroundSession : self.foregroundSession
-        guard [File.DownloadState.notDownloaded, File.DownloadState.downloadFailed].contains(file.downloadState) else {
+        guard file.downloadState != .downloaded else {
             progressHandler(1.0)
             return Future<URL, SCError>(value: localURL)
         }
@@ -195,8 +202,10 @@ public class FileSync: NSObject {
 
         _ = backgroundContext.saveWithResult()
 
+        let id = "filedownload__\(file.id)"
+
         return signedURL(for: file).flatMap { url -> Future<URL, SCError> in
-            return self.download(at: url, moveTo: localURL, downloadSession: downloadSession, progressHandler: progressHandler)
+            return self.download(id: id, at: url, moveTo: localURL, downloadSession: downloadSession, progressHandler: progressHandler)
         }.onSuccess { _ in
             let backgroundContext = CoreDataHelper.persistentContainer.newBackgroundContext()
             backgroundContext.performAndWait {
@@ -253,17 +262,19 @@ public class FileSync: NSObject {
             return Future(error: SCError.other("No thumbnail to download"))
         }
         let downloadSession = background ? self.backgroundSession! : self.foregroundSession!
-        return download(at: url, moveTo: file.localThumbnailURL, downloadSession: downloadSession, progressHandler: progressHandler)
+        return download(id: "thumbnail__\(file.id)", at: url, moveTo: file.localThumbnailURL, downloadSession: downloadSession, progressHandler: progressHandler)
     }
 
-    fileprivate func download(at remoteURL: URL,
+    fileprivate func download(id: String,
+                              at remoteURL: URL,
                               moveTo localURL: URL,
                               downloadSession: URLSession,
                               progressHandler: @escaping ProgressHandler) -> Future<URL, SCError> {
         let promise = Promise<URL, SCError>()
         let transferInfo = FileTransferInfo(promise: promise, progressHandler: progressHandler, localFileURL: localURL)
         let task = downloadSession.downloadTask(with: remoteURL)
-        runningTask[task.taskIdentifier] = transferInfo
+        runningTask[id] = transferInfo
+        task.taskDescription = id
         task.resume()
         return promise.future
     }
@@ -271,7 +282,10 @@ public class FileSync: NSObject {
 
 extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownloadDelegate {
     public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        guard let transferInfo = runningTask[downloadTask.taskIdentifier] else {
+        guard let id = downloadTask.taskDescription else {
+            fatalError("No ID given to task")
+        }
+        guard let transferInfo = runningTask[id] else {
             fatalError("Impossible to download file without providing transferInfo")
         }
 
@@ -283,7 +297,10 @@ extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownlo
     }
 
     public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        guard let transferInfo = runningTask[task.taskIdentifier] else {
+        guard let id = task.taskDescription else {
+            fatalError("No ID given to task")
+        }
+        guard let transferInfo = runningTask[id] else {
             fatalError("Impossible to download file without providing transferInfo")
         }
 
@@ -293,7 +310,7 @@ extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownlo
             transferInfo.promise.success(transferInfo.localFileURL)
         }
 
-        runningTask.removeValue(forKey: task.taskIdentifier)
+        runningTask.removeValue(forKey: id)
     }
 
     // Download progress
@@ -302,7 +319,10 @@ extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownlo
                            didWriteData bytesWritten: Int64,
                            totalBytesWritten: Int64,
                            totalBytesExpectedToWrite: Int64) {
-        if let progressHandler = runningTask[downloadTask.taskIdentifier]?.progressHandler {
+        guard let id = downloadTask.taskDescription else {
+            fatalError("No ID given to task")
+        }
+        if let progressHandler = runningTask[id]?.progressHandler {
             let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
             progressHandler(progress)
         }

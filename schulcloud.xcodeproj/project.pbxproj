@@ -36,6 +36,7 @@
 		C3A5A90D1EBCC17600825DBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3A5A90C1EBCC17600825DBF /* Assets.xcassets */; };
 		C3A5A9101EBCC17600825DBF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3A5A90E1EBCC17600825DBF /* LaunchScreen.storyboard */; };
 		C3A5A9261EBCC17600825DBF /* Snapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9251EBCC17600825DBF /* Snapshots.swift */; };
+		CE057CCA2136B85C00D0D4AF /* FileProviderItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95A4AF2111FEDA0061BCDD /* FileProviderItem.swift */; };
 		CE1EAE8C20E500F800C66DDD /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1EAE8B20E500F800C66DDD /* Brand.swift */; };
 		CE1EAE8E20E5036E00C66DDD /* BrandColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1EAE8D20E5036E00C66DDD /* BrandColors.swift */; };
 		CE1EAE9020E503C600C66DDD /* BrandServers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1EAE8F20E503C600C66DDD /* BrandServers.swift */; };
@@ -1359,6 +1360,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE057CCA2136B85C00D0D4AF /* FileProviderItem.swift in Sources */,
 				CE4152A820DBDA3300739CE2 /* HomeworkOverviewCell.swift in Sources */,
 				CE41529120DBD9F500739CE2 /* WebviewPreviewViewContoller.swift in Sources */,
 				CE41529220DBD9F500739CE2 /* PreviewManager.swift in Sources */,

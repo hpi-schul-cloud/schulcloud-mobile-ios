@@ -8,6 +8,26 @@ import Foundation
 import Marshal
 import MobileCoreServices
 
+public final class WorkingSetSyncAnchor: NSManagedObject {
+    @NSManaged public var id: String
+    @NSManaged public var value: Int64
+}
+
+public extension WorkingSetSyncAnchor {
+
+    public static let mainId: String = "WorkingSetSyncAnchor"
+
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<WorkingSetSyncAnchor> {
+        return NSFetchRequest<WorkingSetSyncAnchor>(entityName: "WorkingSetSyncAnchor")
+    }
+
+    public static var mainAnchorFetchRequest: NSFetchRequest<WorkingSetSyncAnchor> {
+        let result = WorkingSetSyncAnchor.fetchRequest() as NSFetchRequest<WorkingSetSyncAnchor>
+        result.predicate = NSPredicate(format: "id == %@", WorkingSetSyncAnchor.mainId)
+        return result
+    }
+}
+
 public final class File: NSManagedObject {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<File> {
@@ -23,6 +43,10 @@ public final class File: NSManagedObject {
     @NSManaged public var size: Int64
     @NSManaged public var createdAt: Date
     @NSManaged public var updatedAt: Date
+    @NSManaged public var lastReadAt: Date
+
+    @NSManaged public var favoriteRankValue: Int64
+    @NSManaged public var localTagData: Data?
 
     @NSManaged private var permissionsValue: Int64
     @NSManaged private var downloadStateValue: Int64
@@ -86,6 +110,9 @@ public extension File {
 
     public var downloadState: DownloadState {
         get {
+            guard !FileManager.default.fileExists(atPath: self.localURL.path) else {
+                return .downloaded
+            }
             return DownloadState(rawValue: self.downloadStateValue) ?? .notDownloaded
         }
 
@@ -132,6 +159,10 @@ extension File {
         file.parentDirectory = parentFolder
         file.createdAt = Date()
         file.updatedAt = file.createdAt
+        file.lastReadAt = file.createdAt
+
+        file.favoriteRankValue = 0
+        file.localTagData = nil
 
         file.permissions = .read
         file.uploadState = .uploaded
@@ -171,6 +202,8 @@ extension File {
         file.isDirectory = isDirectory
         file.mimeType = isDirectory ? "public.folder" : try? data.value(for: "type")
         file.size = isDirectory ? 0 : try data.value(for: "size")
+        file.favoriteRankValue = 0
+        file.localTagData = nil
         file.createdAt = try data.value(for: "createdAt")
         if let updatedAt = try? data.value(for: "updatedAt") as Date {
             file.updatedAt = updatedAt
@@ -178,10 +211,12 @@ extension File {
             file.updatedAt = file.createdAt
         }
 
+        file.lastReadAt = file.createdAt
+
         if existed {
             file.downloadState = isDirectory ? .downloaded : .notDownloaded
-            file.uploadState = .uploaded
         }
+        file.uploadState = .uploaded
 
         file.parentDirectory = parentFolder
 

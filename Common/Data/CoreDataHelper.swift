@@ -9,7 +9,7 @@ import Result
 
 public class CoreDataHelper {
 
-    static var persistentContainer: NSPersistentContainer = {
+    public static var persistentContainer: NSPersistentContainer = {
         let bundle = Bundle(for: CoreDataHelper.self)
         let modelURL = bundle.url(forResource: "schulcloud", withExtension: "momd")
         let model = NSManagedObjectModel(contentsOf: modelURL!)

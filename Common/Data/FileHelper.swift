@@ -51,7 +51,14 @@ public class FileHelper {
             fatalError("Can't create local file container")
         }
 
+
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
+        context.performAndWait {
+            let anchor = WorkingSetSyncAnchor(context: context)
+            anchor.id = WorkingSetSyncAnchor.mainId
+            anchor.value = 0
+        }
+
         let rootFolderObjectId: NSManagedObjectID = context.performAndWait {
             let rootFolder = File.createLocal(context: context, id: rootDirectoryID, name: "Dateien", parentFolder: nil, isDirectory: true)
 
@@ -209,5 +216,22 @@ extension FileHelper {
 
             _ = context.saveWithResult()
         }
+    }
+}
+
+extension FileHelper {
+    public static var workingSetPredicate: NSPredicate {
+        let todayCompo = Calendar.current.dateComponents([.year, .month, .day], from: Date())
+        let today = Calendar.current.date(from: todayCompo)
+        var twoWeeksAgoCompo = DateComponents()
+        twoWeeksAgoCompo.weekOfYear = -2
+
+        let twoWeeksAgo = Calendar.current.date(byAdding: twoWeeksAgoCompo, to: today!)!
+
+        let lastReadPred = NSPredicate(format: "lastReadAt >= %@", twoWeeksAgo as NSDate)
+        let favoriteRankPredicate = NSPredicate(format: "favoriteRankValue > 0")
+        let tagDataPredicate = NSPredicate(format: "localTagData != nil")
+
+        return NSCompoundPredicate(orPredicateWithSubpredicates: [lastReadPred, favoriteRankPredicate, tagDataPredicate])
     }
 }
