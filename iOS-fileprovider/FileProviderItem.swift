@@ -65,7 +65,15 @@ class FileProviderItem: NSObject, NSFileProviderItem {
         self.downloadingError = nil
 
         self.lastUsedDate = file.lastReadAt
-        self.favoriteRank = NSNumber(value: file.favoriteRankValue)
+
+        if file.isDirectory,
+            let rankValueData = file.favoriteRankData {
+            let rankValue: UInt64 = rankValueData.withUnsafeBytes { $0.pointee }
+            self.favoriteRank = file.isDirectory ? NSNumber(value:rankValue) : nil
+        } else {
+            self.favoriteRank = nil
+        }
+
         self.tagData = file.localTagData
 
         self.isTrashed = false

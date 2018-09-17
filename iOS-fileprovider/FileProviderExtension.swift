@@ -100,7 +100,8 @@ class FileProviderExtension: NSFileProviderExtension {
 
     override func startProvidingItem(at url: URL, completionHandler: @escaping ((_ error: Error?) -> Void)) {
         // Should ensure that the actual file is in the position returned by URLForItemWithIdentifier:, then call the completion handler
-        guard let identifier = persistentIdentifierForItem(at: url) else {
+        guard let identifier = persistentIdentifierForItem(at: url),
+              let item = try? self.item(for: identifier) else {
                 completionHandler(NSFileProviderError(.noSuchItem))
                 return
         }
@@ -118,17 +119,11 @@ class FileProviderExtension: NSFileProviderExtension {
         if FileManager.default.fileExists(atPath: file.localURL.path) {
             completionHandler(nil)
         } else {
-            let fileID = file.objectID
             fileSync.download(file, background: true, progressHandler: {_ in }).onSuccess { (_) in
-                let context = CoreDataHelper.persistentContainer.newBackgroundContext()
-                context.performAndWait {
-                    let file = context.typedObject(with: fileID) as File
-                    NSFileProviderManager.default.signalEnumerator(for: FileProviderItem(file: file).parentItemIdentifier, completionHandler: { _ in })
-                    NSFileProviderManager.default.signalEnumerator(for: NSFileProviderItemIdentifier.workingSet, completionHandler: { _ in })
-                }
                 DispatchQueue.main.async {
-
                     completionHandler(nil)
+                    NSFileProviderManager.default.signalEnumerator(for: item.parentItemIdentifier, completionHandler: { _ in })
+                    NSFileProviderManager.default.signalEnumerator(for: NSFileProviderItemIdentifier.workingSet, completionHandler: { _ in })
                 }
             }.onFailure { (error) in
                 DispatchQueue.main.async {
@@ -325,8 +320,17 @@ class FileProviderExtension: NSFileProviderExtension {
             let fetchRequest = File.fetchRequest() as NSFetchRequest<File>
             fetchRequest.predicate = NSPredicate(format: "id == %@", id)
 
+            let rankValueData: Data?
+            if let favoriteRank = favoriteRank {
+
+                var rankValue = favoriteRank.uint64Value
+                rankValueData = Data(buffer: UnsafeBufferPointer(start: &rankValue, count: 1))
+            } else {
+                rankValueData = nil
+            }
+
             let f = context.fetchSingle(fetchRequest).value!
-            f.favoriteRankValue = favoriteRank?.int64Value ?? Int64(NSFileProviderFavoriteRankUnranked)
+            f.favoriteRankData = rankValueData
 
             let workingSetAnchor = context.fetchSingle(WorkingSetSyncAnchor.mainAnchorFetchRequest).value!
             workingSetAnchor.value += 1

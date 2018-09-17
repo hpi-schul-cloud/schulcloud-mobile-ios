@@ -45,7 +45,7 @@ public final class File: NSManagedObject {
     @NSManaged public var updatedAt: Date
     @NSManaged public var lastReadAt: Date
 
-    @NSManaged public var favoriteRankValue: Int64
+    @NSManaged public var favoriteRankData: Data?
     @NSManaged public var localTagData: Data?
 
     @NSManaged private var permissionsValue: Int64
@@ -161,7 +161,7 @@ extension File {
         file.updatedAt = file.createdAt
         file.lastReadAt = file.createdAt
 
-        file.favoriteRankValue = 0
+        file.favoriteRankData = nil
         file.localTagData = nil
 
         file.permissions = .read
@@ -202,7 +202,7 @@ extension File {
         file.isDirectory = isDirectory
         file.mimeType = isDirectory ? "public.folder" : try? data.value(for: "type")
         file.size = isDirectory ? 0 : try data.value(for: "size")
-        file.favoriteRankValue = 0
+        file.favoriteRankData = nil
         file.localTagData = nil
         file.createdAt = try data.value(for: "createdAt")
         if let updatedAt = try? data.value(for: "updatedAt") as Date {

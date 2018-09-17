@@ -229,7 +229,7 @@ extension FileHelper {
         let twoWeeksAgo = Calendar.current.date(byAdding: twoWeeksAgoCompo, to: today!)!
 
         let lastReadPred = NSPredicate(format: "lastReadAt >= %@", twoWeeksAgo as NSDate)
-        let favoriteRankPredicate = NSPredicate(format: "favoriteRankValue > 0")
+        let favoriteRankPredicate = NSPredicate(format: "favoriteRankData != nil")
         let tagDataPredicate = NSPredicate(format: "localTagData != nil")
 
         return NSCompoundPredicate(orPredicateWithSubpredicates: [lastReadPred, favoriteRankPredicate, tagDataPredicate])
