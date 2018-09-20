@@ -51,7 +51,6 @@ public class FileHelper {
             fatalError("Can't create local file container")
         }
 
-
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
         context.performAndWait {
             let anchor = WorkingSetSyncAnchor(context: context)
@@ -173,7 +172,7 @@ public class FileHelper {
 // MARK: Course folder structure management
 extension FileHelper {
     public static func processCourseUpdates(changes: [String: [(id: String, name: String)]]) {
-        let objectID = FileHelper.rootFolder.contents.first(where: { $0.id == FileHelper.coursesDirectoryID })!.objectID
+        let objectID = FileHelper.rootFolder.contents.first { $0.id == FileHelper.coursesDirectoryID }!.objectID
 
         CoreDataHelper.persistentContainer.performBackgroundTask { context in
             guard let parentFolder = context.typedObject(with: objectID) as? File else {

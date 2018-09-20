@@ -33,6 +33,7 @@ class FileEnumerator: NSObject, NSFileProviderEnumerator {
 class FolderEnumerator: NSObject, NSFileProviderEnumerator {
 
     let itemIdentifier: NSFileProviderItemIdentifier
+    
     init(item: NSFileProviderItemIdentifier) {
         self.itemIdentifier = item
         super.init()
@@ -55,6 +56,7 @@ class FolderEnumerator: NSObject, NSFileProviderEnumerator {
                 observer.finishEnumeratingWithError(NSFileProviderError(.noSuchItem))
                 return []
             }
+
             return files.sorted { sortDescriptor.compare($0, to: $1) == .orderedAscending }.map(FileProviderItem.init(file:))
         }
 
@@ -80,7 +82,7 @@ class OnlineFolderEnumerator: NSObject, NSFileProviderEnumerator {
 
     static var dateCompareFunc: (File, File) -> Bool = { $0.createdAt < $1.createdAt }
     static var nameCompareFunc: (File, File) -> Bool = { $0.name < $1.name }
-    
+
     let itemIdentifier: NSFileProviderItemIdentifier
     var fileSync: FileSync
 
@@ -119,8 +121,8 @@ class OnlineFolderEnumerator: NSObject, NSFileProviderEnumerator {
                     localItems.count != self.items.count {
                     NSFileProviderManager.default.signalEnumerator(for: parentItemIdentifier) { _ in }
                 }
-                self.items = localItems
 
+                self.items = localItems
                 observer.didEnumerate(localItems)
                 observer.finishEnumerating(upTo: nil)
             }
@@ -157,12 +159,13 @@ class WorkingSetEnumerator: NSObject, NSFileProviderEnumerator {
         for item in workingSet.map(FileProviderItem.init(file:)) {
             itemsTable[item.itemIdentifier] = item
         }
+
         self.itemsTable = itemsTable
         super.init()
     }
 
     func enumerateItems(for observer: NSFileProviderEnumerationObserver, startingAt page: NSFileProviderPage) {
-        let files = Array<FileProviderItem>(self.itemsTable.values)
+        let files = [FileProviderItem](self.itemsTable.values)
 
         observer.didEnumerate(files as [NSFileProviderItem])
         observer.finishEnumerating(upTo: nil)
@@ -203,10 +206,8 @@ class WorkingSetEnumerator: NSObject, NSFileProviderEnumerator {
             }
         }
 
-        for (key, addedItem) in currentWorkingTable {
-            if self.itemsTable[key] == nil {
-                updatedFiles.append(addedItem)
-            }
+        for (key, addedItem) in currentWorkingTable where self.itemsTable[key] != nil {
+            updatedFiles.append(addedItem)
         }
 
         observer.didUpdate(updatedFiles)

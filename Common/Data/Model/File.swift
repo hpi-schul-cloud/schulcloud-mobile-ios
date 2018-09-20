@@ -113,6 +113,7 @@ public extension File {
             guard !FileManager.default.fileExists(atPath: self.localURL.path) else {
                 return .downloaded
             }
+
             return DownloadState(rawValue: self.downloadStateValue) ?? .notDownloaded
         }
 
@@ -185,7 +186,7 @@ extension File {
             throw SCError.coreDataMoreThanOneObjectFound
         }
 
-        let existed = result.count > 0
+        let existed = !result.isEmpty
 
         let file = result.first ?? File(context: context)
         file.id = id
@@ -214,6 +215,7 @@ extension File {
         if existed {
             file.downloadState = isDirectory ? .downloaded : .notDownloaded
         }
+
         file.uploadState = .uploaded
 
         file.parentDirectory = parentFolder
@@ -261,7 +263,6 @@ extension File {
     }
 
     public var localThumbnailURL: URL {
-        // TODO: This will be changed to direct to the Caches folder in the shared container.
         return File.thumbnailContainerURL.appendingPathComponent("thumnail_\(self.thumbnailRemoteURL!.lastPathComponent)")
     }
 
@@ -277,9 +278,11 @@ extension File {
         guard !self.isDirectory else {
             return kUTTypeFolder as String
         }
+
         guard let mimeType = self.mimeType else {
             return ""
         }
+
         return File.mimeToUTI(mime: mimeType)
     }
 
@@ -288,6 +291,7 @@ extension File {
         guard let strPtr = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, cfMime, nil) else {
             return nil
         }
+
         let cfUTI = Unmanaged<CFString>.fromOpaque(strPtr.toOpaque()).takeUnretainedValue() as CFString
         return cfUTI as String
     }
@@ -305,6 +309,7 @@ extension File {
             log.error("Didn't find file with id: \(id)")
             return nil
         }
+
         return value
     }
 
@@ -319,12 +324,13 @@ extension File {
             log.error("Error looking for item with parentID: \(id)")
             return nil
         }
+
         return value
     }
 
     public static func with(ids: [String], in context: NSManagedObjectContext) -> [File]? {
         assert(!ids.isEmpty)
-        assert(ids.map { $0.isEmpty }.reduce(false, {x, y in x || y}) == false) // no empty string the list of ids
+        assert(ids.map { $0.isEmpty }.reduce(false) { x, y in x || y } == false) // no empty string the list of ids
 
         let fetchRequest = File.fetchRequest() as NSFetchRequest<File>
         fetchRequest.predicate = NSPredicate(format: "id IN %@", ids)
@@ -334,6 +340,7 @@ extension File {
             log.error("Error looking with ids")
             return nil
         }
+
         return value
     }
 }

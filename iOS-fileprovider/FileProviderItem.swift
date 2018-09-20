@@ -7,7 +7,6 @@ import Common
 import FileProvider
 import MobileCoreServices
 
-
 class FileProviderItem: NSObject, NSFileProviderItem {
 
     let itemIdentifier: NSFileProviderItemIdentifier
@@ -43,6 +42,7 @@ class FileProviderItem: NSObject, NSFileProviderItem {
             } else {
                 self.parentItemIdentifier = NSFileProviderItemIdentifier("")
             }
+            
         } else {
             self.itemIdentifier = NSFileProviderItemIdentifier(file.id)
             self.parentItemIdentifier = file.parentDirectory != nil ? NSFileProviderItemIdentifier(file.parentDirectory!.id) : NSFileProviderItemIdentifier("")
@@ -53,7 +53,7 @@ class FileProviderItem: NSObject, NSFileProviderItem {
         self.typeIdentifier = file.UTI ?? ""
         self.creationDate = file.createdAt
         self.contentModificationDate = file.updatedAt
-        self.childItemCount = file.isDirectory ? (file.contents.count > 0 ? NSNumber(value: file.contents.count) : nil) : nil
+        self.childItemCount = file.isDirectory ? (!file.contents.isEmpty ? NSNumber(value: file.contents.count) : nil) : nil
         self.documentSize = file.isDirectory ? nil : NSNumber(value: file.size)
 
         self.isUploaded = file.uploadState == .uploaded
@@ -69,7 +69,7 @@ class FileProviderItem: NSObject, NSFileProviderItem {
         if file.isDirectory,
             let rankValueData = file.favoriteRankData {
             let rankValue: UInt64 = rankValueData.withUnsafeBytes { $0.pointee }
-            self.favoriteRank = file.isDirectory ? NSNumber(value:rankValue) : nil
+            self.favoriteRank = file.isDirectory ? NSNumber(value: rankValue) : nil
         } else {
             self.favoriteRank = nil
         }

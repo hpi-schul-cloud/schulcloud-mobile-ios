@@ -110,6 +110,7 @@ public class FileSync: NSObject {
                 guard let files = result.value else {
                     return Future(error: result.error!)
                 }
+
                 return Future(value: files)
             }
         case FileHelper.sharedDirectoryID:
@@ -258,9 +259,11 @@ public class FileSync: NSObject {
         guard !FileManager.default.fileExists(atPath: file.localThumbnailURL.path) else {
             return Future(value: file.localThumbnailURL)
         }
+
         guard let url = file.thumbnailRemoteURL else {
             return Future(error: SCError.other("No thumbnail to download"))
         }
+
         let downloadSession = background ? self.backgroundSession! : self.foregroundSession!
         return download(id: "thumbnail__\(file.id)", at: url, moveTo: file.localThumbnailURL, downloadSession: downloadSession, progressHandler: progressHandler)
     }
@@ -285,6 +288,7 @@ extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownlo
         guard let id = downloadTask.taskDescription else {
             fatalError("No ID given to task")
         }
+
         guard let transferInfo = runningTask[id] else {
             fatalError("Impossible to download file without providing transferInfo")
         }
@@ -300,6 +304,7 @@ extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownlo
         guard let id = task.taskDescription else {
             fatalError("No ID given to task")
         }
+        
         guard let transferInfo = runningTask[id] else {
             fatalError("Impossible to download file without providing transferInfo")
         }

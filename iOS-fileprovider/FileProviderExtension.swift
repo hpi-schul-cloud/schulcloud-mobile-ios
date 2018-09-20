@@ -9,7 +9,7 @@ import CoreData
 import FileProvider
 
 class FileProviderExtension: NSFileProviderExtension {
-    
+
     let rootDirectory: File
     let fileSync: FileSync
 
@@ -53,10 +53,11 @@ class FileProviderExtension: NSFileProviderExtension {
             if let file = result.value {
                 return FileProviderItem(file: file)
             }
+
             throw NSFileProviderError(.noSuchItem)
         }
     }
-    
+
     override func urlForItem(withPersistentIdentifier identifier: NSFileProviderItemIdentifier) -> URL? {
         // resolve the given identifier to a file on disk
 
@@ -67,7 +68,7 @@ class FileProviderExtension: NSFileProviderExtension {
             return file?.localURL
         }
     }
-    
+
     override func persistentIdentifierForItem(at url: URL) -> NSFileProviderItemIdentifier? {
         // resolve the given URL to a persistent identifier using a database
         // Filename of format fileid__name, extract id from filename, no need to hit the DB
@@ -75,10 +76,11 @@ class FileProviderExtension: NSFileProviderExtension {
         guard let localURLSeparatorRange = filename.range(of: "__") else {
             return nil
         }
+
         let fileIdentifier = String(filename[filename.startIndex..<localURLSeparatorRange.lowerBound])
         return NSFileProviderItemIdentifier(fileIdentifier)
     }
-    
+
     override func providePlaceholder(at url: URL, completionHandler: @escaping (Error?) -> Void) {
         guard let identifier = persistentIdentifierForItem(at: url) else {
             completionHandler(NSFileProviderError(.noSuchItem))
@@ -112,11 +114,11 @@ class FileProviderExtension: NSFileProviderExtension {
         if FileManager.default.fileExists(atPath: file.localURL.path) {
             completionHandler(nil)
         } else {
-            fileSync.download(file, background: true, progressHandler: {_ in }).onSuccess { (_) in
+            fileSync.download(file, background: true) { _ in }.onSuccess { _ in
                 DispatchQueue.main.async {
                     completionHandler(nil)
                 }
-            }.onFailure { (error) in
+            }.onFailure { error in
                 DispatchQueue.main.async {
                     completionHandler(error)
                 }
@@ -126,7 +128,7 @@ class FileProviderExtension: NSFileProviderExtension {
 
     override func itemChanged(at url: URL) {
         // Called at some point after the file has changed; the provider may then trigger an upload
-        
+
         /* TODO:
          - mark file at <url> as needing an update in the model
          - if there are existing NSURLSessionTasks uploading this file, cancel them
@@ -134,11 +136,11 @@ class FileProviderExtension: NSFileProviderExtension {
          - register the NSURLSessionTask with NSFileProviderManager to provide progress updates
          */
     }
-    
+
     override func stopProvidingItem(at url: URL) {
         // Called after the last claim to the file has been released. At this point, it is safe for the file provider to remove the content file.
         // Care should be taken that the corresponding placeholder file stays behind after the content file has been deleted.
-        
+
         // TODO: look up whether the file has local changes
         /*
         let fileHasLocalChanges = false
@@ -158,23 +160,23 @@ class FileProviderExtension: NSFileProviderExtension {
         }
         */
     }
-    
+
     // MARK: - Actions
-    
+
     /* TODO: implement the actions for items here
      each of the actions follows the same pattern:
      - make a note of the change in the local model
      - schedule a server request as a background task to inform the server of the change
      - call the completion block with the modified item in its post-modification state
      */
-    
+
     // MARK: - Enumeration
-    
+
     override func enumerator(for containerItemIdentifier: NSFileProviderItemIdentifier) throws -> NSFileProviderEnumerator {
-        var maybeEnumerator: NSFileProviderEnumerator? = nil
-        if (containerItemIdentifier == NSFileProviderItemIdentifier.rootContainer) {
+        var maybeEnumerator: NSFileProviderEnumerator?
+        if containerItemIdentifier == NSFileProviderItemIdentifier.rootContainer {
             maybeEnumerator = FolderEnumerator(item: containerItemIdentifier)
-        } else if (containerItemIdentifier == NSFileProviderItemIdentifier.workingSet) {
+        } else if containerItemIdentifier == NSFileProviderItemIdentifier.workingSet {
 
             let fetchRequest = File.fetchRequest() as NSFetchRequest<File>
             fetchRequest.predicate = FileHelper.workingSetPredicate
@@ -198,9 +200,10 @@ class FileProviderExtension: NSFileProviderExtension {
             } else {
                 maybeEnumerator = FileEnumerator(file: file)
             }
+
         }
         guard let enumerator = maybeEnumerator else {
-            throw NSError(domain: NSCocoaErrorDomain, code: NSFeatureUnsupportedError, userInfo:[:])
+            throw NSError(domain: NSCocoaErrorDomain, code: NSFeatureUnsupportedError, userInfo: [:])
         }
         return enumerator
     }
@@ -251,14 +254,17 @@ class FileProviderExtension: NSFileProviderExtension {
                 DispatchQueue.main.async {
                     perThumbnailCompletionHandler(itemIdentifier, data, nil)
                 }
+
             }.onFailure { error in
                 DispatchQueue.main.async {
                     perThumbnailCompletionHandler(itemIdentifier, nil, error)
                 }
+
             }.onComplete { _ in
                 DispatchQueue.main.async {
                     progress.completedUnitCount += 1
                 }
+                
             }
             downloadTasks.append(future)
         }
