@@ -61,14 +61,11 @@ class FileProviderExtension: NSFileProviderExtension {
         // resolve the given identifier to a file on disk
 
         let id = identifier == .rootContainer ? FileHelper.rootDirectoryID : identifier.rawValue
-        let fetchRequest = File.fetchRequest() as NSFetchRequest<File>
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
-        guard let file = context.fetchSingle(fetchRequest).value else {
-            return nil
+        return context.performAndWait { () -> URL? in
+            let file = File.by(id: id, in: context)
+            return file?.localURL
         }
-        return file.localURL
     }
     
     override func persistentIdentifierForItem(at url: URL) -> NSFileProviderItemIdentifier? {
@@ -101,16 +98,13 @@ class FileProviderExtension: NSFileProviderExtension {
     override func startProvidingItem(at url: URL, completionHandler: @escaping ((_ error: Error?) -> Void)) {
         // Should ensure that the actual file is in the position returned by URLForItemWithIdentifier:, then call the completion handler
         guard let identifier = persistentIdentifierForItem(at: url) else {
-                completionHandler(NSFileProviderError(.noSuchItem))
-                return
+            completionHandler(NSFileProviderError(.noSuchItem))
+            return
         }
 
         let id = identifier == .rootContainer ? FileHelper.rootDirectoryID : identifier.rawValue
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
-        let fetchRequest = File.fetchRequest() as NSFetchRequest<File>
-        fetchRequest.predicate = NSPredicate(format: "id == %@  ", id)
-
-        guard let file = context.fetchSingle(fetchRequest).value else {
+        guard let file = File.by(id: id, in: context) else {
             completionHandler(NSFileProviderError(.noSuchItem))
             return
         }
@@ -142,7 +136,6 @@ class FileProviderExtension: NSFileProviderExtension {
     }
     
     override func stopProvidingItem(at url: URL) {
-        print("stopProvidingItem(at: \(url))")
         // Called after the last claim to the file has been released. At this point, it is safe for the file provider to remove the content file.
         // Care should be taken that the corresponding placeholder file stays behind after the content file has been deleted.
         
@@ -195,12 +188,11 @@ class FileProviderExtension: NSFileProviderExtension {
         } else {
             let item = try self.item(for: containerItemIdentifier) as! FileProviderItem
             let id = item.itemIdentifier == .rootContainer ? FileHelper.rootDirectoryID : item.itemIdentifier.rawValue
-
-            let fetchRequest = File.fetchRequest() as NSFetchRequest<File>
-            fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-
             let context = CoreDataHelper.persistentContainer.newBackgroundContext()
-            let file = context.fetchSingle(fetchRequest).value!
+            guard let file = File.by(id: id, in: context) else {
+                fatalError("Can't create enumerator with id: \(id)")
+            }
+
             if file.isDirectory {
                 maybeEnumerator = OnlineFolderEnumerator(itemIdentifier: containerItemIdentifier, fileSync: self.fileSync)
             } else {
@@ -268,7 +260,6 @@ class FileProviderExtension: NSFileProviderExtension {
                     progress.completedUnitCount += 1
                 }
             }
-
             downloadTasks.append(future)
         }
 
@@ -285,25 +276,16 @@ class FileProviderExtension: NSFileProviderExtension {
 
         let id = itemIdentifier == .rootContainer ? FileHelper.rootDirectoryID : itemIdentifier.rawValue
 
-        var providerItem: FileProviderItem!
-        var parentItem: FileProviderItem?
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
-        context.performAndWait {
-
-            let fetchRequest = File.fetchRequest() as NSFetchRequest<File>
-            fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-
-            let f = context.fetchSingle(fetchRequest).value!
-            f.localTagData = tagData
+        let providerItem = context.performAndWait { () -> FileProviderItem in
+            let file = File.by(id: id, in: context)!
+            file.localTagData = tagData
 
             let workingSetAnchor = context.fetchSingle(WorkingSetSyncAnchor.mainAnchorFetchRequest).value!
             workingSetAnchor.value += 1
 
             _ = context.saveWithResult()
-            providerItem = FileProviderItem(file: f)
-            if let parent = f.parentDirectory {
-                parentItem = FileProviderItem(file: parent)
-            }
+            return FileProviderItem(file: file)
         }
 
         completionHandler(providerItem, nil)
@@ -313,29 +295,24 @@ class FileProviderExtension: NSFileProviderExtension {
     override func setFavoriteRank(_ favoriteRank: NSNumber?, forItemIdentifier itemIdentifier: NSFileProviderItemIdentifier, completionHandler: @escaping (NSFileProviderItem?, Error?) -> Void) {
         let id = itemIdentifier == .rootContainer ? FileHelper.rootDirectoryID : itemIdentifier.rawValue
 
-        var providerItem: FileProviderItem!
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
-        context.performAndWait {
-            let fetchRequest = File.fetchRequest() as NSFetchRequest<File>
-            fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-
+        let providerItem = context.performAndWait { () -> FileProviderItem in
             let rankValueData: Data?
             if let favoriteRank = favoriteRank {
-
                 var rankValue = favoriteRank.uint64Value
                 rankValueData = Data(buffer: UnsafeBufferPointer(start: &rankValue, count: 1))
             } else {
                 rankValueData = nil
             }
 
-            let f = context.fetchSingle(fetchRequest).value!
-            f.favoriteRankData = rankValueData
+            let file = File.by(id: id, in: context)!
+            file.favoriteRankData = rankValueData
 
             let workingSetAnchor = context.fetchSingle(WorkingSetSyncAnchor.mainAnchorFetchRequest).value!
             workingSetAnchor.value += 1
 
             _ = context.saveWithResult()
-            providerItem = FileProviderItem(file: f)
+            return FileProviderItem(file: file)
         }
         completionHandler(providerItem, nil)
 
@@ -345,20 +322,16 @@ class FileProviderExtension: NSFileProviderExtension {
     override func setLastUsedDate(_ lastUsedDate: Date?, forItemIdentifier itemIdentifier: NSFileProviderItemIdentifier, completionHandler: @escaping (NSFileProviderItem?, Error?) -> Void) {
         let id = itemIdentifier == .rootContainer ? FileHelper.rootDirectoryID : itemIdentifier.rawValue
 
-        var providerItem: FileProviderItem!
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
-        context.performAndWait {
-            let fetchRequest = File.fetchRequest() as NSFetchRequest<File>
-            fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-
-            let f = context.fetchSingle(fetchRequest).value!
-            f.lastReadAt = lastUsedDate!
+        let providerItem = context.performAndWait { () -> FileProviderItem in
+            let file = File.by(id: id, in: context)!
+            file.lastReadAt = lastUsedDate!
             
             let workingSetAnchor = context.fetchSingle(WorkingSetSyncAnchor.mainAnchorFetchRequest).value!
             workingSetAnchor.value += 1
 
             _ = context.saveWithResult()
-            providerItem = FileProviderItem(file: f)
+            return FileProviderItem(file: file)
         }
         completionHandler(providerItem, nil)
 

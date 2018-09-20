@@ -292,3 +292,48 @@ extension File {
         return cfUTI as String
     }
 }
+
+// MARK: Convenient requests
+extension File {
+    public static func by(id: String, in context: NSManagedObjectContext) -> File? {
+        assert(!id.isEmpty)
+        let fetchRequest = File.fetchRequest() as NSFetchRequest<File>
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+
+        let result = context.fetchSingle(fetchRequest)
+        guard let value = result.value else {
+            log.error("Didn't find file with id: \(id)")
+            return nil
+        }
+        return value
+    }
+
+    public static func with(parentId id: String, in context: NSManagedObjectContext) -> [File]? {
+        assert(!id.isEmpty)
+
+        let fetchRequest = File.fetchRequest() as NSFetchRequest<File>
+        fetchRequest.predicate = NSPredicate(format: "parentDirectory.id == %@", id)
+
+        let result = context.fetchMultiple(fetchRequest)
+        guard let value = result.value else {
+            log.error("Error looking for item with parentID: \(id)")
+            return nil
+        }
+        return value
+    }
+
+    public static func with(ids: [String], in context: NSManagedObjectContext) -> [File]? {
+        assert(!ids.isEmpty)
+        assert(ids.map { $0.isEmpty }.reduce(false, {x, y in x || y}) == false) // no empty string the list of ids
+
+        let fetchRequest = File.fetchRequest() as NSFetchRequest<File>
+        fetchRequest.predicate = NSPredicate(format: "id IN %@", ids)
+
+        let result = context.fetchMultiple(fetchRequest)
+        guard let value = result.value else {
+            log.error("Error looking with ids")
+            return nil
+        }
+        return value
+    }
+}

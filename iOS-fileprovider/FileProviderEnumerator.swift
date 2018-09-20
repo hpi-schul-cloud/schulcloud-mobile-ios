@@ -8,6 +8,8 @@ import CoreData
 import FileProvider
 
 class FileEnumerator: NSObject, NSFileProviderEnumerator {
+
+    // TODO: Implement this together with uploading
     let file: File
 
     init(file: File) {
@@ -41,27 +43,20 @@ class FolderEnumerator: NSObject, NSFileProviderEnumerator {
     }
 
     func enumerateItems(for observer: NSFileProviderEnumerationObserver, startingAt page: NSFileProviderPage) {
-
         let id = itemIdentifier == .rootContainer ? FileHelper.rootDirectoryID : itemIdentifier.rawValue
-
         let sortDescriptor =
             (page.rawValue as NSData == NSFileProviderPage.initialPageSortedByDate) ?
                 NSSortDescriptor(key: "createdAt", ascending: true) :
                 NSSortDescriptor(key: "name", ascending: true)
 
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
-        let items = context.performAndWait { () -> [File] in
-            let fetchRequest = File.fetchRequest() as NSFetchRequest<File>
-            fetchRequest.predicate = NSPredicate(format: "parentDirectory.id == %@", id)
-            fetchRequest.sortDescriptors = [sortDescriptor]
-
-            let result = context.fetchMultiple(fetchRequest)
-            guard let files = result.value else {
-                observer.finishEnumeratingWithError(result.error!)
+        let items = context.performAndWait { () -> [FileProviderItem] in
+            guard let files = File.with(parentId: id, in: context) else {
+                observer.finishEnumeratingWithError(NSFileProviderError(.noSuchItem))
                 return []
             }
-            return files
-        }.map(FileProviderItem.init(file:))
+            return files.sorted { sortDescriptor.compare($0, to: $1) == .orderedAscending }.map(FileProviderItem.init(file:))
+        }
 
         observer.didEnumerate(items)
         observer.finishEnumerating(upTo: nil)
@@ -101,12 +96,9 @@ class OnlineFolderEnumerator: NSObject, NSFileProviderEnumerator {
     func invalidate() { }
 
     func enumerateItems(for observer: NSFileProviderEnumerationObserver, startingAt page: NSFileProviderPage) {
-
-        let fetchRequest = File.fetchRequest() as NSFetchRequest<File>
-        fetchRequest.predicate = NSPredicate(format: "id == %@", self.itemIdentifier.rawValue)
-
+        let id = itemIdentifier.rawValue // NOTE: It is assumed the root container doesn't make use of online enumeration
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
-        guard let file = context.fetchSingle(fetchRequest).value else {
+        guard let file = File.by(id: id, in: context) else {
             observer.finishEnumeratingWithError(NSFileProviderError(.noSuchItem))
             return
         }
@@ -118,7 +110,6 @@ class OnlineFolderEnumerator: NSObject, NSFileProviderEnumerator {
         } else if page == NSFileProviderPage.initialPageSortedByName as NSFileProviderPage {
             self.compareFunc = OnlineFolderEnumerator.nameCompareFunc
         }
-
 
         fileSync.updateContent(of: file).onSuccess { files in
             let ids = files.map { $0.objectID }
@@ -151,8 +142,6 @@ class OnlineFolderEnumerator: NSObject, NSFileProviderEnumerator {
          - inform the observer when you have finished enumerating up to a subsequent sync anchor
          */
     }
-
-
 }
 
 class WorkingSetEnumerator: NSObject, NSFileProviderEnumerator {
