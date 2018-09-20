@@ -202,8 +202,6 @@ extension File {
         file.isDirectory = isDirectory
         file.mimeType = isDirectory ? "public.folder" : try? data.value(for: "type")
         file.size = isDirectory ? 0 : try data.value(for: "size")
-        file.favoriteRankData = nil
-        file.localTagData = nil
         file.createdAt = try data.value(for: "createdAt")
         if let updatedAt = try? data.value(for: "updatedAt") as Date {
             file.updatedAt = updatedAt
@@ -293,5 +291,4 @@ extension File {
         let cfUTI = Unmanaged<CFString>.fromOpaque(strPtr.toOpaque()).takeUnretainedValue() as CFString
         return cfUTI as String
     }
-
 }

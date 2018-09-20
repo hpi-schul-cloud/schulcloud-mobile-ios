@@ -53,8 +53,8 @@ class FileProviderItem: NSObject, NSFileProviderItem {
         self.typeIdentifier = file.UTI ?? ""
         self.creationDate = file.createdAt
         self.contentModificationDate = file.updatedAt
-        self.childItemCount = file.isDirectory ? NSNumber(value: file.contents.count) : NSNumber(value:0)
-        self.documentSize = NSNumber(value: file.size)
+        self.childItemCount = file.isDirectory ? (file.contents.count > 0 ? NSNumber(value: file.contents.count) : nil) : nil
+        self.documentSize = file.isDirectory ? nil : NSNumber(value: file.size)
 
         self.isUploaded = file.uploadState == .uploaded
         self.isUploading = file.uploadState == .uploading

@@ -86,10 +86,11 @@ class OnlineFolderEnumerator: NSObject, NSFileProviderEnumerator {
     static var dateCompareFunc: (File, File) -> Bool = { $0.createdAt < $1.createdAt }
     static var nameCompareFunc: (File, File) -> Bool = { $0.name < $1.name }
     
-    var itemIdentifier: NSFileProviderItemIdentifier
+    let itemIdentifier: NSFileProviderItemIdentifier
     var fileSync: FileSync
 
     var compareFunc: (File, File) -> Bool = OnlineFolderEnumerator.nameCompareFunc
+    var items: [FileProviderItem] = []
 
     init(itemIdentifier: NSFileProviderItemIdentifier, fileSync: FileSync) {
         self.itemIdentifier = itemIdentifier
@@ -110,16 +111,25 @@ class OnlineFolderEnumerator: NSObject, NSFileProviderEnumerator {
             return
         }
 
+        let parentProviderItemIdentifier = file.parentDirectory != nil ? FileProviderItem(file: file.parentDirectory!).itemIdentifier : nil
+
         if page == NSFileProviderPage.initialPageSortedByDate as NSFileProviderPage {
             self.compareFunc = OnlineFolderEnumerator.dateCompareFunc
         } else if page == NSFileProviderPage.initialPageSortedByName as NSFileProviderPage {
             self.compareFunc = OnlineFolderEnumerator.nameCompareFunc
         }
 
+
         fileSync.updateContent(of: file).onSuccess { files in
-            let ids = files.sorted(by: self.compareFunc).map { $0.objectID }
+            let ids = files.map { $0.objectID }
             DispatchQueue.main.async {
-                let localItems = ids.map { CoreDataHelper.viewContext.typedObject(with: $0) as File }.map(FileProviderItem.init(file:))
+                let localItems = ids.map { CoreDataHelper.viewContext.typedObject(with: $0) as File }.sorted(by: self.compareFunc).map(FileProviderItem.init(file:))
+                if let parentItemIdentifier = parentProviderItemIdentifier,
+                    localItems.count != self.items.count {
+                    NSFileProviderManager.default.signalEnumerator(for: parentItemIdentifier) { _ in }
+                }
+                self.items = localItems
+
                 observer.didEnumerate(localItems)
                 observer.finishEnumerating(upTo: nil)
             }

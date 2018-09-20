@@ -100,8 +100,7 @@ class FileProviderExtension: NSFileProviderExtension {
 
     override func startProvidingItem(at url: URL, completionHandler: @escaping ((_ error: Error?) -> Void)) {
         // Should ensure that the actual file is in the position returned by URLForItemWithIdentifier:, then call the completion handler
-        guard let identifier = persistentIdentifierForItem(at: url),
-              let item = try? self.item(for: identifier) else {
+        guard let identifier = persistentIdentifierForItem(at: url) else {
                 completionHandler(NSFileProviderError(.noSuchItem))
                 return
         }
@@ -122,8 +121,6 @@ class FileProviderExtension: NSFileProviderExtension {
             fileSync.download(file, background: true, progressHandler: {_ in }).onSuccess { (_) in
                 DispatchQueue.main.async {
                     completionHandler(nil)
-                    NSFileProviderManager.default.signalEnumerator(for: item.parentItemIdentifier, completionHandler: { _ in })
-                    NSFileProviderManager.default.signalEnumerator(for: NSFileProviderItemIdentifier.workingSet, completionHandler: { _ in })
                 }
             }.onFailure { (error) in
                 DispatchQueue.main.async {
@@ -289,6 +286,7 @@ class FileProviderExtension: NSFileProviderExtension {
         let id = itemIdentifier == .rootContainer ? FileHelper.rootDirectoryID : itemIdentifier.rawValue
 
         var providerItem: FileProviderItem!
+        var parentItem: FileProviderItem?
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
         context.performAndWait {
 
@@ -303,12 +301,13 @@ class FileProviderExtension: NSFileProviderExtension {
 
             _ = context.saveWithResult()
             providerItem = FileProviderItem(file: f)
+            if let parent = f.parentDirectory {
+                parentItem = FileProviderItem(file: parent)
+            }
         }
 
         completionHandler(providerItem, nil)
-
-        NSFileProviderManager.default.signalEnumerator(for: providerItem.parentItemIdentifier, completionHandler: { _ in })
-        NSFileProviderManager.default.signalEnumerator(for: .workingSet, completionHandler: { _ in })
+        NSFileProviderManager.default.signalEnumerator(for: .workingSet) { _ in }
     }
 
     override func setFavoriteRank(_ favoriteRank: NSNumber?, forItemIdentifier itemIdentifier: NSFileProviderItemIdentifier, completionHandler: @escaping (NSFileProviderItem?, Error?) -> Void) {
@@ -340,8 +339,7 @@ class FileProviderExtension: NSFileProviderExtension {
         }
         completionHandler(providerItem, nil)
 
-        NSFileProviderManager.default.signalEnumerator(for: providerItem.parentItemIdentifier, completionHandler: { _ in })
-        NSFileProviderManager.default.signalEnumerator(for: .workingSet, completionHandler: { _ in })
+        NSFileProviderManager.default.signalEnumerator(for: .workingSet) { _ in }
     }
 
     override func setLastUsedDate(_ lastUsedDate: Date?, forItemIdentifier itemIdentifier: NSFileProviderItemIdentifier, completionHandler: @escaping (NSFileProviderItem?, Error?) -> Void) {
@@ -364,7 +362,6 @@ class FileProviderExtension: NSFileProviderExtension {
         }
         completionHandler(providerItem, nil)
 
-        NSFileProviderManager.default.signalEnumerator(for: providerItem.parentItemIdentifier, completionHandler: { _ in })
-        NSFileProviderManager.default.signalEnumerator(for: .workingSet, completionHandler: { _ in })
+        NSFileProviderManager.default.signalEnumerator(for: .workingSet) { _ in }
     }
 }
