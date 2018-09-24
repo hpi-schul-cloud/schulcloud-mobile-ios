@@ -31,7 +31,7 @@ class FileProviderExtension: NSFileProviderExtension {
         Globals.account = account
 
         rootDirectory = FileHelper.rootFolder
-        fileSync = FileSync(backgroundSessionIdentifier: "org.schulcloud.fileprovider.background")
+        fileSync = FileSync(backgroundSessionIdentifier: (Bundle.main.bundleIdentifier ?? "org.schulcloud.fileprovider") + "background" )
         super.init()
     }
 

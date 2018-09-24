@@ -245,12 +245,12 @@ extension File {
             return NSFileProviderManager.default.documentStorageURL
         } else {
             // This returns the same URL as the iOS 11.0 documentStorageURL
-            return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.org.schulcloud")!.appendingPathComponent("File Provider Storage")
+            return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Bundle.main.appGroupIdentifier!)!.appendingPathComponent("File Provider Storage")
         }
     }
 
     static var thumbnailContainerURL: URL {
-        return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.org.schulcloud")!.appendingPathComponent("Caches")
+        return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Bundle.main.appGroupIdentifier!)!.appendingPathComponent("Caches")
     }
 
     public var localFileName: String {

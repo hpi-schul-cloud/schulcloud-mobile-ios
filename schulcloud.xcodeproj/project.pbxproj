@@ -84,7 +84,7 @@
 		CE95A4AE2111FEDA0061BCDD /* FileProviderExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95A4AD2111FEDA0061BCDD /* FileProviderExtension.swift */; };
 		CE95A4B02111FEDA0061BCDD /* FileProviderItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95A4AF2111FEDA0061BCDD /* FileProviderItem.swift */; };
 		CE95A4B22111FEDA0061BCDD /* FileProviderEnumerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95A4B12111FEDA0061BCDD /* FileProviderEnumerator.swift */; };
-		CE95A4B72111FEDB0061BCDD /* iOS-fileprovider.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CE95A4AB2111FEDA0061BCDD /* iOS-fileprovider.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CE95A4B72111FEDB0061BCDD /* schulcloud_provider.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CE95A4AB2111FEDA0061BCDD /* schulcloud_provider.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CEBE1547207B63DC00238D1F /* HomeworkHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBE1546207B63DC00238D1F /* HomeworkHeaderView.xib */; };
 		CEEE0A1220D2AA7C00B0C2CE /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE0A0B20D2AA7C00B0C2CE /* Common.framework */; };
 		CEEE0A1420D2AA7C00B0C2CE /* Common.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE0A0B20D2AA7C00B0C2CE /* Common.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -124,6 +124,7 @@
 		CEEE0A4E20D2ADB300B0C2CE /* SchulcloudSyncStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50359DA6203F155200D24E0F /* SchulcloudSyncStrategy.swift */; };
 		CEEE0A4F20D2ADB300B0C2CE /* SchulcloudSyncConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50359DA8203F159300D24E0F /* SchulcloudSyncConfig.swift */; };
 		CEEE0A8020D2AF9200B0C2CE /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEE0A7F20D2AF9200B0C2CE /* Logger.swift */; };
+		CEFAFEE02158ED270029B9E2 /* Bundle+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFAFEDF2158ED270029B9E2 /* Bundle+.swift */; };
 		FD018E513AAFA100CC2BA7E3 /* Pods_Common_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C519C974B5E6B997A0F19C57 /* Pods_Common_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -179,7 +180,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				CE95A4B72111FEDB0061BCDD /* iOS-fileprovider.appex in Embed App Extensions */,
+				CE95A4B72111FEDB0061BCDD /* schulcloud_provider.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -343,16 +344,19 @@
 		CE43B49820594E5D00950EA0 /* DashboardNoPermissionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardNoPermissionViewController.swift; sourceTree = "<group>"; };
 		CE443936205BDEDD00CC3311 /* UIAlertController+Permission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Permission.swift"; sourceTree = "<group>"; };
 		CE644E8820232710003AE700 /* UIColor+hexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+hexString.swift"; sourceTree = "<group>"; };
+		CE6F9AB62153DCED007B8C20 /* Schulcloud-FileProvider_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Schulcloud-FileProvider_Debug.xcconfig"; sourceTree = "<group>"; };
+		CE6F9AB72153DE5F007B8C20 /* Schulcloud-FileProvider_Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Schulcloud-FileProvider_Release.xcconfig"; sourceTree = "<group>"; };
+		CE6F9AB82153E560007B8C20 /* n21-FileProvider_Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "n21-FileProvider_Release.xcconfig"; sourceTree = "<group>"; };
+		CE6F9AB92153E561007B8C20 /* n21-FileProvider_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "n21-FileProvider_Debug.xcconfig"; sourceTree = "<group>"; };
 		CE737A4D1FFE65B0006DAB54 /* NewsArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsArticleCell.swift; sourceTree = "<group>"; };
 		CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListViewController.swift; sourceTree = "<group>"; };
 		CE829316204EB6B3009D2C84 /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		CE85F0AE210091B700112085 /* FileSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSync.swift; sourceTree = "<group>"; };
-		CE95A4AB2111FEDA0061BCDD /* iOS-fileprovider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "iOS-fileprovider.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE95A4AB2111FEDA0061BCDD /* schulcloud_provider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = schulcloud_provider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE95A4AD2111FEDA0061BCDD /* FileProviderExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileProviderExtension.swift; sourceTree = "<group>"; };
 		CE95A4AF2111FEDA0061BCDD /* FileProviderItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileProviderItem.swift; sourceTree = "<group>"; };
 		CE95A4B12111FEDA0061BCDD /* FileProviderEnumerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileProviderEnumerator.swift; sourceTree = "<group>"; };
 		CE95A4B32111FEDB0061BCDD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CE95A4B42111FEDB0061BCDD /* iOS_fileprovider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iOS_fileprovider.entitlements; sourceTree = "<group>"; };
 		CE99358A2074F667008E7EB0 /* HomeworkOverviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkOverviewCell.swift; sourceTree = "<group>"; };
 		CE9B56C72062A2C400803B3D /* NewsOverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsOverviewViewController.swift; sourceTree = "<group>"; };
 		CEB0027C2008BF9C007084C9 /* CalendarEventHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarEventHelper.swift; sourceTree = "<group>"; };
@@ -366,6 +370,11 @@
 		CEEE0A0E20D2AA7C00B0C2CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CEEE0A7F20D2AF9200B0C2CE /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		CEF363F12010D9B300793D63 /* CalendarEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEvent.swift; sourceTree = "<group>"; };
+		CEFAFEDD2158DCBF0029B9E2 /* ios-fileprovider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ios-fileprovider.entitlements"; sourceTree = "<group>"; };
+		CEFAFEDE2158DCCD0029B9E2 /* ios-fileprovider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ios-fileprovider.entitlements"; sourceTree = "<group>"; };
+		CEFAFEDF2158ED270029B9E2 /* Bundle+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+.swift"; sourceTree = "<group>"; };
+		CEFAFEE121590BB70029B9E2 /* Schulcloud-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Schulcloud-Common.xcconfig"; sourceTree = "<group>"; };
+		CEFAFEE2215919D70029B9E2 /* n21-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "n21-Common.xcconfig"; sourceTree = "<group>"; };
 		D32E014BC215A558A2D90EA8 /* Pods_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA5FD4AAA12B9AE0C7D50FD8 /* Pods-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOS/Pods-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		ED071A035430C1620C387C71 /* Pods-Common-Tests.n21-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common-Tests.n21-debug.xcconfig"; path = "Pods/Target Support Files/Pods-Common-Tests/Pods-Common-Tests.n21-debug.xcconfig"; sourceTree = "<group>"; };
@@ -464,6 +473,7 @@
 				509B10D52008E5840042AA7D /* NSMutableAttributedString+trim.swift */,
 				C3165F1E1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift */,
 				CE644E8820232710003AE700 /* UIColor+hexString.swift */,
+				CEFAFEDF2158ED270029B9E2 /* Bundle+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -601,7 +611,7 @@
 				5024103D2046B01A0033D75A /* iOS-Tests.xctest */,
 				CEEE0A0B20D2AA7C00B0C2CE /* Common.framework */,
 				50C9C79020FDD25D00AC914F /* Common-Tests.xctest */,
-				CE95A4AB2111FEDA0061BCDD /* iOS-fileprovider.appex */,
+				CE95A4AB2111FEDA0061BCDD /* schulcloud_provider.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -719,6 +729,7 @@
 		CE1EAE9220E50F7600C66DDD /* n21 */ = {
 			isa = PBXGroup;
 			children = (
+				CEFAFEDE2158DCCD0029B9E2 /* ios-fileprovider.entitlements */,
 				CE1EAE9320E50F7600C66DDD /* Assets-ios-brand.xcassets */,
 				CE1EAE9420E50F7600C66DDD /* GoogleService-Info-Debug.plist */,
 				CE1EAE9520E50F7600C66DDD /* GoogleService-Info-Release.plist */,
@@ -731,8 +742,11 @@
 		CE1EAE9C20E5168500C66DDD /* n21 */ = {
 			isa = PBXGroup;
 			children = (
+				CEFAFEE2215919D70029B9E2 /* n21-Common.xcconfig */,
 				CE1EAE9E20E516BB00C66DDD /* n21-Debug.xcconfig */,
 				CE1EAE9D20E516BB00C66DDD /* n21-Release.xcconfig */,
+				CE6F9AB92153E561007B8C20 /* n21-FileProvider_Debug.xcconfig */,
+				CE6F9AB82153E560007B8C20 /* n21-FileProvider_Release.xcconfig */,
 			);
 			path = n21;
 			sourceTree = "<group>";
@@ -776,6 +790,7 @@
 		CE4152B120E2818400739CE2 /* schulcloud */ = {
 			isa = PBXGroup;
 			children = (
+				CEFAFEDD2158DCBF0029B9E2 /* ios-fileprovider.entitlements */,
 				CE4152AE20E280F900739CE2 /* Assets-ios-brand.xcassets */,
 				50F3984C202C7CDD00ADAE5D /* GoogleService-Info-Debug.plist */,
 				50F3984D202C7CDD00ADAE5D /* GoogleService-Info-Release.plist */,
@@ -788,8 +803,11 @@
 		CE4152B720E2873100739CE2 /* schulcloud */ = {
 			isa = PBXGroup;
 			children = (
+				CEFAFEE121590BB70029B9E2 /* Schulcloud-Common.xcconfig */,
 				CE41528820DBCF6A00739CE2 /* Schulcloud-Debug.xcconfig */,
 				CE41528720DBCF5800739CE2 /* Schulcloud-Release.xcconfig */,
+				CE6F9AB62153DCED007B8C20 /* Schulcloud-FileProvider_Debug.xcconfig */,
+				CE6F9AB72153DE5F007B8C20 /* Schulcloud-FileProvider_Release.xcconfig */,
 			);
 			path = schulcloud;
 			sourceTree = "<group>";
@@ -801,7 +819,6 @@
 				CE95A4AF2111FEDA0061BCDD /* FileProviderItem.swift */,
 				CE95A4B12111FEDA0061BCDD /* FileProviderEnumerator.swift */,
 				CE95A4B32111FEDB0061BCDD /* Info.plist */,
-				CE95A4B42111FEDB0061BCDD /* iOS_fileprovider.entitlements */,
 			);
 			path = "iOS-fileprovider";
 			sourceTree = "<group>";
@@ -946,7 +963,7 @@
 			);
 			name = "iOS-fileprovider";
 			productName = "iOS-fileprovider";
-			productReference = CE95A4AB2111FEDA0061BCDD /* iOS-fileprovider.appex */;
+			productReference = CE95A4AB2111FEDA0061BCDD /* schulcloud_provider.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		CEEE0A0A20D2AA7C00B0C2CE /* Common */ = {
@@ -1440,6 +1457,7 @@
 				CEEE0A4F20D2ADB300B0C2CE /* SchulcloudSyncConfig.swift in Sources */,
 				CE1EAE8E20E5036E00C66DDD /* BrandColors.swift in Sources */,
 				CEEE0A3220D2AD8400B0C2CE /* EventData.swift in Sources */,
+				CEFAFEE02158ED270029B9E2 /* Bundle+.swift in Sources */,
 				CEEE0A4520D2ADA700B0C2CE /* schulcloud.xcdatamodeld in Sources */,
 				CEEE0A4420D2AD9000B0C2CE /* UserHelper.swift in Sources */,
 				CEEE0A4220D2AD9000B0C2CE /* NewsHelper.swift in Sources */,
@@ -2547,7 +2565,7 @@
 		};
 		CE95A4B82111FEDB0061BCDD /* schulcloud-Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 641EDB416EDBF4A0A012C8AC /* Pods-iOS-fileprovider.schulcloud-debug.xcconfig */;
+			baseConfigurationReference = CE6F9AB62153DCED007B8C20 /* Schulcloud-FileProvider_Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -2578,7 +2596,6 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = "iOS-fileprovider/iOS_fileprovider.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -2606,8 +2623,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.schulcloud.debug.iOS-fileprovider";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -2619,7 +2634,7 @@
 		};
 		CE95A4B92111FEDB0061BCDD /* n21-Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 804DC65950E7657EC6EB9C04 /* Pods-iOS-fileprovider.n21-debug.xcconfig */;
+			baseConfigurationReference = CE6F9AB92153E561007B8C20 /* n21-FileProvider_Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -2650,7 +2665,6 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = "iOS-fileprovider/iOS_fileprovider.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -2671,8 +2685,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.schulcloud.debug.iOS-fileprovider";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -2684,7 +2696,7 @@
 		};
 		CE95A4BA2111FEDB0061BCDD /* schulcloud-Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 52F61E0023AD46769781F48A /* Pods-iOS-fileprovider.schulcloud-release.xcconfig */;
+			baseConfigurationReference = CE6F9AB72153DE5F007B8C20 /* Schulcloud-FileProvider_Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -2715,7 +2727,6 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = "iOS-fileprovider/iOS_fileprovider.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -2736,8 +2747,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.schulcloud.debug.iOS-fileprovider";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -2749,7 +2758,7 @@
 		};
 		CE95A4BB2111FEDB0061BCDD /* n21-Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2DA157DAB96C8A89714682BC /* Pods-iOS-fileprovider.n21-release.xcconfig */;
+			baseConfigurationReference = CE6F9AB82153E560007B8C20 /* n21-FileProvider_Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -2780,7 +2789,6 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = "iOS-fileprovider/iOS_fileprovider.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -2801,8 +2809,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.schulcloud.debug.iOS-fileprovider";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

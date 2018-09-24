@@ -15,7 +15,7 @@ public class CoreDataHelper {
         let model = NSManagedObjectModel(contentsOf: modelURL!)
         let container = NSPersistentContainer(name: "schulcloud", managedObjectModel: model!)
 
-        let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.org.schulcloud")!.appendingPathComponent("schulclouddb")
+        let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Bundle.main.appGroupIdentifier!)!.appendingPathComponent("schulclouddb")
         let description = NSPersistentStoreDescription(url: url)
 
         container.persistentStoreDescriptions = [description]

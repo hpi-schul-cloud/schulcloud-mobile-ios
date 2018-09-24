@@ -12,7 +12,7 @@ import Result
 
 public extension UserDefaults {
     public static var appGroupDefaults: UserDefaults? {
-        return UserDefaults(suiteName: "group.org.schulcloud")
+        return UserDefaults(suiteName: Bundle.main.appGroupIdentifier ?? "")
     }
 }
 

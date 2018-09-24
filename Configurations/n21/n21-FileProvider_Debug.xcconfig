@@ -1,0 +1,15 @@
+//
+//  Created for schulcloud-mobile-ios under GPL-3.0 license.
+//  Copyright © HPI. All rights reserved.
+//
+
+#include "../../Pods/Target Support Files/Pods-iOS-fileprovider/Pods-iOS-fileprovider.n21-debug.xcconfig"
+#include "n21-Common.xcconfig"
+#include "../Debug.xcconfig"
+
+PRODUCT_NAME = n21_fileprovider
+PRODUCT_MODULE_NAME = ios_fileprovider
+PRODUCT_BUNDLE_IDENTIFIER = $(BASE_BUNDLE_IDENTIFIER)$(IDENTIFIER_SUFFIX).fileprovider
+CODE_SIGN_ENTITLEMENTS = ios/Branding/n21/ios-fileprovider.entitlements
+
+ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon-Dev

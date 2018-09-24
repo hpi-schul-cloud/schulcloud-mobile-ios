@@ -1,0 +1,13 @@
+//
+//  n21-Common.xcconfig
+//  schulcloud
+//
+//  Created by Florian Morel on 24.09.18.
+//  Copyright © 2018 Hasso-Plattner-Institut. All rights reserved.
+//
+
+BASE_BUNDLE_IDENTIFIER = org.n21
+APP_GROUP_IDENTIFIER = group.org.n21
+DISPLAY_NAME = Niedersachsen-Cloud
+
+KEYCHAIN_GROUP = $(AppTeamIdentifier)$(BASE_BUNDLE_IDENTIFIER)$(IDENTIFIER_SUFFIX)

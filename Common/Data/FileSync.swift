@@ -11,7 +11,7 @@ import Result
 
 public class FileSync: NSObject {
 
-    static public var `default`: FileSync = FileSync(backgroundSessionIdentifier: "org.schulcloud.file.background")
+    static public var `default`: FileSync = FileSync(backgroundSessionIdentifier: (Bundle.main.bundleIdentifier ?? "") + "background")
 
     public typealias ProgressHandler = (Float) -> Void
 
@@ -33,7 +33,7 @@ public class FileSync: NSObject {
         super.init()
 
         let backgroudConfiguration = URLSessionConfiguration.background(withIdentifier: backgroundSessionIdentifier)
-        backgroudConfiguration.sharedContainerIdentifier = "group.org.schulcloud"
+        backgroudConfiguration.sharedContainerIdentifier = Bundle.main.appGroupIdentifier
         backgroundSession = URLSession(configuration: backgroudConfiguration, delegate: self, delegateQueue: OperationQueue.main)
         foregroundSession = URLSession(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: OperationQueue.main)
     }

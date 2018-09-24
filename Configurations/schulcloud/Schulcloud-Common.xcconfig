@@ -1,0 +1,13 @@
+//
+//  Schulcloud-Common.xcconfig
+//  schulcloud
+//
+//  Created by Florian Morel on 24.09.18.
+//  Copyright © 2018 Hasso-Plattner-Institut. All rights reserved.
+//
+
+BASE_BUNDLE_IDENTIFIER = org.schulcloud
+APP_GROUP_IDENTIFIER = group.org.schulcloud
+DISPLAY_NAME = Schul-Cloud
+
+KEYCHAIN_GROUP = $(AppTeamIdentifier)$(BASE_BUNDLE_IDENTIFIER)$(IDENTIFIER_SUFFIX)
