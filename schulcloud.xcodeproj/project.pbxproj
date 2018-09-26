@@ -84,7 +84,7 @@
 		CE95A4AE2111FEDA0061BCDD /* FileProviderExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95A4AD2111FEDA0061BCDD /* FileProviderExtension.swift */; };
 		CE95A4B02111FEDA0061BCDD /* FileProviderItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95A4AF2111FEDA0061BCDD /* FileProviderItem.swift */; };
 		CE95A4B22111FEDA0061BCDD /* FileProviderEnumerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95A4B12111FEDA0061BCDD /* FileProviderEnumerator.swift */; };
-		CE95A4B72111FEDB0061BCDD /* schulcloud_provider.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CE95A4AB2111FEDA0061BCDD /* schulcloud_provider.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CE95A4B72111FEDB0061BCDD /* schulcloud.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CE95A4AB2111FEDA0061BCDD /* schulcloud.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CEBE1547207B63DC00238D1F /* HomeworkHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBE1546207B63DC00238D1F /* HomeworkHeaderView.xib */; };
 		CEEE0A1220D2AA7C00B0C2CE /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE0A0B20D2AA7C00B0C2CE /* Common.framework */; };
 		CEEE0A1420D2AA7C00B0C2CE /* Common.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE0A0B20D2AA7C00B0C2CE /* Common.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -180,7 +180,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				CE95A4B72111FEDB0061BCDD /* schulcloud_provider.appex in Embed App Extensions */,
+				CE95A4B72111FEDB0061BCDD /* schulcloud.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -352,7 +352,7 @@
 		CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListViewController.swift; sourceTree = "<group>"; };
 		CE829316204EB6B3009D2C84 /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		CE85F0AE210091B700112085 /* FileSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSync.swift; sourceTree = "<group>"; };
-		CE95A4AB2111FEDA0061BCDD /* schulcloud_provider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = schulcloud_provider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE95A4AB2111FEDA0061BCDD /* schulcloud.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = schulcloud.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE95A4AD2111FEDA0061BCDD /* FileProviderExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileProviderExtension.swift; sourceTree = "<group>"; };
 		CE95A4AF2111FEDA0061BCDD /* FileProviderItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileProviderItem.swift; sourceTree = "<group>"; };
 		CE95A4B12111FEDA0061BCDD /* FileProviderEnumerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileProviderEnumerator.swift; sourceTree = "<group>"; };
@@ -611,7 +611,7 @@
 				5024103D2046B01A0033D75A /* iOS-Tests.xctest */,
 				CEEE0A0B20D2AA7C00B0C2CE /* Common.framework */,
 				50C9C79020FDD25D00AC914F /* Common-Tests.xctest */,
-				CE95A4AB2111FEDA0061BCDD /* schulcloud_provider.appex */,
+				CE95A4AB2111FEDA0061BCDD /* schulcloud.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -908,7 +908,6 @@
 			buildPhases = (
 				92AF1094A1614F30A8A8E107 /* [CP] Check Pods Manifest.lock */,
 				50B44D7A203A0328009DC2D3 /* Set Build number */,
-				CE4152BD20E2883200739CE2 /* Copy brand assets */,
 				C3A5A8FB1EBCC17600825DBF /* Sources */,
 				C3A5A8FC1EBCC17600825DBF /* Frameworks */,
 				C3A5A8FD1EBCC17600825DBF /* Resources */,
@@ -952,6 +951,7 @@
 			buildConfigurationList = CE95A4BC2111FEDB0061BCDD /* Build configuration list for PBXNativeTarget "iOS-fileprovider" */;
 			buildPhases = (
 				17AEB00AB8868F2452232A67 /* [CP] Check Pods Manifest.lock */,
+				CEA702F5215BAB9400AA8919 /* Copy brand Assets */,
 				CE95A4A72111FEDA0061BCDD /* Sources */,
 				CE95A4A82111FEDA0061BCDD /* Frameworks */,
 				CE95A4A92111FEDA0061BCDD /* Resources */,
@@ -963,7 +963,7 @@
 			);
 			name = "iOS-fileprovider";
 			productName = "iOS-fileprovider";
-			productReference = CE95A4AB2111FEDA0061BCDD /* schulcloud_provider.appex */;
+			productReference = CE95A4AB2111FEDA0061BCDD /* schulcloud.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		CEEE0A0A20D2AA7C00B0C2CE /* Common */ = {
@@ -1293,19 +1293,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CE4152BD20E2883200739CE2 /* Copy brand assets */ = {
+		CEA702F5215BAB9400AA8919 /* Copy brand Assets */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
+			inputFileListPaths = (
+			);
 			inputPaths = (
 			);
-			name = "Copy brand assets";
+			name = "Copy brand Assets";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "$SRCROOT/Build\\ Phases/copy-brand-assets.sh";
+			shellScript = "$SRCROOT/Build\\ Phases/copy-brand-assets.sh\n";
 		};
 		DFB669BB58F24B67E05FBDAF /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

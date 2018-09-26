@@ -7,7 +7,7 @@
 #include "Schulcloud-Common.xcconfig"
 #include "../Debug.xcconfig"
 
-PRODUCT_NAME = schulcloud_provider
+PRODUCT_NAME = schulcloud
 PRODUCT_MODULE_NAME = ios_fileprovider
 PRODUCT_BUNDLE_IDENTIFIER = $(BASE_BUNDLE_IDENTIFIER)$(IDENTIFIER_SUFFIX).fileprovider
 CODE_SIGN_ENTITLEMENTS = ios/Branding/schulcloud/ios-fileprovider.entitlements
