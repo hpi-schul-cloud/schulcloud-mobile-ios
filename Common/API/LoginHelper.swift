@@ -12,7 +12,8 @@ import Result
 
 public extension UserDefaults {
     public static var appGroupDefaults: UserDefaults? {
-        return UserDefaults(suiteName: Bundle.main.appGroupIdentifier ?? "")
+        guard let suiteName = Bundle.main.appGroupIdentifier else { return nil }
+        return UserDefaults(suiteName: suiteName)
     }
 }
 
@@ -81,7 +82,9 @@ public class LoginHelper {
     }
 
     public static func loadAccount() -> SchulCloudAccount? {
-        guard let defaults = UserDefaults.appGroupDefaults, let accountId = defaults.string(forKey: "accountId"), let userId = defaults.string(forKey: "userId") else {
+        guard let defaults = UserDefaults.appGroupDefaults,
+            let accountId = defaults.string(forKey: "accountId"),
+            let userId = defaults.string(forKey: "userId") else {
             return nil
         }
 

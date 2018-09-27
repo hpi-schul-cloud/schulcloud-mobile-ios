@@ -8,26 +8,6 @@ import Foundation
 import Marshal
 import MobileCoreServices
 
-public final class WorkingSetSyncAnchor: NSManagedObject {
-    @NSManaged public var id: String
-    @NSManaged public var value: Int64
-}
-
-public extension WorkingSetSyncAnchor {
-
-    public static let mainId: String = "WorkingSetSyncAnchor"
-
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<WorkingSetSyncAnchor> {
-        return NSFetchRequest<WorkingSetSyncAnchor>(entityName: "WorkingSetSyncAnchor")
-    }
-
-    public static var mainAnchorFetchRequest: NSFetchRequest<WorkingSetSyncAnchor> {
-        let result = WorkingSetSyncAnchor.fetchRequest() as NSFetchRequest<WorkingSetSyncAnchor>
-        result.predicate = NSPredicate(format: "id == %@", WorkingSetSyncAnchor.mainId)
-        return result
-    }
-}
-
 public final class File: NSManagedObject {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<File> {
@@ -212,11 +192,11 @@ extension File {
 
         file.lastReadAt = file.createdAt
 
-        if existed {
-            file.downloadState = isDirectory ? .downloaded : .notDownloaded
+        if existed && isDirectory {
+            file.downloadState = .downloaded
         }
 
-        file.uploadState = .uploaded
+        file.uploadState = .uploaded //TODO(Florian): Manage here when uploading works
 
         file.parentDirectory = parentFolder
 
@@ -255,6 +235,17 @@ extension File {
 
     public var localFileName: String {
         return "\(self.id)__\(self.name)"
+    }
+
+    public static func id(from url: URL) -> String? {
+        // resolve the given URL to a persistent identifier using a database
+        // Filename of format fileid__name, extract id from filename, no need to hit the DB
+        let filename = url.lastPathComponent
+        guard let localURLSeparatorRange = filename.range(of: "__") else {
+            return nil
+        }
+
+        return String(filename[filename.startIndex..<localURLSeparatorRange.lowerBound])
     }
 
     public var localURL: URL {
@@ -330,7 +321,7 @@ extension File {
 
     public static func with(ids: [String], in context: NSManagedObjectContext) -> [File]? {
         assert(!ids.isEmpty)
-        assert(ids.map { $0.isEmpty }.reduce(false) { x, y in x || y } == false) // no empty string the list of ids
+        assert(!(ids.map { $0.isEmpty }.contains(true))) // no empty string the list of ids
 
         let fetchRequest = File.fetchRequest() as NSFetchRequest<File>
         fetchRequest.predicate = NSPredicate(format: "id IN %@", ids)

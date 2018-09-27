@@ -32,9 +32,10 @@ end
 
 
 post_install do |installer|
+  target_names = ['Pods-iOS', 'Pod-iOS-fileprovider'] 
   sharedLibrary = installer.aggregate_targets.find { |aggregate_target| aggregate_target.name == 'Pods-Common' }
   installer.aggregate_targets.each do |aggregate_target|
-    if aggregate_target.name == 'Pods-iOS' or aggregate_target.name == 'Pod-iOS-fileprovider'
+    if target_names.include? aggregate_target.name
       aggregate_target.xcconfigs.each do |config_name, config_file|
         sharedLibraryPodTargets = sharedLibrary.pod_targets
         aggregate_target.pod_targets.select { |pod_target| sharedLibraryPodTargets.include?(pod_target) }.each do |pod_target|

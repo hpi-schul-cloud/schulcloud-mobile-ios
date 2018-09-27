@@ -11,7 +11,10 @@ import Result
 
 public class FileSync: NSObject {
 
-    static public var `default`: FileSync = FileSync(backgroundSessionIdentifier: (Bundle.main.bundleIdentifier ?? "") + "background")
+    static public var `default`: FileSync = {
+        let identifier = (Bundle.main.bundleIdentifier ?? "") + ".background"
+        return FileSync(backgroundSessionIdentifier: identifier)
+    }()
 
     public typealias ProgressHandler = (Float) -> Void
 
@@ -42,18 +45,6 @@ public class FileSync: NSObject {
         self.backgroundSession.finishTasksAndInvalidate()
         self.metadataSession.invalidateAndCancel()
         self.foregroundSession.invalidateAndCancel()
-    }
-
-    public func cancelThumbnailsTasks() {
-
-    }
-
-    public func cancelDownloadTasks() {
-
-    }
-
-    public func cancelUploadTasks() {
-
     }
 
     // MARK: Request building helper
@@ -196,12 +187,10 @@ public class FileSync: NSObject {
         let fileID = file.objectID
         let backgroundContext = CoreDataHelper.persistentContainer.newBackgroundContext()
         backgroundContext.performAndWait {
-            let file = backgroundContext.object(with: fileID) as! File
+            let file = backgroundContext.typedObject(with: fileID) as File
             file.downloadState = .downloading
             _ = backgroundContext.saveWithResult()
         }
-
-        _ = backgroundContext.saveWithResult()
 
         let id = "filedownload__\(file.id)"
 
@@ -210,14 +199,14 @@ public class FileSync: NSObject {
         }.onSuccess { _ in
             let backgroundContext = CoreDataHelper.persistentContainer.newBackgroundContext()
             backgroundContext.performAndWait {
-                let file = backgroundContext.object(with: fileID) as! File
+                let file = backgroundContext.typedObject(with: fileID) as File
                 file.downloadState = .downloaded
                 _ = backgroundContext.saveWithResult()
             }
         }.onFailure { _ in
             let backgroundContext = CoreDataHelper.persistentContainer.newBackgroundContext()
             backgroundContext.performAndWait {
-                let file = backgroundContext.object(with: fileID) as! File
+                let file = backgroundContext.typedObject(with: fileID) as File
                 file.downloadState = .downloadFailed
                 _ = backgroundContext.saveWithResult()
             }
@@ -265,7 +254,11 @@ public class FileSync: NSObject {
         }
 
         let downloadSession = background ? self.backgroundSession! : self.foregroundSession!
-        return download(id: "thumbnail__\(file.id)", at: url, moveTo: file.localThumbnailURL, downloadSession: downloadSession, progressHandler: progressHandler)
+        return self.download(id: "thumbnail__\(file.id)",
+                             at: url,
+                             moveTo: file.localThumbnailURL,
+                             downloadSession: downloadSession,
+                             progressHandler: progressHandler)
     }
 
     fileprivate func download(id: String,
@@ -304,7 +297,7 @@ extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownlo
         guard let id = task.taskDescription else {
             fatalError("No ID given to task")
         }
-        
+
         guard let transferInfo = runningTask[id] else {
             fatalError("Impossible to download file without providing transferInfo")
         }
@@ -327,6 +320,7 @@ extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownlo
         guard let id = downloadTask.taskDescription else {
             fatalError("No ID given to task")
         }
+
         if let progressHandler = runningTask[id]?.progressHandler {
             let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
             progressHandler(progress)

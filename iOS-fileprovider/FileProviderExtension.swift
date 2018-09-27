@@ -31,7 +31,7 @@ class FileProviderExtension: NSFileProviderExtension {
         Globals.account = account
 
         rootDirectory = FileHelper.rootFolder
-        fileSync = FileSync(backgroundSessionIdentifier: (Bundle.main.bundleIdentifier ?? "org.schulcloud.fileprovider") + "background" )
+        fileSync = FileSync(backgroundSessionIdentifier: (Bundle.main.bundleIdentifier ?? "fileprovider") + ".background" )
         super.init()
     }
 
@@ -49,6 +49,7 @@ class FileProviderExtension: NSFileProviderExtension {
             guard let file = File.by(id: identifier.rawValue, in: context) else {
                 throw NSFileProviderError(.noSuchItem)
             }
+
             return FileProviderItem(file: file)
         }
     }
@@ -64,15 +65,8 @@ class FileProviderExtension: NSFileProviderExtension {
     }
 
     override func persistentIdentifierForItem(at url: URL) -> NSFileProviderItemIdentifier? {
-        // resolve the given URL to a persistent identifier using a database
-        // Filename of format fileid__name, extract id from filename, no need to hit the DB
-        let filename = url.lastPathComponent
-        guard let localURLSeparatorRange = filename.range(of: "__") else {
-            return nil
-        }
-
-        let fileIdentifier = String(filename[filename.startIndex..<localURLSeparatorRange.lowerBound])
-        return NSFileProviderItemIdentifier(fileIdentifier)
+        guard let id = File.id(from: url) else { return nil }
+        return NSFileProviderItemIdentifier(id)
     }
 
     override func providePlaceholder(at url: URL, completionHandler: @escaping (Error?) -> Void) {
