@@ -45,22 +45,16 @@ class FileProviderExtension: NSFileProviderExtension {
         } else if identifier == .workingSet {
             throw NSFileProviderError(.noSuchItem)
         } else {
-            let fetchRequest: NSFetchRequest<File> = File.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "id == %@", identifier.rawValue)
-
             let context = CoreDataHelper.persistentContainer.newBackgroundContext()
-            let result = context.fetchSingle(fetchRequest)
-            if let file = result.value {
-                return FileProviderItem(file: file)
+            guard let file = File.by(id: identifier.rawValue, in: context) else {
+                throw NSFileProviderError(.noSuchItem)
             }
-
-            throw NSFileProviderError(.noSuchItem)
+            return FileProviderItem(file: file)
         }
     }
 
     override func urlForItem(withPersistentIdentifier identifier: NSFileProviderItemIdentifier) -> URL? {
         // resolve the given identifier to a file on disk
-
         let id = identifier == .rootContainer ? FileHelper.rootDirectoryID : identifier.rawValue
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
         return context.performAndWait { () -> URL? in
@@ -171,7 +165,6 @@ class FileProviderExtension: NSFileProviderExtension {
      */
 
     // MARK: - Enumeration
-
     override func enumerator(for containerItemIdentifier: NSFileProviderItemIdentifier) throws -> NSFileProviderEnumerator {
         var maybeEnumerator: NSFileProviderEnumerator?
         if containerItemIdentifier == NSFileProviderItemIdentifier.rootContainer {
@@ -215,19 +208,13 @@ class FileProviderExtension: NSFileProviderExtension {
 
         let progress = Progress(totalUnitCount: Int64(itemIdentifiers.count))
         progress.isCancellable = true
-        progress.cancellationHandler = {
-
-        }
+        progress.cancellationHandler = {}
 
         let ids = itemIdentifiers.map { $0.rawValue }
 
-        let fetchRequest = File.fetchRequest() as NSFetchRequest<File>
-        fetchRequest.predicate = NSPredicate(format: "id IN %@", ids)
-
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
-        let result = context.fetchMultiple(fetchRequest)
-        guard let files = result.value else {
-            completionHandler(result.error!)
+        guard let files = File.with(ids: ids, in: context) else {
+            completionHandler(NSFileProviderError(.noSuchItem))
             progress.becomeCurrent(withPendingUnitCount: Int64(itemIdentifiers.count))
             return progress
         }
@@ -279,7 +266,6 @@ class FileProviderExtension: NSFileProviderExtension {
     }
 
     override func setTagData(_ tagData: Data?, forItemIdentifier itemIdentifier: NSFileProviderItemIdentifier, completionHandler: @escaping (NSFileProviderItem?, Error?) -> Void) {
-
         let id = itemIdentifier == .rootContainer ? FileHelper.rootDirectoryID : itemIdentifier.rawValue
 
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
@@ -320,8 +306,8 @@ class FileProviderExtension: NSFileProviderExtension {
             _ = context.saveWithResult()
             return FileProviderItem(file: file)
         }
-        completionHandler(providerItem, nil)
 
+        completionHandler(providerItem, nil)
         NSFileProviderManager.default.signalEnumerator(for: .workingSet) { _ in }
     }
 
@@ -340,7 +326,6 @@ class FileProviderExtension: NSFileProviderExtension {
             return FileProviderItem(file: file)
         }
         completionHandler(providerItem, nil)
-
         NSFileProviderManager.default.signalEnumerator(for: .workingSet) { _ in }
     }
 }
