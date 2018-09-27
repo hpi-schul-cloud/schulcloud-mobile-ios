@@ -1,9 +1,6 @@
 //
-//  OnlineFolderEnumerator.swift
-//  iOS-fileprovider
-//
-//  Created by Florian Morel on 27.09.18.
-//  Copyright © 2018 Hasso-Plattner-Institut. All rights reserved.
+//  Created for schulcloud-mobile-ios under GPL-3.0 license.
+//  Copyright © HPI. All rights reserved.
 //
 
 import Common
