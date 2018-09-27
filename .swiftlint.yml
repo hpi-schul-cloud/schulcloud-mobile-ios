@@ -36,6 +36,7 @@ included:
 - iOS
 - iOS-Tests
 - iOS-UITests
+- iOS-fileprovider
 
 excluded:
 - iOS-UITests/SnapshotHelper.swift

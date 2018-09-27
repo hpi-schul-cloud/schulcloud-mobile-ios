@@ -11,7 +11,10 @@ import Result
 
 public class FileSync: NSObject {
 
-    static public var `default`: FileSync = FileSync()
+    static public var `default`: FileSync = {
+        let identifier = (Bundle.main.bundleIdentifier ?? "") + ".background"
+        return FileSync(backgroundSessionIdentifier: identifier)
+    }()
 
     public typealias ProgressHandler = (Float) -> Void
 
@@ -25,22 +28,23 @@ public class FileSync: NSObject {
         let localFileURL: URL
     }
 
-    private var runningTask: [Int: FileTransferInfo] = [:]
+    private var runningTask: [String: FileTransferInfo] = [:]
 
-    public override init() {
+    public init(backgroundSessionIdentifier: String) {
         metadataSession = URLSession(configuration: URLSessionConfiguration.default)
 
         super.init()
 
-        let configuration = URLSessionConfiguration.background(withIdentifier: "org.schulcloud.file.background")
-        backgroundSession = URLSession(configuration: configuration, delegate: self, delegateQueue: OperationQueue.main)
+        let backgroudConfiguration = URLSessionConfiguration.background(withIdentifier: backgroundSessionIdentifier)
+        backgroudConfiguration.sharedContainerIdentifier = Bundle.main.appGroupIdentifier
+        backgroundSession = URLSession(configuration: backgroudConfiguration, delegate: self, delegateQueue: OperationQueue.main)
         foregroundSession = URLSession(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: OperationQueue.main)
     }
 
-    deinit {
-        backgroundSession.finishTasksAndInvalidate()
-        metadataSession.invalidateAndCancel()
-        foregroundSession.invalidateAndCancel()
+    public func invalidate() {
+        self.backgroundSession.finishTasksAndInvalidate()
+        self.metadataSession.invalidateAndCancel()
+        self.foregroundSession.invalidateAndCancel()
     }
 
     // MARK: Request building helper
@@ -82,24 +86,33 @@ public class FileSync: NSObject {
 
     // MARK: Directory download management
 
-    public func updateContent(of directory: File) -> Future<Void, SCError> {
+    public func updateContent(of directory: File) -> Future<[File], SCError> {
         guard FileHelper.rootDirectoryID != directory.id else {
-            return Future(value: ())
+            return Future(value: Array(directory.contents))
         }
 
         switch directory.id {
         case FileHelper.coursesDirectoryID:
-            return CourseHelper.syncCourses().asVoid()
-        case FileHelper.sharedDirectoryID:
-            return self.downloadSharedFiles().flatMap { objects -> Future<Void, SCError> in
-                return objects.map { json in
-                    return FileHelper.updateDatabase(contentsOf: directory, using: json)
-                }.sequence().asVoid()
+            return CourseHelper.syncCourses().flatMap { _ -> Future<[File], SCError> in
+                let fetchRequest = File.fetchRequest() as NSFetchRequest<File>
+                fetchRequest.predicate = NSPredicate(format: "parentDirectory.id == %@", FileHelper.coursesDirectoryID)
+
+                let result = CoreDataHelper.viewContext.fetchMultiple(fetchRequest)
+                guard let files = result.value else {
+                    return Future(error: result.error!)
+                }
+
+                return Future(value: files)
             }
+        case FileHelper.sharedDirectoryID:
+            return self.downloadSharedFiles().flatMap {
+                return FileHelper.updateDatabase(contentsOf: directory, using: $0)
+            }
+
         default:
-            return self.downloadContent(of: directory).flatMap { json -> Future<Void, SCError> in
-                return FileHelper.updateDatabase(contentsOf: directory, using: json)
-            }.asVoid()
+            return self.downloadContent(of: directory).flatMap {
+                return FileHelper.updateDatabase(contentsOf: directory, using: $0)
+            }
         }
     }
 
@@ -130,8 +143,8 @@ public class FileSync: NSObject {
         return promise.future
     }
 
-    public func downloadSharedFiles() -> Future<[[String: Any]], SCError> {
-        let promise = Promise<[[String: Any]], SCError>()
+    public func downloadSharedFiles() -> Future<[String: Any], SCError> {
+        let promise = Promise<[String: Any], SCError>()
 
         let request = self.request(for: Brand.default.servers.backend.appendingPathComponent("files") )
         metadataSession.dataTask(with: request) { data, response, error in
@@ -143,7 +156,12 @@ public class FileSync: NSObject {
                     return (try? object.value(for: "context")) == "geteilte Datei"
                 }
 
-                promise.success(sharedFiles as! [[String: Any]])
+                let result: [String: Any] = [
+                    "files": sharedFiles,
+                    "directories": [],
+                ]
+
+                promise.success(result)
             } catch let error as SCError {
                 promise.failure(error)
             } catch let error {
@@ -161,7 +179,7 @@ public class FileSync: NSObject {
 
         let localURL = file.localURL
         let downloadSession: URLSession = background ? self.backgroundSession : self.foregroundSession
-        guard [File.DownloadState.notDownloaded, File.DownloadState.downloadFailed].contains(file.downloadState) else {
+        guard file.downloadState != .downloaded else {
             progressHandler(1.0)
             return Future<URL, SCError>(value: localURL)
         }
@@ -169,26 +187,26 @@ public class FileSync: NSObject {
         let fileID = file.objectID
         let backgroundContext = CoreDataHelper.persistentContainer.newBackgroundContext()
         backgroundContext.performAndWait {
-            let file = backgroundContext.object(with: fileID) as! File
+            let file = backgroundContext.typedObject(with: fileID) as File
             file.downloadState = .downloading
             _ = backgroundContext.saveWithResult()
         }
 
-        _ = backgroundContext.saveWithResult()
+        let id = "filedownload__\(file.id)"
 
         return signedURL(for: file).flatMap { url -> Future<URL, SCError> in
-            return self.download(at: url, moveTo: localURL, downloadSession: downloadSession, progressHandler: progressHandler)
+            return self.download(id: id, at: url, moveTo: localURL, downloadSession: downloadSession, progressHandler: progressHandler)
         }.onSuccess { _ in
             let backgroundContext = CoreDataHelper.persistentContainer.newBackgroundContext()
             backgroundContext.performAndWait {
-                let file = backgroundContext.object(with: fileID) as! File
+                let file = backgroundContext.typedObject(with: fileID) as File
                 file.downloadState = .downloaded
                 _ = backgroundContext.saveWithResult()
             }
         }.onFailure { _ in
             let backgroundContext = CoreDataHelper.persistentContainer.newBackgroundContext()
             backgroundContext.performAndWait {
-                let file = backgroundContext.object(with: fileID) as! File
+                let file = backgroundContext.typedObject(with: fileID) as File
                 file.downloadState = .downloadFailed
                 _ = backgroundContext.saveWithResult()
             }
@@ -230,41 +248,57 @@ public class FileSync: NSObject {
         guard !FileManager.default.fileExists(atPath: file.localThumbnailURL.path) else {
             return Future(value: file.localThumbnailURL)
         }
+
         guard let url = file.thumbnailRemoteURL else {
             return Future(error: SCError.other("No thumbnail to download"))
         }
+
         let downloadSession = background ? self.backgroundSession! : self.foregroundSession!
-        return download(at: url, moveTo: file.localThumbnailURL, downloadSession: downloadSession, progressHandler: progressHandler)
+        return self.download(id: "thumbnail__\(file.id)",
+                             at: url,
+                             moveTo: file.localThumbnailURL,
+                             downloadSession: downloadSession,
+                             progressHandler: progressHandler)
     }
 
-    fileprivate func download(at remoteURL: URL,
+    fileprivate func download(id: String,
+                              at remoteURL: URL,
                               moveTo localURL: URL,
                               downloadSession: URLSession,
                               progressHandler: @escaping ProgressHandler) -> Future<URL, SCError> {
         let promise = Promise<URL, SCError>()
         let transferInfo = FileTransferInfo(promise: promise, progressHandler: progressHandler, localFileURL: localURL)
         let task = downloadSession.downloadTask(with: remoteURL)
+        runningTask[id] = transferInfo
+        task.taskDescription = id
         task.resume()
-        runningTask[task.taskIdentifier] = transferInfo
         return promise.future
     }
 }
 
 extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownloadDelegate {
     public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        guard let transferInfo = runningTask[downloadTask.taskIdentifier] else {
+        guard let id = downloadTask.taskDescription else {
+            fatalError("No ID given to task")
+        }
+
+        guard let transferInfo = runningTask[id] else {
             fatalError("Impossible to download file without providing transferInfo")
         }
 
         do {
             try FileManager.default.moveItem(at: location, to: transferInfo.localFileURL)
-        } catch _ {
-            transferInfo.promise.failure(.other("Tried to download file that already is downloaded"))
+        } catch let error {
+            transferInfo.promise.failure(.other(error.localizedDescription))
         }
     }
 
     public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        guard let transferInfo = runningTask[task.taskIdentifier] else {
+        guard let id = task.taskDescription else {
+            fatalError("No ID given to task")
+        }
+
+        guard let transferInfo = runningTask[id] else {
             fatalError("Impossible to download file without providing transferInfo")
         }
 
@@ -274,7 +308,7 @@ extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownlo
             transferInfo.promise.success(transferInfo.localFileURL)
         }
 
-        runningTask.removeValue(forKey: task.taskIdentifier)
+        runningTask.removeValue(forKey: id)
     }
 
     // Download progress
@@ -283,7 +317,11 @@ extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownlo
                            didWriteData bytesWritten: Int64,
                            totalBytesWritten: Int64,
                            totalBytesExpectedToWrite: Int64) {
-        if let progressHandler = runningTask[downloadTask.taskIdentifier]?.progressHandler {
+        guard let id = downloadTask.taskDescription else {
+            fatalError("No ID given to task")
+        }
+
+        if let progressHandler = runningTask[id]?.progressHandler {
             let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
             progressHandler(progress)
         }

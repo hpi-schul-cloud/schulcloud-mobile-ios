@@ -6,6 +6,7 @@
 import CoreData
 import Foundation
 import Marshal
+import MobileCoreServices
 
 public final class File: NSManagedObject {
 
@@ -16,11 +17,16 @@ public final class File: NSManagedObject {
     @NSManaged public var id: String
     @NSManaged public var remoteURL: URL?
     @NSManaged public var thumbnailRemoteURL: URL?
-
     @NSManaged public var name: String
     @NSManaged public var isDirectory: Bool
     @NSManaged public var mimeType: String?
     @NSManaged public var size: Int64
+    @NSManaged public var createdAt: Date
+    @NSManaged public var updatedAt: Date
+    @NSManaged public var lastReadAt: Date
+
+    @NSManaged public var favoriteRankData: Data?
+    @NSManaged public var localTagData: Data?
 
     @NSManaged private var permissionsValue: Int64
     @NSManaged private var downloadStateValue: Int64
@@ -84,6 +90,10 @@ public extension File {
 
     public var downloadState: DownloadState {
         get {
+            guard !FileManager.default.fileExists(atPath: self.localURL.path) else {
+                return .downloaded
+            }
+
             return DownloadState(rawValue: self.downloadStateValue) ?? .notDownloaded
         }
 
@@ -128,6 +138,12 @@ extension File {
         file.name = name
         file.isDirectory = isDirectory
         file.parentDirectory = parentFolder
+        file.createdAt = Date()
+        file.updatedAt = file.createdAt
+        file.lastReadAt = file.createdAt
+
+        file.favoriteRankData = nil
+        file.localTagData = nil
 
         file.permissions = .read
         file.uploadState = .uploaded
@@ -150,6 +166,8 @@ extension File {
             throw SCError.coreDataMoreThanOneObjectFound
         }
 
+        let existed = !result.isEmpty
+
         let file = result.first ?? File(context: context)
         file.id = id
 
@@ -157,17 +175,28 @@ extension File {
         let remoteURLString = try data.value(for: "key") as String?
         let percentEncodedURLString = remoteURLString?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
         file.remoteURL = URL(string: percentEncodedURLString ?? "")
-        let thumbnailRemoteURLString = try data.value(for: "thumbnail") as String?
+        let thumbnailRemoteURLString = try? data.value(for: "thumbnail") as String
         let percentEncodedThumbnailURLString = thumbnailRemoteURLString?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
         file.thumbnailRemoteURL = URL(string: percentEncodedThumbnailURLString ?? "")
 
         file.name = name
         file.isDirectory = isDirectory
-        file.mimeType = try? data.value(for: "type")
-        file.size = try data.value(for: "size")
+        file.mimeType = isDirectory ? "public.folder" : try? data.value(for: "type")
+        file.size = isDirectory ? 0 : try data.value(for: "size")
+        file.createdAt = try data.value(for: "createdAt")
+        if let updatedAt = try? data.value(for: "updatedAt") as Date {
+            file.updatedAt = updatedAt
+        } else {
+            file.updatedAt = file.createdAt
+        }
 
-        file.downloadState = isDirectory ? .downloaded : .notDownloaded
-        file.uploadState = .uploaded
+        file.lastReadAt = file.createdAt
+
+        if existed && isDirectory {
+            file.downloadState = .downloaded
+        }
+
+        file.uploadState = .uploaded //TODO(Florian): Manage here when uploading works
 
         file.parentDirectory = parentFolder
 
@@ -191,14 +220,32 @@ extension File {
 
 // MARK: computed properties
 extension File {
-
-    // TODO: replace with fileprovidermanager when implemented
     static var localContainerURL: URL {
-        return try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        if #available(iOS 11.0, *) {
+            return NSFileProviderManager.default.documentStorageURL
+        } else {
+            // This returns the same URL as the iOS 11.0 documentStorageURL
+            return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Bundle.main.appGroupIdentifier!)!.appendingPathComponent("File Provider Storage")
+        }
+    }
+
+    static var thumbnailContainerURL: URL {
+        return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Bundle.main.appGroupIdentifier!)!.appendingPathComponent("Caches")
     }
 
     public var localFileName: String {
         return "\(self.id)__\(self.name)"
+    }
+
+    public static func id(from url: URL) -> String? {
+        // resolve the given URL to a persistent identifier using a database
+        // Filename of format fileid__name, extract id from filename, no need to hit the DB
+        let filename = url.lastPathComponent
+        guard let localURLSeparatorRange = filename.range(of: "__") else {
+            return nil
+        }
+
+        return String(filename[filename.startIndex..<localURLSeparatorRange.lowerBound])
     }
 
     public var localURL: URL {
@@ -207,9 +254,7 @@ extension File {
     }
 
     public var localThumbnailURL: URL {
-        // TODO: This will be changed to direct to the Caches folder in the shared container.
-        let cacheDirectoryURL = try! FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-        return cacheDirectoryURL.appendingPathComponent("thumnail_\(self.id)_\(self.name)")
+        return File.thumbnailContainerURL.appendingPathComponent("thumnail_\(self.thumbnailRemoteURL!.lastPathComponent)")
     }
 
     public var detail: String? {
@@ -218,5 +263,75 @@ extension File {
         }
 
         return ByteCountFormatter.string(fromByteCount: self.size, countStyle: .binary)
+    }
+
+    public var UTI: String? {
+        guard !self.isDirectory else {
+            return kUTTypeFolder as String
+        }
+
+        guard let mimeType = self.mimeType else {
+            return ""
+        }
+
+        return File.mimeToUTI(mime: mimeType)
+    }
+
+    private static func mimeToUTI(mime: String) -> String? {
+        let cfMime = mime as CFString
+        guard let strPtr = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, cfMime, nil) else {
+            return nil
+        }
+
+        let cfUTI = Unmanaged<CFString>.fromOpaque(strPtr.toOpaque()).takeUnretainedValue() as CFString
+        return cfUTI as String
+    }
+}
+
+// MARK: Convenient requests
+extension File {
+    public static func by(id: String, in context: NSManagedObjectContext) -> File? {
+        assert(!id.isEmpty)
+        let fetchRequest = File.fetchRequest() as NSFetchRequest<File>
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+
+        let result = context.fetchSingle(fetchRequest)
+        guard let value = result.value else {
+            log.error("Didn't find file with id: \(id)")
+            return nil
+        }
+
+        return value
+    }
+
+    public static func with(parentId id: String, in context: NSManagedObjectContext) -> [File]? {
+        assert(!id.isEmpty)
+
+        let fetchRequest = File.fetchRequest() as NSFetchRequest<File>
+        fetchRequest.predicate = NSPredicate(format: "parentDirectory.id == %@", id)
+
+        let result = context.fetchMultiple(fetchRequest)
+        guard let value = result.value else {
+            log.error("Error looking for item with parentID: \(id)")
+            return nil
+        }
+
+        return value
+    }
+
+    public static func with(ids: [String], in context: NSManagedObjectContext) -> [File]? {
+        assert(!ids.isEmpty)
+        assert(!(ids.map { $0.isEmpty }.contains(true))) // no empty string the list of ids
+
+        let fetchRequest = File.fetchRequest() as NSFetchRequest<File>
+        fetchRequest.predicate = NSPredicate(format: "id IN %@", ids)
+
+        let result = context.fetchMultiple(fetchRequest)
+        guard let value = result.value else {
+            log.error("Error looking with ids")
+            return nil
+        }
+
+        return value
     }
 }

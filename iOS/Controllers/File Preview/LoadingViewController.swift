@@ -45,12 +45,39 @@ class LoadingViewController: UIViewController {
             }
         }.onFailure { error in
             DispatchQueue.main.async {
+                self.file.downloadState = .downloadFailed
                 self.show(error: error)
             }
         }
     }
 
     func showFile() {
+
+        let objectID = file.objectID
+        let context = CoreDataHelper.persistentContainer.newBackgroundContext()
+        context.performAndWait {
+            let file = context.typedObject(with: objectID) as File
+            file.lastReadAt = Date()
+
+            guard let syncAnchor = context.fetchSingle(WorkingSetSyncAnchor.mainAnchorFetchRequest).value else {
+                return
+            }
+            syncAnchor.value += 1
+
+            _ = context.saveWithResult()
+        }
+
+        if #available(iOS 11.0, *) {
+            NSFileProviderManager.default.signalEnumerator(for: NSFileProviderItemIdentifier(file.id)) { _ in }
+            NSFileProviderManager.default.signalEnumerator(for: NSFileProviderItemIdentifier.workingSet) { error in
+                if let error = error {
+                    print("Error signaling to working set: \(error)")
+                } else {
+                    print("WorkingSet signaled")
+                }
+            }
+        }
+
         let previewManager = PreviewManager(file: file)
         let controller = previewManager.previewViewController
         controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem

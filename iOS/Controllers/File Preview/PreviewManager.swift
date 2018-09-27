@@ -21,7 +21,10 @@ class PreviewManager: NSObject, QLPreviewControllerDataSource {
         case "plist", "json", "txt":
             let webviewPreviewViewContoller = WebviewPreviewViewContoller(nibName: "WebviewPreviewViewContoller",
                                                                           bundle: Bundle(for: WebviewPreviewViewContoller.self))
-            webviewPreviewViewContoller.fileData = try? Data(contentsOf: self.file.localURL)
+            let coord = NSFileCoordinator()
+            coord.coordinate(readingItemAt: self.file.localURL, options: .withoutChanges, error: nil) { url in
+                webviewPreviewViewContoller.fileData = try? Data(contentsOf: url)
+            }
             webviewPreviewViewContoller.file = self.file
             return webviewPreviewViewContoller
         default:

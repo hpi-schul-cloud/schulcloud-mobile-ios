@@ -29,10 +29,10 @@ public struct SchulCloudAccount: CreateableSecureStorable, ReadableSecureStorabl
     }
 
     func saveCredentials() throws {
-        let defaults = UserDefaults.standard
+        let defaults = UserDefaults.appGroupDefaults
 
-        defaults.set(accountId, forKey: "accountId")
-        defaults.set(userId, forKey: "userId")
+        defaults?.set(accountId, forKey: "accountId")
+        defaults?.set(userId, forKey: "userId")
 
         do {
             try createInSecureStore()

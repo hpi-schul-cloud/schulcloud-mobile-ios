@@ -9,11 +9,16 @@ import Result
 
 public class CoreDataHelper {
 
-    static var persistentContainer: NSPersistentContainer = {
+    public static var persistentContainer: NSPersistentContainer = {
         let bundle = Bundle(for: CoreDataHelper.self)
         let modelURL = bundle.url(forResource: "schulcloud", withExtension: "momd")
         let model = NSManagedObjectModel(contentsOf: modelURL!)
         let container = NSPersistentContainer(name: "schulcloud", managedObjectModel: model!)
+
+        let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Bundle.main.appGroupIdentifier!)!.appendingPathComponent("schulclouddb")
+        let description = NSPersistentStoreDescription(url: url)
+
+        container.persistentStoreDescriptions = [description]
         container.loadPersistentStores { _, error in
             if let error = error {
                 log.error("Unresolved error \(error)")

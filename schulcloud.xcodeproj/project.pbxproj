@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		197EC25ADE53536DC7304C1A /* Pods_Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7453D6B0608647AAC1BEDAB /* Pods_Common.framework */; };
 		3E64DABF207A8D6F5DB59E59 /* Pods_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D32E014BC215A558A2D90EA8 /* Pods_iOS.framework */; };
+		4496FDB03C08BA952EBA4CD1 /* Pods_iOS_fileprovider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C87D60CBBCD0804B5A1870B /* Pods_iOS_fileprovider.framework */; };
 		503A5EFB1F3DB86C00A7695B /* TabSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EF91F3DB86C00A7695B /* TabSettings.storyboard */; };
 		503A5EFD1F3DC5DC00A7695B /* TabCourses.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */; };
 		503A5EFF1F3DC6A400A7695B /* TabFiles.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */; };
@@ -35,9 +36,14 @@
 		C3A5A90D1EBCC17600825DBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3A5A90C1EBCC17600825DBF /* Assets.xcassets */; };
 		C3A5A9101EBCC17600825DBF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3A5A90E1EBCC17600825DBF /* LaunchScreen.storyboard */; };
 		C3A5A9261EBCC17600825DBF /* Snapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9251EBCC17600825DBF /* Snapshots.swift */; };
+		CE057CCA2136B85C00D0D4AF /* FileProviderItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95A4AF2111FEDA0061BCDD /* FileProviderItem.swift */; };
 		CE1EAE8C20E500F800C66DDD /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1EAE8B20E500F800C66DDD /* Brand.swift */; };
 		CE1EAE8E20E5036E00C66DDD /* BrandColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1EAE8D20E5036E00C66DDD /* BrandColors.swift */; };
 		CE1EAE9020E503C600C66DDD /* BrandServers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1EAE8F20E503C600C66DDD /* BrandServers.swift */; };
+		CE323E5C215D11D90028A088 /* FileEnumerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE323E5A215D11A60028A088 /* FileEnumerator.swift */; };
+		CE323E5E215D11F10028A088 /* OnlineFolderEnumerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE323E5D215D11F10028A088 /* OnlineFolderEnumerator.swift */; };
+		CE323E60215D12280028A088 /* WorkingSetEnumerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE323E5F215D12280028A088 /* WorkingSetEnumerator.swift */; };
+		CE323E62215D12C00028A088 /* WorkingSetSyncAnchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE323E61215D12C00028A088 /* WorkingSetSyncAnchor.swift */; };
 		CE3C5573206BD6BB00B79034 /* MissingPermissionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE3C5572206BD6BB00B79034 /* MissingPermissionView.xib */; };
 		CE41521720D9370000739CE2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9021EBCC17600825DBF /* AppDelegate.swift */; };
 		CE41528920DBD9F000739CE2 /* DashboardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE23F10D2056B01C00E79E64 /* DashboardLayout.swift */; };
@@ -77,7 +83,12 @@
 		CE4152AC20DBDA4D00739CE2 /* LessonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870C11EE0250500ABA348 /* LessonsViewController.swift */; };
 		CE4152AD20DBDA4D00739CE2 /* SingleLessonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3CAB01EF5CBB6009601AE /* SingleLessonViewController.swift */; };
 		CE4152B620E2854900739CE2 /* Assets-ios-brand.generated.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE4152B520E2854900739CE2 /* Assets-ios-brand.generated.xcassets */; };
+		CE7BFC15212DA2E200C1B871 /* Assets-ios-brand.generated.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE4152B520E2854900739CE2 /* Assets-ios-brand.generated.xcassets */; };
 		CE85F0AF210091B700112085 /* FileSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE85F0AE210091B700112085 /* FileSync.swift */; };
+		CE95A4AE2111FEDA0061BCDD /* FileProviderExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95A4AD2111FEDA0061BCDD /* FileProviderExtension.swift */; };
+		CE95A4B02111FEDA0061BCDD /* FileProviderItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95A4AF2111FEDA0061BCDD /* FileProviderItem.swift */; };
+		CE95A4B22111FEDA0061BCDD /* FolderEnumerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95A4B12111FEDA0061BCDD /* FolderEnumerator.swift */; };
+		CE95A4B72111FEDB0061BCDD /* schulcloud.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CE95A4AB2111FEDA0061BCDD /* schulcloud.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CEBE1547207B63DC00238D1F /* HomeworkHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBE1546207B63DC00238D1F /* HomeworkHeaderView.xib */; };
 		CEEE0A1220D2AA7C00B0C2CE /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE0A0B20D2AA7C00B0C2CE /* Common.framework */; };
 		CEEE0A1420D2AA7C00B0C2CE /* Common.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE0A0B20D2AA7C00B0C2CE /* Common.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -117,6 +128,7 @@
 		CEEE0A4E20D2ADB300B0C2CE /* SchulcloudSyncStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50359DA6203F155200D24E0F /* SchulcloudSyncStrategy.swift */; };
 		CEEE0A4F20D2ADB300B0C2CE /* SchulcloudSyncConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50359DA8203F159300D24E0F /* SchulcloudSyncConfig.swift */; };
 		CEEE0A8020D2AF9200B0C2CE /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEE0A7F20D2AF9200B0C2CE /* Logger.swift */; };
+		CEFAFEE02158ED270029B9E2 /* Bundle+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFAFEDF2158ED270029B9E2 /* Bundle+.swift */; };
 		FD018E513AAFA100CC2BA7E3 /* Pods_Common_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C519C974B5E6B997A0F19C57 /* Pods_Common_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -142,6 +154,20 @@
 			remoteGlobalIDString = C3A5A8FE1EBCC17600825DBF;
 			remoteInfo = schulcloud;
 		};
+		CE95A4B52111FEDB0061BCDD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C3A5A8F71EBCC17600825DBF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE95A4AA2111FEDA0061BCDD;
+			remoteInfo = "iOS-fileprovider";
+		};
+		CE95A4BE211207460061BCDD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C3A5A8F71EBCC17600825DBF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CEEE0A0A20D2AA7C00B0C2CE;
+			remoteInfo = Common;
+		};
 		CEEE0A1020D2AA7C00B0C2CE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C3A5A8F71EBCC17600825DBF /* Project object */;
@@ -152,6 +178,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		CE95A4BD2111FEDB0061BCDD /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				CE95A4B72111FEDB0061BCDD /* schulcloud.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CEEE0A1320D2AA7C00B0C2CE /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -169,6 +206,7 @@
 		060453293998EF378CE1C45F /* Pods_Common_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Common_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		09D7CC393E1856DD7EF9B21F /* Pods_schulcloud.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloud.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		270BA83590B5166B5A30D6B3 /* Pods_schulcloudUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloudUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2DA157DAB96C8A89714682BC /* Pods-iOS-fileprovider.n21-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-fileprovider.n21-release.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-fileprovider/Pods-iOS-fileprovider.n21-release.xcconfig"; sourceTree = "<group>"; };
 		33FB39722356922361DF3BBB /* Pods-Common.schulcloud-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common.schulcloud-debug.xcconfig"; path = "Pods/Target Support Files/Pods-Common/Pods-Common.schulcloud-debug.xcconfig"; sourceTree = "<group>"; };
 		3D45737A1EE02065009A30E2 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		3ED956473F645615154850DC /* Pods-Common.schulcloud-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common.schulcloud-release.xcconfig"; path = "Pods/Target Support Files/Pods-Common/Pods-Common.schulcloud-release.xcconfig"; sourceTree = "<group>"; };
@@ -227,9 +265,13 @@
 		50F3984C202C7CDD00ADAE5D /* GoogleService-Info-Debug.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Debug.plist"; sourceTree = "<group>"; };
 		50F3984D202C7CDD00ADAE5D /* GoogleService-Info-Release.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = "GoogleService-Info-Release.plist"; sourceTree = "<group>"; };
 		524C13D957F640E5B66BA059 /* Pods-Common-Tests.schulcloud-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common-Tests.schulcloud-debug.xcconfig"; path = "Pods/Target Support Files/Pods-Common-Tests/Pods-Common-Tests.schulcloud-debug.xcconfig"; sourceTree = "<group>"; };
+		52F61E0023AD46769781F48A /* Pods-iOS-fileprovider.schulcloud-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-fileprovider.schulcloud-release.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-fileprovider/Pods-iOS-fileprovider.schulcloud-release.xcconfig"; sourceTree = "<group>"; };
+		5C87D60CBBCD0804B5A1870B /* Pods_iOS_fileprovider.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS_fileprovider.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		60AD062D9E376F7D103D39F3 /* Pods_Common_schulcloud.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Common_schulcloud.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		641EDB416EDBF4A0A012C8AC /* Pods-iOS-fileprovider.schulcloud-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-fileprovider.schulcloud-debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-fileprovider/Pods-iOS-fileprovider.schulcloud-debug.xcconfig"; sourceTree = "<group>"; };
 		6A95051FD2A0A46DC119427B /* Pods_schulcloudTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloudTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		79A5D305E558DF616795C230 /* Pods-Common.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common.release.xcconfig"; path = "Pods/Target Support Files/Pods-Common/Pods-Common.release.xcconfig"; sourceTree = "<group>"; };
+		804DC65950E7657EC6EB9C04 /* Pods-iOS-fileprovider.n21-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-fileprovider.n21-debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-fileprovider/Pods-iOS-fileprovider.n21-debug.xcconfig"; sourceTree = "<group>"; };
 		8CCDA3AA9E624277711AFAF9 /* Pods-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOS/Pods-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		92E038C781E17DADCECC73FA /* Pods-Common-Tests.n21-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common-Tests.n21-release.xcconfig"; path = "Pods/Target Support Files/Pods-Common-Tests/Pods-Common-Tests.n21-release.xcconfig"; sourceTree = "<group>"; };
 		995426AC92C9452D1ED0246A /* Pods_schulcloud_schulcloudUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloud_schulcloudUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -292,6 +334,10 @@
 		CE1EAE9E20E516BB00C66DDD /* n21-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "n21-Debug.xcconfig"; sourceTree = "<group>"; };
 		CE23F10D2056B01C00E79E64 /* DashboardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardLayout.swift; sourceTree = "<group>"; };
 		CE2FF7792045A15900D5AF8E /* UserPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPermissions.swift; sourceTree = "<group>"; };
+		CE323E5A215D11A60028A088 /* FileEnumerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileEnumerator.swift; sourceTree = "<group>"; };
+		CE323E5D215D11F10028A088 /* OnlineFolderEnumerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineFolderEnumerator.swift; sourceTree = "<group>"; };
+		CE323E5F215D12280028A088 /* WorkingSetEnumerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkingSetEnumerator.swift; sourceTree = "<group>"; };
+		CE323E61215D12C00028A088 /* WorkingSetSyncAnchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkingSetSyncAnchor.swift; sourceTree = "<group>"; };
 		CE3C5572206BD6BB00B79034 /* MissingPermissionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MissingPermissionView.xib; sourceTree = "<group>"; };
 		CE3C5574206BE07200B79034 /* MissingPermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissingPermissionView.swift; sourceTree = "<group>"; };
 		CE3C5576206BE0DA00B79034 /* PermissionManagmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManagmentViewController.swift; sourceTree = "<group>"; };
@@ -306,10 +352,19 @@
 		CE43B49820594E5D00950EA0 /* DashboardNoPermissionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardNoPermissionViewController.swift; sourceTree = "<group>"; };
 		CE443936205BDEDD00CC3311 /* UIAlertController+Permission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Permission.swift"; sourceTree = "<group>"; };
 		CE644E8820232710003AE700 /* UIColor+hexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+hexString.swift"; sourceTree = "<group>"; };
+		CE6F9AB62153DCED007B8C20 /* Schulcloud-FileProvider_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Schulcloud-FileProvider_Debug.xcconfig"; sourceTree = "<group>"; };
+		CE6F9AB72153DE5F007B8C20 /* Schulcloud-FileProvider_Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Schulcloud-FileProvider_Release.xcconfig"; sourceTree = "<group>"; };
+		CE6F9AB82153E560007B8C20 /* n21-FileProvider_Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "n21-FileProvider_Release.xcconfig"; sourceTree = "<group>"; };
+		CE6F9AB92153E561007B8C20 /* n21-FileProvider_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "n21-FileProvider_Debug.xcconfig"; sourceTree = "<group>"; };
 		CE737A4D1FFE65B0006DAB54 /* NewsArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsArticleCell.swift; sourceTree = "<group>"; };
 		CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListViewController.swift; sourceTree = "<group>"; };
 		CE829316204EB6B3009D2C84 /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		CE85F0AE210091B700112085 /* FileSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSync.swift; sourceTree = "<group>"; };
+		CE95A4AB2111FEDA0061BCDD /* schulcloud.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = schulcloud.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE95A4AD2111FEDA0061BCDD /* FileProviderExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileProviderExtension.swift; sourceTree = "<group>"; };
+		CE95A4AF2111FEDA0061BCDD /* FileProviderItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileProviderItem.swift; sourceTree = "<group>"; };
+		CE95A4B12111FEDA0061BCDD /* FolderEnumerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderEnumerator.swift; sourceTree = "<group>"; };
+		CE95A4B32111FEDB0061BCDD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE99358A2074F667008E7EB0 /* HomeworkOverviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkOverviewCell.swift; sourceTree = "<group>"; };
 		CE9B56C72062A2C400803B3D /* NewsOverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsOverviewViewController.swift; sourceTree = "<group>"; };
 		CEB0027C2008BF9C007084C9 /* CalendarEventHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarEventHelper.swift; sourceTree = "<group>"; };
@@ -323,6 +378,11 @@
 		CEEE0A0E20D2AA7C00B0C2CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CEEE0A7F20D2AF9200B0C2CE /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		CEF363F12010D9B300793D63 /* CalendarEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEvent.swift; sourceTree = "<group>"; };
+		CEFAFEDD2158DCBF0029B9E2 /* ios-fileprovider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ios-fileprovider.entitlements"; sourceTree = "<group>"; };
+		CEFAFEDE2158DCCD0029B9E2 /* ios-fileprovider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ios-fileprovider.entitlements"; sourceTree = "<group>"; };
+		CEFAFEDF2158ED270029B9E2 /* Bundle+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+.swift"; sourceTree = "<group>"; };
+		CEFAFEE121590BB70029B9E2 /* Schulcloud-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Schulcloud-Common.xcconfig"; sourceTree = "<group>"; };
+		CEFAFEE2215919D70029B9E2 /* n21-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "n21-Common.xcconfig"; sourceTree = "<group>"; };
 		D32E014BC215A558A2D90EA8 /* Pods_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA5FD4AAA12B9AE0C7D50FD8 /* Pods-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOS/Pods-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		ED071A035430C1620C387C71 /* Pods-Common-Tests.n21-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common-Tests.n21-debug.xcconfig"; path = "Pods/Target Support Files/Pods-Common-Tests/Pods-Common-Tests.n21-debug.xcconfig"; sourceTree = "<group>"; };
@@ -362,6 +422,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CE95A4A82111FEDA0061BCDD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4496FDB03C08BA952EBA4CD1 /* Pods_iOS_fileprovider.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CEEE0A0720D2AA7C00B0C2CE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -388,6 +456,10 @@
 				ED071A035430C1620C387C71 /* Pods-Common-Tests.n21-debug.xcconfig */,
 				AC75A60F2C693E09AA1B869E /* Pods-Common-Tests.schulcloud-release.xcconfig */,
 				92E038C781E17DADCECC73FA /* Pods-Common-Tests.n21-release.xcconfig */,
+				641EDB416EDBF4A0A012C8AC /* Pods-iOS-fileprovider.schulcloud-debug.xcconfig */,
+				804DC65950E7657EC6EB9C04 /* Pods-iOS-fileprovider.n21-debug.xcconfig */,
+				52F61E0023AD46769781F48A /* Pods-iOS-fileprovider.schulcloud-release.xcconfig */,
+				2DA157DAB96C8A89714682BC /* Pods-iOS-fileprovider.n21-release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -409,6 +481,7 @@
 				509B10D52008E5840042AA7D /* NSMutableAttributedString+trim.swift */,
 				C3165F1E1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift */,
 				CE644E8820232710003AE700 /* UIColor+hexString.swift */,
+				CEFAFEDF2158ED270029B9E2 /* Bundle+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -464,6 +537,7 @@
 				50B44D7E203AAEE0009DC2D3 /* LessonContent.swift */,
 				50B44D84203AAEE1009DC2D3 /* NewsArticle.swift */,
 				50B44D7F203AAEE0009DC2D3 /* User.swift */,
+				CE323E61215D12C00028A088 /* WorkingSetSyncAnchor.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -507,6 +581,7 @@
 				60AD062D9E376F7D103D39F3 /* Pods_Common_schulcloud.framework */,
 				FE9DD3A7175D9005546F4E9C /* Pods_iOS_Tests.framework */,
 				C519C974B5E6B997A0F19C57 /* Pods_Common_Tests.framework */,
+				5C87D60CBBCD0804B5A1870B /* Pods_iOS_fileprovider.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -530,6 +605,7 @@
 				50C9C79120FDD25D00AC914F /* Common-Tests */,
 				5024103E2046B01A0033D75A /* iOS-Tests */,
 				C3A5A9241EBCC17600825DBF /* iOS-UITests */,
+				CE95A4AC2111FEDA0061BCDD /* iOS-fileprovider */,
 				C3A5A9001EBCC17600825DBF /* Products */,
 				3C4FFC2AB418A9FEA57D0908 /* Pods */,
 				7EDF8CE117CA0B1F9E1A25E7 /* Frameworks */,
@@ -544,6 +620,7 @@
 				5024103D2046B01A0033D75A /* iOS-Tests.xctest */,
 				CEEE0A0B20D2AA7C00B0C2CE /* Common.framework */,
 				50C9C79020FDD25D00AC914F /* Common-Tests.xctest */,
+				CE95A4AB2111FEDA0061BCDD /* schulcloud.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -661,6 +738,7 @@
 		CE1EAE9220E50F7600C66DDD /* n21 */ = {
 			isa = PBXGroup;
 			children = (
+				CEFAFEDE2158DCCD0029B9E2 /* ios-fileprovider.entitlements */,
 				CE1EAE9320E50F7600C66DDD /* Assets-ios-brand.xcassets */,
 				CE1EAE9420E50F7600C66DDD /* GoogleService-Info-Debug.plist */,
 				CE1EAE9520E50F7600C66DDD /* GoogleService-Info-Release.plist */,
@@ -673,8 +751,11 @@
 		CE1EAE9C20E5168500C66DDD /* n21 */ = {
 			isa = PBXGroup;
 			children = (
+				CEFAFEE2215919D70029B9E2 /* n21-Common.xcconfig */,
 				CE1EAE9E20E516BB00C66DDD /* n21-Debug.xcconfig */,
 				CE1EAE9D20E516BB00C66DDD /* n21-Release.xcconfig */,
+				CE6F9AB92153E561007B8C20 /* n21-FileProvider_Debug.xcconfig */,
+				CE6F9AB82153E560007B8C20 /* n21-FileProvider_Release.xcconfig */,
 			);
 			path = n21;
 			sourceTree = "<group>";
@@ -718,6 +799,7 @@
 		CE4152B120E2818400739CE2 /* schulcloud */ = {
 			isa = PBXGroup;
 			children = (
+				CEFAFEDD2158DCBF0029B9E2 /* ios-fileprovider.entitlements */,
 				CE4152AE20E280F900739CE2 /* Assets-ios-brand.xcassets */,
 				50F3984C202C7CDD00ADAE5D /* GoogleService-Info-Debug.plist */,
 				50F3984D202C7CDD00ADAE5D /* GoogleService-Info-Release.plist */,
@@ -730,10 +812,27 @@
 		CE4152B720E2873100739CE2 /* schulcloud */ = {
 			isa = PBXGroup;
 			children = (
+				CEFAFEE121590BB70029B9E2 /* Schulcloud-Common.xcconfig */,
 				CE41528820DBCF6A00739CE2 /* Schulcloud-Debug.xcconfig */,
 				CE41528720DBCF5800739CE2 /* Schulcloud-Release.xcconfig */,
+				CE6F9AB62153DCED007B8C20 /* Schulcloud-FileProvider_Debug.xcconfig */,
+				CE6F9AB72153DE5F007B8C20 /* Schulcloud-FileProvider_Release.xcconfig */,
 			);
 			path = schulcloud;
+			sourceTree = "<group>";
+		};
+		CE95A4AC2111FEDA0061BCDD /* iOS-fileprovider */ = {
+			isa = PBXGroup;
+			children = (
+				CE95A4AD2111FEDA0061BCDD /* FileProviderExtension.swift */,
+				CE95A4AF2111FEDA0061BCDD /* FileProviderItem.swift */,
+				CE95A4B12111FEDA0061BCDD /* FolderEnumerator.swift */,
+				CE323E5A215D11A60028A088 /* FileEnumerator.swift */,
+				CE95A4B32111FEDB0061BCDD /* Info.plist */,
+				CE323E5D215D11F10028A088 /* OnlineFolderEnumerator.swift */,
+				CE323E5F215D12280028A088 /* WorkingSetEnumerator.swift */,
+			);
+			path = "iOS-fileprovider";
 			sourceTree = "<group>";
 		};
 		CEEE0A0C20D2AA7C00B0C2CE /* Common */ = {
@@ -821,7 +920,6 @@
 			buildPhases = (
 				92AF1094A1614F30A8A8E107 /* [CP] Check Pods Manifest.lock */,
 				50B44D7A203A0328009DC2D3 /* Set Build number */,
-				CE4152BD20E2883200739CE2 /* Copy brand assets */,
 				C3A5A8FB1EBCC17600825DBF /* Sources */,
 				C3A5A8FC1EBCC17600825DBF /* Frameworks */,
 				C3A5A8FD1EBCC17600825DBF /* Resources */,
@@ -829,11 +927,13 @@
 				DFB669BB58F24B67E05FBDAF /* [CP] Embed Pods Frameworks */,
 				CEEE0A1320D2AA7C00B0C2CE /* Embed Frameworks */,
 				50B44D7B203A0377009DC2D3 /* Clear Build number */,
+				CE95A4BD2111FEDB0061BCDD /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				CEEE0A1120D2AA7C00B0C2CE /* PBXTargetDependency */,
+				CE95A4B62111FEDB0061BCDD /* PBXTargetDependency */,
 			);
 			name = iOS;
 			productName = schulcloud;
@@ -857,6 +957,26 @@
 			productName = schulcloudUITests;
 			productReference = C3A5A9211EBCC17600825DBF /* iOS-UITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		CE95A4AA2111FEDA0061BCDD /* iOS-fileprovider */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE95A4BC2111FEDB0061BCDD /* Build configuration list for PBXNativeTarget "iOS-fileprovider" */;
+			buildPhases = (
+				17AEB00AB8868F2452232A67 /* [CP] Check Pods Manifest.lock */,
+				CEA702F5215BAB9400AA8919 /* Copy brand Assets */,
+				CE95A4A72111FEDA0061BCDD /* Sources */,
+				CE95A4A82111FEDA0061BCDD /* Frameworks */,
+				CE95A4A92111FEDA0061BCDD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CE95A4BF211207460061BCDD /* PBXTargetDependency */,
+			);
+			name = "iOS-fileprovider";
+			productName = "iOS-fileprovider";
+			productReference = CE95A4AB2111FEDA0061BCDD /* schulcloud.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 		CEEE0A0A20D2AA7C00B0C2CE /* Common */ = {
 			isa = PBXNativeTarget;
@@ -905,7 +1025,10 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
-								enabled = 0;
+								enabled = 1;
+							};
+							com.apple.Keychain = {
+								enabled = 1;
 							};
 							com.apple.Push = {
 								enabled = 1;
@@ -918,6 +1041,16 @@
 						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 						TestTargetID = C3A5A8FE1EBCC17600825DBF;
+					};
+					CE95A4AA2111FEDA0061BCDD = {
+						CreatedOnToolsVersion = 9.4.1;
+						DevelopmentTeam = WP53SSE8S6;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 					CEEE0A0A20D2AA7C00B0C2CE = {
 						CreatedOnToolsVersion = 9.2;
@@ -944,6 +1077,7 @@
 				C3A5A9201EBCC17600825DBF /* iOS-UITests */,
 				CEEE0A0A20D2AA7C00B0C2CE /* Common */,
 				50C9C78F20FDD25D00AC914F /* Common-Tests */,
+				CE95A4AA2111FEDA0061BCDD /* iOS-fileprovider */,
 			);
 		};
 /* End PBXProject section */
@@ -999,6 +1133,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CE95A4A92111FEDA0061BCDD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE7BFC15212DA2E200C1B871 /* Assets-ios-brand.generated.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CEEE0A0920D2AA7C00B0C2CE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1047,6 +1189,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Common-Tests/Pods-Common-Tests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		17AEB00AB8868F2452232A67 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-iOS-fileprovider-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		50B44D7A203A0328009DC2D3 /* Set Build number */ = {
@@ -1145,19 +1305,19 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CE4152BD20E2883200739CE2 /* Copy brand assets */ = {
+		CEA702F5215BAB9400AA8919 /* Copy brand Assets */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy brand assets";
+			name = "Copy brand Assets";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "$SRCROOT/Build\\ Phases/copy-brand-assets.sh";
+			shellScript = "$SRCROOT/Build\\ Phases/copy-brand-assets.sh\n";
 		};
 		DFB669BB58F24B67E05FBDAF /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1229,6 +1389,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE057CCA2136B85C00D0D4AF /* FileProviderItem.swift in Sources */,
 				CE4152A820DBDA3300739CE2 /* HomeworkOverviewCell.swift in Sources */,
 				CE41529120DBD9F500739CE2 /* WebviewPreviewViewContoller.swift in Sources */,
 				CE41529220DBD9F500739CE2 /* PreviewManager.swift in Sources */,
@@ -1279,6 +1440,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CE95A4A72111FEDA0061BCDD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE95A4AE2111FEDA0061BCDD /* FileProviderExtension.swift in Sources */,
+				CE323E5C215D11D90028A088 /* FileEnumerator.swift in Sources */,
+				CE323E60215D12280028A088 /* WorkingSetEnumerator.swift in Sources */,
+				CE95A4B02111FEDA0061BCDD /* FileProviderItem.swift in Sources */,
+				CE323E5E215D11F10028A088 /* OnlineFolderEnumerator.swift in Sources */,
+				CE95A4B22111FEDA0061BCDD /* FolderEnumerator.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CEEE0A0620D2AA7C00B0C2CE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1298,6 +1472,7 @@
 				CEEE0A4F20D2ADB300B0C2CE /* SchulcloudSyncConfig.swift in Sources */,
 				CE1EAE8E20E5036E00C66DDD /* BrandColors.swift in Sources */,
 				CEEE0A3220D2AD8400B0C2CE /* EventData.swift in Sources */,
+				CEFAFEE02158ED270029B9E2 /* Bundle+.swift in Sources */,
 				CEEE0A4520D2ADA700B0C2CE /* schulcloud.xcdatamodeld in Sources */,
 				CEEE0A4420D2AD9000B0C2CE /* UserHelper.swift in Sources */,
 				CEEE0A4220D2AD9000B0C2CE /* NewsHelper.swift in Sources */,
@@ -1307,6 +1482,7 @@
 				CEEE0A4D20D2ADB300B0C2CE /* SyncHelper.swift in Sources */,
 				CEEE0A2C20D2AB5D00B0C2CE /* SCError.swift in Sources */,
 				CEEE0A3320D2AD8400B0C2CE /* File.swift in Sources */,
+				CE323E62215D12C00028A088 /* WorkingSetSyncAnchor.swift in Sources */,
 				CEEE0A3920D2AD9000B0C2CE /* CoreDataHelper.swift in Sources */,
 				CE85F0AF210091B700112085 /* FileSync.swift in Sources */,
 				CEEE0A4720D2ADAD00B0C2CE /* Date+TimeZone.swift in Sources */,
@@ -1344,6 +1520,16 @@
 			isa = PBXTargetDependency;
 			target = C3A5A8FE1EBCC17600825DBF /* iOS */;
 			targetProxy = C3A5A9221EBCC17600825DBF /* PBXContainerItemProxy */;
+		};
+		CE95A4B62111FEDB0061BCDD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CE95A4AA2111FEDA0061BCDD /* iOS-fileprovider */;
+			targetProxy = CE95A4B52111FEDB0061BCDD /* PBXContainerItemProxy */;
+		};
+		CE95A4BF211207460061BCDD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CEEE0A0A20D2AA7C00B0C2CE /* Common */;
+			targetProxy = CE95A4BE211207460061BCDD /* PBXContainerItemProxy */;
 		};
 		CEEE0A1120D2AA7C00B0C2CE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1805,6 +1991,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE41528820DBCF6A00739CE2 /* Schulcloud-Debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1823,6 +2010,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE41528720DBCF5800739CE2 /* Schulcloud-Release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -2071,6 +2259,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE1EAE9E20E516BB00C66DDD /* n21-Debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -2263,6 +2452,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE1EAE9D20E516BB00C66DDD /* n21-Release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -2389,6 +2579,261 @@
 			};
 			name = "n21-Release";
 		};
+		CE95A4B82111FEDB0061BCDD /* schulcloud-Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE6F9AB62153DCED007B8C20 /* Schulcloud-FileProvider_Debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = WP53SSE8S6;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "iOS-fileprovider/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "schulcloud-Debug";
+		};
+		CE95A4B92111FEDB0061BCDD /* n21-Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE6F9AB92153E561007B8C20 /* n21-FileProvider_Debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = WP53SSE8S6;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "iOS-fileprovider/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "n21-Debug";
+		};
+		CE95A4BA2111FEDB0061BCDD /* schulcloud-Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE6F9AB72153DE5F007B8C20 /* Schulcloud-FileProvider_Release.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = WP53SSE8S6;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "iOS-fileprovider/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "schulcloud-Release";
+		};
+		CE95A4BB2111FEDB0061BCDD /* n21-Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE6F9AB82153E560007B8C20 /* n21-FileProvider_Release.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = WP53SSE8S6;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "iOS-fileprovider/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "n21-Release";
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2443,6 +2888,17 @@
 				CE1EAEA420E5179A00C66DDD /* n21-Debug */,
 				C3A5A9321EBCC17600825DBF /* schulcloud-Release */,
 				CE1EAEA920E517AA00C66DDD /* n21-Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "schulcloud-Release";
+		};
+		CE95A4BC2111FEDB0061BCDD /* Build configuration list for PBXNativeTarget "iOS-fileprovider" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE95A4B82111FEDB0061BCDD /* schulcloud-Debug */,
+				CE95A4B92111FEDB0061BCDD /* n21-Debug */,
+				CE95A4BA2111FEDB0061BCDD /* schulcloud-Release */,
+				CE95A4BB2111FEDB0061BCDD /* n21-Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = "schulcloud-Release";
