@@ -101,6 +101,9 @@ class LoadingViewController: UIViewController {
 
         if #available(iOS 11.0, *) {
             NSFileProviderManager.default.signalEnumerator(for: NSFileProviderItemIdentifier(file.id)) { _ in }
+            if let parent = file.parentDirectory {
+                NSFileProviderManager.default.signalEnumerator(for: NSFileProviderItemIdentifier(parent.id)) { _ in }
+            }
             NSFileProviderManager.default.signalEnumerator(for: NSFileProviderItemIdentifier.workingSet) { error in
                 if let error = error {
                     print("Error signaling to working set: \(error)")
