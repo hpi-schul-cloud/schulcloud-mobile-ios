@@ -41,24 +41,27 @@ class OnlineFolderEnumerator: NSObject, NSFileProviderEnumerator {
             self.compareFunc = OnlineFolderEnumerator.nameCompareFunc
         }
 
-        fileSync.updateContent(of: file).onSuccess { files in
-            let ids = files.map { $0.objectID }
-            DispatchQueue.main.async {
-                let localItems = ids.map { CoreDataHelper.viewContext.typedObject(with: $0) as File }.sorted(by: self.compareFunc).map(FileProviderItem.init(file:))
-                if let parentItemIdentifier = parentProviderItemIdentifier,
-                    localItems.count != self.items.count {
-                    NSFileProviderManager.default.signalEnumerator(for: parentItemIdentifier) { _ in }
+        fileSync.updateContent(of: file) { files, error in
+            guard let files = files else {
+                DispatchQueue.main.async {
+                    observer.finishEnumeratingWithError(error!)
                 }
+                return
+            }
 
-                self.items = localItems
+            let ids = files.map { $0.objectID }
+            let localItems = ids.map { CoreDataHelper.viewContext.typedObject(with: $0) as File }.sorted(by: self.compareFunc).map(FileProviderItem.init(file:))
+            if let parentItemIdentifier = parentProviderItemIdentifier,
+                localItems.count != self.items.count {
+                NSFileProviderManager.default.signalEnumerator(for: parentItemIdentifier) { _ in }
+            }
+
+            self.items = localItems
+            DispatchQueue.main.async {
                 observer.didEnumerate(localItems)
                 observer.finishEnumerating(upTo: nil)
             }
-            }.onFailure { error in
-                DispatchQueue.main.async {
-                    observer.finishEnumeratingWithError(error)
-                }
-        }
+        }?.resume()
     }
 
     func enumerateChanges(for observer: NSFileProviderChangeObserver, from anchor: NSFileProviderSyncAnchor) {

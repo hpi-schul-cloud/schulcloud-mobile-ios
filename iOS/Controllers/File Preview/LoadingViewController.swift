@@ -35,20 +35,52 @@ class LoadingViewController: UIViewController {
     }
 
     func startDownload() {
-        self.fileSync.download(self.file) { progress in
-            DispatchQueue.main.async {
-                self.progressView.setProgress(progress, animated: true)
+
+        // Count 4, 1/4 is download of signedURL, 3/4 download of the file itself.
+        // This gives more importance to the file download in term of progress
+        let progress = Progress(totalUnitCount: 4)
+        progress.isCancellable = true
+        progress.cancellationHandler = { }
+        let localURL = self.file.localURL
+
+        let signedURLTask = self.fileSync.signedURL(for: self.file) { [weak self] signedURL, error in
+            if #available(iOS 11.0, *) {
+            }else {
+                progress.becomeCurrent(withPendingUnitCount: 3)
             }
-        }.onSuccess { _ in
-            DispatchQueue.main.async {
-                self.showFile()
+
+            guard let signedURL = signedURL else {
+                progress.becomeCurrent(withPendingUnitCount: 0)
+                DispatchQueue.main.async {
+                    self?.show(error: error!)
+                }
+                return
             }
-        }.onFailure { error in
-            DispatchQueue.main.async {
-                self.file.downloadState = .downloadFailed
-                self.show(error: error)
+            let task = self?.fileSync.download(id: "filedownload__\(self!.file.id)", at: signedURL, moveTo: localURL, backgroundSession: false) { fileURL, error in
+                if #available(iOS 11.0, *) {
+                }else {
+                    progress.becomeCurrent(withPendingUnitCount: 0)
+                }
+                guard let _ = fileURL else {
+                    DispatchQueue.main.async {
+                        self?.show(error: error!)
+                    }
+                    return
+                }
+                DispatchQueue.main.async {
+                    self?.showFile()
+                }
             }
+            if #available(iOS 11.0, *) {
+                progress.addChild(task!.progress, withPendingUnitCount: 3)
+            }
+            task?.resume()
         }
+        if #available(iOS 11.0, *) {
+            progress.addChild(signedURLTask!.progress, withPendingUnitCount: 1)
+        }
+        signedURLTask?.resume()
+        self.progressView.observedProgress = progress
     }
 
     func showFile() {

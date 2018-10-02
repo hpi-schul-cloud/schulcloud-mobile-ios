@@ -102,15 +102,29 @@ class FileProviderExtension: NSFileProviderExtension {
         if FileManager.default.fileExists(atPath: file.localURL.path) {
             completionHandler(nil)
         } else {
-            fileSync.download(file, background: true) { _ in }.onSuccess { _ in
-                DispatchQueue.main.async {
-                    completionHandler(nil)
+            self.fileSync.signedURL(for: file) { [unowned self] signedURL, error in
+                guard let signedURL = signedURL else {
+                    DispatchQueue.main.async {
+                        completionHandler(error!)
+                    }
+                    return
                 }
-            }.onFailure { error in
-                DispatchQueue.main.async {
-                    completionHandler(error)
+                
+                let task = self.fileSync.download(id: "filedownload__\(identifier.rawValue)", at: signedURL, moveTo: url, backgroundSession: true) { fileURL, error in
+                    DispatchQueue.main.async {
+                        switch (fileURL, error) {
+                        case (_, nil):
+                            completionHandler(nil)
+                        case (nil, let error):
+                            completionHandler(error)
+                        default:
+                            fatalError()
+                        }
+                    }
                 }
-            }
+                NSFileProviderManager.default.register(task, forItemWithIdentifier: identifier) { _ in }
+                task.resume()
+            }?.resume()
         }
     }
 
@@ -205,15 +219,12 @@ class FileProviderExtension: NSFileProviderExtension {
         progress.cancellationHandler = {}
 
         let ids = itemIdentifiers.map { $0.rawValue }
-
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
         guard let files = File.with(ids: ids, in: context) else {
             completionHandler(NSFileProviderError(.noSuchItem))
             progress.becomeCurrent(withPendingUnitCount: Int64(itemIdentifiers.count))
             return progress
         }
-
-        var downloadTasks = [Future<URL, SCError>]()
 
         for file in files {
             let itemIdentifier = FileProviderItem(file: file).itemIdentifier
@@ -224,38 +235,44 @@ class FileProviderExtension: NSFileProviderExtension {
             }
 
             if FileManager.default.fileExists(atPath: file.localThumbnailURL.path) {
-                //TODO: Handle error here
-                let data = try! Data(contentsOf: file.localThumbnailURL, options: .alwaysMapped)
-                perThumbnailCompletionHandler(itemIdentifier, data, nil)
+                do {
+                    let data = try Data(contentsOf: file.localThumbnailURL, options: .alwaysMapped)
+                    perThumbnailCompletionHandler(itemIdentifier, data, nil)
+                } catch let error {
+                    perThumbnailCompletionHandler(itemIdentifier, nil, error)
+                }
                 progress.completedUnitCount += 1
+                continue
             }
 
-            let future = fileSync.downloadThumbnail(from: file, background: true, progressHandler: { _ in }).onSuccess { url in
-                let data = try? Data(contentsOf: url, options: .alwaysMapped)
+            let task = fileSync.downloadThumbnail(from: file, background: true) { fileURL, error in
+                guard !progress.isCancelled else {
+                    return
+                }
+
+                guard let fileURL = fileURL else {
+                    DispatchQueue.main.async {
+                        perThumbnailCompletionHandler(itemIdentifier, nil, error)
+                    }
+                    return
+                }
+
+                let data = try? Data(contentsOf: fileURL, options: .alwaysMapped)
                 DispatchQueue.main.async {
                     perThumbnailCompletionHandler(itemIdentifier, data, nil)
                 }
 
-            }.onFailure { error in
-                DispatchQueue.main.async {
-                    perThumbnailCompletionHandler(itemIdentifier, nil, error)
+                if progress.isFinished {
+                    completionHandler(nil)
                 }
-
-            }.onComplete { _ in
-                DispatchQueue.main.async {
-                    progress.completedUnitCount += 1
-                }
-                
             }
-            downloadTasks.append(future)
+            if let task = task {
+                progress.addChild(task.progress, withPendingUnitCount: 1)
+                task.resume()
+            } else {
+                progress.completedUnitCount += 1
+            }
         }
-
-        downloadTasks.sequence().onSuccess { _ in
-            completionHandler(nil)
-        }.onFailure { error in
-            completionHandler(error)
-        }
-
         return progress
     }
 

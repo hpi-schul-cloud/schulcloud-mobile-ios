@@ -38,14 +38,17 @@ public class FilesViewController: UITableViewController {
     }
 
     @IBAction func didTriggerRefresh() {
-        self.fileSync.updateContent(of: self.currentFolder)
-        .onFailure { error in
-            print("Failure: \(error)")
-        }.onComplete { _ in
-            DispatchQueue.main.async {
-                self.refreshControl?.endRefreshing()
+        self.fileSync.updateContent(of: self.currentFolder) { files, error in
+            defer {
+                DispatchQueue.main.async {
+                    self.refreshControl?.endRefreshing()
+                }
             }
-        }
+            guard let files = files else {
+                print("Error refreshing files")
+                return
+            }
+        }?.resume()
     }
 
     // MARK: - Table view data source

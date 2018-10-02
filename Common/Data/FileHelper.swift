@@ -7,6 +7,7 @@ import BrightFutures
 import CoreData
 import Foundation
 import Marshal
+import Result
 
 public class FileHelper {
     public static var rootDirectoryID = "root"
@@ -108,17 +109,16 @@ public class FileHelper {
         fatalError("Implement deleting files")
     }
 
-    public static func updateDatabase(contentsOf parentFolder: File, using contents: [String: Any]) -> Future<[File], SCError> {
-        let promise = Promise<[File], SCError>()
+    public static func updateDatabase(contentsOf parentFolder: File, using contents: [String: Any]) -> Result<[File], SCError> {
         let parentFolderObjectId = parentFolder.objectID
-
-        CoreDataHelper.persistentContainer.performBackgroundTask { context in
+        let context = CoreDataHelper.persistentContainer.newBackgroundContext()
+        return context.performAndWait {
             do {
                 let files: [[String: Any]] = try contents.value(for: "files")
                 let folders: [[String: Any]] = try contents.value(for: "directories")
                 guard let parentFolder = context.existingTypedObject(with: parentFolderObjectId) as? File else {
                     log.error("Unable to find parent folder")
-                    return
+                    return Result(error: .coreDataObjectNotFound)
                 }
 
                 let createdFiles = try files.map {
@@ -156,16 +156,14 @@ public class FileHelper {
 
                 try context.save()
                 // TODO(FileProvider): Signal changes in the parent folder here
-                promise.success(createdFiles + createdFolders)
+                return Result(value: createdFiles + createdFolders)
             } catch let error as MarshalError {
-                promise.failure(.jsonDeserialization(error.localizedDescription))
+                return Result(error:.jsonDeserialization(error.localizedDescription))
             } catch let error {
                 log.error(error)
-                promise.failure(.coreData(error))
+                return Result(error:.coreData(error))
             }
         }
-
-        return promise.future
     }
 }
 
