@@ -232,10 +232,10 @@ public class FileSync: NSObject {
     }
 
     public func download(id: String,
-                              at remoteURL: URL,
-                              moveTo localURL: URL,
-                              backgroundSession: Bool,
-                              completionHandler: @escaping FileDownloadHandler) -> URLSessionTask {
+                         at remoteURL: URL,
+                         moveTo localURL: URL,
+                         backgroundSession: Bool,
+                         completionHandler: @escaping FileDownloadHandler) -> URLSessionTask {
 
         if let task = runningTask[id]?.task {
             return task

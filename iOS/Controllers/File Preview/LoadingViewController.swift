@@ -41,14 +41,14 @@ class LoadingViewController: UIViewController {
         let progress = Progress(totalUnitCount: 4)
         progress.isCancellable = true
         progress.cancellationHandler = { }
-        
+
         let localURL = self.file.localURL
         let fileID = self.file.id
         let itemIdentifier = NSFileProviderItemIdentifier(fileID)
 
         let signedURLTask = self.fileSync.signedURL(for: self.file) { [weak self] signedURL, error in
             if #available(iOS 11.0, *) {
-            }else {
+            } else {
                 progress.becomeCurrent(withPendingUnitCount: 3)
             }
 
@@ -62,20 +62,25 @@ class LoadingViewController: UIViewController {
             
             let tasko = self?.fileSync.download(id: "filedownload__\(fileID)", at: signedURL, moveTo: localURL, backgroundSession: false) { fileURL, error in
                 if #available(iOS 11.0, *) {
-                }else {
+                } else {
                     progress.becomeCurrent(withPendingUnitCount: 0)
                 }
+
                 guard let _ = fileURL else {
                     DispatchQueue.main.async {
                         self?.show(error: error!)
                     }
+
                     return
                 }
+
                 DispatchQueue.main.async {
                     self?.showFile()
                 }
             }
+
             guard let task = tasko else {
+                progress.becomeCurrent(withPendingUnitCount: 0)
                 return
             }
 
@@ -83,11 +88,14 @@ class LoadingViewController: UIViewController {
                 NSFileProviderManager.default.register(task, forItemWithIdentifier: itemIdentifier) { error in }
                 progress.addChild(task.progress, withPendingUnitCount: 3)
             }
+
             task.resume()
         }
+
         if #available(iOS 11.0, *) {
             progress.addChild(signedURLTask!.progress, withPendingUnitCount: 1)
         }
+
         signedURLTask?.resume()
         self.progressView.observedProgress = progress
     }
@@ -103,6 +111,7 @@ class LoadingViewController: UIViewController {
             guard let syncAnchor = context.fetchSingle(WorkingSetSyncAnchor.mainAnchorFetchRequest).value else {
                 return
             }
+
             syncAnchor.value += 1
 
             _ = context.saveWithResult()
@@ -113,6 +122,7 @@ class LoadingViewController: UIViewController {
             if let parent = file.parentDirectory {
                 NSFileProviderManager.default.signalEnumerator(for: NSFileProviderItemIdentifier(parent.id)) { _ in }
             }
+            
             NSFileProviderManager.default.signalEnumerator(for: NSFileProviderItemIdentifier.workingSet) { error in
                 if let error = error {
                     print("Error signaling to working set: \(error)")

@@ -158,10 +158,10 @@ public class FileHelper {
                 // TODO(FileProvider): Signal changes in the parent folder here
                 return Result(value: createdFiles + createdFolders)
             } catch let error as MarshalError {
-                return Result(error:.jsonDeserialization(error.localizedDescription))
+                return Result(error: .jsonDeserialization(error.localizedDescription))
             } catch let error {
                 log.error(error)
-                return Result(error:.coreData(error))
+                return Result(error: .coreData(error))
             }
         }
     }

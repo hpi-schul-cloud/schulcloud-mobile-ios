@@ -107,10 +107,14 @@ class FileProviderExtension: NSFileProviderExtension {
                     DispatchQueue.main.async {
                         completionHandler(error!)
                     }
+
                     return
                 }
-                
-                let task = self.fileSync.download(id: "filedownload__\(identifier.rawValue)", at: signedURL, moveTo: url, backgroundSession: true) { fileURL, error in
+
+                let task = self.fileSync.download(id: "filedownload__\(identifier.rawValue)",
+                                                  at: signedURL,
+                                                  moveTo: url,
+                                                  backgroundSession: true) { fileURL, error in
                     DispatchQueue.main.async {
                         switch (fileURL, error) {
                         case (_, nil):
@@ -122,6 +126,7 @@ class FileProviderExtension: NSFileProviderExtension {
                         }
                     }
                 }
+
                 NSFileProviderManager.default.register(task, forItemWithIdentifier: identifier) { _ in }
                 task.resume()
             }?.resume()
@@ -201,11 +206,12 @@ class FileProviderExtension: NSFileProviderExtension {
             } else {
                 maybeEnumerator = FileEnumerator(file: file)
             }
-
         }
+
         guard let enumerator = maybeEnumerator else {
             throw NSError(domain: NSCocoaErrorDomain, code: NSFeatureUnsupportedError, userInfo: [:])
         }
+
         return enumerator
     }
 
@@ -241,6 +247,7 @@ class FileProviderExtension: NSFileProviderExtension {
                 } catch let error {
                     perThumbnailCompletionHandler(itemIdentifier, nil, error)
                 }
+
                 progress.completedUnitCount += 1
                 continue
             }
@@ -254,6 +261,7 @@ class FileProviderExtension: NSFileProviderExtension {
                     DispatchQueue.main.async {
                         perThumbnailCompletionHandler(itemIdentifier, nil, error)
                     }
+
                     return
                 }
 
@@ -266,6 +274,7 @@ class FileProviderExtension: NSFileProviderExtension {
                     completionHandler(nil)
                 }
             }
+
             if let task = task {
                 progress.addChild(task.progress, withPendingUnitCount: 1)
                 task.resume()
@@ -273,10 +282,13 @@ class FileProviderExtension: NSFileProviderExtension {
                 progress.completedUnitCount += 1
             }
         }
+
         return progress
     }
 
-    override func setTagData(_ tagData: Data?, forItemIdentifier itemIdentifier: NSFileProviderItemIdentifier, completionHandler: @escaping (NSFileProviderItem?, Error?) -> Void) {
+    override func setTagData(_ tagData: Data?,
+                             forItemIdentifier itemIdentifier: NSFileProviderItemIdentifier,
+                             completionHandler: @escaping (NSFileProviderItem?, Error?) -> Void) {
         let id = itemIdentifier == .rootContainer ? FileHelper.rootDirectoryID : itemIdentifier.rawValue
 
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
@@ -295,7 +307,9 @@ class FileProviderExtension: NSFileProviderExtension {
         NSFileProviderManager.default.signalEnumerator(for: .workingSet) { _ in }
     }
 
-    override func setFavoriteRank(_ favoriteRank: NSNumber?, forItemIdentifier itemIdentifier: NSFileProviderItemIdentifier, completionHandler: @escaping (NSFileProviderItem?, Error?) -> Void) {
+    override func setFavoriteRank(_ favoriteRank: NSNumber?,
+                                  forItemIdentifier itemIdentifier: NSFileProviderItemIdentifier,
+                                  completionHandler: @escaping (NSFileProviderItem?, Error?) -> Void) {
         let id = itemIdentifier == .rootContainer ? FileHelper.rootDirectoryID : itemIdentifier.rawValue
 
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
@@ -322,20 +336,23 @@ class FileProviderExtension: NSFileProviderExtension {
         NSFileProviderManager.default.signalEnumerator(for: .workingSet) { _ in }
     }
 
-    override func setLastUsedDate(_ lastUsedDate: Date?, forItemIdentifier itemIdentifier: NSFileProviderItemIdentifier, completionHandler: @escaping (NSFileProviderItem?, Error?) -> Void) {
+    override func setLastUsedDate(_ lastUsedDate: Date?,
+                                  forItemIdentifier itemIdentifier: NSFileProviderItemIdentifier,
+                                  completionHandler: @escaping (NSFileProviderItem?, Error?) -> Void) {
         let id = itemIdentifier == .rootContainer ? FileHelper.rootDirectoryID : itemIdentifier.rawValue
 
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
         let providerItem = context.performAndWait { () -> FileProviderItem in
             let file = File.by(id: id, in: context)!
             file.lastReadAt = lastUsedDate!
-            
+
             let workingSetAnchor = context.fetchSingle(WorkingSetSyncAnchor.mainAnchorFetchRequest).value!
             workingSetAnchor.value += 1
 
             _ = context.saveWithResult()
             return FileProviderItem(file: file)
         }
+
         completionHandler(providerItem, nil)
         NSFileProviderManager.default.signalEnumerator(for: .workingSet) { _ in }
     }
