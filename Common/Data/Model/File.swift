@@ -196,7 +196,8 @@ extension File {
             file.downloadState = .downloaded
         }
 
-        file.uploadState = .uploaded //TODO(Florian): Manage here when uploading works
+        //TODO(Florian): Manage here when uploading works
+        file.uploadState = .uploaded
 
         file.parentDirectory = parentFolder
 
