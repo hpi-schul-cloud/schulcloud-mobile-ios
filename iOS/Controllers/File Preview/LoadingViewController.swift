@@ -46,36 +46,37 @@ class LoadingViewController: UIViewController {
         let fileID = self.file.id
         let itemIdentifier = NSFileProviderItemIdentifier(fileID)
 
-        let signedURLTask = self.fileSync.signedURL(for: self.file) { [weak self] signedURL, error in
+        let signedURLTask = self.fileSync.signedURL(for: self.file) { [weak self] result in
             if #available(iOS 11.0, *) {
             } else {
                 progress.becomeCurrent(withPendingUnitCount: 3)
             }
 
-            guard let signedURL = signedURL else {
+            guard let signedURL = result.value else {
                 progress.becomeCurrent(withPendingUnitCount: 0)
                 DispatchQueue.main.async {
-                    self?.show(error: error!)
+                    self?.show(error: result.error!)
                 }
+
                 return
             }
             
-            let tasko = self?.fileSync.download(id: "filedownload__\(fileID)", at: signedURL, moveTo: localURL, backgroundSession: false) { fileURL, error in
+            let tasko = self?.fileSync.download(id: "filedownload__\(fileID)", at: signedURL, moveTo: localURL, backgroundSession: false) { result in
                 if #available(iOS 11.0, *) {
                 } else {
                     progress.becomeCurrent(withPendingUnitCount: 0)
                 }
 
-                guard let _ = fileURL else {
+                switch result {
+                case .success(_):
                     DispatchQueue.main.async {
-                        self?.show(error: error!)
+                        self?.showFile()
                     }
 
-                    return
-                }
-
-                DispatchQueue.main.async {
-                    self?.showFile()
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        self?.show(error: error)
+                    }
                 }
             }
 

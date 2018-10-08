@@ -17,7 +17,7 @@ public class FileSync: NSObject {
     }()
 
     public typealias ProgressHandler = (Float) -> Void
-    public typealias FileDownloadHandler = (URL?, Error?) -> Void
+    public typealias FileDownloadHandler = (Result<URL, SCError>) -> Void
 
     private var backgroundSession: URLSession!
     private var foregroundSession: URLSession!
@@ -87,25 +87,20 @@ public class FileSync: NSObject {
 
     // MARK: Directory download management
 
-    public func updateContent(of directory: File, completionBlock: @escaping ([File]?, Error?) -> Void) -> URLSessionTask? {
+    public func updateContent(of directory: File, completionBlock: @escaping (Result<[File], SCError>) -> Void) -> URLSessionTask? {
         guard FileHelper.rootDirectoryID != directory.id else {
-            completionBlock(Array(directory.contents), nil)
+            completionBlock(Result(value: Array(directory.contents)))
             return nil
         }
 
-        let taskCompletionBlock: ([String: Any]?, Error?) -> Void = { json, error in
-            guard let json = json else {
-                completionBlock(nil, error!)
-                return
+        let taskCompletionBlock: (Result<[String:Any], SCError>) -> Void = { result in
+            switch result {
+            case .success(let json):
+                let result = FileHelper.updateDatabase(contentsOf: directory, using: json)
+                completionBlock(result)
+            case .failure(let error):
+                completionBlock(Result(error: error))
             }
-
-            let result = FileHelper.updateDatabase(contentsOf: directory, using: json)
-            guard let files = result.value else {
-                completionBlock(nil, result.error!)
-                return
-            }
-
-            completionBlock(files, nil)
         }
 
         switch directory.id {
@@ -120,7 +115,7 @@ public class FileSync: NSObject {
                 }
 
                 return Future(value: files)
-            }.onSuccess { completionBlock($0, nil) }.onFailure { completionBlock(nil, $0) }
+            }.onComplete { completionBlock($0) }
             return nil
         case FileHelper.sharedDirectoryID:
             return self.downloadSharedFiles(completionBlock: taskCompletionBlock)
@@ -129,14 +124,14 @@ public class FileSync: NSObject {
         }
     }
 
-    private func downloadContent(of directory: File, completionBlock: @escaping ([String: Any]?, Error?) -> Void) -> URLSessionTask? {
+    private func downloadContent(of directory: File, completionBlock: @escaping (Result<[String: Any], SCError>) -> Void) -> URLSessionTask? {
         guard directory.isDirectory else {
-            completionBlock(nil, SCError.other("only works on directory"))
+            completionBlock(Result(error: SCError.other("only works on directory")))
             return nil
         }
 
         guard let queryURL = self.getQueryURL(for: directory) else {
-            completionBlock(nil, SCError.other("no remote URL"))
+            completionBlock(Result(error: SCError.other("no remote URL")))
             return nil
         }
 
@@ -145,14 +140,16 @@ public class FileSync: NSObject {
             do {
                 let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
                 let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: Any]
-                completionBlock(json, nil)
+                completionBlock(Result(value: json))
+            } catch let error as SCError {
+                completionBlock(Result(error: error))
             } catch let error {
-                completionBlock(nil, error)
+                completionBlock(Result(error: SCError.other(error.localizedDescription)))
             }
         }
     }
 
-    public func downloadSharedFiles(completionBlock: @escaping ([String: Any]?, Error?) -> Void) -> URLSessionTask {
+    public func downloadSharedFiles(completionBlock: @escaping (Result<[String: Any], SCError>) -> Void) -> URLSessionTask {
 
         let request = self.request(for: Brand.default.servers.backend.appendingPathComponent("files") )
         return metadataSession.dataTask(with: request) { data, response, error in
@@ -169,19 +166,19 @@ public class FileSync: NSObject {
                     "directories": [],
                 ]
 
-                completionBlock(result, nil)
+                completionBlock(Result(value: result))
             } catch let error as SCError {
-                completionBlock(nil, error)
+                completionBlock(Result(error: error))
             } catch let error {
-                completionBlock(nil, SCError.jsonDeserialization(error.localizedDescription) )
+                completionBlock(Result(error: SCError.jsonDeserialization(error.localizedDescription) ))
             }
         }
     }
 
     // MARK: File materialization
-    public func signedURL(for file: File, completionHandler: @escaping (URL?, Error?) -> Void) -> URLSessionTask? {
+    public func signedURL(for file: File, completionHandler: @escaping (Result<URL, SCError>) -> Void) -> URLSessionTask? {
         guard !file.isDirectory else {
-            completionHandler(nil, SCError.other("Can't download folder") )
+            completionHandler(Result(error: SCError.other("Can't download folder") ))
             return nil
         }
 
@@ -202,11 +199,11 @@ public class FileSync: NSObject {
                 let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
                 let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
                 let signedURL: URL = try (json as! MarshaledObject).value(for: "url")
-                completionHandler(signedURL, nil)
+                completionHandler(Result(value: signedURL))
             } catch let error as SCError {
-                completionHandler(nil, error)
+                completionHandler(Result(error: error))
             } catch let error {
-                completionHandler(nil, SCError.jsonDeserialization(error.localizedDescription))
+                completionHandler(Result(error: SCError.jsonDeserialization(error.localizedDescription)))
             }
         }
     }
@@ -215,12 +212,12 @@ public class FileSync: NSObject {
                                   background: Bool = false,
                                   completionHandler: @escaping FileDownloadHandler) -> URLSessionTask? {
         guard !FileManager.default.fileExists(atPath: file.localThumbnailURL.path) else {
-            completionHandler(file.localThumbnailURL, nil)
+            completionHandler(Result(value: file.localThumbnailURL))
             return nil
         }
 
         guard let url = file.thumbnailRemoteURL else {
-            completionHandler(nil, SCError.other("No thumbnail to download"))
+            completionHandler(Result(error: SCError.other("No thumbnail to download")))
             return nil
         }
 
@@ -265,7 +262,7 @@ extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownlo
         do {
             try FileManager.default.moveItem(at: location, to: transferInfo.localFileURL)
         } catch let error {
-            transferInfo.completionHandler(nil, SCError.other(error.localizedDescription))
+            transferInfo.completionHandler(Result(error :SCError.other(error.localizedDescription)))
         }
     }
 
@@ -279,9 +276,9 @@ extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownlo
         }
 
         if let error = error {
-            transferInfo.completionHandler(nil, SCError.network(error))
+            transferInfo.completionHandler(Result(error: SCError.network(error)))
         } else {
-            transferInfo.completionHandler(transferInfo.localFileURL, nil)
+            transferInfo.completionHandler(Result(value: transferInfo.localFileURL))
         }
 
         runningTask.removeValue(forKey: id)

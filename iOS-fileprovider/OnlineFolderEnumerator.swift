@@ -41,26 +41,28 @@ class OnlineFolderEnumerator: NSObject, NSFileProviderEnumerator {
             self.compareFunc = OnlineFolderEnumerator.nameCompareFunc
         }
 
-        fileSync.updateContent(of: file) { files, error in
-            guard let files = files else {
+        fileSync.updateContent(of: file) { result in
+            switch result {
+            case .failure(let error):
                 DispatchQueue.main.async {
-                    observer.finishEnumeratingWithError(error!)
+                    observer.finishEnumeratingWithError(error)
                 }
-                return
+                
+            case .success(let files):
+                let ids = files.map { $0.objectID }
+                let localItems = ids.map { CoreDataHelper.viewContext.typedObject(with: $0) as File }.sorted(by: self.compareFunc).map(FileProviderItem.init(file:))
+                if let parentItemIdentifier = parentProviderItemIdentifier,
+                    localItems.count != self.items.count {
+                    NSFileProviderManager.default.signalEnumerator(for: parentItemIdentifier) { _ in }
+                }
+
+                self.items = localItems
+                DispatchQueue.main.async {
+                    observer.didEnumerate(localItems)
+                    observer.finishEnumerating(upTo: nil)
+                }
             }
 
-            let ids = files.map { $0.objectID }
-            let localItems = ids.map { CoreDataHelper.viewContext.typedObject(with: $0) as File }.sorted(by: self.compareFunc).map(FileProviderItem.init(file:))
-            if let parentItemIdentifier = parentProviderItemIdentifier,
-                localItems.count != self.items.count {
-                NSFileProviderManager.default.signalEnumerator(for: parentItemIdentifier) { _ in }
-            }
-
-            self.items = localItems
-            DispatchQueue.main.async {
-                observer.didEnumerate(localItems)
-                observer.finishEnumerating(upTo: nil)
-            }
         }?.resume()
     }
 

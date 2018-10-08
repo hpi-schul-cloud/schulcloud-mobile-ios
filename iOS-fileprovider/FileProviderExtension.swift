@@ -102,10 +102,10 @@ class FileProviderExtension: NSFileProviderExtension {
         if FileManager.default.fileExists(atPath: file.localURL.path) {
             completionHandler(nil)
         } else {
-            self.fileSync.signedURL(for: file) { [unowned self] signedURL, error in
-                guard let signedURL = signedURL else {
+            self.fileSync.signedURL(for: file) { [unowned self] result in
+                guard let signedURL = result.value else {
                     DispatchQueue.main.async {
-                        completionHandler(error!)
+                        completionHandler(result.error!)
                     }
 
                     return
@@ -114,15 +114,13 @@ class FileProviderExtension: NSFileProviderExtension {
                 let task = self.fileSync.download(id: "filedownload__\(identifier.rawValue)",
                                                   at: signedURL,
                                                   moveTo: url,
-                                                  backgroundSession: true) { fileURL, error in
+                                                  backgroundSession: true) { result in
                     DispatchQueue.main.async {
-                        switch (fileURL, error) {
-                        case (_, nil):
+                        switch result {
+                        case .success(_):
                             completionHandler(nil)
-                        case (nil, let error):
+                        case .failure(let error):
                             completionHandler(error)
-                        default:
-                            fatalError()
                         }
                     }
                 }
@@ -252,14 +250,14 @@ class FileProviderExtension: NSFileProviderExtension {
                 continue
             }
 
-            let task = fileSync.downloadThumbnail(from: file, background: true) { fileURL, error in
+            let task = fileSync.downloadThumbnail(from: file, background: true) { result in
                 guard !progress.isCancelled else {
                     return
                 }
 
-                guard let fileURL = fileURL else {
+                guard let fileURL = result.value else {
                     DispatchQueue.main.async {
-                        perThumbnailCompletionHandler(itemIdentifier, nil, error)
+                        perThumbnailCompletionHandler(itemIdentifier, nil, result.error!)
                     }
 
                     return

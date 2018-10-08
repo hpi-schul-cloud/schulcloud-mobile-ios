@@ -38,13 +38,13 @@ public class FilesViewController: UITableViewController {
     }
 
     @IBAction func didTriggerRefresh() {
-        self.fileSync.updateContent(of: self.currentFolder) { files, error in
+        self.fileSync.updateContent(of: self.currentFolder) { result in
             defer {
                 DispatchQueue.main.async {
                     self.refreshControl?.endRefreshing()
                 }
             }
-            guard let _ = files else {
+            guard let _ = result.value else {
                 print("Error refreshing files")
                 return
             }
