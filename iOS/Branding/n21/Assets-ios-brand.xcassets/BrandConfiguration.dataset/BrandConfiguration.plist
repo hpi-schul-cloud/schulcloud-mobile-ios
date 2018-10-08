@@ -14,9 +14,9 @@
 	<key>servers</key>
 	<dict>
 		<key>web</key>
-		<string>https://api.schul-cloud.org</string>
+		<string>https://schul-cloud.org</string>
 		<key>backend</key>
-		<string>https://api.schul-cloud.org:8080/</string>
+		<string>https://api.schul-cloud.org/</string>
 	</dict>
 	<key>testAccounts</key>
 	<dict>
