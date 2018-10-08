@@ -41,7 +41,10 @@ class LoadingViewController: UIViewController {
         let progress = Progress(totalUnitCount: 4)
         progress.isCancellable = true
         progress.cancellationHandler = { }
+        
         let localURL = self.file.localURL
+        let fileID = self.file.id
+        let itemIdentifier = NSFileProviderItemIdentifier(fileID)
 
         let signedURLTask = self.fileSync.signedURL(for: self.file) { [weak self] signedURL, error in
             if #available(iOS 11.0, *) {
@@ -56,7 +59,8 @@ class LoadingViewController: UIViewController {
                 }
                 return
             }
-            let task = self?.fileSync.download(id: "filedownload__\(self!.file.id)", at: signedURL, moveTo: localURL, backgroundSession: false) { fileURL, error in
+            
+            let tasko = self?.fileSync.download(id: "filedownload__\(fileID)", at: signedURL, moveTo: localURL, backgroundSession: false) { fileURL, error in
                 if #available(iOS 11.0, *) {
                 }else {
                     progress.becomeCurrent(withPendingUnitCount: 0)
@@ -71,10 +75,15 @@ class LoadingViewController: UIViewController {
                     self?.showFile()
                 }
             }
-            if #available(iOS 11.0, *) {
-                progress.addChild(task!.progress, withPendingUnitCount: 3)
+            guard let task = tasko else {
+                return
             }
-            task?.resume()
+
+            if #available(iOS 11.0, *) {
+                NSFileProviderManager.default.register(task, forItemWithIdentifier: itemIdentifier) { error in }
+                progress.addChild(task.progress, withPendingUnitCount: 3)
+            }
+            task.resume()
         }
         if #available(iOS 11.0, *) {
             progress.addChild(signedURLTask!.progress, withPendingUnitCount: 1)
