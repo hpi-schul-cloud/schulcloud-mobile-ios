@@ -116,12 +116,7 @@ class FileProviderExtension: NSFileProviderExtension {
                                                   moveTo: url,
                                                   backgroundSession: true) { result in
                     DispatchQueue.main.async {
-                        switch result {
-                        case .success(_):
-                            completionHandler(nil)
-                        case .failure(let error):
-                            completionHandler(error)
-                        }
+                        completionHandler(result.error)
                     }
                 }
 
