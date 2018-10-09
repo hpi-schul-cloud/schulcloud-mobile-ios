@@ -153,6 +153,7 @@ public class FileSync: NSObject {
                 guard let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? MarshaledObject else {
                     throw SCError.jsonDeserialization("Unexpected JSON result.")
                 }
+
                 let files: [MarshaledObject] = try json.value(for: "data")
                 let sharedFiles = files.filter { object -> Bool in
                     return (try? object.value(for: "context")) == "geteilte Datei"
@@ -197,6 +198,7 @@ public class FileSync: NSObject {
                 guard let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? MarshaledObject else {
                     throw SCError.jsonDeserialization("Unexpected JSON Type")
                 }
+                
                 let signedURL: URL = try json.value(for: "url")
                 completionHandler(.success( signedURL))
             } catch let error as SCError {
