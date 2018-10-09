@@ -47,10 +47,14 @@ class OnlineFolderEnumerator: NSObject, NSFileProviderEnumerator {
                 DispatchQueue.main.async {
                     observer.finishEnumeratingWithError(error)
                 }
-                
+
             case .success(let files):
-                let ids = files.map { $0.objectID }
-                let localItems = ids.map { CoreDataHelper.viewContext.typedObject(with: $0) as File }.sorted(by: self.compareFunc).map(FileProviderItem.init(file:))
+                let localItems = files.map { file in
+                    return file.objectID
+                }.map { id in
+                    CoreDataHelper.viewContext.typedObject(with: id) as File
+                }.sorted(by: self.compareFunc).map(FileProviderItem.init(file:))
+
                 if let parentItemIdentifier = parentProviderItemIdentifier,
                     localItems.count != self.items.count {
                     NSFileProviderManager.default.signalEnumerator(for: parentItemIdentifier) { _ in }

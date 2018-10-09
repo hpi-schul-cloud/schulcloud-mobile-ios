@@ -44,6 +44,7 @@ public class FilesViewController: UITableViewController {
                     self.refreshControl?.endRefreshing()
                 }
             }
+            
             guard let _ = result.value else {
                 print("Error refreshing files")
                 return
