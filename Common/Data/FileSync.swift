@@ -190,7 +190,12 @@ public class FileSync: NSObject {
             "action": "getObject",
         ]
 
-        request.httpBody = try! JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) else {
+            completionHandler(.failure(.jsonSerialization("Can't serialize json for SignedURL")))
+            return nil
+        }
+
+        request.httpBody = jsonData
 
         return metadataSession.dataTask(with: request) { data, response, error in
             do {

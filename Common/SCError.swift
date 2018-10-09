@@ -13,6 +13,7 @@ public enum SCError: Error {
     case unknown
     case firebase(Error)
     case jsonDeserialization(String)
+    case jsonSerialization(String)
     case loginFailed(String)
     case wrongCredentials
     case other(String)
