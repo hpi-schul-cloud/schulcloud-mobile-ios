@@ -1,9 +1,6 @@
 //
-//  Bundle+.swift
-//  Common
-//
-//  Created by Florian Morel on 24.09.18.
-//  Copyright © 2018 Hasso-Plattner-Institut. All rights reserved.
+//  Created for schulcloud-mobile-ios under GPL-3.0 license.
+//  Copyright © HPI. All rights reserved.
 //
 
 import Foundation

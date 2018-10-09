@@ -35,20 +35,70 @@ class LoadingViewController: UIViewController {
     }
 
     func startDownload() {
-        self.fileSync.download(self.file) { progress in
-            DispatchQueue.main.async {
-                self.progressView.setProgress(progress, animated: true)
+
+        // Count 4, 1/4 is download of signedURL, 3/4 download of the file itself.
+        // This gives more importance to the file download in term of progress
+        let progress = Progress(totalUnitCount: 4)
+        progress.isCancellable = true
+        progress.cancellationHandler = { }
+
+        let localURL = self.file.localURL
+        let fileID = self.file.id
+        let itemIdentifier = NSFileProviderItemIdentifier(fileID)
+
+        let signedURLTask = self.fileSync.signedURL(for: self.file) { [weak self] result in
+            if #available(iOS 11.0, *) {
+            } else {
+                progress.becomeCurrent(withPendingUnitCount: 3)
             }
-        }.onSuccess { _ in
-            DispatchQueue.main.async {
-                self.showFile()
+
+            guard let signedURL = result.value else {
+                progress.becomeCurrent(withPendingUnitCount: 0)
+                DispatchQueue.main.async {
+                    self?.show(error: result.error!)
+                }
+
+                return
             }
-        }.onFailure { error in
-            DispatchQueue.main.async {
-                self.file.downloadState = .downloadFailed
-                self.show(error: error)
+
+            let tasko = self?.fileSync.download(id: "filedownload__\(fileID)", at: signedURL, moveTo: localURL, backgroundSession: false) { result in
+                if #available(iOS 11.0, *) {
+                } else {
+                    progress.becomeCurrent(withPendingUnitCount: 0)
+                }
+
+                switch result {
+                case .success(_):
+                    DispatchQueue.main.async {
+                        self?.showFile()
+                    }
+
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        self?.show(error: error)
+                    }
+                }
             }
+
+            guard let task = tasko else {
+                progress.becomeCurrent(withPendingUnitCount: 0)
+                return
+            }
+
+            if #available(iOS 11.0, *) {
+                NSFileProviderManager.default.register(task, forItemWithIdentifier: itemIdentifier) { error in }
+                progress.addChild(task.progress, withPendingUnitCount: 3)
+            }
+
+            task.resume()
         }
+
+        if #available(iOS 11.0, *) {
+            progress.addChild(signedURLTask!.progress, withPendingUnitCount: 1)
+        }
+
+        signedURLTask?.resume()
+        self.progressView.observedProgress = progress
     }
 
     func showFile() {
@@ -62,6 +112,7 @@ class LoadingViewController: UIViewController {
             guard let syncAnchor = context.fetchSingle(WorkingSetSyncAnchor.mainAnchorFetchRequest).value else {
                 return
             }
+
             syncAnchor.value += 1
 
             _ = context.saveWithResult()
@@ -69,6 +120,10 @@ class LoadingViewController: UIViewController {
 
         if #available(iOS 11.0, *) {
             NSFileProviderManager.default.signalEnumerator(for: NSFileProviderItemIdentifier(file.id)) { _ in }
+            if let parent = file.parentDirectory {
+                NSFileProviderManager.default.signalEnumerator(for: NSFileProviderItemIdentifier(parent.id)) { _ in }
+            }
+
             NSFileProviderManager.default.signalEnumerator(for: NSFileProviderItemIdentifier.workingSet) { error in
                 if let error = error {
                     print("Error signaling to working set: \(error)")

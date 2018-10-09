@@ -42,7 +42,7 @@ class FileProviderItem: NSObject, NSFileProviderItem {
             } else {
                 self.parentItemIdentifier = NSFileProviderItemIdentifier("")
             }
-            
+
         } else {
             self.itemIdentifier = NSFileProviderItemIdentifier(file.id)
             self.parentItemIdentifier = file.parentDirectory != nil ? NSFileProviderItemIdentifier(file.parentDirectory!.id) : NSFileProviderItemIdentifier("")

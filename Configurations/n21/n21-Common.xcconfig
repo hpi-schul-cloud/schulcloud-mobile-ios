@@ -6,8 +6,8 @@
 //  Copyright © 2018 Hasso-Plattner-Institut. All rights reserved.
 //
 
-BASE_BUNDLE_IDENTIFIER = org.n21
-APP_GROUP_IDENTIFIER = group.org.n21
+BASE_BUNDLE_IDENTIFIER = cloud.niedersachsen
+APP_GROUP_IDENTIFIER = group.cloud.niedersachsen
 DISPLAY_NAME = Niedersachsen-Cloud
 
 KEYCHAIN_GROUP = $(AppIdentifierPrefix)$(BASE_BUNDLE_IDENTIFIER)$(IDENTIFIER_SUFFIX)
