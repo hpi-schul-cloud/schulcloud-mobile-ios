@@ -93,7 +93,7 @@ public class FileSync: NSObject {
             return nil
         }
 
-        let taskCompletionBlock: (Result<[String:Any], SCError>) -> Void = { result in
+        let taskCompletionBlock: (Result<[String: Any], SCError>) -> Void = { result in
             completionBlock(result.flatMap {
                 FileHelper.updateDatabase(contentsOf: directory, using: $0)
             })
@@ -131,7 +131,10 @@ public class FileSync: NSObject {
         return self.metadataSession.dataTask(with: request) { data, response, error in
             do {
                 let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
-                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: Any]
+                guard let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
+                    throw SCError.jsonDeserialization("Does not result in expected JSON")
+                }
+
                 completionBlock(.success(json))
             } catch let error as SCError {
                 completionBlock(.failure( error))
@@ -147,7 +150,9 @@ public class FileSync: NSObject {
         return metadataSession.dataTask(with: request) { data, response, error in
             do {
                 let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
-                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! MarshaledObject
+                guard let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? MarshaledObject else {
+                    throw SCError.jsonDeserialization("Unexpected JSON result.")
+                }
                 let files: [MarshaledObject] = try json.value(for: "data")
                 let sharedFiles = files.filter { object -> Bool in
                     return (try? object.value(for: "context")) == "geteilte Datei"
@@ -189,8 +194,10 @@ public class FileSync: NSObject {
         return metadataSession.dataTask(with: request) { data, response, error in
             do {
                 let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
-                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                let signedURL: URL = try (json as! MarshaledObject).value(for: "url")
+                guard let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? MarshaledObject else {
+                    throw SCError.jsonDeserialization("Unexpected JSON Type")
+                }
+                let signedURL: URL = try json.value(for: "url")
                 completionHandler(.success( signedURL))
             } catch let error as SCError {
                 completionHandler(.failure( error))
@@ -254,7 +261,7 @@ extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownlo
         do {
             try FileManager.default.moveItem(at: location, to: transferInfo.localFileURL)
         } catch let error {
-            transferInfo.completionHandler(Result(error :SCError.other(error.localizedDescription)))
+            transferInfo.completionHandler(.failure(SCError.other(error.localizedDescription)))
         }
     }
 

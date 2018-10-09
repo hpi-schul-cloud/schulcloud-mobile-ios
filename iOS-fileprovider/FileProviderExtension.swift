@@ -103,25 +103,26 @@ class FileProviderExtension: NSFileProviderExtension {
             completionHandler(nil)
         } else {
             self.fileSync.signedURL(for: file) { [unowned self] result in
-                guard let signedURL = result.value else {
+                switch result {
+                case .failure (let error):
                     DispatchQueue.main.async {
-                        completionHandler(result.error!)
+                        completionHandler(error)
                     }
 
-                    return
-                }
-
-                let task = self.fileSync.download(id: "filedownload__\(identifier.rawValue)",
-                                                  at: signedURL,
-                                                  moveTo: url,
-                                                  backgroundSession: true) { result in
-                    DispatchQueue.main.async {
-                        completionHandler(result.error)
+                case .success(let signedURL):
+                    let task = self.fileSync.download(id: "filedownload__\(identifier.rawValue)",
+                        at: signedURL,
+                        moveTo: url,
+                        backgroundSession: true) { result in
+                            DispatchQueue.main.async {
+                                completionHandler(result.error)
+                            }
                     }
-                }
 
-                NSFileProviderManager.default.register(task, forItemWithIdentifier: identifier) { _ in }
-                task.resume()
+                    NSFileProviderManager.default.register(task, forItemWithIdentifier: identifier) { _ in }
+                    task.resume()
+                }
+                
             }?.resume()
         }
     }
