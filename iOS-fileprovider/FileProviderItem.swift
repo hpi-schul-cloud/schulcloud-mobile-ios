@@ -48,7 +48,7 @@ class FileProviderItem: NSObject, NSFileProviderItem {
             self.parentItemIdentifier = file.parentDirectory != nil ? NSFileProviderItemIdentifier(file.parentDirectory!.id) : NSFileProviderItemIdentifier("")
         }
 
-        self.capabilities = .allowsReading
+        self.capabilities = .allowsAll
         self.filename = file.name
         self.typeIdentifier = file.UTI ?? ""
         self.creationDate = file.createdAt

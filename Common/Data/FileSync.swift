@@ -18,6 +18,21 @@ public class FileSync: NSObject {
 
     public typealias ProgressHandler = (Float) -> Void
     public typealias FileDownloadHandler = (Result<URL, SCError>) -> Void
+    public typealias FileUploadHandler = (Result<Void, SCError>) -> Void
+
+    public enum FileTransferCompletionType {
+        case downloadHandler(FileDownloadHandler)
+        case uploadHandler(FileUploadHandler)
+
+        func error(_ error: SCError) {
+            switch self {
+            case .downloadHandler(let handler):
+                handler(.failure(error))
+            case .uploadHandler(let handler):
+                handler(.failure(error))
+            }
+        }
+    }
 
     private var backgroundSession: URLSession!
     private var foregroundSession: URLSession!
@@ -25,7 +40,7 @@ public class FileSync: NSObject {
 
     private struct FileTransferInfo {
         let task: URLSessionTask
-        let completionHandler: FileDownloadHandler
+        let completionHandler: FileTransferCompletionType
         let localFileURL: URL
     }
 
@@ -57,14 +72,22 @@ public class FileSync: NSObject {
         guard let remoteURL = file.remoteURL else { return nil }
 
         var urlComponent = URLComponents(url: fileStorageURL, resolvingAgainstBaseURL: false)!
-        urlComponent.query = "path=\(remoteURL.absoluteString.removingPercentEncoding!)"
+        urlComponent.query = "path=\(remoteURL.path.removingPercentEncoding!)/"
         return try? urlComponent.asURL()
     }
 
-    private func request(for url: URL) -> URLRequest {
+
+    private func GETRequest(for url: URL) -> URLRequest {
         var request = URLRequest(url: url)
         request.setValue(Globals.account!.accessToken!, forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
+        return request
+    }
+
+    private func POSTRequest(for url: URL) -> URLRequest {
+        var request = URLRequest(url: url)
+        request.setValue(Globals.account!.accessToken!, forHTTPHeaderField: "Authorization")
+        request.httpMethod = "POST"
         return request
     }
 
@@ -127,7 +150,7 @@ public class FileSync: NSObject {
             return nil
         }
 
-        let request = self.request(for: queryURL)
+        let request = self.GETRequest(for: queryURL)
         return self.metadataSession.dataTask(with: request) { data, response, error in
             do {
                 let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
@@ -137,16 +160,16 @@ public class FileSync: NSObject {
 
                 completionBlock(.success(json))
             } catch let error as SCError {
-                completionBlock(.failure( error))
+                completionBlock(.failure(error))
             } catch let error {
-                completionBlock(.failure( SCError.other(error.localizedDescription)))
+                completionBlock(.failure(SCError.other(error.localizedDescription)))
             }
         }
     }
 
     public func downloadSharedFiles(completionBlock: @escaping (Result<[String: Any], SCError>) -> Void) -> URLSessionTask {
 
-        let request = self.request(for: Brand.default.servers.backend.appendingPathComponent("files") )
+        let request = self.GETRequest(for: Brand.default.servers.backend.appendingPathComponent("files") )
         return metadataSession.dataTask(with: request) { data, response, error in
             do {
                 let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
@@ -166,7 +189,7 @@ public class FileSync: NSObject {
 
                 completionBlock(.success(result))
             } catch let error as SCError {
-                completionBlock( .failure(error))
+                completionBlock(.failure(error))
             } catch let error {
                 completionBlock(.failure(SCError.jsonDeserialization(error.localizedDescription)))
             }
@@ -174,21 +197,19 @@ public class FileSync: NSObject {
     }
 
     // MARK: File materialization
-    public func signedURL(for file: File, completionHandler: @escaping (Result<URL, SCError>) -> Void) -> URLSessionTask? {
-        guard !file.isDirectory else {
-            completionHandler(.failure( SCError.other("Can't download folder") ))
-            return nil
-        }
+    public func signedURL(resourceAt url: URL, mimeType: String, forUpload: Bool, completionHandler: @escaping (Result<URL, SCError>) -> Void) -> URLSessionTask? {
 
-        var request = self.request(for: fileStorageURL.appendingPathComponent("signedUrl") )
-        request.httpMethod = "POST"
+        var request = self.POSTRequest(for: fileStorageURL.appendingPathComponent("signedUrl") )
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        let parameters: Any = [
-            "path": file.remoteURL!.absoluteString.removingPercentEncoding!,
-            //            "fileType": mime.lookup(file),
-            "action": "getObject",
+        var parameters: [String: Any] = [
+            "path": url.absoluteString.removingPercentEncoding!,
+            "action": forUpload ? "putObject" : "getObject",
         ]
+
+        if forUpload {
+            parameters["fileType"] = mimeType
+        }
 
         guard let jsonData = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) else {
             completionHandler(.failure(.jsonSerialization("Can't serialize json for SignedURL")))
@@ -248,14 +269,124 @@ public class FileSync: NSObject {
         let task = downloadSession.downloadTask(with: remoteURL)
         task.taskDescription = id
 
-        let transferInfo = FileTransferInfo(task: task, completionHandler: completionHandler, localFileURL: localURL)
-        runningTask[id] = transferInfo
+        runningTask[id] = FileTransferInfo(task: task, completionHandler: .downloadHandler(completionHandler), localFileURL: localURL)
 
         return task
     }
+
+    public func upload(id: String,
+                       remoteURL: URL,
+                       fileToUploadURL: URL,
+                       completionHandler: @escaping (Result<Void, SCError>) -> Void) -> URLSessionTask {
+        if let task = runningTask[id]?.task {
+            return task
+        }
+
+        let urlRequest = URLRequest(url: remoteURL)
+        let task = backgroundSession.uploadTask(with: urlRequest, fromFile: fileToUploadURL)
+        task.taskDescription = id
+
+        runningTask[id] = FileTransferInfo(task: task, completionHandler: .uploadHandler(completionHandler), localFileURL: remoteURL)
+        return task
+    }
+
+    public func task(id: String) -> URLSessionTask? {
+        return runningTask[id]?.task
+    }
+
+    public func createDirectory(path: URL,
+                                parentDirectory: File,
+                                completionHandler: @escaping (Result<File, SCError>) -> Void) -> URLSessionTask? {
+
+        var request = self.POSTRequest(for: fileStorageURL.appendingPathComponent("directories") )
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let parameters: [String: Any] = [
+            "path": path.absoluteString.removingPercentEncoding!,
+        ]
+
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) else {
+            completionHandler( .failure(.jsonSerialization("Failed serielizing json")))
+            return nil
+        }
+
+        request.httpBody = jsonData
+
+        let fileID = parentDirectory.objectID
+
+        return self.metadataSession.dataTask(with: request) { data, response, error in
+            do {
+                let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
+                guard let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? MarshaledObject else {
+                    throw SCError.jsonDeserialization("Unexpected JSON Type")
+                }
+
+                let context = CoreDataHelper.persistentContainer.newBackgroundContext()
+                let result = context.performAndWait { () -> Result<File, SCError> in
+                    let parentFolder = context.typedObject(with: fileID) as File
+                    do {
+                        let createdFile = try File.createOrUpdate(inContext: context,
+                                                                  parentFolder: parentFolder,
+                                                                  isDirectory: true,
+                                                                  data: json)
+                        return .success(createdFile)
+                    } catch let error {
+                        return .failure(SCError.other(error.localizedDescription))
+                    }
+                }
+
+                completionHandler(result)
+            } catch let error as SCError {
+                completionHandler(.failure(error))
+            } catch let error {
+                completionHandler(.failure(SCError.other(error.localizedDescription)))
+            }
+        }
+    }
+
+    public func rename(directory: File,
+                       newName: String,
+                       completionHandler: @escaping (Result<Void, SCError>) -> Void) -> URLSessionTask? {
+        assert(directory.isDirectory)
+
+        var request = self.POSTRequest(for: fileStorageURL.appendingPathComponent("directories/rename") )
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let parameters: [String: Any] = [
+            "path": directory.remoteURL!.absoluteString.removingPercentEncoding!,
+            "newName": newName
+            ]
+
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) else {
+            completionHandler( .failure(.jsonSerialization("Failed serielizing json")))
+            return nil
+        }
+
+        request.httpBody = jsonData
+        let folderID = directory.objectID
+
+        return self.metadataSession.dataTask(with: request) { data, response, error in
+            do {
+                _ = try self.confirmNetworkResponse(data: data, response: response, error: error)
+                let context = CoreDataHelper.persistentContainer.newBackgroundContext()
+                context.performAndWait {
+                    let folder = context.typedObject(with: folderID) as File
+                    folder.name = newName
+                    folder.remoteURL = folder.remoteURL?.deletingLastPathComponent().appendingPathComponent(newName, isDirectory: true)
+                    _ = context.saveWithResult()
+                }
+
+                completionHandler(.success(()))
+            } catch let error as SCError {
+                completionHandler(.failure(error))
+            } catch let error {
+                completionHandler(.failure(SCError.other(error.localizedDescription)))
+            }
+        }
+    }
 }
 
-extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownloadDelegate {
+extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownloadDelegate, URLSessionDataDelegate {
     public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         guard let id = downloadTask.taskDescription else {
             fatalError("No ID given to task")
@@ -268,7 +399,7 @@ extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownlo
         do {
             try FileManager.default.moveItem(at: location, to: transferInfo.localFileURL)
         } catch let error {
-            transferInfo.completionHandler(.failure(SCError.other(error.localizedDescription)))
+            transferInfo.completionHandler.error(SCError.other(error.localizedDescription))
         }
     }
 
@@ -282,9 +413,14 @@ extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownlo
         }
 
         if let error = error {
-            transferInfo.completionHandler(.failure( SCError.network(error)))
+            transferInfo.completionHandler.error(SCError.network(error))
         } else {
-            transferInfo.completionHandler(.success( transferInfo.localFileURL))
+            switch transferInfo.completionHandler {
+            case .downloadHandler(let handler):
+                handler(.success( transferInfo.localFileURL))
+            case .uploadHandler(let handler):
+                handler(.success(()))
+            }
         }
 
         runningTask.removeValue(forKey: id)

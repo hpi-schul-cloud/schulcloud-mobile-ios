@@ -14,7 +14,7 @@ public class FileHelper {
     public static var coursesDirectoryID = "courses"
     public static var sharedDirectoryID = "shared"
     public static var userDirectoryID: String {
-        return "users/\(Globals.account?.userId ?? "")/"
+        return "users/\(Globals.account?.userId ?? "")"
     }
 
     private static var notSynchronizedPath: [String] = {
@@ -195,7 +195,7 @@ extension FileHelper {
                                          name: courseName,
                                          parentFolder: parentFolder,
                                          isDirectory: true,
-                                         remoteURL: URL(string: "courses/\(courseId)/") )
+                                         remoteURL: URL(string: "courses/\(courseId)") )
                     }
                 }
             }
@@ -207,7 +207,7 @@ extension FileHelper {
                                      name: courseName,
                                      parentFolder: parentFolder,
                                      isDirectory: true,
-                                     remoteURL: URL(string: "courses/\(courseId)/") )
+                                     remoteURL: URL(string: "courses/\(courseId)") )
                 }
             }
 

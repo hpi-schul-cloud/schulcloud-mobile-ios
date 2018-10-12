@@ -102,7 +102,9 @@ class FileProviderExtension: NSFileProviderExtension {
         if FileManager.default.fileExists(atPath: file.localURL.path) {
             completionHandler(nil)
         } else {
-            self.fileSync.signedURL(for: file) { [unowned self] result in
+            self.fileSync.signedURL(resourceAt: file.remoteURL!,
+                                    mimeType: file.mimeType ?? "",
+                                    forUpload: false) { [unowned self] result in
                 switch result {
                 case .failure (let error):
                     DispatchQueue.main.async {
@@ -158,7 +160,7 @@ class FileProviderExtension: NSFileProviderExtension {
             self.providePlaceholder(at: url, completionHandler: { error in
                 // TODO: handle any error, do any necessary cleanup
             })
-        }
+            }
         */
     }
 
@@ -278,6 +280,60 @@ class FileProviderExtension: NSFileProviderExtension {
         }
 
         return progress
+    }
+
+    override func createDirectory(withName directoryName: String,
+                                  inParentItemIdentifier parentItemIdentifier: NSFileProviderItemIdentifier,
+                                  completionHandler: @escaping (NSFileProviderItem?, Error?) -> Void) {
+
+        let parentID = parentItemIdentifier == .rootContainer ? FileHelper.rootDirectoryID : parentItemIdentifier.rawValue
+
+        let context = CoreDataHelper.persistentContainer.newBackgroundContext()
+        let parentDirectory = context.performAndWait { () -> File in
+            return File.by(id: parentID, in: context)!
+        }
+
+        let url = parentDirectory.remoteURL!.appendingPathComponent(directoryName, isDirectory: true)
+        self.fileSync.createDirectory(path: url,
+                                      parentDirectory: parentDirectory) { result in
+                                        switch result {
+                                        case .failure(let error):
+                                            completionHandler(nil, error)
+                                        case .success(let file):
+                                            let item = FileProviderItem(file: file)
+                                            completionHandler(item, nil)
+                                            NSFileProviderManager.default.signalEnumerator(for: parentItemIdentifier) { _ in }
+                                            NSFileProviderManager.default.signalEnumerator(for: item.itemIdentifier) { _ in }
+                                        }
+        }?.resume()
+    }
+
+    override func renameItem(withIdentifier itemIdentifier: NSFileProviderItemIdentifier,
+                             toName itemName: String,
+                             completionHandler: @escaping (NSFileProviderItem?, Error?) -> Void) {
+
+        let id = itemIdentifier.rawValue
+
+        let context = CoreDataHelper.persistentContainer.newBackgroundContext()
+        let folder = context.performAndWait { () -> File in
+            return File.by(id: id, in: context)!
+        }
+        let folderID = folder.objectID
+
+        self.fileSync.rename(directory: folder,
+                             newName: itemName) { result in
+            switch result {
+            case .failure(let error):
+                completionHandler(nil, error)
+            case .success(_):
+                let context = CoreDataHelper.persistentContainer.newBackgroundContext()
+                let file = context.typedObject(with: folderID) as File
+                let item = FileProviderItem(file: file)
+                completionHandler(item, nil)
+                NSFileProviderManager.default.signalEnumerator(for: item.parentItemIdentifier) { _ in }
+                NSFileProviderManager.default.signalEnumerator(for: item.itemIdentifier) { _ in }
+            }
+        }?.resume()
     }
 
     override func setTagData(_ tagData: Data?,

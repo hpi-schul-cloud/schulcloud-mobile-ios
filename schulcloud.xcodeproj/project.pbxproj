@@ -84,6 +84,7 @@
 		CE4152AD20DBDA4D00739CE2 /* SingleLessonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3CAB01EF5CBB6009601AE /* SingleLessonViewController.swift */; };
 		CE4152B620E2854900739CE2 /* Assets-ios-brand.generated.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE4152B520E2854900739CE2 /* Assets-ios-brand.generated.xcassets */; };
 		CE7BFC15212DA2E200C1B871 /* Assets-ios-brand.generated.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE4152B520E2854900739CE2 /* Assets-ios-brand.generated.xcassets */; };
+		CE7EF7A7216F5F6A00640EAC /* logo-200.pdf in Resources */ = {isa = PBXBuildFile; fileRef = CE7EF7A6216F5F6A00640EAC /* logo-200.pdf */; };
 		CE85F0AF210091B700112085 /* FileSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE85F0AE210091B700112085 /* FileSync.swift */; };
 		CE95A4AE2111FEDA0061BCDD /* FileProviderExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95A4AD2111FEDA0061BCDD /* FileProviderExtension.swift */; };
 		CE95A4B02111FEDA0061BCDD /* FileProviderItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95A4AF2111FEDA0061BCDD /* FileProviderItem.swift */; };
@@ -358,6 +359,7 @@
 		CE6F9AB92153E561007B8C20 /* n21-FileProvider_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "n21-FileProvider_Debug.xcconfig"; sourceTree = "<group>"; };
 		CE737A4D1FFE65B0006DAB54 /* NewsArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsArticleCell.swift; sourceTree = "<group>"; };
 		CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListViewController.swift; sourceTree = "<group>"; };
+		CE7EF7A6216F5F6A00640EAC /* logo-200.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "logo-200.pdf"; path = "iOS/Assets-ios-brand.generated.xcassets/logo.imageset/logo-200.pdf"; sourceTree = "<group>"; };
 		CE829316204EB6B3009D2C84 /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		CE85F0AE210091B700112085 /* FileSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSync.swift; sourceTree = "<group>"; };
 		CE95A4AB2111FEDA0061BCDD /* schulcloud.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = schulcloud.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -599,6 +601,7 @@
 		C3A5A8F61EBCC17600825DBF = {
 			isa = PBXGroup;
 			children = (
+				CE7EF7A6216F5F6A00640EAC /* logo-200.pdf */,
 				CE41528520DBCF0200739CE2 /* Configurations */,
 				CEEE0A0C20D2AA7C00B0C2CE /* Common */,
 				C3A5A9011EBCC17600825DBF /* iOS */,
@@ -1115,6 +1118,7 @@
 				503A5EFF1F3DC6A400A7695B /* TabFiles.storyboard in Resources */,
 				C3418B671ED335F400280E62 /* PreviewTransitionViewController.xib in Resources */,
 				C3A5A90D1EBCC17600825DBF /* Assets.xcassets in Resources */,
+				CE7EF7A7216F5F6A00640EAC /* logo-200.pdf in Resources */,
 				C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */,
 				506D7E30210618440018D9E2 /* Homework.storyboard in Resources */,
 				CEBE1547207B63DC00238D1F /* HomeworkHeaderView.xib in Resources */,

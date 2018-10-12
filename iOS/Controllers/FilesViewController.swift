@@ -23,12 +23,14 @@ public class FilesViewController: UITableViewController {
 
     var currentFolder: File!
     var fileSync = FileSync.default
+    @IBOutlet var uploadButton: UIButton!
 
     public override func viewDidLoad() {
         super.viewDidLoad()
 
         if currentFolder == nil {
             currentFolder = FileHelper.rootFolder
+            uploadButton.isHidden = false
         }
 
         self.navigationItem.title = self.currentFolder.name
@@ -49,6 +51,33 @@ public class FilesViewController: UITableViewController {
                 print("Error refreshing files")
                 return
             }
+        }?.resume()
+    }
+
+    @IBAction func didPressUpload() {
+
+        let imageURL = Bundle.main.url(forResource: "logo-200", withExtension: ".pdf")!
+
+        let id = UUID()
+        let remoteURL = URL(string: FileHelper.userDirectoryID + id.uuidString + ".pdf")!
+
+        self.fileSync.signedURL(resourceAt: remoteURL,
+                                mimeType: "application/pdf",
+                                forUpload: true) { result in
+                                    switch result {
+                                    case .failure(let error):
+                                        print("failure to get signed URL: \(error.localizedDescription)")
+                                    case .success(let url):
+                                        print("Got signed URL: \(url)")
+                                        self.fileSync.upload(id: "upload__\(id.uuidString)", remoteURL: url, fileToUploadURL: imageURL) { result in
+                                            switch result {
+                                            case .failure(let error):
+                                                print("failure to upload file: \(error.localizedDescription)")
+                                            case .success(_):
+                                                print("Successfully uploaded file")
+                                            }
+                                    }.resume()
+                                }
         }?.resume()
     }
 
