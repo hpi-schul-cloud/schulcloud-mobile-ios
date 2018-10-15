@@ -15,7 +15,7 @@ public final class File: NSManagedObject {
     }
 
     @NSManaged public var id: String
-    @NSManaged public var remoteURL: URL?
+    @NSManaged public var path: String?
     @NSManaged public var thumbnailRemoteURL: URL?
     @NSManaged public var name: String
     @NSManaged public var isDirectory: Bool
@@ -128,11 +128,11 @@ extension File {
                                                name: String,
                                                parentFolder: File?,
                                                isDirectory: Bool,
-                                               remoteURL: URL? = nil) -> File {
+                                               path: String? = nil) -> File {
         let file = File(context: context)
         file.id = id
 
-        file.remoteURL = remoteURL
+        file.path = path
         file.thumbnailRemoteURL = nil
 
         file.name = name
@@ -172,9 +172,8 @@ extension File {
         file.id = id
 
         let allowedCharacters = CharacterSet.whitespacesAndNewlines.inverted
-        let remoteURLString = try data.value(for: "key") as String?
-        let percentEncodedURLString = remoteURLString?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
-        file.remoteURL = URL(string: percentEncodedURLString ?? "")
+        let pathString = try data.value(for: "path") as String?
+        file.path = pathString?.addingPercentEncoding(withAllowedCharacters: allowedCharacters) ?? ""
         let thumbnailRemoteURLString = try? data.value(for: "thumbnail") as String
         let percentEncodedThumbnailURLString = thumbnailRemoteURLString?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
         file.thumbnailRemoteURL = URL(string: percentEncodedThumbnailURLString ?? "")
@@ -221,6 +220,19 @@ extension File {
 
 // MARK: computed properties
 extension File {
+
+    public var remoteURL: URL? {
+        guard let parentURL = self.parentDirectory?.remoteURL else {
+            if let path = self.path,
+                let url = URL(string: path) {
+                return url
+            }
+            return nil
+        }
+
+        return parentURL.appendingPathComponent(self.name, isDirectory: self.isDirectory)
+    }
+
     static var localContainerURL: URL {
         if #available(iOS 11.0, *) {
             return NSFileProviderManager.default.documentStorageURL

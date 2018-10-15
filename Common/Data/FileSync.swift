@@ -352,8 +352,14 @@ public class FileSync: NSObject {
         var request = self.POSTRequest(for: fileStorageURL.appendingPathComponent("directories/rename") )
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
+        guard let remoteURL = directory.remoteURL,
+            var pathString = remoteURL.absoluteString.removingPercentEncoding else {
+            return nil
+        }
+        pathString.removeLast() // a '/' is always appended for directory, but the endpoint won't find directory if it is kept, so removing it
+
         let parameters: [String: Any] = [
-            "path": directory.remoteURL!.absoluteString.removingPercentEncoding!,
+            "path": pathString,
             "newName": newName
             ]
 
@@ -372,7 +378,6 @@ public class FileSync: NSObject {
                 context.performAndWait {
                     let folder = context.typedObject(with: folderID) as File
                     folder.name = newName
-                    folder.remoteURL = folder.remoteURL?.deletingLastPathComponent().appendingPathComponent(newName, isDirectory: true)
                     _ = context.saveWithResult()
                 }
 

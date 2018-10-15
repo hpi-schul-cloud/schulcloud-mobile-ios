@@ -67,7 +67,7 @@ public class FileHelper {
                              name: "Meine Dateien",
                              parentFolder: rootFolder,
                              isDirectory: true,
-                             remoteURL: URL(string: userDirectoryID) )
+                             path: userDirectoryID )
             File.createLocal(context: context,
                              id: coursesDirectoryID,
                              name: "Kurs-Dateien",
@@ -195,7 +195,7 @@ extension FileHelper {
                                          name: courseName,
                                          parentFolder: parentFolder,
                                          isDirectory: true,
-                                         remoteURL: URL(string: "courses/\(courseId)") )
+                                         path: "courses/\(courseId)")
                     }
                 }
             }
@@ -207,7 +207,7 @@ extension FileHelper {
                                      name: courseName,
                                      parentFolder: parentFolder,
                                      isDirectory: true,
-                                     remoteURL: URL(string: "courses/\(courseId)") )
+                                     path: "courses/\(courseId)" )
                 }
             }
 
