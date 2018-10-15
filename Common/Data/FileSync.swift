@@ -301,8 +301,13 @@ public class FileSync: NSObject {
         var request = self.POSTRequest(for: fileStorageURL.appendingPathComponent("directories") )
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
+        guard var pathString = path.absoluteString.removingPercentEncoding else {
+            return nil
+        }
+        pathString.removeLast()
+
         let parameters: [String: Any] = [
-            "path": path.absoluteString.removingPercentEncoding!,
+            "path": pathString,
         ]
 
         guard let jsonData = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) else {

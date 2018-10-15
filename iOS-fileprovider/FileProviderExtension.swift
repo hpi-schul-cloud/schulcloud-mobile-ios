@@ -293,7 +293,11 @@ class FileProviderExtension: NSFileProviderExtension {
             return File.by(id: parentID, in: context)!
         }
 
-        let url = parentDirectory.remoteURL!.appendingPathComponent(directoryName, isDirectory: true)
+        guard let url = parentDirectory.remoteURL?.appendingPathComponent(directoryName, isDirectory: true) else {
+            completionHandler(nil, SCError.other("No URL"))
+            return
+        }
+        
         self.fileSync.createDirectory(path: url,
                                       parentDirectory: parentDirectory) { result in
                                         switch result {
@@ -302,8 +306,6 @@ class FileProviderExtension: NSFileProviderExtension {
                                         case .success(let file):
                                             let item = FileProviderItem(file: file)
                                             completionHandler(item, nil)
-                                            NSFileProviderManager.default.signalEnumerator(for: parentItemIdentifier) { _ in }
-                                            NSFileProviderManager.default.signalEnumerator(for: item.itemIdentifier) { _ in }
                                         }
         }?.resume()
     }
@@ -330,8 +332,6 @@ class FileProviderExtension: NSFileProviderExtension {
                 let file = context.typedObject(with: folderID) as File
                 let item = FileProviderItem(file: file)
                 completionHandler(item, nil)
-                NSFileProviderManager.default.signalEnumerator(for: item.parentItemIdentifier) { _ in }
-                NSFileProviderManager.default.signalEnumerator(for: item.itemIdentifier) { _ in }
             }
         }?.resume()
     }
