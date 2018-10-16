@@ -254,20 +254,17 @@ class FileProviderExtension: NSFileProviderExtension {
                 }
 
                 guard let fileURL = result.value else {
-                    DispatchQueue.main.async {
-                        perThumbnailCompletionHandler(itemIdentifier, nil, result.error!)
-                    }
-
+                    perThumbnailCompletionHandler(itemIdentifier, nil, result.error!)
                     return
                 }
 
                 let data = try? Data(contentsOf: fileURL, options: .alwaysMapped)
-                DispatchQueue.main.async {
-                    perThumbnailCompletionHandler(itemIdentifier, data, nil)
-                }
+                perThumbnailCompletionHandler(itemIdentifier, data, nil)
 
-                if progress.isFinished {
-                    completionHandler(nil)
+                DispatchQueue.main.async {
+                    if progress.isFinished {
+                        completionHandler(nil)
+                    }
                 }
             }
 
@@ -282,6 +279,7 @@ class FileProviderExtension: NSFileProviderExtension {
         return progress
     }
 
+    //TODO: This is currently not Apple compliant, it has to work completly offline
     override func createDirectory(withName directoryName: String,
                                   inParentItemIdentifier parentItemIdentifier: NSFileProviderItemIdentifier,
                                   completionHandler: @escaping (NSFileProviderItem?, Error?) -> Void) {
@@ -300,6 +298,7 @@ class FileProviderExtension: NSFileProviderExtension {
         
         self.fileSync.createDirectory(path: url,
                                       parentDirectory: parentDirectory) { result in
+
                                         switch result {
                                         case .failure(let error):
                                             completionHandler(nil, error)
@@ -310,6 +309,7 @@ class FileProviderExtension: NSFileProviderExtension {
         }?.resume()
     }
 
+    //TODO: This is currently not Apple compliant, it has to work completly offline
     override func renameItem(withIdentifier itemIdentifier: NSFileProviderItemIdentifier,
                              toName itemName: String,
                              completionHandler: @escaping (NSFileProviderItem?, Error?) -> Void) {
@@ -317,25 +317,69 @@ class FileProviderExtension: NSFileProviderExtension {
         let id = itemIdentifier.rawValue
 
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
-        let folder = context.performAndWait { () -> File in
+        let item = context.performAndWait { () -> File in
             return File.by(id: id, in: context)!
         }
-        let folderID = folder.objectID
 
-        self.fileSync.rename(directory: folder,
+        let itemID = item.objectID
+
+        self.fileSync.rename(directory: item,
                              newName: itemName) { result in
             switch result {
             case .failure(let error):
                 completionHandler(nil, error)
             case .success(_):
                 let context = CoreDataHelper.persistentContainer.newBackgroundContext()
-                let file = context.typedObject(with: folderID) as File
+                let file = context.typedObject(with: itemID) as File
                 let item = FileProviderItem(file: file)
                 completionHandler(item, nil)
             }
         }?.resume()
     }
 
+
+    override func trashItem(withIdentifier itemIdentifier: NSFileProviderItemIdentifier,
+                            completionHandler: @escaping (NSFileProviderItem?, Error?) -> Void) {
+
+        
+        completionHandler(nil, NSFileProviderError(.insufficientQuota))
+    }
+
+    override func untrashItem(withIdentifier itemIdentifier: NSFileProviderItemIdentifier,
+                              toParentItemIdentifier parentItemIdentifier: NSFileProviderItemIdentifier?,
+                              completionHandler: @escaping (NSFileProviderItem?, Error?) -> Void) {
+        completionHandler(nil, NSFileProviderError(.insufficientQuota))
+    }
+
+    //TODO: This is currently not Apple compliant, it has to work completly offline
+    override func deleteItem(withIdentifier itemIdentifier: NSFileProviderItemIdentifier,
+                             completionHandler: @escaping (Error?) -> Void) {
+        guard itemIdentifier != .rootContainer,
+            itemIdentifier != .workingSet else {
+                //TODO: Fire a better error
+                completionHandler(NSFileProviderError(.noSuchItem))
+                return
+        }
+
+        let id = itemIdentifier.rawValue
+
+        let context = CoreDataHelper.persistentContainer.newBackgroundContext()
+        let folder = context.performAndWait {
+            return File.by(id: id, in: context)
+        }
+        guard let folderToDelete = folder else {
+            completionHandler(NSFileProviderError(.noSuchItem))
+            return
+        }
+        let parentIdentifier = NSFileProviderItemIdentifier(folderToDelete.parentDirectory?.id ?? "")
+
+        self.fileSync.delete(directory: folderToDelete) { result in
+            NSFileProviderManager.default.signalEnumerator(for: parentIdentifier) { _ in }
+        }?.resume()
+        completionHandler(nil)
+    }
+
+    //TODO: This is currently not Apple compliant, it has to work completly offline
     override func setTagData(_ tagData: Data?,
                              forItemIdentifier itemIdentifier: NSFileProviderItemIdentifier,
                              completionHandler: @escaping (NSFileProviderItem?, Error?) -> Void) {
@@ -357,6 +401,7 @@ class FileProviderExtension: NSFileProviderExtension {
         NSFileProviderManager.default.signalEnumerator(for: .workingSet) { _ in }
     }
 
+    //TODO: This is currently not Apple compliant, it has to work completly offline
     override func setFavoriteRank(_ favoriteRank: NSNumber?,
                                   forItemIdentifier itemIdentifier: NSFileProviderItemIdentifier,
                                   completionHandler: @escaping (NSFileProviderItem?, Error?) -> Void) {
@@ -386,6 +431,7 @@ class FileProviderExtension: NSFileProviderExtension {
         NSFileProviderManager.default.signalEnumerator(for: .workingSet) { _ in }
     }
 
+    //TODO: This is currently not Apple compliant, it has to work completly offline
     override func setLastUsedDate(_ lastUsedDate: Date?,
                                   forItemIdentifier itemIdentifier: NSFileProviderItemIdentifier,
                                   completionHandler: @escaping (NSFileProviderItem?, Error?) -> Void) {

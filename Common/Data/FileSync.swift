@@ -68,10 +68,10 @@ public class FileSync: NSObject {
         return Brand.default.servers.backend.appendingPathComponent("fileStorage")
     }
 
-    private func getQueryURL(for file: File) -> URL? {
+    private func getQueryURL(for file: File, baseURL: URL) -> URL? {
         guard let remoteURL = file.remoteURL else { return nil }
 
-        var urlComponent = URLComponents(url: fileStorageURL, resolvingAgainstBaseURL: false)!
+        var urlComponent = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)!
         urlComponent.query = "path=\(remoteURL.path.removingPercentEncoding!)/"
         return try? urlComponent.asURL()
     }
@@ -88,6 +88,13 @@ public class FileSync: NSObject {
         var request = URLRequest(url: url)
         request.setValue(Globals.account!.accessToken!, forHTTPHeaderField: "Authorization")
         request.httpMethod = "POST"
+        return request
+    }
+
+    private func DELETERequest(for url: URL) -> URLRequest {
+        var request = URLRequest(url: url)
+        request.setValue(Globals.account!.accessToken!, forHTTPHeaderField: "Authorization")
+        request.httpMethod = "DELETE"
         return request
     }
 
@@ -145,7 +152,7 @@ public class FileSync: NSObject {
             return nil
         }
 
-        guard let queryURL = self.getQueryURL(for: directory) else {
+        guard let queryURL = self.getQueryURL(for: directory, baseURL: self.fileStorageURL) else {
             completionBlock(.failure( SCError.other("no remote URL")))
             return nil
         }
@@ -393,6 +400,43 @@ public class FileSync: NSObject {
                 completionHandler(.failure(SCError.other(error.localizedDescription)))
             }
         }
+    }
+
+    public func delete(directory: File,
+                       completionHandler: @escaping (Result<Void, SCError>) -> Void) -> URLSessionTask? {
+        assert(directory.isDirectory)
+
+        let folderID = directory.objectID
+
+        guard let remoteURL = directory.remoteURL else { return nil }
+
+        var urlComponent = URLComponents(url: self.fileStorageURL.appendingPathComponent("directories", isDirectory: true), resolvingAgainstBaseURL: false)!
+        urlComponent.query = "path=\(remoteURL.path.removingPercentEncoding!)"
+
+        guard let queryURL = try? urlComponent.asURL() else {
+            completionHandler(.failure(SCError.other("Can't build query URL")))
+            return nil
+        }
+
+        let request = self.DELETERequest(for: queryURL)
+        return self.metadataSession.dataTask(with: request) { data, response, error in
+            do {
+                _ = try self.confirmNetworkResponse(data: data, response: response, error: error)
+                let context = CoreDataHelper.persistentContainer.newBackgroundContext()
+                context.performAndWait {
+                    let deletedItem = context.typedObject(with: folderID)
+                    context.delete(deletedItem)
+                    _ = context.saveWithResult()
+                }
+
+                completionHandler(.success(()))
+            } catch let error as SCError {
+                completionHandler(.failure(error))
+            } catch let error {
+                completionHandler(.failure(SCError.other(error.localizedDescription)))
+            }
+        }
+
     }
 }
 

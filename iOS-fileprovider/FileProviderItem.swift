@@ -48,7 +48,26 @@ class FileProviderItem: NSObject, NSFileProviderItem {
             self.parentItemIdentifier = file.parentDirectory != nil ? NSFileProviderItemIdentifier(file.parentDirectory!.id) : NSFileProviderItemIdentifier("")
         }
 
-        self.capabilities = .allowsAll
+        var capabilities: NSFileProviderItemCapabilities = [.allowsContentEnumerating]
+
+        // Allow adding subitems for personal storage only
+        if  file.id != FileHelper.rootDirectoryID,
+            file.id != FileHelper.coursesDirectoryID,
+            file.id != FileHelper.sharedDirectoryID,
+            !file.id.hasPrefix("course") {
+
+            capabilities.formUnion(.allowsAddingSubItems)
+
+            // Allows deleting for only user created items
+            if file.id != FileHelper.userDirectoryID {
+
+                capabilities.formUnion(.allowsDeleting)
+            }
+        }
+
+        self.capabilities = capabilities
+
+
         self.filename = file.name
         self.typeIdentifier = file.UTI ?? ""
         self.creationDate = file.createdAt
