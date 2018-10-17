@@ -51,34 +51,66 @@ public class FilesViewController: UITableViewController {
                 print("Error refreshing files")
                 return
             }
-        }?.resume()
+            }?.resume()
     }
 
     @IBAction func didPressUpload() {
 
         let imageURL = Bundle.main.url(forResource: "logo-200", withExtension: ".pdf")!
 
-        let id = UUID()
-        let remoteURL = URL(string: FileHelper.userDirectoryID + id.uuidString + ".pdf")!
+        let context = CoreDataHelper.persistentContainer.newBackgroundContext()
+        let parentFolder = context.performAndWait { () -> File in
+            return File.by(id: FileHelper.userDirectoryID, in: context)!
+        }
 
-        self.fileSync.signedURL(resourceAt: remoteURL,
-                                mimeType: "application/pdf",
-                                forUpload: true) { result in
-                                    switch result {
-                                    case .failure(let error):
-                                        print("failure to get signed URL: \(error.localizedDescription)")
-                                    case .success(let url):
-                                        print("Got signed URL: \(url)")
-                                        self.fileSync.upload(id: "upload__\(id.uuidString)", remoteURL: url, fileToUploadURL: imageURL) { result in
-                                            switch result {
-                                            case .failure(let error):
-                                                print("failure to upload file: \(error.localizedDescription)")
-                                            case .success(_):
-                                                print("Successfully uploaded file")
-                                            }
+
+        let id = UUID()
+        let baseURL = URL(string: FileHelper.userDirectoryID)!
+        let filename = id.uuidString + ".pdf"
+        let remoteURL = baseURL.appendingPathComponent(filename)
+        print("uploading file at path: \(remoteURL.absoluteString)")
+
+        let mimeType = "application/pdf"
+
+        self.fileSync.createFileMetadata(
+            at: baseURL,
+            name: filename,
+            mimeType: mimeType,
+            parentDirectory: parentFolder) { [unowned self] result in
+                switch result {
+                case .failure(let error):
+                    print("Failed to create file metadata: \(error.localizedDescription)")
+                case .success(let file):
+                    print("Sucessfully created file metadata: \(file)")
+
+                    self.fileSync.signedURL(
+                        resourceAt: file.remoteURL!,
+                        mimeType: file.mimeType!,
+                        forUpload: true) { [unowned self] result in
+                            switch result {
+                            case .failure(let error):
+                                print("failure to get signed URL: \(error.localizedDescription)")
+                            case .success(let url):
+                                print("Got signed URL: \(url)")
+
+                                self.fileSync.upload(
+                                    id: "upload__\(id.uuidString)",
+                                    remoteURL: url,
+                                    fileToUploadURL: imageURL,
+                                    mimeType: mimeType) { result in
+                                        switch result {
+                                        case .failure(let error):
+                                            print("failure to upload file: \(error.localizedDescription)")
+                                        case .success(_):
+                                            print("Successfully uploaded file")
+                                        }
+
                                     }.resume()
-                                }
+                            }
+                        }?.resume()
+                }
         }?.resume()
+
     }
 
     // MARK: - Table view data source

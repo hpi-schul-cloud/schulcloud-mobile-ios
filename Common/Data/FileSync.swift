@@ -98,17 +98,24 @@ public class FileSync: NSObject {
         return request
     }
 
-    private func confirmNetworkResponse(data: Data?, response: URLResponse?, error: Error?) throws -> Data {
-        guard error == nil else {
-            throw SCError.network(error)
+    private func PUTRequest(for url: URL) -> URLRequest {
+        var request = URLRequest(url: url)
+        request.setValue(Globals.account!.accessToken!, forHTTPHeaderField: "Authorization")
+        request.httpMethod = "PUT"
+        return request
+    }
+
+    private func confirmNetworkResponse(data datao: Data?, response responseo: URLResponse?, error erroro: Error?) throws -> Data {
+        guard erroro == nil else {
+            throw SCError.network(erroro!)
         }
 
-        guard let response = response as? HTTPURLResponse,
+        guard let response = responseo as? HTTPURLResponse,
             200 ... 299 ~= response.statusCode else {
                 throw SCError.network(nil)
         }
 
-        guard let data = data else {
+        guard let data = datao else {
             throw SCError.network(nil)
         }
 
@@ -284,12 +291,14 @@ public class FileSync: NSObject {
     public func upload(id: String,
                        remoteURL: URL,
                        fileToUploadURL: URL,
+                       mimeType: String,
                        completionHandler: @escaping (Result<Void, SCError>) -> Void) -> URLSessionTask {
         if let task = runningTask[id]?.task {
             return task
         }
 
-        let urlRequest = URLRequest(url: remoteURL)
+        var urlRequest = self.PUTRequest(for: remoteURL)
+        urlRequest.addValue(mimeType, forHTTPHeaderField: "Content-Type")
         let task = backgroundSession.uploadTask(with: urlRequest, fromFile: fileToUploadURL)
         task.taskDescription = id
 
@@ -299,6 +308,52 @@ public class FileSync: NSObject {
 
     public func task(id: String) -> URLSessionTask? {
         return runningTask[id]?.task
+    }
+
+    public func createFileMetadata(at url: URL,
+                           name: String,
+                           mimeType: String,
+                           parentDirectory: File,
+                           completionHandler: @escaping (Result<File, SCError>) -> Void) -> URLSessionTask? {
+
+        var request = self.POSTRequest(for: self.fileStorageURL.appendingPathComponent("files").appendingPathComponent("new"))
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let parameters: [String: Any] = [
+            "key": url.appendingPathComponent(name).absoluteString.removingPercentEncoding!,
+            "path": url.absoluteString.removingPercentEncoding!,
+            "name": name,
+            "studentCanEdit": true,
+            "schoolId": "5bbb48be663ff7001158fef1",
+        ]
+
+        guard let data = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) else {
+            completionHandler(.failure(SCError.jsonSerialization("Can't serialize file metadata")))
+            return nil
+        }
+
+        request.httpBody = data
+
+        let parentID = parentDirectory.objectID
+        return self.metadataSession.dataTask(with: request) { (data, response, error) in
+            do {
+                let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
+                guard let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? MarshaledObject else {
+                    throw SCError.jsonDeserialization("Object can't be marshaled")
+                }
+                
+                let context = CoreDataHelper.persistentContainer.newBackgroundContext()
+                let file = try context.performAndWait { () -> File in
+                    let parent = context.typedObject(with: parentID) as File
+                    return try File.createOrUpdate(inContext: context, parentFolder: parent, isDirectory: false, data: json)
+                }
+                completionHandler(.success(file))
+            } catch let error as SCError {
+                completionHandler(.failure(error))
+            } catch let error {
+                completionHandler(.failure(SCError.other(error.localizedDescription)))
+            }
+        }
     }
 
     public func createDirectory(path: URL,
