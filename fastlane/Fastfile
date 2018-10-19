@@ -150,6 +150,7 @@ platform :ios do
       export_options: {
         provisioningProfiles: {
           "org.schulcloud" => "SchulCloud_AppStore_DistrProfile",
+          "org.schulcloud.fileprovider" => "Schul Cloud Fileprovider Distribution Profile",
         }
       },
     )
