@@ -963,10 +963,12 @@
 			buildConfigurationList = CE95A4BC2111FEDB0061BCDD /* Build configuration list for PBXNativeTarget "iOS-fileprovider" */;
 			buildPhases = (
 				17AEB00AB8868F2452232A67 /* [CP] Check Pods Manifest.lock */,
+				50EEBCC22179CA4E00AF9B4C /* Set Build number */,
 				CEA702F5215BAB9400AA8919 /* Copy brand Assets */,
 				CE95A4A72111FEDA0061BCDD /* Sources */,
 				CE95A4A82111FEDA0061BCDD /* Frameworks */,
 				CE95A4A92111FEDA0061BCDD /* Resources */,
+				50EEBCC32179CA6A00AF9B4C /* Clear Build number */,
 			);
 			buildRules = (
 			);
@@ -1221,7 +1223,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "$SRCROOT/Build\\ Phases/set-build-number.sh";
+			shellScript = "$SRCROOT/Build\\ Phases/set-build-number.sh\n";
 		};
 		50B44D7B203A0377009DC2D3 /* Clear Build number */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1235,7 +1237,43 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "$SRCROOT/Build\\ Phases/clear-build-number.sh";
+			shellScript = "$SRCROOT/Build\\ Phases/clear-build-number.sh\n";
+		};
+		50EEBCC22179CA4E00AF9B4C /* Set Build number */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Set Build number";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "$SRCROOT/Build\\ Phases/set-build-number.sh\n";
+		};
+		50EEBCC32179CA6A00AF9B4C /* Clear Build number */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Clear Build number";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "$SRCROOT/Build\\ Phases/clear-build-number.sh\n";
 		};
 		50F39850202C7E9200ADAE5D /* Copy GoogleServices-Info.plist */ = {
 			isa = PBXShellScriptBuildPhase;
