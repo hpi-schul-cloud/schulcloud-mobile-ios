@@ -13,6 +13,7 @@ public final class User: NSManagedObject {
     @NSManaged public var email: String?
     @NSManaged public var firstName: String?
     @NSManaged public var lastName: String?
+    @NSManaged public var schoolId: String
     @NSManaged public var courses: Set<Course>
     @NSManaged public var taughtCourses: Set<Course>
     @NSManaged public var assignedHomeworks: Set<Homework>
@@ -74,6 +75,7 @@ extension User: Pullable {
         self.email = try object.value(for: "email")
         self.firstName = try object.value(for: "firstName")
         self.lastName = try object.value(for: "lastName")
+        self.schoolId = try object.value(for: "schoolId")
 
         let permissions: [String] = (try? object.value(for: "permissions")) ?? []
         self.permissions = UserPermissions(array: permissions)

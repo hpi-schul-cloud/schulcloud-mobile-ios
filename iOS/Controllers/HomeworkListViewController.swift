@@ -126,7 +126,10 @@ class HomeworkListViewController: UITableViewController {
         }
 
         self.tableView.reloadData()
-        self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+        if let fetchedObject = self.fetchedResultsController.fetchedObjects,
+           !fetchedObject.isEmpty {
+            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+        }
     }
 
     // MARK: - Table view data source
@@ -142,7 +145,7 @@ class HomeworkListViewController: UITableViewController {
         let state = selectedSortingStyle.configuration
         let cell = tableView.dequeueReusableCell(withIdentifier: state.cellIdentifier, for: indexPath)
 
-        let homework = self.fetchedResultsController.object(at: indexPath)
+            let homework = self.fetchedResultsController.object(at: indexPath)
         if let homeworkCell = cell as? HomeworkByDateCell {
             homeworkCell.configure(for: homework)
         }

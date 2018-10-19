@@ -324,7 +324,7 @@ public class FileSync: NSObject {
             "path": url.absoluteString.removingPercentEncoding!,
             "name": name,
             "studentCanEdit": true,
-            "schoolId": "5bbb48be663ff7001158fef1",
+            "schoolId": Globals.currentUser!.schoolId,
         ]
 
         guard let data = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) else {
