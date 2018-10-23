@@ -80,7 +80,12 @@ public class FileSync: NSObject {
         }
 
         guard 200 ... 299 ~= httpResponse.statusCode else {
-            throw SCError.apiError(httpResponse.statusCode, "")
+            if let data = data,
+               let json = (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)) as? [String: Any] {
+                throw SCError(json: json)
+            } else {
+                throw SCError.apiError(httpResponse.statusCode, "")
+            }
         }
 
         guard let data = data else {
