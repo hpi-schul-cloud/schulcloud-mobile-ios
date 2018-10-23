@@ -45,32 +45,37 @@ public class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotification
         selectInitialViewController(application: application)
 
         CoreDataObserver.shared.startObserving()
+        LoginHelper.setupAuthentication(authenticationHandler: self.presentAuthenticationScreen)
 
         return true
     }
 
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    var loginViewController: UIViewController {
+        return storyboard.instantiateViewController(withIdentifier: "login")
+    }
 
-    fileprivate func showLogin() {
-        let loginViewController = storyboard.instantiateViewController(withIdentifier: "login")
-        self.window?.rootViewController = loginViewController
+    func presentAuthenticationScreen() {
+        DispatchQueue.main.async {
+            self.window?.rootViewController?.present(self.loginViewController, animated: true, completion: nil)
+        }
     }
 
     /// Check for existing login credentials and return appropriate view controller
     func selectInitialViewController(application: UIApplication) {
         if UserDefaults.standard.bool(forKey: "forceLogin") {
-            showLogin()
+            self.window?.rootViewController = self.loginViewController
             return
         }
 
         guard let account = LoginHelper.loadAccount() else {
-            showLogin()
+            self.window?.rootViewController = self.loginViewController
             return
         }
 
         guard let validAccount = LoginHelper.validate(account) else {
             LoginHelper.logout()
-            showLogin()
+            self.window?.rootViewController = self.loginViewController
             return
         }
 
@@ -81,7 +86,6 @@ public class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotification
     func prepareInitialViewController(with account: SchulCloudAccount) {
         Globals.account = account
         SCNotifications.initializeMessaging()
-        LoginHelper.renewAccessToken()
     }
 
     public func applicationWillTerminate(_ application: UIApplication) {

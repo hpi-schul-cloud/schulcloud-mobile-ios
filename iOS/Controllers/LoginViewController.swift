@@ -70,7 +70,13 @@ class LoginViewController: UIViewController {
     private func login(username: String, password: String) {
         self.loginButton.startAnimating()
         LoginHelper.login(username: username, password: password).onSuccess {
-            self.performSegue(withIdentifier: "loginDidSucceed", sender: nil)
+            DispatchQueue.main.async {
+                if self.isBeingPresented {
+                    self.dismiss(animated: true, completion: nil)
+                } else {
+                    self.performSegue(withIdentifier: "loginDidSucceed", sender: nil)
+                }
+            }
         }.onFailure { _ in
             DispatchQueue.main.async {
                 self.loginButton.stopAnimating()

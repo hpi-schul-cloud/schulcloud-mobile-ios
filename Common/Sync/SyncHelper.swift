@@ -12,6 +12,16 @@ struct SyncHelper {
 
     private static let syncConfiguration = SchulcloudSyncConfig()
     private static let syncStrategy: SyncStrategy = MainSchulcloudSyncStrategy()
+    static var authenticationChallengerHandler: (() -> Void)? = nil
+
+    private static func handleAuthentication(error: SCError) {
+        switch error {
+        case .synchronization(.api(.response(statusCode: 401, headers: _))):
+            SyncHelper.authenticationChallengerHandler?()
+        default:
+            break
+        }
+    }
 
     static func syncResources<Resource>(withFetchRequest fetchRequest: NSFetchRequest<Resource>,
                                         withQuery query: MultipleResourcesQuery<Resource>,
@@ -22,11 +32,12 @@ struct SyncHelper {
                                         withQuery: query,
                                         withConfiguration: configuration,
                                         withStrategy: strategy,
-                                        deleteNotExistingResources: deleteNotExistingResources).mapError { syncError -> SCError in
+                                            deleteNotExistingResources: deleteNotExistingResources).mapError { syncError -> SCError in
             return .synchronization(syncError)
         }.onSuccess { _ in
             log.info("Successfully merged resources of type: \(Resource.type)")
         }.onFailure { error in
+            self.handleAuthentication(error: error)
             log.error("Failed to sync resources of type: \(Resource.type) ==> \(error)")
         }
     }
@@ -43,6 +54,7 @@ struct SyncHelper {
         }.onSuccess { _ in
             log.info("Successfully merged resource of type: \(Resource.type)")
         }.onFailure { error in
+            self.handleAuthentication(error: error)
             log.error("Failed to sync resource of type: \(Resource.type) ==> \(error)")
         }
     }
@@ -59,6 +71,7 @@ struct SyncHelper {
         }.onSuccess { _ in
             log.info("Successfully created resource of type: \(resourceType)")
         }.onFailure { error in
+            self.handleAuthentication(error: error)
             log.error("Failed to create resource of type: \(resourceType) ==> \(error)")
         }
     }
@@ -73,6 +86,7 @@ struct SyncHelper {
         }.onSuccess { _ in
             log.info("Successfully created resource of type: \(type(of: resource).type)")
         }.onFailure { error in
+            self.handleAuthentication(error: error)
             log.error("Failed to create resource of type: \(resource) ==> \(error)")
         }
     }
@@ -87,6 +101,7 @@ struct SyncHelper {
         }.onSuccess { _ in
             log.info("Successfully saved resource of type: \(type(of: resource).type)")
         }.onFailure { error in
+            self.handleAuthentication(error: error)
             log.error("Failed to save resource of type: \(resource) ==> \(error)")
         }
     }
@@ -101,6 +116,7 @@ struct SyncHelper {
         }.onSuccess { _ in
             log.info("Successfully deleted resource of type: \(type(of: resource).type)")
         }.onFailure { error in
+            self.handleAuthentication(error: error)
             log.error("Failed to delete resource: \(resource) ==> \(error)")
         }
     }

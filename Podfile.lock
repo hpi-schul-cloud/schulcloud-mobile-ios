@@ -73,7 +73,7 @@ DEPENDENCIES:
   - SyncEngine (from `./Frameworks/SyncEngine`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - Alamofire
     - BrightFutures
     - CalendarKit
@@ -135,4 +135,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: f7f8d03f03167badf92c587f6668dbc053fc7f52
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.3

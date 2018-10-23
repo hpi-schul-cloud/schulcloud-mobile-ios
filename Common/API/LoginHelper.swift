@@ -19,16 +19,28 @@ public extension UserDefaults {
 
 public class LoginHelper {
 
-    public static func getAccessToken(username: String?, password: String?) -> Future<String, SCError> {
+
+    /// Setup the sync engine with the callback needed when an authentication error happens
+    public static func setupAuthentication(authenticationHandler: @escaping () -> Void) {
+        SyncHelper.authenticationChallengerHandler = authenticationHandler
+    }
+
+    public static func getAccessToken(username: String, password: String) -> Future<String, SCError> {
         let promise = Promise<String, SCError>()
 
-        let parameters: Parameters = [
+        let parameters = [
             "username": username as Any,
             "password": password as Any,
         ]
+        
+        var headers = HTTPHeaders()
+
+        if let accessToken = Globals.account?.accessToken {
+            headers["Authorization"] = accessToken
+        }
 
         let loginEndpoint = Brand.default.servers.backend.appendingPathComponent("authentication/")
-        Alamofire.request(loginEndpoint, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in
+        Alamofire.request(loginEndpoint, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             guard let json = response.result.value as? [String: Any] else {
                 let error = response.error!
                 // using the error directly isn't possible because Error can't be used as a concrete type
@@ -38,20 +50,20 @@ public class LoginHelper {
 
             if let accessToken = json["accessToken"] as? String {
                 promise.success(accessToken)
-            } else if let errorMessage = json["message"] as? String, errorMessage != "Error" {
-                promise.failure(.loginFailed(errorMessage))
-            } else if json["code"] as? Int == 401 {
-                promise.failure(.wrongCredentials)
             } else {
-                promise.failure(.unknown)
-            }
+                promise.failure(SCError(json: json))
+            } 
         }
 
         return promise.future
     }
 
-    public static func login(username: String?, password: String?) -> Future<Void, SCError> {
-        return getAccessToken(username: username, password: password).flatMap(saveToken).flatMap { _ in
+    public static func authenticate(username: String, password: String) -> Future<Void, SCError> {
+        return getAccessToken(username: username, password: password).flatMap(saveToken)
+    }
+
+    public static func login(username: String, password: String) -> Future<Void, SCError> {
+        return self.authenticate(username:username,password:password).flatMap { _ in
             return UserHelper.syncUser(withId: Globals.account!.userId)
         }.asVoid()
     }
@@ -77,9 +89,6 @@ public class LoginHelper {
         }
     }
 
-    public static func renewAccessToken() -> Future<Void, SCError> {
-        return getAccessToken(username: nil, password: nil).flatMap(saveToken)
-    }
 
     public static func loadAccount() -> SchulCloudAccount? {
         guard let defaults = UserDefaults.appGroupDefaults,
@@ -121,10 +130,10 @@ public class LoginHelper {
         do {
             CoreDataHelper.clearCoreDataStorage()
             try Globals.account!.deleteFromSecureStore()
+            Globals.account = nil
             try CalendarEventHelper.deleteSchulcloudCalendar()
         } catch let error {
             log.error(error.localizedDescription)
         }
     }
-
 }
