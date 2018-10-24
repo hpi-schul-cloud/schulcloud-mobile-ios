@@ -80,11 +80,7 @@ public class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotification
         }
 
         // skip login
-        prepareInitialViewController(with: validAccount)
-    }
-
-    func prepareInitialViewController(with account: SchulCloudAccount) {
-        Globals.account = account
+        Globals.account = validAccount
         SCNotifications.initializeMessaging()
     }
 

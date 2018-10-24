@@ -72,7 +72,7 @@ class LoginViewController: UIViewController {
         LoginHelper.login(username: username, password: password).onSuccess {
             DispatchQueue.main.async {
                 if self.isBeingPresented {
-                    self.dismiss(animated: true, completion: nil)
+                    self.dismiss(animated: true)
                 } else {
                     self.performSegue(withIdentifier: "loginDidSucceed", sender: nil)
                 }

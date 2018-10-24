@@ -15,12 +15,8 @@ struct SyncHelper {
     static var authenticationChallengerHandler: (() -> Void)? = nil
 
     private static func handleAuthentication(error: SCError) {
-        switch error {
-        case .synchronization(.api(.response(statusCode: 401, headers: _))):
-            SyncHelper.authenticationChallengerHandler?()
-        default:
-            break
-        }
+        guard case let .synchronization(.api(.response(statusCode: statusCode, headers: _))) = error, statusCode == 401 else { return }
+        SyncHelper.authenticationChallengerHandler?()
     }
 
     static func syncResources<Resource>(withFetchRequest fetchRequest: NSFetchRequest<Resource>,
@@ -32,7 +28,7 @@ struct SyncHelper {
                                         withQuery: query,
                                         withConfiguration: configuration,
                                         withStrategy: strategy,
-                                            deleteNotExistingResources: deleteNotExistingResources).mapError { syncError -> SCError in
+                                        deleteNotExistingResources: deleteNotExistingResources).mapError { syncError -> SCError in
             return .synchronization(syncError)
         }.onSuccess { _ in
             log.info("Successfully merged resources of type: \(Resource.type)")

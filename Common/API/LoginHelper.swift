@@ -19,7 +19,6 @@ public extension UserDefaults {
 
 public class LoginHelper {
 
-
     /// Setup the sync engine with the callback needed when an authentication error happens
     public static func setupAuthentication(authenticationHandler: @escaping () -> Void) {
         SyncHelper.authenticationChallengerHandler = authenticationHandler
@@ -52,7 +51,7 @@ public class LoginHelper {
                 promise.success(accessToken)
             } else {
                 promise.failure(SCError(json: json))
-            } 
+            }
         }
 
         return promise.future
