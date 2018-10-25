@@ -17,6 +17,8 @@ import UIKit
 
 class HomeworkListViewController: UITableViewController {
 
+    var fetchedResultDelegate: TableViewFetchedControllerDelegate?
+
     private struct SortingConfiguration {
         let keypath: String
         let sortDescriptors: [String]
@@ -60,6 +62,7 @@ class HomeworkListViewController: UITableViewController {
 
         let nib = UINib(nibName: "HomeworkHeaderView", bundle: nil)
         self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: "HomeworkHeaderView")
+        self.fetchedResultDelegate = TableViewFetchedControllerDelegate(tableView: self.tableView)
 
         self.performFetch()
         self.updateData()
@@ -89,9 +92,7 @@ class HomeworkListViewController: UITableViewController {
     }
 
     func updateData() {
-        HomeworkHelper.syncHomework().onSuccess { _ in
-            self.performFetch()
-        }.onFailure { error in
+        HomeworkHelper.syncHomework().onFailure { error in
             log.error(error)
         }.onComplete { _ in
             self.refreshControl?.endRefreshing()
@@ -113,7 +114,8 @@ class HomeworkListViewController: UITableViewController {
                                                                   managedObjectContext: CoreDataHelper.viewContext,
                                                                   sectionNameKeyPath: configuration.keypath,
                                                                   cacheName: nil)
-        fetchedResultsController.delegate = self
+
+        fetchedResultsController.delegate = self.fetchedResultDelegate
 
         return fetchedResultsController
     }
@@ -211,12 +213,4 @@ class HomeworkListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
-}
-
-extension HomeworkListViewController: NSFetchedResultsControllerDelegate {
-
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        self.tableView.reloadData()
-    }
-
 }

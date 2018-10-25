@@ -7,12 +7,14 @@ import Common
 import CoreData
 import UIKit
 
-public class LessonsViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+public class LessonsViewController: UITableViewController {
 
     var course: Course!
+    var fetchedResultDelegate: TableViewFetchedControllerDelegate?
 
     public override func viewDidLoad() {
         super.viewDidLoad()
+        self.fetchedResultDelegate = TableViewFetchedControllerDelegate(tableView: self.tableView)
 
         tableView.rowHeight = UITableViewAutomaticDimension
         self.title = course.name
@@ -25,9 +27,7 @@ public class LessonsViewController: UITableViewController, NSFetchedResultsContr
     }
 
     func updateData() {
-        LessonHelper.syncLessons(for: self.course).onSuccess { _ in
-            self.performFetch()
-        }.onFailure { error in
+        LessonHelper.syncLessons(for: self.course).onFailure { error in
             log.error(error)
         }.onComplete { _ in
             self.refreshControl?.endRefreshing()
@@ -51,7 +51,7 @@ public class LessonsViewController: UITableViewController, NSFetchedResultsContr
                                                                   cacheName: nil)
 
         // Configure Fetched Results Controller
-        fetchedResultsController.delegate = self
+        fetchedResultsController.delegate = self.fetchedResultDelegate
 
         return fetchedResultsController
     }()
@@ -106,5 +106,4 @@ public class LessonsViewController: UITableViewController, NSFetchedResultsContr
             break
         }
     }
-
 }

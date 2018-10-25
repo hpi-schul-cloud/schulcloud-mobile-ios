@@ -7,7 +7,7 @@ import Common
 import CoreData
 import UIKit
 
-class CoursesViewController: UICollectionViewController, NSFetchedResultsControllerDelegate, UICollectionViewDelegateFlowLayout {
+class CoursesViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,9 +23,7 @@ class CoursesViewController: UICollectionViewController, NSFetchedResultsControl
     }
 
     func updateData() {
-        CourseHelper.syncCourses().onSuccess { _ in
-            self.performFetch()
-        }.onFailure { error in
+        CourseHelper.syncCourses().onFailure { error in
             log.error(error)
         }
     }
@@ -119,5 +117,10 @@ class CoursesViewController: UICollectionViewController, NSFetchedResultsControl
             break
         }
     }
+}
 
+extension CoursesViewController: NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        self.collectionView?.reloadData()
+    }
 }

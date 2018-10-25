@@ -7,11 +7,14 @@ import Common
 import CoreData
 import UIKit
 
-public class NewsListViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+public class NewsListViewController: UITableViewController {
+
+    var fetchedRequestDelegate: TableViewFetchedControllerDelegate?
 
     // MARK: - UI Methods
     public override func viewDidLoad() {
         super.viewDidLoad()
+        self.fetchedRequestDelegate = TableViewFetchedControllerDelegate(tableView: self.tableView)
 
         self.fetchNewsArticle()
         self.synchronizeNewsArticle()
@@ -30,14 +33,12 @@ public class NewsListViewController: UITableViewController, NSFetchedResultsCont
                                                                 managedObjectContext: CoreDataHelper.viewContext,
                                                                 sectionNameKeyPath: nil,
                                                                 cacheName: nil)
-        fetchResultsController.delegate = self
+        fetchResultsController.delegate = self.fetchedRequestDelegate
         return fetchResultsController
     }()
 
     fileprivate func synchronizeNewsArticle() {
-        NewsArticleHelper.syncNewsArticles().onSuccess { _ in
-            self.fetchNewsArticle()
-        }.onFailure { error in
+        NewsArticleHelper.syncNewsArticles().onFailure { error in
             log.error(error.localizedDescription)
         }.onComplete { _ in
             self.refreshControl?.endRefreshing()

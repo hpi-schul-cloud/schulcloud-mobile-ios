@@ -24,8 +24,11 @@ public class FilesViewController: UITableViewController {
     var currentFolder: File!
     var fileSync = FileSync.default
 
+    var fetchedResultDelegate: TableViewFetchedControllerDelegate? = nil
+
     public override func viewDidLoad() {
         super.viewDidLoad()
+        self.fetchedResultDelegate = TableViewFetchedControllerDelegate(tableView: self.tableView)
 
         if currentFolder == nil {
             currentFolder = FileHelper.rootFolder
@@ -68,7 +71,7 @@ public class FilesViewController: UITableViewController {
                                                                   sectionNameKeyPath: nil,
                                                                   cacheName: nil)
         // Configure Fetched Results Controller
-        fetchedResultsController.delegate = self
+        fetchedResultsController.delegate = self.fetchedResultDelegate
 
         return fetchedResultsController
     }()
@@ -81,13 +84,6 @@ public class FilesViewController: UITableViewController {
         }
 
         tableView.reloadData()
-    }
-
-}
-
-extension FilesViewController: NSFetchedResultsControllerDelegate {
-    public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        self.tableView.reloadData()
     }
 }
 

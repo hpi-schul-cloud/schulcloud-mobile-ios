@@ -37,6 +37,7 @@
 		C3A5A9101EBCC17600825DBF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3A5A90E1EBCC17600825DBF /* LaunchScreen.storyboard */; };
 		C3A5A9261EBCC17600825DBF /* Snapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9251EBCC17600825DBF /* Snapshots.swift */; };
 		CE057CCA2136B85C00D0D4AF /* FileProviderItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95A4AF2111FEDA0061BCDD /* FileProviderItem.swift */; };
+		CE1253332181D92800CA2213 /* TableViewFetchedControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1253322181D92800CA2213 /* TableViewFetchedControllerDelegate.swift */; };
 		CE1EAE8C20E500F800C66DDD /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1EAE8B20E500F800C66DDD /* Brand.swift */; };
 		CE1EAE8E20E5036E00C66DDD /* BrandColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1EAE8D20E5036E00C66DDD /* BrandColors.swift */; };
 		CE1EAE9020E503C600C66DDD /* BrandServers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1EAE8F20E503C600C66DDD /* BrandServers.swift */; };
@@ -320,6 +321,7 @@
 		C519C974B5E6B997A0F19C57 /* Pods_Common_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Common_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD400EC3BD251E35484218B4 /* Pods-Common.n21-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common.n21-debug.xcconfig"; path = "Pods/Target Support Files/Pods-Common/Pods-Common.n21-debug.xcconfig"; sourceTree = "<group>"; };
 		CE0F83CA20653C3F00F847D7 /* NewsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController.swift; sourceTree = "<group>"; };
+		CE1253322181D92800CA2213 /* TableViewFetchedControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewFetchedControllerDelegate.swift; sourceTree = "<group>"; };
 		CE1DAC582004CE0200CEE4C2 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		CE1EAE8B20E500F800C66DDD /* Brand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brand.swift; sourceTree = "<group>"; };
 		CE1EAE8D20E5036E00C66DDD /* BrandColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandColors.swift; sourceTree = "<group>"; };
@@ -655,6 +657,7 @@
 		C3A5A9351EBCD03600825DBF /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				CE1253322181D92800CA2213 /* TableViewFetchedControllerDelegate.swift */,
 				CE23F10C2056B00800E79E64 /* Dashboard */,
 				C31C84281ECF550C00FA070C /* File Preview */,
 				C3B7DB151EF5EB2200A2F2B5 /* Lesson */,
@@ -1437,6 +1440,7 @@
 				CE41528B20DBD9F000739CE2 /* DashboardNoPermissionViewController.swift in Sources */,
 				CE41528C20DBD9F000739CE2 /* CalendarOverviewViewController.swift in Sources */,
 				CE41529D20DBD9F900739CE2 /* NewsDetailViewController.swift in Sources */,
+				CE1253332181D92800CA2213 /* TableViewFetchedControllerDelegate.swift in Sources */,
 				CE4152A720DBDA3300739CE2 /* DashboardViewControllerCell.swift in Sources */,
 				CE41529920DBD9F900739CE2 /* CalendarViewController.swift in Sources */,
 				CE41529420DBD9F900739CE2 /* FilesViewController.swift in Sources */,

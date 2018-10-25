@@ -16,6 +16,7 @@ protocol NewsOverviewViewControllerDelegate: class {
 final class NewsOverviewViewController: UITableViewController {
 
     weak var delegate: NewsOverviewViewControllerDelegate?
+    var fetchedResultDelegate: TableViewFetchedControllerDelegate?
 
     fileprivate lazy var fetchedController: NSFetchedResultsController<NewsArticle> = {
         let fetchRequest: NSFetchRequest<NewsArticle> = NewsArticle.fetchRequest()
@@ -25,12 +26,13 @@ final class NewsOverviewViewController: UITableViewController {
                                                     managedObjectContext: CoreDataHelper.viewContext,
                                                     sectionNameKeyPath: nil,
                                                     cacheName: nil)
-        controller.delegate = self
+        controller.delegate = self.fetchedResultDelegate
         return controller
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.fetchedResultDelegate = TableViewFetchedControllerDelegate(tableView: self.tableView)
         try? fetchedController.performFetch()
         tableView.reloadData()
         NewsArticleHelper.syncNewsArticles()
@@ -74,12 +76,6 @@ final class NewsOverviewViewController: UITableViewController {
 
     @IBAction func showMorePressed() {
         self.delegate?.showMorePressed()
-    }
-}
-
-extension NewsOverviewViewController: NSFetchedResultsControllerDelegate {
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.reloadData()
     }
 }
 
