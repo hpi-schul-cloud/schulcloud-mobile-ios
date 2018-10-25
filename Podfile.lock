@@ -1,5 +1,4 @@
 PODS:
-  - Alamofire (4.4.0)
   - BrightFutures (6.0.1):
     - Result (~> 3.2.4)
   - CalendarKit (0.2.0):
@@ -59,7 +58,6 @@ PODS:
     - Marshal (~> 1.2)
 
 DEPENDENCIES:
-  - Alamofire (= 4.4.0)
   - BrightFutures (~> 6.0)
   - CalendarKit (= 0.2.0)
   - Firebase/Auth
@@ -73,8 +71,7 @@ DEPENDENCIES:
   - SyncEngine (from `./Frameworks/SyncEngine`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
-    - Alamofire
+  https://github.com/cocoapods/specs.git:
     - BrightFutures
     - CalendarKit
     - DateToolsSwift
@@ -109,7 +106,6 @@ CHECKOUT OPTIONS:
     :git: https://github.com/SwiftyBeaver/SwiftyBeaver.git
 
 SPEC CHECKSUMS:
-  Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
   BrightFutures: 9c03dab79e73ffe504b7bafc15c5bfdaeee54890
   CalendarKit: f5bfd960ca0bf652ae478e6f4effbe61f2500241
   DateToolsSwift: 875d97ff9e3a5d54abdd67a269b3f51c757b71ab
@@ -133,6 +129,6 @@ SPEC CHECKSUMS:
   SwiftyBeaver: 6d10886c590bc0c7bd42f8c6f54c6bfea71c49d6
   SyncEngine: 7dd96977bd1cec292364451c0ef16679cc941b2e
 
-PODFILE CHECKSUM: f7f8d03f03167badf92c587f6668dbc053fc7f52
+PODFILE CHECKSUM: 14dc5f1745ddf83f139ed0f2acc93d0f00efa119
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.3
