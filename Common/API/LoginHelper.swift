@@ -3,7 +3,6 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import Alamofire
 import BrightFutures
 import Foundation
 import JWTDecode
@@ -25,34 +24,68 @@ public class LoginHelper {
     }
 
     public static func getAccessToken(username: String, password: String) -> Future<String, SCError> {
-        let promise = Promise<String, SCError>()
-
         let parameters = [
             "username": username as Any,
             "password": password as Any,
         ]
         
-        var headers = HTTPHeaders()
+        guard let requestBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {
+            return Future(error: SCError.jsonSerialization("Can't serialize login parameter"))
+        }
 
+        var headers = ["Content-Type": "application/json"]
         if let accessToken = Globals.account?.accessToken {
             headers["Authorization"] = accessToken
         }
 
         let loginEndpoint = Brand.default.servers.backend.appendingPathComponent("authentication/")
-        Alamofire.request(loginEndpoint, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
-            guard let json = response.result.value as? [String: Any] else {
-                let error = response.error!
-                // using the error directly isn't possible because Error can't be used as a concrete type
-                promise.failure(.loginFailed(error.localizedDescription))
+        var request = URLRequest(url: loginEndpoint)
+        request.httpMethod = "POST"
+        request.allHTTPHeaderFields? = headers
+        request.httpBody = requestBody
+
+        let promise = Promise<String, SCError>()
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                promise.failure(.network(error))
                 return
             }
 
-            if let accessToken = json["accessToken"] as? String {
-                promise.success(accessToken)
-            } else {
-                promise.failure(SCError(json: json))
+            guard let response = response as? HTTPURLResponse else {
+                promise.failure(.network(nil))
+                return
             }
-        }
+
+            guard 200...299 ~= response.statusCode else {
+                if let data = data,
+                    let json = (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)) as? [String: Any] {
+                    promise.failure(SCError(json: json))
+                } else {
+                    promise.failure(SCError.apiError(response.statusCode, ""))
+                }
+                return
+            }
+
+            guard let data = data else {
+                promise.failure(.network(nil))
+                return
+            }
+
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                if let jsonDict = json as? [String: Any] {
+                    if let accessToken = jsonDict["accessToken"] as? String {
+                        promise.success(accessToken)
+                    } else {
+                        promise.failure(.jsonDeserialization("No accessToken field found"))
+                    }
+                } else {
+                    promise.failure(.jsonDeserialization("Unexpected json format"))
+                }
+            } catch let error {
+                promise.failure(SCError.jsonDeserialization(error.localizedDescription))
+            }
+        }.resume()
 
         return promise.future
     }
