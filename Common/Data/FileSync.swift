@@ -58,7 +58,7 @@ public class FileSync: NSObject {
 
         var urlComponent = URLComponents(url: fileStorageURL, resolvingAgainstBaseURL: false)!
         urlComponent.query = "path=\(remoteURL.absoluteString.removingPercentEncoding!)"
-        return try? urlComponent.asURL()
+        return urlComponent.url
     }
 
     private func request(for url: URL) -> URLRequest {

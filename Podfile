@@ -6,7 +6,6 @@ platform :ios, '10.0'
 pod 'SwiftLint', '~> 0.25'
 
 target 'Common' do
-  pod 'Alamofire', '4.4.0'
   pod 'BrightFutures', '~> 6.0'
   pod 'Firebase/Auth'
   pod 'Firebase/Core'
