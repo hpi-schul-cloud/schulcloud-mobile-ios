@@ -3,7 +3,6 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import Alamofire
 import BrightFutures
 import CoreData
 import Foundation
