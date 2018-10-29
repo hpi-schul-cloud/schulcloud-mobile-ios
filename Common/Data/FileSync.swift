@@ -11,6 +11,8 @@ import Result
 
 public class FileSync: NSObject {
 
+    public static var authenticationHandler: (() -> Void)?
+
     static public var `default`: FileSync = {
         let identifier = (Bundle.main.bundleIdentifier ?? "") + ".background"
         return FileSync(backgroundSessionIdentifier: identifier)
@@ -73,13 +75,21 @@ public class FileSync: NSObject {
             throw SCError.network(error)
         }
 
-        guard let response = response as? HTTPURLResponse,
-            200 ... 299 ~= response.statusCode else {
-                throw SCError.network(nil)
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw SCError.network(nil)
+        }
+
+        guard 200 ... 299 ~= httpResponse.statusCode else {
+            if let data = data,
+               let json = (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)) as? [String: Any] {
+                throw SCError(json: json)
+            } else {
+                throw SCError.apiError(httpResponse.statusCode, "")
+            }
         }
 
         guard let data = data else {
-            throw SCError.network(nil)
+            throw SCError.other("No data is available in successful request")
         }
 
         return data
@@ -136,6 +146,9 @@ public class FileSync: NSObject {
                 }
 
                 completionBlock(.success(json))
+            } catch SCError.apiError(401, let message) {
+                FileSync.authenticationHandler?()
+                completionBlock(.failure(.apiError(401, message)))
             } catch let error as SCError {
                 completionBlock(.failure( error))
             } catch let error {
@@ -165,6 +178,9 @@ public class FileSync: NSObject {
                 ]
 
                 completionBlock(.success(result))
+            } catch SCError.apiError(401, let message) {
+                FileSync.authenticationHandler?()
+                completionBlock(.failure(.apiError(401, message)))
             } catch let error as SCError {
                 completionBlock( .failure(error))
             } catch let error {
@@ -174,9 +190,9 @@ public class FileSync: NSObject {
     }
 
     // MARK: File materialization
-    public func signedURL(for file: File, completionHandler: @escaping (Result<URL, SCError>) -> Void) -> URLSessionTask? {
+    public func signedURL(for file: File, completionBlock: @escaping (Result<URL, SCError>) -> Void) -> URLSessionTask? {
         guard !file.isDirectory else {
-            completionHandler(.failure( SCError.other("Can't download folder") ))
+            completionBlock(.failure( SCError.other("Can't download folder") ))
             return nil
         }
 
@@ -191,7 +207,7 @@ public class FileSync: NSObject {
         ]
 
         guard let jsonData = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) else {
-            completionHandler(.failure(.jsonSerialization("Can't serialize json for SignedURL")))
+            completionBlock(.failure(.jsonSerialization("Can't serialize json for SignedURL")))
             return nil
         }
 
@@ -205,11 +221,14 @@ public class FileSync: NSObject {
                 }
 
                 let signedURL: URL = try json.value(for: "url")
-                completionHandler(.success( signedURL))
+                completionBlock(.success( signedURL))
+            } catch SCError.apiError(401, let message) {
+                FileSync.authenticationHandler?()
+                completionBlock(.failure(.apiError(401, message)))
             } catch let error as SCError {
-                completionHandler(.failure( error))
+                completionBlock(.failure( error))
             } catch let error {
-                completionHandler(.failure( SCError.jsonDeserialization(error.localizedDescription)))
+                completionBlock(.failure( SCError.jsonDeserialization(error.localizedDescription)))
             }
         }
     }

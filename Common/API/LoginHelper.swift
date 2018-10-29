@@ -18,13 +18,17 @@ public extension UserDefaults {
 
 public class LoginHelper {
 
+    /// Setup the sync engine with the callback needed when an authentication error happens
+    public static func setupAuthentication(authenticationHandler: @escaping () -> Void) {
+        SyncHelper.authenticationChallengerHandler = authenticationHandler
+    }
 
-    public static func getAccessToken(username: String?, password: String?) -> Future<String, SCError> {
+    public static func getAccessToken(username: String, password: String) -> Future<String, SCError> {
         let parameters = [
             "username": username as Any,
             "password": password as Any,
         ]
-
+        
         guard let requestBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {
             return Future(error: SCError.jsonSerialization("Can't serialize login parameter"))
         }
@@ -86,8 +90,12 @@ public class LoginHelper {
         return promise.future
     }
 
-    public static func login(username: String?, password: String?) -> Future<Void, SCError> {
-        return getAccessToken(username: username, password: password).flatMap(saveToken).flatMap { _ in
+    public static func authenticate(username: String, password: String) -> Future<Void, SCError> {
+        return getAccessToken(username: username, password: password).flatMap(saveToken)
+    }
+
+    public static func login(username: String, password: String) -> Future<Void, SCError> {
+        return self.authenticate(username:username,password:password).flatMap { _ in
             return UserHelper.syncUser(withId: Globals.account!.userId)
         }.asVoid()
     }
@@ -113,9 +121,6 @@ public class LoginHelper {
         }
     }
 
-    public static func renewAccessToken() -> Future<Void, SCError> {
-        return getAccessToken(username: nil, password: nil).flatMap(saveToken)
-    }
 
     public static func loadAccount() -> SchulCloudAccount? {
         guard let defaults = UserDefaults.appGroupDefaults,
@@ -157,10 +162,10 @@ public class LoginHelper {
         do {
             CoreDataHelper.clearCoreDataStorage()
             try Globals.account!.deleteFromSecureStore()
+            Globals.account = nil
             try CalendarEventHelper.deleteSchulcloudCalendar()
         } catch let error {
             log.error(error.localizedDescription)
         }
     }
-
 }
