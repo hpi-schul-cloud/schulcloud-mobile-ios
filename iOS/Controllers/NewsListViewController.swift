@@ -60,13 +60,6 @@ public class NewsListViewController: UITableViewController {
 }
 
 extension NewsListViewController: CoreDataTableViewDataSourceDelegate {
-    typealias Object = NewsArticle
-    typealias Cell = NewsArticleCell
-
-    func titleForDefaultHeader(forSection section: Int) -> String? {
-        return nil
-    }
-
     func configure(_ cell: NewsArticleCell, for object: NewsArticle) {
         cell.configure(for: object)
     }

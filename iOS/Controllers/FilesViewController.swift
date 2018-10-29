@@ -68,9 +68,9 @@ public class FilesViewController: UITableViewController {
 
         // Create Fetched Results Controller
         return NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                                  managedObjectContext: CoreDataHelper.viewContext,
-                                                                  sectionNameKeyPath: nil,
-                                                                  cacheName: nil)
+                                          managedObjectContext: CoreDataHelper.viewContext,
+                                          sectionNameKeyPath: nil,
+                                          cacheName: nil)
     }()
 
     func performFetch() {
@@ -163,9 +163,6 @@ extension FilesViewController {
 }
 
 extension FilesViewController: CoreDataTableViewDataSourceDelegate {
-    typealias Object = File
-    typealias Cell = UITableViewCell
-
     func configure(_ cell: UITableViewCell, for object: File) {
         cell.textLabel?.text = object.name
         cell.detailTextLabel?.text = object.detail
@@ -177,9 +174,5 @@ extension FilesViewController: CoreDataTableViewDataSourceDelegate {
         if #available(iOS 11.0, *) {
             cell.imageView?.adjustsImageSizeForAccessibilityContentSizeCategory = true
         }
-    }
-
-    func titleForDefaultHeader(forSection section: Int) -> String? {
-        return nil
     }
 }

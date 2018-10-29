@@ -63,7 +63,7 @@ public class LessonsViewController: UITableViewController {
             log.error("Unable to Perform Fetch Request: \(fetchError), \(fetchError.localizedDescription)")
         }
     }
-    
+
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     public override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
@@ -86,15 +86,8 @@ public class LessonsViewController: UITableViewController {
 }
 
 extension LessonsViewController: CoreDataTableViewDataSourceDelegate {
-    typealias Object = Lesson
-    typealias Cell = UITableViewCell
-
     func configure(_ cell: UITableViewCell, for item: Lesson) {
         cell.textLabel?.text = item.name
         cell.detailTextLabel?.text = item.descriptionText
-    }
-
-    func titleForDefaultHeader(forSection section: Int) -> String? {
-        return nil
     }
 }
