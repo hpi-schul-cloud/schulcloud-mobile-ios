@@ -90,6 +90,8 @@
 		CE95A4B02111FEDA0061BCDD /* FileProviderItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95A4AF2111FEDA0061BCDD /* FileProviderItem.swift */; };
 		CE95A4B22111FEDA0061BCDD /* FolderEnumerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95A4B12111FEDA0061BCDD /* FolderEnumerator.swift */; };
 		CE95A4B72111FEDB0061BCDD /* schulcloud.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CE95A4AB2111FEDA0061BCDD /* schulcloud.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CEAF17A021870FD700146C46 /* CoreDataTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAF179F21870FD700146C46 /* CoreDataTableViewDataSource.swift */; };
+		CEAF17A22187137800146C46 /* Optional+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAF17A12187137800146C46 /* Optional+.swift */; };
 		CEBE1547207B63DC00238D1F /* HomeworkHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBE1546207B63DC00238D1F /* HomeworkHeaderView.xib */; };
 		CEEE0A1220D2AA7C00B0C2CE /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE0A0B20D2AA7C00B0C2CE /* Common.framework */; };
 		CEEE0A1420D2AA7C00B0C2CE /* Common.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE0A0B20D2AA7C00B0C2CE /* Common.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -369,6 +371,8 @@
 		CE95A4B32111FEDB0061BCDD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE99358A2074F667008E7EB0 /* HomeworkOverviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkOverviewCell.swift; sourceTree = "<group>"; };
 		CE9B56C72062A2C400803B3D /* NewsOverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsOverviewViewController.swift; sourceTree = "<group>"; };
+		CEAF179F21870FD700146C46 /* CoreDataTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTableViewDataSource.swift; sourceTree = "<group>"; };
+		CEAF17A12187137800146C46 /* Optional+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+.swift"; sourceTree = "<group>"; };
 		CEB0027C2008BF9C007084C9 /* CalendarEventHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarEventHelper.swift; sourceTree = "<group>"; };
 		CEBE1546207B63DC00238D1F /* HomeworkHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeworkHeaderView.xib; sourceTree = "<group>"; };
 		CEBE154A207B9BE900238D1F /* HomeworkByCourseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkByCourseCell.swift; sourceTree = "<group>"; };
@@ -484,6 +488,7 @@
 				C3165F1E1EDC1EC6005F5B8E /* NSAttributedString+HTML.swift */,
 				CE644E8820232710003AE700 /* UIColor+hexString.swift */,
 				CEFAFEDF2158ED270029B9E2 /* Bundle+.swift */,
+				CEAF17A12187137800146C46 /* Optional+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -671,6 +676,7 @@
 				507684BF1F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift */,
 				CE0F83CA20653C3F00F847D7 /* NewsDetailViewController.swift */,
 				CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */,
+				CEAF179F21870FD700146C46 /* CoreDataTableViewDataSource.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1433,6 +1439,7 @@
 				CE41529920DBD9F900739CE2 /* CalendarViewController.swift in Sources */,
 				CE41529420DBD9F900739CE2 /* FilesViewController.swift in Sources */,
 				CE4152A920DBDA3300739CE2 /* HomeworkByCourseCell.swift in Sources */,
+				CEAF17A021870FD700146C46 /* CoreDataTableViewDataSource.swift in Sources */,
 				CE41528A20DBD9F000739CE2 /* DashboardViewController.swift in Sources */,
 				CE4152AB20DBDA3300739CE2 /* HomeworkHeaderView.swift in Sources */,
 				CE41528F20DBD9F000739CE2 /* MissingPermissionView.swift in Sources */,
@@ -1494,6 +1501,7 @@
 				CEEE0A3D20D2AD9000B0C2CE /* LessonHelper.swift in Sources */,
 				CEEE0A4320D2AD9000B0C2CE /* UserPermissions.swift in Sources */,
 				CEEE0A3120D2AD8400B0C2CE /* Course.swift in Sources */,
+				CEAF17A22187137800146C46 /* Optional+.swift in Sources */,
 				CEEE0A3720D2AD8400B0C2CE /* NewsArticle.swift in Sources */,
 				CEEE0A2E20D2AD7400B0C2CE /* Notifications.swift in Sources */,
 				CEEE0A3420D2AD8400B0C2CE /* Homework.swift in Sources */,

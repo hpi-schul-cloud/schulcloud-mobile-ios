@@ -8,13 +8,15 @@ import CoreData
 import UIKit
 
 public class NewsListViewController: UITableViewController {
-
-    var fetchedRequestDelegate: TableViewFetchedControllerDelegate?
+    var coreDataTableViewDataSource: CoreDataTableViewDataSource<NewsListViewController>?
 
     // MARK: - UI Methods
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.fetchedRequestDelegate = TableViewFetchedControllerDelegate(tableView: self.tableView)
+        self.coreDataTableViewDataSource = CoreDataTableViewDataSource(self.tableView,
+                                                                       fetchedResultsController: self.fetchedResultController,
+                                                                       cellReuseIdentifier: "newsCell",
+                                                                       delegate: self)
 
         self.fetchNewsArticle()
         self.synchronizeNewsArticle()
@@ -33,7 +35,6 @@ public class NewsListViewController: UITableViewController {
                                                                 managedObjectContext: CoreDataHelper.viewContext,
                                                                 sectionNameKeyPath: nil,
                                                                 cacheName: nil)
-        fetchResultsController.delegate = self.fetchedRequestDelegate
         return fetchResultsController
     }()
 
@@ -51,29 +52,22 @@ public class NewsListViewController: UITableViewController {
         } catch let fetchError as NSError {
             log.error(fetchError)
         }
-
-        self.tableView.reloadData()
-    }
-
-    // MARK: - Table View Delegate methods
-    public override func numberOfSections(in tableView: UITableView) -> Int {
-        return self.fetchedResultController.sections?.count ?? 0
-    }
-
-    public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.fetchedResultController.sections?[section].numberOfObjects ?? 0
-    }
-
-    public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = self.fetchedResultController.object(at: indexPath)
-        let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell", for: indexPath) as! NewsArticleCell
-
-        cell.configure(for: item)
-
-        return cell
     }
 
     @IBAction func donePressed() {
         self.dismiss(animated: true)
+    }
+}
+
+extension NewsListViewController: CoreDataTableViewDataSourceDelegate {
+    typealias Object = NewsArticle
+    typealias Cell = NewsArticleCell
+
+    func titleForDefaultHeader(forSection section: Int) -> String? {
+        return nil
+    }
+
+    func configure(_ cell: NewsArticleCell, for object: NewsArticle) {
+        cell.configure(for: object)
     }
 }

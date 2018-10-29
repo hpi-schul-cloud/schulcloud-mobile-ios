@@ -10,11 +10,14 @@ import UIKit
 public class LessonsViewController: UITableViewController {
 
     var course: Course!
-    var fetchedResultDelegate: TableViewFetchedControllerDelegate?
+    var coreDataTableViewDataSource: CoreDataTableViewDataSource<LessonsViewController>?
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.fetchedResultDelegate = TableViewFetchedControllerDelegate(tableView: self.tableView)
+        self.coreDataTableViewDataSource = CoreDataTableViewDataSource(self.tableView,
+                                                                       fetchedResultsController: self.fetchedResultsController,
+                                                                       cellReuseIdentifier: "lessonCell",
+                                                                       delegate: self)
 
         tableView.rowHeight = UITableViewAutomaticDimension
         self.title = course.name
@@ -50,9 +53,6 @@ public class LessonsViewController: UITableViewController {
                                                                   sectionNameKeyPath: nil,
                                                                   cacheName: nil)
 
-        // Configure Fetched Results Controller
-        fetchedResultsController.delegate = self.fetchedResultDelegate
-
         return fetchedResultsController
     }()
 
@@ -62,31 +62,8 @@ public class LessonsViewController: UITableViewController {
         } catch let fetchError as NSError {
             log.error("Unable to Perform Fetch Request: \(fetchError), \(fetchError.localizedDescription)")
         }
-
-        tableView.reloadData()
     }
-
-    public override func numberOfSections(in tableView: UITableView) -> Int {
-        return fetchedResultsController.sections?.count ?? 0
-    }
-
-    public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
-    }
-
-    public override func tableView(_ tableView: UITableView,
-                                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let reuseIdentifier = "lessonCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-
-        let lesson = fetchedResultsController.object(at: indexPath)
-        cell.textLabel?.text = lesson.name
-        cell.detailTextLabel?.text = lesson.descriptionText
-        return cell
-    }
-
-    // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     public override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
@@ -105,5 +82,19 @@ public class LessonsViewController: UITableViewController {
         default:
             break
         }
+    }
+}
+
+extension LessonsViewController: CoreDataTableViewDataSourceDelegate {
+    typealias Object = Lesson
+    typealias Cell = UITableViewCell
+
+    func configure(_ cell: UITableViewCell, for item: Lesson) {
+        cell.textLabel?.text = item.name
+        cell.detailTextLabel?.text = item.descriptionText
+    }
+
+    func titleForDefaultHeader(forSection section: Int) -> String? {
+        return nil
     }
 }
