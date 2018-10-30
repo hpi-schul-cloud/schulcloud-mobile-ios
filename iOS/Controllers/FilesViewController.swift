@@ -21,15 +21,30 @@ import UIKit
 
 public class FilesViewController: UITableViewController {
 
-    var currentFolder: File!
+    var currentFolder: File = FileHelper.rootFolder
     var fileSync = FileSync.default
+
+    private var coreDataTableViewDataSource: CoreDataTableViewDataSource<FilesViewController>?
+
+    private lazy var fetchedResultsController: NSFetchedResultsController<File> = {
+        let fetchRequest: NSFetchRequest<File> = File.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", self.currentFolder)
+        fetchRequest.predicate = parentFolderPredicate
+        return NSFetchedResultsController(fetchRequest: fetchRequest,
+                                          managedObjectContext: CoreDataHelper.viewContext,
+                                          sectionNameKeyPath: nil,
+                                          cacheName: nil)
+    }()
 
     public override func viewDidLoad() {
         super.viewDidLoad()
 
-        if currentFolder == nil {
-            currentFolder = FileHelper.rootFolder
-        }
+        self.coreDataTableViewDataSource = CoreDataTableViewDataSource(self.tableView,
+                                                                       fetchedResultsController: self.fetchedResultsController,
+                                                                       cellReuseIdentifier: "item detail",
+                                                                       delegate: self)
+
 
         self.navigationItem.title = self.currentFolder.name
 
@@ -52,60 +67,18 @@ public class FilesViewController: UITableViewController {
         }?.resume()
     }
 
-    // MARK: - Table view data source
-    fileprivate lazy var fetchedResultsController: NSFetchedResultsController<File> = {
-        // Create Fetch Request
-        let fetchRequest: NSFetchRequest<File> = File.fetchRequest()
-
-        // Configure Fetch Request
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", self.currentFolder)
-        fetchRequest.predicate = parentFolderPredicate
-
-        // Create Fetched Results Controller
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                                  managedObjectContext: CoreDataHelper.viewContext,
-                                                                  sectionNameKeyPath: nil,
-                                                                  cacheName: nil)
-        // Configure Fetched Results Controller
-        fetchedResultsController.delegate = self
-
-        return fetchedResultsController
-    }()
-
     func performFetch() {
         do {
             try self.fetchedResultsController.performFetch()
         } catch let fetchError as NSError {
             log.error("Unable to Perform Fetch Request: \(fetchError), \(fetchError.localizedDescription)")
         }
-
-        tableView.reloadData()
-    }
-
-}
-
-extension FilesViewController: NSFetchedResultsControllerDelegate {
-    public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        self.tableView.reloadData()
     }
 }
 
 // MARK: TableView Delegate/DataSource
 
 extension FilesViewController {
-    public override func numberOfSections(in tableView: UITableView) -> Int {
-        return fetchedResultsController.sections?.count ?? 0
-    }
-
-    public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let count = fetchedResultsController.sections?[section].objects?.count else {
-            log.error("Error loading object count in section \(section)")
-            return 0
-        }
-
-        return count
-    }
 
     public override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         guard let currentUser = Globals.currentUser else { return false }
@@ -157,26 +130,6 @@ extension FilesViewController {
         return actions
     }
 
-    public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = fetchedResultsController.object(at: indexPath)
-
-        let reuseIdentifier = item.detail == nil ? "item" : "item detail"
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-
-        cell.textLabel?.text = item.name
-        cell.detailTextLabel?.text = item.detail
-        cell.accessoryType = item.isDirectory ? .disclosureIndicator : .none
-        cell.imageView?.image = item.isDirectory ? UIImage(named: "folder") : UIImage(named: "document")
-        cell.imageView?.tintColor = item.isDirectory ? Brand.default.colors.secondary : Brand.default.colors.primary
-        cell.imageView?.contentMode = .scaleAspectFit
-        cell.imageView?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-        if #available(iOS 11.0, *) {
-            cell.imageView?.adjustsImageSizeForAccessibilityContentSizeCategory = true
-        }
-
-        return cell
-    }
-
     public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         defer {
             tableView.deselectRow(at: indexPath, animated: true)
@@ -199,6 +152,21 @@ extension FilesViewController {
 
             fileVC.file = item
             self.navigationController?.pushViewController(fileVC, animated: true)
+        }
+    }
+}
+
+extension FilesViewController: CoreDataTableViewDataSourceDelegate {
+    func configure(_ cell: UITableViewCell, for object: File) {
+        cell.textLabel?.text = object.name
+        cell.detailTextLabel?.text = object.detail
+        cell.accessoryType = object.isDirectory ? .disclosureIndicator : .none
+        cell.imageView?.image = object.isDirectory ? UIImage(named: "folder") : UIImage(named: "document")
+        cell.imageView?.tintColor = object.isDirectory ? Brand.default.colors.secondary : Brand.default.colors.primary
+        cell.imageView?.contentMode = .scaleAspectFit
+        cell.imageView?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        if #available(iOS 11.0, *) {
+            cell.imageView?.adjustsImageSizeForAccessibilityContentSizeCategory = true
         }
     }
 }

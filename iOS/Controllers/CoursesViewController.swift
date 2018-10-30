@@ -7,7 +7,18 @@ import Common
 import CoreData
 import UIKit
 
-class CoursesViewController: UICollectionViewController, NSFetchedResultsControllerDelegate, UICollectionViewDelegateFlowLayout {
+class CoursesViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+
+    private lazy var fetchedResultsController: NSFetchedResultsController<Course> = {
+        let fetchRequest: NSFetchRequest<Course> = Course.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                                  managedObjectContext: CoreDataHelper.viewContext,
+                                                                  sectionNameKeyPath: nil,
+                                                                  cacheName: nil)
+        fetchedResultsController.delegate = self
+        return fetchedResultsController
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,33 +34,10 @@ class CoursesViewController: UICollectionViewController, NSFetchedResultsControl
     }
 
     func updateData() {
-        CourseHelper.syncCourses().onSuccess { _ in
-            self.performFetch()
-        }.onFailure { error in
+        CourseHelper.syncCourses().onFailure { error in
             log.error(error)
         }
     }
-
-    // MARK: - Table view data source
-
-    fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Course> = {
-        // Create Fetch Request
-        let fetchRequest: NSFetchRequest<Course> = Course.fetchRequest()
-
-        // Configure Fetch Request
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-
-        // Create Fetched Results Controller
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                                  managedObjectContext: CoreDataHelper.viewContext,
-                                                                  sectionNameKeyPath: nil,
-                                                                  cacheName: nil)
-
-        // Configure Fetched Results Controller
-        fetchedResultsController.delegate = self
-
-        return fetchedResultsController
-    }()
 
     func performFetch() {
         do {
@@ -119,5 +107,10 @@ class CoursesViewController: UICollectionViewController, NSFetchedResultsControl
             break
         }
     }
+}
 
+extension CoursesViewController: NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        self.collectionView?.reloadData()
+    }
 }

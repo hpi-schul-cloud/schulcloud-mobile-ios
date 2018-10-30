@@ -15,9 +15,15 @@ protocol NewsOverviewViewControllerDelegate: class {
 
 final class NewsOverviewViewController: UITableViewController {
 
+    @IBOutlet weak var noNewsLabel: UILabel!
+    @IBOutlet weak var moreNewsButton: UIButton!
+
     weak var delegate: NewsOverviewViewControllerDelegate?
 
-    fileprivate lazy var fetchedController: NSFetchedResultsController<NewsArticle> = {
+    // TODO: Inverstigate why table view isn't properly layedout if when using begin/endUpdate
+    var fetchedResultDelegate: TableViewFetchedControllerDelegate?
+
+    private lazy var fetchedController: NSFetchedResultsController<NewsArticle> = {
         let fetchRequest: NSFetchRequest<NewsArticle> = NewsArticle.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "displayAt", ascending: false)]
 
@@ -39,6 +45,24 @@ final class NewsOverviewViewController: UITableViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.delegate?.heightDidChange(tableView.contentSize.height)
+
+        if let headerView = tableView.tableHeaderView {
+            let size = headerView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
+            if headerView.frame.size.height != size.height {
+                headerView.frame.size.height = size.height
+                self.tableView.tableHeaderView = headerView
+                self.tableView.layoutIfNeeded()
+            }
+        }
+
+        if let footerView = tableView.tableFooterView {
+            let size = footerView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
+            if footerView.frame.size.height != size.height {
+                footerView.frame.size.height = size.height
+                self.tableView.tableFooterView = footerView
+                self.tableView.layoutIfNeeded()
+            }
+        }
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -46,24 +70,14 @@ final class NewsOverviewViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let fetchedObjects = self.fetchedController.fetchedObjects else { return 1 }
-        return fetchedObjects.count
+        return self.fetchedController.fetchedObjects?.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell
-
-        if self.fetchedController.fetchedObjects?.isEmpty ?? true {
-            let emptyCell = tableView.dequeueReusableCell(withIdentifier: "EmptyNewsCell")
-            cell = emptyCell!
-        } else {
-            let newsArticle = self.fetchedController.object(at: indexPath)
-            let newsCell = tableView.dequeueReusableCell(withIdentifier: "NewsCell") as! NewsArticleOverviewCell
-            newsCell.configure(for: newsArticle)
-            cell = newsCell
-        }
-
-        return cell
+        let newsArticle = self.fetchedController.object(at: indexPath)
+        let newsCell = tableView.dequeueReusableCell(withIdentifier: "NewsCell") as! NewsArticleOverviewCell
+        newsCell.configure(for: newsArticle)
+        return newsCell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -77,9 +91,13 @@ final class NewsOverviewViewController: UITableViewController {
     }
 }
 
+
 extension NewsOverviewViewController: NSFetchedResultsControllerDelegate {
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.reloadData()
+    public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        let isEmpty = controller.fetchedObjects?.isEmpty ?? true
+        self.noNewsLabel.isHidden = !isEmpty
+        self.moreNewsButton.isHidden = isEmpty
+        self.tableView.reloadData()
     }
 }
 

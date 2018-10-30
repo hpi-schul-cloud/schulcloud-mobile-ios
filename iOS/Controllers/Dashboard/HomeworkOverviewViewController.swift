@@ -19,7 +19,7 @@ final class HomeworkOverviewViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var showAllHomework: UILabel!
 
-    lazy var resultController: NSFetchedResultsController<Homework> = {
+    private lazy var resultController: NSFetchedResultsController<Homework> = {
         let fetchedRequest: NSFetchRequest<Homework> = Homework.fetchRequest()
         fetchedRequest.sortDescriptors = []
 
@@ -60,7 +60,7 @@ final class HomeworkOverviewViewController: UIViewController {
         self.didChangePreferredContentSize()
     }
 
-    @objc func updateHomeworkCount() {
+    func updateHomeworkCount() {
         let fetchedObject = (self.resultController.fetchedObjects ?? []) as [Homework]
         self.showAllHomework.isEnabled = !fetchedObject.isEmpty
         if !fetchedObject.isEmpty {
