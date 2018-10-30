@@ -15,6 +15,9 @@ protocol NewsOverviewViewControllerDelegate: class {
 
 final class NewsOverviewViewController: UITableViewController {
 
+    @IBOutlet weak var noNewsLabel: UILabel!
+    @IBOutlet weak var moreNewsButton: UIButton!
+
     weak var delegate: NewsOverviewViewControllerDelegate?
     var fetchedResultDelegate: TableViewFetchedControllerDelegate?
 
@@ -48,23 +51,18 @@ final class NewsOverviewViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let fetchedObjects = self.fetchedController.fetchedObjects else { return 1 }
-        return fetchedObjects.count
+        let count = self.fetchedController.fetchedObjects?.count ?? 0
+        self.noNewsLabel.isHidden = count > 0
+        self.moreNewsButton.isHidden = count == 0
+        return count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
-
-        if self.fetchedController.fetchedObjects?.isEmpty ?? true {
-            let emptyCell = tableView.dequeueReusableCell(withIdentifier: "EmptyNewsCell")
-            cell = emptyCell!
-        } else {
-            let newsArticle = self.fetchedController.object(at: indexPath)
-            let newsCell = tableView.dequeueReusableCell(withIdentifier: "NewsCell") as! NewsArticleOverviewCell
-            newsCell.configure(for: newsArticle)
-            cell = newsCell
-        }
-
+        let newsArticle = self.fetchedController.object(at: indexPath)
+        let newsCell = tableView.dequeueReusableCell(withIdentifier: "NewsCell") as! NewsArticleOverviewCell
+        newsCell.configure(for: newsArticle)
+        cell = newsCell
         return cell
     }
 
