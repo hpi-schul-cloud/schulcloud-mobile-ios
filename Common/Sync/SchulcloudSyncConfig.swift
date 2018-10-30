@@ -10,9 +10,9 @@ struct SchulcloudSyncConfig: SyncConfig {
 
     var baseURL: URL = Brand.default.servers.backend
 
-    var requestHeaders: [String: String] = [
-        "Authorization": Globals.account!.accessToken!,
-    ]
+    var requestHeaders: [String: String] {
+        return ["Authorization": Globals.account!.accessToken!]
+    }
 
     var persistentContainer: NSPersistentContainer {
         return CoreDataHelper.persistentContainer
