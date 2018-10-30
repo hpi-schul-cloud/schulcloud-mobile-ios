@@ -52,9 +52,6 @@ final class NewsOverviewViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let isEmpty = self.fetchedController.fetchedObjects?.isEmpty ?? true
-        self.noNewsLabel.isHidden = !isEmpty
-        self.moreNewsButton.isHidden = isEmpty
         return self.fetchedController.fetchedObjects?.count ?? 0
     }
 
@@ -79,6 +76,9 @@ final class NewsOverviewViewController: UITableViewController {
 
 extension NewsOverviewViewController: NSFetchedResultsControllerDelegate {
     public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        let isEmpty = controller.fetchedObjects?.isEmpty ?? true
+        self.noNewsLabel.isHidden = !isEmpty
+        self.moreNewsButton.isHidden = isEmpty
         self.tableView.reloadData()
     }
 }
