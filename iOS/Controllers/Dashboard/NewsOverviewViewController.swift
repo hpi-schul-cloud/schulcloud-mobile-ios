@@ -52,19 +52,17 @@ final class NewsOverviewViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let count = self.fetchedController.fetchedObjects?.count ?? 0
-        self.noNewsLabel.isHidden = count > 0
-        self.moreNewsButton.isHidden = count == 0
-        return count
+        let isEmpty = self.fetchedController.fetchedObjects?.isEmpty ?? true
+        self.noNewsLabel.isHidden = !isEmpty
+        self.moreNewsButton.isHidden = isEmpty
+        return self.fetchedController.fetchedObjects?.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell
         let newsArticle = self.fetchedController.object(at: indexPath)
         let newsCell = tableView.dequeueReusableCell(withIdentifier: "NewsCell") as! NewsArticleOverviewCell
         newsCell.configure(for: newsArticle)
-        cell = newsCell
-        return cell
+        return newsCell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
