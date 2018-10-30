@@ -8,7 +8,17 @@ import CoreData
 import UIKit
 
 public class NewsListViewController: UITableViewController {
-    var coreDataTableViewDataSource: CoreDataTableViewDataSource<NewsListViewController>?
+
+    private var coreDataTableViewDataSource: CoreDataTableViewDataSource<NewsListViewController>?
+
+    private lazy var fetchedResultController: NSFetchedResultsController<NewsArticle> = {
+        let fetchRequest: NSFetchRequest<NewsArticle> = NewsArticle.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "displayAt", ascending: false)]
+        return NSFetchedResultsController(fetchRequest: fetchRequest,
+                                          managedObjectContext: CoreDataHelper.viewContext,
+                                          sectionNameKeyPath: nil,
+                                          cacheName: nil)
+    }()
 
     // MARK: - UI Methods
     public override func viewDidLoad() {
@@ -25,18 +35,6 @@ public class NewsListViewController: UITableViewController {
     @IBAction func didTriggerRefresh(_ sender: Any) {
         self.synchronizeNewsArticle()
     }
-
-    // MARK: Internal convenience
-    fileprivate lazy var fetchedResultController: NSFetchedResultsController<NewsArticle> = {
-        let fetchRequest: NSFetchRequest<NewsArticle> = NewsArticle.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "displayAt", ascending: false)]
-
-        let fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                                managedObjectContext: CoreDataHelper.viewContext,
-                                                                sectionNameKeyPath: nil,
-                                                                cacheName: nil)
-        return fetchResultsController
-    }()
 
     fileprivate func synchronizeNewsArticle() {
         NewsArticleHelper.syncNewsArticles().onFailure { error in

@@ -10,7 +10,19 @@ import UIKit
 public class LessonsViewController: UITableViewController {
 
     var course: Course!
-    var coreDataTableViewDataSource: CoreDataTableViewDataSource<LessonsViewController>?
+
+    private var coreDataTableViewDataSource: CoreDataTableViewDataSource<LessonsViewController>?
+
+    private lazy var fetchedResultsController: NSFetchedResultsController<Lesson> = {
+        let fetchRequest: NSFetchRequest<Lesson> = Lesson.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "course == %@", self.course)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                                  managedObjectContext: CoreDataHelper.viewContext,
+                                                                  sectionNameKeyPath: nil,
+                                                                  cacheName: nil)
+        return fetchedResultsController
+    }()
 
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,25 +48,6 @@ public class LessonsViewController: UITableViewController {
             self.refreshControl?.endRefreshing()
         }
     }
-
-    // MARK: - Table view data source
-
-    fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Lesson> = {
-        // Create Fetch Request
-        let fetchRequest: NSFetchRequest<Lesson> = Lesson.fetchRequest()
-
-        // Configure Fetch Request
-        fetchRequest.predicate = NSPredicate(format: "course == %@", self.course)
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-
-        // Create Fetched Results Controller
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                                  managedObjectContext: CoreDataHelper.viewContext,
-                                                                  sectionNameKeyPath: nil,
-                                                                  cacheName: nil)
-
-        return fetchedResultsController
-    }()
 
     func performFetch() {
         do {

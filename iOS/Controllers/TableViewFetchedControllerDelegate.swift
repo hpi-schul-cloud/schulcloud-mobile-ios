@@ -8,6 +8,7 @@ import UIKit
 import CoreData
 
 final class TableViewFetchedControllerDelegate: NSObject, NSFetchedResultsControllerDelegate {
+
     weak var tableView: UITableView? = nil
 
     init(tableView: UITableView?) {

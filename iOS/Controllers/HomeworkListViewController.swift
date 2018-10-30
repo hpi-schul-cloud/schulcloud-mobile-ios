@@ -19,6 +19,10 @@ class HomeworkListViewController: UITableViewController {
 
     var fetchedResultDelegate: TableViewFetchedControllerDelegate?
 
+    private lazy var fetchedResultsController: NSFetchedResultsController<Homework> = {
+        return self.makeFetchedResultsController(for: self.selectedSortingStyle.configuration)
+    }()
+
     private struct SortingConfiguration {
         let keypath: String
         let sortDescriptors: [String]
@@ -98,10 +102,6 @@ class HomeworkListViewController: UITableViewController {
             self.refreshControl?.endRefreshing()
         }
     }
-
-    fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Homework> = {
-        return self.makeFetchedResultsController(for: self.selectedSortingStyle.configuration)
-    }()
 
     private func makeFetchedResultsController(for configuration: SortingConfiguration) -> NSFetchedResultsController<Homework> {
         let now = Date()

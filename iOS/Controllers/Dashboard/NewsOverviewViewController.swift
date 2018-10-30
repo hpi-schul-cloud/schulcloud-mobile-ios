@@ -18,7 +18,7 @@ final class NewsOverviewViewController: UITableViewController {
     weak var delegate: NewsOverviewViewControllerDelegate?
     var fetchedResultDelegate: TableViewFetchedControllerDelegate?
 
-    fileprivate lazy var fetchedController: NSFetchedResultsController<NewsArticle> = {
+    private lazy var fetchedController: NSFetchedResultsController<NewsArticle> = {
         let fetchRequest: NSFetchRequest<NewsArticle> = NewsArticle.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "displayAt", ascending: false)]
 

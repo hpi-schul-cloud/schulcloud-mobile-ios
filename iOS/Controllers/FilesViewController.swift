@@ -24,7 +24,18 @@ public class FilesViewController: UITableViewController {
     var currentFolder: File = FileHelper.rootFolder
     var fileSync = FileSync.default
 
-    var coreDataTableViewDataSource: CoreDataTableViewDataSource<FilesViewController>?
+    private var coreDataTableViewDataSource: CoreDataTableViewDataSource<FilesViewController>?
+
+    private lazy var fetchedResultsController: NSFetchedResultsController<File> = {
+        let fetchRequest: NSFetchRequest<File> = File.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", self.currentFolder)
+        fetchRequest.predicate = parentFolderPredicate
+        return NSFetchedResultsController(fetchRequest: fetchRequest,
+                                          managedObjectContext: CoreDataHelper.viewContext,
+                                          sectionNameKeyPath: nil,
+                                          cacheName: nil)
+    }()
 
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,23 +66,6 @@ public class FilesViewController: UITableViewController {
             }
         }?.resume()
     }
-
-    // MARK: - Table view data source
-    fileprivate lazy var fetchedResultsController: NSFetchedResultsController<File> = {
-        // Create Fetch Request
-        let fetchRequest: NSFetchRequest<File> = File.fetchRequest()
-
-        // Configure Fetch Request
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", self.currentFolder)
-        fetchRequest.predicate = parentFolderPredicate
-
-        // Create Fetched Results Controller
-        return NSFetchedResultsController(fetchRequest: fetchRequest,
-                                          managedObjectContext: CoreDataHelper.viewContext,
-                                          sectionNameKeyPath: nil,
-                                          cacheName: nil)
-    }()
 
     func performFetch() {
         do {
