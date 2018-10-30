@@ -45,6 +45,24 @@ final class NewsOverviewViewController: UITableViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.delegate?.heightDidChange(tableView.contentSize.height)
+
+        if let headerView = tableView.tableHeaderView {
+            let size = headerView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
+            if headerView.frame.size.height != size.height {
+                headerView.frame.size.height = size.height
+                self.tableView.tableHeaderView = headerView
+                self.tableView.layoutIfNeeded()
+            }
+        }
+
+        if let footerView = tableView.tableFooterView {
+            let size = footerView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
+            if footerView.frame.size.height != size.height {
+                footerView.frame.size.height = size.height
+                self.tableView.tableFooterView = footerView
+                self.tableView.layoutIfNeeded()
+            }
+        }
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
