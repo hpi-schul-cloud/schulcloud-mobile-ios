@@ -19,6 +19,8 @@ final class NewsOverviewViewController: UITableViewController {
     @IBOutlet weak var moreNewsButton: UIButton!
 
     weak var delegate: NewsOverviewViewControllerDelegate?
+
+    // TODO: Inverstigate why table view isn't properly layedout if when using begin/endUpdate
     var fetchedResultDelegate: TableViewFetchedControllerDelegate?
 
     private lazy var fetchedController: NSFetchedResultsController<NewsArticle> = {
@@ -29,13 +31,12 @@ final class NewsOverviewViewController: UITableViewController {
                                                     managedObjectContext: CoreDataHelper.viewContext,
                                                     sectionNameKeyPath: nil,
                                                     cacheName: nil)
-        controller.delegate = self.fetchedResultDelegate
+        controller.delegate = self
         return controller
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.fetchedResultDelegate = TableViewFetchedControllerDelegate(tableView: self.tableView)
         try? fetchedController.performFetch()
         tableView.reloadData()
         NewsArticleHelper.syncNewsArticles()
@@ -74,6 +75,13 @@ final class NewsOverviewViewController: UITableViewController {
 
     @IBAction func showMorePressed() {
         self.delegate?.showMorePressed()
+    }
+}
+
+
+extension NewsOverviewViewController: NSFetchedResultsControllerDelegate {
+    public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        self.tableView.reloadData()
     }
 }
 
