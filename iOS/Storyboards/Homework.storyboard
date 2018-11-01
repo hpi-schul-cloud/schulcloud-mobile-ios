@@ -227,121 +227,19 @@
                         </connections>
                     </tableView>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="yIw-HJ-7Dv">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <connections>
                             <action selector="didTriggerRefresh" destination="7RU-Jt-nr6" eventType="valueChanged" id="AN9-Iq-fJp"/>
                         </connections>
                     </refreshControl>
                     <connections>
-                        <segue destination="8Sg-mV-gqg" kind="show" identifier="taskDetail" id="knR-N2-eOT"/>
+                        <segue destination="VgN-1r-pFT" kind="show" identifier="taskDetail" id="2Q0-vb-QKD"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0GM-be-17y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3369" y="7"/>
-        </scene>
-        <!--Homework Detail View Controller-->
-        <scene sceneID="IJJ-M4-nnI">
-            <objects>
-                <viewController id="8Sg-mV-gqg" customClass="HomeworkDetailViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" id="iPF-gZ-kh3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k5f-8d-mF2">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g4R-O5-G6L" userLabel="Scroll Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="281"/>
-                                        <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="RWb-oo-eEP">
-                                                <rect key="frame" x="16" y="28" width="343" height="245"/>
-                                                <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" spacingType="standard" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="63l-li-WaB">
-                                                        <rect key="frame" x="0.0" y="0.0" width="343" height="18"/>
-                                                        <subviews>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SbK-eh-OIK">
-                                                                <rect key="frame" x="0.0" y="0.0" width="18" height="18"/>
-                                                                <color key="backgroundColor" red="0.69411764710000001" green="0.015686274510000001" blue="0.21960784310000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" secondItem="SbK-eh-OIK" secondAttribute="height" multiplier="1:1" id="MPb-iA-0C5"/>
-                                                                </constraints>
-                                                                <userDefinedRuntimeAttributes>
-                                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="" value="YES"/>
-                                                                </userDefinedRuntimeAttributes>
-                                                            </view>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Mathematik" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I4r-j6-UnE">
-                                                                <rect key="frame" x="26" y="0.0" width="81" height="18"/>
-                                                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Due Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yAd-xm-amj">
-                                                                <rect key="frame" x="115" y="0.0" width="228" height="18"/>
-                                                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                        </subviews>
-                                                    </stackView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Hier könnte Ihre Hausaufgabe stehen!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vbo-So-XLV">
-                                                        <rect key="frame" x="0.0" y="34" width="343" height="20.5"/>
-                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vf4-gx-D0Q">
-                                                        <rect key="frame" x="0.0" y="70.5" width="343" height="174.5"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" priority="500" constant="21" id="eXy-GT-hbn"/>
-                                                        </constraints>
-                                                        <string key="text">Activated charcoal deep v typewriter, cupidatat tousled pinterest kitsch chicharrones. Assumenda eu 8-bit tofu ramps reprehenderit disrupt, pour-over nostrud organic paleo. 3 wolf moon commodo vaporware, next level williamsburg farm-to-table delectus deep v wayfarers leggings intelligentsia excepteur lyft.</string>
-                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                            </stackView>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstItem="RWb-oo-eEP" firstAttribute="leading" secondItem="g4R-O5-G6L" secondAttribute="leadingMargin" id="6pU-f5-EIh"/>
-                                            <constraint firstItem="RWb-oo-eEP" firstAttribute="top" secondItem="g4R-O5-G6L" secondAttribute="topMargin" id="AM1-wP-huR"/>
-                                            <constraint firstAttribute="bottomMargin" secondItem="RWb-oo-eEP" secondAttribute="bottom" id="eCo-cx-kPl"/>
-                                            <constraint firstAttribute="trailingMargin" secondItem="RWb-oo-eEP" secondAttribute="trailing" id="ga9-lm-IFH"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="g4R-O5-G6L" secondAttribute="trailing" id="cl6-ny-pMk"/>
-                                    <constraint firstItem="g4R-O5-G6L" firstAttribute="top" secondItem="k5f-8d-mF2" secondAttribute="top" id="dxp-3T-tdU"/>
-                                    <constraint firstItem="g4R-O5-G6L" firstAttribute="leading" secondItem="k5f-8d-mF2" secondAttribute="leading" id="nzD-4i-dkC"/>
-                                    <constraint firstAttribute="bottom" secondItem="g4R-O5-G6L" secondAttribute="bottom" constant="20" symbolic="YES" id="wfn-AF-xGf"/>
-                                </constraints>
-                            </scrollView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="k5f-8d-mF2" firstAttribute="leading" secondItem="MqA-oz-8i3" secondAttribute="leading" symbolic="YES" id="fZV-Bw-ICm"/>
-                            <constraint firstAttribute="bottom" secondItem="k5f-8d-mF2" secondAttribute="bottom" id="lOJ-cm-SEr"/>
-                            <constraint firstItem="k5f-8d-mF2" firstAttribute="top" secondItem="iPF-gZ-kh3" secondAttribute="top" id="vCR-4t-y5i"/>
-                            <constraint firstItem="g4R-O5-G6L" firstAttribute="width" secondItem="k5f-8d-mF2" secondAttribute="width" id="xka-B2-ybV"/>
-                            <constraint firstItem="MqA-oz-8i3" firstAttribute="trailing" secondItem="k5f-8d-mF2" secondAttribute="trailing" symbolic="YES" id="zhE-96-yF0"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="MqA-oz-8i3"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="KAb-d3-Nfe"/>
-                    <connections>
-                        <outlet property="coloredStrip" destination="SbK-eh-OIK" id="4xr-Pg-xDn"/>
-                        <outlet property="contentLabel" destination="vf4-gx-D0Q" id="pKb-nj-Cf6"/>
-                        <outlet property="dueLabel" destination="yAd-xm-amj" id="noL-wd-nal"/>
-                        <outlet property="subjectLabel" destination="I4r-j6-UnE" id="gYd-Vc-AiU"/>
-                        <outlet property="titleLabel" destination="Vbo-So-XLV" id="XGZ-Ov-Ozb"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="FxI-MR-1u3" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4332" y="6"/>
         </scene>
         <!--Homework Detail View Controller-->
         <scene sceneID="sCi-Zm-0Ch">
@@ -444,7 +342,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3KD-eU-mWo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4332" y="-613"/>
+            <point key="canvasLocation" x="4326" y="-305"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="2Q0-vb-QKD"/>
+    </inferredMetricsTieBreakers>
 </document>
