@@ -10,7 +10,6 @@ import UIKit
 
 final class HomeworkListDateSortedViewController: UITableViewController {
 
-    weak var displayDelegate: HomeworkDisplayDelegate?
     var coreDataTableViewDataSource: CoreDataTableViewDataSource<HomeworkListDateSortedViewController>? = nil
     private lazy var fetchedResultsController: NSFetchedResultsController<Homework> = {
         let now = Date()
@@ -74,7 +73,18 @@ final class HomeworkListDateSortedViewController: UITableViewController {
         defer {
             tableView.deselectRow(at: indexPath, animated: false)
         }
-        self.displayDelegate?.display(homework: self.fetchedResultsController.object(at: indexPath))
+        self.performSegue(withIdentifier: "taskDetail", sender: self.fetchedResultsController.object(at: indexPath))
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "taskDetail"?:
+            guard let detailVC = segue.destination as? HomeworkDetailViewController else { return }
+            guard let homework = sender as? Homework else { return }
+            detailVC.homework = homework
+        default:
+            super.prepare(for: segue, sender: sender)
+        }
     }
 }
 

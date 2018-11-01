@@ -15,11 +15,7 @@ import CoreData
 import DateToolsSwift
 import UIKit
 
-protocol HomeworkDisplayDelegate: class {
-    func display(homework: Homework)
-}
-
-final class HomeworkListViewController: UIViewController, HomeworkDisplayDelegate {
+final class HomeworkListViewController: UIViewController {
 
     @IBOutlet var courseSortedContainerView: UIView!
     @IBOutlet var dateSortedContainerView: UIView!
@@ -41,17 +37,8 @@ final class HomeworkListViewController: UIViewController, HomeworkDisplayDelegat
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let childVC1 = self.childViewControllers.first(where: { $0 is HomeworkListCourseSortedViewController }),
-              let courseSortedVC = childVC1 as? HomeworkListCourseSortedViewController else {
-            return
-        }
-        guard let childVC2 = self.childViewControllers.first(where: { $0 is HomeworkListDateSortedViewController }),
-              let dateSortedVC = childVC2 as? HomeworkListDateSortedViewController else {
-            return
-        }
-
-        courseSortedVC.displayDelegate = self
-        dateSortedVC.displayDelegate = self
+        self.dateSortedContainerView.isHidden = false
+        self.courseSortedContainerView.isHidden = true
     }
 
     private var selectedSortingStyle = SortingMode.dueDate {
@@ -84,20 +71,5 @@ final class HomeworkListViewController: UIViewController, HomeworkDisplayDelegat
         controller.popoverPresentationController?.barButtonItem = sender
 
         self.present(controller, animated: true)
-    }
-
-    func display(homework: Homework) {
-        self.performSegue(withIdentifier: "taskDetail", sender: homework)
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case "taskDetail"?:
-            guard let detailVC = segue.destination as? HomeworkDetailViewController else { return }
-            guard let homework = sender as? Homework else { return }
-            detailVC.homework = homework
-        default:
-            super.prepare(for: segue, sender: sender)
-        }
     }
 }
