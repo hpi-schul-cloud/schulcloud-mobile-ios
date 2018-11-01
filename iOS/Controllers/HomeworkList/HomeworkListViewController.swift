@@ -41,8 +41,14 @@ final class HomeworkListViewController: UIViewController, HomeworkDisplayDelegat
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let courseSortedVC = self.childViewControllers.first{ $0 is HomeworkListCourseSortedViewController } as! HomeworkListCourseSortedViewController
-        let dateSortedVC = self.childViewControllers.first{ $0 is HomeworkListDateSortedViewController } as! HomeworkListDateSortedViewController
+        guard let childVC1 = self.childViewControllers.first(where: { $0 is HomeworkListCourseSortedViewController }),
+              let courseSortedVC = childVC1 as? HomeworkListCourseSortedViewController else {
+            return
+        }
+        guard let childVC2 = self.childViewControllers.first(where: { $0 is HomeworkListDateSortedViewController }),
+              let dateSortedVC = childVC2 as? HomeworkListDateSortedViewController else {
+            return
+        }
 
         courseSortedVC.displayDelegate = self
         dateSortedVC.displayDelegate = self
