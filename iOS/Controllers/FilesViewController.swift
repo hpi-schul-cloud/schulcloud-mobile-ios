@@ -45,7 +45,6 @@ public class FilesViewController: UITableViewController {
                                                                        cellReuseIdentifier: "item detail",
                                                                        delegate: self)
 
-
         self.navigationItem.title = self.currentFolder.name
 
         performFetch()
@@ -59,7 +58,7 @@ public class FilesViewController: UITableViewController {
                     self.refreshControl?.endRefreshing()
                 }
             }
-            
+
             guard let _ = result.value else {
                 print("Error refreshing files")
                 return

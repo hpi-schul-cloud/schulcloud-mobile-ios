@@ -10,7 +10,7 @@ import UIKit
 
 final class HomeworkListDateSortedViewController: UITableViewController {
 
-    var coreDataTableViewDataSource: CoreDataTableViewDataSource<HomeworkListDateSortedViewController>? = nil
+    var coreDataTableViewDataSource: CoreDataTableViewDataSource<HomeworkListDateSortedViewController>?
     private lazy var fetchedResultsController: NSFetchedResultsController<Homework> = {
         let now = Date()
         let today: NSDate = Date(year: now.year, month: now.month, day: now.day) as NSDate

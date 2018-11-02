@@ -68,7 +68,7 @@ class LoadingViewController: UIViewController {
                 }
 
                 switch result {
-                case .success(_):
+                case .success:
                     DispatchQueue.main.async {
                         self?.showFile()
                     }

@@ -10,7 +10,7 @@ import UIKit
 
 final class HomeworkListCourseSortedViewController: UITableViewController {
 
-    var coreDataTableViewDataSource: CoreDataTableViewDataSource<HomeworkListCourseSortedViewController>? = nil
+    var coreDataTableViewDataSource: CoreDataTableViewDataSource<HomeworkListCourseSortedViewController>?
 
     private lazy var fetchedResultsController: NSFetchedResultsController<Homework> = {
         let now = Date()
@@ -32,7 +32,6 @@ final class HomeworkListCourseSortedViewController: UITableViewController {
 
         let nib = UINib(nibName: "HomeworkHeaderView", bundle: nil)
         self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: "HomeworkHeaderView")
-
 
         self.coreDataTableViewDataSource = CoreDataTableViewDataSource(self.tableView,
                                                                        fetchedResultsController: self.fetchedResultsController,

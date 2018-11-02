@@ -28,7 +28,7 @@ public class LoginHelper {
             "username": username as Any,
             "password": password as Any,
         ]
-        
+
         guard let requestBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {
             return Future(error: SCError.jsonSerialization("Can't serialize login parameter"))
         }
@@ -95,7 +95,7 @@ public class LoginHelper {
     }
 
     public static func login(username: String, password: String) -> Future<Void, SCError> {
-        return self.authenticate(username:username,password:password).flatMap { _ in
+        return self.authenticate(username: username, password: password).flatMap { _ in
             return UserHelper.syncUser(withId: Globals.account!.userId)
         }.asVoid()
     }
@@ -120,7 +120,6 @@ public class LoginHelper {
             return Future(error: SCError.loginFailed(error.localizedDescription))
         }
     }
-
 
     public static func loadAccount() -> SchulCloudAccount? {
         guard let defaults = UserDefaults.appGroupDefaults,

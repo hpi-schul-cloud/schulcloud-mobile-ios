@@ -10,7 +10,7 @@ import FileProvider
 class FolderEnumerator: NSObject, NSFileProviderEnumerator {
 
     let itemIdentifier: NSFileProviderItemIdentifier
-    
+
     init(item: NSFileProviderItemIdentifier) {
         self.itemIdentifier = item
         super.init()

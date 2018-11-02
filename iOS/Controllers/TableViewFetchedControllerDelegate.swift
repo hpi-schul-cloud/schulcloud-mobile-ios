@@ -3,13 +3,13 @@
 //  Copyright © HPI. All rights reserved.
 //
 
+import CoreData
 import Foundation
 import UIKit
-import CoreData
 
 final class TableViewFetchedControllerDelegate: NSObject, NSFetchedResultsControllerDelegate {
 
-    weak var tableView: UITableView? = nil
+    weak var tableView: UITableView?
 
     init(tableView: UITableView?) {
         super.init()

@@ -12,7 +12,7 @@ struct SyncHelper {
 
     private static let syncConfiguration = SchulcloudSyncConfig()
     private static let syncStrategy: SyncStrategy = MainSchulcloudSyncStrategy()
-    static var authenticationChallengerHandler: (() -> Void)? = nil
+    static var authenticationChallengerHandler: (() -> Void)?
 
     private static func handleAuthentication(error: SCError) {
         guard case let .synchronization(.api(.response(statusCode: statusCode, headers: _))) = error, statusCode == 401 else { return }

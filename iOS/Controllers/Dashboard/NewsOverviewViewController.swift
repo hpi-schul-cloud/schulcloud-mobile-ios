@@ -91,7 +91,6 @@ final class NewsOverviewViewController: UITableViewController {
     }
 }
 
-
 extension NewsOverviewViewController: NSFetchedResultsControllerDelegate {
     public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         let isEmpty = controller.fetchedObjects?.isEmpty ?? true
