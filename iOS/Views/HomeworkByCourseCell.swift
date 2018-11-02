@@ -12,7 +12,7 @@ final class HomeworkByCourseCell: UITableViewCell {
     @IBOutlet private weak var dueDate: UILabel!
     @IBOutlet private weak var descriptionText: UILabel!
 
-    func configure(with homework: Homework) {
+    func configure(for homework: Homework) {
         self.title.text = homework.name
         self.dueDate.text = Homework.dateTimeFormatter.string(from: homework.dueDate)
 
