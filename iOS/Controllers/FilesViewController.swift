@@ -63,54 +63,57 @@ public class FilesViewController: UITableViewController {
             return File.by(id: FileHelper.userDirectoryID, in: context)!
         }
 
-
         let id = UUID()
         let baseURL = URL(string: FileHelper.userDirectoryID)!
         let filename = id.uuidString + ".pdf"
         let remoteURL = baseURL.appendingPathComponent(filename)
-        print("uploading file at path: \(remoteURL.absoluteString)")
 
+        let fileSize = try! FileManager.default.attributesOfItem(atPath: imageURL.path)[.size] as! Int
         let mimeType = "application/pdf"
 
-        self.fileSync.createFileMetadata(
-            at: baseURL,
-            name: filename,
+        self.fileSync.signedURL(
+            resourceAt: remoteURL,
             mimeType: mimeType,
-            parentDirectory: parentFolder) { [unowned self] result in
+            forUpload: true) { [unowned self] result in
                 switch result {
                 case .failure(let error):
-                    print("Failed to create file metadata: \(error.localizedDescription)")
-                case .success(let file):
-                    print("Sucessfully created file metadata: \(file)")
+                    print("failure to get signed URL: \(error.localizedDescription)")
+                case .success(let signedURL):
+                    print("Got signed URL: \(signedURL.url)")
 
-                    self.fileSync.signedURL(
-                        resourceAt: file.remoteURL!,
-                        mimeType: file.mimeType!,
-                        forUpload: true) { [unowned self] result in
+                    let flatName = signedURL.header[SignedURLInfo.HeaderKeys.flatName.rawValue]
+                    let thumbnail = signedURL.header[SignedURLInfo.HeaderKeys.thumbnail.rawValue]
+
+                    self.fileSync.upload(
+                        id: "upload__\(id.uuidString)",
+                        remoteURL: signedURL.url,
+                        fileToUploadURL: imageURL,
+                        mimeType: mimeType) { result in
+
                             switch result {
                             case .failure(let error):
-                                print("failure to get signed URL: \(error.localizedDescription)")
-                            case .success(let url):
-                                print("Got signed URL: \(url)")
+                                print("failure to upload file: \(error.localizedDescription)")
+                            case .success(_):
 
-                                self.fileSync.upload(
-                                    id: "upload__\(id.uuidString)",
-                                    remoteURL: url,
-                                    fileToUploadURL: imageURL,
-                                    mimeType: mimeType) { result in
+                                self.fileSync.createFileMetadata(
+                                    at: remoteURL,
+                                    parentDirectory: parentFolder,
+                                    mimeType: mimeType,
+                                    size: fileSize,
+                                    flatName: flatName ?? "",
+                                    thumbnailURL: URL(string:thumbnail ?? "")!) { result in
                                         switch result {
                                         case .failure(let error):
-                                            print("failure to upload file: \(error.localizedDescription)")
-                                        case .success(_):
-                                            print("Successfully uploaded file")
+                                            print("Failed to create file metadata: \(error.localizedDescription)")
+                                        case .success(let file):
+                                            print("Sucessfully created file metadata: \(file)")
+
                                         }
-
-                                    }.resume()
+                                    }?.resume()
                             }
-                        }?.resume()
+                        }.resume()
                 }
-        }?.resume()
-
+            }?.resume()
     }
 
     // MARK: - Table view data source

@@ -9,6 +9,18 @@ import Foundation
 import Marshal
 import Result
 
+public struct SignedURLInfo {
+    public let url: URL
+    public let header: [String: String]
+
+    public enum HeaderKeys: String {
+        case path = "x-amz-meta-path"
+        case name = "x-amz-meta-name"
+        case flatName = "x-amz-meta-flat-name"
+        case thumbnail = "x-amz-meta-thumbnail"
+    }
+}
+
 public class FileSync: NSObject {
 
     static public var `default`: FileSync = {
@@ -211,7 +223,7 @@ public class FileSync: NSObject {
     }
 
     // MARK: File materialization
-    public func signedURL(resourceAt url: URL, mimeType: String, forUpload: Bool, completionHandler: @escaping (Result<URL, SCError>) -> Void) -> URLSessionTask? {
+    public func signedURL(resourceAt url: URL, mimeType: String, forUpload: Bool, completionHandler: @escaping (Result<SignedURLInfo, SCError>) -> Void) -> URLSessionTask? {
 
         var request = self.POSTRequest(for: fileStorageURL.appendingPathComponent("signedUrl") )
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -240,7 +252,9 @@ public class FileSync: NSObject {
                 }
 
                 let signedURL: URL = try json.value(for: "url")
-                completionHandler(.success( signedURL))
+                let signedURLHeader: [String: String] = try json.value(for: "header")
+                let signedURLInfo = SignedURLInfo(url: signedURL, header: signedURLHeader)
+                completionHandler(.success( signedURLInfo))
             } catch let error as SCError {
                 completionHandler(.failure( error))
             } catch let error {
@@ -310,20 +324,26 @@ public class FileSync: NSObject {
         return runningTask[id]?.task
     }
 
-    public func createFileMetadata(at url: URL,
-                           name: String,
-                           mimeType: String,
+    public func createFileMetadata(at remoteURL: URL,
                            parentDirectory: File,
+                           mimeType: String,
+                           size: Int,
+                           flatName: String,
+                           thumbnailURL: URL,
                            completionHandler: @escaping (Result<File, SCError>) -> Void) -> URLSessionTask? {
 
-        var request = self.POSTRequest(for: self.fileStorageURL.appendingPathComponent("files").appendingPathComponent("new"))
+        var request = self.POSTRequest(for: Brand.default.servers.backend.appendingPathComponent("files"))
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
         let parameters: [String: Any] = [
-            "key": url.appendingPathComponent(name).absoluteString.removingPercentEncoding!,
-            "path": url.absoluteString.removingPercentEncoding!,
-            "name": name,
-            "studentCanEdit": true,
+            "key":  remoteURL.absoluteString.removingPercentEncoding!,
+            "path": remoteURL.deletingLastPathComponent().absoluteString.removingPercentEncoding!,
+            "name": remoteURL.lastPathComponent.removingPercentEncoding!,
+            "type": mimeType,
+            "size": size,
+            "flatFileName": flatName,
+            "thumbnail": thumbnailURL.absoluteString,
+            "studentCanEdit": false,
             "schoolId": Globals.currentUser!.schoolId,
         ]
 
