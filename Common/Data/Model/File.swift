@@ -34,6 +34,12 @@ public final class File: NSManagedObject {
 
     @NSManaged public var parentDirectory: File?
     @NSManaged public var contents: Set<File>
+
+    public override func prepareForDeletion() {
+        if !self.isDirectory && FileManager.default.fileExists(atPath: self.localURL.path) {
+            try? FileManager.default.removeItem(at: self.localURL)
+        }
+    }
 }
 
 public extension File {

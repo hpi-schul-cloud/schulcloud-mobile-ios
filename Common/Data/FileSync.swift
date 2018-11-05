@@ -89,31 +89,41 @@ public class FileSync: NSObject {
     }
 
 
-    private func GETRequest(for url: URL) -> URLRequest {
+    private func authenticatedURLRequest(for url: URL) -> URLRequest {
         var request = URLRequest(url: url)
         request.setValue(Globals.account!.accessToken!, forHTTPHeaderField: "Authorization")
+        return request
+    }
+
+    private func GETRequest(for url: URL) -> URLRequest {
+        var request = authenticatedURLRequest(for: url)
         request.httpMethod = "GET"
         return request
     }
 
     private func POSTRequest(for url: URL) -> URLRequest {
-        var request = URLRequest(url: url)
-        request.setValue(Globals.account!.accessToken!, forHTTPHeaderField: "Authorization")
+        var request = authenticatedURLRequest(for: url)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         return request
     }
 
     private func DELETERequest(for url: URL) -> URLRequest {
-        var request = URLRequest(url: url)
-        request.setValue(Globals.account!.accessToken!, forHTTPHeaderField: "Authorization")
+        var request = authenticatedURLRequest(for: url)
         request.httpMethod = "DELETE"
         return request
     }
 
     private func PUTRequest(for url: URL) -> URLRequest {
-        var request = URLRequest(url: url)
-        request.setValue(Globals.account!.accessToken!, forHTTPHeaderField: "Authorization")
+        var request = authenticatedURLRequest(for: url)
         request.httpMethod = "PUT"
+        return request
+    }
+
+    private func PATCHRequest(for url: URL) -> URLRequest {
+        var request = authenticatedURLRequest(for: url)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "PATCH"
         return request
     }
 
@@ -333,7 +343,6 @@ public class FileSync: NSObject {
                            completionHandler: @escaping (Result<File, SCError>) -> Void) -> URLSessionTask? {
 
         var request = self.POSTRequest(for: Brand.default.servers.backend.appendingPathComponent("files"))
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
         let parameters: [String: Any] = [
             "key":  remoteURL.absoluteString.removingPercentEncoding!,
@@ -376,14 +385,13 @@ public class FileSync: NSObject {
         }
     }
 
-    public func createDirectory(path: URL,
-                                parentDirectory: File,
-                                completionHandler: @escaping (Result<File, SCError>) -> Void) -> URLSessionTask? {
+    public func create(directoryAt url: URL,
+                       parentDirectory: File,
+                       completionHandler: @escaping (Result<File, SCError>) -> Void) -> URLSessionTask? {
 
         var request = self.POSTRequest(for: fileStorageURL.appendingPathComponent("directories") )
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        guard var pathString = path.absoluteString.removingPercentEncoding else {
+        guard var pathString = url.absoluteString.removingPercentEncoding else {
             return nil
         }
         pathString.removeLast()
@@ -437,7 +445,6 @@ public class FileSync: NSObject {
         assert(directory.isDirectory)
 
         var request = self.POSTRequest(for: fileStorageURL.appendingPathComponent("directories/rename") )
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
         guard let remoteURL = directory.remoteURL,
             var pathString = remoteURL.absoluteString.removingPercentEncoding else {
@@ -511,7 +518,52 @@ public class FileSync: NSObject {
                 completionHandler(.failure(SCError.other(error.localizedDescription)))
             }
         }
+    }
 
+    public func move(item: File,
+                     to newParent: File,
+                     completionHandler: @escaping (Result<Void, SCError>) -> Void) -> URLSessionTask? {
+        assert(!item.isDirectory)
+        assert(newParent.isDirectory)
+
+        let id = item.id
+        let params = [
+            "fileName": item.name,
+            "path": item.remoteURL!.deletingLastPathComponent().path + "/",
+            "destination": newParent.remoteURL!.path + "/",
+        ]
+
+        let data = try! JSONSerialization.data(withJSONObject: params, options: [])
+
+        var request = self.PATCHRequest(for: self.fileStorageURL.appendingPathComponent(id))
+        request.httpBody = data
+
+        let fileObjectID = item.objectID
+        let oldParentObjectID = item.parentDirectory!.objectID
+        let newParentObjectID = newParent.objectID
+
+        return self.metadataSession.dataTask(with: request) { data, response, error in
+            do {
+                _ = try self.confirmNetworkResponse(data: data, response: response, error: error)
+                let context = CoreDataHelper.persistentContainer.newBackgroundContext()
+                context.performAndWait {
+
+                    let oldParent = context.typedObject(with: oldParentObjectID) as File
+                    let newParent = context.typedObject(with: newParentObjectID) as File
+                    let item = context.typedObject(with: fileObjectID) as File
+
+                    oldParent.contents.remove(item)
+                    newParent.contents.insert(item)
+                    item.parentDirectory = newParent
+
+                    _ = context.saveWithResult()
+                }
+            } catch let error as SCError {
+                completionHandler(.failure(error))
+            } catch let error {
+                completionHandler(.failure(SCError.other(error.localizedDescription)))
+            }
+        }
     }
 }
 

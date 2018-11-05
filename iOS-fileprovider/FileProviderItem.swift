@@ -60,13 +60,15 @@ class FileProviderItem: NSObject, NSFileProviderItem {
 
             // Allows deleting for only user created items
             if file.id != FileHelper.userDirectoryID {
-
                 capabilities.formUnion(.allowsDeleting)
             }
         }
 
-        self.capabilities = capabilities
+        if !file.isDirectory {
+            capabilities.formUnion(.allowsReparenting)
+        }
 
+        self.capabilities = capabilities
 
         self.filename = file.name
         self.typeIdentifier = file.UTI ?? ""

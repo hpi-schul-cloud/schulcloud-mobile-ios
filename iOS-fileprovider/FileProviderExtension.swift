@@ -296,7 +296,7 @@ class FileProviderExtension: NSFileProviderExtension {
             return
         }
         
-        self.fileSync.createDirectory(path: url,
+        self.fileSync.create(directoryAt: url,
                                       parentDirectory: parentDirectory) { result in
 
                                         switch result {
@@ -337,7 +337,6 @@ class FileProviderExtension: NSFileProviderExtension {
         }?.resume()
     }
 
-
     override func trashItem(withIdentifier itemIdentifier: NSFileProviderItemIdentifier,
                             completionHandler: @escaping (NSFileProviderItem?, Error?) -> Void) {
 
@@ -377,6 +376,28 @@ class FileProviderExtension: NSFileProviderExtension {
             NSFileProviderManager.default.signalEnumerator(for: parentIdentifier) { _ in }
         }?.resume()
         completionHandler(nil)
+    }
+
+    override func reparentItem(withIdentifier itemIdentifier: NSFileProviderItemIdentifier,
+                               toParentItemWithIdentifier parentItemIdentifier: NSFileProviderItemIdentifier,
+                               newName: String?,
+                               completionHandler: @escaping (NSFileProviderItem?, Error?) -> Void) {
+
+        let context = CoreDataHelper.persistentContainer.newBackgroundContext()
+        guard let item = File.by(id: itemIdentifier.rawValue, in: context),
+            let newParent = File.by(id: parentItemIdentifier.rawValue, in: context) else {
+                completionHandler(nil, NSFileProviderError(.noSuchItem))
+                return
+        }
+
+        self.fileSync.move(item: item, to: newParent) { result in
+            let context = CoreDataHelper.persistentContainer.newBackgroundContext()
+            let file = File.by(id: itemIdentifier.rawValue, in: context)!
+            let newItem = FileProviderItem(file: file)
+            DispatchQueue.main.async {
+                completionHandler(newItem,result.error)
+            }
+        }?.resume()
     }
 
     //TODO: This is currently not Apple compliant, it has to work completly offline
