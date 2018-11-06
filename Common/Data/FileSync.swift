@@ -484,15 +484,18 @@ public class FileSync: NSObject {
         }
     }
 
-    public func delete(directory: File,
+    public func delete(item: File,
                        completionHandler: @escaping (Result<Void, SCError>) -> Void) -> URLSessionTask? {
-        assert(directory.isDirectory)
 
-        let folderID = directory.objectID
+        let itemID = item.objectID
+        guard let remoteURL = item.remoteURL else { return nil }
 
-        guard let remoteURL = directory.remoteURL else { return nil }
+        var deleteURL = self.fileStorageURL
+        if item.isDirectory {
+            deleteURL.appendPathComponent("directories", isDirectory: true)
+        }
 
-        var urlComponent = URLComponents(url: self.fileStorageURL.appendingPathComponent("directories", isDirectory: true), resolvingAgainstBaseURL: false)!
+        var urlComponent = URLComponents(url: deleteURL, resolvingAgainstBaseURL: false)!
         urlComponent.query = "path=\(remoteURL.path.removingPercentEncoding!)"
 
         guard let queryURL = try? urlComponent.asURL() else {
@@ -506,7 +509,7 @@ public class FileSync: NSObject {
                 _ = try self.confirmNetworkResponse(data: data, response: response, error: error)
                 let context = CoreDataHelper.persistentContainer.newBackgroundContext()
                 context.performAndWait {
-                    let deletedItem = context.typedObject(with: folderID)
+                    let deletedItem = context.typedObject(with: itemID)
                     context.delete(deletedItem)
                     _ = context.saveWithResult()
                 }

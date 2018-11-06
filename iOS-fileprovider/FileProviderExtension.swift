@@ -366,15 +366,12 @@ class FileProviderExtension: NSFileProviderExtension {
         let folder = context.performAndWait {
             return File.by(id: id, in: context)
         }
-        guard let folderToDelete = folder else {
+        guard let item = folder else {
             completionHandler(NSFileProviderError(.noSuchItem))
             return
         }
-        let parentIdentifier = NSFileProviderItemIdentifier(folderToDelete.parentDirectory?.id ?? "")
 
-        self.fileSync.delete(directory: folderToDelete) { result in
-            NSFileProviderManager.default.signalEnumerator(for: parentIdentifier) { _ in }
-        }?.resume()
+        self.fileSync.delete(item: item, completionHandler: {_ in })?.resume()
         completionHandler(nil)
     }
 
