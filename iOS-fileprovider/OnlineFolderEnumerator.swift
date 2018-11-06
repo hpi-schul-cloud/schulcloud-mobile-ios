@@ -14,24 +14,37 @@ fileprivate let dateSortDesc = NSSortDescriptor(key: "createdAt", ascending: tru
 class OnlineFolderEnumerator: NSObject, NSFileProviderEnumerator {
 
     let itemIdentifier: NSFileProviderItemIdentifier
+    let parentIdentifier: NSFileProviderItemIdentifier
     var fileSync: FileSync
-    let enumeratorContext: NSManagedObjectContext
+    let context: NSManagedObjectContext
 
+    var itemCountChanged = false
+    var itemMetadataChanges = false
     lazy var fetchedResultsController: NSFetchedResultsController<File> = {
         let fetchRequest: NSFetchRequest<File> = File.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "parentDirectory.id == %@", itemIdentifier.rawValue)
         fetchRequest.sortDescriptors = [nameSortDesc]
 
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.enumeratorContext, sectionNameKeyPath: nil, cacheName: nil)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                                  managedObjectContext: self.context,
+                                                                  sectionNameKeyPath: nil,
+                                                                  cacheName: nil)
         fetchedResultsController.delegate = self
         return fetchedResultsController
 
     }()
 
-    init(itemIdentifier: NSFileProviderItemIdentifier, fileSync: FileSync, context: NSManagedObjectContext) {
+    init(itemIdentifier: NSFileProviderItemIdentifier, fileSync: FileSync) {
         self.itemIdentifier = itemIdentifier
+
         self.fileSync = fileSync
-        self.enumeratorContext = context
+        self.context = CoreDataHelper.persistentContainer.newBackgroundContext()
+        self.context.automaticallyMergesChangesFromParent = true
+
+        let file = File.by(id: itemIdentifier.rawValue, in: self.context)!
+        // ROOT never uses OnlineFolderEnumerator
+        self.parentIdentifier = NSFileProviderItemIdentifier(rawValue: file.parentDirectory!.id)
+
         super.init()
     }
 
@@ -39,7 +52,7 @@ class OnlineFolderEnumerator: NSObject, NSFileProviderEnumerator {
 
     func enumerateItems(for observer: NSFileProviderEnumerationObserver, startingAt page: NSFileProviderPage) {
         let id = itemIdentifier.rawValue // NOTE: It is assumed the root container doesn't make use of online enumeration
-        guard let file = File.by(id: id, in: self.enumeratorContext) else {
+        guard let file = File.by(id: id, in: self.fetchedResultsController.managedObjectContext) else {
             observer.finishEnumeratingWithError(NSFileProviderError(.noSuchItem))
             return
         }
@@ -72,7 +85,32 @@ class OnlineFolderEnumerator: NSObject, NSFileProviderEnumerator {
 }
 
 extension OnlineFolderEnumerator: NSFetchedResultsControllerDelegate {
+
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        self.itemCountChanged = false
+        self.itemMetadataChanges = false
+    }
+
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            self.itemCountChanged = true
+        case .delete:
+            self.itemCountChanged = true
+        case .move:
+            break
+        case .update:
+            guard let file = anObject as? File else { return }
+            self.itemMetadataChanges = self.itemMetadataChanges || !file.changedValues().isEmpty
+        }
+    }
+
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        NSFileProviderManager.default.signalEnumerator(for: self.itemIdentifier, completionHandler: { _ in })
+        if self.itemMetadataChanges || self.itemCountChanged {
+            if self.itemCountChanged {
+                NSFileProviderManager.default.signalEnumerator(for: self.parentIdentifier, completionHandler: { _ in })
+            }
+            NSFileProviderManager.default.signalEnumerator(for: self.itemIdentifier, completionHandler: { _ in })
+        }
     }
 }
