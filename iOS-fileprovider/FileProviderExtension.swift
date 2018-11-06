@@ -12,6 +12,7 @@ class FileProviderExtension: NSFileProviderExtension {
 
     let rootDirectory: File
     let fileSync: FileSync
+    let fileProviderContext = CoreDataHelper.persistentContainer.newBackgroundContext()
 
     lazy var coordinator: NSFileCoordinator = {
         let result = NSFileCoordinator()
@@ -198,7 +199,7 @@ class FileProviderExtension: NSFileProviderExtension {
             }
 
             if file.isDirectory {
-                maybeEnumerator = OnlineFolderEnumerator(itemIdentifier: containerItemIdentifier, fileSync: self.fileSync)
+                maybeEnumerator = OnlineFolderEnumerator(itemIdentifier: containerItemIdentifier, fileSync: self.fileSync, context: self.fileProviderContext)
             } else {
                 maybeEnumerator = FileEnumerator(file: file)
             }

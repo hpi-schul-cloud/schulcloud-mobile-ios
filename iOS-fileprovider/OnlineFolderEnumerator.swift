@@ -4,22 +4,34 @@
 //
 
 import Common
+import CoreData
 import FileProvider
+
+
+fileprivate let nameSortDesc = NSSortDescriptor(key: "name", ascending: true)
+fileprivate let dateSortDesc = NSSortDescriptor(key: "createdAt", ascending: true)
 
 class OnlineFolderEnumerator: NSObject, NSFileProviderEnumerator {
 
-    static var dateCompareFunc: (File, File) -> Bool = { $0.createdAt < $1.createdAt }
-    static var nameCompareFunc: (File, File) -> Bool = { $0.name < $1.name }
-
     let itemIdentifier: NSFileProviderItemIdentifier
     var fileSync: FileSync
+    let enumeratorContext: NSManagedObjectContext
 
-    var compareFunc: (File, File) -> Bool = OnlineFolderEnumerator.nameCompareFunc
-    var items: [FileProviderItem] = []
+    lazy var fetchedResultsController: NSFetchedResultsController<File> = {
+        let fetchRequest: NSFetchRequest<File> = File.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "parentDirectory.id == %@", itemIdentifier.rawValue)
+        fetchRequest.sortDescriptors = [nameSortDesc]
 
-    init(itemIdentifier: NSFileProviderItemIdentifier, fileSync: FileSync) {
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.enumeratorContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController.delegate = self
+        return fetchedResultsController
+
+    }()
+
+    init(itemIdentifier: NSFileProviderItemIdentifier, fileSync: FileSync, context: NSManagedObjectContext) {
         self.itemIdentifier = itemIdentifier
         self.fileSync = fileSync
+        self.enumeratorContext = context
         super.init()
     }
 
@@ -27,47 +39,23 @@ class OnlineFolderEnumerator: NSObject, NSFileProviderEnumerator {
 
     func enumerateItems(for observer: NSFileProviderEnumerationObserver, startingAt page: NSFileProviderPage) {
         let id = itemIdentifier.rawValue // NOTE: It is assumed the root container doesn't make use of online enumeration
-        let context = CoreDataHelper.persistentContainer.newBackgroundContext()
-        guard let file = File.by(id: id, in: context) else {
+        guard let file = File.by(id: id, in: self.enumeratorContext) else {
             observer.finishEnumeratingWithError(NSFileProviderError(.noSuchItem))
             return
         }
 
-        let parentProviderItemIdentifier = file.parentDirectory != nil ? FileProviderItem(file: file.parentDirectory!).itemIdentifier : nil
-
         if page == NSFileProviderPage.initialPageSortedByDate as NSFileProviderPage {
-            self.compareFunc = OnlineFolderEnumerator.dateCompareFunc
+            self.fetchedResultsController.fetchRequest.sortDescriptors = [dateSortDesc]
+            try? self.fetchedResultsController.performFetch()
         } else if page == NSFileProviderPage.initialPageSortedByName as NSFileProviderPage {
-            self.compareFunc = OnlineFolderEnumerator.nameCompareFunc
+            self.fetchedResultsController.fetchRequest.sortDescriptors = [nameSortDesc]
+            try? self.fetchedResultsController.performFetch()
         }
 
-        fileSync.updateContent(of: file) { result in
-            switch result {
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    observer.finishEnumeratingWithError(error)
-                }
-
-            case .success(let files):
-                let localItems = files.map { file in
-                    return file.objectID
-                }.map { id in
-                    CoreDataHelper.viewContext.typedObject(with: id) as File
-                }.sorted(by: self.compareFunc).map(FileProviderItem.init(file:))
-
-                if let parentItemIdentifier = parentProviderItemIdentifier,
-                    localItems.count != self.items.count {
-                    NSFileProviderManager.default.signalEnumerator(for: parentItemIdentifier) { _ in }
-                }
-
-                self.items = localItems
-                DispatchQueue.main.async {
-                    observer.didEnumerate(localItems)
-                    observer.finishEnumerating(upTo: nil)
-                }
-            }
-
-        }?.resume()
+        self.fileSync.updateContent(of: file, completionBlock: { _ in })?.resume()
+        let objects = self.fetchedResultsController.fetchedObjects ?? []
+        observer.didEnumerate(objects.map(FileProviderItem.init(file:)))
+        observer.finishEnumerating(upTo: nil)
     }
 
     func enumerateChanges(for observer: NSFileProviderChangeObserver, from anchor: NSFileProviderSyncAnchor) {
@@ -80,5 +68,11 @@ class OnlineFolderEnumerator: NSObject, NSFileProviderEnumerator {
          - inform the observer about item deletions and updates (modifications + insertions)
          - inform the observer when you have finished enumerating up to a subsequent sync anchor
          */
+    }
+}
+
+extension OnlineFolderEnumerator: NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        NSFileProviderManager.default.signalEnumerator(for: self.itemIdentifier, completionHandler: { _ in })
     }
 }
