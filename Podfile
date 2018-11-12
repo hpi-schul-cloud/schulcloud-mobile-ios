@@ -6,12 +6,12 @@ platform :ios, '10.0'
 pod 'SwiftLint', '~> 0.25'
 
 target 'Common' do
-  pod 'BrightFutures', '~> 6.0'
+  pod 'BrightFutures', '~> 7.0'
   pod 'Firebase/Auth'
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
-  pod 'JWTDecode', '2.0.0'
-  pod 'Locksmith', '3.0.0'
+  pod 'JWTDecode', '~> 2.0'
+  pod 'Locksmith', '~> 3.0'
   pod 'SwiftyBeaver', :git => 'https://github.com/SwiftyBeaver/SwiftyBeaver.git', :commit => 'e4563d1'
   pod 'SyncEngine', :path => './Frameworks/SyncEngine'
 
@@ -25,8 +25,7 @@ target 'Common' do
 end
 
 target 'iOS' do
-  pod 'CalendarKit', '0.2.0'
-  pod 'SimpleRoundedButton'
+  pod 'CalendarKit', '~> 0.2'
 end
 
 
