@@ -73,6 +73,7 @@ final class HomeworkListDateSortedViewController: UITableViewController {
         defer {
             tableView.deselectRow(at: indexPath, animated: false)
         }
+
         self.performSegue(withIdentifier: "taskDetail", sender: self.fetchedResultsController.object(at: indexPath))
     }
 

@@ -17,10 +17,10 @@ import UIKit
 
 final class HomeworkListViewController: UIViewController {
 
-    @IBOutlet var courseSortedContainerView: UIView!
-    @IBOutlet var dateSortedContainerView: UIView!
+    @IBOutlet private var courseSortedContainerView: UIView!
+    @IBOutlet private var dateSortedContainerView: UIView!
 
-    private enum SortingMode {
+    private enum SortingMode: CaseIterable {
         case dueDate
         case course
 
@@ -32,7 +32,6 @@ final class HomeworkListViewController: UIViewController {
                 return "Kurs"
             }
         }
-        static var allValues = [SortingMode.dueDate, SortingMode.course]
     }
 
     override func viewDidLoad() {
@@ -57,7 +56,7 @@ final class HomeworkListViewController: UIViewController {
     @IBAction func sortOptionPressed(_ sender: UIBarButtonItem) {
         let controller = UIAlertController(title: "Aufgaben sortieren nach", message: nil, preferredStyle: .actionSheet)
 
-        for sortingStyle in SortingMode.allValues {
+        for sortingStyle in SortingMode.allCases {
             let action = UIAlertAction(title: sortingStyle.title, style: .default) { [weak self] _ in
                 self?.selectedSortingStyle = sortingStyle
             }

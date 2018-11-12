@@ -86,7 +86,7 @@ class LoadingViewController: UIViewController {
             }
 
             if #available(iOS 11.0, *) {
-                NSFileProviderManager.default.register(task, forItemWithIdentifier: itemIdentifier) { error in }
+                NSFileProviderManager.default.register(task, forItemWithIdentifier: itemIdentifier) { _ in }
                 progress.addChild(task.progress, withPendingUnitCount: 3)
             }
 

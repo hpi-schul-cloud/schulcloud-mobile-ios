@@ -59,7 +59,7 @@ public class FilesViewController: UITableViewController {
                 }
             }
 
-            guard let _ = result.value else {
+            guard result.value != nil else {
                 print("Error refreshing files")
                 return
             }

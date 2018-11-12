@@ -15,13 +15,10 @@ protocol NewsOverviewViewControllerDelegate: class {
 
 final class NewsOverviewViewController: UITableViewController {
 
-    @IBOutlet weak var noNewsLabel: UILabel!
-    @IBOutlet weak var moreNewsButton: UIButton!
+    @IBOutlet private weak var noNewsLabel: UILabel!
+    @IBOutlet private weak var moreNewsButton: UIButton!
 
     weak var delegate: NewsOverviewViewControllerDelegate?
-
-    // TODO: Inverstigate why table view isn't properly layedout if when using begin/endUpdate
-    var fetchedResultDelegate: TableViewFetchedControllerDelegate?
 
     private lazy var fetchedController: NSFetchedResultsController<NewsArticle> = {
         let fetchRequest: NSFetchRequest<NewsArticle> = NewsArticle.fetchRequest()

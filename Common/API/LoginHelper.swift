@@ -63,6 +63,7 @@ public class LoginHelper {
                 } else {
                     promise.failure(SCError.apiError(response.statusCode, ""))
                 }
+
                 return
             }
 
@@ -140,18 +141,20 @@ public class LoginHelper {
             return nil
         }
 
-        do {
-            let jwt = try decode(jwt: accessToken)
-            let expiration = jwt.body["exp"] as! Int64
-            let interval = TimeInterval(exactly: expiration)!
-            let expirationDate = Date(timeIntervalSince1970: interval)
-            let threeHourBuffer = TimeInterval(exactly: 60 * 60 * 3)!
-            let isValid = Date() < expirationDate - threeHourBuffer
-            return isValid ? account : nil
-        } catch let error {
-            log.error("Error validating token: " + error.description)
+        guard let jwt = try? decode(jwt: accessToken) else {
+            log.error("Error validating token")
             return nil
         }
+
+        guard let expiration = jwt.body["exp"] as? Int64, let interval = TimeInterval(exactly: expiration) else {
+            log.error("Could not find experiation date - better fail")
+            return nil
+        }
+
+        let expirationDate = Date(timeIntervalSince1970: interval)
+        let threeHourBuffer: TimeInterval = 60 * 60 * 3
+        let isValid = Date() < expirationDate - threeHourBuffer
+        return isValid ? account : nil
     }
 
     public static func logout() {

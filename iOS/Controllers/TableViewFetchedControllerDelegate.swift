@@ -43,7 +43,10 @@ final class TableViewFetchedControllerDelegate: NSObject, NSFetchedResultsContro
         }
     }
 
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange sectionInfo: NSFetchedResultsSectionInfo,
+                    atSectionIndex sectionIndex: Int,
+                    for type: NSFetchedResultsChangeType) {
         switch type {
         case .delete:
             self.tableView?.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)

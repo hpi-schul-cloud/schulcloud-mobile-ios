@@ -25,6 +25,7 @@ class PreviewManager: NSObject, QLPreviewControllerDataSource {
             coord.coordinate(readingItemAt: self.file.localURL, options: .withoutChanges, error: nil) { url in
                 webviewPreviewViewContoller.fileData = try? Data(contentsOf: url)
             }
+
             webviewPreviewViewContoller.file = self.file
             return webviewPreviewViewContoller
         default:

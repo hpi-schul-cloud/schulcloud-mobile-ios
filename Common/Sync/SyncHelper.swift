@@ -8,6 +8,8 @@ import CoreData
 import Foundation
 import SyncEngine
 
+// swiftlint:disable line_length
+
 struct SyncHelper {
 
     private static let syncConfiguration = SchulcloudSyncConfig()

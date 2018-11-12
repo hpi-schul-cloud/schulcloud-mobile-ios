@@ -7,39 +7,50 @@ import CoreData
 import Foundation
 import Locksmith
 
-public struct SchulCloudAccount: CreateableSecureStorable, ReadableSecureStorable, DeleteableSecureStorable, GenericPasswordSecureStorable, SecureStorableResultType {
+public struct SchulCloudAccount: ReadableSecureStorable, DeleteableSecureStorable, SecureStorableResultType {
 
     public var userId: String
     public var accountId: String
-
     public var accessToken: String?
 
-    // Required by GenericPasswordSecureStorable
-    public let service = "Schul-Cloud"
-    public var account: String { return userId }
-
-    // Required by CreateableSecureStorable
-    public var data: [String: Any] {
-        return ["accessToken": accessToken as AnyObject]
-    }
-
     mutating func loadAccessTokenFromKeychain() {
-        let result = readFromSecureStore()
-        accessToken = result?.data?["accessToken"] as? String
+        let result = self.readFromSecureStore()
+        self.accessToken = result?.data?["accessToken"] as? String
     }
 
     func saveCredentials() throws {
         let defaults = UserDefaults.appGroupDefaults
 
-        defaults?.set(accountId, forKey: "accountId")
-        defaults?.set(userId, forKey: "userId")
+        defaults?.set(self.accountId, forKey: "accountId")
+        defaults?.set(self.userId, forKey: "userId")
 
         do {
-            try createInSecureStore()
+            try self.createInSecureStore()
         } catch {
-            try updateInSecureStore()
+            try self.updateInSecureStore()
         }
     }
+
+}
+
+extension SchulCloudAccount: GenericPasswordSecureStorable {
+
+    public var service: String {
+        return "Schul-Cloud"
+    }
+
+    public var account: String {
+        return self.userId
+    }
+
+}
+
+extension SchulCloudAccount: CreateableSecureStorable {
+
+    public var data: [String: Any] {
+        return ["accessToken": self.accessToken as AnyObject]
+    }
+
 }
 
 public class Globals {

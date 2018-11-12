@@ -122,7 +122,6 @@ class FileProviderExtension: NSFileProviderExtension {
                     NSFileProviderManager.default.register(task, forItemWithIdentifier: identifier) { _ in }
                     task.resume()
                 }
-
             }?.resume()
         }
     }

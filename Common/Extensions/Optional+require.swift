@@ -10,6 +10,7 @@ public extension Optional {
         guard let result = self else {
             fatalError(msg)
         }
+
         return result
     }
 }

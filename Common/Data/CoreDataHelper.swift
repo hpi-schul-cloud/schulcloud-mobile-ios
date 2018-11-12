@@ -15,7 +15,8 @@ public class CoreDataHelper {
         let model = NSManagedObjectModel(contentsOf: modelURL!)
         let container = NSPersistentContainer(name: "schulcloud", managedObjectModel: model!)
 
-        let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Bundle.main.appGroupIdentifier!)!.appendingPathComponent("schulclouddb")
+        let mainBundle = Bundle.main.appGroupIdentifier!
+        let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: mainBundle)!.appendingPathComponent("schulclouddb")
         let description = NSPersistentStoreDescription(url: url)
 
         container.persistentStoreDescriptions = [description]
@@ -168,8 +169,8 @@ extension NSManagedObjectContext {
             }
         }
 
-        if let e = error {
-            return try rescue(e)
+        if let error = error {
+            return try rescue(error)
         } else {
             return result!
         }
