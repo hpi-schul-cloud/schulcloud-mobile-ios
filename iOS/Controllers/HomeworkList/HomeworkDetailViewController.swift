@@ -33,7 +33,7 @@ class HomeworkDetailViewController: UIViewController {
         let description = homework.cleanedDescriptionText
         if let attributedString = NSMutableAttributedString(html: description) {
             let range = NSRange(location: 0, length: attributedString.string.count)
-            attributedString.addAttribute(NSAttributedStringKey.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
+            attributedString.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
             self.contentLabel.attributedText = attributedString.trailingNewlineChopped
         } else {
             self.contentLabel.text = description

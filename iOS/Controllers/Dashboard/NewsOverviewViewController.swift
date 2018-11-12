@@ -47,7 +47,7 @@ final class NewsOverviewViewController: UITableViewController {
         self.delegate?.heightDidChange(tableView.contentSize.height)
 
         if let headerView = tableView.tableHeaderView {
-            let size = headerView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
+            let size = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
             if headerView.frame.size.height != size.height {
                 headerView.frame.size.height = size.height
                 self.tableView.tableHeaderView = headerView
@@ -56,7 +56,7 @@ final class NewsOverviewViewController: UITableViewController {
         }
 
         if let footerView = tableView.tableFooterView {
-            let size = footerView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
+            let size = footerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
             if footerView.frame.size.height != size.height {
                 footerView.frame.size.height = size.height
                 self.tableView.tableFooterView = footerView

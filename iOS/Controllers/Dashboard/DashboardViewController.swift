@@ -44,7 +44,7 @@ public final class DashboardViewController: UICollectionViewController {
         func makeNoPermissionController(missingPermission: UserPermissions) -> DashboardNoPermissionViewController {
             let viewController: DashboardNoPermissionViewController = self.initialViewControllerOfStoryboard(named: "MissingPermission")
             viewController.view.translatesAutoresizingMaskIntoConstraints = false
-            self.addChildViewController(viewController)
+            self.addChild(viewController)
             viewController.missingPermission = missingPermission
             return viewController
         }
@@ -145,7 +145,7 @@ extension DashboardViewController {
         let viewController = self.viewControllers[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DashboardCollectionCell", for: indexPath) as! DashboardCollectionViewControllerCell
         cell.configure(for: viewController)
-        viewController.didMove(toParentViewController: self)
+        viewController.didMove(toParent: self)
 
         if cell.bounds.width < collectionView.bounds.width {
             cell.contentView.layer.cornerRadius = 5.0
