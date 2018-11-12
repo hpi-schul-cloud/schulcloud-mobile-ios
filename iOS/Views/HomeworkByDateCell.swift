@@ -35,7 +35,7 @@ class HomeworkByDateCell: UITableViewCell {
         var homeworkDescription = homework.cleanedDescriptionText
         if let attributedString = NSMutableAttributedString(html: homeworkDescription) {
             let range = NSRange(location: 0, length: attributedString.string.count)
-            attributedString.addAttribute(NSAttributedStringKey.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
+            attributedString.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
             homeworkDescription = attributedString.trailingNewlineChopped.string
         }
 

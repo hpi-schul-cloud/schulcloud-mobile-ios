@@ -19,7 +19,7 @@ final class DashboardLayout: UICollectionViewLayout {
 
         var rect: CGRect
         if #available(iOS 11.0, *) {
-            rect = UIEdgeInsetsInsetRect(collectionView.bounds, collectionView.safeAreaInsets)
+            rect = collectionView.bounds.inset(by: collectionView.safeAreaInsets)
         } else {
             rect = collectionView.bounds
         }
@@ -76,7 +76,7 @@ final class DashboardLayout: UICollectionViewLayout {
             let leftInset: CGFloat = isFirstColumn ? 0.0 : horizontalInset
             let rightInset: CGFloat = isLastColumn ? 0.0 : horizontalInset
             let edgeInset = UIEdgeInsets(top: verticalInset, left: leftInset, bottom: verticalInset, right: rightInset)
-            let finalFrame = UIEdgeInsetsInsetRect(itemFrame, edgeInset)
+            let finalFrame = itemFrame.inset(by: edgeInset)
 
             let layoutAttributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
             layoutAttributes.frame = finalFrame

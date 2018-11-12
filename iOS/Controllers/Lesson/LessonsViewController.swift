@@ -31,7 +31,7 @@ public class LessonsViewController: UITableViewController {
                                                                        cellReuseIdentifier: "lessonCell",
                                                                        delegate: self)
 
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         self.title = course.name
         performFetch()
         updateData()

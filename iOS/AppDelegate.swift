@@ -25,7 +25,7 @@ public class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotification
         return UIApplication.shared.delegate as? AppDelegate
     }
 
-    public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
         self.window?.tintColor = Brand.default.colors.primary

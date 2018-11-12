@@ -65,7 +65,7 @@ final class PermissionManagmentViewController<T: PermissionAbleViewController>: 
         self.view.addConstraints(hConstraints + vConstraints)
 
         if let containedViewController = containedViewController {
-            containedViewController.didMove(toParentViewController: self)
+            containedViewController.didMove(toParent: self)
         }
     }
 

@@ -23,7 +23,7 @@ class NewsArticleCell: UITableViewCell {
         self.timeSinceCreated.text = NewsArticle.displayDateFormatter.string(for: newsArticle.displayAt)
         self.content.attributedText = newsArticle.content.convertedHTML
         self.content.translatesAutoresizingMaskIntoConstraints = true
-        self.content.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
+        self.content.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
         self.content.sizeToFit()
     }
 
