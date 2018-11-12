@@ -4,7 +4,6 @@
 //
 
 import Common
-import SimpleRoundedButton
 import UIKit
 
 class LoginViewController: UIViewController {
@@ -13,7 +12,7 @@ class LoginViewController: UIViewController {
 
     @IBOutlet private weak var usernameInput: UITextField!
     @IBOutlet private weak var passwordInput: UITextField!
-    @IBOutlet private weak var loginButton: SimpleRoundedButton!
+    @IBOutlet private weak var loginButton: LoadingButton!
     @IBOutlet private weak var inputContainer: UIStackView!
     @IBOutlet private weak var centerInputConstraints: NSLayoutConstraint!
 
@@ -68,7 +67,7 @@ class LoginViewController: UIViewController {
     }
 
     private func login(username: String, password: String) {
-        self.loginButton.startAnimating()
+        self.loginButton.startAnimation()
         LoginHelper.login(username: username, password: password).onSuccess {
             DispatchQueue.main.async {
                 if self.isBeingPresented {
@@ -79,7 +78,7 @@ class LoginViewController: UIViewController {
             }
         }.onFailure { _ in
             DispatchQueue.main.async {
-                self.loginButton.stopAnimating()
+                self.loginButton.stopAnimation()
                 self.showLoginError()
             }
         }
