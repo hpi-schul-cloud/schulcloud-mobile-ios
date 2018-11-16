@@ -10,6 +10,7 @@
 		197EC25ADE53536DC7304C1A /* Pods_Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7453D6B0608647AAC1BEDAB /* Pods_Common.framework */; };
 		3E64DABF207A8D6F5DB59E59 /* Pods_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D32E014BC215A558A2D90EA8 /* Pods_iOS.framework */; };
 		4496FDB03C08BA952EBA4CD1 /* Pods_iOS_fileprovider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C87D60CBBCD0804B5A1870B /* Pods_iOS_fileprovider.framework */; };
+		50094E66219DCFCC007A40B9 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 50094E65219DCFCC007A40B9 /* Settings.bundle */; };
 		503A5EFB1F3DB86C00A7695B /* TabSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EF91F3DB86C00A7695B /* TabSettings.storyboard */; };
 		503A5EFD1F3DC5DC00A7695B /* TabCourses.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */; };
 		503A5EFF1F3DC6A400A7695B /* TabFiles.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */; };
@@ -217,6 +218,7 @@
 		3D45737A1EE02065009A30E2 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		3ED956473F645615154850DC /* Pods-Common.schulcloud-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common.schulcloud-release.xcconfig"; path = "Pods/Target Support Files/Pods-Common/Pods-Common.schulcloud-release.xcconfig"; sourceTree = "<group>"; };
 		457256821799B5F625B4A803 /* Pods-Common.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Common/Pods-Common.debug.xcconfig"; sourceTree = "<group>"; };
+		50094E65219DCFCC007A40B9 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		5024103D2046B01A0033D75A /* iOS-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "iOS-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		502410412046B01A0033D75A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		502410472046B0740033D75A /* CalendarEventHelperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarEventHelperTests.swift; sourceTree = "<group>"; };
@@ -651,6 +653,7 @@
 				C3A5A9111EBCC17600825DBF /* Info.plist */,
 				CE4152B520E2854900739CE2 /* Assets-ios-brand.generated.xcassets */,
 				C3A5A90C1EBCC17600825DBF /* Assets.xcassets */,
+				50094E65219DCFCC007A40B9 /* Settings.bundle */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -1133,6 +1136,7 @@
 				506D7E342106186F0018D9E2 /* NewsDetail.storyboard in Resources */,
 				C3418B681ED335F400280E62 /* WebviewPreviewViewContoller.xib in Resources */,
 				506D7E24210616910018D9E2 /* HomeworkOverview.storyboard in Resources */,
+				50094E66219DCFCC007A40B9 /* Settings.bundle in Resources */,
 				506D7E2A210616C40018D9E2 /* MissingPermission.storyboard in Resources */,
 				506D7E2C210618220018D9E2 /* NotificationList.storyboard in Resources */,
 				506D7E28210616B30018D9E2 /* NewsOverview.storyboard in Resources */,
