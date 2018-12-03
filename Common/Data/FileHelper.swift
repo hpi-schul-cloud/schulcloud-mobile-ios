@@ -9,8 +9,6 @@ import Foundation
 import Marshal
 import Result
 
-fileprivate let localLog = Logger(subsystem: "org.schulcloud.common.FileHelper", category: "Common.FileHelper")
-
 public class FileHelper {
     public static var rootDirectoryID = "root"
     public static var coursesDirectoryID = "courses"
@@ -119,7 +117,7 @@ public class FileHelper {
                 let files: [[String: Any]] = try contents.value(for: "files")
                 let folders: [[String: Any]] = try contents.value(for: "directories")
                 guard let parentFolder = context.existingTypedObject(with: parentFolderObjectId) as? File else {
-                    localLog.error("Unable to find parent folder")
+                    log.error("Unable to find parent folder")
                     return Result(error: .coreDataObjectNotFound)
                 }
 
@@ -162,7 +160,7 @@ public class FileHelper {
             } catch let error as MarshalError {
                 return Result(error: .jsonDeserialization(error.localizedDescription))
             } catch let error {
-                localLog.error("%@", error.description)
+                log.error("%@", error.description)
                 return Result(error: .coreData(error))
             }
         }
@@ -176,7 +174,7 @@ extension FileHelper {
 
         CoreDataHelper.persistentContainer.performBackgroundTask { context in
             guard let parentFolder = context.typedObject(with: objectID) as? File else {
-                    localLog.error("Unable to find course directory")
+                    log.error("Unable to find course directory")
                     return
             }
 

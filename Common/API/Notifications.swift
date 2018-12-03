@@ -12,8 +12,6 @@ import FirebaseInstanceID
 import FirebaseMessaging
 import UserNotifications
 
-fileprivate let localLog = Logger(subsystem: "org.schulcloud.common.SCNotifications", category: "Common.SCNotifications")
-
 public class SCNotifications {
 
     public static func checkRegistration() -> Future<Void, SCError> {
@@ -53,7 +51,7 @@ public class SCNotifications {
     }
 
     public static func registerDevice(with deviceToken: String) -> Future<Void, SCError> {
-        localLog.debug("Registering the device with the notification service...")
+        log.debug("Registering the device with the notification service...")
         let parameters = [
             "service": "firebase",
             "type": "mobile",
@@ -83,7 +81,7 @@ public class SCNotifications {
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { _, error in
             if let error = error {
-                localLog.error("%@", error.localizedDescription)
+                log.error("%@", error.localizedDescription)
             }
         }
 
@@ -92,7 +90,7 @@ public class SCNotifications {
         UIApplication.shared.registerForRemoteNotifications()
 
         SCNotifications.checkRegistration().onFailure { error in
-            localLog.error("%@", error.localizedDescription)
+            log.error("%@", error.localizedDescription)
         }
 
         UNUserNotificationCenter.current().delegate = RemoteMessageDelegate.shared
@@ -120,11 +118,11 @@ class RemoteMessageDelegate: NSObject, MessagingDelegate, UNUserNotificationCent
             let center = UNUserNotificationCenter.current()
             center.add(request) { (error: Error?) in
                 if let theError = error {
-                    localLog.error("%@", theError.localizedDescription)
+                    log.error("%@", theError.localizedDescription)
                 }
             }
         } else {
-            localLog.error("Could not read remote message %@", remoteMessage.appData)
+            log.error("Could not read remote message %@", remoteMessage.appData)
         }
     }
 

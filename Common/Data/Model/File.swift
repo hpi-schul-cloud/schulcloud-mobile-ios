@@ -8,8 +8,6 @@ import Foundation
 import Marshal
 import MobileCoreServices
 
-fileprivate let localLog = Logger(subsystem: "org.schulcloud.common.File", category: "Common.File")
-
 public final class File: NSManagedObject {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<File> {
@@ -300,7 +298,7 @@ extension File {
 
         let result = context.fetchSingle(fetchRequest)
         guard let value = result.value else {
-            localLog.error("Didn't find file with id: %@", id)
+            log.error("Didn't find file with id: %@", id)
             return nil
         }
 
@@ -315,7 +313,7 @@ extension File {
 
         let result = context.fetchMultiple(fetchRequest)
         guard let value = result.value else {
-            localLog.error("Error looking for item with parentID: %@", id)
+            log.error("Error looking for item with parentID: %@", id)
             return nil
         }
 
@@ -331,7 +329,7 @@ extension File {
 
         let result = context.fetchMultiple(fetchRequest)
         guard let value = result.value else {
-            localLog.error("Fetching ids failed: %@", result.error!.description)
+            log.error("Fetching ids failed: %@", result.error!.description)
             return nil
         }
 

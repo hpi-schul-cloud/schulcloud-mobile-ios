@@ -8,8 +8,6 @@ import CoreData
 import DateToolsSwift
 import UIKit
 
-fileprivate let localLog = Logger(subsystem: "org.schulcloud.HomeworkListCourseSortedViewController", category: "iOS.HomeworkListCourseSortedViewController")
-
 final class HomeworkListCourseSortedViewController: UITableViewController {
 
     var coreDataTableViewDataSource: CoreDataTableViewDataSource<HomeworkListCourseSortedViewController>?
@@ -49,7 +47,7 @@ final class HomeworkListCourseSortedViewController: UITableViewController {
 
     func updateData() {
         HomeworkHelper.syncHomework().onFailure { error in
-            localLog.error("%@", error.description)
+            log.error("%@", error.description)
         }.onComplete { _ in
             self.refreshControl?.endRefreshing()
         }

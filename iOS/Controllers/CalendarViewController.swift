@@ -9,8 +9,6 @@ import DateToolsSwift
 import EventKit
 import UIKit
 
-fileprivate let localLog = Logger(subsystem: "org.schulcloud.CalendarViewController", category: "iOS.CalendarViewController")
-
 class CalendarViewController: DayViewController {
 
     var calendarEvents: [CalendarEvent] = []
@@ -39,7 +37,7 @@ class CalendarViewController: DayViewController {
             self.calendarEvents = events
             self.reloadData()
         case let .failure(error):
-            localLog.error("Fetching calendar events failed: %@", error.description)
+            log.error("Fetching calendar events failed: %@", error.description)
         }
     }
 

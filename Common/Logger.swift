@@ -12,23 +12,43 @@ public struct Logger {
         log = OSLog(subsystem: subsystem, category: category)
     }
 
-    public func info(_ message: StaticString, _ args: CVarArg...) {
-        os_log(message, log: log, type: .info, args)
+    private func log(type: OSLogType, file: String, _ message: String, _ args: CVaListPointer) {
+        let expendedMessage = NSString(format: message, arguments: args) as String
+        if let url = URL(string: file) {
+            os_log("[%@] %@", log: log, type: type, url.lastPathComponent, expendedMessage)
+        } else {
+            os_log("%@", log: log, type: type, expendedMessage)
+        }
+
     }
 
-    public func debug(_ message: StaticString, _ args: CVarArg...) {
-        os_log(message, log: log, type: .debug, args)
+    public func info(_ message: String, file: String = #file, _ arguments: CVarArg...) {
+        withVaList(arguments) { args -> () in
+            self.log(type: .info, file: file, message, args)
+        }
     }
 
-    public func default_log(_ message: StaticString, _ args: CVarArg...) {
-        os_log(message, log: log, type: .default, args)
+    public func debug(_ message: String, file: String = #file, _ arguments: CVarArg...) {
+        withVaList(arguments) { args -> () in
+            self.log(type: .debug, file: file, message, args)
+        }
     }
 
-    public func error(_ message: StaticString, _ args: CVarArg...) {
-        os_log(message, log: log, type: .error, args)
+    public func warning(_ message: String, file: String = #file, _ arguments: CVarArg...) {
+        withVaList(arguments) { args -> () in
+            self.log(type: .default, file: file, message, args)
+        }
     }
 
-    public func fault(_ message: StaticString, _ args: CVarArg...) {
-         os_log(message, log: log, type: .fault, args)
+    public func error(_ message: String, file: String = #file, _ arguments: CVarArg...) {
+        withVaList(arguments) { args -> () in
+            self.log(type: .error, file: file, message, args)
+        }
+    }
+
+    public func fault(_ message: String, file: String = #file, _ arguments: CVarArg...) {
+        withVaList(arguments) { args -> () in
+            self.log(type: .fault, file: file, message, args)
+        }
     }
 }

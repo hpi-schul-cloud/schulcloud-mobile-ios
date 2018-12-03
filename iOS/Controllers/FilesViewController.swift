@@ -19,8 +19,6 @@ import Common
 import CoreData
 import UIKit
 
-fileprivate let localLog = Logger(subsystem: "org.schulcloud.FilesViewController", category: "iOS.FilesViewController")
-
 public class FilesViewController: UITableViewController {
 
     var currentFolder: File = FileHelper.rootFolder
@@ -62,7 +60,7 @@ public class FilesViewController: UITableViewController {
             }
 
             guard result.value != nil else {
-                localLog.error("Error refreshing files: %@", result.error!.description)
+                log.error("Error refreshing files: %@", result.error!.description)
                 return
             }
         }?.resume()
@@ -72,7 +70,7 @@ public class FilesViewController: UITableViewController {
         do {
             try self.fetchedResultsController.performFetch()
         } catch let fetchError as NSError {
-            localLog.error("Unable to Perform Fetch Request: %@, %@", fetchError, fetchError.localizedDescription)
+            log.error("Unable to Perform Fetch Request: %@, %@", fetchError, fetchError.localizedDescription)
         }
     }
 }

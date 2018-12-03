@@ -9,8 +9,6 @@ import JWTDecode
 import Locksmith
 import Result
 
-fileprivate let localLog = Logger(subsystem: "org.schulcloud.common.LoginHelper", category: "Common.LoginHelper")
-
 public extension UserDefaults {
     public static var appGroupDefaults: UserDefaults? {
         guard let suiteName = Bundle.main.appGroupIdentifier else { return nil }
@@ -112,7 +110,7 @@ public class LoginHelper {
 
             let account = SchulCloudAccount(userId: userId, accountId: accountId, accessToken: accessToken)
             try account.saveCredentials()
-            localLog.info("Successfully saved login data for user %@ with account %@", userId, accountId)
+            log.info("Successfully saved login data for user %@ with account %@", userId, accountId)
             Globals.account = account
 //            DispatchQueue.main.async {
 //                SCNotifications.initializeMessaging()
@@ -139,17 +137,17 @@ public class LoginHelper {
 
     public static func validate(_ account: SchulCloudAccount) -> SchulCloudAccount? {
         guard let accessToken = account.accessToken else {
-            localLog.error("Could not load access token for account!")
+            log.error("Could not load access token for account!")
             return nil
         }
 
         guard let jwt = try? decode(jwt: accessToken) else {
-            localLog.error("Error validating token")
+            log.error("Error validating token")
             return nil
         }
 
         guard let expiration = jwt.body["exp"] as? Int64, let interval = TimeInterval(exactly: expiration) else {
-            localLog.error("Could not find experiation date - better fail")
+            log.error("Could not find experiation date - better fail")
             return nil
         }
 
@@ -169,7 +167,7 @@ public class LoginHelper {
             Globals.account = nil
             try CalendarEventHelper.deleteSchulcloudCalendar()
         } catch let error {
-            localLog.error("%@", error.localizedDescription)
+            log.error("%@", error.localizedDescription)
         }
     }
 }

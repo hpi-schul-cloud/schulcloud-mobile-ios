@@ -7,8 +7,6 @@ import Common
 import CoreData
 import UIKit
 
-fileprivate let localLog = Logger(subsystem: "org.schulcloud.CoursesViewController", category: "iOS.CoursesViewController")
-
 class CoursesViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     private lazy var fetchedResultsController: NSFetchedResultsController<Course> = {
@@ -37,7 +35,7 @@ class CoursesViewController: UICollectionViewController, UICollectionViewDelegat
 
     func updateData() {
         CourseHelper.syncCourses().onFailure { error in
-            localLog.error("%@", error.description)
+            log.error("%@", error.description)
         }
     }
 
@@ -45,7 +43,7 @@ class CoursesViewController: UICollectionViewController, UICollectionViewDelegat
         do {
             try self.fetchedResultsController.performFetch()
         } catch let fetchError as NSError {
-            localLog.error("Unable to Perform Fetch Request: %@, %@", fetchError, fetchError.localizedDescription)
+            log.error("Unable to Perform Fetch Request: %@, %@", fetchError, fetchError.localizedDescription)
         }
 
         collectionView?.reloadData()

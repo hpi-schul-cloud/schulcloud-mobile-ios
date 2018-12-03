@@ -7,8 +7,6 @@ import Common
 import CoreData
 import UIKit
 
-fileprivate let localLog = Logger(subsystem: "org.schulcloud.NewsListViewController", category: "iOS.NewsListViewController")
-
 public class NewsListViewController: UITableViewController {
 
     private var coreDataTableViewDataSource: CoreDataTableViewDataSource<NewsListViewController>?
@@ -40,7 +38,7 @@ public class NewsListViewController: UITableViewController {
 
     fileprivate func synchronizeNewsArticle() {
         NewsArticleHelper.syncNewsArticles().onFailure { error in
-            localLog.error("%@", error.localizedDescription)
+            log.error("%@", error.localizedDescription)
         }.onComplete { _ in
             self.refreshControl?.endRefreshing()
         }
@@ -50,7 +48,7 @@ public class NewsListViewController: UITableViewController {
         do {
             try self.fetchedResultController.performFetch()
         } catch let fetchError as NSError {
-            localLog.error("%@", fetchError.description)
+            log.error("%@", fetchError.description)
         }
     }
 

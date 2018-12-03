@@ -7,8 +7,6 @@ import Common
 import CoreData
 import UIKit
 
-fileprivate let localLog = Logger(subsystem: "org.schulcloud.CoreDataTableViewDataSourceDelegate", category: "iOS.CoreDataTableViewDataSourceDelegate")
-
 protocol CoreDataTableViewDataSourceDelegate: AnyObject {
 
     associatedtype Object: NSFetchRequestResult
@@ -51,7 +49,7 @@ class CoreDataTableViewDataSource<Delegate: CoreDataTableViewDataSourceDelegate>
             self.fetchedResultsController.delegate = self
             try self.fetchedResultsController.performFetch()
         } catch {
-            localLog.error("%@", error.localizedDescription)
+            log.error("%@", error.localizedDescription)
         }
 
         self.tableView?.dataSource = self
