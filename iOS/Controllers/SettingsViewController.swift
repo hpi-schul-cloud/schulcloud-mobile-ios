@@ -9,6 +9,7 @@ import CoreData
 import UIKit
 
 private var currentEventKitSettings = CalendarEventHelper.EventKitSettings.current
+fileprivate let localLog = Logger(subsystem: "org.schulcloud.SettingsViewController", category: "iOS.SettingsViewController")
 
 class SettingsViewController: UITableViewController {
 
@@ -42,7 +43,7 @@ class SettingsViewController: UITableViewController {
 
         UserHelper.syncUser(withId: userId).onSuccess { syncResult in
             guard let user = CoreDataHelper.viewContext.existingTypedObject(with: syncResult.objectId) as? User else {
-                log.warning("Failed to retrieve user to display")
+                localLog.default_log("Failed to retrieve user to display")
                 return
             }
 

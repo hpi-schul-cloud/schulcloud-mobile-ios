@@ -10,6 +10,8 @@ import SyncEngine
 
 // swiftlint:disable line_length
 
+fileprivate let localLog = Logger(subsystem: "org.schulcloud.common.SyncHelper", category: "Common.SyncHelper")
+
 struct SyncHelper {
 
     private static let syncConfiguration = SchulcloudSyncConfig()
@@ -33,10 +35,10 @@ struct SyncHelper {
                                         deleteNotExistingResources: deleteNotExistingResources).mapError { syncError -> SCError in
             return .synchronization(syncError)
         }.onSuccess { _ in
-            log.info("Successfully merged resources of type: \(Resource.type)")
+            localLog.info("Successfully merged resources of type: %@", Resource.type)
         }.onFailure { error in
             self.handleAuthentication(error: error)
-            log.error("Failed to sync resources of type: \(Resource.type) ==> \(error)")
+            localLog.error("Failed to sync resources of type: %@ ===> %@", Resource.type, error.description)
         }
     }
 
@@ -50,10 +52,10 @@ struct SyncHelper {
                                        withStrategy: strategy).mapError { syncError -> SCError in
             return .synchronization(syncError)
         }.onSuccess { _ in
-            log.info("Successfully merged resource of type: \(Resource.type)")
+            localLog.info("Successfully merged resource of type: %@", Resource.type)
         }.onFailure { error in
             self.handleAuthentication(error: error)
-            log.error("Failed to sync resource of type: \(Resource.type) ==> \(error)")
+            localLog.error("Failed to sync resource of type: %@ ===> %@", Resource.type, error.description)
         }
     }
 
@@ -67,10 +69,10 @@ struct SyncHelper {
                                          withStrategy: strategy).mapError { syncError -> SCError in
             return .synchronization(syncError)
         }.onSuccess { _ in
-            log.info("Successfully created resource of type: \(resourceType)")
+            localLog.info("Successfully created resource of type: %@", Resource.type)
         }.onFailure { error in
             self.handleAuthentication(error: error)
-            log.error("Failed to create resource of type: \(resourceType) ==> \(error)")
+            localLog.error("Failed to create resource of type: %@ ===> %@", Resource.type, error.description)
         }
     }
 
@@ -82,10 +84,10 @@ struct SyncHelper {
                                          withStrategy: strategy).mapError { syncError -> SCError in
             return .synchronization(syncError)
         }.onSuccess { _ in
-            log.info("Successfully created resource of type: \(type(of: resource).type)")
+            localLog.info("Successfully created resource of type: %@", type(of: resource).type)
         }.onFailure { error in
             self.handleAuthentication(error: error)
-            log.error("Failed to create resource of type: \(resource) ==> \(error)")
+            localLog.error("Failed to create resource of type: %@ ===> %@", type(of: resource).type, error.description)
         }
     }
 
@@ -97,10 +99,10 @@ struct SyncHelper {
                                        withStrategy: strategy).mapError { syncError -> SCError in
             return .synchronization(syncError)
         }.onSuccess { _ in
-            log.info("Successfully saved resource of type: \(type(of: resource).type)")
+            localLog.info("Successfully saved resource of type: %@", type(of: resource).type)
         }.onFailure { error in
             self.handleAuthentication(error: error)
-            log.error("Failed to save resource of type: \(resource) ==> \(error)")
+            localLog.error("Failed to save resource of type: %@ ===> %@", type(of: resource).type, error.description)
         }
     }
 
@@ -112,10 +114,10 @@ struct SyncHelper {
                                          withStrategy: strategy).mapError { syncError -> SCError in
             return .synchronization(syncError)
         }.onSuccess { _ in
-            log.info("Successfully deleted resource of type: \(type(of: resource).type)")
+            localLog.info("Successfully deleted resource of type: %@", type(of: resource).type)
         }.onFailure { error in
             self.handleAuthentication(error: error)
-            log.error("Failed to delete resource: \(resource) ==> \(error)")
+            localLog.error("Failed to delete resource of type: %@ ===> %@", type(of: resource).type, error.description)
         }
     }
 

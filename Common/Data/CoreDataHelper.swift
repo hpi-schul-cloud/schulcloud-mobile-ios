@@ -7,6 +7,8 @@ import BrightFutures
 import CoreData
 import Result
 
+fileprivate let localLog = Logger(subsystem: "org.schulcloud.common.CoreDataHelper", category: "Common.CoreDataHelper")
+
 public class CoreDataHelper {
 
     public static var persistentContainer: NSPersistentContainer = {
@@ -22,7 +24,7 @@ public class CoreDataHelper {
         container.persistentStoreDescriptions = [description]
         container.loadPersistentStores { _, error in
             if let error = error {
-                log.error("Unresolved error \(error)")
+                localLog.error("Unresolved error %@", error.description)
                 fatalError("Unresolved error \(error)")
             }
 
@@ -56,13 +58,13 @@ public class CoreDataHelper {
                 let result = try privateManagedObjectContext.execute(deleteRequest) as? NSBatchDeleteResult
                 guard let objectIDArray = result?.result as? [NSManagedObjectID] else { return }
                 let changes = [NSDeletedObjectsKey: objectIDArray]
-                log.verbose("Try to delete all enities of \(entityName) (\(objectIDArray.count) enities)")
+                localLog.info("Try to delete all enities of %@, %@ entities)", entityName, objectIDArray.count)
                 NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [self.viewContext])
                 try privateManagedObjectContext.save()
 
                 promise.success(())
             } catch {
-                log.error("Failed to bulk delete all enities of \(entityName) - \(error)")
+                localLog.error("Failed to bulk delete all enities of %@ - %@", entityName, error.description)
                 promise.failure(.coreData(error))
             }
         }
@@ -106,7 +108,7 @@ extension NSManagedObjectContext {
         guard let object = managedObject as? T else {
             let message = "Type mismatch for NSManagedObject (required)"
             let reason = "required: \(T.self), found: \(type(of: managedObject))"
-            log.error("\(message): \(reason)")
+            localLog.error("%@: %@", message, reason)
             fatalError("\(message): \(reason)")
         }
 
@@ -115,14 +117,14 @@ extension NSManagedObjectContext {
 
     public func existingTypedObject<T>(with id: NSManagedObjectID) -> T? where T: NSManagedObject {
         guard let managedObject = try? self.existingObject(with: id) else {
-            log.info("NSManagedObject could not be retrieved by id (\(id))")
+            localLog.info("NSManagedObject could not be retrieved by id %@", id)
             return nil
         }
 
         guard let object = managedObject as? T else {
             let message = "Type mismatch for NSManagedObject"
             let reason = "expected: \(T.self), found: \(type(of: managedObject))"
-            log.error("\(message): \(reason)")
+            localLog.error("%@, found: %@", message, reason)
             return nil
         }
 

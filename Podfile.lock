@@ -82,7 +82,6 @@ PODS:
   - Protobuf (3.6.1)
   - Result (4.0.0)
   - SwiftLint (0.27.0)
-  - SwiftyBeaver (1.4.0)
   - SyncEngine (0.1.0):
     - BrightFutures (~> 7.0)
     - Marshal (~> 1.2)
@@ -96,7 +95,6 @@ DEPENDENCIES:
   - JWTDecode (~> 2.0)
   - Locksmith (~> 3.0)
   - SwiftLint (~> 0.25)
-  - SwiftyBeaver (from `https://github.com/SwiftyBeaver/SwiftyBeaver.git`, commit `e4563d1`)
   - SyncEngine (from `./Frameworks/SyncEngine`)
 
 SPEC REPOS:
@@ -125,16 +123,8 @@ SPEC REPOS:
     - SwiftLint
 
 EXTERNAL SOURCES:
-  SwiftyBeaver:
-    :commit: e4563d1
-    :git: https://github.com/SwiftyBeaver/SwiftyBeaver.git
   SyncEngine:
     :path: "./Frameworks/SyncEngine"
-
-CHECKOUT OPTIONS:
-  SwiftyBeaver:
-    :commit: e4563d1
-    :git: https://github.com/SwiftyBeaver/SwiftyBeaver.git
 
 SPEC CHECKSUMS:
   BrightFutures: 7d7436e937dfc83d814c11920f157fc2a53f5bd5
@@ -159,9 +149,8 @@ SPEC CHECKSUMS:
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   Result: 7645bb3f50c2ce726dd0ff2fa7b6f42bbe6c3713
   SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
-  SwiftyBeaver: 6d10886c590bc0c7bd42f8c6f54c6bfea71c49d6
   SyncEngine: c4e7460de4fd06a73ccd2d9f63a220a107fd749f
 
-PODFILE CHECKSUM: 15c3b15dc0de596980d244c549d498ef7832004c
+PODFILE CHECKSUM: ff7df27b8ffac17ce47ddf3c7307db8e0766a98a
 
 COCOAPODS: 1.5.3

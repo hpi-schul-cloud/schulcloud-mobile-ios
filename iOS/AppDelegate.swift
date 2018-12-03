@@ -6,11 +6,10 @@
 import Common
 import CoreData
 import Firebase
-import SwiftyBeaver
 import UIKit
 import UserNotifications
 
-let log = Common.log
+let log = Logger(subsystem: "org.schulcloud", category: "iOS")
 
 @UIApplicationMain
 public class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -29,14 +28,6 @@ public class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotification
         // Override point for customization after application launch.
 
         self.window?.tintColor = Brand.default.colors.primary
-
-        // set up SwiftyBeaver
-        let console = ConsoleDestination()  // log to Xcode Console
-        console.levelColor.warning = "❗️ "
-        console.levelColor.debug = "🔍 "
-        console.levelColor.error = "❌ "
-        console.levelColor.info = "👉 "
-        log.addDestination(console)
 
         if !isUnitTesting() {
             FirebaseApp.configure()

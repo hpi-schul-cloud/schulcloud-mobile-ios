@@ -8,6 +8,8 @@ import DateToolsSwift
 import EventKit
 import UIKit
 
+fileprivate let localLog = Logger(subsystem: "org.schulcloud.CalendarOverviewViewController", category: "iOS.CalendarOverviewViewController")
+
 class CalendarOverviewViewController: UIViewController {
 
     enum State {
@@ -60,7 +62,7 @@ class CalendarOverviewViewController: UIViewController {
         CalendarEventHelper.syncEvents().onSuccess { _ in
             self.updateEvents()
         }.onFailure { error in
-            log.error("Failed to synchronize events: \(error.description)")
+            localLog.error("Failed to synchronize events: %@", error.description)
         }
     }
 

@@ -7,6 +7,8 @@ import Common
 import CoreData
 import UIKit
 
+fileprivate let localLog = Logger(subsystem: "org.schulcloud.LessonsViewController", category: "iOS.LessonsViewController")
+
 public class LessonsViewController: UITableViewController {
 
     var course: Course!
@@ -43,7 +45,7 @@ public class LessonsViewController: UITableViewController {
 
     func updateData() {
         LessonHelper.syncLessons(for: self.course).onFailure { error in
-            log.error(error)
+            localLog.error("%@", error.description)
         }.onComplete { _ in
             self.refreshControl?.endRefreshing()
         }
@@ -53,7 +55,7 @@ public class LessonsViewController: UITableViewController {
         do {
             try self.fetchedResultsController.performFetch()
         } catch let fetchError as NSError {
-            log.error("Unable to Perform Fetch Request: \(fetchError), \(fetchError.localizedDescription)")
+            localLog.error("Unable to Perform Fetch Request: %@, %@",fetchError, fetchError.localizedDescription)
         }
     }
 
