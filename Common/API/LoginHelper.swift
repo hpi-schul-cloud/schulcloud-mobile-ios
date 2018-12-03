@@ -167,7 +167,7 @@ public class LoginHelper {
             Globals.account = nil
             try CalendarEventHelper.deleteSchulcloudCalendar()
         } catch let error {
-            log.error("%@", error.localizedDescription)
+            log.error("Error during logout: %@", error.localizedDescription)
         }
     }
 }

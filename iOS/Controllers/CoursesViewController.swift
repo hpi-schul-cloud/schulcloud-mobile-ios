@@ -35,7 +35,7 @@ class CoursesViewController: UICollectionViewController, UICollectionViewDelegat
 
     func updateData() {
         CourseHelper.syncCourses().onFailure { error in
-            log.error("%@", error.description)
+            log.error("Error syncing courses: %@", error.description)
         }
     }
 

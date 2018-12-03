@@ -43,7 +43,7 @@ public class LessonsViewController: UITableViewController {
 
     func updateData() {
         LessonHelper.syncLessons(for: self.course).onFailure { error in
-            log.error("%@", error.description)
+            log.error("Error syncing lessons: %@", error.description)
         }.onComplete { _ in
             self.refreshControl?.endRefreshing()
         }

@@ -47,7 +47,7 @@ final class HomeworkListCourseSortedViewController: UITableViewController {
 
     func updateData() {
         HomeworkHelper.syncHomework().onFailure { error in
-            log.error("%@", error.description)
+            log.error("Error syncing homework: %@", error.description)
         }.onComplete { _ in
             self.refreshControl?.endRefreshing()
         }
