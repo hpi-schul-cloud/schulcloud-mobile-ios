@@ -60,7 +60,7 @@ class CalendarOverviewViewController: UIViewController {
         CalendarEventHelper.syncEvents().onSuccess { _ in
             self.updateEvents()
         }.onFailure { error in
-            log.error("Failed to synchronize events: \(error.description)")
+            log.error("Failed to synchronize events: %@", error.description)
         }
     }
 

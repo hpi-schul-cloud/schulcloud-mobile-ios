@@ -5,6 +5,8 @@
 
 import Foundation
 
+let log = Logger(subsystem: "org.schulcloud.common", category: "Common")
+
 public class Constants {
     public static var textStyleHtml: String {
         var style: String = "<style>"

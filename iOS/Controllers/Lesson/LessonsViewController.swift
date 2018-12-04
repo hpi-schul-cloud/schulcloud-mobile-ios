@@ -43,7 +43,7 @@ public class LessonsViewController: UITableViewController {
 
     func updateData() {
         LessonHelper.syncLessons(for: self.course).onFailure { error in
-            log.error(error)
+            log.error("Error syncing lessons: %@", error.description)
         }.onComplete { _ in
             self.refreshControl?.endRefreshing()
         }
@@ -52,8 +52,8 @@ public class LessonsViewController: UITableViewController {
     func performFetch() {
         do {
             try self.fetchedResultsController.performFetch()
-        } catch let fetchError as NSError {
-            log.error("Unable to Perform Fetch Request: \(fetchError), \(fetchError.localizedDescription)")
+        } catch {
+            log.error("Unable to Perform Fetch Request: %@", error.description)
         }
     }
 

@@ -12,7 +12,6 @@ target 'Common' do
   pod 'Firebase/Messaging'
   pod 'JWTDecode', '~> 2.0'
   pod 'Locksmith', '~> 3.0'
-  pod 'SwiftyBeaver', :git => 'https://github.com/SwiftyBeaver/SwiftyBeaver.git', :commit => 'e4563d1'
   pod 'SyncEngine', :path => './Frameworks/SyncEngine'
 
   target 'Common-Tests' do

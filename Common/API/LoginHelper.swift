@@ -110,7 +110,7 @@ public class LoginHelper {
 
             let account = SchulCloudAccount(userId: userId, accountId: accountId, accessToken: accessToken)
             try account.saveCredentials()
-            log.info("Successfully saved login data for user \(userId) with account \(accountId)")
+            log.info("Successfully saved login data for user %@ with account %@", userId, accountId)
             Globals.account = account
 //            DispatchQueue.main.async {
 //                SCNotifications.initializeMessaging()
@@ -166,8 +166,8 @@ public class LoginHelper {
             try Globals.account!.deleteFromSecureStore()
             Globals.account = nil
             try CalendarEventHelper.deleteSchulcloudCalendar()
-        } catch let error {
-            log.error(error.localizedDescription)
+        } catch {
+            log.error("Error during logout: %@", error.description)
         }
     }
 }

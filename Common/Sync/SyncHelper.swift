@@ -33,10 +33,10 @@ struct SyncHelper {
                                         deleteNotExistingResources: deleteNotExistingResources).mapError { syncError -> SCError in
             return .synchronization(syncError)
         }.onSuccess { _ in
-            log.info("Successfully merged resources of type: \(Resource.type)")
+            log.info("Successfully merged resources of type: %@", Resource.type)
         }.onFailure { error in
             self.handleAuthentication(error: error)
-            log.error("Failed to sync resources of type: \(Resource.type) ==> \(error)")
+            log.error("Failed to sync resources of type: %@ ===> %@", Resource.type, error.description)
         }
     }
 
@@ -50,10 +50,10 @@ struct SyncHelper {
                                        withStrategy: strategy).mapError { syncError -> SCError in
             return .synchronization(syncError)
         }.onSuccess { _ in
-            log.info("Successfully merged resource of type: \(Resource.type)")
+            log.info("Successfully merged resource of type: %@", Resource.type)
         }.onFailure { error in
             self.handleAuthentication(error: error)
-            log.error("Failed to sync resource of type: \(Resource.type) ==> \(error)")
+            log.error("Failed to sync resource of type: %@ ===> %@", Resource.type, error.description)
         }
     }
 
@@ -67,10 +67,10 @@ struct SyncHelper {
                                          withStrategy: strategy).mapError { syncError -> SCError in
             return .synchronization(syncError)
         }.onSuccess { _ in
-            log.info("Successfully created resource of type: \(resourceType)")
+            log.info("Successfully created resource of type: %@", Resource.type)
         }.onFailure { error in
             self.handleAuthentication(error: error)
-            log.error("Failed to create resource of type: \(resourceType) ==> \(error)")
+            log.error("Failed to create resource of type: %@ ===> %@", Resource.type, error.description)
         }
     }
 
@@ -82,10 +82,10 @@ struct SyncHelper {
                                          withStrategy: strategy).mapError { syncError -> SCError in
             return .synchronization(syncError)
         }.onSuccess { _ in
-            log.info("Successfully created resource of type: \(type(of: resource).type)")
+            log.info("Successfully created resource of type: %@", type(of: resource).type)
         }.onFailure { error in
             self.handleAuthentication(error: error)
-            log.error("Failed to create resource of type: \(resource) ==> \(error)")
+            log.error("Failed to create resource of type: %@ ===> %@", type(of: resource).type, error.description)
         }
     }
 
@@ -97,10 +97,10 @@ struct SyncHelper {
                                        withStrategy: strategy).mapError { syncError -> SCError in
             return .synchronization(syncError)
         }.onSuccess { _ in
-            log.info("Successfully saved resource of type: \(type(of: resource).type)")
+            log.info("Successfully saved resource of type: %@", type(of: resource).type)
         }.onFailure { error in
             self.handleAuthentication(error: error)
-            log.error("Failed to save resource of type: \(resource) ==> \(error)")
+            log.error("Failed to save resource of type: %@ ===> %@", type(of: resource).type, error.description)
         }
     }
 
@@ -112,10 +112,10 @@ struct SyncHelper {
                                          withStrategy: strategy).mapError { syncError -> SCError in
             return .synchronization(syncError)
         }.onSuccess { _ in
-            log.info("Successfully deleted resource of type: \(type(of: resource).type)")
+            log.info("Successfully deleted resource of type: %@", type(of: resource).type)
         }.onFailure { error in
             self.handleAuthentication(error: error)
-            log.error("Failed to delete resource: \(resource) ==> \(error)")
+            log.error("Failed to delete resource of type: %@ ===> %@", type(of: resource).type, error.description)
         }
     }
 
