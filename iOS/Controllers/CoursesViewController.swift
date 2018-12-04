@@ -42,8 +42,8 @@ class CoursesViewController: UICollectionViewController, UICollectionViewDelegat
     func performFetch() {
         do {
             try self.fetchedResultsController.performFetch()
-        } catch let fetchError as NSError {
-            log.error("Unable to Perform Fetch Request: %@, %@", fetchError, fetchError.localizedDescription)
+        } catch {
+            log.error("Unable to Perform Fetch Request: %@", error.description)
         }
 
         collectionView?.reloadData()

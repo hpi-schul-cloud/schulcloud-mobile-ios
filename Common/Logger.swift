@@ -6,20 +6,20 @@
 import os
 
 public struct Logger {
+
     private let log: OSLog
 
     public init(subsystem: String, category: String) {
-        log = OSLog(subsystem: subsystem, category: category)
+        self.log = OSLog(subsystem: subsystem, category: category)
     }
 
     private func log(type: OSLogType, file: String, _ message: String, _ args: CVaListPointer) {
         let expendedMessage = NSString(format: message, arguments: args) as String
         if let url = URL(string: file) {
-            os_log("[%@] %@", log: log, type: type, url.lastPathComponent, expendedMessage)
+            os_log("[%@] %@", log: self.log, type: type, url.lastPathComponent, expendedMessage)
         } else {
-            os_log("%@", log: log, type: type, expendedMessage)
+            os_log("%@", log: self.log, type: type, expendedMessage)
         }
-
     }
 
     public func info(_ message: String, file: String = #file, _ arguments: CVarArg...) {
@@ -51,4 +51,5 @@ public struct Logger {
             self.log(type: .fault, file: file, message, args)
         }
     }
+
 }

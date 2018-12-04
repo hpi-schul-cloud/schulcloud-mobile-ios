@@ -38,7 +38,7 @@ public class NewsListViewController: UITableViewController {
 
     fileprivate func synchronizeNewsArticle() {
         NewsArticleHelper.syncNewsArticles().onFailure { error in
-            log.error("Error syncing news article: %@", error.localizedDescription)
+            log.error("Error syncing news article: %@", error.description)
         }.onComplete { _ in
             self.refreshControl?.endRefreshing()
         }

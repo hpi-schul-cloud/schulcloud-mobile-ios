@@ -159,7 +159,7 @@ public class FileHelper {
                 return Result(value: createdFiles + createdFolders)
             } catch let error as MarshalError {
                 return Result(error: .jsonDeserialization(error.localizedDescription))
-            } catch let error {
+            } catch {
                 log.error("Error updating directory content: %@", error.description)
                 return Result(error: .coreData(error))
             }
