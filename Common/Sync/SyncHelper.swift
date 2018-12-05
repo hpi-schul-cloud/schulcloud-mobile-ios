@@ -53,7 +53,7 @@ struct SyncHelper {
             log.info("Successfully merged resource of type: %@", Resource.type)
         }.onFailure { error in
             self.handleAuthentication(error: error)
-            log.error("Failed to sync resource of type: %@ ===> %@", Resource.type, String(reflecting: error))
+            log.error("Failed to sync resource of type: %@", Resource.type, error: error)
         }
     }
 
@@ -70,7 +70,7 @@ struct SyncHelper {
             log.info("Successfully created resource of type: %@", Resource.type)
         }.onFailure { error in
             self.handleAuthentication(error: error)
-            log.error("Failed to create resource of type: %@ ===> %@", Resource.type, String(reflecting: error))
+            log.error("Failed to create resource of type: %@", Resource.type, error: error)
         }
     }
 

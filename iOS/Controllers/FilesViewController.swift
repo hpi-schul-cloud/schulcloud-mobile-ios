@@ -60,7 +60,7 @@ public class FilesViewController: UITableViewController {
             }
 
             guard result.value != nil else {
-                log.error("Refreshing files failed", error: result.error!)
+                log.error("Refreshing files failed", error: result.error)
                 return
             }
         }?.resume()

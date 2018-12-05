@@ -22,8 +22,8 @@ public class CoreDataHelper {
         container.persistentStoreDescriptions = [description]
         container.loadPersistentStores { _, error in
             if let error = error {
-                log.error("Unresolved error", error: error)
-                assertionFailure()
+                log.error("Persistant store loading failure", error: error)
+                fatalError("Unresolved error")
             }
 
             container.viewContext.automaticallyMergesChangesFromParent = true
