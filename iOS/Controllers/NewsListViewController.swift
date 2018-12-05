@@ -38,7 +38,7 @@ public class NewsListViewController: UITableViewController {
 
     fileprivate func synchronizeNewsArticle() {
         NewsArticleHelper.syncNewsArticles().onFailure { error in
-            log.error("Error syncing news article: %@", error.description)
+            log.error("Failed to sync news article", error: error)
         }.onComplete { _ in
             self.refreshControl?.endRefreshing()
         }
@@ -48,7 +48,7 @@ public class NewsListViewController: UITableViewController {
         do {
             try self.fetchedResultController.performFetch()
         } catch let fetchError as NSError {
-            log.error("Error fetching news articles: %@", fetchError.description)
+            log.error("Failed fetching news articles", error: fetchError)
         }
     }
 

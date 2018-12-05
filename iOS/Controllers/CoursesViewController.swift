@@ -35,7 +35,7 @@ class CoursesViewController: UICollectionViewController, UICollectionViewDelegat
 
     func updateData() {
         CourseHelper.syncCourses().onFailure { error in
-            log.error("Error syncing courses: %@", error.description)
+            log.error("Failed syncing courses", error: error)
         }
     }
 
@@ -43,7 +43,7 @@ class CoursesViewController: UICollectionViewController, UICollectionViewDelegat
         do {
             try self.fetchedResultsController.performFetch()
         } catch {
-            log.error("Unable to Perform Fetch Request: %@", error.description)
+            log.error("Unable to Perform Fetch Request", error: error)
         }
 
         collectionView?.reloadData()

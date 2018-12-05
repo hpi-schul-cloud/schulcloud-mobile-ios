@@ -60,7 +60,7 @@ public class FilesViewController: UITableViewController {
             }
 
             guard result.value != nil else {
-                log.error("Error refreshing files: %@", result.error!.description)
+                log.error("Refreshing files failed", error: result.error)
                 return
             }
         }?.resume()
@@ -70,7 +70,7 @@ public class FilesViewController: UITableViewController {
         do {
             try self.fetchedResultsController.performFetch()
         } catch {
-            log.error("Unable to Perform Fetch Request: %@", error.description)
+            log.error("Unable to perform File FetchRequest", error: error)
         }
     }
 }

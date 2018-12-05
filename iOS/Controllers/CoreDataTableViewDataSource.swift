@@ -49,7 +49,7 @@ class CoreDataTableViewDataSource<Delegate: CoreDataTableViewDataSourceDelegate>
             self.fetchedResultsController.delegate = self
             try self.fetchedResultsController.performFetch()
         } catch {
-            log.error("Fetching Error: %@", error.description)
+            log.error("Failed fetch resource of type: %@", String(describing: Delegate.Object.self), error: error)
         }
 
         self.tableView?.dataSource = self

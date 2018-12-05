@@ -81,7 +81,7 @@ public class SCNotifications {
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { _, error in
             if let error = error {
-                log.error("Authorization request error: %@", error.description)
+                log.error("Authorization request failed", error: error)
             }
         }
 
@@ -90,7 +90,7 @@ public class SCNotifications {
         UIApplication.shared.registerForRemoteNotifications()
 
         SCNotifications.checkRegistration().onFailure { error in
-            log.error("Error checking for registration: %@", error.description)
+            log.error("Registration check failed", error: error)
         }
 
         UNUserNotificationCenter.current().delegate = RemoteMessageDelegate.shared
@@ -118,7 +118,7 @@ class RemoteMessageDelegate: NSObject, MessagingDelegate, UNUserNotificationCent
             let center = UNUserNotificationCenter.current()
             center.add(request) { (error: Error?) in
                 if let theError = error {
-                    log.error("Error dispatching notification: %@", theError.description)
+                    log.error("Dispatching notification failed", error: theError)
                 }
             }
         } else {
