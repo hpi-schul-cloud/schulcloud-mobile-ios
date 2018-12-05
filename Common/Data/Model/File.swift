@@ -298,7 +298,7 @@ extension File {
 
         let result = context.fetchSingle(fetchRequest)
         guard let value = result.value else {
-            log.error("Didn't find file with id: %@", id)
+            log.error("Didn't find file with id: %@", id, error: result.error!)
             return nil
         }
 
@@ -313,7 +313,7 @@ extension File {
 
         let result = context.fetchMultiple(fetchRequest)
         guard let value = result.value else {
-            log.error("Error looking for item with parentID: %@", id)
+            log.error("Error looking for item with parentID: %@", id, error: result.error!)
             return nil
         }
 
@@ -329,7 +329,7 @@ extension File {
 
         let result = context.fetchMultiple(fetchRequest)
         guard let value = result.value else {
-            log.error("Fetching ids failed: %@", result.error!.description)
+            log.error("Fetching ids failed", error: result.error!)
             return nil
         }
 

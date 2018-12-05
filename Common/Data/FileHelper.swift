@@ -160,7 +160,7 @@ public class FileHelper {
             } catch let error as MarshalError {
                 return Result(error: .jsonDeserialization(error.localizedDescription))
             } catch {
-                log.error("Error updating directory content: %@", error.description)
+                log.error("Error updating directory content", error: error)
                 return Result(error: .coreData(error))
             }
         }

@@ -13,7 +13,7 @@ final class MissingPermissionView: UIView {
     var missingPermission: UserPermissions = UserPermissions.none {
         didSet {
             if label != nil {
-                label.text = "Fehlende Berechtigung \(missingPermission.description)"
+                label.text = "Fehlende Berechtigung \(missingPermission)"
                 self.layoutSubviews()
             }
         }

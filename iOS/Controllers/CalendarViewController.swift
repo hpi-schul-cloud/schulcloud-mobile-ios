@@ -37,7 +37,7 @@ class CalendarViewController: DayViewController {
             self.calendarEvents = events
             self.reloadData()
         case let .failure(error):
-            log.error("Fetching calendar events failed: %@", error.description)
+            log.error("Fetching calendar events failed", error: error)
         }
     }
 

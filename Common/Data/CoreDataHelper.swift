@@ -22,8 +22,8 @@ public class CoreDataHelper {
         container.persistentStoreDescriptions = [description]
         container.loadPersistentStores { _, error in
             if let error = error {
-                log.error("Unresolved error %@", error.description)
-                fatalError("Unresolved error \(error)")
+                log.error("Unresolved error", error: error)
+                assertionFailure()
             }
 
             container.viewContext.automaticallyMergesChangesFromParent = true
@@ -56,13 +56,13 @@ public class CoreDataHelper {
                 let result = try privateManagedObjectContext.execute(deleteRequest) as? NSBatchDeleteResult
                 guard let objectIDArray = result?.result as? [NSManagedObjectID] else { return }
                 let changes = [NSDeletedObjectsKey: objectIDArray]
-                log.info("Try to delete all enities of %@, %@ entities)", entityName, objectIDArray.count)
+                log.info("Try to delete all entities of %@, %@ entities)", entityName, objectIDArray.count)
                 NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [self.viewContext])
                 try privateManagedObjectContext.save()
 
                 promise.success(())
             } catch {
-                log.error("Failed to bulk delete all enities of %@ - %@", entityName, error.description)
+                log.error("Failed to bulk delete all entities of %@", entityName, error: error)
                 promise.failure(.coreData(error))
             }
         }

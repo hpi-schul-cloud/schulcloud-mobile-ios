@@ -36,7 +36,7 @@ struct SyncHelper {
             log.info("Successfully merged resources of type: %@", Resource.type)
         }.onFailure { error in
             self.handleAuthentication(error: error)
-            log.error("Failed to sync resources of type: %@ ===> %@", Resource.type, error.description)
+            log.error("Failed to sync resources of type: %@", Resource.type, error: error)
         }
     }
 
@@ -53,7 +53,7 @@ struct SyncHelper {
             log.info("Successfully merged resource of type: %@", Resource.type)
         }.onFailure { error in
             self.handleAuthentication(error: error)
-            log.error("Failed to sync resource of type: %@ ===> %@", Resource.type, error.description)
+            log.error("Failed to sync resource of type: %@ ===> %@", Resource.type, String(reflecting: error))
         }
     }
 
@@ -70,7 +70,7 @@ struct SyncHelper {
             log.info("Successfully created resource of type: %@", Resource.type)
         }.onFailure { error in
             self.handleAuthentication(error: error)
-            log.error("Failed to create resource of type: %@ ===> %@", Resource.type, error.description)
+            log.error("Failed to create resource of type: %@ ===> %@", Resource.type, String(reflecting: error))
         }
     }
 
@@ -85,7 +85,7 @@ struct SyncHelper {
             log.info("Successfully created resource of type: %@", type(of: resource).type)
         }.onFailure { error in
             self.handleAuthentication(error: error)
-            log.error("Failed to create resource of type: %@ ===> %@", type(of: resource).type, error.description)
+            log.error("Failed to create resource of type: %@", type(of: resource).type, error: error)
         }
     }
 
@@ -100,7 +100,7 @@ struct SyncHelper {
             log.info("Successfully saved resource of type: %@", type(of: resource).type)
         }.onFailure { error in
             self.handleAuthentication(error: error)
-            log.error("Failed to save resource of type: %@ ===> %@", type(of: resource).type, error.description)
+            log.error("Failed to save resource of type: %@", type(of: resource).type, error: error)
         }
     }
 
@@ -115,7 +115,7 @@ struct SyncHelper {
             log.info("Successfully deleted resource of type: %@", type(of: resource).type)
         }.onFailure { error in
             self.handleAuthentication(error: error)
-            log.error("Failed to delete resource of type: %@ ===> %@", type(of: resource).type, error.description)
+            log.error("Failed to delete resource of type: %@", type(of: resource).type, error: error)
         }
     }
 
