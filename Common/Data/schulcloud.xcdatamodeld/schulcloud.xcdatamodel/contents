@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17G65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14315.18" systemVersion="18A391" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Course" representedClassName=".Course" syncable="YES">
         <attribute name="colorString" attributeType="String" syncable="YES"/>
         <attribute name="descriptionText" optional="YES" attributeType="String" syncable="YES"/>
@@ -79,15 +79,22 @@
         <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="creator" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="newsCreated" inverseEntity="User" syncable="YES"/>
     </entity>
+    <entity name="School" representedClassName=".School" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="users" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="school" inverseEntity="User" syncable="YES"/>
+    </entity>
     <entity name="User" representedClassName=".User" syncable="YES">
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="firstName" attributeType="String" syncable="YES"/>
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="lastName" attributeType="String" syncable="YES"/>
         <attribute name="permissionStorage" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="schoolId" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="assignedHomeworks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Homework" inverseName="teacher" inverseEntity="Homework" syncable="YES"/>
         <relationship name="courses" toMany="YES" deletionRule="Nullify" destinationEntity="Course" inverseName="users" inverseEntity="Course" syncable="YES"/>
         <relationship name="newsCreated" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="NewsArticle" inverseName="creator" inverseEntity="NewsArticle" syncable="YES"/>
+        <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="School" inverseName="users" inverseEntity="School" syncable="YES"/>
         <relationship name="taughtCourses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Course" inverseName="teachers" inverseEntity="Course" syncable="YES"/>
         <fetchIndex name="byIdIndex">
             <fetchIndexElement property="id" type="Binary" order="ascending"/>
@@ -105,7 +112,8 @@
         <element name="Lesson" positionX="-369" positionY="-126" width="128" height="133"/>
         <element name="LessonContent" positionX="-558" positionY="-126" width="128" height="133"/>
         <element name="NewsArticle" positionX="286" positionY="-198" width="128" height="135"/>
-        <element name="User" positionX="205" positionY="225" width="137" height="195"/>
+        <element name="User" positionX="205" positionY="225" width="137" height="210"/>
         <element name="WorkingSetSyncAnchor" positionX="-351" positionY="-45" width="128" height="75"/>
+        <element name="School" positionX="-351" positionY="-45" width="128" height="90"/>
     </elements>
 </model>

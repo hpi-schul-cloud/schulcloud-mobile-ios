@@ -86,6 +86,8 @@
 		CE4152AC20DBDA4D00739CE2 /* LessonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870C11EE0250500ABA348 /* LessonsViewController.swift */; };
 		CE4152AD20DBDA4D00739CE2 /* SingleLessonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3CAB01EF5CBB6009601AE /* SingleLessonViewController.swift */; };
 		CE4152B620E2854900739CE2 /* Assets-ios-brand.generated.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE4152B520E2854900739CE2 /* Assets-ios-brand.generated.xcassets */; };
+		CE6FF54A21B929B7001EBD75 /* School.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6FF54921B929B7001EBD75 /* School.swift */; };
+		CE6FF54C21B92AE0001EBD75 /* SchoolHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6FF54B21B92AE0001EBD75 /* SchoolHelper.swift */; };
 		CE7BFC15212DA2E200C1B871 /* Assets-ios-brand.generated.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE4152B520E2854900739CE2 /* Assets-ios-brand.generated.xcassets */; };
 		CE85F0AF210091B700112085 /* FileSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE85F0AE210091B700112085 /* FileSync.swift */; };
 		CE95A4AE2111FEDA0061BCDD /* FileProviderExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95A4AD2111FEDA0061BCDD /* FileProviderExtension.swift */; };
@@ -366,6 +368,8 @@
 		CE6F9AB72153DE5F007B8C20 /* Schulcloud-FileProvider_Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Schulcloud-FileProvider_Release.xcconfig"; sourceTree = "<group>"; };
 		CE6F9AB82153E560007B8C20 /* n21-FileProvider_Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "n21-FileProvider_Release.xcconfig"; sourceTree = "<group>"; };
 		CE6F9AB92153E561007B8C20 /* n21-FileProvider_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "n21-FileProvider_Debug.xcconfig"; sourceTree = "<group>"; };
+		CE6FF54921B929B7001EBD75 /* School.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = School.swift; sourceTree = "<group>"; };
+		CE6FF54B21B92AE0001EBD75 /* SchoolHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolHelper.swift; sourceTree = "<group>"; };
 		CE737A4D1FFE65B0006DAB54 /* NewsArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsArticleCell.swift; sourceTree = "<group>"; };
 		CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListViewController.swift; sourceTree = "<group>"; };
 		CE829316204EB6B3009D2C84 /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
@@ -554,6 +558,7 @@
 				50B44D84203AAEE1009DC2D3 /* NewsArticle.swift */,
 				50B44D7F203AAEE0009DC2D3 /* User.swift */,
 				CE323E61215D12C00028A088 /* WorkingSetSyncAnchor.swift */,
+				CE6FF54921B929B7001EBD75 /* School.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -749,6 +754,7 @@
 				5083AB58203D517F002E6E47 /* UserHelper.swift */,
 				50604581206BA401009569D1 /* schulcloud.xcdatamodeld */,
 				CE85F0AE210091B700112085 /* FileSync.swift */,
+				CE6FF54B21B92AE0001EBD75 /* SchoolHelper.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1526,6 +1532,7 @@
 				CEEE0A3420D2AD8400B0C2CE /* Homework.swift in Sources */,
 				CE1EAE8C20E500F800C66DDD /* Brand.swift in Sources */,
 				CEEE0A4B20D2ADAD00B0C2CE /* NSAttributedString+HTML.swift in Sources */,
+				CE6FF54A21B929B7001EBD75 /* School.swift in Sources */,
 				CEEE0A4F20D2ADB300B0C2CE /* SchulcloudSyncConfig.swift in Sources */,
 				CE1EAE8E20E5036E00C66DDD /* BrandColors.swift in Sources */,
 				CEEE0A3220D2AD8400B0C2CE /* EventData.swift in Sources */,
@@ -1549,6 +1556,7 @@
 				CEEE0A8020D2AF9200B0C2CE /* Logger.swift in Sources */,
 				CEEE0A2B20D2AB5A00B0C2CE /* Account.swift in Sources */,
 				CE1EAE9020E503C600C66DDD /* BrandServers.swift in Sources */,
+				CE6FF54C21B92AE0001EBD75 /* SchoolHelper.swift in Sources */,
 				CEEE0A4920D2ADAD00B0C2CE /* String+.swift in Sources */,
 				CEEE0A3020D2AD7D00B0C2CE /* LoginHelper.swift in Sources */,
 				CEEE0A4120D2AD9000B0C2CE /* CalendarEvent.swift in Sources */,

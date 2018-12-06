@@ -14,6 +14,7 @@ class SettingsViewController: UITableViewController {
 
     @IBOutlet private var logoutCell: UITableViewCell!
     @IBOutlet private weak var userNameLabel: UILabel!
+    @IBOutlet private weak var schoolNameLabel: UILabel!
     @IBOutlet private var calendarSyncSwitch: UISwitch!
 
     private var user: User? {
@@ -22,6 +23,16 @@ class SettingsViewController: UITableViewController {
                 DispatchQueue.main.async {
                     let names = [self.user?.firstName, self.user?.lastName].compactMap { $0 }
                     self.userNameLabel.text = names.joined(separator: " ")
+                }
+            }
+        }
+    }
+
+    private var school: School? {
+        didSet {
+            if self.school != oldValue {
+                DispatchQueue.main.async {
+                    self.schoolNameLabel.text = self.school?.name
                 }
             }
         }
@@ -40,13 +51,34 @@ class SettingsViewController: UITableViewController {
             }
         }
 
-        UserHelper.syncUser(withId: userId).onSuccess { syncResult in
-            guard let user = CoreDataHelper.viewContext.existingTypedObject(with: syncResult.objectId) as? User else {
-                log.warning("Failed to retrieve user to display")
-                return
-            }
+        UserHelper.syncUser(withId: userId).andThen { result in
+            switch result {
+            case .failure(_):
+                break
+            case .success(let syncResult):
+                let userObjectID = syncResult.objectId
+                guard let user = (try? CoreDataHelper.viewContext.existingObject(with: userObjectID)) as? User else {
+                    return
+                }
 
-            self.user = user
+                self.user = user
+                if let schoolId = user.schoolId {
+                    SchoolHelper.syncSchool(withId: schoolId).onSuccess { res in
+                        let schoolObjectID = res.objectId
+                        let context = CoreDataHelper.persistentContainer.newBackgroundContext()
+                        context.performAndWait {
+                            let user = context.typedObject(with: userObjectID) as User
+                            let school = context.typedObject(with: schoolObjectID) as School
+
+                            user.school = school
+                            context.saveWithResult()
+                        }
+
+                        let school = CoreDataHelper.viewContext.typedObject(with: schoolObjectID) as School
+                        self.school = school
+                    }
+                }
+            }
         }
     }
 
