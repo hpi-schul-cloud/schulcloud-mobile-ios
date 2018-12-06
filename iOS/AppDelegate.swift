@@ -47,6 +47,7 @@ public class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotification
         navigationBarAppearance.barTintColor = Brand.default.colors.primary
         navigationBarAppearance.tintColor = offWhite
         navigationBarAppearance.titleTextAttributes = [.foregroundColor: offWhite]
+        navigationBarAppearance.shadowImage = UIImage()
 
         if #available(iOS 11, *) {
             navigationBarAppearance.largeTitleTextAttributes = [.foregroundColor: offWhite]

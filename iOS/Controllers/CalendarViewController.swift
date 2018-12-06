@@ -15,7 +15,8 @@ class CalendarViewController: DayViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBar.isTranslucent = false
+
+        self.customizeCalendarView()
 
         // scroll to current time
         let date = Date()
@@ -28,6 +29,23 @@ class CalendarViewController: DayViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.syncEvents()
+    }
+
+    private func customizeCalendarView() {
+        let offWhite = UIColor(white: 0.98, alpha: 1.0)
+
+        let style = CalendarStyle()
+        style.header.backgroundColor = Brand.default.colors.primary
+        style.header.daySymbols.weekDayColor = offWhite
+        style.header.daySymbols.weekendColor = Brand.default.colors.primary.blend(with: offWhite)
+        style.header.swipeLabel.textColor = offWhite
+        style.header.daySelector.activeTextColor = Brand.default.colors.primary
+        style.header.daySelector.selectedBackgroundColor = Brand.default.colors.primary.blend(with: offWhite, intensity: 0.75)
+        style.header.daySelector.weekendTextColor = Brand.default.colors.primary.blend(with: offWhite)
+        style.header.daySelector.inactiveTextColor = offWhite
+        style.header.daySelector.todayInactiveTextColor = .darkText
+        style.header.daySelector.todayActiveBackgroundColor = Brand.default.colors.primary.blend(with: offWhite, intensity: 0.9)
+        self.dayView.updateStyle(style)
     }
 
     private func syncEvents() {
@@ -67,7 +85,7 @@ extension CalendarEvent {
         event.startDate = self.start
         event.endDate = self.end
         event.text = self.title ?? "Unknown"
-        event.color = UIColor.red
+        event.color = Brand.default.colors.primary
         return event
     }
 }
