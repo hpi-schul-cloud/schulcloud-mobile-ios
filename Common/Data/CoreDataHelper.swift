@@ -56,7 +56,7 @@ public class CoreDataHelper {
                 let result = try privateManagedObjectContext.execute(deleteRequest) as? NSBatchDeleteResult
                 guard let objectIDArray = result?.result as? [NSManagedObjectID] else { return }
                 let changes = [NSDeletedObjectsKey: objectIDArray]
-                log.info("Try to delete all entities of %@, %@ entities)", entityName, objectIDArray.count)
+                log.info("Try to delete all entities of %@, %d entities)", entityName, objectIDArray.count)
                 NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [self.viewContext])
                 try privateManagedObjectContext.save()
 
