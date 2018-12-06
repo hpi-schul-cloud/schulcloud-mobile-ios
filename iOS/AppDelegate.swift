@@ -25,9 +25,7 @@ public class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotification
     }
 
     public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-
-        self.window?.tintColor = Brand.default.colors.primary
+        self.customizeAppearance()
 
         if !isUnitTesting() {
             FirebaseApp.configure()
@@ -39,6 +37,20 @@ public class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotification
         LoginHelper.setupAuthentication(authenticationHandler: self.presentAuthenticationScreen)
 
         return true
+    }
+
+    private func customizeAppearance() {
+        self.window?.tintColor = Brand.default.colors.primary
+
+        let navigationBarAppearance = UINavigationBar.appearance()
+        let offWhite = UIColor(white: 0.98, alpha: 1.0)
+        navigationBarAppearance.barTintColor = Brand.default.colors.primary
+        navigationBarAppearance.tintColor = offWhite
+        navigationBarAppearance.titleTextAttributes = [.foregroundColor: offWhite]
+
+        if #available(iOS 11, *) {
+            navigationBarAppearance.largeTitleTextAttributes = [.foregroundColor: offWhite]
+        }
     }
 
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
