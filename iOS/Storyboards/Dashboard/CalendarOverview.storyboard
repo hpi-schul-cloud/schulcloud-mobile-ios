@@ -115,14 +115,17 @@
                     <size key="freeformSize" width="300" height="200"/>
                     <connections>
                         <outlet property="currentEventDate" destination="XVI-VJ-rrq" id="369-XW-IQw"/>
+                        <outlet property="currentEventLabelstackView" destination="uJz-iG-g9K" id="ubm-jw-t4h"/>
                         <outlet property="currentEventLocation" destination="00y-2e-CoP" id="IXc-Ai-jGG"/>
                         <outlet property="currentEventName" destination="hHY-bv-MV6" id="QCQ-0I-vPB"/>
                         <outlet property="currentEventProgress" destination="Kpq-xz-l8x" id="MUc-ye-N5t"/>
+                        <outlet property="currentEventstackView" destination="Da4-Jx-Z7T" id="ME3-Rm-Oo0"/>
                         <outlet property="eventsOverview" destination="Qdw-lp-vcy" id="lkQ-r8-XPE"/>
                         <outlet property="nextEventDate" destination="a9T-LI-YJR" id="3Kj-tL-J0n"/>
                         <outlet property="nextEventDetails" destination="JIx-Jc-Clb" id="1jF-sq-goX"/>
                         <outlet property="nextEventLocation" destination="fgJ-5F-nyv" id="AwE-ii-hiA"/>
                         <outlet property="nextEventName" destination="KqY-nX-pFX" id="u7e-mX-pm9"/>
+                        <outlet property="nextEventstackView" destination="H97-wE-Egl" id="Fux-6m-t85"/>
                         <outlet property="noEventsView" destination="m9d-FI-m1h" id="gS1-2w-dwX"/>
                     </connections>
                 </viewController>

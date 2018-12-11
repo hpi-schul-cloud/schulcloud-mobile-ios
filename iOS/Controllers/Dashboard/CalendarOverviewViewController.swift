@@ -25,6 +25,10 @@ class CalendarOverviewViewController: UIViewController {
     @IBOutlet private weak var currentEventProgress: UIProgressView!
 
     @IBOutlet private weak var eventsOverview: UIStackView!
+    @IBOutlet private weak var currentEventstackView: UIStackView!
+    @IBOutlet private weak var currentEventLabelstackView: UIStackView!
+    @IBOutlet private weak var nextEventstackView: UIStackView!
+
     @IBOutlet private weak var noEventsView: UILabel!
 
     static let noEventsMessage = "Für heute gibt es keine weiteren Termine."
@@ -84,6 +88,9 @@ class CalendarOverviewViewController: UIViewController {
         }
     }
 
+    private func hideStackViews() {
+    }
+
     func updateUIForCurrentState() {
         switch self.state {
         case let .events(currentEvent, someNextEvent):
@@ -113,12 +120,39 @@ class CalendarOverviewViewController: UIViewController {
                 self.nextEventDetails.isHidden = true
             }
 
+            /*
+             Hidding a stack view that contains nested stack view create an autolayout constaint ambiguity, b
+             ecause when hidding, UIKit insert conflicting constraint.
+             It set's the the height == 0 for vertical stackview, width == 0 for
+             horizontal stack view with a priority of 1000 all the way down the chain.
+             This directly conflict with the spacing constraint added if the spacing is >= 0,
+             breaking that spacing constraint. A way to fix that is to hide nested stack views
+             from the bottom up to no extra hidding constraint are propagated down the chain.
+            */
+            self.currentEventLabelstackView.isHidden = false
+            self.currentEventstackView.isHidden = false
+            self.nextEventstackView.isHidden = false
             self.eventsOverview.isHidden = false
+
             self.noEventsView.isHidden = true
         case .noEvents(let message):
             self.noEventsView.text = message
             self.eventsOverview.isHidden = true
-            self.noEventsView.isHidden = false
+
+            /*
+             Hidding a stack view that contains nested stack view create an autolayout constaint ambiguity, b
+             ecause when hidding, UIKit insert conflicting constraint.
+             It set's the the height == 0 for vertical stackview, width == 0 for
+             horizontal stack view with a priority of 1000 all the way down the chain.
+             This directly conflict with the spacing constraint added if the spacing is >= 0,
+             breaking that spacing constraint. A way to fix that is to hide nested stack views
+             from the bottom up to no extra hidding constraint are propagated down the chain.
+            */
+            self.nextEventDetails.isHidden = true
+            self.currentEventLabelstackView.isHidden = true
+            self.currentEventstackView.isHidden = true
+            self.nextEventstackView.isHidden = true
+            self.eventsOverview.isHidden = true
         }
 
         UIView.animate(withDuration: 0.25) {
