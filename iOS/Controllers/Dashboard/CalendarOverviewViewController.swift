@@ -88,9 +88,6 @@ class CalendarOverviewViewController: UIViewController {
         }
     }
 
-    private func hideStackViews() {
-    }
-
     func updateUIForCurrentState() {
         switch self.state {
         case let .events(currentEvent, someNextEvent):
