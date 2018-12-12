@@ -121,8 +121,8 @@ class CalendarOverviewViewController: UIViewController {
             }
 
             /*
-             Hidding a stack view that contains nested stack view create an autolayout constaint ambiguity, b
-             ecause when hidding, UIKit insert conflicting constraint.
+             Hidding a stack view that contains nested stack view create an autolayout constaint ambiguity,
+             because when hidding, UIKit insert conflicting constraint.
              It set's the the height == 0 for vertical stackview, width == 0 for
              horizontal stack view with a priority of 1000 all the way down the chain.
              This directly conflict with the spacing constraint added if the spacing is >= 0,
@@ -140,8 +140,8 @@ class CalendarOverviewViewController: UIViewController {
             self.eventsOverview.isHidden = true
 
             /*
-             Hidding a stack view that contains nested stack view create an autolayout constaint ambiguity, b
-             ecause when hidding, UIKit insert conflicting constraint.
+             Hidding a stack view that contains nested stack view create an autolayout constaint ambiguity,
+             because when hidding, UIKit insert conflicting constraint.
              It set's the the height == 0 for vertical stackview, width == 0 for
              horizontal stack view with a priority of 1000 all the way down the chain.
              This directly conflict with the spacing constraint added if the spacing is >= 0,
