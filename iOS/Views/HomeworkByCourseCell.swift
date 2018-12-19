@@ -17,10 +17,11 @@ final class HomeworkByCourseCell: UITableViewCell {
         self.dueDate.text = Homework.dateTimeFormatter.string(from: homework.dueDate)
 
         var homeworkDescription = homework.cleanedDescriptionText
-        if let attributedString = NSMutableAttributedString(html: homeworkDescription) {
+        if let attributedHTML = homeworkDescription.convertedHTML {
+            let attributedString = NSMutableAttributedString(attributedString: attributedHTML)
             let range = NSRange(location: 0, length: attributedString.string.count)
             attributedString.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
-            homeworkDescription = attributedString.trailingNewlineChopped.string
+            homeworkDescription = attributedString.trimmedAttributedString(set: .whitespacesAndNewlines).string
         }
 
         self.descriptionText.text = homeworkDescription

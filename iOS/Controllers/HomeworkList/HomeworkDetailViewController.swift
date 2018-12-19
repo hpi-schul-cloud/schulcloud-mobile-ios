@@ -31,14 +31,13 @@ class HomeworkDetailViewController: UIViewController {
         self.coloredStrip.backgroundColor = homework.color
 
         let description = homework.cleanedDescriptionText
-        if let attributedString = NSMutableAttributedString(html: description) {
+        if let attributedHTML = description.convertedHTML {
+            let attributedString = NSMutableAttributedString(attributedString: attributedHTML)
             let range = NSRange(location: 0, length: attributedString.string.count)
             attributedString.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
-            self.contentLabel.attributedText = attributedString.trailingNewlineChopped
+            self.contentLabel.attributedText = attributedString.trimmedAttributedString(set: .whitespacesAndNewlines)
         } else {
             self.contentLabel.text = description
         }
-
     }
-
 }
