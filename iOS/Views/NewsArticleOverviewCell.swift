@@ -15,6 +15,6 @@ class NewsArticleOverviewCell: UITableViewCell {
     func configure(for newsArticle: NewsArticle) {
         self.title.text = newsArticle.title
         self.timeSinceCreated.text = NewsArticle.displayDateFormatter.string(for: newsArticle.displayAt)
-        self.content.text = newsArticle.content.convertedHTML?.string.removeCharacters(set: .newlines)
+        self.content.text = HTMLHelper.default.contentOf(html: newsArticle.content.replacingOccurrences(of: "\r\n", with: ""))
     }
 }
