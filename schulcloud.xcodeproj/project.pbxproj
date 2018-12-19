@@ -493,7 +493,6 @@
 				CE644E8820232710003AE700 /* UIColor+hexString.swift */,
 				CEFAFEDF2158ED270029B9E2 /* Bundle+.swift */,
 				CEAF17A12187137800146C46 /* Optional+require.swift */,
-				CE2AD3F821C92CB400FC1F5E /* HTMLHelper.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -870,6 +869,7 @@
 				50B82F802020C9130048CB4B /* Sync */,
 				5081D62620E6645100288F3A /* Branding */,
 				C36C23371EC9DE0700D4163E /* SCError.swift */,
+				CE2AD3F821C92CB400FC1F5E /* HTMLHelper.swift */,
 				C3A5A93A1EC0766F00825DBF /* Account.swift */,
 				CEEE0A7F20D2AF9200B0C2CE /* Logger.swift */,
 				C3A5A9381EBCD0C600825DBF /* Constants.swift */,
