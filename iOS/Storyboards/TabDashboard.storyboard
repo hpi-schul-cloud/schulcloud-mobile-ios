@@ -13,7 +13,7 @@
         <!--Übersicht-->
         <scene sceneID="qte-oV-pit">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ULK-kh-W0G" sceneMemberID="viewController">
+                <navigationController extendedLayoutIncludesOpaqueBars="YES" automaticallyAdjustsScrollViewInsets="NO" id="ULK-kh-W0G" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Übersicht" image="Tabbar Items/dashboard" id="dSP-Z6-DP9"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
@@ -34,9 +34,9 @@
         <!--Dashboard-->
         <scene sceneID="dqA-aP-ZXy">
             <objects>
-                <collectionViewController id="Bik-lY-S0X" customClass="DashboardViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController extendedLayoutIncludesOpaqueBars="YES" id="Bik-lY-S0X" customClass="DashboardViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" id="ODr-AP-Vf1">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <viewLayoutGuide key="safeArea" id="ZOG-nw-4Ox"/>
