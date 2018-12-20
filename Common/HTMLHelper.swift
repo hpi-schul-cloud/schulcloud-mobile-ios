@@ -17,14 +17,13 @@ public struct HTMLHelper {
     /**
      * This func removes the HTML markups from the string, keeping only the content.
      */
-    public func contentOf(html: String) -> String {
+    public func stringContent(of html: String) -> String {
         return parser.string(for: html)
     }
 
-    public func mutableAttributedString(for html: String) -> NSMutableAttributedString {
-        return parser.attributedString(for:html)
-    }
-
+    /**
+     * This func renders the HTML as a NSAttributedString
+     */
     public func attributedString(for html: String) -> NSAttributedString {
         return parser.attributedString(for:html)
     }

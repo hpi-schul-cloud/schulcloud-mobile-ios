@@ -30,7 +30,6 @@ class HomeworkDetailViewController: UIViewController {
         self.dueLabel.text = Homework.dateTimeFormatter.string(from: homework.dueDate)
         self.coloredStrip.backgroundColor = homework.color
 
-        let description = homework.cleanedDescriptionText
-        self.contentLabel.attributedText = HTMLHelper.default.attributedString(for: description)
+        self.contentLabel.attributedText = HTMLHelper.default.attributedString(for: homework.descriptionText)
     }
 }

@@ -16,7 +16,6 @@ final class HomeworkByCourseCell: UITableViewCell {
         self.title.text = homework.name
         self.dueDate.text = Homework.dateTimeFormatter.string(from: homework.dueDate)
 
-        let homeworkDescription = homework.cleanedDescriptionText.replacingOccurrences(of: "\r\n", with: "")
-        self.descriptionText.text = HTMLHelper.default.contentOf(html: homeworkDescription)
+        self.descriptionText.text = HTMLHelper.default.stringContent(of: homework.descriptionText)
     }
 }
