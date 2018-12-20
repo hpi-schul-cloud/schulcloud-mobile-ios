@@ -74,10 +74,6 @@ extension Homework {
         }
     }
 
-    public var cleanedDescriptionText: String {
-        return self.descriptionText.replacingOccurrences(of: "\\s+$", with: "", options: .regularExpression)
-    }
-
 }
 
 extension Homework: Pullable {
