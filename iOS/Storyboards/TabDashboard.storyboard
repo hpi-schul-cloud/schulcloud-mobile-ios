@@ -43,7 +43,7 @@
                         <inset key="scrollIndicatorInsets" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
                         <collectionViewLayout key="collectionViewLayout" id="tBD-4Y-paX" customClass="DashboardLayout" customModule="iOS" customModuleProvider="target"/>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="DashboardCollectionCell" id="QqM-4x-QuS" customClass="DashboardCollectionViewControllerCell" customModule="iOS" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="DashboardCollectionCell" id="QqM-4x-QuS" customClass="DashboardCollectionViewControllerCell" customModule="iOS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -67,7 +67,6 @@
                     <connections>
                         <outlet property="notificationBarItem" destination="hgK-5l-fOc" id="xxw-Ad-vdL"/>
                         <segue destination="4Se-lK-mW8" kind="show" identifier="showNotifications" id="hpl-9m-7t7"/>
-                        <segue destination="fds-Rc-z8g" kind="show" identifier="showCalendar" id="CHb-tZ-tuL"/>
                         <segue destination="taN-yI-LWh" kind="show" identifier="showHomework" id="U4b-8g-jsE"/>
                         <segue destination="XAe-9N-Ivm" kind="show" identifier="showNewsList" id="zaP-fG-06R"/>
                         <segue destination="uGy-Wf-mVJ" kind="show" identifier="showNewsDetail" id="qDA-Te-VR0"/>
@@ -84,14 +83,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hcZ-Vr-prj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3314" y="-890"/>
-        </scene>
-        <!--Calendar-->
-        <scene sceneID="pkK-Se-cS5">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Calendar" id="fds-Rc-z8g" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="g5j-aW-IVA" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3284" y="-746"/>
         </scene>
         <!--Homework-->
         <scene sceneID="Khm-d8-agL">
