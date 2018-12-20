@@ -21,7 +21,6 @@
 		506D7E28210616B30018D9E2 /* NewsOverview.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E27210616B30018D9E2 /* NewsOverview.storyboard */; };
 		506D7E2A210616C40018D9E2 /* MissingPermission.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E29210616C40018D9E2 /* MissingPermission.storyboard */; };
 		506D7E2C210618220018D9E2 /* NotificationList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E2B210618220018D9E2 /* NotificationList.storyboard */; };
-		506D7E2E210618320018D9E2 /* Calendar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E2D210618320018D9E2 /* Calendar.storyboard */; };
 		506D7E30210618440018D9E2 /* Homework.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E2F210618440018D9E2 /* Homework.storyboard */; };
 		506D7E32210618640018D9E2 /* NewsList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E31210618640018D9E2 /* NewsList.storyboard */; };
 		506D7E342106186F0018D9E2 /* NewsDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E332106186F0018D9E2 /* NewsDetail.storyboard */; };
@@ -245,7 +244,6 @@
 		506D7E27210616B30018D9E2 /* NewsOverview.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NewsOverview.storyboard; sourceTree = "<group>"; };
 		506D7E29210616C40018D9E2 /* MissingPermission.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MissingPermission.storyboard; sourceTree = "<group>"; };
 		506D7E2B210618220018D9E2 /* NotificationList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NotificationList.storyboard; sourceTree = "<group>"; };
-		506D7E2D210618320018D9E2 /* Calendar.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Calendar.storyboard; sourceTree = "<group>"; };
 		506D7E2F210618440018D9E2 /* Homework.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Homework.storyboard; sourceTree = "<group>"; };
 		506D7E31210618640018D9E2 /* NewsList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NewsList.storyboard; sourceTree = "<group>"; };
 		506D7E332106186F0018D9E2 /* NewsDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NewsDetail.storyboard; sourceTree = "<group>"; };
@@ -703,7 +701,6 @@
 				503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */,
 				503A5EF91F3DB86C00A7695B /* TabSettings.storyboard */,
 				506D7E2B210618220018D9E2 /* NotificationList.storyboard */,
-				506D7E2D210618320018D9E2 /* Calendar.storyboard */,
 				506D7E2F210618440018D9E2 /* Homework.storyboard */,
 				506D7E31210618640018D9E2 /* NewsList.storyboard */,
 				506D7E332106186F0018D9E2 /* NewsDetail.storyboard */,
@@ -1156,7 +1153,6 @@
 				CEBE1547207B63DC00238D1F /* HomeworkHeaderView.xib in Resources */,
 				503A5F011F3DC6C700A7695B /* TabDashboard.storyboard in Resources */,
 				506D7E32210618640018D9E2 /* NewsList.storyboard in Resources */,
-				506D7E2E210618320018D9E2 /* Calendar.storyboard in Resources */,
 				506D7E26210616A50018D9E2 /* NotificationOverview.storyboard in Resources */,
 				506D7E22210616340018D9E2 /* CalendarOverview.storyboard in Resources */,
 			);

@@ -16,6 +16,11 @@ class CalendarViewController: DayViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.navigationItem.title = "Kalender"
+        if #available(iOS 11, *) {
+            self.navigationItem.largeTitleDisplayMode = .never
+        }
+
         self.customizeCalendarView()
 
         // scroll to current time
