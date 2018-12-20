@@ -16,13 +16,6 @@ final class HomeworkByCourseCell: UITableViewCell {
         self.title.text = homework.name
         self.dueDate.text = Homework.dateTimeFormatter.string(from: homework.dueDate)
 
-        var homeworkDescription = homework.cleanedDescriptionText
-        if let attributedString = NSMutableAttributedString(html: homeworkDescription) {
-            let range = NSRange(location: 0, length: attributedString.string.count)
-            attributedString.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
-            homeworkDescription = attributedString.trailingNewlineChopped.string
-        }
-
-        self.descriptionText.text = homeworkDescription
+        self.descriptionText.text = HTMLHelper.default.stringContent(of: homework.descriptionText)
     }
 }

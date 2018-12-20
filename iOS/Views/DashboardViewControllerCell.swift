@@ -7,21 +7,16 @@ import UIKit
 
 final class DashboardCollectionViewControllerCell: UICollectionViewCell {
     func configure(for viewController: DynamicHeightViewController) {
-        contentView.removeConstraints(contentView.constraints)
-        contentView.subviews.first?.removeFromSuperview()
+        self.contentView.removeConstraints(self.contentView.constraints)
+        self.contentView.subviews.first?.removeFromSuperview()
 
-        contentView.addSubview(viewController.view)
+        self.contentView.addSubview(viewController.view)
 
-        let verticalConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[vc]|",
-                                                                 options: .alignAllCenterY,
-                                                                 metrics: nil,
-                                                                 views: ["vc": viewController.view])
-        contentView.addConstraints(verticalConstraints)
-
-        let horizontalConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[vc]|",
-                                                                   options: .alignAllCenterX,
-                                                                   metrics: nil,
-                                                                   views: ["vc": viewController.view])
-        contentView.addConstraints(horizontalConstraints)
+        NSLayoutConstraint.activate([
+            viewController.view.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            viewController.view.rightAnchor.constraint(equalTo: self.contentView.rightAnchor),
+            viewController.view.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
+            viewController.view.leftAnchor.constraint(equalTo: self.contentView.leftAnchor),
+        ])
     }
 }

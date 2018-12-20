@@ -70,6 +70,7 @@ PODS:
   - GoogleUtilities/UserDefaults (5.3.4):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.2.0)
+  - HTMLStyler (0.0.1)
   - JWTDecode (2.1.1)
   - Locksmith (3.0.0)
   - Marshal (1.2.7)
@@ -92,6 +93,7 @@ DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Messaging
+  - HTMLStyler (from `./Frameworks/HTMLStyler`)
   - JWTDecode (~> 2.0)
   - Locksmith (~> 3.0)
   - SwiftLint (~> 0.25)
@@ -123,6 +125,8 @@ SPEC REPOS:
     - SwiftLint
 
 EXTERNAL SOURCES:
+  HTMLStyler:
+    :path: "./Frameworks/HTMLStyler"
   SyncEngine:
     :path: "./Frameworks/SyncEngine"
 
@@ -141,6 +145,7 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 5029d78f2b438bd30ffb44e6c558b57c21622727
   GoogleUtilities: abb092d2c12e817fa3e0e7b274987dd72fb86ec3
   GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
+  HTMLStyler: f335ce6ed38231dce775a854aef7b6cd566c2633
   JWTDecode: 83e8b381aafe27158d9f692cbdca2b12d61d460c
   Locksmith: 310b4cc5031af5728bf4db5d4de547a5100c6a3b
   Marshal: ef480864a6af10a63f67be7e55bb5d8fe67a16d9
@@ -151,6 +156,6 @@ SPEC CHECKSUMS:
   SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
   SyncEngine: c4e7460de4fd06a73ccd2d9f63a220a107fd749f
 
-PODFILE CHECKSUM: ff7df27b8ffac17ce47ddf3c7307db8e0766a98a
+PODFILE CHECKSUM: 78b4705ed2825d421a15683e8847ae8dbcd2dcb2
 
 COCOAPODS: 1.5.3

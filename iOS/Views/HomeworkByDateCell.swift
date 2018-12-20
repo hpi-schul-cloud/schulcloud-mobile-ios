@@ -32,14 +32,6 @@ class HomeworkByDateCell: UITableViewCell {
         self.dueLabel.text = Homework.timeFormatter.string(from: homework.dueDate)
         self.coloredStrip.backgroundColor = homework.color
 
-        var homeworkDescription = homework.cleanedDescriptionText
-        if let attributedString = NSMutableAttributedString(html: homeworkDescription) {
-            let range = NSRange(location: 0, length: attributedString.string.count)
-            attributedString.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
-            homeworkDescription = attributedString.trailingNewlineChopped.string
-        }
-
-        self.contentLabel.text = homeworkDescription
+        self.contentLabel.text = HTMLHelper.default.stringContent(of: homework.descriptionText)
     }
-
 }
