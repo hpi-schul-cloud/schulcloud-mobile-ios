@@ -21,7 +21,6 @@
 		506D7E28210616B30018D9E2 /* NewsOverview.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E27210616B30018D9E2 /* NewsOverview.storyboard */; };
 		506D7E2A210616C40018D9E2 /* MissingPermission.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E29210616C40018D9E2 /* MissingPermission.storyboard */; };
 		506D7E2C210618220018D9E2 /* NotificationList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E2B210618220018D9E2 /* NotificationList.storyboard */; };
-		506D7E2E210618320018D9E2 /* Calendar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E2D210618320018D9E2 /* Calendar.storyboard */; };
 		506D7E30210618440018D9E2 /* Homework.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E2F210618440018D9E2 /* Homework.storyboard */; };
 		506D7E32210618640018D9E2 /* NewsList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E31210618640018D9E2 /* NewsList.storyboard */; };
 		506D7E342106186F0018D9E2 /* NewsDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E332106186F0018D9E2 /* NewsDetail.storyboard */; };
@@ -32,6 +31,7 @@
 		50C9C79D20FDED0C00AC914F /* Common.h in Headers */ = {isa = PBXBuildFile; fileRef = CEEE0A0D20D2AA7C00B0C2CE /* Common.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50C9C7A620FE147E00AC914F /* CalendarEventHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502410472046B0740033D75A /* CalendarEventHelperTests.swift */; };
 		50CB76E920F613860056E262 /* TestAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB76E820F613850056E262 /* TestAccount.swift */; };
+		50D466FD21B926A900CCAE54 /* UIColor+blend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D466FC21B926A900CCAE54 /* UIColor+blend.swift */; };
 		C3418B671ED335F400280E62 /* PreviewTransitionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */; };
 		C3418B681ED335F400280E62 /* WebviewPreviewViewContoller.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */; };
 		C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3A5A9061EBCC17600825DBF /* Main.storyboard */; };
@@ -243,7 +243,6 @@
 		506D7E27210616B30018D9E2 /* NewsOverview.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NewsOverview.storyboard; sourceTree = "<group>"; };
 		506D7E29210616C40018D9E2 /* MissingPermission.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MissingPermission.storyboard; sourceTree = "<group>"; };
 		506D7E2B210618220018D9E2 /* NotificationList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NotificationList.storyboard; sourceTree = "<group>"; };
-		506D7E2D210618320018D9E2 /* Calendar.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Calendar.storyboard; sourceTree = "<group>"; };
 		506D7E2F210618440018D9E2 /* Homework.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Homework.storyboard; sourceTree = "<group>"; };
 		506D7E31210618640018D9E2 /* NewsList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NewsList.storyboard; sourceTree = "<group>"; };
 		506D7E332106186F0018D9E2 /* NewsDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NewsDetail.storyboard; sourceTree = "<group>"; };
@@ -267,6 +266,7 @@
 		50C9C79020FDD25D00AC914F /* Common-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Common-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		50C9C79420FDD25D00AC914F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50CB76E820F613850056E262 /* TestAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAccount.swift; sourceTree = "<group>"; };
+		50D466FC21B926A900CCAE54 /* UIColor+blend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+blend.swift"; sourceTree = "<group>"; };
 		50D6432C1F8E09E200A89331 /* HomeworkOverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkOverviewViewController.swift; sourceTree = "<group>"; };
 		50ED3C4B1F49E62C00CD8466 /* Pods_schulcloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_schulcloud.framework; path = "../../../Library/Developer/Xcode/DerivedData/schulcloud-avlkvehcgbgawffjtgnfanivmgvf/Build/Products/Debug-iphonesimulator/Pods_schulcloud.framework"; sourceTree = "<group>"; };
 		50F3984C202C7CDD00ADAE5D /* GoogleService-Info-Debug.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Debug.plist"; sourceTree = "<group>"; };
@@ -697,7 +697,6 @@
 				503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */,
 				503A5EF91F3DB86C00A7695B /* TabSettings.storyboard */,
 				506D7E2B210618220018D9E2 /* NotificationList.storyboard */,
-				506D7E2D210618320018D9E2 /* Calendar.storyboard */,
 				506D7E2F210618440018D9E2 /* Homework.storyboard */,
 				506D7E31210618640018D9E2 /* NewsList.storyboard */,
 				506D7E332106186F0018D9E2 /* NewsDetail.storyboard */,
@@ -884,6 +883,7 @@
 			children = (
 				506D146E1F56F81D00AA5613 /* UIView+shake.swift */,
 				CE443936205BDEDD00CC3311 /* UIAlertController+Permission.swift */,
+				50D466FC21B926A900CCAE54 /* UIColor+blend.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1150,7 +1150,6 @@
 				CEBE1547207B63DC00238D1F /* HomeworkHeaderView.xib in Resources */,
 				503A5F011F3DC6C700A7695B /* TabDashboard.storyboard in Resources */,
 				506D7E32210618640018D9E2 /* NewsList.storyboard in Resources */,
-				506D7E2E210618320018D9E2 /* Calendar.storyboard in Resources */,
 				506D7E26210616A50018D9E2 /* NotificationOverview.storyboard in Resources */,
 				506D7E22210616340018D9E2 /* CalendarOverview.storyboard in Resources */,
 			);
@@ -1484,6 +1483,7 @@
 				CE4152AC20DBDA4D00739CE2 /* LessonsViewController.swift in Sources */,
 				CE41529B20DBD9F900739CE2 /* NotificationOverviewViewController.swift in Sources */,
 				CE41529620DBD9F900739CE2 /* CoursesViewController.swift in Sources */,
+				50D466FD21B926A900CCAE54 /* UIColor+blend.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

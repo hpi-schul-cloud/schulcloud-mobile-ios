@@ -13,12 +13,12 @@
         <!--Übersicht-->
         <scene sceneID="qte-oV-pit">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ULK-kh-W0G" sceneMemberID="viewController">
+                <navigationController extendedLayoutIncludesOpaqueBars="YES" automaticallyAdjustsScrollViewInsets="NO" id="ULK-kh-W0G" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Übersicht" image="Tabbar Items/dashboard" id="dSP-Z6-DP9"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="I4F-Ny-THR">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" largeTitles="YES" id="I4F-Ny-THR">
+                        <rect key="frame" x="0.0" y="20" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </navigationBar>
@@ -34,16 +34,16 @@
         <!--Dashboard-->
         <scene sceneID="dqA-aP-ZXy">
             <objects>
-                <collectionViewController id="Bik-lY-S0X" customClass="DashboardViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController extendedLayoutIncludesOpaqueBars="YES" id="Bik-lY-S0X" customClass="DashboardViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" id="ODr-AP-Vf1">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <viewLayoutGuide key="safeArea" id="ZOG-nw-4Ox"/>
                         <inset key="scrollIndicatorInsets" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
                         <collectionViewLayout key="collectionViewLayout" id="tBD-4Y-paX" customClass="DashboardLayout" customModule="iOS" customModuleProvider="target"/>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="DashboardCollectionCell" id="QqM-4x-QuS" customClass="DashboardCollectionViewControllerCell" customModule="iOS" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="DashboardCollectionCell" id="QqM-4x-QuS" customClass="DashboardCollectionViewControllerCell" customModule="iOS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -67,7 +67,6 @@
                     <connections>
                         <outlet property="notificationBarItem" destination="hgK-5l-fOc" id="xxw-Ad-vdL"/>
                         <segue destination="4Se-lK-mW8" kind="show" identifier="showNotifications" id="hpl-9m-7t7"/>
-                        <segue destination="fds-Rc-z8g" kind="show" identifier="showCalendar" id="CHb-tZ-tuL"/>
                         <segue destination="taN-yI-LWh" kind="show" identifier="showHomework" id="U4b-8g-jsE"/>
                         <segue destination="XAe-9N-Ivm" kind="show" identifier="showNewsList" id="zaP-fG-06R"/>
                         <segue destination="uGy-Wf-mVJ" kind="show" identifier="showNewsDetail" id="qDA-Te-VR0"/>
@@ -84,14 +83,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hcZ-Vr-prj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3314" y="-890"/>
-        </scene>
-        <!--Calendar-->
-        <scene sceneID="pkK-Se-cS5">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Calendar" id="fds-Rc-z8g" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="g5j-aW-IVA" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3284" y="-746"/>
         </scene>
         <!--Homework-->
         <scene sceneID="Khm-d8-agL">

@@ -22,6 +22,11 @@ class LoadingViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if #available(iOS 11, *) {
+            self.navigationItem.largeTitleDisplayMode = .never
+        }
+
         progressView.setProgress(0, animated: false)
         startDownload()
     }
@@ -137,6 +142,10 @@ class LoadingViewController: UIViewController {
         let controller = previewManager.previewViewController
         controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
         controller.navigationItem.leftItemsSupplementBackButton = true
+
+        if #available(iOS 11, *) {
+            controller.navigationItem.largeTitleDisplayMode = .never
+        }
 
         if let nav = self.navigationController {
             // TODO: add as subview
