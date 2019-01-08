@@ -2,7 +2,21 @@ fastlane_version "2.83.0"
 
 default_platform :ios
 
+fastlane_dir = File.expand_path(File.dirname(__FILE__))
+
 platform :ios do
+  private_lane :copyright do |options|
+    copyright = Time.now.year.to_s
+
+    copyright_name_path = "#{fastlane_dir}/metadata/copyright_name.txt"
+    if File.exist?(copyright_name_path)
+      copyright += ' '
+      copyright += File.read("#{fastlane_dir}/metadata/copyright_name.txt").to_s.strip
+    end
+
+    copyright
+  end
+
   desc "Increments the version number for a new patch version"
   lane :increment_version_patch do
     new_version_number = increment_version_number(
@@ -115,7 +129,7 @@ platform :ios do
   lane :upload_screenshots do
     deliver(
       app_identifier: "org.schulcloud",
-      app_version: get_version_number,
+      app_version: get_version_number(target: "iOS"),
       overwrite_screenshots: true,
       skip_binary_upload: true,
       skip_metadata: true,
@@ -127,7 +141,8 @@ platform :ios do
   lane :upload_metadata do
     deliver(
       app_identifier: "org.schulcloud",
-      app_version: get_version_number,
+      app_version: get_version_number(target: "iOS"),
+      copyright: copyright(),
       skip_binary_upload: true,
       skip_screenshots: true,
       force: true,
@@ -166,6 +181,7 @@ platform :ios do
     deliver(
       app_identifier: "org.schulcloud",
       app_version: get_version_number(target: "iOS"),
+      copyright: copyright(),
       skip_screenshots: true,
       skip_metadata: skip_metadata,
     )
@@ -189,7 +205,7 @@ platform :ios do
   lane :refresh_dsyms do
     download_dsyms(
       app_identifier: "org.schulcloud",
-      version: get_version_number,
+      version: get_version_number(target: "iOS"),
     )
     upload_symbols_to_crashlytics(
       gsp_path: "schulcloud/GoogleService-Info-Release.plist",
