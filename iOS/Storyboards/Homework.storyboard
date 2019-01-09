@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="SfA-aI-5aV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="SfA-aI-5aV">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -253,10 +253,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zJD-1U-gq7" userLabel="Scroll Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="281"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="327"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="ypK-oi-xPh">
-                                                <rect key="frame" x="16" y="28" width="343" height="245"/>
+                                                <rect key="frame" x="16" y="28" width="343" height="291"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" spacingType="standard" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YdA-tj-LeD">
                                                         <rect key="frame" x="0.0" y="0.0" width="343" height="18"/>
@@ -301,6 +301,13 @@
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vdb-Dd-GXA" userLabel="Submit">
+                                                        <rect key="frame" x="0.0" y="261" width="343" height="30"/>
+                                                        <state key="normal" title="Submit homework"/>
+                                                        <connections>
+                                                            <action selector="submitHomework:" destination="VgN-1r-pFT" eventType="touchUpInside" id="3gs-2v-xMq"/>
+                                                        </connections>
+                                                    </button>
                                                 </subviews>
                                             </stackView>
                                         </subviews>
@@ -337,6 +344,7 @@
                         <outlet property="contentLabel" destination="Njb-p8-cPL" id="bFI-gN-IEp"/>
                         <outlet property="dueLabel" destination="OxP-q8-dKO" id="gfK-pk-a5Z"/>
                         <outlet property="subjectLabel" destination="SOf-h0-mUd" id="zMm-NQ-0Of"/>
+                        <outlet property="submitHomeworkButton" destination="Vdb-Dd-GXA" id="dnH-IU-dam"/>
                         <outlet property="titleLabel" destination="3LH-f3-mhD" id="fS4-7G-9Nu"/>
                     </connections>
                 </viewController>
