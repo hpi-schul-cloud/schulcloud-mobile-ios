@@ -123,12 +123,14 @@ public extension File {
 
 extension File {
 
-    @discardableResult static func createLocal(context: NSManagedObjectContext,
-                                               id: String,
-                                               name: String,
-                                               parentFolder: File?,
-                                               isDirectory: Bool,
-                                               remoteURL: URL? = nil) -> File {
+    @discardableResult static func createLocal(
+        context: NSManagedObjectContext,
+        id: String,
+        name: String,
+        parentFolder: File?,
+        isDirectory: Bool,
+        remoteURL: URL? = nil) -> File {
+        
         let file = File(context: context)
         file.id = id
 
@@ -152,8 +154,7 @@ extension File {
         return file
     }
 
-    static func createOrUpdate(inContext context: NSManagedObjectContext, parentFolder: File, isDirectory: Bool, data: MarshaledObject) throws -> File {
-        let name: String = try data.value(for: "name")
+    public static func createOrUpdate(inContext context: NSManagedObjectContext, parentFolder: File, isDirectory: Bool, data: MarshaledObject) throws -> File {
         let id: String = try data.value(for: "_id")
 
         let fetchRequest = NSFetchRequest<File>(entityName: "File")
@@ -166,23 +167,33 @@ extension File {
             throw SCError.coreDataMoreThanOneObjectFound
         }
 
-        let existed = !result.isEmpty
-
         let file = result.first ?? File(context: context)
-        file.id = id
+        file.isDirectory = isDirectory
+        file.parentDirectory = parentFolder
+
+        if !result.isEmpty && isDirectory {
+            file.downloadState = .downloaded
+        }
+
+        try self.update(file: file, with: data)
+
+        return file
+    }
+
+    public static func update(file: File, with data: MarshaledObject) throws {
+
+        file.id = try data.value(for: "_id")
 
         let allowedCharacters = CharacterSet.whitespacesAndNewlines.inverted
-        let remoteURLString = try data.value(for: "key") as String?
-        let percentEncodedURLString = remoteURLString?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
-        file.remoteURL = URL(string: percentEncodedURLString ?? "")
+        let pathString = try data.value(for: "key") as String?
+        file.remoteURL = URL(string: pathString?.addingPercentEncoding(withAllowedCharacters: allowedCharacters) ?? "")
         let thumbnailRemoteURLString = try? data.value(for: "thumbnail") as String
         let percentEncodedThumbnailURLString = thumbnailRemoteURLString?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
         file.thumbnailRemoteURL = URL(string: percentEncodedThumbnailURLString ?? "")
 
-        file.name = name
-        file.isDirectory = isDirectory
-        file.mimeType = isDirectory ? "public.folder" : try? data.value(for: "type")
-        file.size = isDirectory ? 0 : try data.value(for: "size")
+        file.name = try data.value(for: "name")
+        file.mimeType = file.isDirectory ? "public.folder" : try? data.value(for: "type")
+        file.size = file.isDirectory ? 0 : try data.value(for: "size")
         file.createdAt = try data.value(for: "createdAt")
         if let updatedAt = try? data.value(for: "updatedAt") as Date {
             file.updatedAt = updatedAt
@@ -192,14 +203,8 @@ extension File {
 
         file.lastReadAt = file.createdAt
 
-        if existed && isDirectory {
-            file.downloadState = .downloaded
-        }
-
         //TODO(Florian): Manage here when uploading works
         file.uploadState = .uploaded
-
-        file.parentDirectory = parentFolder
 
         let permissionsObject: [MarshaledObject]? = try? data.value(for: "permissions")
         let userPermission: MarshaledObject? = permissionsObject?.first { data -> Bool in
@@ -214,8 +219,6 @@ extension File {
         if let userPermission = userPermission {
             file.permissions = try Permissions(json: userPermission)
         }
-
-        return file
     }
 }
 
@@ -298,7 +301,7 @@ extension File {
 
         let result = context.fetchSingle(fetchRequest)
         guard let value = result.value else {
-            log.error("Didn't find file with id: %@", id, error: result.error)
+            log.error("Didn't find file with id: \(id)")
             return nil
         }
 
@@ -313,7 +316,7 @@ extension File {
 
         let result = context.fetchMultiple(fetchRequest)
         guard let value = result.value else {
-            log.error("Error looking for item with parentID: %@", id, error: result.error)
+            log.error("Error looking for item with parentID: \(id)")
             return nil
         }
 
@@ -329,7 +332,7 @@ extension File {
 
         let result = context.fetchMultiple(fetchRequest)
         guard let value = result.value else {
-            log.error("Fetching ids failed", error: result.error)
+            log.error("Error looking with ids")
             return nil
         }
 

@@ -25,6 +25,8 @@ class HomeworkDetailViewController: UIViewController {
 
     var homework: Homework?
 
+    let fileSync = FileSync.default
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.coloredStrip.layer.cornerRadius = self.coloredStrip.frame.size.height / 2.0
@@ -103,8 +105,8 @@ extension HomeworkDetailViewController: UIImagePickerControllerDelegate {
             dismissPicker()
             return
         }
-        
-        postFile(at: destURL) { result in
+
+        self.postFile(at: destURL) { result in
             switch result {
             case .failure(let error):
                 print(error)
@@ -114,191 +116,96 @@ extension HomeworkDetailViewController: UIImagePickerControllerDelegate {
             dismissPicker()
         }
     }
-}
 
-fileprivate let homeworkUploadSession: URLSession = {
-    let session = URLSession(configuration: URLSessionConfiguration.default)
-    return session
-}()
+    func postFile(at url: URL, completionHandler: @escaping (Result<Void, SCError>) -> Void) {
+        let userURL = URL(string: "users/\(Globals.currentUser?.id ?? "")")!
+        let remoteURL = userURL.appendingPathComponent(url.lastPathComponent)
 
-fileprivate let homeworkMetadtaSession: URLSession = {
-    return URLSession(configuration: URLSessionConfiguration.ephemeral)
-}()
+        let size: Int = ((try? FileManager.default.attributesOfItem(atPath: url.path)[.size]) as? Int) ?? 0
 
-struct SignedURL {
-    let url: URL
-    let header: [String: String]
+        var flatname: String = ""
+        var thumbnailURL: String = ""
+        let type: String = "image/jpeg"
 
-    struct HeaderKey {
-        static let flatName: String = "x-amz-meta-flat-name"
-        static let thumbnailURL: String = "x-amz-meta-thumbnail"
-        static let name: String = "x-amz-meta-name"
-        static let path: String = "x-amz-meta-path"
-        static let contentType: String = "Content-Type"
+        let (task, future) = self.signedURL(resourceAt: remoteURL, mimeType: type, forUpload: true)
+        future.flatMap { signedURL -> Future<Void, SCError> in
+            flatname = signedURL.header[.flatName]!
+            thumbnailURL = signedURL.header[.thumbnail]!
+
+            let (task, future) = self.upload(fileAt: url, to: signedURL.url, mimeType: type)
+            task.resume()
+            return future
+        }.flatMap { _ -> Future<[String: Any], SCError> in
+            let (task, future) = self.createFileMetadata(at: remoteURL, mimeType: type, size: size, flatName: flatname, thumbnailURL: URL(string: thumbnailURL)!)
+            task?.resume()
+            return future
+        }.asVoid().onComplete(callback: completionHandler)
+        task?.resume()
+/*
+        let task = self.fileSync.signedURL(resourceAt: remoteURL, mimeType: type, forUpload: true) { [unowned self] result in
+
+            switch result {
+            case .failure(let error):
+                completionHandler(.failure(error))
+            case .success(let signedURL):
+                flatname = signedURL.header[.flatName]!
+                thumbnailURL = signedURL.header[.thumbnail]!
+                path = signedURL.header[.path]!
+                name = signedURL.header[.name]!
+
+                self.fileSync.upload(id: "upload_homework_\(self.homework?.id ?? "")", remoteURL: result.value!.url, fileToUploadURL: url, mimeType: "image/jpeg") { result in
+
+                    switch result {
+                    case .failure(let error):
+                        completionHandler(.failure(error))
+                    case .success(_):
+                        self.fileSync.createFileMetadata(at: url, mimeType: type, size: size, flatName: flatname, thumbnailURL: URL(string: thumbnailURL)!) { result in
+
+                            switch result {
+                            case .failure(let error):
+                                print(error)
+                            case .success(let json):
+                                let context = CoreDataHelper.persistentContainer.newBackgroundContext()
+                                context.performAndWait {
+                                    guard let userDirectory = File.by(id: FileHelper.userDirectoryID, in: context) else {
+                                        completionHandler(.failure(.coreDataObjectNotFound))
+                                        return
+                                    }
+                                    guard let file = try? File.createOrUpdate(inContext: context, parentFolder: userDirectory, isDirectory: false, data: json) else {
+                                        return
+                                    }
+                                    //TODO: patch submission with the file id
+
+                                }
+
+                            }
+                        }?.resume()
+                    }
+                }.resume()
+            }
+        }?.resume()
+ */
     }
-}
 
-fileprivate func signedURL(at fileURL: URL, mimeType: String, action: String) -> Future<SignedURL, SCError> {
-    let promise = Promise<SignedURL, SCError>()
-    signedURL(at: fileURL, mimeType: mimeType, action: action) { promise.complete($0) }
-    return promise.future
-}
-
-fileprivate func signedURL(at fileURL: URL, mimeType: String, action: String, completionHandler:@escaping (Result<SignedURL, SCError>) -> Void) {
-    var request = URLRequest(url: URL(string: "https://api.schul-cloud.org/fileStorage/signedUrl")! )
-    request.httpMethod = "POST"
-    request.addValue(Globals.account!.accessToken!, forHTTPHeaderField: "Authorization")
-    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-
-    let parameters: Any = [
-        "path": fileURL.absoluteString.removingPercentEncoding!,
-        "fileType": mimeType,
-        "action": action,
-        ]
-
-    guard let jsonData = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) else {
-        completionHandler(.failure(SCError.jsonSerialization("SignedURL serialization")))
-        return
+    private func signedURL(resourceAt url: URL, mimeType: String, forUpload: Bool) -> (URLSessionTask?, Future<SignedURLInfo, SCError>) {
+        let promise = Promise<SignedURLInfo, SCError>()
+        let task = self.fileSync.signedURL(resourceAt: url, mimeType: mimeType, forUpload: forUpload) { promise.complete($0) }
+        return (task, promise.future)
     }
-    request.httpBody = jsonData
 
-    homeworkMetadtaSession.dataTask(with: request) { data, response, error in
-        guard let response = response as? HTTPURLResponse else {
-            completionHandler(.failure(SCError.network(error)))
-            return
+    private func upload(fileAt url: URL, to remoteURL: URL, mimeType: String) -> (URLSessionTask, Future<Void, SCError>) {
+        let promise = Promise<Void, SCError>()
+
+        let task = self.fileSync.upload(id: "homework_upload_\(self.homework?.id ?? "")", remoteURL: remoteURL, fileToUploadURL: url, mimeType: mimeType) {
+            promise.complete($0)
         }
-        guard 200 ... 299 ~= response.statusCode else {
-            completionHandler(.failure(SCError.apiError(response.statusCode, "SignedURL")))
-            return
-        }
+        return (task, promise.future)
+    }
 
-        guard let data = data,
-            let json = (try? JSONSerialization.jsonObject(with: data, options: .allowFragments )) as! MarshaledObject? else {
-                completionHandler(.failure(.jsonDeserialization("SignedURL deserialization")) )
-                return
-        }
+    private func createFileMetadata(at: URL, mimeType: String, size: Int, flatName: String, thumbnailURL: URL) -> (URLSessionTask?, Future<[String: Any], SCError>) {
+        let promise = Promise<[String: Any], SCError>()
+        let task = self.fileSync.createFileMetadata(at: at, mimeType: mimeType, size: size, flatName: flatName, thumbnailURL: thumbnailURL) { promise.complete($0) }
+        return (task, promise.future)
 
-        let url: URL = try! json.value(for: "url")
-        let header: [String: String] = try! json.value(for: "header")
-        let result = SignedURL(url: url, header: header)
-        completionHandler(.success(result))
-        }.resume()
-}
-
-func uploadFile(at url: URL, to remoteURL: URL) -> Future<Void, SCError> {
-    let promise = Promise<Void, SCError>()
-    uploadFile(at: url, to: remoteURL) { promise.complete($0) }
-    return promise.future
-}
-
-func uploadFile(at url: URL, to remoteURL: URL, completionHandler: @escaping (Result<Void, SCError>) -> Void) {
-    var request = URLRequest(url: remoteURL)
-    request.httpMethod = "PUT"
-
-    homeworkUploadSession.uploadTask(with: request, fromFile: url, completionHandler: { (data, response, error) in
-        guard let response = response as? HTTPURLResponse else {
-            completionHandler(.failure(.network(error)))
-            return
-        }
-        guard 200 ... 299 ~= response.statusCode else {
-            completionHandler(.failure(.apiError(response.statusCode, "Upload")))
-            return
-        }
-        completionHandler(.success(()))
-    }).resume()
-}
-
-func createMetadata(key: String,
-                    path: String,
-                    name: String,
-                    type: String,
-                    size: Int,
-                    flatfilename: String,
-                    thumbnailURL: String) -> Future<[String: Any], SCError> {
-    let promise = Promise<[String: Any], SCError>()
-    createMetadata(key: key,
-                   path: path,
-                   name: name,
-                   type: type,
-                   size: size,
-                   flatfilename: flatfilename,
-                   thumbnailURL: thumbnailURL) { promise.complete($0) }
-    return promise.future
-}
-
-func createMetadata(key: String,
-                    path: String,
-                    name: String,
-                    type: String,
-                    size: Int,
-                    flatfilename: String,
-                    thumbnailURL: String,
-                    completionHandler: @escaping (Result<[String: Any], SCError>) -> Void) {
-
-    let parameters: [String: Any] = [
-        "key":  key.removingPercentEncoding!,
-        "path": path.removingPercentEncoding!,
-        "name": name.removingPercentEncoding!,
-        "type": type,
-        "size": size,
-        "flatFileName": flatfilename,
-        "thumbnail": thumbnailURL,
-        "studentCanEdit": false,
-        "schoolId": Globals.currentUser!.schoolId,
-        ]
-
-    var request = URLRequest(url: URL(string: "https://api.schul-cloud.org/files")! )
-    request.httpMethod = "POST"
-    request.addValue(Globals.account!.accessToken!, forHTTPHeaderField: "Authorization")
-    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-    request .httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
-
-    homeworkMetadtaSession.dataTask(with: request) { data, response, error in
-        guard let response = response as? HTTPURLResponse else {
-            completionHandler(.failure(.network(error)))
-            return
-        }
-        guard 200 ... 299 ~= response.statusCode else {
-            completionHandler(.failure(.apiError(response.statusCode, "File metadata")))
-            return
-        }
-        guard let data = data,
-            let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: Any] else {
-                completionHandler(.failure(.jsonDeserialization("File metadata deserialization")))
-                return
-        }
-        completionHandler(.success(json))
-    }.resume()
-}
-
-
-
-fileprivate func postFile(at url: URL, completionHandler: @escaping (Result<Void, SCError>) -> Void) {
-
-    let userURL = URL(string: "users/\(Globals.currentUser?.id ?? "")")!
-    let remoteURL = userURL.appendingPathComponent(url.lastPathComponent)
-
-    let size: Int = ((try? FileManager.default.attributesOfItem(atPath: url.path)[.size]) as? Int) ?? 0
-
-    var flatname: String = ""
-    var thumbnailURL: String = ""
-    var type: String = ""
-    var path: String = ""
-    var name: String = ""
-    var key: String = ""
-
-    signedURL(at: remoteURL, mimeType: "image/jpeg", action: "putObject").flatMap { signedURL -> Future<Void, SCError> in
-        flatname = signedURL.header[SignedURL.HeaderKey.flatName]!
-        thumbnailURL = signedURL.header[SignedURL.HeaderKey.thumbnailURL]!
-        type = signedURL.header[SignedURL.HeaderKey.contentType]!
-        path = signedURL.header[SignedURL.HeaderKey.path]!
-        name = signedURL.header[SignedURL.HeaderKey.name]!
-        key = URL(string: path)!.appendingPathComponent(name).absoluteString.removingPercentEncoding!
-
-        return uploadFile(at: url, to: signedURL.url)
-    }.flatMap { _ -> Future<[String: Any], SCError> in
-        return createMetadata(key: key, path: path, name: name, type: type, size: size, flatfilename: flatname, thumbnailURL: thumbnailURL)
-    }flatMap { json -> Future<File, SCError> in
-        return File
-    }.onComplete{ completionHandler($0.asVoid()) }
+    }
 }

@@ -102,7 +102,7 @@ class FileProviderExtension: NSFileProviderExtension {
         if FileManager.default.fileExists(atPath: file.localURL.path) {
             completionHandler(nil)
         } else {
-            self.fileSync.signedURL(for: file) { [unowned self] result in
+            self.fileSync.signedURL(resourceAt: file.remoteURL!, mimeType: file.mimeType!, forUpload: false) { [unowned self] result in
                 switch result {
                 case .failure (let error):
                     DispatchQueue.main.async {
@@ -111,7 +111,7 @@ class FileProviderExtension: NSFileProviderExtension {
 
                 case .success(let signedURL):
                     let task = self.fileSync.download(id: "filedownload__\(identifier.rawValue)",
-                                                      at: signedURL,
+                                                      at: signedURL.url,
                                                       moveTo: url,
                                                       backgroundSession: true) { result in
                             DispatchQueue.main.async {
