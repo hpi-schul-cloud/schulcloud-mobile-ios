@@ -141,51 +141,7 @@ extension HomeworkDetailViewController: UIImagePickerControllerDelegate {
             return future
         }.asVoid().onComplete(callback: completionHandler)
         task?.resume()
-/*
-        let task = self.fileSync.signedURL(resourceAt: remoteURL, mimeType: type, forUpload: true) { [unowned self] result in
-
-            switch result {
-            case .failure(let error):
-                completionHandler(.failure(error))
-            case .success(let signedURL):
-                flatname = signedURL.header[.flatName]!
-                thumbnailURL = signedURL.header[.thumbnail]!
-                path = signedURL.header[.path]!
-                name = signedURL.header[.name]!
-
-                self.fileSync.upload(id: "upload_homework_\(self.homework?.id ?? "")", remoteURL: result.value!.url, fileToUploadURL: url, mimeType: "image/jpeg") { result in
-
-                    switch result {
-                    case .failure(let error):
-                        completionHandler(.failure(error))
-                    case .success(_):
-                        self.fileSync.createFileMetadata(at: url, mimeType: type, size: size, flatName: flatname, thumbnailURL: URL(string: thumbnailURL)!) { result in
-
-                            switch result {
-                            case .failure(let error):
-                                print(error)
-                            case .success(let json):
-                                let context = CoreDataHelper.persistentContainer.newBackgroundContext()
-                                context.performAndWait {
-                                    guard let userDirectory = File.by(id: FileHelper.userDirectoryID, in: context) else {
-                                        completionHandler(.failure(.coreDataObjectNotFound))
-                                        return
-                                    }
-                                    guard let file = try? File.createOrUpdate(inContext: context, parentFolder: userDirectory, isDirectory: false, data: json) else {
-                                        return
-                                    }
-                                    //TODO: patch submission with the file id
-
-                                }
-
-                            }
-                        }?.resume()
-                    }
-                }.resume()
             }
-        }?.resume()
- */
-    }
 
     private func signedURL(resourceAt url: URL, mimeType: String, forUpload: Bool) -> (URLSessionTask?, Future<SignedURLInfo, SCError>) {
         let promise = Promise<SignedURLInfo, SCError>()

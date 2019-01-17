@@ -34,6 +34,7 @@ public final class File: NSManagedObject {
 
     @NSManaged public var parentDirectory: File?
     @NSManaged public var contents: Set<File>
+    @NSManaged public var includedIn: Submission?
 }
 
 public extension File {
