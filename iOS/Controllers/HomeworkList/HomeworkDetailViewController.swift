@@ -8,12 +8,6 @@ import Marshal
 import Result
 import UIKit
 
-extension Result {
-    func asVoid() -> Result<(), Error> {
-        return self.map { _ in return () }
-    }
-}
-
 class HomeworkDetailViewController: UIViewController {
 
     @IBOutlet private weak var subjectLabel: UILabel!
@@ -30,8 +24,37 @@ class HomeworkDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.coloredStrip.layer.cornerRadius = self.coloredStrip.frame.size.height / 2.0
-
         guard let homework = self.homework else { return }
+
+        if homework.submission == nil {
+            let json: [String: Any] = [
+                "schoolId": Globals.currentUser!.schoolId,
+                "studentId": Globals.currentUser!.id,
+                "homeworkId": homework.id,
+                "teamMembers": [Globals.currentUser!.id] as Any,
+            ]
+
+            SubmissionHelper.syncSubmission(studentId: Globals.currentUser!.id, homeworkId: homework.id).flatMap { submissions -> Future<Submission, SCError> in
+                if submissions.objectIds.isEmpty {
+                    return SubmissionHelper.createSubmission(json: json).map({ result -> Submission in
+                        return CoreDataHelper.viewContext.typedObject(with: result.objectId) as Submission
+                    })
+                }
+
+                if submissions.objectIds.count > 1 {
+                    return Future(error: SCError.coreDataMoreThanOneObjectFound)
+                }
+
+                return Future(value: CoreDataHelper.viewContext.typedObject(with: submissions.objectIds.first!))
+            }.onSuccess { submission in
+                DispatchQueue.main.async {
+                    print("Success! Submission: %@", submission)
+                }
+            }.onFailure { error in
+                print("Failed to sync or create submission, error: %@", error)
+            }
+        }
+
         self.configure(for: homework)
     }
 
@@ -141,7 +164,7 @@ extension HomeworkDetailViewController: UIImagePickerControllerDelegate {
             return future
         }.asVoid().onComplete(callback: completionHandler)
         task?.resume()
-            }
+    }
 
     private func signedURL(resourceAt url: URL, mimeType: String, forUpload: Bool) -> (URLSessionTask?, Future<SignedURLInfo, SCError>) {
         let promise = Promise<SignedURLInfo, SCError>()
@@ -162,6 +185,5 @@ extension HomeworkDetailViewController: UIImagePickerControllerDelegate {
         let promise = Promise<[String: Any], SCError>()
         let task = self.fileSync.createFileMetadata(at: at, mimeType: mimeType, size: size, flatName: flatName, thumbnailURL: thumbnailURL) { promise.complete($0) }
         return (task, promise.future)
-
     }
 }

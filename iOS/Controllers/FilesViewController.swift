@@ -21,7 +21,7 @@ import UIKit
 
 public class FilesViewController: UITableViewController {
 
-    var currentFolder: File = FileHelper.rootFolder
+    lazy var currentFolder: File = FileHelper.rootFolder
     var fileSync = FileSync.default
 
     private var coreDataTableViewDataSource: CoreDataTableViewDataSource<FilesViewController>?

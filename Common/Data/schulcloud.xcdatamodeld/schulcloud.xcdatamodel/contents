@@ -54,6 +54,7 @@
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="publicSubmissions" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="course" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Course" inverseName="includedHomeworks" inverseEntity="Course" syncable="YES"/>
+        <relationship name="submission" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Submission" inverseName="homework" inverseEntity="Submission" syncable="YES"/>
         <relationship name="teacher" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="assignedHomeworks" inverseEntity="User" syncable="YES"/>
     </entity>
     <entity name="Lesson" representedClassName=".Lesson" syncable="YES">
@@ -80,14 +81,17 @@
         <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="creator" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="newsCreated" inverseEntity="User" syncable="YES"/>
     </entity>
-    <entity name="Submission" representedClassName="Submission" syncable="YES">
-        <attribute name="comment" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="createdAt" optional="YES" attributeType="String" syncable="YES"/>
+    <entity name="Submission" representedClassName=".Submission" syncable="YES">
+        <attribute name="comment" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="grade" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="gradeComment" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="objectStateValue" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="studentId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="files" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="File" inverseName="includedIn" inverseEntity="File" syncable="YES"/>
+        <relationship name="homework" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Homework" inverseName="submission" inverseEntity="Homework" syncable="YES"/>
     </entity>
     <entity name="User" representedClassName=".User" syncable="YES">
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
@@ -112,12 +116,12 @@
         <element name="Course" positionX="-171" positionY="-111" width="128" height="163"/>
         <element name="EventData" positionX="-371" positionY="63" width="128" height="225"/>
         <element name="File" positionX="-549" positionY="291" width="128" height="315"/>
-        <element name="Homework" positionX="-90" positionY="189" width="128" height="195"/>
+        <element name="Homework" positionX="-90" positionY="189" width="128" height="210"/>
         <element name="Lesson" positionX="-369" positionY="-126" width="128" height="133"/>
         <element name="LessonContent" positionX="-558" positionY="-126" width="128" height="133"/>
         <element name="NewsArticle" positionX="286" positionY="-198" width="128" height="135"/>
+        <element name="Submission" positionX="-360" positionY="-54" width="128" height="195"/>
         <element name="User" positionX="205" positionY="225" width="137" height="195"/>
         <element name="WorkingSetSyncAnchor" positionX="-351" positionY="-45" width="128" height="75"/>
-        <element name="Submission" positionX="-360" positionY="-54" width="128" height="150"/>
     </elements>
 </model>

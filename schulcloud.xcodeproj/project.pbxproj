@@ -136,6 +136,7 @@
 		CEEE0A8020D2AF9200B0C2CE /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEE0A7F20D2AF9200B0C2CE /* Logger.swift */; };
 		CEFAFEE02158ED270029B9E2 /* Bundle+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFAFEDF2158ED270029B9E2 /* Bundle+.swift */; };
 		CEFF036021F077A700DD8A56 /* Submission.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF035F21F077A700DD8A56 /* Submission.swift */; };
+		CEFF036221F0910900DD8A56 /* SubmissionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF036121F0910900DD8A56 /* SubmissionHelper.swift */; };
 		FD018E513AAFA100CC2BA7E3 /* Pods_Common_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C519C974B5E6B997A0F19C57 /* Pods_Common_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -397,6 +398,7 @@
 		CEFAFEE121590BB70029B9E2 /* Schulcloud-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Schulcloud-Common.xcconfig"; sourceTree = "<group>"; };
 		CEFAFEE2215919D70029B9E2 /* n21-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "n21-Common.xcconfig"; sourceTree = "<group>"; };
 		CEFF035F21F077A700DD8A56 /* Submission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Submission.swift; sourceTree = "<group>"; };
+		CEFF036121F0910900DD8A56 /* SubmissionHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmissionHelper.swift; sourceTree = "<group>"; };
 		D32E014BC215A558A2D90EA8 /* Pods_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA5FD4AAA12B9AE0C7D50FD8 /* Pods-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOS/Pods-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		ED071A035430C1620C387C71 /* Pods-Common-Tests.n21-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common-Tests.n21-debug.xcconfig"; path = "Pods/Target Support Files/Pods-Common-Tests/Pods-Common-Tests.n21-debug.xcconfig"; sourceTree = "<group>"; };
@@ -748,6 +750,7 @@
 				5083AB58203D517F002E6E47 /* UserHelper.swift */,
 				50604581206BA401009569D1 /* schulcloud.xcdatamodeld */,
 				CE85F0AE210091B700112085 /* FileSync.swift */,
+				CEFF036121F0910900DD8A56 /* SubmissionHelper.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1552,6 +1555,7 @@
 				CEEE0A4C20D2ADAD00B0C2CE /* UIColor+hexString.swift in Sources */,
 				CEEE0A3A20D2AD9000B0C2CE /* CoreDataObserver.swift in Sources */,
 				CEEE0A8020D2AF9200B0C2CE /* Logger.swift in Sources */,
+				CEFF036221F0910900DD8A56 /* SubmissionHelper.swift in Sources */,
 				CEEE0A2B20D2AB5A00B0C2CE /* Account.swift in Sources */,
 				CE1EAE9020E503C600C66DDD /* BrandServers.swift in Sources */,
 				CEEE0A4920D2ADAD00B0C2CE /* String+.swift in Sources */,
