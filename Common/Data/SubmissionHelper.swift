@@ -49,6 +49,10 @@ public struct SubmissionHelper {
         return result
     }
 
+    public static func saveSubmission(item: Submission) -> Future<Void, SCError> {
+        return SyncHelper.saveResource(item)
+    }
+
     public static func createSubmission(json: [String: Any]) -> Future<SyncEngine.SyncSingleResult, SCError> {
         guard let data = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted) else {
             return Future(error: .jsonSerialization("Can't serialize Submission"))

@@ -15,7 +15,8 @@ class HomeworkDetailViewController: UIViewController {
     @IBOutlet private weak var contentLabel: UILabel!
     @IBOutlet private weak var coloredStrip: UIView!
     @IBOutlet private weak var dueLabel: UILabel!
-    @IBOutlet weak var submitHomeworkButton: UIButton!
+
+    @IBOutlet private weak var submitHomeworkButton: UIButton!
 
     var homework: Homework?
 
@@ -48,13 +49,12 @@ class HomeworkDetailViewController: UIViewController {
                 return Future(value: CoreDataHelper.viewContext.typedObject(with: submissions.objectIds.first!))
             }.onSuccess { submission in
                 DispatchQueue.main.async {
-                    print("Success! Submission: %@", submission)
+                    self.configure(for: self.homework!)
                 }
             }.onFailure { error in
                 print("Failed to sync or create submission, error: %@", error)
             }
         }
-
         self.configure(for: homework)
     }
 
@@ -64,8 +64,12 @@ class HomeworkDetailViewController: UIViewController {
         self.dueLabel.text = Homework.dateTimeFormatter.string(from: homework.dueDate)
         self.coloredStrip.backgroundColor = homework.color
 
+        let title = homework.submission != nil ? "Submit file(s) (\(homework.submission!.files.count) submitted)" : "Submit file(s)"
+        self.submitHomeworkButton.titleLabel?.text = title
+
         self.contentLabel.attributedText = HTMLHelper.default.attributedString(for: homework.descriptionText)
     }
+
     @IBAction func submitHomework(_ sender: Any) {
         let picker = UIImagePickerController()
         picker.delegate = self
@@ -105,7 +109,6 @@ extension HomeworkDetailViewController: UIImagePickerControllerDelegate {
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-
         func dismissPicker() {
             DispatchQueue.main.async {
                 picker.dismiss(animated: true)
@@ -133,14 +136,37 @@ extension HomeworkDetailViewController: UIImagePickerControllerDelegate {
             switch result {
             case .failure(let error):
                 print(error)
-            case .success(_):
-                print("Success")
+            case .success(let file):
+                self.link(file: file, to: self.homework!.submission!) { (result) in
+                    switch result {
+                    case .failure(let error):
+                        print(error)
+                    case .success(_):
+                        print("Success")
+                    }
+                    DispatchQueue.main.async {
+                        self.configure(for: self.homework!)
+                    }
+                    dismissPicker()
+                }
             }
-            dismissPicker()
         }
     }
 
-    func postFile(at url: URL, completionHandler: @escaping (Result<Void, SCError>) -> Void) {
+    func link(file: File, to submission: Submission, completionHandler: @escaping (Result<Void, SCError>) -> Void ) {
+        let fileObjectId = file.objectID
+        let submissionObjectID = submission.objectID
+        let context = CoreDataHelper.persistentContainer.newBackgroundContext()
+        context.performAndWait {
+            let file = context.typedObject(with: fileObjectId) as File
+            let submission = context.typedObject(with: submissionObjectID) as Submission
+            submission.files.insert(file)
+            context.saveWithResult()
+            SubmissionHelper.saveSubmission(item: submission).onComplete(callback: completionHandler)
+        }
+    }
+
+    func postFile(at url: URL, completionHandler: @escaping (Result<File, SCError>) -> Void) {
         let userURL = URL(string: "users/\(Globals.currentUser?.id ?? "")")!
         let remoteURL = userURL.appendingPathComponent(url.lastPathComponent)
 
@@ -162,7 +188,23 @@ extension HomeworkDetailViewController: UIImagePickerControllerDelegate {
             let (task, future) = self.createFileMetadata(at: remoteURL, mimeType: type, size: size, flatName: flatname, thumbnailURL: URL(string: thumbnailURL)!)
             task?.resume()
             return future
-        }.asVoid().onComplete(callback: completionHandler)
+        }.flatMap { json -> Result<File, SCError> in
+            let context = CoreDataHelper.persistentContainer.newBackgroundContext()
+            return context.performAndWait { () -> Result<File, SCError> in
+                guard let userDirectory = File.by(id: FileHelper.userDirectoryID, in: context) else {
+                    return .failure(SCError.coreDataMoreThanOneObjectFound)
+                }
+                do {
+                    let file = try File.createOrUpdate(inContext: context, parentFolder: userDirectory, isDirectory: false, data: json)
+                    context.saveWithResult()
+                    return .success(file)
+                } catch let error as SCError {
+                    return .failure(error)
+                } catch let error {
+                    return .failure(SCError.other(error.localizedDescription))
+                }
+            }
+        }.onComplete(callback: completionHandler)
         task?.resume()
     }
 

@@ -93,11 +93,11 @@ extension Submission: Pushable {
 
     public func resourceAttributes() -> [String : Any] {
         return [
-            "comment": self.comment as Any,
+            "comment": self.comment,
             "grade": self.grade,
-            "gradeComment": self.gradeComment as Any,
-            "createdAt": self.createdAt as Any,
-            "updatedAt": self.updatedAt as Any,
+            "gradeComment": self.gradeComment,
+            "createdAt": Homework.dateFormatter.string(from: self.createdAt),
+            "updatedAt": Homework.dateFormatter.string(from: self.updatedAt),
             "fileIds": self.files.map { $0.id }
         ]
     }
