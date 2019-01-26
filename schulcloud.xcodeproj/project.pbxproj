@@ -87,6 +87,7 @@
 		CE4152AC20DBDA4D00739CE2 /* LessonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870C11EE0250500ABA348 /* LessonsViewController.swift */; };
 		CE4152AD20DBDA4D00739CE2 /* SingleLessonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3CAB01EF5CBB6009601AE /* SingleLessonViewController.swift */; };
 		CE4152B620E2854900739CE2 /* Assets-ios-brand.generated.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE4152B520E2854900739CE2 /* Assets-ios-brand.generated.xcassets */; };
+		CE68A2F521F89B1700E26B6B /* HomeworkSubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE68A2F421F89B1700E26B6B /* HomeworkSubmitViewController.swift */; };
 		CE7BFC15212DA2E200C1B871 /* Assets-ios-brand.generated.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE4152B520E2854900739CE2 /* Assets-ios-brand.generated.xcassets */; };
 		CE85F0AF210091B700112085 /* FileSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE85F0AE210091B700112085 /* FileSync.swift */; };
 		CE95A4AE2111FEDA0061BCDD /* FileProviderExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95A4AD2111FEDA0061BCDD /* FileProviderExtension.swift */; };
@@ -362,6 +363,7 @@
 		CE43B49820594E5D00950EA0 /* DashboardNoPermissionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardNoPermissionViewController.swift; sourceTree = "<group>"; };
 		CE443936205BDEDD00CC3311 /* UIAlertController+Permission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Permission.swift"; sourceTree = "<group>"; };
 		CE644E8820232710003AE700 /* UIColor+hexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+hexString.swift"; sourceTree = "<group>"; };
+		CE68A2F421F89B1700E26B6B /* HomeworkSubmitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkSubmitViewController.swift; sourceTree = "<group>"; };
 		CE6F9AB62153DCED007B8C20 /* Schulcloud-FileProvider_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Schulcloud-FileProvider_Debug.xcconfig"; sourceTree = "<group>"; };
 		CE6F9AB72153DE5F007B8C20 /* Schulcloud-FileProvider_Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Schulcloud-FileProvider_Release.xcconfig"; sourceTree = "<group>"; };
 		CE6F9AB82153E560007B8C20 /* n21-FileProvider_Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "n21-FileProvider_Release.xcconfig"; sourceTree = "<group>"; };
@@ -862,6 +864,7 @@
 				CED9E59F218B17640020FC7A /* HomeworkListCourseSortedViewController.swift */,
 				CED9E5A1218B177B0020FC7A /* HomeworkListDateSortedViewController.swift */,
 				507684BF1F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift */,
+				CE68A2F421F89B1700E26B6B /* HomeworkSubmitViewController.swift */,
 			);
 			path = HomeworkList;
 			sourceTree = "<group>";
@@ -1483,6 +1486,7 @@
 				CE4152A620DBDA3300739CE2 /* HtmlTableViewCell.swift in Sources */,
 				CE4152A020DBD9FE00739CE2 /* UIView+shake.swift in Sources */,
 				CE41529E20DBD9F900739CE2 /* NewsListViewController.swift in Sources */,
+				CE68A2F521F89B1700E26B6B /* HomeworkSubmitViewController.swift in Sources */,
 				CE4152AA20DBDA3300739CE2 /* HomeworkByDateCell.swift in Sources */,
 				CE41529320DBD9F500739CE2 /* LoadingViewController.swift in Sources */,
 				CE4152AD20DBDA4D00739CE2 /* SingleLessonViewController.swift in Sources */,

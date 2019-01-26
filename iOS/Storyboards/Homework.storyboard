@@ -305,7 +305,7 @@
                                                         <rect key="frame" x="0.0" y="261" width="343" height="30"/>
                                                         <state key="normal" title="Submit homework"/>
                                                         <connections>
-                                                            <action selector="submitHomework:" destination="VgN-1r-pFT" eventType="touchUpInside" id="3gs-2v-xMq"/>
+                                                            <segue destination="ktK-xB-ZHh" kind="show" identifier="showSubmission" id="SPV-lE-zEI"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -351,6 +351,42 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3KD-eU-mWo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4326" y="-305"/>
+        </scene>
+        <!--Homework Submit View Controller-->
+        <scene sceneID="r3D-BB-Jpv">
+            <objects>
+                <tableViewController id="ktK-xB-ZHh" customClass="HomeworkSubmitViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="HrZ-6N-hVg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="aQh-Mf-eob">
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aQh-Mf-eob" id="jDz-z3-nYO">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="e6B-kH-ixY">
+                                <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="e6B-kH-ixY" id="sBx-uQ-zXD">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ktK-xB-ZHh" id="ePf-5Z-UQP"/>
+                            <outlet property="delegate" destination="ktK-xB-ZHh" id="5uY-pb-dyP"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BrJ-4a-UsP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5401" y="-305"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

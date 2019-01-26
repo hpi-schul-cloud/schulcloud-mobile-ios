@@ -97,6 +97,14 @@ class HomeworkDetailViewController: UIViewController {
         [cameraAction, libraryAction, cancelAction].forEach { actionController.addAction($0) }
         self.present(actionController, animated: true)
     }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == "showSubmission",
+            let controller = segue.destination as? HomeworkSubmitViewController else {
+                return
+        }
+        controller.submission = self.homework?.submission
+    }
 }
 
 extension HomeworkDetailViewController: UINavigationControllerDelegate {
