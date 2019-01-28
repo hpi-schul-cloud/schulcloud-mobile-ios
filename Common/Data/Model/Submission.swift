@@ -55,7 +55,6 @@ extension Submission: Pullable {
             }
         }
 
-
         let homeworkId: String = try object.value(for: "homeworkId")
         try context.performAndWait {
             let fetchRequest = Homework.fetchRequest() as NSFetchRequest<Homework>
