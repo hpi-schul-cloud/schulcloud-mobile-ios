@@ -43,8 +43,8 @@
 		CE1EAE8C20E500F800C66DDD /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1EAE8B20E500F800C66DDD /* Brand.swift */; };
 		CE1EAE8E20E5036E00C66DDD /* BrandColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1EAE8D20E5036E00C66DDD /* BrandColors.swift */; };
 		CE1EAE9020E503C600C66DDD /* BrandServers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1EAE8F20E503C600C66DDD /* BrandServers.swift */; };
-		CE25A12721FF3C350094E3B7 /* HomeworkSubmitFileButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE25A12621FF3C350094E3B7 /* HomeworkSubmitFileButton.xib */; };
 		CE25A12921FF3E9C0094E3B7 /* HomeworkSubmitFileFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE25A12821FF3E9C0094E3B7 /* HomeworkSubmitFileFooterView.swift */; };
+		CE25A12E22019BC40094E3B7 /* HomeworkSubmitFileButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE25A12D22019BC40094E3B7 /* HomeworkSubmitFileButton.xib */; };
 		CE2AD3F921C92CB400FC1F5E /* HTMLHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2AD3F821C92CB400FC1F5E /* HTMLHelper.swift */; };
 		CE323E5C215D11D90028A088 /* FileEnumerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE323E5A215D11A60028A088 /* FileEnumerator.swift */; };
 		CE323E5E215D11F10028A088 /* OnlineFolderEnumerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE323E5D215D11F10028A088 /* OnlineFolderEnumerator.swift */; };
@@ -345,8 +345,8 @@
 		CE1EAE9D20E516BB00C66DDD /* n21-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "n21-Release.xcconfig"; sourceTree = "<group>"; };
 		CE1EAE9E20E516BB00C66DDD /* n21-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "n21-Debug.xcconfig"; sourceTree = "<group>"; };
 		CE23F10D2056B01C00E79E64 /* DashboardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardLayout.swift; sourceTree = "<group>"; };
-		CE25A12621FF3C350094E3B7 /* HomeworkSubmitFileButton.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeworkSubmitFileButton.xib; sourceTree = "<group>"; };
 		CE25A12821FF3E9C0094E3B7 /* HomeworkSubmitFileFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkSubmitFileFooterView.swift; sourceTree = "<group>"; };
+		CE25A12D22019BC40094E3B7 /* HomeworkSubmitFileButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeworkSubmitFileButton.xib; sourceTree = "<group>"; };
 		CE2AD3F821C92CB400FC1F5E /* HTMLHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLHelper.swift; sourceTree = "<group>"; };
 		CE2FF7792045A15900D5AF8E /* UserPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPermissions.swift; sourceTree = "<group>"; };
 		CE323E5A215D11A60028A088 /* FileEnumerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileEnumerator.swift; sourceTree = "<group>"; };
@@ -681,10 +681,10 @@
 			isa = PBXGroup;
 			children = (
 				CED9E59E218B173C0020FC7A /* HomeworkList */,
-				CE1253322181D92800CA2213 /* TableViewFetchedControllerDelegate.swift */,
 				CE23F10C2056B00800E79E64 /* Dashboard */,
 				C31C84281ECF550C00FA070C /* File Preview */,
 				C3B7DB151EF5EB2200A2F2B5 /* Lesson */,
+				CE1253322181D92800CA2213 /* TableViewFetchedControllerDelegate.swift */,
 				C3418B611ECEE6FB00280E62 /* FilesViewController.swift */,
 				C32870BB1EDF32C600ABA348 /* CoursesViewController.swift */,
 				C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */,
@@ -701,6 +701,7 @@
 		C3A5A9361EBCD06200825DBF /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				CE25A12A2200A73A0094E3B7 /* Homework */,
 				506D7E20210615FC0018D9E2 /* Dashboard */,
 				C3A5A90E1EBCC17600825DBF /* LaunchScreen.storyboard */,
 				C3A5A9061EBCC17600825DBF /* Main.storyboard */,
@@ -710,14 +711,11 @@
 				503A5EF91F3DB86C00A7695B /* TabSettings.storyboard */,
 				506D7E2B210618220018D9E2 /* NotificationList.storyboard */,
 				506D7E2D210618320018D9E2 /* Calendar.storyboard */,
-				506D7E2F210618440018D9E2 /* Homework.storyboard */,
 				506D7E31210618640018D9E2 /* NewsList.storyboard */,
 				506D7E332106186F0018D9E2 /* NewsDetail.storyboard */,
 				C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */,
 				C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */,
 				CE3C5572206BD6BB00B79034 /* MissingPermissionView.xib */,
-				CEBE1546207B63DC00238D1F /* HomeworkHeaderView.xib */,
-				CE25A12621FF3C350094E3B7 /* HomeworkSubmitFileButton.xib */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -802,6 +800,16 @@
 				CE3C5576206BE0DA00B79034 /* PermissionManagmentViewController.swift */,
 			);
 			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		CE25A12A2200A73A0094E3B7 /* Homework */ = {
+			isa = PBXGroup;
+			children = (
+				CEBE1546207B63DC00238D1F /* HomeworkHeaderView.xib */,
+				506D7E2F210618440018D9E2 /* Homework.storyboard */,
+				CE25A12D22019BC40094E3B7 /* HomeworkSubmitFileButton.xib */,
+			);
+			path = Homework;
 			sourceTree = "<group>";
 		};
 		CE41528520DBCF0200739CE2 /* Configurations */ = {
@@ -1162,7 +1170,7 @@
 				C3A5A90D1EBCC17600825DBF /* Assets.xcassets in Resources */,
 				C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */,
 				506D7E30210618440018D9E2 /* Homework.storyboard in Resources */,
-				CE25A12721FF3C350094E3B7 /* HomeworkSubmitFileButton.xib in Resources */,
+				CE25A12E22019BC40094E3B7 /* HomeworkSubmitFileButton.xib in Resources */,
 				CEBE1547207B63DC00238D1F /* HomeworkHeaderView.xib in Resources */,
 				503A5F011F3DC6C700A7695B /* TabDashboard.storyboard in Resources */,
 				506D7E32210618640018D9E2 /* NewsList.storyboard in Resources */,

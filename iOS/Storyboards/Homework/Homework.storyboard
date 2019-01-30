@@ -360,14 +360,61 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <view key="tableFooterView" contentMode="scaleAspectFit" id="2hH-VB-0oo" customClass="HomeworkSubmitTableFooterView" customModule="iOS" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="117.5" width="375" height="91"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FBA-0F-H2U">
+                                    <rect key="frame" x="16" y="28" width="343" height="30"/>
+                                    <state key="normal" title="Apply Changes"/>
+                                    <connections>
+                                        <action selector="applyChanges:" destination="ktK-xB-ZHh" eventType="touchUpInside" id="VnT-xg-35K"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="feq-H7-0iZ">
+                                    <rect key="frame" x="16" y="68" width="343" height="15"/>
+                                    <state key="normal" title="Discard Changes"/>
+                                    <connections>
+                                        <action selector="discardChanges:" destination="ktK-xB-ZHh" eventType="touchUpInside" id="OT5-9I-HmG"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="feq-H7-0iZ" firstAttribute="trailing" secondItem="FBA-0F-H2U" secondAttribute="trailing" id="CNc-A2-eJt"/>
+                                <constraint firstItem="feq-H7-0iZ" firstAttribute="leading" secondItem="FBA-0F-H2U" secondAttribute="leading" id="Ho0-6l-Lqj"/>
+                                <constraint firstItem="FBA-0F-H2U" firstAttribute="leading" secondItem="KRv-A3-xLk" secondAttribute="leading" constant="16" id="XbR-V9-oFq"/>
+                                <constraint firstItem="FBA-0F-H2U" firstAttribute="top" secondItem="KRv-A3-xLk" secondAttribute="top" constant="8" id="ZrG-YU-nrX"/>
+                                <constraint firstItem="feq-H7-0iZ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="FBA-0F-H2U" secondAttribute="bottom" constant="10" id="k9t-9P-VEV"/>
+                                <constraint firstItem="KRv-A3-xLk" firstAttribute="bottom" secondItem="feq-H7-0iZ" secondAttribute="bottom" constant="8" id="m3e-pO-87K"/>
+                                <constraint firstItem="KRv-A3-xLk" firstAttribute="trailing" secondItem="FBA-0F-H2U" secondAttribute="trailing" constant="16" id="tAy-sd-ir7"/>
+                            </constraints>
+                            <viewLayoutGuide key="safeArea" id="KRv-A3-xLk"/>
+                        </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="aQh-Mf-eob">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="commentCell" id="aQh-Mf-eob" customClass="HomeworkSubmitStudentCommentCell" customModule="iOS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aQh-Mf-eob" id="jDz-z3-nYO">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="EG3-7d-cOd">
+                                            <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        </textView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="EG3-7d-cOd" firstAttribute="top" secondItem="jDz-z3-nYO" secondAttribute="top" id="4hi-hq-IbB"/>
+                                        <constraint firstAttribute="bottom" secondItem="EG3-7d-cOd" secondAttribute="bottom" id="9iC-PT-3tM"/>
+                                        <constraint firstItem="EG3-7d-cOd" firstAttribute="leading" secondItem="jDz-z3-nYO" secondAttribute="leading" constant="16" id="Ehy-m5-HAI"/>
+                                        <constraint firstAttribute="trailing" secondItem="EG3-7d-cOd" secondAttribute="trailing" constant="16" id="wQ0-37-VHt"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="commentField" destination="EG3-7d-cOd" id="DgD-hg-24T"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
