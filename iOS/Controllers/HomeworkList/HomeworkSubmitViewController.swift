@@ -14,29 +14,55 @@ final class HomeworkSubmitStudentCommentCell: UITableViewCell {
     @IBOutlet var commentField: UITextView!
 }
 
-final class HomeworkSubmitTableFooterView: UIView {
-
-}
-
 final class HomeworkSubmitViewController: UITableViewController {
+
+    var submission: Submission!
 
     private enum Section: Int, CaseIterable {
         case comment = 0
         case files
         case teacherComment
+
+        var name: String {
+            switch self {
+            case .comment:
+                return "Comments"
+            case .files:
+                return "Files"
+            case .teacherComment:
+                return "Teacher's comment"
+            }
+        }
     }
 
-    var submission: Submission?
     fileprivate let fileSync = FileSync.default
     fileprivate let writtingContext = CoreDataHelper.persistentContainer.newBackgroundContext()
+    fileprivate var writableSubmission: Submission!
 
+    override func viewDidLoad() {
+        self.writableSubmission = self.writtingContext.typedObject(with: self.submission.objectID)
+
+        let nib = UINib(nibName: "HomeworkSubmitFileButton", bundle: nil)
+        self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: addFileFooterIdentifier)
+        self.tableView.keyboardDismissMode = .onDrag
+    }
+
+// MARK: - User action
     @IBAction func applyChanges(_ sender: Any) {
         switch self.writtingContext.saveWithResult() {
         case .failure(let error):
             //TODO Display error
             print("Error saving changes: \(error)")
         case .success(_):
-            SubmissionHelper.saveSubmission(item: self.submission!)
+
+            SubmissionHelper.saveSubmission(item: self.writableSubmission).onSuccess(DispatchQueue.main.context) {[unowned self] _ in
+                //TODO: deal with save result
+                self.writtingContext.saveWithResult()
+                self.showAlert(title: "Sucess", message: "Your submission has been updated successfuly")
+            }.onFailure(DispatchQueue.main.context) { error in
+                self.writtingContext.rollback()
+                self.showAlert(title: "Error", message: "Your submission failed to be updated, reason: \(error.localizedDescription)")
+            }
         }
     }
 
@@ -44,11 +70,37 @@ final class HomeworkSubmitViewController: UITableViewController {
         self.writtingContext.rollback()
     }
 
-    override func viewDidLoad() {
-        let nib = UINib(nibName: "HomeworkSubmitFileButton", bundle: nil)
-        self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: addFileFooterIdentifier)
-        self.tableView.keyboardDismissMode = .onDrag
+    @objc func submitFile() {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+
+        let actionController = UIAlertController()
+        let cameraAction = UIAlertAction(title: "Taking a picture", style: .default) { [unowned self] action in
+
+            picker.sourceType = .camera
+            picker.allowsEditing = true
+            picker.cameraCaptureMode = .photo
+            picker.cameraDevice = .rear
+            picker.showsCameraControls = true
+            self.present(picker, animated: true)
+        }
+
+        let libraryAction = UIAlertAction(title: "Photo Library", style: .default) { [unowned self] action in
+            picker.sourceType = .savedPhotosAlbum
+            picker.allowsEditing = false
+
+            self.present(picker, animated: true)
+        }
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        [cameraAction, libraryAction, cancelAction].forEach { actionController.addAction($0) }
+
+        self.present(actionController, animated: true)
     }
+}
+
+// MARK: - TableView Delegate / Datasource
+extension HomeworkSubmitViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         var count = 2
@@ -58,14 +110,7 @@ final class HomeworkSubmitViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let section = Section(rawValue: section) else { return nil }
-        switch section {
-        case .comment:
-            return "Comments"
-        case .files:
-            return "Files"
-        case .teacherComment:
-            return "Teacher's comment"
-        }
+        return section.name
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -105,12 +150,12 @@ final class HomeworkSubmitViewController: UITableViewController {
 
             var text: String? = nil
             switch section {
-            case .comment:
-                text = self.submission?.comment
             case .files:
                 text = files[indexPath.row].name
             case .teacherComment:
                 cell.textLabel?.text = self.submission?.gradeComment
+            default:
+                break
             }
 
             cell.textLabel?.text = text
@@ -125,15 +170,13 @@ final class HomeworkSubmitViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         guard indexPath.section == Section.files.rawValue else { return nil }
 
-        // TODO: implement action
-        let removeAction = UITableViewRowAction(style: .destructive, title: "Remove") { (action, indexPath) in
-
+        let removeAction = UITableViewRowAction(style: .destructive, title: "Remove") {[unowned self] (action, indexPath) in
+            let files = Array(self.submission?.files ?? [])
+            let file = files[indexPath.row]
+            self.unlink(file: file, from: self.submission)
         }
 
-        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
-
-        }
-        return [removeAction, deleteAction]
+        return [removeAction]
     }
 
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -145,40 +188,34 @@ final class HomeworkSubmitViewController: UITableViewController {
         return view
     }
 
-    @objc func submitFile() {
-        let picker = UIImagePickerController()
-        picker.delegate = self
-
-        let actionController = UIAlertController()
-        let cameraAction = UIAlertAction(title: "Taking a picture", style: .default) { [unowned self] action in
-
-            picker.sourceType = .camera
-            picker.allowsEditing = true
-            picker.cameraCaptureMode = .photo
-            picker.cameraDevice = .rear
-            picker.showsCameraControls = true
-            self.present(picker, animated: true)
-        }
-
-        let libraryAction = UIAlertAction(title: "Photo Library", style: .default) { [unowned self] action in
-            picker.sourceType = .savedPhotosAlbum
-            picker.allowsEditing = false
-
-            self.present(picker, animated: true)
-        }
-
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-
-        [cameraAction, libraryAction, cancelAction].forEach { actionController.addAction($0) }
-        self.present(actionController, animated: true)
-    }
 }
 
 // MARK: - Submission writting
 extension HomeworkSubmitViewController {
+    func link(file: File, to submission: Submission) {
+        let fileObjectId = file.objectID
+        self.writtingContext.performAndWait {
+            let file = self.writtingContext.typedObject(with: fileObjectId) as File
+            self.writableSubmission.files.insert(file)
+        }
+    }
 
+    fileprivate  func unlink(file: File, from submission: Submission) {
+        let fileObjectID = file.objectID
+        self.writtingContext.performAndWait {
+            let file = self.writtingContext.typedObject(with: fileObjectID) as File
+            self.writableSubmission.files.remove(file)
+        }
+    }
+
+    fileprivate func write(content: String, to submission: Submission) {
+        self.writtingContext.performAndWait { [unowned self] in
+            self.writableSubmission.comment = content
+        }
+    }
 }
 
+// MARK: Image Picker
 extension HomeworkSubmitViewController: UINavigationControllerDelegate {
 
 }
@@ -195,140 +232,65 @@ extension HomeworkSubmitViewController: UIImagePickerControllerDelegate {
             }
         }
 
-        // TODO: Save locally, prepare for upload
-        guard let image = info[.originalImage] as? UIImage  else {
+        let urlKey: UIImagePickerController.InfoKey
+        if #available(iOS 11.0, *) {
+            urlKey = .imageURL
+        } else {
+            urlKey = .referenceURL
+        }
+
+        guard let imageURL = info[urlKey] as? URL else {
             fatalError()
         }
 
-        // TOoDO: find better submission file naem
         let destURL: URL
         do {
-            destURL = try FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("picture_submission_\(self.submission?.id ?? "")_\(UUID().uuidString).jpeg")
-            let jpegData = image.jpegData(compressionQuality: 0.7)
-            try jpegData?.write(to: destURL, options: .withoutOverwriting)
+            destURL = try FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent(imageURL.lastPathComponent)
+            try FileManager.default.copyItem(at: imageURL, to: destURL)
         } catch let error {
-            print(error)
+            print("Error dealing with image file: \(error)")
             dismissPicker()
             return
         }
 
-        self.postFile(at: destURL) { [unowned self] result in
+        let userURL = URL(string: "users/\(Globals.currentUser?.id ?? "")")!
+        let remoteURL = userURL.appendingPathComponent(destURL.lastPathComponent)
+
+        self.fileSync.postFile(at: destURL, to: remoteURL) { [unowned self] result in
             switch result {
             case .failure(let error):
+                try? FileManager.default.removeItem(at: destURL)
                 print(error)
             case .success(let file):
-                self.link(file: file, to: self.submission!) { (result) in
-                    switch result {
-                    case .failure(let error):
-                        print(error)
-                    case .success(_):
-                        print("Success")
-                    }
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                    }
-                    dismissPicker()
+                try? FileManager.default.moveItem(at: destURL, to: file.localURL)
+                self.link(file: file, to: self.submission!)
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
                 }
+                dismissPicker()
             }
         }
-    }
-
-    func link(file: File, to submission: Submission, completionHandler: @escaping (Result<Void, SCError>) -> Void ) {
-        let fileObjectId = file.objectID
-        let submissionObjectID = submission.objectID
-        self.writtingContext.performAndWait {
-            let file = self.writtingContext.typedObject(with: fileObjectId) as File
-            let submission = self.writtingContext.typedObject(with: submissionObjectID) as Submission
-            submission.files.insert(file)
-        }
-    }
-
-    func postFile(at url: URL, completionHandler: @escaping (Result<File, SCError>) -> Void) {
-        let userURL = URL(string: "users/\(Globals.currentUser?.id ?? "")")!
-        let remoteURL = userURL.appendingPathComponent(url.lastPathComponent)
-
-        let size: Int = ((try? FileManager.default.attributesOfItem(atPath: url.path)[.size]) as? Int) ?? 0
-
-        var flatname: String = ""
-        var thumbnailURL: String = ""
-        let type: String = "image/jpeg"
-
-        let (task, future) = self.signedURL(resourceAt: remoteURL, mimeType: type, forUpload: true)
-        future.flatMap { signedURL -> Future<Void, SCError> in
-            // Upload file
-            flatname = signedURL.header[.flatName]!
-            thumbnailURL = signedURL.header[.thumbnail]!
-
-            let (task, future) = self.upload(fileAt: url, to: signedURL.url, mimeType: type)
-            task.resume()
-            return future
-        }.flatMap { _ -> Future<[String: Any], SCError> in
-            // Remotely create the file metadtas
-            let (task, future) = self.createFileMetadata(at: remoteURL, mimeType: type, size: size, flatName: flatname, thumbnailURL: URL(string: thumbnailURL)!)
-            task?.resume()
-            return future
-        }.flatMap { json -> Result<File, SCError> in
-            // Create the local file metadata
-            let context = CoreDataHelper.persistentContainer.newBackgroundContext()
-            return context.performAndWait { () -> Result<File, SCError> in
-                guard let userDirectory = File.by(id: FileHelper.userDirectoryID, in: context) else {
-                    return .failure(SCError.coreDataMoreThanOneObjectFound)
-                }
-                do {
-                    let file = try File.createOrUpdate(inContext: context, parentFolder: userDirectory, isDirectory: false, data: json)
-                    context.saveWithResult()
-                    return .success(file)
-                } catch let error as SCError {
-                    return .failure(error)
-                } catch let error {
-                    return .failure(SCError.other(error.localizedDescription))
-                }
-            }
-        }.onComplete(callback: completionHandler)
-        task?.resume()
-    }
-
-    private func signedURL(resourceAt url: URL, mimeType: String, forUpload: Bool) -> (URLSessionTask?, Future<SignedURLInfo, SCError>) {
-        let promise = Promise<SignedURLInfo, SCError>()
-        let task = self.fileSync.signedURL(resourceAt: url, mimeType: mimeType, forUpload: forUpload) { promise.complete($0) }
-        return (task, promise.future)
-    }
-
-    private func upload(fileAt url: URL, to remoteURL: URL, mimeType: String) -> (URLSessionTask, Future<Void, SCError>) {
-        let promise = Promise<Void, SCError>()
-
-        let task = self.fileSync.upload(id: "submission_upload_\(self.submission?.id ?? "")", remoteURL: remoteURL, fileToUploadURL: url, mimeType: mimeType) {
-            promise.complete($0)
-        }
-        return (task, promise.future)
-    }
-
-    private func createFileMetadata(at: URL, mimeType: String, size: Int, flatName: String, thumbnailURL: URL) -> (URLSessionTask?, Future<[String: Any], SCError>) {
-        let promise = Promise<[String: Any], SCError>()
-        let task = self.fileSync.createFileMetadata(at: at, mimeType: mimeType, size: size, flatName: flatName, thumbnailURL: thumbnailURL) { promise.complete($0) }
-        return (task, promise.future)
     }
 }
 
+// MARK: - TextView Delegate
 extension HomeworkSubmitViewController: UITextViewDelegate {
-
     func textViewDidEndEditing(_ textView: UITextView) {
-        guard let submission = self.submission else { return }
-
-        func write(content: String) {
-            let subObjectID = submission.objectID
-            self.writtingContext.performAndWait { [unowned self] in
-                let sub = self.writtingContext.typedObject(with: subObjectID) as Submission
-                sub.comment = content
-            }
-        }
-
         let content = textView.text ?? ""
 
         if let comment = submission.comment {
-            if comment != content { write(content: content) }
+            if comment != content { write(content: content, to: submission) }
         } else {
-            write(content: content)
+            write(content: content, to: submission)
         }
+    }
+}
+
+// MARK: - Helper
+extension HomeworkSubmitViewController {
+    fileprivate func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default))
+        self.present(alert, animated: true)
     }
 }

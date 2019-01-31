@@ -417,6 +417,71 @@ public class FileSync: NSObject {
         }
     }
 
+
+    public func postFile(at url: URL, to remoteURL: URL, completionHandler: @escaping (Result<File, SCError>) -> Void) {
+
+        let size: Int = ((try? FileManager.default.attributesOfItem(atPath: url.path)[.size]) as? Int) ?? 0
+        
+        var flatname: String = ""
+        var thumbnailURL: String = ""
+        let type: String = "image/jpeg"
+
+        let (task, future) = self.signedURL(resourceAt: remoteURL, mimeType: type, forUpload: true)
+        future.flatMap { signedURL -> Future<Void, SCError> in
+            flatname = signedURL.header[.flatName]!
+            thumbnailURL = signedURL.header[.thumbnail]!
+
+            let (task, future) = self.upload(fileAt: url, to: signedURL.url, mimeType: type)
+            task.resume()
+            return future
+            }.flatMap { _ -> Future<[String: Any], SCError> in
+                // Remotely create the file metadtas
+                let (task, future) = self.createFileMetadata(at: remoteURL, mimeType: type, size: size, flatName: flatname, thumbnailURL: URL(string: thumbnailURL)!)
+                task?.resume()
+                return future
+            }.flatMap { json -> Result<File, SCError> in
+                // Create the local file metadata
+                let context = CoreDataHelper.persistentContainer.newBackgroundContext()
+                return context.performAndWait { () -> Result<File, SCError> in
+                    guard let userDirectory = File.by(id: FileHelper.userDirectoryID, in: context) else {
+                        return .failure(SCError.coreDataMoreThanOneObjectFound)
+                    }
+                    do {
+                        let file = try File.createOrUpdate(inContext: context, parentFolder: userDirectory, isDirectory: false, data: json)
+                        context.saveWithResult()
+                        return .success(file)
+                    } catch let error as SCError {
+                        return .failure(error)
+                    } catch let error {
+                        return .failure(SCError.other(error.localizedDescription))
+                    }
+                }
+            }.onComplete(callback: completionHandler)
+        task?.resume()
+    }
+
+    private func signedURL(resourceAt url: URL, mimeType: String, forUpload: Bool) -> (URLSessionTask?, Future<SignedURLInfo, SCError>) {
+        let promise = Promise<SignedURLInfo, SCError>()
+        let task = self.signedURL(resourceAt: url, mimeType: mimeType, forUpload: forUpload) { promise.complete($0) }
+        return (task, promise.future)
+    }
+
+    private func upload(fileAt url: URL, to remoteURL: URL, mimeType: String) -> (URLSessionTask, Future<Void, SCError>) {
+        let promise = Promise<Void, SCError>()
+
+        let task = self.upload(id: "upload_\(url.lastPathComponent)", remoteURL: remoteURL, fileToUploadURL: url, mimeType: mimeType) {
+            promise.complete($0)
+        }
+        return (task, promise.future)
+    }
+
+    private func createFileMetadata(at: URL, mimeType: String, size: Int, flatName: String, thumbnailURL: URL) -> (URLSessionTask?, Future<[String: Any], SCError>) {
+        let promise = Promise<[String: Any], SCError>()
+        let task = self.createFileMetadata(at: at, mimeType: mimeType, size: size, flatName: flatName, thumbnailURL: thumbnailURL) { promise.complete($0) }
+        return (task, promise.future)
+    }
+
+
     func synchronize(id: String, completionHandler: (Result<[String: Any], SCError>) -> Void) -> URLSessionTask? {
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
         guard let file = File.by(id: id, in: context) else { return nil }

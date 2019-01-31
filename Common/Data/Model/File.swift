@@ -282,7 +282,7 @@ extension File {
         return File.mimeToUTI(mime: mimeType)
     }
 
-    private static func mimeToUTI(mime: String) -> String? {
+    public static func mimeToUTI(mime: String) -> String? {
         let cfMime = mime as CFString
         guard let strPtr = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, cfMime, nil) else {
             return nil
@@ -290,6 +290,23 @@ extension File {
 
         let cfUTI = Unmanaged<CFString>.fromOpaque(strPtr.toOpaque()).takeUnretainedValue() as CFString
         return cfUTI as String
+    }
+
+    public static func UTItoMime(uti: String) -> String {
+        let cfUti = uti as CFString
+        if let mimetype = UTTypeCopyPreferredTagWithClass(cfUti, kUTTagClassMIMEType)?.takeRetainedValue() {
+            return mimetype as String
+        }
+        return "application/octet-stream"
+    }
+
+    public static func UTIForFile(at url: URL) -> String? {
+        let pathExtension = url.pathExtension
+
+        if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue() {
+            return uti as String
+        }
+        return nil
     }
 }
 
