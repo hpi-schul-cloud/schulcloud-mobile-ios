@@ -8,76 +8,73 @@ import Common
 import Result
 import UIKit
 
-fileprivate let addFileFooterIdentifier = "addFileFooter"
+final class HomeworkSubmitViewController: UIViewController {
 
-final class HomeworkSubmitStudentCommentCell: UITableViewCell {
-    @IBOutlet var commentField: UITextView!
-}
+    @IBOutlet weak var contentView: UIScrollView!
+    @IBOutlet weak var commentField: UITextView!
 
-final class HomeworkSubmitViewController: UITableViewController {
+    @IBOutlet weak var filesTableView: UITableView!
+
+    @IBOutlet weak var applyChange: UIButton!
+    @IBOutlet weak var discardChange: UIButton!
+
+    @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
 
     var submission: Submission!
-
-    private enum Section: Int, CaseIterable {
-        case comment = 0
-        case files
-        case teacherComment
-
-        var name: String {
-            switch self {
-            case .comment:
-                return "Comments"
-            case .files:
-                return "Files"
-            case .teacherComment:
-                return "Teacher's comment"
-            }
-        }
-    }
+    var files: [File] = []
 
     fileprivate let fileSync = FileSync.default
-    fileprivate let writtingContext = CoreDataHelper.persistentContainer.newBackgroundContext()
+    fileprivate let writingContext = CoreDataHelper.persistentContainer.newBackgroundContext()
     fileprivate var writableSubmission: Submission!
 
     override func viewDidLoad() {
-        self.writableSubmission = self.writtingContext.typedObject(with: self.submission.objectID)
+        super.viewDidLoad()
 
-        let nib = UINib(nibName: "HomeworkSubmitFileButton", bundle: nil)
-        self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: addFileFooterIdentifier)
-        self.tableView.keyboardDismissMode = .onDrag
+        self.files = Array(self.submission.files)
+
+        self.filesTableView.delegate = self
+        self.filesTableView.dataSource = self
+
+
+        self.commentField.text = self.submission.comment ?? ""
+        self.commentField.delegate = self
+
+        self.writableSubmission = self.writingContext.typedObject(with: self.submission.objectID) as Submission
+
     }
 
-// MARK: - User action
-    @IBAction func applyChanges(_ sender: Any) {
-        switch self.writtingContext.saveWithResult() {
-        case .failure(let error):
-            //TODO Display error
-            print("Error saving changes: \(error)")
-        case .success(_):
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tableViewHeightConstraint.constant = self.filesTableView.contentSize.height
+        self.contentView.setNeedsLayout()
+    }
 
-            SubmissionHelper.saveSubmission(item: self.writableSubmission).onSuccess(DispatchQueue.main.context) {[unowned self] _ in
-                //TODO: deal with save result
-                self.writtingContext.saveWithResult()
+    @IBAction func applyChanges(_ sender: Any) {
+        SubmissionHelper.saveSubmission(item: self.writableSubmission).onSuccess(DispatchQueue.main.context) {[unowned self] _ in
+            //TODO: deal with save result
+            switch self.writingContext.saveWithResult() {
+            case .success(_):
                 self.showAlert(title: "Sucess", message: "Your submission has been updated successfuly")
-            }.onFailure(DispatchQueue.main.context) { error in
-                self.writtingContext.rollback()
-                self.showAlert(title: "Error", message: "Your submission failed to be updated, reason: \(error.localizedDescription)")
+            case .failure(let error):
+                print("error saving submission: \(error)")
             }
+        }.onFailure(DispatchQueue.main.context) { error in
+            self.writingContext.rollback()
+            self.showAlert(title: "Error", message: "Your submission failed to be updated, reason: \(error.localizedDescription)")
         }
     }
 
     @IBAction func discardChanges(_ sender: Any) {
-        self.writtingContext.rollback()
+        self.writingContext.rollback()
     }
 
-    @objc func submitFile() {
+    @IBAction func submitFile(_ sender: Any) {
         let picker = UIImagePickerController()
         picker.delegate = self
 
         let actionController = UIAlertController()
         let cameraAction = UIAlertAction(title: "Taking a picture", style: .default) { [unowned self] action in
-
-            picker.sourceType = .camera
+                picker.sourceType = .camera
             picker.allowsEditing = true
             picker.cameraCaptureMode = .photo
             picker.cameraDevice = .rear
@@ -96,120 +93,66 @@ final class HomeworkSubmitViewController: UITableViewController {
         [cameraAction, libraryAction, cancelAction].forEach { actionController.addAction($0) }
 
         self.present(actionController, animated: true)
+
     }
 }
 
-// MARK: - TableView Delegate / Datasource
-extension HomeworkSubmitViewController {
+extension HomeworkSubmitViewController: UITableViewDelegate {
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        var count = 2
-        if self.submission?.gradeComment?.isEmpty == false { count += 1 }
-        return count
+}
+
+extension HomeworkSubmitViewController: UITableViewDataSource {
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
     }
 
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let section = Section(rawValue: section) else { return nil }
-        return section.name
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.submission.files.count
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let section = Section(rawValue: section) else { fatalError() }
-        switch section {
-        case .comment:
-            return 1
-        case .files:
-            return submission?.files.count ?? 0
-        case .teacherComment:
-            return 1
-        }
-    }
-
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        guard let section = Section(rawValue: section), section == .files else { return 0.0 }
-        return 44
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let section = Section(rawValue: indexPath.section) else { fatalError() }
-
-        switch section {
-        case .comment:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "commentCell")! as! HomeworkSubmitStudentCommentCell
-            if cell.commentField.text.isEmpty { cell.commentField.text = self.submission?.comment ?? "" }
-            cell.commentField.delegate = self
-            return cell
-        default:
-            var maybeCell = tableView.dequeueReusableCell(withIdentifier: "homeworkCell")
-            if maybeCell == nil {
-                maybeCell = UITableViewCell(style: .default, reuseIdentifier: "homeworkCell")
-            }
-            let cell = maybeCell!
-
-            let files = Array(self.submission?.files ?? [])
-
-            var text: String? = nil
-            switch section {
-            case .files:
-                text = files[indexPath.row].name
-            case .teacherComment:
-                cell.textLabel?.text = self.submission?.gradeComment
-            default:
-                break
-            }
-
-            cell.textLabel?.text = text
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let file = self.files[indexPath.row]
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "fileCell") {
+            cell.textLabel?.text = file.name
             return cell
         }
+        fatalError()
     }
 
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return indexPath.section == Section.files.rawValue
-    }
-
-    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        guard indexPath.section == Section.files.rawValue else { return nil }
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 
         let removeAction = UITableViewRowAction(style: .destructive, title: "Remove") {[unowned self] (action, indexPath) in
             let files = Array(self.submission?.files ?? [])
             let file = files[indexPath.row]
             self.unlink(file: file, from: self.submission)
+            //TODO: Handle unlinked of file to submission
         }
 
         return [removeAction]
     }
-
-    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        guard section == Section.files.rawValue else { return nil }
-        guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "addFileFooter") as? HomeworkSubmitFileFooterView else { return nil }
-        if view.submitButton.target(forAction: #selector(submitFile), withSender: nil) == nil {
-            view.submitButton.addTarget(self, action: #selector(submitFile), for: .touchUpInside)
-        }
-        return view
-    }
-
 }
 
 // MARK: - Submission writting
 extension HomeworkSubmitViewController {
     func link(file: File, to submission: Submission) {
         let fileObjectId = file.objectID
-        self.writtingContext.performAndWait {
-            let file = self.writtingContext.typedObject(with: fileObjectId) as File
+        self.writingContext.performAndWait {
+            let file = self.writingContext.typedObject(with: fileObjectId) as File
             self.writableSubmission.files.insert(file)
         }
     }
 
     fileprivate  func unlink(file: File, from submission: Submission) {
         let fileObjectID = file.objectID
-        self.writtingContext.performAndWait {
-            let file = self.writtingContext.typedObject(with: fileObjectID) as File
+        self.writingContext.performAndWait {
+            let file = self.writingContext.typedObject(with: fileObjectID) as File
             self.writableSubmission.files.remove(file)
         }
     }
 
     fileprivate func write(content: String, to submission: Submission) {
-        self.writtingContext.performAndWait { [unowned self] in
+        self.writingContext.performAndWait { [unowned self] in
             self.writableSubmission.comment = content
         }
     }
@@ -265,7 +208,7 @@ extension HomeworkSubmitViewController: UIImagePickerControllerDelegate {
                 try? FileManager.default.moveItem(at: destURL, to: file.localURL)
                 self.link(file: file, to: self.submission!)
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                    self.filesTableView.reloadData()
                 }
                 dismissPicker()
             }
@@ -275,6 +218,7 @@ extension HomeworkSubmitViewController: UIImagePickerControllerDelegate {
 
 // MARK: - TextView Delegate
 extension HomeworkSubmitViewController: UITextViewDelegate {
+
     func textViewDidEndEditing(_ textView: UITextView) {
         let content = textView.text ?? ""
 
