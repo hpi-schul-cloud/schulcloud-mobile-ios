@@ -419,10 +419,10 @@
                                                 </connections>
                                             </button>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="oyg-Kf-auO" userLabel="Action Stack View">
-                                                <rect key="frame" x="131" y="438.5" width="113" height="60"/>
+                                                <rect key="frame" x="8" y="438.5" width="359" height="60"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A90-zN-wxk">
-                                                        <rect key="frame" x="0.0" y="0.0" width="113" height="30"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="359" height="30"/>
                                                         <state key="normal" title="Apply changes">
                                                             <color key="titleColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
@@ -431,7 +431,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sDg-y8-DYy">
-                                                        <rect key="frame" x="0.0" y="30" width="113" height="30"/>
+                                                        <rect key="frame" x="0.0" y="30" width="359" height="30"/>
                                                         <state key="normal" title="DiscardChanges">
                                                             <color key="titleColor" red="0.84829163549999997" green="0.1188072786" blue="0.0008757433388" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
@@ -447,6 +447,7 @@
                                             <constraint firstAttribute="bottom" secondItem="oyg-Kf-auO" secondAttribute="bottom" constant="16" id="7f0-hJ-a4W"/>
                                             <constraint firstItem="txg-WZ-Jft" firstAttribute="top" secondItem="V6w-GD-emF" secondAttribute="bottom" constant="8" id="8gb-l5-Ae6"/>
                                             <constraint firstItem="w1r-Tc-D8S" firstAttribute="leading" secondItem="0tz-yn-qMl" secondAttribute="leading" id="EK5-A7-3yP"/>
+                                            <constraint firstItem="oyg-Kf-auO" firstAttribute="leading" secondItem="7ZA-kp-2Li" secondAttribute="leading" id="JKX-P9-udw"/>
                                             <constraint firstItem="7ZA-kp-2Li" firstAttribute="top" secondItem="txg-WZ-Jft" secondAttribute="bottom" constant="8" id="MqJ-8y-bL6"/>
                                             <constraint firstAttribute="trailing" secondItem="txg-WZ-Jft" secondAttribute="trailing" id="OnC-Rx-ZAD"/>
                                             <constraint firstItem="w1r-Tc-D8S" firstAttribute="top" secondItem="UqV-yH-Qiv" secondAttribute="bottom" constant="8" id="PpM-oV-2PX"/>
@@ -458,7 +459,7 @@
                                             <constraint firstItem="7ZA-kp-2Li" firstAttribute="leading" secondItem="0tz-yn-qMl" secondAttribute="leading" constant="8" id="h90-sa-Hi8"/>
                                             <constraint firstItem="oyg-Kf-auO" firstAttribute="top" secondItem="7ZA-kp-2Li" secondAttribute="bottom" constant="16" id="jSd-go-WkY"/>
                                             <constraint firstItem="V6w-GD-emF" firstAttribute="leading" secondItem="0tz-yn-qMl" secondAttribute="leading" constant="8" id="omg-2A-PAm"/>
-                                            <constraint firstItem="oyg-Kf-auO" firstAttribute="centerX" secondItem="0tz-yn-qMl" secondAttribute="centerX" id="rlL-VU-QAC"/>
+                                            <constraint firstItem="oyg-Kf-auO" firstAttribute="trailing" secondItem="7ZA-kp-2Li" secondAttribute="trailing" id="xYU-x2-8yG"/>
                                             <constraint firstAttribute="trailing" secondItem="w1r-Tc-D8S" secondAttribute="trailing" id="zkh-z5-BKi"/>
                                         </constraints>
                                     </view>
