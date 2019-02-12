@@ -5,7 +5,7 @@
 
 import Foundation
 
-public struct Resource: Codable {
+public struct ContentResource: Codable {
     public var id: String
     public var originId: String
     public var providerName: String

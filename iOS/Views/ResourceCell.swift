@@ -19,7 +19,7 @@ class ResourceCell: UICollectionViewCell {
         self.layer.borderColor = UIColor(white: 0.7, alpha: 1.0).cgColor
     }
     
-    func configure(for course: Resource) {
+    func configure(for course: ContentResource) {
         self.headingLabel.text = course.title
         
         self.tagsLabel.text = course.tags[0]

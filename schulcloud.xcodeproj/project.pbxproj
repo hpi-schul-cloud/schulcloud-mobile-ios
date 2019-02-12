@@ -35,8 +35,9 @@
 		8F072FDF21F75D06000E7B65 /* TabStore.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F072FDE21F75D06000E7B65 /* TabStore.storyboard */; };
 		8F072FE121F8A466000E7B65 /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F072FE021F8A466000E7B65 /* StoreViewController.swift */; };
 		8F1367A4220B0D7400DA6D4A /* ResourceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1367A3220B0D7400DA6D4A /* ResourceCell.swift */; };
-		8FF4AABD22008C46004F66A8 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF4AABC22008C46004F66A8 /* Resources.swift */; };
-		8FF4AABF22008CED004F66A8 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF4AABE22008CED004F66A8 /* Resource.swift */; };
+		8F3945622213019000A1FF72 /* ContentResourceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3945612213019000A1FF72 /* ContentResourceHelper.swift */; };
+		8FF4AABD22008C46004F66A8 /* ContentResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF4AABC22008C46004F66A8 /* ContentResources.swift */; };
+		8FF4AABF22008CED004F66A8 /* ContentResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF4AABE22008CED004F66A8 /* ContentResource.swift */; };
 		C3418B671ED335F400280E62 /* PreviewTransitionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */; };
 		C3418B681ED335F400280E62 /* WebviewPreviewViewContoller.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */; };
 		C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3A5A9061EBCC17600825DBF /* Main.storyboard */; };
@@ -288,8 +289,9 @@
 		8F072FDE21F75D06000E7B65 /* TabStore.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TabStore.storyboard; sourceTree = "<group>"; };
 		8F072FE021F8A466000E7B65 /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
 		8F1367A3220B0D7400DA6D4A /* ResourceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceCell.swift; sourceTree = "<group>"; };
-		8FF4AABC22008C46004F66A8 /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
-		8FF4AABE22008CED004F66A8 /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
+		8F3945612213019000A1FF72 /* ContentResourceHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentResourceHelper.swift; sourceTree = "<group>"; };
+		8FF4AABC22008C46004F66A8 /* ContentResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentResources.swift; sourceTree = "<group>"; };
+		8FF4AABE22008CED004F66A8 /* ContentResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentResource.swift; sourceTree = "<group>"; };
 		92E038C781E17DADCECC73FA /* Pods-Common-Tests.n21-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common-Tests.n21-release.xcconfig"; path = "Pods/Target Support Files/Pods-Common-Tests/Pods-Common-Tests.n21-release.xcconfig"; sourceTree = "<group>"; };
 		995426AC92C9452D1ED0246A /* Pods_schulcloud_schulcloudUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloud_schulcloudUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7453D6B0608647AAC1BEDAB /* Pods_Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -613,8 +615,8 @@
 		8FF4AABB22008C0A004F66A8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				8FF4AABC22008C46004F66A8 /* Resources.swift */,
-				8FF4AABE22008CED004F66A8 /* Resource.swift */,
+				8FF4AABC22008C46004F66A8 /* ContentResources.swift */,
+				8FF4AABE22008CED004F66A8 /* ContentResource.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -767,6 +769,7 @@
 				5083AB58203D517F002E6E47 /* UserHelper.swift */,
 				50604581206BA401009569D1 /* schulcloud.xcdatamodeld */,
 				CE85F0AE210091B700112085 /* FileSync.swift */,
+				8F3945612213019000A1FF72 /* ContentResourceHelper.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1558,11 +1561,12 @@
 				CEEE0A3220D2AD8400B0C2CE /* EventData.swift in Sources */,
 				CEFAFEE02158ED270029B9E2 /* Bundle+.swift in Sources */,
 				CEEE0A4520D2ADA700B0C2CE /* schulcloud.xcdatamodeld in Sources */,
-				8FF4AABF22008CED004F66A8 /* Resource.swift in Sources */,
+				8FF4AABF22008CED004F66A8 /* ContentResource.swift in Sources */,
 				CEEE0A4420D2AD9000B0C2CE /* UserHelper.swift in Sources */,
 				CEEE0A4220D2AD9000B0C2CE /* NewsHelper.swift in Sources */,
 				CEEE0A2A20D2AB5500B0C2CE /* Constants.swift in Sources */,
 				CEEE0A3520D2AD8400B0C2CE /* Lesson.swift in Sources */,
+				8F3945622213019000A1FF72 /* ContentResourceHelper.swift in Sources */,
 				CEEE0A4020D2AD9000B0C2CE /* CalendarEventHelper+EventKit.swift in Sources */,
 				CEEE0A4D20D2ADB300B0C2CE /* SyncHelper.swift in Sources */,
 				CEEE0A2C20D2AB5D00B0C2CE /* SCError.swift in Sources */,
@@ -1582,7 +1586,7 @@
 				CEEE0A4120D2AD9000B0C2CE /* CalendarEvent.swift in Sources */,
 				CEEE0A4620D2ADAD00B0C2CE /* Date+Marshal.swift in Sources */,
 				CEEE0A3C20D2AD9000B0C2CE /* CourseHelper.swift in Sources */,
-				8FF4AABD22008C46004F66A8 /* Resources.swift in Sources */,
+				8FF4AABD22008C46004F66A8 /* ContentResources.swift in Sources */,
 				CEEE0A3E20D2AD9000B0C2CE /* FileHelper.swift in Sources */,
 				CEEE0A3620D2AD8400B0C2CE /* LessonContent.swift in Sources */,
 			);

@@ -5,9 +5,9 @@
 
 import Foundation
 
-public struct Resources: Codable {
+public struct ContentResources: Codable {
     public var total: Int
     public var limit: Int
     public var skip: Int
-    public var data: [Resource]
+    public var data: [ContentResource]
 }

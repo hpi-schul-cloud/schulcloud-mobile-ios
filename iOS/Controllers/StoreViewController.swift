@@ -8,24 +8,13 @@ import Common
 
 class StoreViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    private var resources: Resources? {
+    private var contentResources: [ContentResource]? {
         didSet {
-//            self.resourceCollectionView.reloadData()
-//            self.resourceCollectionView.collectionViewLayout.invalidateLayout()
-//            self.resourceCollectionView.layoutSubviews()
             self.collectionView.reloadData()
         }
     }
     private let reuseIdentifier = "ResourceCell"
     private let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
-    
-    // Nicht notwendig wenn von UICollectionViewController geerbt wird
-//    @IBOutlet weak var resourceCollectionView: UICollectionView! {
-//        didSet {
-//            resourceCollectionView.dataSource = self
-//            resourceCollectionView.delegate = self
-//        }
-//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,12 +24,8 @@ class StoreViewController: UICollectionViewController, UICollectionViewDelegateF
         getData(using: request_blueprint, with: session)
     }
     
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//    }
-    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return resources?.data.count ?? 0
+        return contentResources?.count ?? 0
     }
     
     override func collectionView(_ collectionView: UICollectionView,
@@ -48,7 +33,7 @@ class StoreViewController: UICollectionViewController, UICollectionViewDelegateF
         let reuseIdentifier = "resourceCell"
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ResourceCell
         
-        let resource = (resources!.data)[indexPath.item]
+        let resource = self.contentResources![indexPath.item]
         cell.configure(for: resource)
         return cell
     }
@@ -68,18 +53,13 @@ class StoreViewController: UICollectionViewController, UICollectionViewDelegateF
 
                 if let data = data {
                     let decoder = JSONDecoder()
-                    let resources = try! decoder.decode(Resources.self, from: data)
+                    let resources = try! decoder.decode(ContentResources.self, from: data).data
                     DispatchQueue.main.async {
-                        self?.resources = resources
+                        self?.contentResources = resources
                     }
                 }
             }).resume()
         }
-    }
-    
-    @objc
-    func foobar() {
-        print("hast du nicht gesehen")
     }
 
     /*
@@ -93,10 +73,4 @@ class StoreViewController: UICollectionViewController, UICollectionViewDelegateF
     */
 
 }
-
-//private extension StoreViewController {
-//    func resource(for indexPath: IndexPath) -> Resource {
-//        return resources![indexPath]
-//    }
-//}
 
