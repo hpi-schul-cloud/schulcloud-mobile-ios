@@ -21,18 +21,20 @@ class StoreViewController: UICollectionViewController, UICollectionViewDelegateF
         
         let session = URLSession.shared
         let request_blueprint = request(for: URL(string: "https://api.schul-cloud.org/content/resources")!)
-        getData(using: request_blueprint, with: session)
+        ContentResourceHelper.getData(using: request_blueprint, with: session).onSuccess(DispatchQueue.main.context) { [weak self] resources in
+            self?.contentResources = resources
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return contentResources?.count ?? 0
     }
-    
+
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let reuseIdentifier = "resourceCell"
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ResourceCell
-        
+
         let resource = self.contentResources![indexPath.item]
         cell.configure(for: resource)
         return cell
@@ -45,22 +47,6 @@ class StoreViewController: UICollectionViewController, UICollectionViewDelegateF
         return request
     }
     
-    private func getData(using request_blueprint: URLRequest, with session: URLSession) {
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            session.dataTask(with: request_blueprint, completionHandler: {
-                [weak self]
-                (data: Data?, response: URLResponse?, error: Error?) in
-
-                if let data = data {
-                    let decoder = JSONDecoder()
-                    let resources = try! decoder.decode(ContentResources.self, from: data).data
-                    DispatchQueue.main.async {
-                        self?.contentResources = resources
-                    }
-                }
-            }).resume()
-        }
-    }
 
     /*
     // MARK: - Navigation
