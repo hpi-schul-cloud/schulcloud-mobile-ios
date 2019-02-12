@@ -22,9 +22,13 @@ final class HomeworkSubmitViewController: UIViewController {
 
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
 
-    var submission: Submission!
-    var files: [File] = []
 
+    fileprivate typealias FileID = String
+    fileprivate typealias Filename = String
+
+    var submission: Submission!
+
+    fileprivate var files: [FileID] = []
 
     fileprivate let fileSync = FileSync.default
     fileprivate let writingContext = CoreDataHelper.persistentContainer.newBackgroundContext()
@@ -33,16 +37,16 @@ final class HomeworkSubmitViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.files = Array(self.submission.files)
-
         self.filesTableView.delegate = self
         self.filesTableView.dataSource = self
 
-        self.commentField.text = self.submission.comment ?? ""
         self.commentField.delegate = self
         self.commentField.textContainerInset = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
 
         self.writableSubmission = self.writingContext.typedObject(with: self.submission.objectID)
+
+        self.updateFiles()
+        self.updateUI()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -73,12 +77,11 @@ final class HomeworkSubmitViewController: UIViewController {
         let alertController = UIAlertController(title: "Are you sure?", message: "You will discard all the changes made to your submission.", preferredStyle: .alert)
         let discardAction = UIAlertAction(title: "Discard Changes", style: .destructive) { [unowned self] (_) in
             self.writingContext.rollback()
+            self.updateFiles()
             self.updateUI()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         [cancelAction, discardAction].forEach { alertController.addAction($0) }
-
-
 
         self.present(alertController, animated: true)
     }
@@ -110,9 +113,17 @@ final class HomeworkSubmitViewController: UIViewController {
         self.present(actionController, animated: true)
     }
 
+    func updateFiles() {
+        var fileIDs = Set<String>(self.submission.files.map {$0.id} )
+        fileIDs.formUnion(self.writableSubmission.files.map {$0.id} )
+        self.files = Array<String>(fileIDs).sorted()
+    }
+
     func updateUI() {
-        self.commentField.text = self.submission.comment ?? ""
+        self.commentField.text = self.writableSubmission.comment ?? ""
         self.filesTableView.reloadData()
+        self.tableViewHeightConstraint.constant = self.filesTableView.contentSize.height
+        self.contentView.setNeedsLayout()
     }
 }
 
@@ -127,13 +138,29 @@ extension HomeworkSubmitViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.submission.files.count
+        return self.files.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let file = self.files[indexPath.row]
+        let fileId = self.files[indexPath.row]
         if let cell = tableView.dequeueReusableCell(withIdentifier: "fileCell") {
-            cell.textLabel?.text = file.name
+            let color: UIColor
+            let filename: String
+
+            if let file = self.writableSubmission.files.first(where: {$0.id == fileId}) {
+                if self.submission.files.contains(where: {$0.id == fileId}) {
+                    color = UIColor.black
+                } else {
+                    color = UIColor.green
+                }
+                filename = file.name
+            } else {
+                color = UIColor.red
+                filename = self.submission.files.first(where: {$0.id == fileId})?.name ?? ""
+            }
+
+            cell.textLabel?.text = filename
+            cell.textLabel?.textColor = color
             return cell
         }
         fatalError()
@@ -142,9 +169,12 @@ extension HomeworkSubmitViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 
         let removeAction = UITableViewRowAction(style: .destructive, title: "Remove") {[unowned self] (action, indexPath) in
-            let files = Array(self.submission?.files ?? [])
-            let file = files[indexPath.row]
-            self.unlink(file: file, from: self.submission)
+            let fileID = self.files[indexPath.row]
+            if let file = self.writableSubmission.files.first(where: { $0.id == fileID }) {
+                self.unlink(file: file, from: self.submission)
+            }
+            self.updateFiles()
+            self.updateUI()
         }
 
         return [removeAction]
@@ -224,9 +254,10 @@ extension HomeworkSubmitViewController: UIImagePickerControllerDelegate {
                 print(error)
             case .success(let file):
                 try? FileManager.default.moveItem(at: destURL, to: file.localURL)
-                self.link(file: file, to: self.submission!)
+                self.link(file: file, to: self.submission)
                 DispatchQueue.main.async {
-                    self.filesTableView.reloadData()
+                    self.updateFiles()
+                    self.updateUI()
                 }
                 dismissPicker()
             }
