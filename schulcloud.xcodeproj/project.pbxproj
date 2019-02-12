@@ -32,6 +32,11 @@
 		50C9C7A620FE147E00AC914F /* CalendarEventHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502410472046B0740033D75A /* CalendarEventHelperTests.swift */; };
 		50CB76E920F613860056E262 /* TestAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB76E820F613850056E262 /* TestAccount.swift */; };
 		50D466FD21B926A900CCAE54 /* UIColor+blend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D466FC21B926A900CCAE54 /* UIColor+blend.swift */; };
+		8F072FDF21F75D06000E7B65 /* TabStore.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F072FDE21F75D06000E7B65 /* TabStore.storyboard */; };
+		8F072FE121F8A466000E7B65 /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F072FE021F8A466000E7B65 /* StoreViewController.swift */; };
+		8F1367A4220B0D7400DA6D4A /* ResourceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1367A3220B0D7400DA6D4A /* ResourceCell.swift */; };
+		8FF4AABD22008C46004F66A8 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF4AABC22008C46004F66A8 /* Resources.swift */; };
+		8FF4AABF22008CED004F66A8 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF4AABE22008CED004F66A8 /* Resource.swift */; };
 		C3418B671ED335F400280E62 /* PreviewTransitionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */; };
 		C3418B681ED335F400280E62 /* WebviewPreviewViewContoller.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */; };
 		C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3A5A9061EBCC17600825DBF /* Main.storyboard */; };
@@ -280,6 +285,11 @@
 		79A5D305E558DF616795C230 /* Pods-Common.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common.release.xcconfig"; path = "Pods/Target Support Files/Pods-Common/Pods-Common.release.xcconfig"; sourceTree = "<group>"; };
 		804DC65950E7657EC6EB9C04 /* Pods-iOS-fileprovider.n21-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-fileprovider.n21-debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-fileprovider/Pods-iOS-fileprovider.n21-debug.xcconfig"; sourceTree = "<group>"; };
 		8CCDA3AA9E624277711AFAF9 /* Pods-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOS/Pods-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		8F072FDE21F75D06000E7B65 /* TabStore.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TabStore.storyboard; sourceTree = "<group>"; };
+		8F072FE021F8A466000E7B65 /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
+		8F1367A3220B0D7400DA6D4A /* ResourceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceCell.swift; sourceTree = "<group>"; };
+		8FF4AABC22008C46004F66A8 /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
+		8FF4AABE22008CED004F66A8 /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 		92E038C781E17DADCECC73FA /* Pods-Common-Tests.n21-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common-Tests.n21-release.xcconfig"; path = "Pods/Target Support Files/Pods-Common-Tests/Pods-Common-Tests.n21-release.xcconfig"; sourceTree = "<group>"; };
 		995426AC92C9452D1ED0246A /* Pods_schulcloud_schulcloudUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloud_schulcloudUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7453D6B0608647AAC1BEDAB /* Pods_Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -523,6 +533,7 @@
 				CEBE154A207B9BE900238D1F /* HomeworkByCourseCell.swift */,
 				C3165F1C1EDC1BAE005F5B8E /* HomeworkByDateCell.swift */,
 				CEBE154C207B9D0300238D1F /* HomeworkHeaderView.swift */,
+				8F1367A3220B0D7400DA6D4A /* ResourceCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -541,6 +552,7 @@
 		50B44D7C203AAE39009DC2D3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8FF4AABB22008C0A004F66A8 /* Resources */,
 				50B44D80203AAEE0009DC2D3 /* Course.swift */,
 				50B44D82203AAEE1009DC2D3 /* EventData.swift */,
 				50B44D81203AAEE1009DC2D3 /* File.swift */,
@@ -596,6 +608,15 @@
 				5C87D60CBBCD0804B5A1870B /* Pods_iOS_fileprovider.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8FF4AABB22008C0A004F66A8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8FF4AABC22008C46004F66A8 /* Resources.swift */,
+				8FF4AABE22008CED004F66A8 /* Resource.swift */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		C31C84281ECF550C00FA070C /* File Preview */ = {
@@ -682,6 +703,7 @@
 				CE0F83CA20653C3F00F847D7 /* NewsDetailViewController.swift */,
 				CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */,
 				CEAF179F21870FD700146C46 /* CoreDataTableViewDataSource.swift */,
+				8F072FE021F8A466000E7B65 /* StoreViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -696,6 +718,7 @@
 				503A5EFE1F3DC6A400A7695B /* TabFiles.storyboard */,
 				503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */,
 				503A5EF91F3DB86C00A7695B /* TabSettings.storyboard */,
+				8F072FDE21F75D06000E7B65 /* TabStore.storyboard */,
 				506D7E2B210618220018D9E2 /* NotificationList.storyboard */,
 				506D7E2F210618440018D9E2 /* Homework.storyboard */,
 				506D7E31210618640018D9E2 /* NewsList.storyboard */,
@@ -1048,7 +1071,7 @@
 					};
 					C3A5A8FE1EBCC17600825DBF = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = WP53SSE8S6;
+						DevelopmentTeam = 247AULJWLR;
 						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -1140,6 +1163,7 @@
 				C3A5A9101EBCC17600825DBF /* LaunchScreen.storyboard in Resources */,
 				CE4152B620E2854900739CE2 /* Assets-ios-brand.generated.xcassets in Resources */,
 				503A5EFB1F3DB86C00A7695B /* TabSettings.storyboard in Resources */,
+				8F072FDF21F75D06000E7B65 /* TabStore.storyboard in Resources */,
 				503A5EFD1F3DC5DC00A7695B /* TabCourses.storyboard in Resources */,
 				CE3C5573206BD6BB00B79034 /* MissingPermissionView.xib in Resources */,
 				503A5EFF1F3DC6A400A7695B /* TabFiles.storyboard in Resources */,
@@ -1445,11 +1469,13 @@
 				CE41529120DBD9F500739CE2 /* WebviewPreviewViewContoller.swift in Sources */,
 				CE41529220DBD9F500739CE2 /* PreviewManager.swift in Sources */,
 				CE41529020DBD9F000739CE2 /* PermissionManagmentViewController.swift in Sources */,
+				8F072FE121F8A466000E7B65 /* StoreViewController.swift in Sources */,
 				CE4152A420DBDA3300739CE2 /* NewsArticleCell.swift in Sources */,
 				CE41528920DBD9F000739CE2 /* DashboardLayout.swift in Sources */,
 				CE41528B20DBD9F000739CE2 /* DashboardNoPermissionViewController.swift in Sources */,
 				CE41528C20DBD9F000739CE2 /* CalendarOverviewViewController.swift in Sources */,
 				CED9E5A2218B177B0020FC7A /* HomeworkListDateSortedViewController.swift in Sources */,
+				8F1367A4220B0D7400DA6D4A /* ResourceCell.swift in Sources */,
 				CE41529D20DBD9F900739CE2 /* NewsDetailViewController.swift in Sources */,
 				CE1253332181D92800CA2213 /* TableViewFetchedControllerDelegate.swift in Sources */,
 				CE4152A720DBDA3300739CE2 /* DashboardViewControllerCell.swift in Sources */,
@@ -1532,6 +1558,7 @@
 				CEEE0A3220D2AD8400B0C2CE /* EventData.swift in Sources */,
 				CEFAFEE02158ED270029B9E2 /* Bundle+.swift in Sources */,
 				CEEE0A4520D2ADA700B0C2CE /* schulcloud.xcdatamodeld in Sources */,
+				8FF4AABF22008CED004F66A8 /* Resource.swift in Sources */,
 				CEEE0A4420D2AD9000B0C2CE /* UserHelper.swift in Sources */,
 				CEEE0A4220D2AD9000B0C2CE /* NewsHelper.swift in Sources */,
 				CEEE0A2A20D2AB5500B0C2CE /* Constants.swift in Sources */,
@@ -1555,6 +1582,7 @@
 				CEEE0A4120D2AD9000B0C2CE /* CalendarEvent.swift in Sources */,
 				CEEE0A4620D2ADAD00B0C2CE /* Date+Marshal.swift in Sources */,
 				CEEE0A3C20D2AD9000B0C2CE /* CourseHelper.swift in Sources */,
+				8FF4AABD22008C46004F66A8 /* Resources.swift in Sources */,
 				CEEE0A3E20D2AD9000B0C2CE /* FileHelper.swift in Sources */,
 				CEEE0A3620D2AD8400B0C2CE /* LessonContent.swift in Sources */,
 			);
@@ -2049,7 +2077,17 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = WP53SSE8S6;
+				DEVELOPMENT_TEAM = 247AULJWLR;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"$(inherited)",
+					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+					"$(inherited)",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
+					"PB_ENABLE_MALLOC=1",
+				);
 				INFOPLIST_FILE = iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2065,7 +2103,17 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = WP53SSE8S6;
+				DEVELOPMENT_TEAM = 247AULJWLR;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"$(inherited)",
+					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+					"$(inherited)",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
+					"PB_ENABLE_MALLOC=1",
+				);
 				INFOPLIST_FILE = iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2309,7 +2357,17 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = WP53SSE8S6;
+				DEVELOPMENT_TEAM = 247AULJWLR;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"$(inherited)",
+					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+					"$(inherited)",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
+					"PB_ENABLE_MALLOC=1",
+				);
 				INFOPLIST_FILE = iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2498,7 +2556,17 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = WP53SSE8S6;
+				DEVELOPMENT_TEAM = 247AULJWLR;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"$(inherited)",
+					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+					"$(inherited)",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
+					"PB_ENABLE_MALLOC=1",
+				);
 				INFOPLIST_FILE = iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

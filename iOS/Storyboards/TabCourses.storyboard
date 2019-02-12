@@ -25,7 +25,7 @@
                             <inset key="sectionInset" minX="16" minY="16" maxX="16" maxY="18"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="courseCell" id="miQ-oh-DD6" customClass="CourseCell" customModule="iOS" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="courseCell" id="miQ-oh-DD6" customClass="CourseCell" customModule="iOS" customModuleProvider="target">
                                 <rect key="frame" x="16" y="16" width="140" height="140"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -33,17 +33,17 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lgb-WZ-UxN">
-                                            <rect key="frame" x="0.0" y="0.0" width="140" height="8"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="140" height="46.666666666666664"/>
                                             <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Mathematik" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ikC-ib-QfB">
-                                            <rect key="frame" x="0.0" y="8" width="140" height="20"/>
+                                            <rect key="frame" x="0.0" y="46.666666666666664" width="140" height="67.333333333333343"/>
                                             <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="L. Ehrer" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.75" translatesAutoresizingMaskIntoConstraints="NO" id="aHW-0P-UoN">
-                                            <rect key="frame" x="8" y="28" width="124" height="18"/>
+                                            <rect key="frame" x="8" y="114" width="124" height="18"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="18" id="51q-c7-DbA"/>
                                                 <constraint firstAttribute="height" constant="18" id="LdU-db-wL2"/>
