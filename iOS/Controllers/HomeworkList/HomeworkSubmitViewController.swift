@@ -17,8 +17,8 @@ final class HomeworkSubmitViewController: UIViewController {
     @IBOutlet weak var filesLabel: UILabel!
     @IBOutlet weak var filesTableView: UITableView!
 
-    @IBOutlet weak var applyChange: UIButton!
-    @IBOutlet weak var discardChange: UIButton!
+    @IBOutlet weak var addFilesButton: UIButton!
+    @IBOutlet weak var submissionActionStackView: UIStackView!
 
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
 
@@ -44,6 +44,12 @@ final class HomeworkSubmitViewController: UIViewController {
         self.commentField.textContainerInset = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
 
         self.writableSubmission = self.writingContext.typedObject(with: self.submission.objectID)
+
+        if self.submission.homework.dueDate <= Date() {
+            self.submissionActionStackView.isHidden = true
+            self.addFilesButton.isHidden = true
+            self.commentField.isEditable = false
+        }
 
         self.updateFiles()
         self.updateUI()

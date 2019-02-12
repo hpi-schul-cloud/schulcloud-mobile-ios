@@ -483,13 +483,13 @@
                         <viewLayoutGuide key="safeArea" id="lv1-lu-3Y5"/>
                     </view>
                     <connections>
-                        <outlet property="applyChange" destination="A90-zN-wxk" id="45y-f8-l6X"/>
+                        <outlet property="addFilesButton" destination="7ZA-kp-2Li" id="fei-T3-ifS"/>
                         <outlet property="commentField" destination="w1r-Tc-D8S" id="WVQ-cT-UOl"/>
                         <outlet property="commentLabel" destination="UqV-yH-Qiv" id="V92-qw-N4F"/>
                         <outlet property="contentView" destination="AWR-F7-f21" id="gMB-Mw-wIH"/>
-                        <outlet property="discardChange" destination="sDg-y8-DYy" id="mVI-GY-H6j"/>
                         <outlet property="filesLabel" destination="V6w-GD-emF" id="7CM-bq-Pmm"/>
                         <outlet property="filesTableView" destination="txg-WZ-Jft" id="oSf-cf-55I"/>
+                        <outlet property="submissionActionStackView" destination="oyg-Kf-auO" id="fBk-DR-1GC"/>
                         <outlet property="tableViewHeightConstraint" destination="wS3-Vg-ZcU" id="LCS-4G-Yo3"/>
                     </connections>
                 </viewController>
