@@ -11,8 +11,10 @@ import UIKit
 final class HomeworkSubmitViewController: UIViewController {
 
     @IBOutlet weak var contentView: UIScrollView!
+    @IBOutlet weak var commentLabel: UILabel!
     @IBOutlet weak var commentField: UITextView!
 
+    @IBOutlet weak var filesLabel: UILabel!
     @IBOutlet weak var filesTableView: UITableView!
 
     @IBOutlet weak var applyChange: UIButton!
@@ -22,6 +24,7 @@ final class HomeworkSubmitViewController: UIViewController {
 
     var submission: Submission!
     var files: [File] = []
+
 
     fileprivate let fileSync = FileSync.default
     fileprivate let writingContext = CoreDataHelper.persistentContainer.newBackgroundContext()
@@ -35,12 +38,11 @@ final class HomeworkSubmitViewController: UIViewController {
         self.filesTableView.delegate = self
         self.filesTableView.dataSource = self
 
-
         self.commentField.text = self.submission.comment ?? ""
         self.commentField.delegate = self
+        self.commentField.textContainerInset = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
 
-        self.writableSubmission = self.writingContext.typedObject(with: self.submission.objectID) as Submission
-
+        self.writableSubmission = self.writingContext.typedObject(with: self.submission.objectID)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -54,18 +56,31 @@ final class HomeworkSubmitViewController: UIViewController {
             //TODO: deal with save result
             switch self.writingContext.saveWithResult() {
             case .success(_):
-                self.showAlert(title: "Sucess", message: "Your submission has been updated successfuly")
+                self.showAlert(title: "Success", message: "Your submission has been updated successfuly")
             case .failure(let error):
                 print("error saving submission: \(error)")
             }
+            self.submission = CoreDataHelper.viewContext.typedObject(with: self.submission.objectID)
         }.onFailure(DispatchQueue.main.context) { error in
             self.writingContext.rollback()
             self.showAlert(title: "Error", message: "Your submission failed to be updated, reason: \(error.localizedDescription)")
+        }.onComplete(DispatchQueue.main.context) { _ in
+            self.updateUI()
         }
     }
 
     @IBAction func discardChanges(_ sender: Any) {
-        self.writingContext.rollback()
+        let alertController = UIAlertController(title: "Are you sure?", message: "You will discard all the changes made to your submission.", preferredStyle: .alert)
+        let discardAction = UIAlertAction(title: "Discard Changes", style: .destructive) { [unowned self] (_) in
+            self.writingContext.rollback()
+            self.updateUI()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        [cancelAction, discardAction].forEach { alertController.addAction($0) }
+
+
+
+        self.present(alertController, animated: true)
     }
 
     @IBAction func submitFile(_ sender: Any) {
@@ -93,7 +108,11 @@ final class HomeworkSubmitViewController: UIViewController {
         [cameraAction, libraryAction, cancelAction].forEach { actionController.addAction($0) }
 
         self.present(actionController, animated: true)
+    }
 
+    func updateUI() {
+        self.commentField.text = self.submission.comment ?? ""
+        self.filesTableView.reloadData()
     }
 }
 
@@ -126,7 +145,6 @@ extension HomeworkSubmitViewController: UITableViewDataSource {
             let files = Array(self.submission?.files ?? [])
             let file = files[indexPath.row]
             self.unlink(file: file, from: self.submission)
-            //TODO: Handle unlinked of file to submission
         }
 
         return [removeAction]
