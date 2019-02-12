@@ -364,7 +364,7 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="534"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0tz-yn-qMl" userLabel="ContentView">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="514.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="518.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comments" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UqV-yH-Qiv">
                                                 <rect key="frame" x="8" y="4" width="359" height="18"/>
@@ -418,8 +418,8 @@
                                                     <action selector="submitFile:" destination="7EW-bo-Vz6" eventType="touchUpInside" id="orM-dd-F2P"/>
                                                 </connections>
                                             </button>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="oyg-Kf-auO" userLabel="Action Stack View">
-                                                <rect key="frame" x="8" y="438.5" width="359" height="60"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="oyg-Kf-auO" userLabel="Action Stack View">
+                                                <rect key="frame" x="8" y="438.5" width="359" height="64"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A90-zN-wxk">
                                                         <rect key="frame" x="0.0" y="0.0" width="359" height="30"/>
@@ -431,7 +431,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sDg-y8-DYy">
-                                                        <rect key="frame" x="0.0" y="30" width="359" height="30"/>
+                                                        <rect key="frame" x="0.0" y="34" width="359" height="30"/>
                                                         <state key="normal" title="DiscardChanges">
                                                             <color key="titleColor" red="0.84829163549999997" green="0.1188072786" blue="0.0008757433388" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>

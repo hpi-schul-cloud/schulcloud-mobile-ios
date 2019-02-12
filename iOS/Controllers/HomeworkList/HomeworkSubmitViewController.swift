@@ -51,8 +51,20 @@ final class HomeworkSubmitViewController: UIViewController {
             self.commentField.isEditable = false
         }
 
-        self.updateFiles()
-        self.updateUI()
+        self.addFilesButton.layer.cornerRadius = 4.0
+        self.addFilesButton.layer.borderWidth = 1.0
+        self.addFilesButton.layer.borderColor = UIApplication.shared.delegate!.window!!.tintColor.cgColor
+        self.addFilesButton.clipsToBounds = true
+
+        self.submissionActionStackView.arrangedSubviews.forEach { button in
+            guard let button = button as? UIButton else { return }
+            button.layer.cornerRadius = 4.0
+            button.layer.borderWidth = 1.0
+            button.layer.borderColor = button.titleLabel!.textColor.cgColor
+            button.clipsToBounds = true
+        }
+
+        self.updateState()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -83,8 +95,7 @@ final class HomeworkSubmitViewController: UIViewController {
         let alertController = UIAlertController(title: "Are you sure?", message: "You will discard all the changes made to your submission.", preferredStyle: .alert)
         let discardAction = UIAlertAction(title: "Discard Changes", style: .destructive) { [unowned self] (_) in
             self.writingContext.rollback()
-            self.updateFiles()
-            self.updateUI()
+            self.updateState()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         [cancelAction, discardAction].forEach { alertController.addAction($0) }
@@ -119,17 +130,22 @@ final class HomeworkSubmitViewController: UIViewController {
         self.present(actionController, animated: true)
     }
 
-    func updateFiles() {
+    fileprivate func updateState() {
         var fileIDs = Set<String>(self.submission.files.map {$0.id} )
         fileIDs.formUnion(self.writableSubmission.files.map {$0.id} )
         self.files = Array<String>(fileIDs).sorted()
-    }
 
-    func updateUI() {
         self.commentField.text = self.writableSubmission.comment ?? ""
         self.filesTableView.reloadData()
         self.tableViewHeightConstraint.constant = self.filesTableView.contentSize.height
         self.contentView.setNeedsLayout()
+
+    }
+
+    func updateFiles() {
+    }
+
+    func updateUI() {
     }
 }
 
@@ -179,8 +195,7 @@ extension HomeworkSubmitViewController: UITableViewDataSource {
             if let file = self.writableSubmission.files.first(where: { $0.id == fileID }) {
                 self.unlink(file: file, from: self.submission)
             }
-            self.updateFiles()
-            self.updateUI()
+            self.updateState()
         }
 
         return [removeAction]
@@ -262,8 +277,7 @@ extension HomeworkSubmitViewController: UIImagePickerControllerDelegate {
                 try? FileManager.default.moveItem(at: destURL, to: file.localURL)
                 self.link(file: file, to: self.submission)
                 DispatchQueue.main.async {
-                    self.updateFiles()
-                    self.updateUI()
+                    self.updateState()
                 }
                 dismissPicker()
             }
