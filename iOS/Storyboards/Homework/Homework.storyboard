@@ -305,7 +305,7 @@
                                                         <rect key="frame" x="0.0" y="261" width="343" height="30"/>
                                                         <state key="normal" title="Submit homework"/>
                                                         <connections>
-                                                            <segue destination="7EW-bo-Vz6" kind="show" identifier="showSubmission" id="dfD-vd-bL6"/>
+                                                            <action selector="submissionPressed:" destination="VgN-1r-pFT" eventType="touchUpInside" id="2AH-29-vjg"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -346,6 +346,7 @@
                         <outlet property="subjectLabel" destination="SOf-h0-mUd" id="zMm-NQ-0Of"/>
                         <outlet property="submitHomeworkButton" destination="Vdb-Dd-GXA" id="dnH-IU-dam"/>
                         <outlet property="titleLabel" destination="3LH-f3-mhD" id="fS4-7G-9Nu"/>
+                        <segue destination="7EW-bo-Vz6" kind="show" identifier="showSubmission" id="9qE-yq-mez"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3KD-eU-mWo" userLabel="First Responder" sceneMemberID="firstResponder"/>
