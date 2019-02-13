@@ -98,6 +98,8 @@ public class LoginHelper {
     public static func login(username: String, password: String) -> Future<Void, SCError> {
         return self.authenticate(username: username, password: password).flatMap { _ in
             return UserHelper.syncUser(withId: Globals.account!.userId)
+        }.onSuccess{ result in
+            FileHelper.rootFolder
         }.asVoid()
     }
 
