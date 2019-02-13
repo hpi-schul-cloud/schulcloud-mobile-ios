@@ -18,6 +18,8 @@ final class HomeworkSubmitViewController: UIViewController {
     @IBOutlet weak var filesTableView: UITableView!
 
     @IBOutlet weak var addFilesButton: UIButton!
+    @IBOutlet weak var applyChangesButton: UIButton!
+    @IBOutlet weak var discardChangesButton: UIButton!
     @IBOutlet weak var submissionActionStackView: UIStackView!
 
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
@@ -51,18 +53,19 @@ final class HomeworkSubmitViewController: UIViewController {
             self.commentField.isEditable = false
         }
 
+        let tintColor = UIApplication.shared.delegate!.window!!.tintColor
+
+        var (r, g, b): (CGFloat,CGFloat,CGFloat) = (0, 0, 0)
+        tintColor?.getRed(&r, green: &g, blue: &b, alpha: nil)
+
         self.addFilesButton.layer.cornerRadius = 4.0
-        self.addFilesButton.layer.borderWidth = 1.0
-        self.addFilesButton.layer.borderColor = UIApplication.shared.delegate!.window!!.tintColor.cgColor
-        self.addFilesButton.clipsToBounds = true
+        self.addFilesButton.backgroundColor = UIColor.init(red: r, green: g, blue: b, alpha: 0.3)
 
         self.submissionActionStackView.arrangedSubviews.forEach { button in
-            guard let button = button as? UIButton else { return }
             button.layer.cornerRadius = 4.0
-            button.layer.borderWidth = 1.0
-            button.layer.borderColor = button.titleLabel!.textColor.cgColor
             button.clipsToBounds = true
         }
+        self.applyChangesButton.backgroundColor = tintColor
 
         self.updateState()
     }

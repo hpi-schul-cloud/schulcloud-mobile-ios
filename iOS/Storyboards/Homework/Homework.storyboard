@@ -365,29 +365,29 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="534"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0tz-yn-qMl" userLabel="ContentView">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="518.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="523.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comments" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UqV-yH-Qiv">
-                                                <rect key="frame" x="8" y="4" width="359" height="18"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <rect key="frame" x="8" y="4" width="359" height="20.5"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="w1r-Tc-D8S">
-                                                <rect key="frame" x="0.0" y="30" width="375" height="183.5"/>
+                                                <rect key="frame" x="0.0" y="32.5" width="375" height="183.5"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Files" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V6w-GD-emF" userLabel="Files">
-                                                <rect key="frame" x="8" y="221.5" width="31.5" height="18"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <rect key="frame" x="8" y="224" width="37" height="20.5"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="txg-WZ-Jft">
-                                                <rect key="frame" x="0.0" y="247.5" width="375" height="137"/>
+                                                <rect key="frame" x="0.0" y="252.5" width="375" height="137"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="137" id="wS3-Vg-ZcU"/>
@@ -413,19 +413,23 @@
                                                 </prototypes>
                                             </tableView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7ZA-kp-2Li">
-                                                <rect key="frame" x="8" y="392.5" width="359" height="30"/>
-                                                <state key="normal" title="Add files"/>
+                                                <rect key="frame" x="8" y="397.5" width="359" height="30"/>
+                                                <color key="backgroundColor" red="0.84829163549999997" green="0.1188072786" blue="0.0008757433388" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal" title="Add files">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="submitFile:" destination="7EW-bo-Vz6" eventType="touchUpInside" id="orM-dd-F2P"/>
                                                 </connections>
                                             </button>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="oyg-Kf-auO" userLabel="Action Stack View">
-                                                <rect key="frame" x="8" y="438.5" width="359" height="64"/>
+                                                <rect key="frame" x="8" y="443.5" width="359" height="64"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A90-zN-wxk">
                                                         <rect key="frame" x="0.0" y="0.0" width="359" height="30"/>
+                                                        <color key="backgroundColor" red="0.082408033311367035" green="0.53868627548217773" blue="0.0053953370079398155" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <state key="normal" title="Apply changes">
-                                                            <color key="titleColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
                                                         <connections>
                                                             <action selector="applyChanges:" destination="7EW-bo-Vz6" eventType="touchUpInside" id="qwd-mM-tKg"/>
@@ -433,9 +437,7 @@
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sDg-y8-DYy">
                                                         <rect key="frame" x="0.0" y="34" width="359" height="30"/>
-                                                        <state key="normal" title="DiscardChanges">
-                                                            <color key="titleColor" red="0.84829163549999997" green="0.1188072786" blue="0.0008757433388" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        </state>
+                                                        <state key="normal" title="DiscardChanges"/>
                                                         <connections>
                                                             <action selector="discardChanges:" destination="7EW-bo-Vz6" eventType="touchUpInside" id="tgw-29-OdX"/>
                                                         </connections>
@@ -465,7 +467,7 @@
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="0tz-yn-qMl" firstAttribute="top" secondItem="AWR-F7-f21" secondAttribute="top" id="Es1-zW-Bwa"/>
                                     <constraint firstAttribute="trailing" secondItem="0tz-yn-qMl" secondAttribute="trailing" id="b0p-PB-7am"/>
@@ -486,9 +488,11 @@
                     </view>
                     <connections>
                         <outlet property="addFilesButton" destination="7ZA-kp-2Li" id="fei-T3-ifS"/>
+                        <outlet property="applyChangesButton" destination="A90-zN-wxk" id="6rp-O9-9Ly"/>
                         <outlet property="commentField" destination="w1r-Tc-D8S" id="WVQ-cT-UOl"/>
                         <outlet property="commentLabel" destination="UqV-yH-Qiv" id="V92-qw-N4F"/>
                         <outlet property="contentView" destination="AWR-F7-f21" id="gMB-Mw-wIH"/>
+                        <outlet property="discardChangesButton" destination="sDg-y8-DYy" id="RWD-vH-5IY"/>
                         <outlet property="filesLabel" destination="V6w-GD-emF" id="7CM-bq-Pmm"/>
                         <outlet property="filesTableView" destination="txg-WZ-Jft" id="oSf-cf-55I"/>
                         <outlet property="submissionActionStackView" destination="oyg-Kf-auO" id="fBk-DR-1GC"/>
