@@ -8,6 +8,9 @@ import Common
 import Result
 import UIKit
 
+
+let placeholder = "Enter your comment here"
+
 final class HomeworkSubmitViewController: UIViewController {
 
     @IBOutlet weak var contentView: UIScrollView!
@@ -67,6 +70,10 @@ final class HomeworkSubmitViewController: UIViewController {
         }
         self.applyChangesButton.backgroundColor = tintColor
 
+
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
+        self.contentView.addGestureRecognizer(tapRecognizer)
+
         self.updateState()
     }
 
@@ -74,6 +81,10 @@ final class HomeworkSubmitViewController: UIViewController {
         super.viewWillAppear(animated)
         self.tableViewHeightConstraint.constant = self.filesTableView.contentSize.height
         self.contentView.setNeedsLayout()
+    }
+
+    @objc func dismissKeyboard(_ sender: Any?) {
+        self.commentField.resignFirstResponder()
     }
 
     @IBAction func applyChanges(_ sender: Any) {
@@ -90,7 +101,7 @@ final class HomeworkSubmitViewController: UIViewController {
             self.writingContext.rollback()
             self.showAlert(title: "Error", message: "Your submission failed to be updated, reason: \(error.localizedDescription)")
         }.onComplete(DispatchQueue.main.context) { _ in
-            self.updateUI()
+            self.updateState()
         }
     }
 
@@ -138,17 +149,11 @@ final class HomeworkSubmitViewController: UIViewController {
         fileIDs.formUnion(self.writableSubmission.files.map {$0.id} )
         self.files = Array<String>(fileIDs).sorted()
 
-        self.commentField.text = self.writableSubmission.comment ?? ""
+        self.commentField.text = self.writableSubmission.comment ?? placeholder
         self.filesTableView.reloadData()
         self.tableViewHeightConstraint.constant = self.filesTableView.contentSize.height
         self.contentView.setNeedsLayout()
 
-    }
-
-    func updateFiles() {
-    }
-
-    func updateUI() {
     }
 }
 
@@ -291,6 +296,12 @@ extension HomeworkSubmitViewController: UIImagePickerControllerDelegate {
 // MARK: - TextView Delegate
 extension HomeworkSubmitViewController: UITextViewDelegate {
 
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == placeholder {
+            textView.text = ""
+        }
+    }
+
     func textViewDidEndEditing(_ textView: UITextView) {
         let content = textView.text ?? ""
 
@@ -298,6 +309,10 @@ extension HomeworkSubmitViewController: UITextViewDelegate {
             if comment != content { write(content: content, to: submission) }
         } else {
             write(content: content, to: submission)
+        }
+
+        if content == "" {
+            textView.text = placeholder
         }
     }
 }
