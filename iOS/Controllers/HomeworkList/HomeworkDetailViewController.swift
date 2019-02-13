@@ -25,14 +25,14 @@ class HomeworkDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.coloredStrip.layer.cornerRadius = self.coloredStrip.frame.size.height / 2.0
-        guard let homework = self.homework else { return }
-
-        self.configure(for: homework)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.configure(for: self.homework!)
+        SubmissionHelper.syncSubmission(studentId: Globals.currentUser!.id, homeworkId: homework!.id).onComplete(DispatchQueue.main.context) { result in
+            self.homework = CoreDataHelper.viewContext.typedObject(with: self.homework!.objectID)
+            self.configure(for: self.homework!)
+        }
     }
 
     @IBAction func submissionPressed(_ sender: UIButton!) {
@@ -77,8 +77,42 @@ class HomeworkDetailViewController: UIViewController {
         self.dueLabel.text = Homework.dateTimeFormatter.string(from: homework.dueDate)
         self.coloredStrip.backgroundColor = homework.color
 
-        let title = homework.submission != nil ? "Update submission" : "Create a Submission"
-        [UIControl.State.normal, .highlighted, .focused, .disabled].forEach { self.submitHomeworkButton.setTitle(title, for: $0) }
+        self.submitHomeworkButton.isHidden = false
+
+        let canView = Globals.currentUser!.permissions.contains(.submissionsView)
+        let canEdit = Globals.currentUser!.permissions.contains(.submissionsEdit)
+        let canCreate = Globals.currentUser!.permissions.contains(.submissionsCreate)
+
+        let canInteract = [canView, canEdit, canCreate].reduce(true) { $0  && $1}
+
+
+        if canInteract {
+            var title = ""
+            if homework.dueDate > Date() {
+                if let _ = homework.submission {
+                    if canEdit {
+                        title = "Update Submission"
+                    } else {
+                        title = "View Submission"
+                    }
+                } else {
+                    if canCreate {
+                        title = "Create Submission"
+                    } else {
+                        self.submitHomeworkButton.isHidden = true
+                    }
+                }
+            } else {
+                if canView {
+                    title = "View Submission"
+                } else {
+                    self.submitHomeworkButton.isHidden = true
+                }
+            }
+            [UIControl.State.normal, .highlighted, .focused, .disabled].forEach { self.submitHomeworkButton.setTitle(title, for: $0) }
+        } else {
+            self.submitHomeworkButton.isHidden = true
+        }
 
         self.contentLabel.attributedText = HTMLHelper.default.attributedString(for: homework.descriptionText)
     }
