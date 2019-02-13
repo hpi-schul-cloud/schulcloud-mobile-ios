@@ -21,7 +21,7 @@ class StoreViewController: UICollectionViewController, UICollectionViewDelegateF
         
         let session = URLSession.shared
         let request_blueprint = request(for: URL(string: "https://api.schul-cloud.org/content/resources")!)
-        ContentResourceHelper.getData(using: request_blueprint, with: session).onSuccess(DispatchQueue.main.context) { [weak self] resources in
+        ContentResourceHelper.getData(using: request_blueprint, with: session).onSuccess { [weak self] resources in
             self?.contentResources = resources
         }
     }
@@ -59,4 +59,6 @@ class StoreViewController: UICollectionViewController, UICollectionViewDelegateF
     */
 
 }
+
+
 
