@@ -10,12 +10,30 @@ import MobileCoreServices
 
 public final class File: NSManagedObject {
 
+    @objc public enum OwnerType: Int64 {
+        case user = 1
+        case course = 2
+        case team = 3
+
+        static func from(str: String) -> OwnerType {
+            switch str {
+            case "user":
+                return .user
+            case "course":
+                return .course
+            case "team":
+                return .team
+            default:
+                fatalError()
+            }
+        }
+    }
+
     @nonobjc public class func fetchRequest() -> NSFetchRequest<File> {
         return NSFetchRequest<File>(entityName: "File")
     }
 
     @NSManaged public var id: String
-    @NSManaged public var remoteURL: URL?
     @NSManaged public var thumbnailRemoteURL: URL?
     @NSManaged public var name: String
     @NSManaged public var isDirectory: Bool
@@ -24,6 +42,9 @@ public final class File: NSManagedObject {
     @NSManaged public var createdAt: Date
     @NSManaged public var updatedAt: Date
     @NSManaged public var lastReadAt: Date
+    @NSManaged public var shareToken: String?
+    @NSManaged public var ownerId: String
+    @NSManaged public var ownerType: OwnerType
 
     @NSManaged public var favoriteRankData: Data?
     @NSManaged public var localTagData: Data?
@@ -41,8 +62,10 @@ public extension File {
     public struct Permissions: OptionSet {
         public let rawValue: Int64
 
-        static let read = Permissions(rawValue: 1 << 1)
-        static let write = Permissions(rawValue: 1 << 2)
+        static let read = Permissions(rawValue:   1 << 0)
+        static let write = Permissions(rawValue:  1 << 1)
+        static let create = Permissions(rawValue: 1 << 2)
+        static let delete = Permissions(rawValue: 1 << 3)
 
         static let readWrite: Permissions = [.read, .write]
 
@@ -50,21 +73,25 @@ public extension File {
             self.rawValue = rawValue
         }
 
-        public init?(str: String) {
+
+        init(str: String) {
             switch str {
-            case "can_read":
-                self = Permissions.read
-            case "can_write":
-                self = Permissions.write
+            case "delete":
+                self = .delete
+            case "write":
+                self = .write
+            case "read":
+                self = .read
+            case "create":
+                self = .create
             default:
-                return nil
+                fatalError()
             }
         }
 
+
         init(json: MarshaledObject) throws {
-            let fetchedPersmissions: [String] = try json.value(for: "permissions")
-            let permissions: [Permissions] = fetchedPersmissions.compactMap { Permissions(str: $0) }
-            self.rawValue = permissions.reduce([]) { acc, permission -> Permissions in
+            self.rawValue = try ["delete", "write", "create", "read"].filter({ return try json.value(for: $0)}).map(Permissions.init(str:)).reduce([]) { (acc, permission) -> Permissions in
                 return acc.union(permission)
             }.rawValue
         }
@@ -128,11 +155,10 @@ extension File {
                                                name: String,
                                                parentFolder: File?,
                                                isDirectory: Bool,
-                                               remoteURL: URL? = nil) -> File {
+                                               ownerId: String, ownerType: OwnerType) -> File {
         let file = File(context: context)
         file.id = id
 
-        file.remoteURL = remoteURL
         file.thumbnailRemoteURL = nil
 
         file.name = name
@@ -141,6 +167,9 @@ extension File {
         file.createdAt = Date()
         file.updatedAt = file.createdAt
         file.lastReadAt = file.createdAt
+
+        file.ownerId = ownerId
+        file.ownerType = ownerType
 
         file.favoriteRankData = nil
         file.localTagData = nil
@@ -152,7 +181,7 @@ extension File {
         return file
     }
 
-    static func createOrUpdate(inContext context: NSManagedObjectContext, parentFolder: File, isDirectory: Bool, data: MarshaledObject) throws -> File {
+    static func createOrUpdate(inContext context: NSManagedObjectContext, parentFolder: File, data: MarshaledObject) throws -> File {
         let name: String = try data.value(for: "name")
         let id: String = try data.value(for: "_id")
 
@@ -172,17 +201,14 @@ extension File {
         file.id = id
 
         let allowedCharacters = CharacterSet.whitespacesAndNewlines.inverted
-        let remoteURLString = try data.value(for: "key") as String?
-        let percentEncodedURLString = remoteURLString?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
-        file.remoteURL = URL(string: percentEncodedURLString ?? "")
         let thumbnailRemoteURLString = try? data.value(for: "thumbnail") as String
         let percentEncodedThumbnailURLString = thumbnailRemoteURLString?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
         file.thumbnailRemoteURL = URL(string: percentEncodedThumbnailURLString ?? "")
 
         file.name = name
-        file.isDirectory = isDirectory
-        file.mimeType = isDirectory ? "public.folder" : try? data.value(for: "type")
-        file.size = isDirectory ? 0 : try data.value(for: "size")
+        file.isDirectory = try data.value(for: "isDirectory")
+        file.mimeType = file.isDirectory ? "public.folder" : try? data.value(for: "type")
+        file.size = file.isDirectory ? 0 : try data.value(for: "size")
         file.createdAt = try data.value(for: "createdAt")
         if let updatedAt = try? data.value(for: "updatedAt") as Date {
             file.updatedAt = updatedAt
@@ -190,9 +216,12 @@ extension File {
             file.updatedAt = file.createdAt
         }
 
-        file.lastReadAt = file.createdAt
+        file.ownerId = try data.value(for: "owner")
+        file.ownerType = OwnerType.from(str: try data.value(for: "refOwnerModel"))
 
-        if existed && isDirectory {
+        file.lastReadAt = file.createdAt
+        file.shareToken = try? data.value(for: "shareToken")
+        if existed && file.isDirectory {
             file.downloadState = .downloaded
         }
 
@@ -201,18 +230,16 @@ extension File {
 
         file.parentDirectory = parentFolder
 
-        let permissionsObject: [MarshaledObject]? = try? data.value(for: "permissions")
-        let userPermission: MarshaledObject? = permissionsObject?.first { data -> Bool in
-            if let userId: String = try? data.value(for: "userId"),
-                userId == Globals.account?.userId { // find permission for current user
-                return true
-            }
+        let user = context.typedObject(with: Globals.currentUser!.objectID) as User
 
-            return false
-        }
+        let permissionsObject: [MarshaledObject]? = try? data.value(for: "permissions")
+        let rolePermission = try permissionsObject?.filter { try $0.value(for: "refPermModel") == "role"}.filter { user.roles.contains(try $0.value(for: "refId")) }.first
+        let userPermission = try permissionsObject?.filter { try $0.value(for: "refPermModel") == "user"}.filter { try $0.value(for: "refId") == user.id }.first
 
         if let userPermission = userPermission {
             file.permissions = try Permissions(json: userPermission)
+        } else if let rolePermission = rolePermission {
+            file.permissions = try Permissions(json: rolePermission)
         }
 
         return file
