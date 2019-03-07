@@ -46,6 +46,7 @@ final class HomeworkOverviewViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
 
+        self.numberOfOpenTasksLabel.textColor = Brand.default.colors.primary
         self.showAllHomework.textColor = Brand.default.colors.primary
 
         self.numberOfOpenTasksLabel.text = "?"

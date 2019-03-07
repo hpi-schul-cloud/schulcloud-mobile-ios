@@ -27,6 +27,10 @@ class WebviewPreviewViewContoller: UIViewController {
         super.viewDidLoad()
         self.view.addSubview(webView)
 
+        if #available(iOS 11, *) {
+            self.navigationItem.largeTitleDisplayMode = .never
+        }
+
         // Add share button
         let shareButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(WebviewPreviewViewContoller.shareFile))
         self.navigationItem.rightBarButtonItem = shareButton

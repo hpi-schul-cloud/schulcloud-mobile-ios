@@ -49,7 +49,7 @@ extension Submission: Pullable {
                 if let toUpdate = try self.files.first { $0.id == (try file.value(for: "_id")) } {
                     try File.update(file: toUpdate, with: file)
                 } else {
-                    let newFile = try File.createOrUpdate(inContext: context, parentFolder: userDirectory, isDirectory: false, data: file)
+                    let newFile = try File.createOrUpdate(inContext: context, parentFolder: userDirectory, data: file)
                     self.files.insert(newFile)
                 }
             }

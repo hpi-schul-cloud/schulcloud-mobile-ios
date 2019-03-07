@@ -5,6 +5,7 @@
 
 import CoreData
 import Foundation
+import Marshal
 import SyncEngine
 
 public final class User: NSManagedObject {
@@ -17,6 +18,8 @@ public final class User: NSManagedObject {
     @NSManaged public var courses: Set<Course>
     @NSManaged public var taughtCourses: Set<Course>
     @NSManaged public var assignedHomeworks: Set<Homework>
+
+    @NSManaged public var roles: Set<String>
 
     @NSManaged private var permissionStorage: PermissionStorage
 
@@ -75,6 +78,7 @@ extension User: Pullable {
         self.firstName = try object.value(for: "firstName")
         self.lastName = try object.value(for: "lastName")
         self.schoolId = try object.value(for: "schoolId")
+        self.roles = try object.value(for: "roles")
 
         let permissions: [String] = (try? object.value(for: "permissions")) ?? []
         self.permissions = UserPermissions(array: permissions)

@@ -34,8 +34,10 @@
         <attribute name="localTagData" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="mimeType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="ownerId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ownerType" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="permissionsValue" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="remoteURL" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="shareToken" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="size" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="thumbnailRemoteURL" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -100,6 +102,7 @@
         <attribute name="lastName" attributeType="String" syncable="YES"/>
         <attribute name="permissionStorage" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="schoolId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="roles" optional="YES" attributeType="Transformable" syncable="YES"/>
         <relationship name="assignedHomeworks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Homework" inverseName="teacher" inverseEntity="Homework" syncable="YES"/>
         <relationship name="courses" toMany="YES" deletionRule="Nullify" destinationEntity="Course" inverseName="users" inverseEntity="Course" syncable="YES"/>
         <relationship name="newsCreated" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="NewsArticle" inverseName="creator" inverseEntity="NewsArticle" syncable="YES"/>
@@ -117,6 +120,8 @@
         <element name="EventData" positionX="-371" positionY="63" width="128" height="225"/>
         <element name="File" positionX="-549" positionY="291" width="128" height="315"/>
         <element name="Homework" positionX="-90" positionY="189" width="128" height="210"/>
+        <element name="File" positionX="-549" positionY="291" width="128" height="330"/>
+        <element name="Homework" positionX="-90" positionY="189" width="128" height="195"/>
         <element name="Lesson" positionX="-369" positionY="-126" width="128" height="133"/>
         <element name="LessonContent" positionX="-558" positionY="-126" width="128" height="133"/>
         <element name="NewsArticle" positionX="286" positionY="-198" width="128" height="135"/>

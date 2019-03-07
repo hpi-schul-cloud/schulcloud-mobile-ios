@@ -5,6 +5,7 @@
 
 import BrightFutures
 import CoreData
+import CoreServices
 import Foundation
 import Marshal
 import Result
@@ -81,11 +82,14 @@ public class FileSync: NSObject {
         return Brand.default.servers.backend.appendingPathComponent("fileStorage")
     }
 
-    private func getQueryURL(for file: File, baseURL: URL) -> URL? {
-        guard let remoteURL = file.remoteURL else { return nil }
+    private func getQueryURL(for file: File) -> URL? {
 
-        var urlComponent = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)!
-        urlComponent.query = "path=\(remoteURL.path.removingPercentEncoding!)/"
+        var urlComponent = URLComponents(url: fileStorageURL, resolvingAgainstBaseURL: false)!
+        var queryItem = [URLQueryItem(name: "owner", value: file.ownerId)]
+        if file.parentDirectory!.id != FileHelper.rootDirectoryID {
+            queryItem.append(URLQueryItem(name: "parent", value: file.id))
+        }
+        urlComponent.queryItems = queryItem
         return urlComponent.url
     }
 
@@ -152,7 +156,7 @@ public class FileSync: NSObject {
             return nil
         }
 
-        let taskCompletionBlock: (Result<[String: Any], SCError>) -> Void = { result in
+        let taskCompletionBlock: (Result<[[String: Any]], SCError>) -> Void = { result in
             completionBlock(result.flatMap {
                 FileHelper.updateDatabase(contentsOf: directory, using: $0)
             })
@@ -175,13 +179,13 @@ public class FileSync: NSObject {
         }
     }
 
-    private func downloadContent(of directory: File, completionBlock: @escaping (Result<[String: Any], SCError>) -> Void) -> URLSessionTask? {
+    private func downloadContent(of directory: File, completionBlock: @escaping (Result<[[String: Any]], SCError>) -> Void) -> URLSessionTask? {
         guard directory.isDirectory else {
             completionBlock(.failure( SCError.other("only works on directory")))
             return nil
         }
 
-        guard let queryURL = self.getQueryURL(for: directory, baseURL: self.fileStorageURL) else {
+        guard let queryURL = self.getQueryURL(for: directory) else {
             completionBlock(.failure( SCError.other("no remote URL")))
             return nil
         }
@@ -190,7 +194,11 @@ public class FileSync: NSObject {
         return self.metadataSession.dataTask(with: request) { data, response, error in
             do {
                 let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
-                guard let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
+                guard let parsedData = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) else {
+                    throw SCError.jsonDeserialization("Does not result in expected JSON")
+                }
+
+                guard let json = parsedData as? [[String: Any]] else {
                     throw SCError.jsonDeserialization("Does not result in expected JSON")
                 }
 
@@ -203,7 +211,7 @@ public class FileSync: NSObject {
         }
     }
 
-    public func downloadSharedFiles(completionBlock: @escaping (Result<[String: Any], SCError>) -> Void) -> URLSessionTask {
+    public func downloadSharedFiles(completionBlock: @escaping (Result<[[String: Any]], SCError>) -> Void) -> URLSessionTask {
 
         let request = self.GETRequest(for: Brand.default.servers.backend.appendingPathComponent("files") )
         return metadataSession.dataTask(with: request) { data, response, error in
@@ -216,14 +224,12 @@ public class FileSync: NSObject {
                 let files: [MarshaledObject] = try json.value(for: "data")
                 let sharedFiles = files.filter { object -> Bool in
                     return (try? object.value(for: "context")) == "geteilte Datei"
-                }
+                } as! [[String: Any]]
 
-                let result: [String: Any] = [
-                    "files": sharedFiles,
-                    "directories": [],
-                    ]
-
-                completionBlock(.success(result))
+                completionBlock(.success(sharedFiles))
+            } catch SCError.apiError(401, let message) {
+                SyncHelper.authenticationChallengerHandler?()
+                completionBlock(.failure(.apiError(401, message)))
             } catch let error as SCError {
                 completionBlock(.failure(error))
             } catch let error {
@@ -233,17 +239,17 @@ public class FileSync: NSObject {
     }
 
     // MARK: File materialization
-    public func signedURL(resourceAt url: URL, mimeType: String, forUpload: Bool, completionHandler: @escaping (Result<SignedURLInfo, SCError>) -> Void) -> URLSessionTask? {
+    public func signedURL(filename: String, parentId: String?, mimeType: String, completionHandler: @escaping (Result<SignedURLInfo, SCError>) -> Void) -> URLSessionTask? {
 
         var request = self.POSTRequest(for: fileStorageURL.appendingPathComponent("signedUrl") )
 
         var parameters: [String: Any] = [
-            "path": url.absoluteString.removingPercentEncoding!,
-            "action": forUpload ? "putObject" : "getObject",
-            ]
+            "filename": filename,
+            "fileType": mimeType
+        ]
 
-        if forUpload {
-            parameters["fileType"] = mimeType
+        if let parentId = parentId {
+            parameters["parent"] = parentId
         }
 
         guard let jsonData = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) else {
@@ -339,31 +345,44 @@ public class FileSync: NSObject {
         return runningTask[id]?.task
     }
 
-    public func createFileMetadata(at remoteURL: URL,
+    public func createFileMetadata(name: String,
                                    mimeType: String,
                                    size: Int,
                                    flatName: String,
-                                   thumbnailURL: URL,
+                                   owner: (String, File.OwnerType)?,
+                                   parentId: String?,
                                    completionHandler: @escaping (Result<[String: Any], SCError>) -> Void) -> URLSessionTask? {
 
-        var request = self.POSTRequest(for: Brand.default.servers.backend.appendingPathComponent("files"))
-        let parameters: [String: Any] = [
-            "key":  remoteURL.absoluteString.removingPercentEncoding!,
-            "path": remoteURL.deletingLastPathComponent().absoluteString.removingPercentEncoding!,
-            "name": remoteURL.lastPathComponent.removingPercentEncoding!,
+        var parameters: [String: Any] = [
+            "name": name,
             "type": mimeType,
             "size": size,
-            "flatFileName": flatName,
-            "thumbnail": thumbnailURL.absoluteString,
+            "storageFileName": flatName,
             "studentCanEdit": false,
-            "schoolId": Globals.currentUser!.schoolId,
-            ]
+        ]
+        if let parent = parentId {
+            parameters["parent"] = parent
+        }
+
+        if let (id, type) = owner {
+            switch type {
+            case .course:
+                parameters["owner"] = id
+                parameters["refOwnerModel"] = "course"
+            case .team:
+                parameters["owner"] = id
+                parameters["refOwnerModel"] = "team"
+            case .user:
+                break
+            }
+        }
 
         guard let data = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) else {
             completionHandler(.failure(SCError.jsonSerialization("Can't serialize file metadata")))
             return nil
         }
 
+        var request = self.POSTRequest(for: fileStorageURL)
         request.httpBody = data
         return self.metadataSession.dataTask(with: request) { (data, response, error) in
             do {
@@ -381,18 +400,15 @@ public class FileSync: NSObject {
         }
     }
 
-    public func create(directoryAt url: URL,
+    public func createDirectory(name: String, ownerId: String, parentId: String?,
                        completionHandler: @escaping (Result<[String: Any], SCError>) -> Void) -> URLSessionTask? {
 
         var request = self.POSTRequest(for: fileStorageURL.appendingPathComponent("directories") )
 
-        guard var pathString = url.absoluteString.removingPercentEncoding else {
-            return nil
-        }
-        pathString.removeLast()
-
         let parameters: [String: Any] = [
-            "path": pathString,
+            "name": name,
+            "owner": ownerId,
+            "parent": parentId ?? ""
             ]
 
         guard let jsonData = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) else {
@@ -418,51 +434,58 @@ public class FileSync: NSObject {
     }
 
 
-    public func postFile(at url: URL, to remoteURL: URL, completionHandler: @escaping (Result<File, SCError>) -> Void) {
+    public func postFile(at url: URL, owner: (String, File.OwnerType)?, parentId: String?, completionHandler: @escaping (Result<File, SCError>) -> Void) {
 
-        let size: Int = ((try? FileManager.default.attributesOfItem(atPath: url.path)[.size]) as? Int) ?? 0
-        
         var flatname: String = ""
-        var thumbnailURL: String = ""
-        let type: String = "image/jpeg"
+        let name = url.lastPathComponent
+        let size = try! FileManager.default.attributesOfItem(atPath: url.path)[.size]! as! Int
 
-        let (task, future) = self.signedURL(resourceAt: remoteURL, mimeType: type, forUpload: true)
+        var type = "application/octet-stream"
+        if url.pathExtension != "" {
+            let pathExtension = url.pathExtension
+            if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue() {
+                if let mimetype = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {
+                    type = mimetype as String
+                }
+            }
+        }
+
+        let (task, future) = self.signedURL(filename: name, parentId: parentId, mimeType: type)
         future.flatMap { signedURL -> Future<Void, SCError> in
             flatname = signedURL.header[.flatName]!
-            thumbnailURL = signedURL.header[.thumbnail]!
 
             let (task, future) = self.upload(fileAt: url, to: signedURL.url, mimeType: type)
             task.resume()
             return future
-            }.flatMap { _ -> Future<[String: Any], SCError> in
+        }.flatMap { _ -> Future<[String: Any], SCError> in
                 // Remotely create the file metadtas
-                let (task, future) = self.createFileMetadata(at: remoteURL, mimeType: type, size: size, flatName: flatname, thumbnailURL: URL(string: thumbnailURL)!)
-                task?.resume()
-                return future
-            }.flatMap { json -> Result<File, SCError> in
-                // Create the local file metadata
-                let context = CoreDataHelper.persistentContainer.newBackgroundContext()
-                return context.performAndWait { () -> Result<File, SCError> in
-                    guard let userDirectory = File.by(id: FileHelper.userDirectoryID, in: context) else {
-                        return .failure(SCError.coreDataMoreThanOneObjectFound)
-                    }
-                    do {
-                        let file = try File.createOrUpdate(inContext: context, parentFolder: userDirectory, isDirectory: false, data: json)
-                        context.saveWithResult()
-                        return .success(file)
-                    } catch let error as SCError {
-                        return .failure(error)
-                    } catch let error {
-                        return .failure(SCError.other(error.localizedDescription))
-                    }
+            let (task, future) = self.createFileMetadata(name: name, mimeType: type, size:size, flatName: flatname, owner: owner, parentId: parentId)
+            task?.resume()
+            return future
+        }.flatMap { json -> Result<File, SCError> in
+            // Create the local file metadata
+            let context = CoreDataHelper.persistentContainer.newBackgroundContext()
+            return context.performAndWait { () -> Result<File, SCError> in
+                guard let userDirectory = File.by(id: FileHelper.userDirectoryID, in: context) else {
+                    return .failure(SCError.coreDataMoreThanOneObjectFound)
                 }
-            }.onComplete(callback: completionHandler)
+                do {
+                    let file = try File.createOrUpdate(inContext: context, parentFolder: userDirectory, data: json)
+                    context.saveWithResult()
+                    return .success(file)
+                } catch let error as SCError {
+                    return .failure(error)
+                } catch let error {
+                    return .failure(SCError.other(error.localizedDescription))
+                }
+            }
+        }.onComplete(callback: completionHandler)
         task?.resume()
     }
 
-    private func signedURL(resourceAt url: URL, mimeType: String, forUpload: Bool) -> (URLSessionTask?, Future<SignedURLInfo, SCError>) {
+    private func signedURL(filename: String, parentId: String?, mimeType: String) -> (URLSessionTask?, Future<SignedURLInfo, SCError>) {
         let promise = Promise<SignedURLInfo, SCError>()
-        let task = self.signedURL(resourceAt: url, mimeType: mimeType, forUpload: forUpload) { promise.complete($0) }
+        let task = self.signedURL(filename: filename, parentId: parentId, mimeType: mimeType) { promise.complete($0) }
         return (task, promise.future)
     }
 
@@ -475,9 +498,9 @@ public class FileSync: NSObject {
         return (task, promise.future)
     }
 
-    private func createFileMetadata(at: URL, mimeType: String, size: Int, flatName: String, thumbnailURL: URL) -> (URLSessionTask?, Future<[String: Any], SCError>) {
+    private func createFileMetadata(name: String, mimeType: String, size: Int, flatName: String, owner: (String, File.OwnerType)?, parentId: String?) -> (URLSessionTask?, Future<[String: Any], SCError>) {
         let promise = Promise<[String: Any], SCError>()
-        let task = self.createFileMetadata(at: at, mimeType: mimeType, size: size, flatName: flatName, thumbnailURL: thumbnailURL) { promise.complete($0) }
+        let task = self.createFileMetadata(name: name, mimeType: mimeType, size: size, flatName: flatName, owner: owner, parentId: parentId) { promise.complete($0) }
         return (task, promise.future)
     }
 
@@ -510,15 +533,9 @@ public class FileSync: NSObject {
         }
 
         if file.isDirectory {
-            return self.create(directoryAt: file.remoteURL!, completionHandler: requestCompletion)
+            return self.createDirectory(name: file.name, ownerId: file.ownerId, parentId: file.parentDirectory?.id, completionHandler: requestCompletion)
         } else {
-            return self.createFileMetadata(
-                at: file.remoteURL!,
-                mimeType: file.mimeType!,
-                size: Int(file.size),
-                flatName: file.name,
-                thumbnailURL: file.remoteURL!,
-                completionHandler: requestCompletion)
+            return self.createFileMetadata(name: file.name, mimeType: file.mimeType!, size: Int(file.size), flatName: file.name, owner: (file.ownerId, file.ownerType), parentId: file.parentDirectory?.id, completionHandler: requestCompletion)
         }
     }
 }

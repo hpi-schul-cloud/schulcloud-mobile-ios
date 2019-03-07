@@ -21,8 +21,6 @@
 		506D7E28210616B30018D9E2 /* NewsOverview.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E27210616B30018D9E2 /* NewsOverview.storyboard */; };
 		506D7E2A210616C40018D9E2 /* MissingPermission.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E29210616C40018D9E2 /* MissingPermission.storyboard */; };
 		506D7E2C210618220018D9E2 /* NotificationList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E2B210618220018D9E2 /* NotificationList.storyboard */; };
-		506D7E2E210618320018D9E2 /* Calendar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E2D210618320018D9E2 /* Calendar.storyboard */; };
-		506D7E30210618440018D9E2 /* Homework.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E2F210618440018D9E2 /* Homework.storyboard */; };
 		506D7E32210618640018D9E2 /* NewsList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E31210618640018D9E2 /* NewsList.storyboard */; };
 		506D7E342106186F0018D9E2 /* NewsDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E332106186F0018D9E2 /* NewsDetail.storyboard */; };
 		506E5DA42199864D004DFBD7 /* LoadingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506E5DA32199864D004DFBD7 /* LoadingButton.swift */; };
@@ -32,6 +30,7 @@
 		50C9C79D20FDED0C00AC914F /* Common.h in Headers */ = {isa = PBXBuildFile; fileRef = CEEE0A0D20D2AA7C00B0C2CE /* Common.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50C9C7A620FE147E00AC914F /* CalendarEventHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502410472046B0740033D75A /* CalendarEventHelperTests.swift */; };
 		50CB76E920F613860056E262 /* TestAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB76E820F613850056E262 /* TestAccount.swift */; };
+		50D466FD21B926A900CCAE54 /* UIColor+blend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D466FC21B926A900CCAE54 /* UIColor+blend.swift */; };
 		C3418B671ED335F400280E62 /* PreviewTransitionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */; };
 		C3418B681ED335F400280E62 /* WebviewPreviewViewContoller.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */; };
 		C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3A5A9061EBCC17600825DBF /* Main.storyboard */; };
@@ -50,6 +49,7 @@
 		CE323E5E215D11F10028A088 /* OnlineFolderEnumerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE323E5D215D11F10028A088 /* OnlineFolderEnumerator.swift */; };
 		CE323E60215D12280028A088 /* WorkingSetEnumerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE323E5F215D12280028A088 /* WorkingSetEnumerator.swift */; };
 		CE323E62215D12C00028A088 /* WorkingSetSyncAnchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE323E61215D12C00028A088 /* WorkingSetSyncAnchor.swift */; };
+		CE39DD6F222D5A7800C374F5 /* Homework.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE39DD6E222D5A7800C374F5 /* Homework.storyboard */; };
 		CE3C5573206BD6BB00B79034 /* MissingPermissionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE3C5572206BD6BB00B79034 /* MissingPermissionView.xib */; };
 		CE41521720D9370000739CE2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9021EBCC17600825DBF /* AppDelegate.swift */; };
 		CE41528920DBD9F000739CE2 /* DashboardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE23F10D2056B01C00E79E64 /* DashboardLayout.swift */; };
@@ -248,8 +248,6 @@
 		506D7E27210616B30018D9E2 /* NewsOverview.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NewsOverview.storyboard; sourceTree = "<group>"; };
 		506D7E29210616C40018D9E2 /* MissingPermission.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MissingPermission.storyboard; sourceTree = "<group>"; };
 		506D7E2B210618220018D9E2 /* NotificationList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NotificationList.storyboard; sourceTree = "<group>"; };
-		506D7E2D210618320018D9E2 /* Calendar.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Calendar.storyboard; sourceTree = "<group>"; };
-		506D7E2F210618440018D9E2 /* Homework.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Homework.storyboard; sourceTree = "<group>"; };
 		506D7E31210618640018D9E2 /* NewsList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NewsList.storyboard; sourceTree = "<group>"; };
 		506D7E332106186F0018D9E2 /* NewsDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NewsDetail.storyboard; sourceTree = "<group>"; };
 		506E5DA32199864D004DFBD7 /* LoadingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingButton.swift; sourceTree = "<group>"; };
@@ -272,6 +270,7 @@
 		50C9C79020FDD25D00AC914F /* Common-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Common-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		50C9C79420FDD25D00AC914F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50CB76E820F613850056E262 /* TestAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAccount.swift; sourceTree = "<group>"; };
+		50D466FC21B926A900CCAE54 /* UIColor+blend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+blend.swift"; sourceTree = "<group>"; };
 		50D6432C1F8E09E200A89331 /* HomeworkOverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkOverviewViewController.swift; sourceTree = "<group>"; };
 		50ED3C4B1F49E62C00CD8466 /* Pods_schulcloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_schulcloud.framework; path = "../../../Library/Developer/Xcode/DerivedData/schulcloud-avlkvehcgbgawffjtgnfanivmgvf/Build/Products/Debug-iphonesimulator/Pods_schulcloud.framework"; sourceTree = "<group>"; };
 		50F3984C202C7CDD00ADAE5D /* GoogleService-Info-Debug.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Debug.plist"; sourceTree = "<group>"; };
@@ -353,6 +352,7 @@
 		CE323E5D215D11F10028A088 /* OnlineFolderEnumerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineFolderEnumerator.swift; sourceTree = "<group>"; };
 		CE323E5F215D12280028A088 /* WorkingSetEnumerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkingSetEnumerator.swift; sourceTree = "<group>"; };
 		CE323E61215D12C00028A088 /* WorkingSetSyncAnchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkingSetSyncAnchor.swift; sourceTree = "<group>"; };
+		CE39DD6E222D5A7800C374F5 /* Homework.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Homework.storyboard; sourceTree = "<group>"; };
 		CE3C5572206BD6BB00B79034 /* MissingPermissionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MissingPermissionView.xib; sourceTree = "<group>"; };
 		CE3C5574206BE07200B79034 /* MissingPermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissingPermissionView.swift; sourceTree = "<group>"; };
 		CE3C5576206BE0DA00B79034 /* PermissionManagmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManagmentViewController.swift; sourceTree = "<group>"; };
@@ -710,7 +710,6 @@
 				503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */,
 				503A5EF91F3DB86C00A7695B /* TabSettings.storyboard */,
 				506D7E2B210618220018D9E2 /* NotificationList.storyboard */,
-				506D7E2D210618320018D9E2 /* Calendar.storyboard */,
 				506D7E31210618640018D9E2 /* NewsList.storyboard */,
 				506D7E332106186F0018D9E2 /* NewsDetail.storyboard */,
 				C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */,
@@ -805,8 +804,8 @@
 		CE25A12A2200A73A0094E3B7 /* Homework */ = {
 			isa = PBXGroup;
 			children = (
+				CE39DD6E222D5A7800C374F5 /* Homework.storyboard */,
 				CEBE1546207B63DC00238D1F /* HomeworkHeaderView.xib */,
-				506D7E2F210618440018D9E2 /* Homework.storyboard */,
 				CE25A12D22019BC40094E3B7 /* HomeworkSubmitFileButton.xib */,
 			);
 			path = Homework;
@@ -907,6 +906,7 @@
 			children = (
 				506D146E1F56F81D00AA5613 /* UIView+shake.swift */,
 				CE443936205BDEDD00CC3311 /* UIAlertController+Permission.swift */,
+				50D466FC21B926A900CCAE54 /* UIColor+blend.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1169,12 +1169,11 @@
 				C3418B671ED335F400280E62 /* PreviewTransitionViewController.xib in Resources */,
 				C3A5A90D1EBCC17600825DBF /* Assets.xcassets in Resources */,
 				C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */,
-				506D7E30210618440018D9E2 /* Homework.storyboard in Resources */,
 				CE25A12E22019BC40094E3B7 /* HomeworkSubmitFileButton.xib in Resources */,
 				CEBE1547207B63DC00238D1F /* HomeworkHeaderView.xib in Resources */,
+				CE39DD6F222D5A7800C374F5 /* Homework.storyboard in Resources */,
 				503A5F011F3DC6C700A7695B /* TabDashboard.storyboard in Resources */,
 				506D7E32210618640018D9E2 /* NewsList.storyboard in Resources */,
-				506D7E2E210618320018D9E2 /* Calendar.storyboard in Resources */,
 				506D7E26210616A50018D9E2 /* NotificationOverview.storyboard in Resources */,
 				506D7E22210616340018D9E2 /* CalendarOverview.storyboard in Resources */,
 			);
@@ -1510,6 +1509,7 @@
 				CE4152AC20DBDA4D00739CE2 /* LessonsViewController.swift in Sources */,
 				CE41529B20DBD9F900739CE2 /* NotificationOverviewViewController.swift in Sources */,
 				CE41529620DBD9F900739CE2 /* CoursesViewController.swift in Sources */,
+				50D466FD21B926A900CCAE54 /* UIColor+blend.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -273,14 +273,12 @@ extension HomeworkSubmitViewController: UIImagePickerControllerDelegate {
             return
         }
 
-        let userURL = URL(string: "users/\(Globals.currentUser?.id ?? "")")!
-        let remoteURL = userURL.appendingPathComponent(destURL.lastPathComponent)
-
-        self.fileSync.postFile(at: destURL, to: remoteURL) { [unowned self] result in
+        self.fileSync.postFile(at: destURL, owner: nil, parentId: nil) { [unowned self] result in
             switch result {
             case .failure(let error):
                 try? FileManager.default.removeItem(at: destURL)
                 print(error)
+                dismissPicker()
             case .success(let file):
                 try? FileManager.default.moveItem(at: destURL, to: file.localURL)
                 self.link(file: file, to: self.submission)

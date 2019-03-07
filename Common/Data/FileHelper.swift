@@ -60,24 +60,26 @@ public class FileHelper {
         }
 
         let rootFolderObjectId: NSManagedObjectID = context.performAndWait {
-            let rootFolder = File.createLocal(context: context, id: rootDirectoryID, name: "Dateien", parentFolder: nil, isDirectory: true)
+            let rootFolder = File.createLocal(context: context, id: rootDirectoryID, name: "Dateien", parentFolder: nil, isDirectory: true, ownerId: Globals.currentUser!.id, ownerType: .user)
 
             File.createLocal(context: context,
                              id: userDirectoryID,
                              name: "Meine Dateien",
                              parentFolder: rootFolder,
                              isDirectory: true,
-                             remoteURL: URL(string: userDirectoryID) )
+                             ownerId: Globals.currentUser!.id, ownerType: .user )
             File.createLocal(context: context,
                              id: coursesDirectoryID,
                              name: "Kurs-Dateien",
                              parentFolder: rootFolder,
-                             isDirectory: true)
+                             isDirectory: true,
+                             ownerId: Globals.currentUser!.id, ownerType: .course)
             File.createLocal(context: context,
                              id: sharedDirectoryID,
                              name: "geteilte Dateien",
                              parentFolder: rootFolder,
-                             isDirectory: true)
+                             isDirectory: true,
+                             ownerId: Globals.currentUser!.id, ownerType: .user)
 
             if case let .failure(error) = context.saveWithResult() {
                 fatalError("Unresolved error \(error)") // TODO: replace this with something more friendly
@@ -99,7 +101,7 @@ public class FileHelper {
         if file.isDirectory { path?.appendPathComponent("directories", isDirectory: true) }
         path?.appendPathComponent(file.id)
 
-        let parameters: [String: Any] = ["path": file.remoteURL!.absoluteString]
+//        let parameters: [String: Any] = ["path": file.remoteURL!.absoluteString]
 
         // TODO: Figure out the success structure
 //        let request: Future<DidSuccess, SCError> = ApiHelper.request(path!.absoluteString,
@@ -109,28 +111,22 @@ public class FileHelper {
         fatalError("Implement deleting files")
     }
 
-    public static func updateDatabase(contentsOf parentFolder: File, using contents: [String: Any]) -> Result<[File], SCError> {
+    public static func updateDatabase(contentsOf parentFolder: File, using contents: [[String: Any]]) -> Result<[File], SCError> {
         let parentFolderObjectId = parentFolder.objectID
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
         return context.performAndWait {
             do {
-                let files: [[String: Any]] = try contents.value(for: "files")
-                let folders: [[String: Any]] = try contents.value(for: "directories")
                 guard let parentFolder = context.existingTypedObject(with: parentFolderObjectId) as? File else {
                     log.error("Unable to find parent folder")
                     return Result(error: .coreDataObjectNotFound)
                 }
 
-                let createdFiles = try files.map {
-                    try File.createOrUpdate(inContext: context, parentFolder: parentFolder, isDirectory: false, data: $0)
-                }
-
-                let createdFolders = try folders.map {
-                    try File.createOrUpdate(inContext: context, parentFolder: parentFolder, isDirectory: true, data: $0)
+                let createdItem = try contents.map {
+                    try File.createOrUpdate(inContext: context, parentFolder: parentFolder, data: $0)
                 }
 
                 // remove deleted files or folders
-                let currentItemsIDs: [String] =  createdFiles.map { $0.id } + createdFolders.map { $0.id }
+                let currentItemsIDs: [String] =  createdItem.map { $0.id }
                 let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
                 let notOnServerPredicate = NSPredicate(format: "NOT (id IN %@)", currentItemsIDs)
                 let isDownloadedPredicate = NSPredicate(format: "downloadStateValue == \(File.DownloadState.downloaded.rawValue)")
@@ -156,7 +152,7 @@ public class FileHelper {
 
                 try context.save()
                 // TODO(FileProvider): Signal changes in the parent folder here
-                return Result(value: createdFiles + createdFolders)
+                return Result(value: createdItem)
             } catch let error as MarshalError {
                 return Result(error: .jsonDeserialization(error.localizedDescription))
             } catch {
@@ -195,7 +191,7 @@ extension FileHelper {
                                          name: courseName,
                                          parentFolder: parentFolder,
                                          isDirectory: true,
-                                         remoteURL: URL(string: "courses/\(courseId)/") )
+                                         ownerId: courseId, ownerType: .course)
                     }
                 }
             }
@@ -207,7 +203,7 @@ extension FileHelper {
                                      name: courseName,
                                      parentFolder: parentFolder,
                                      isDirectory: true,
-                                     remoteURL: URL(string: "courses/\(courseId)/") )
+                                     ownerId: courseId, ownerType: .course)
                 }
             }
 

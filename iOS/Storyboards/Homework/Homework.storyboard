@@ -246,11 +246,11 @@
             <objects>
                 <viewController id="VgN-1r-pFT" customClass="HomeworkDetailViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" id="X3X-ts-wBK">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="490"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yq7-CF-IwR">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="490"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zJD-1U-gq7" userLabel="Scroll Content View">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="327"/>
@@ -338,7 +338,8 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="T1j-nB-eIA"/>
                     </view>
-                    <navigationItem key="navigationItem" id="2IP-Ye-wFV"/>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="2IP-Ye-wFV"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="coloredStrip" destination="FWP-iu-iRP" id="hS1-Ji-Rh3"/>
                         <outlet property="contentLabel" destination="Njb-p8-cPL" id="bFI-gN-IEp"/>

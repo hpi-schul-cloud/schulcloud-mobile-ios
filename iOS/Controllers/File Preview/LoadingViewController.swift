@@ -22,6 +22,11 @@ class LoadingViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if #available(iOS 11, *) {
+            self.navigationItem.largeTitleDisplayMode = .never
+        }
+
         progressView.setProgress(0, animated: false)
         startDownload()
     }
@@ -46,7 +51,7 @@ class LoadingViewController: UIViewController {
         let fileID = self.file.id
         let itemIdentifier = NSFileProviderItemIdentifier(fileID)
 
-        let signedURLTask = self.fileSync.signedURL(resourceAt: self.file.remoteURL!, mimeType: self.file.mimeType!, forUpload: false) { [weak self] result in
+        let signedURLTask = self.fileSync.signedURL(filename: file.name, parentId: file.parentDirectory!.id, mimeType: file.mimeType ?? "") { [weak self] result in
             if #available(iOS 11.0, *) {
             } else {
                 progress.becomeCurrent(withPendingUnitCount: 3)
@@ -137,6 +142,10 @@ class LoadingViewController: UIViewController {
         let controller = previewManager.previewViewController
         controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
         controller.navigationItem.leftItemsSupplementBackButton = true
+
+        if #available(iOS 11, *) {
+            controller.navigationItem.largeTitleDisplayMode = .never
+        }
 
         if let nav = self.navigationController {
             // TODO: add as subview
