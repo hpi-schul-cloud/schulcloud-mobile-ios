@@ -88,6 +88,7 @@ final class HomeworkSubmitViewController: UIViewController {
     }
 
     @IBAction func applyChanges(_ sender: Any) {
+        self.commentField.resignFirstResponder()
         SubmissionHelper.saveSubmission(item: self.writableSubmission).onSuccess(DispatchQueue.main.context) {[unowned self] _ in
             //TODO: deal with save result
             switch self.writingContext.saveWithResult() {
