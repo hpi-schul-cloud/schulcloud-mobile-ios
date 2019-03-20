@@ -60,26 +60,35 @@ public class FileHelper {
         }
 
         let rootFolderObjectId: NSManagedObjectID = context.performAndWait {
-            let rootFolder = File.createLocal(context: context, id: rootDirectoryID, name: "Dateien", parentFolder: nil, isDirectory: true, ownerId: Globals.currentUser!.id, ownerType: .user)
+            let rootFolder = File.createLocal(context: context,
+                                              id: rootDirectoryID,
+                                              name: "Dateien",
+                                              parentFolder: nil,
+                                              isDirectory: true,
+                                              ownerId: Globals.currentUser!.id,
+                                              ownerType: .user)
 
             File.createLocal(context: context,
                              id: userDirectoryID,
                              name: "Meine Dateien",
                              parentFolder: rootFolder,
                              isDirectory: true,
-                             ownerId: Globals.currentUser!.id, ownerType: .user )
+                             ownerId: Globals.currentUser!.id,
+                             ownerType: .user )
             File.createLocal(context: context,
                              id: coursesDirectoryID,
                              name: "Kurs-Dateien",
                              parentFolder: rootFolder,
                              isDirectory: true,
-                             ownerId: Globals.currentUser!.id, ownerType: .course)
+                             ownerId: Globals.currentUser!.id,
+                             ownerType: .course)
             File.createLocal(context: context,
                              id: sharedDirectoryID,
                              name: "geteilte Dateien",
                              parentFolder: rootFolder,
                              isDirectory: true,
-                             ownerId: Globals.currentUser!.id, ownerType: .user)
+                             ownerId: Globals.currentUser!.id,
+                             ownerType: .user)
 
             if case let .failure(error) = context.saveWithResult() {
                 fatalError("Unresolved error \(error)") // TODO: replace this with something more friendly
@@ -191,7 +200,8 @@ extension FileHelper {
                                          name: courseName,
                                          parentFolder: parentFolder,
                                          isDirectory: true,
-                                         ownerId: courseId, ownerType: .course)
+                                         ownerId: courseId,
+                                         ownerType: .course)
                     }
                 }
             }
@@ -203,7 +213,8 @@ extension FileHelper {
                                      name: courseName,
                                      parentFolder: parentFolder,
                                      isDirectory: true,
-                                     ownerId: courseId, ownerType: .course)
+                                     ownerId: courseId,
+                                     ownerType: .course)
                 }
             }
 

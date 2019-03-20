@@ -24,7 +24,7 @@ public final class File: NSManagedObject {
             case "team":
                 return .team
             default:
-                fatalError()
+                fatalError("Unknown owner")
             }
         }
     }
@@ -62,8 +62,8 @@ public extension File {
     public struct Permissions: OptionSet {
         public let rawValue: Int64
 
-        static let read = Permissions(rawValue:   1 << 0)
-        static let write = Permissions(rawValue:  1 << 1)
+        static let read = Permissions(rawValue: 1 << 0)
+        static let write = Permissions(rawValue: 1 << 1)
         static let create = Permissions(rawValue: 1 << 2)
         static let delete = Permissions(rawValue: 1 << 3)
 
@@ -72,7 +72,6 @@ public extension File {
         public init(rawValue: Int64) {
             self.rawValue = rawValue
         }
-
 
         init(str: String) {
             switch str {
@@ -85,14 +84,13 @@ public extension File {
             case "create":
                 self = .create
             default:
-                fatalError()
+                fatalError("Unknown permission type")
             }
         }
 
-
         init(json: MarshaledObject) throws {
-            self.rawValue = try ["delete", "write", "create", "read"].filter({ return try json.value(for: $0)}).map(Permissions.init(str:)).reduce([]) { (acc, permission) -> Permissions in
-                return acc.union(permission)
+            self.rawValue = try ["delete", "write", "create", "read"].filter { return try json.value(for: $0) }.map(Permissions.init(str:)).reduce([]) { acc, permission -> Permissions in
+                    return acc.union(permission)
             }.rawValue
         }
     }
@@ -155,7 +153,8 @@ extension File {
                                                name: String,
                                                parentFolder: File?,
                                                isDirectory: Bool,
-                                               ownerId: String, ownerType: OwnerType) -> File {
+                                               ownerId: String,
+                                               ownerType: OwnerType) -> File {
         let file = File(context: context)
         file.id = id
 
@@ -225,7 +224,6 @@ extension File {
             file.downloadState = .downloaded
         }
 
-        //TODO(Florian): Manage here when uploading works
         file.uploadState = .uploaded
 
         file.parentDirectory = parentFolder
@@ -233,8 +231,8 @@ extension File {
         let user = context.typedObject(with: Globals.currentUser!.objectID) as User
 
         let permissionsObject: [MarshaledObject]? = try? data.value(for: "permissions")
-        let rolePermission = try permissionsObject?.filter { try $0.value(for: "refPermModel") == "role"}.filter { user.roles.contains(try $0.value(for: "refId")) }.first
-        let userPermission = try permissionsObject?.filter { try $0.value(for: "refPermModel") == "user"}.filter { try $0.value(for: "refId") == user.id }.first
+        let rolePermission = try permissionsObject?.filter { try $0.value(for: "refPermModel") == "role" }.first(where: { user.roles.contains(try $0.value(for: "refId")) })
+        let userPermission = try permissionsObject?.filter { try $0.value(for: "refPermModel") == "user" }.first(where: { try $0.value(for: "refId") == user.id })
 
         if let userPermission = userPermission {
             file.permissions = try Permissions(json: userPermission)

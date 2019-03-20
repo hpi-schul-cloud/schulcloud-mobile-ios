@@ -204,7 +204,7 @@ public class FileSync: NSObject {
 
         var parameters: [String: Any] = [
             "filename": file.name,
-            "fileType": file.mimeType!
+            "fileType": file.mimeType!,
         ]
 
         if file.parentDirectory!.id != FileHelper.rootDirectoryID,
