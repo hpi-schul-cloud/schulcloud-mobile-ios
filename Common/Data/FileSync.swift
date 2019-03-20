@@ -56,10 +56,10 @@ public class FileSync: NSObject {
     }
 
     private func getQueryURL(for file: File) -> URL? {
-
         var urlComponent = URLComponents(url: fileStorageURL, resolvingAgainstBaseURL: false)!
         var queryItem = [URLQueryItem(name: "owner", value: file.ownerId)]
-        if file.parentDirectory!.id != FileHelper.rootDirectoryID {
+        if file.parentDirectory!.id != FileHelper.rootDirectoryID,
+           file.parentDirectory!.id != FileHelper.coursesDirectoryID {
             queryItem.append(URLQueryItem(name: "parent", value: file.id))
         }
         urlComponent.queryItems = queryItem
