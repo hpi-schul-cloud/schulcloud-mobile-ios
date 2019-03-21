@@ -101,5 +101,4 @@ public class CoreDataObserver {
             FileHelper.processCourseUpdates(changes: courseChanges)
         }
     }
-
 }

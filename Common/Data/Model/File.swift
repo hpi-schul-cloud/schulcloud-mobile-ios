@@ -10,23 +10,10 @@ import MobileCoreServices
 
 public final class File: NSManagedObject {
 
-    @objc public enum OwnerType: Int64 {
-        case user = 1
-        case course = 2
-        case team = 3
-
-        static func from(str: String) -> OwnerType {
-            switch str {
-            case "user":
-                return .user
-            case "course":
-                return .course
-            case "team":
-                return .team
-            default:
-                fatalError("Unknown owner")
-            }
-        }
+    public enum OwnerType: String {
+        case user = "user"
+        case course = "course"
+        case team = "team"
     }
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<File> {
@@ -44,7 +31,7 @@ public final class File: NSManagedObject {
     @NSManaged public var lastReadAt: Date
     @NSManaged public var shareToken: String?
     @NSManaged public var ownerId: String
-    @NSManaged public var ownerType: OwnerType
+    @NSManaged public var ownerTypeStorage: String
 
     @NSManaged public var favoriteRankData: Data?
     @NSManaged public var localTagData: Data?
@@ -55,6 +42,16 @@ public final class File: NSManagedObject {
 
     @NSManaged public var parentDirectory: File?
     @NSManaged public var contents: Set<File>
+
+    var ownerType: OwnerType {
+        get {
+            return OwnerType(rawValue: self.ownerTypeStorage)!
+        }
+
+        set {
+            self.ownerTypeStorage = newValue.rawValue
+        }
+    }
 }
 
 public extension File {
@@ -216,7 +213,7 @@ extension File {
         }
 
         file.ownerId = try data.value(for: "owner")
-        file.ownerType = OwnerType.from(str: try data.value(for: "refOwnerModel"))
+        file.ownerType = OwnerType(rawValue: try data.value(for: "refOwnerModel"))!
 
         file.lastReadAt = file.createdAt
         file.shareToken = try? data.value(for: "shareToken")
