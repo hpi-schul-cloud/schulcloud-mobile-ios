@@ -10,10 +10,10 @@ import MobileCoreServices
 
 public final class File: NSManagedObject {
 
-    public enum OwnerType: String {
-        case user = "user"
-        case course = "course"
-        case team = "team"
+    public enum Owner {
+        case user(String)
+        case course(String)
+        case team
     }
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<File> {
@@ -30,8 +30,8 @@ public final class File: NSManagedObject {
     @NSManaged public var updatedAt: Date
     @NSManaged public var lastReadAt: Date
     @NSManaged public var shareToken: String?
-    @NSManaged public var ownerId: String
-    @NSManaged public var ownerTypeStorage: String
+    @NSManaged var ownerId: String
+    @NSManaged var ownerTypeStorage: String
 
     @NSManaged public var favoriteRankData: Data?
     @NSManaged public var localTagData: Data?
@@ -43,13 +43,32 @@ public final class File: NSManagedObject {
     @NSManaged public var parentDirectory: File?
     @NSManaged public var contents: Set<File>
 
-    var ownerType: OwnerType {
+    var owner: Owner {
         get {
-            return OwnerType(rawValue: self.ownerTypeStorage)!
+            switch self.ownerTypeStorage {
+            case "user":
+                return .user(self.ownerId)
+            case "course":
+                return .course(self.ownerId)
+            case "team":
+                return .team
+            default:
+                fatalError("Unrecognized owner type")
+            }
         }
 
         set {
-            self.ownerTypeStorage = newValue.rawValue
+            switch newValue {
+            case .course(let id):
+                self.ownerTypeStorage = "course"
+                self.ownerId = id
+            case .user(let id):
+                self.ownerTypeStorage = "user"
+                self.ownerId = id
+            case .team:
+                self.ownerTypeStorage = "team"
+                self.ownerId = "someid"
+            }
         }
     }
 }
@@ -150,8 +169,7 @@ extension File {
                                                name: String,
                                                parentFolder: File?,
                                                isDirectory: Bool,
-                                               ownerId: String,
-                                               ownerType: OwnerType) -> File {
+                                               owner: File.Owner) -> File {
         let file = File(context: context)
         file.id = id
 
@@ -164,8 +182,7 @@ extension File {
         file.updatedAt = file.createdAt
         file.lastReadAt = file.createdAt
 
-        file.ownerId = ownerId
-        file.ownerType = ownerType
+        file.owner = owner
 
         file.favoriteRankData = nil
         file.localTagData = nil
@@ -213,10 +230,9 @@ extension File {
         }
 
         file.ownerId = try data.value(for: "owner")
-        file.ownerType = OwnerType(rawValue: try data.value(for: "refOwnerModel"))!
+        file.ownerTypeStorage = try data.value(for: "refOwnerModel")
 
         file.lastReadAt = file.createdAt
-        file.shareToken = try? data.value(for: "shareToken")
         if existed && file.isDirectory {
             file.downloadState = .downloaded
         }

@@ -10,7 +10,6 @@ public struct BrandServers: Decodable {
     private enum CodingKeys: CodingKey {
         case web
         case backend
-        case backendTest
     }
 
     public let web: URL
@@ -19,7 +18,7 @@ public struct BrandServers: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         web = try container.decodeURL(for: .web)
-        backend = try container.decodeURL(for: (ProcessInfo.processInfo.environment["TEST-BACKEND"] != nil) ? CodingKeys.backendTest : CodingKeys.backend)
+        backend = try container.decodeURL(for: .backend)
     }
 }
 

@@ -48,6 +48,12 @@ class LoadingViewController: UIViewController {
         progress.cancellationHandler = { }
 
         let localURL = self.file.localURL
+        guard !FileManager.default.fileExists(atPath: localURL.path) else {
+            progress.becomeCurrent(withPendingUnitCount: 0)
+            self.showFile()
+            return
+        }
+        
         let fileID = self.file.id
         let itemIdentifier = NSFileProviderItemIdentifier(fileID)
 

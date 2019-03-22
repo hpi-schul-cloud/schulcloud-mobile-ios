@@ -17,8 +17,6 @@
 		<string>https://schul-cloud.org</string>
 		<key>backend</key>
 		<string>https://api.schul-cloud.org/</string>
-		<key>backendTest</key>
-		<string>https://api.test.schul-cloud.org/</string>
 	</dict>
 	<key>testAccounts</key>
 	<dict>

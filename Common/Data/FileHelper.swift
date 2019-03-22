@@ -65,30 +65,26 @@ public class FileHelper {
                                               name: "Dateien",
                                               parentFolder: nil,
                                               isDirectory: true,
-                                              ownerId: Globals.currentUser!.id,
-                                              ownerType: .user)
+                                              owner: .user(Globals.currentUser!.id))
 
             File.createLocal(context: context,
                              id: userDirectoryID,
                              name: "Meine Dateien",
                              parentFolder: rootFolder,
                              isDirectory: true,
-                             ownerId: Globals.currentUser!.id,
-                             ownerType: .user )
+                             owner: .user(Globals.currentUser!.id))
             File.createLocal(context: context,
                              id: coursesDirectoryID,
                              name: "Kurs-Dateien",
                              parentFolder: rootFolder,
                              isDirectory: true,
-                             ownerId: Globals.currentUser!.id,
-                             ownerType: .course)
+                             owner: .user(Globals.currentUser!.id))
             File.createLocal(context: context,
                              id: sharedDirectoryID,
                              name: "geteilte Dateien",
                              parentFolder: rootFolder,
                              isDirectory: true,
-                             ownerId: Globals.currentUser!.id,
-                             ownerType: .user)
+                             owner: .user(Globals.currentUser!.id))
 
             if case let .failure(error) = context.saveWithResult() {
                 fatalError("Unresolved error \(error)") // TODO: replace this with something more friendly
@@ -98,26 +94,6 @@ public class FileHelper {
         }
 
         return CoreDataHelper.viewContext.typedObject(with: rootFolderObjectId) as File
-    }
-
-    public static func delete(file: File) -> Future<Void, SCError> {
-        struct DidSuccess: Unmarshaling { // swiftlint:disable:this nesting
-            init(object: MarshaledObject) throws {
-            }
-        }
-
-        var path = URL(string: "fileStorage")
-        if file.isDirectory { path?.appendPathComponent("directories", isDirectory: true) }
-        path?.appendPathComponent(file.id)
-
-//        let parameters: [String: Any] = ["path": file.remoteURL!.absoluteString]
-
-        // TODO: Figure out the success structure
-//        let request: Future<DidSuccess, SCError> = ApiHelper.request(path!.absoluteString,
-//                                                                     method: .delete,
-//                                                                     parameters: parameters,
-//                                                                     encoding: JSONEncoding.default).deserialize(keyPath: "").asVoid()
-        fatalError("Implement deleting files")
     }
 
     public static func updateDatabase(contentsOf parentFolder: File, using contents: [[String: Any]]) -> Result<[File], SCError> {
@@ -130,9 +106,15 @@ public class FileHelper {
                     return Result(error: .coreDataObjectNotFound)
                 }
 
-                let createdItem = try contents.map {
-                    try File.createOrUpdate(inContext: context, parentFolder: parentFolder, data: $0)
+                var createdItem = [File]()
+
+                for data in contents {
+                    createdItem.append( try File.createOrUpdate(inContext: context, parentFolder: parentFolder, data: data))
                 }
+
+//                let createdItem = try contents.map {
+//                    try File.createOrUpdate(inContext: context, parentFolder: parentFolder, data: $0)
+//                }
 
                 // remove deleted files or folders
                 let currentItemsIDs: [String] =  createdItem.map { $0.id }
@@ -200,8 +182,7 @@ extension FileHelper {
                                          name: courseName,
                                          parentFolder: parentFolder,
                                          isDirectory: true,
-                                         ownerId: courseId,
-                                         ownerType: .course)
+                                         owner: .course(courseId))
                     }
                 }
             }
@@ -213,8 +194,7 @@ extension FileHelper {
                                      name: courseName,
                                      parentFolder: parentFolder,
                                      isDirectory: true,
-                                     ownerId: courseId,
-                                     ownerType: .course)
+                                     owner: .course(courseId))
                 }
             }
 
