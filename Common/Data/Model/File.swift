@@ -10,12 +10,17 @@ import MobileCoreServices
 
 public final class File: NSManagedObject {
 
+    public enum Owner {
+        case user(id: String)
+        case course(id: String)
+        case team
+    }
+
     @nonobjc public class func fetchRequest() -> NSFetchRequest<File> {
         return NSFetchRequest<File>(entityName: "File")
     }
 
     @NSManaged public var id: String
-    @NSManaged public var remoteURL: URL?
     @NSManaged public var thumbnailRemoteURL: URL?
     @NSManaged public var name: String
     @NSManaged public var isDirectory: Bool
@@ -24,6 +29,8 @@ public final class File: NSManagedObject {
     @NSManaged public var createdAt: Date
     @NSManaged public var updatedAt: Date
     @NSManaged public var lastReadAt: Date
+    @NSManaged var ownerId: String
+    @NSManaged var ownerTypeStorage: String
 
     @NSManaged public var favoriteRankData: Data?
     @NSManaged public var localTagData: Data?
@@ -34,6 +41,35 @@ public final class File: NSManagedObject {
 
     @NSManaged public var parentDirectory: File?
     @NSManaged public var contents: Set<File>
+
+    var owner: Owner {
+        get {
+            switch self.ownerTypeStorage {
+            case "user":
+                return .user(id: self.ownerId)
+            case "course":
+                return .course(id: self.ownerId)
+            case "team":
+                return .team
+            default:
+                fatalError("Unrecognized owner type")
+            }
+        }
+
+        set {
+            switch newValue {
+            case .course(let id):
+                self.ownerTypeStorage = "course"
+                self.ownerId = id
+            case .user(let id):
+                self.ownerTypeStorage = "user"
+                self.ownerId = id
+            case .team:
+                self.ownerTypeStorage = "team"
+                self.ownerId = "someid"
+            }
+        }
+    }
 }
 
 public extension File {
@@ -41,8 +77,10 @@ public extension File {
     public struct Permissions: OptionSet {
         public let rawValue: Int64
 
-        static let read = Permissions(rawValue: 1 << 1)
-        static let write = Permissions(rawValue: 1 << 2)
+        static let read = Permissions(rawValue: 1 << 0)
+        static let write = Permissions(rawValue: 1 << 1)
+        static let create = Permissions(rawValue: 1 << 2)
+        static let delete = Permissions(rawValue: 1 << 3)
 
         static let readWrite: Permissions = [.read, .write]
 
@@ -50,22 +88,24 @@ public extension File {
             self.rawValue = rawValue
         }
 
-        public init?(str: String) {
+        init(str: String) {
             switch str {
-            case "can_read":
-                self = Permissions.read
-            case "can_write":
-                self = Permissions.write
+            case "delete":
+                self = .delete
+            case "write":
+                self = .write
+            case "read":
+                self = .read
+            case "create":
+                self = .create
             default:
-                return nil
+                fatalError("Unknown permission type")
             }
         }
 
         init(json: MarshaledObject) throws {
-            let fetchedPersmissions: [String] = try json.value(for: "permissions")
-            let permissions: [Permissions] = fetchedPersmissions.compactMap { Permissions(str: $0) }
-            self.rawValue = permissions.reduce([]) { acc, permission -> Permissions in
-                return acc.union(permission)
+            self.rawValue = try ["delete", "write", "create", "read"].filter { return try json.value(for: $0) }.map(Permissions.init(str:)).reduce([]) { acc, permission -> Permissions in
+                    return acc.union(permission)
             }.rawValue
         }
     }
@@ -128,11 +168,10 @@ extension File {
                                                name: String,
                                                parentFolder: File?,
                                                isDirectory: Bool,
-                                               remoteURL: URL? = nil) -> File {
+                                               owner: File.Owner) -> File {
         let file = File(context: context)
         file.id = id
 
-        file.remoteURL = remoteURL
         file.thumbnailRemoteURL = nil
 
         file.name = name
@@ -141,6 +180,8 @@ extension File {
         file.createdAt = Date()
         file.updatedAt = file.createdAt
         file.lastReadAt = file.createdAt
+
+        file.owner = owner
 
         file.favoriteRankData = nil
         file.localTagData = nil
@@ -152,7 +193,7 @@ extension File {
         return file
     }
 
-    static func createOrUpdate(inContext context: NSManagedObjectContext, parentFolder: File, isDirectory: Bool, data: MarshaledObject) throws -> File {
+    static func createOrUpdate(inContext context: NSManagedObjectContext, parentFolder: File, data: MarshaledObject) throws -> File {
         let name: String = try data.value(for: "name")
         let id: String = try data.value(for: "_id")
 
@@ -172,17 +213,14 @@ extension File {
         file.id = id
 
         let allowedCharacters = CharacterSet.whitespacesAndNewlines.inverted
-        let remoteURLString = try data.value(for: "key") as String?
-        let percentEncodedURLString = remoteURLString?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
-        file.remoteURL = URL(string: percentEncodedURLString ?? "")
         let thumbnailRemoteURLString = try? data.value(for: "thumbnail") as String
         let percentEncodedThumbnailURLString = thumbnailRemoteURLString?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
         file.thumbnailRemoteURL = URL(string: percentEncodedThumbnailURLString ?? "")
 
         file.name = name
-        file.isDirectory = isDirectory
-        file.mimeType = isDirectory ? "public.folder" : try? data.value(for: "type")
-        file.size = isDirectory ? 0 : try data.value(for: "size")
+        file.isDirectory = try data.value(for: "isDirectory")
+        file.mimeType = file.isDirectory ? "public.folder" : try? data.value(for: "type")
+        file.size = file.isDirectory ? 0 : try data.value(for: "size")
         file.createdAt = try data.value(for: "createdAt")
         if let updatedAt = try? data.value(for: "updatedAt") as Date {
             file.updatedAt = updatedAt
@@ -190,29 +228,28 @@ extension File {
             file.updatedAt = file.createdAt
         }
 
-        file.lastReadAt = file.createdAt
+        file.ownerId = try data.value(for: "owner")
+        file.ownerTypeStorage = try data.value(for: "refOwnerModel")
 
-        if existed && isDirectory {
+        file.lastReadAt = file.createdAt
+        if existed && file.isDirectory {
             file.downloadState = .downloaded
         }
 
-        //TODO(Florian): Manage here when uploading works
         file.uploadState = .uploaded
 
         file.parentDirectory = parentFolder
 
-        let permissionsObject: [MarshaledObject]? = try? data.value(for: "permissions")
-        let userPermission: MarshaledObject? = permissionsObject?.first { data -> Bool in
-            if let userId: String = try? data.value(for: "userId"),
-                userId == Globals.account?.userId { // find permission for current user
-                return true
-            }
+        let user = context.typedObject(with: Globals.currentUser!.objectID) as User
 
-            return false
-        }
+        let permissionsObject: [MarshaledObject]? = try? data.value(for: "permissions")
+        let rolePermission = try permissionsObject?.filter { try $0.value(for: "refPermModel") == "role" }.first(where: { user.roles.contains(try $0.value(for: "refId")) })
+        let userPermission = try permissionsObject?.filter { try $0.value(for: "refPermModel") == "user" }.first(where: { try $0.value(for: "refId") == user.id })
 
         if let userPermission = userPermission {
             file.permissions = try Permissions(json: userPermission)
+        } else if let rolePermission = rolePermission {
+            file.permissions = try Permissions(json: rolePermission)
         }
 
         return file

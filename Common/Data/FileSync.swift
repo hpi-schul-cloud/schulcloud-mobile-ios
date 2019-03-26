@@ -56,10 +56,13 @@ public class FileSync: NSObject {
     }
 
     private func getQueryURL(for file: File) -> URL? {
-        guard let remoteURL = file.remoteURL else { return nil }
-
         var urlComponent = URLComponents(url: fileStorageURL, resolvingAgainstBaseURL: false)!
-        urlComponent.query = "path=\(remoteURL.absoluteString.removingPercentEncoding!)"
+        var queryItem = [URLQueryItem(name: "owner", value: file.ownerId)]
+        if file.parentDirectory!.id != FileHelper.rootDirectoryID,
+           file.parentDirectory!.id != FileHelper.coursesDirectoryID {
+            queryItem.append(URLQueryItem(name: "parent", value: file.id))
+        }
+        urlComponent.queryItems = queryItem
         return urlComponent.url
     }
 
@@ -103,7 +106,7 @@ public class FileSync: NSObject {
             return nil
         }
 
-        let taskCompletionBlock: (Result<[String: Any], SCError>) -> Void = { result in
+        let taskCompletionBlock: (Result<[[String: Any]], SCError>) -> Void = { result in
             completionBlock(result.flatMap {
                 FileHelper.updateDatabase(contentsOf: directory, using: $0)
             })
@@ -126,7 +129,7 @@ public class FileSync: NSObject {
         }
     }
 
-    private func downloadContent(of directory: File, completionBlock: @escaping (Result<[String: Any], SCError>) -> Void) -> URLSessionTask? {
+    private func downloadContent(of directory: File, completionBlock: @escaping (Result<[[String: Any]], SCError>) -> Void) -> URLSessionTask? {
         guard directory.isDirectory else {
             completionBlock(.failure( SCError.other("only works on directory")))
             return nil
@@ -141,7 +144,11 @@ public class FileSync: NSObject {
         return self.metadataSession.dataTask(with: request) { data, response, error in
             do {
                 let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
-                guard let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
+                guard let parsedData = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) else {
+                    throw SCError.jsonDeserialization("Does not result in expected JSON")
+                }
+
+                guard let json = parsedData as? [[String: Any]] else {
                     throw SCError.jsonDeserialization("Does not result in expected JSON")
                 }
 
@@ -157,7 +164,7 @@ public class FileSync: NSObject {
         }
     }
 
-    public func downloadSharedFiles(completionBlock: @escaping (Result<[String: Any], SCError>) -> Void) -> URLSessionTask {
+    public func downloadSharedFiles(completionBlock: @escaping (Result<[[String: Any]], SCError>) -> Void) -> URLSessionTask {
 
         let request = self.request(for: Brand.default.servers.backend.appendingPathComponent("files") )
         return metadataSession.dataTask(with: request) { data, response, error in
@@ -170,14 +177,9 @@ public class FileSync: NSObject {
                 let files: [MarshaledObject] = try json.value(for: "data")
                 let sharedFiles = files.filter { object -> Bool in
                     return (try? object.value(for: "context")) == "geteilte Datei"
-                }
+                } as! [[String: Any]]
 
-                let result: [String: Any] = [
-                    "files": sharedFiles,
-                    "directories": [],
-                ]
-
-                completionBlock(.success(result))
+                completionBlock(.success(sharedFiles))
             } catch SCError.apiError(401, let message) {
                 FileSync.authenticationHandler?()
                 completionBlock(.failure(.apiError(401, message)))
@@ -190,28 +192,45 @@ public class FileSync: NSObject {
     }
 
     // MARK: File materialization
-    public func signedURL(for file: File, completionBlock: @escaping (Result<URL, SCError>) -> Void) -> URLSessionTask? {
+    public func signedURL(for file: File, upload: Bool, completionBlock: @escaping (Result<URL, SCError>) -> Void) -> URLSessionTask? {
         guard !file.isDirectory else {
             completionBlock(.failure( SCError.other("Can't download folder") ))
             return nil
         }
 
-        var request = self.request(for: fileStorageURL.appendingPathComponent("signedUrl") )
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        var request: URLRequest
 
-        let parameters: Any = [
-            "path": file.remoteURL!.absoluteString.removingPercentEncoding!,
-            //            "fileType": mime.lookup(file),
-            "action": "getObject",
-        ]
+        if upload {
+            request = self.request(for: fileStorageURL.appendingPathComponent("signedUrl") )
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) else {
-            completionBlock(.failure(.jsonSerialization("Can't serialize json for SignedURL")))
-            return nil
+            var parameters: [String: Any] = [
+                "filename": file.name,
+                "fileType": file.mimeType!,
+                ]
+
+            if file.parentDirectory!.id != FileHelper.rootDirectoryID,
+                file.parentDirectory!.id != FileHelper.userDirectoryID,
+                file.parentDirectory!.id != FileHelper.sharedDirectoryID,
+                file.parentDirectory!.parentDirectory!.id != FileHelper.coursesDirectoryID {
+                parameters["parent"] = file.parentDirectory!.id
+            }
+
+            guard let jsonData = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) else {
+                completionBlock(.failure(.jsonSerialization("Can't serialize json for SignedURL")))
+                return nil
+            }
+
+            request.httpBody = jsonData
+        } else {
+            var component = URLComponents(url: fileStorageURL.appendingPathComponent("signedUrl"), resolvingAgainstBaseURL: false)!
+            component.queryItems = [URLQueryItem(name: "file", value: file.id)]
+
+            request = self.request(for:  component.url!)
+            request.httpMethod = "GET"
         }
 
-        request.httpBody = jsonData
 
         return metadataSession.dataTask(with: request) { data, response, error in
             do {
@@ -221,7 +240,7 @@ public class FileSync: NSObject {
                 }
 
                 let signedURL: URL = try json.value(for: "url")
-                completionBlock(.success( signedURL))
+                completionBlock(.success(signedURL))
             } catch SCError.apiError(401, let message) {
                 FileSync.authenticationHandler?()
                 completionBlock(.failure(.apiError(401, message)))
