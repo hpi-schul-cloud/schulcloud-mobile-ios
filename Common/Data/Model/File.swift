@@ -11,8 +11,8 @@ import MobileCoreServices
 public final class File: NSManagedObject {
 
     public enum Owner {
-        case user(String)
-        case course(String)
+        case user(id: String)
+        case course(id: String)
         case team
     }
 
@@ -29,7 +29,6 @@ public final class File: NSManagedObject {
     @NSManaged public var createdAt: Date
     @NSManaged public var updatedAt: Date
     @NSManaged public var lastReadAt: Date
-    @NSManaged public var shareToken: String?
     @NSManaged var ownerId: String
     @NSManaged var ownerTypeStorage: String
 
@@ -47,9 +46,9 @@ public final class File: NSManagedObject {
         get {
             switch self.ownerTypeStorage {
             case "user":
-                return .user(self.ownerId)
+                return .user(id: self.ownerId)
             case "course":
-                return .course(self.ownerId)
+                return .course(id: self.ownerId)
             case "team":
                 return .team
             default:

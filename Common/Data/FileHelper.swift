@@ -44,7 +44,7 @@ public class FileHelper {
     }
 
     /// Create the basic folder structure and return main Root
-    fileprivate static func createBaseStructure() -> File {
+    static func createBaseStructure() -> File {
         do {
             try FileManager.default.createDirectory(at: File.localContainerURL, withIntermediateDirectories: true, attributes: nil)
             try FileManager.default.createDirectory(at: File.thumbnailContainerURL, withIntermediateDirectories: true, attributes: nil)
@@ -65,26 +65,26 @@ public class FileHelper {
                                               name: "Dateien",
                                               parentFolder: nil,
                                               isDirectory: true,
-                                              owner: .user(Globals.currentUser!.id))
+                                              owner: .user(id: Globals.currentUser!.id))
 
             File.createLocal(context: context,
                              id: userDirectoryID,
                              name: "Meine Dateien",
                              parentFolder: rootFolder,
                              isDirectory: true,
-                             owner: .user(Globals.currentUser!.id))
+                             owner: .user(id: Globals.currentUser!.id))
             File.createLocal(context: context,
                              id: coursesDirectoryID,
                              name: "Kurs-Dateien",
                              parentFolder: rootFolder,
                              isDirectory: true,
-                             owner: .user(Globals.currentUser!.id))
+                             owner: .user(id: Globals.currentUser!.id))
             File.createLocal(context: context,
                              id: sharedDirectoryID,
                              name: "geteilte Dateien",
                              parentFolder: rootFolder,
                              isDirectory: true,
-                             owner: .user(Globals.currentUser!.id))
+                             owner: .user(id: Globals.currentUser!.id))
 
             if case let .failure(error) = context.saveWithResult() {
                 fatalError("Unresolved error \(error)") // TODO: replace this with something more friendly
@@ -182,7 +182,7 @@ extension FileHelper {
                                          name: courseName,
                                          parentFolder: parentFolder,
                                          isDirectory: true,
-                                         owner: .course(courseId))
+                                         owner: .course(id: courseId))
                     }
                 }
             }
@@ -194,7 +194,7 @@ extension FileHelper {
                                      name: courseName,
                                      parentFolder: parentFolder,
                                      isDirectory: true,
-                                     owner: .course(courseId))
+                                     owner: .course(id: courseId))
                 }
             }
 

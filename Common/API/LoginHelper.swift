@@ -99,7 +99,7 @@ public class LoginHelper {
         return self.authenticate(username: username, password: password).flatMap { _ in
             return UserHelper.syncUser(withId: Globals.account!.userId)
         }.onSuccess{ (_) in
-            FileHelper.rootFolder
+            FileHelper.createBaseStructure()
         }.asVoid()
     }
 
