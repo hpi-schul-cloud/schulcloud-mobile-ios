@@ -48,10 +48,16 @@ class LoadingViewController: UIViewController {
         progress.cancellationHandler = { }
 
         let localURL = self.file.localURL
+        guard !FileManager.default.fileExists(atPath: localURL.path) else {
+            progress.becomeCurrent(withPendingUnitCount: 0)
+            self.showFile()
+            return
+        }
+        
         let fileID = self.file.id
         let itemIdentifier = NSFileProviderItemIdentifier(fileID)
 
-        let signedURLTask = self.fileSync.signedURL(filename: file.name, parentId: file.parentDirectory!.id, mimeType: file.mimeType ?? "") { [weak self] result in
+        let signedURLTask = self.fileSync.signedURL(for: self.file, upload: false) { [weak self] result in
             if #available(iOS 11.0, *) {
             } else {
                 progress.becomeCurrent(withPendingUnitCount: 3)

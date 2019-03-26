@@ -102,7 +102,7 @@ class FileProviderExtension: NSFileProviderExtension {
         if FileManager.default.fileExists(atPath: file.localURL.path) {
             completionHandler(nil)
         } else {
-            self.fileSync.signedURL(filename: file.name, parentId: file.parentDirectory!.id, mimeType: file.mimeType ?? "") { [unowned self] result in
+            self.fileSync.signedURL(for: file, upload: false) { [unowned self] result in
                 switch result {
                 case .failure (let error):
                     DispatchQueue.main.async {

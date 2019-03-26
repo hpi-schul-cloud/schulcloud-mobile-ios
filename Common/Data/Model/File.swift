@@ -10,23 +10,10 @@ import MobileCoreServices
 
 public final class File: NSManagedObject {
 
-    @objc public enum OwnerType: Int64 {
-        case user = 1
-        case course = 2
-        case team = 3
-
-        static func from(str: String) -> OwnerType {
-            switch str {
-            case "user":
-                return .user
-            case "course":
-                return .course
-            case "team":
-                return .team
-            default:
-                fatalError()
-            }
-        }
+    public enum Owner {
+        case user(id: String)
+        case course(id: String)
+        case team
     }
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<File> {
@@ -42,9 +29,8 @@ public final class File: NSManagedObject {
     @NSManaged public var createdAt: Date
     @NSManaged public var updatedAt: Date
     @NSManaged public var lastReadAt: Date
-    @NSManaged public var shareToken: String?
-    @NSManaged public var ownerId: String
-    @NSManaged public var ownerType: OwnerType
+    @NSManaged var ownerId: String
+    @NSManaged var ownerTypeStorage: String
 
     @NSManaged public var favoriteRankData: Data?
     @NSManaged public var localTagData: Data?
@@ -56,6 +42,35 @@ public final class File: NSManagedObject {
     @NSManaged public var parentDirectory: File?
     @NSManaged public var contents: Set<File>
     @NSManaged public var includedIn: Submission?
+
+    var owner: Owner {
+        get {
+            switch self.ownerTypeStorage {
+            case "user":
+                return .user(id: self.ownerId)
+            case "course":
+                return .course(id: self.ownerId)
+            case "team":
+                return .team
+            default:
+                fatalError("Unrecognized owner type")
+            }
+        }
+
+        set {
+            switch newValue {
+            case .course(let id):
+                self.ownerTypeStorage = "course"
+                self.ownerId = id
+            case .user(let id):
+                self.ownerTypeStorage = "user"
+                self.ownerId = id
+            case .team:
+                self.ownerTypeStorage = "team"
+                self.ownerId = "someid"
+            }
+        }
+    }
 }
 
 public extension File {
@@ -63,8 +78,8 @@ public extension File {
     public struct Permissions: OptionSet {
         public let rawValue: Int64
 
-        static let read = Permissions(rawValue:   1 << 0)
-        static let write = Permissions(rawValue:  1 << 1)
+        static let read = Permissions(rawValue: 1 << 0)
+        static let write = Permissions(rawValue: 1 << 1)
         static let create = Permissions(rawValue: 1 << 2)
         static let delete = Permissions(rawValue: 1 << 3)
 
@@ -73,7 +88,6 @@ public extension File {
         public init(rawValue: Int64) {
             self.rawValue = rawValue
         }
-
 
         init(str: String) {
             switch str {
@@ -86,14 +100,13 @@ public extension File {
             case "create":
                 self = .create
             default:
-                fatalError()
+                fatalError("Unknown permission type")
             }
         }
 
-
         init(json: MarshaledObject) throws {
-            self.rawValue = try ["delete", "write", "create", "read"].filter({ return try json.value(for: $0)}).map(Permissions.init(str:)).reduce([]) { (acc, permission) -> Permissions in
-                return acc.union(permission)
+            self.rawValue = try ["delete", "write", "create", "read"].filter { return try json.value(for: $0) }.map(Permissions.init(str:)).reduce([]) { acc, permission -> Permissions in
+                    return acc.union(permission)
             }.rawValue
         }
     }
@@ -156,7 +169,7 @@ extension File {
                                                name: String,
                                                parentFolder: File?,
                                                isDirectory: Bool,
-                                               ownerId: String, ownerType: OwnerType) -> File {
+                                               owner: File.Owner) -> File {
         let file = File(context: context)
         file.id = id
 
@@ -169,8 +182,7 @@ extension File {
         file.updatedAt = file.createdAt
         file.lastReadAt = file.createdAt
 
-        file.ownerId = ownerId
-        file.ownerType = ownerType
+        file.owner = owner
 
         file.favoriteRankData = nil
         file.localTagData = nil
@@ -230,7 +242,7 @@ extension File {
         }
 
         file.ownerId = try data.value(for: "owner")
-        file.ownerType = OwnerType.from(str: try data.value(for: "refOwnerModel"))
+        file.ownerTypeStorage = try data.value(for: "refOwnerModel")
 
         //TODO(Florian): Manage here when uploading works
         file.uploadState = .uploaded
@@ -238,8 +250,8 @@ extension File {
         let user = file.managedObjectContext!.typedObject(with: Globals.currentUser!.objectID) as User
 
         let permissionsObject: [MarshaledObject]? = try? data.value(for: "permissions")
-        let rolePermission = try permissionsObject?.filter { try $0.value(for: "refPermModel") == "role"}.filter { user.roles.contains(try $0.value(for: "refId")) }.first
-        let userPermission = try permissionsObject?.filter { try $0.value(for: "refPermModel") == "user"}.filter { try $0.value(for: "refId") == user.id }.first
+        let rolePermission = try permissionsObject?.filter { try $0.value(for: "refPermModel") == "role" }.first(where: { user.roles.contains(try $0.value(for: "refId")) })
+        let userPermission = try permissionsObject?.filter { try $0.value(for: "refPermModel") == "user" }.first(where: { try $0.value(for: "refId") == user.id })
 
         if let userPermission = userPermission {
             file.permissions = try Permissions(json: userPermission)
