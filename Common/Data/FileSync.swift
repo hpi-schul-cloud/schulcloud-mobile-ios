@@ -239,46 +239,68 @@ public class FileSync: NSObject {
     }
 
     // MARK: File materialization
-    // TODO: split this into specialized upload/download signedURL function, or request building at leasts
-    public func signedURL(for file: File, upload: Bool, completionHandler: @escaping (Result<SignedURLInfo, SCError>) -> Void) -> URLSessionTask? {
-        guard !file.isDirectory else {
-            completionHandler(.failure( SCError.other("Can't download folder") ))
+    public func uploadSignedURL(filename: String, mimeType: String, parentId: String?, completionHandler: @escaping (Result<SignedURLInfo, SCError>) -> Void) -> URLSessionTask? {
+        var request = self.authenticatedURLRequest(for: fileStorageURL.appendingPathComponent("signedUrl") )
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        var parameters: [String: Any] = [
+            "filename": filename,
+            "fileType": mimeType,
+            ]
+
+        if let parentId = parentId,
+            parentId != FileHelper.rootDirectoryID,
+            parentId != FileHelper.userDirectoryID,
+            parentId != FileHelper.sharedDirectoryID,
+            parentId != FileHelper.coursesDirectoryID {
+            parameters["parent"] = parentId
+        }
+
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) else {
+            completionHandler(.failure(.jsonSerialization("Can't serialize json for SignedURL")))
             return nil
         }
 
-        var request: URLRequest
+        request.httpBody = jsonData
 
-        if upload {
-            request = self.authenticatedURLRequest(for: fileStorageURL.appendingPathComponent("signedUrl") )
-            request.httpMethod = "POST"
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        return metadataSession.dataTask(with: request) { data, response, error in
+            do {
+                let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
+                guard let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? MarshaledObject else {
+                    throw SCError.jsonDeserialization("Unexpected JSON Type")
+                }
 
-            var parameters: [String: Any] = [
-                "filename": file.name,
-                "fileType": file.mimeType!,
-                ]
-
-            if file.parentDirectory!.id != FileHelper.rootDirectoryID,
-                file.parentDirectory!.id != FileHelper.userDirectoryID,
-                file.parentDirectory!.id != FileHelper.sharedDirectoryID,
-                file.parentDirectory!.parentDirectory!.id != FileHelper.coursesDirectoryID {
-                parameters["parent"] = file.parentDirectory!.id
+                let signedURL: URL = try json.value(for: "url")
+                let signedURLHeader: [String: String] = try json.value(for: "header")
+                var headers = [SignedURLInfo.HeaderKeys: String]()
+                for (key, value) in signedURLHeader {
+                    guard let header_key = SignedURLInfo.HeaderKeys(rawValue: key) else {
+                        fatalError()
+                    }
+                    headers[header_key] = value
+                }
+                let signedURLInfo = SignedURLInfo(url: signedURL, header: headers)
+                completionHandler(.success( signedURLInfo))
+            } catch SCError.apiError(401, let message) {
+                SyncHelper.authenticationChallengerHandler?()
+                completionHandler(.failure(.apiError(401, message)))
+            } catch let error as SCError {
+                completionHandler(.failure( error))
+            } catch let error {
+                completionHandler(.failure( SCError.jsonDeserialization(error.localizedDescription)))
             }
-
-            guard let jsonData = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) else {
-                completionHandler(.failure(.jsonSerialization("Can't serialize json for SignedURL")))
-                return nil
-            }
-
-            request.httpBody = jsonData
-        } else {
-            var component = URLComponents(url: fileStorageURL.appendingPathComponent("signedUrl"), resolvingAgainstBaseURL: false)!
-            component.queryItems = [URLQueryItem(name: "file", value: file.id)]
-
-            request = self.authenticatedURLRequest(for:  component.url!)
-            request.httpMethod = "GET"
         }
+    }
 
+    // TODO: split this into specialized upload/download signedURL function, or request building at leasts
+    public func downloadSignedURL(fileId: String, completionHandler: @escaping (Result<SignedURLInfo, SCError>) -> Void) -> URLSessionTask? {
+
+        var component = URLComponents(url: fileStorageURL.appendingPathComponent("signedUrl"), resolvingAgainstBaseURL: false)!
+        component.queryItems = [URLQueryItem(name: "file", value: fileId)]
+
+        var request = self.authenticatedURLRequest(for:  component.url!)
+        request.httpMethod = "GET"
 
         return metadataSession.dataTask(with: request) { data, response, error in
             do {
@@ -475,7 +497,7 @@ public class FileSync: NSObject {
             }
         }
 
-        let (task, future) = self.signedURL(for: file, upload: true)
+        let (task, future) = self.uploadSignedURL(filename: name, mimeType: type, parentId: parentId)
         future.flatMap { signedURL -> Future<Void, SCError> in
             flatname = signedURL.header[.flatName]!
 
@@ -508,9 +530,15 @@ public class FileSync: NSObject {
         task?.resume()
     }
 
-    private func signedURL(for file: File, upload: Bool) -> (URLSessionTask?, Future<SignedURLInfo, SCError>) {
+    private func downloadSignedURL(fileId: String) -> (URLSessionTask?, Future<SignedURLInfo, SCError>) {
         let promise = Promise<SignedURLInfo, SCError>()
-        let task = self.signedURL(for: file, upload: upload) { promise.complete($0) }
+        let task = self.downloadSignedURL(fileId: fileId) { promise.complete($0) }
+        return (task, promise.future)
+    }
+
+    private func uploadSignedURL(filename: String, mimeType: String, parentId: String?) -> (URLSessionTask?, Future<SignedURLInfo, SCError>) {
+        let promise = Promise<SignedURLInfo, SCError>()
+        let task = self.uploadSignedURL(filename: filename, mimeType: mimeType, parentId: parentId) { promise.complete($0) }
         return (task, promise.future)
     }
 
