@@ -8,25 +8,26 @@ import Common
 import Result
 import UIKit
 
-
 let placeholder = "Enter your comment here"
 
 final class HomeworkSubmitViewController: UIViewController {
 
-    @IBOutlet weak var contentView: UIScrollView!
-    @IBOutlet weak var commentLabel: UILabel!
-    @IBOutlet weak var commentField: UITextView!
+    @IBOutlet private weak var progressContainer: UIView!
+    @IBOutlet private weak var progressView: UIProgressView!
 
-    @IBOutlet weak var filesLabel: UILabel!
-    @IBOutlet weak var filesTableView: UITableView!
+    @IBOutlet private weak var contentView: UIScrollView!
+    @IBOutlet private weak var commentLabel: UILabel!
+    @IBOutlet private weak var commentField: UITextView!
 
-    @IBOutlet weak var addFilesButton: UIButton!
-    @IBOutlet weak var applyChangesButton: UIButton!
-    @IBOutlet weak var discardChangesButton: UIButton!
-    @IBOutlet weak var submissionActionStackView: UIStackView!
+    @IBOutlet private weak var filesLabel: UILabel!
+    @IBOutlet private weak var filesTableView: UITableView!
 
-    @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var addFilesButton: UIButton!
+    @IBOutlet private weak var applyChangesButton: UIButton!
+    @IBOutlet private weak var discardChangesButton: UIButton!
+    @IBOutlet private weak var submissionActionStackView: UIStackView!
 
+    @IBOutlet private weak var tableViewHeightConstraint: NSLayoutConstraint!
 
     fileprivate typealias FileID = String
     fileprivate typealias Filename = String
@@ -58,16 +59,17 @@ final class HomeworkSubmitViewController: UIViewController {
 
         let tintColor = UIApplication.shared.delegate!.window!!.tintColor
 
-        var (r, g, b): (CGFloat,CGFloat,CGFloat) = (0, 0, 0)
+        var (r, g, b): (CGFloat, CGFloat, CGFloat) = (0, 0, 0)
         tintColor?.getRed(&r, green: &g, blue: &b, alpha: nil)
 
         self.addFilesButton.layer.cornerRadius = 4.0
-        self.addFilesButton.backgroundColor = UIColor.init(red: r, green: g, blue: b, alpha: 0.3)
+        self.addFilesButton.backgroundColor = UIColor(red: r, green: g, blue: b, alpha: 0.3)
 
         self.submissionActionStackView.arrangedSubviews.forEach { button in
             button.layer.cornerRadius = 4.0
             button.clipsToBounds = true
         }
+
         self.applyChangesButton.backgroundColor = tintColor
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
@@ -77,7 +79,7 @@ final class HomeworkSubmitViewController: UIViewController {
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        super.viewDidAppear(animated)
         self.tableViewHeightConstraint.constant = self.filesTableView.contentSize.height
         self.contentView.setNeedsLayout()
     }
@@ -89,13 +91,14 @@ final class HomeworkSubmitViewController: UIViewController {
     @IBAction func applyChanges(_ sender: Any) {
         self.commentField.resignFirstResponder()
         SubmissionHelper.saveSubmission(item: self.writableSubmission).onSuccess(DispatchQueue.main.context) {[unowned self] _ in
-            //TODO: deal with save result
+            // TODO: deal with save result
             switch self.writingContext.saveWithResult() {
-            case .success(_):
+            case .success:
                 self.showAlert(title: "Success", message: "Your submission has been updated successfuly")
             case .failure(let error):
                 print("error saving submission: \(error)")
             }
+
             self.submission = CoreDataHelper.viewContext.typedObject(with: self.submission.objectID)
         }.onFailure(DispatchQueue.main.context) { error in
             self.writingContext.rollback()
@@ -106,11 +109,14 @@ final class HomeworkSubmitViewController: UIViewController {
     }
 
     @IBAction func discardChanges(_ sender: Any) {
-        let alertController = UIAlertController(title: "Are you sure?", message: "You will discard all the changes made to your submission.", preferredStyle: .alert)
-        let discardAction = UIAlertAction(title: "Discard Changes", style: .destructive) { [unowned self] (_) in
+        let alertController = UIAlertController(title: "Are you sure?",
+                                                message: "You will discard all the changes made to your submission.",
+                                                preferredStyle: .alert)
+        let discardAction = UIAlertAction(title: "Discard Changes", style: .destructive) { [unowned self] _ in
             self.writingContext.rollback()
             self.updateState()
         }
+
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         [cancelAction, discardAction].forEach { alertController.addAction($0) }
 
@@ -122,7 +128,7 @@ final class HomeworkSubmitViewController: UIViewController {
         picker.delegate = self
 
         let actionController = UIAlertController()
-        let cameraAction = UIAlertAction(title: "Taking a picture", style: .default) { [unowned self] action in
+        let cameraAction = UIAlertAction(title: "Taking a picture", style: .default) { [unowned self] _ in
                 picker.sourceType = .camera
             picker.allowsEditing = true
             picker.cameraCaptureMode = .photo
@@ -131,7 +137,7 @@ final class HomeworkSubmitViewController: UIViewController {
             self.present(picker, animated: true)
         }
 
-        let libraryAction = UIAlertAction(title: "Photo Library", style: .default) { [unowned self] action in
+        let libraryAction = UIAlertAction(title: "Photo Library", style: .default) { [unowned self] _ in
             picker.sourceType = .savedPhotosAlbum
             picker.allowsEditing = false
 
@@ -145,9 +151,9 @@ final class HomeworkSubmitViewController: UIViewController {
     }
 
     fileprivate func updateState() {
-        var fileIDs = Set<String>(self.submission.files.map {$0.id} )
-        fileIDs.formUnion(self.writableSubmission.files.map {$0.id} )
-        self.files = Array<String>(fileIDs).sorted()
+        var fileIDs = Set<String>(self.submission.files.map { $0.id })
+        fileIDs.formUnion(self.writableSubmission.files.map { $0.id })
+        self.files = [String](fileIDs).sorted()
 
         self.commentField.text = self.writableSubmission.comment ?? placeholder
         self.filesTableView.reloadData()
@@ -177,32 +183,35 @@ extension HomeworkSubmitViewController: UITableViewDataSource {
             let color: UIColor
             let filename: String
 
-            if let file = self.writableSubmission.files.first(where: {$0.id == fileId}) {
-                if self.submission.files.contains(where: {$0.id == fileId}) {
+            if let file = self.writableSubmission.files.first(where: { $0.id == fileId }) {
+                if self.submission.files.contains(where: { $0.id == fileId }) {
                     color = UIColor.black
                 } else {
                     color = UIColor.green
                 }
+
                 filename = file.name
             } else {
                 color = UIColor.red
-                filename = self.submission.files.first(where: {$0.id == fileId})?.name ?? ""
+                filename = self.submission.files.first { $0.id == fileId }?.name ?? ""
             }
 
             cell.textLabel?.text = filename
             cell.textLabel?.textColor = color
             return cell
         }
-        fatalError()
+
+        fatalError("No cell found")
     }
 
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 
-        let removeAction = UITableViewRowAction(style: .destructive, title: "Remove") {[unowned self] (action, indexPath) in
+        let removeAction = UITableViewRowAction(style: .destructive, title: "Remove") {[unowned self] _, indexPath in
             let fileID = self.files[indexPath.row]
             if let file = self.writableSubmission.files.first(where: { $0.id == fileID }) {
                 self.unlink(file: file, from: self.submission)
             }
+
             self.updateState()
         }
 
@@ -245,13 +254,7 @@ extension HomeworkSubmitViewController: UIImagePickerControllerDelegate {
         picker.dismiss(animated: true)
     }
 
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        func dismissPicker() {
-            DispatchQueue.main.async {
-                picker.dismiss(animated: true)
-            }
-        }
-
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         let urlKey: UIImagePickerController.InfoKey
         if #available(iOS 11.0, *) {
             urlKey = .imageURL
@@ -260,33 +263,39 @@ extension HomeworkSubmitViewController: UIImagePickerControllerDelegate {
         }
 
         guard let imageURL = info[urlKey] as? URL else {
-            fatalError()
+            fatalError("Need image URL")
         }
 
         let destURL: URL
         do {
-            destURL = try FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent(imageURL.lastPathComponent)
+            destURL = try FileManager.default.url(for: .cachesDirectory,
+                                                  in: .userDomainMask,
+                                                  appropriateFor: nil,
+                                                  create: true).appendingPathComponent(imageURL.lastPathComponent)
             try FileManager.default.copyItem(at: imageURL, to: destURL)
         } catch let error {
             print("Error dealing with image file: \(error)")
-            dismissPicker()
+            picker.dismiss(animated: true)
             return
         }
 
-        self.fileSync.postFile(at: destURL, owner: nil, parentId: nil) { [unowned self] result in
-            switch result {
-            case .failure(let error):
-                try? FileManager.default.removeItem(at: destURL)
-                print(error)
-                dismissPicker()
-            case .success(let file):
-                try? FileManager.default.moveItem(at: destURL, to: file.localURL)
-                self.link(file: file, to: self.submission)
+        picker.dismiss(animated: true) {
+            self.progressContainer.isHidden = false
+            self.view.bringSubviewToFront(self.progressContainer)
+            let progress = self.fileSync.postFile(at: destURL, owner: nil, parentId: nil) { [unowned self] result in
+                switch result {
+                case .failure(let error):
+                    try? FileManager.default.removeItem(at: destURL)
+                case .success(let file):
+                    try? FileManager.default.moveItem(at: destURL, to: file.localURL)
+                    self.link(file: file, to: self.submission)
+                }
                 DispatchQueue.main.async {
                     self.updateState()
+                    self.progressContainer.isHidden = true
                 }
-                dismissPicker()
             }
+            self.progressView.observedProgress = progress
         }
     }
 }

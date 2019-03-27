@@ -472,7 +472,10 @@ public class FileSync: NSObject {
     }
 
 
-    public func postFile(at url: URL, owner: File.Owner?, parentId: String?, completionHandler: @escaping (Result<File, SCError>) -> Void) {
+    public func postFile(at url: URL,
+                         owner: File.Owner?,
+                         parentId: String?,
+                         completionHandler: @escaping (Result<File, SCError>) -> Void) -> Progress {
 
         var flatname: String = ""
         let name = url.lastPathComponent
@@ -488,20 +491,37 @@ public class FileSync: NSObject {
             }
         }
 
+        let progress = Progress(totalUnitCount: 3)
+
         let (task, future) = self.uploadSignedURL(filename: name, mimeType: type, parentId: parentId)
+        if #available(iOS 11.0, *) {
+            progress.addChild(task!.progress, withPendingUnitCount: 3)
+        }
         future.flatMap { signedURL -> Future<Void, SCError> in
             flatname = signedURL.header[.flatName]!
 
             let (task, future) = self.upload(fileAt: url, to: signedURL.url, mimeType: type)
             task.resume()
+            if #available(iOS 11.0, *) {
+                progress.addChild(task.progress, withPendingUnitCount: 2)
+            } else {
+                progress.becomeCurrent(withPendingUnitCount: 2)
+            }
             return future
         }.flatMap { _ -> Future<[String: Any], SCError> in
                 // Remotely create the file metadtas
             let (task, future) = self.createFileMetadata(name: name, mimeType: type, size:size, flatName: flatname, owner: owner, parentId: parentId)
             task?.resume()
+            if #available(iOS 11.0, *) {
+                progress.addChild(task!.progress, withPendingUnitCount: 1)
+            } else {
+                progress.becomeCurrent(withPendingUnitCount: 1)
+            }
             return future
         }.flatMap { json -> Result<File, SCError> in
             // Create the local file metadata
+
+            progress.becomeCurrent(withPendingUnitCount: 0)
             let context = CoreDataHelper.persistentContainer.newBackgroundContext()
             return context.performAndWait { () -> Result<File, SCError> in
                 guard let userDirectory = File.by(id: FileHelper.userDirectoryID, in: context) else {
@@ -519,6 +539,7 @@ public class FileSync: NSObject {
             }
         }.onComplete(callback: completionHandler)
         task?.resume()
+        return progress
     }
 
     private func downloadSignedURL(fileId: String) -> (URLSessionTask?, Future<URL, SCError>) {

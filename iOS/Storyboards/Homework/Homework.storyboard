@@ -253,10 +253,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="490"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zJD-1U-gq7" userLabel="Scroll Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="327"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="307"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="ypK-oi-xPh">
-                                                <rect key="frame" x="16" y="28" width="343" height="291"/>
+                                                <rect key="frame" x="16" y="8" width="343" height="291"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" spacingType="standard" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YdA-tj-LeD">
                                                         <rect key="frame" x="0.0" y="0.0" width="343" height="18"/>
@@ -359,11 +359,27 @@
             <objects>
                 <viewController id="7EW-bo-Vz6" customClass="HomeworkSubmitViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HYe-ON-aSu">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="490"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view hidden="YES" alpha="0.59999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m20-OT-KY8">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="490"/>
+                                <subviews>
+                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="8s7-CG-Rwl">
+                                        <rect key="frame" x="112.5" y="244" width="150" height="2"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="150" id="bNF-i3-yOR"/>
+                                        </constraints>
+                                    </progressView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="8s7-CG-Rwl" firstAttribute="centerY" secondItem="m20-OT-KY8" secondAttribute="centerY" id="DZq-CZ-nvb"/>
+                                    <constraint firstItem="8s7-CG-Rwl" firstAttribute="centerX" secondItem="m20-OT-KY8" secondAttribute="centerX" id="Epp-zK-Moh"/>
+                                </constraints>
+                            </view>
                             <scrollView clipsSubviews="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="AWR-F7-f21" userLabel="ScrollView">
-                                <rect key="frame" x="0.0" y="20" width="375" height="534"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="490"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0tz-yn-qMl" userLabel="ContentView">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="523.5"/>
@@ -480,10 +496,14 @@
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="lv1-lu-3Y5" firstAttribute="trailing" secondItem="m20-OT-KY8" secondAttribute="trailing" id="FvG-kP-sQ1"/>
+                            <constraint firstItem="m20-OT-KY8" firstAttribute="top" secondItem="lv1-lu-3Y5" secondAttribute="top" id="HQp-5g-ke9"/>
                             <constraint firstItem="lv1-lu-3Y5" firstAttribute="trailing" secondItem="AWR-F7-f21" secondAttribute="trailing" id="PxR-pu-vcV"/>
+                            <constraint firstItem="m20-OT-KY8" firstAttribute="leading" secondItem="lv1-lu-3Y5" secondAttribute="leading" id="oO0-hw-DC5"/>
                             <constraint firstItem="AWR-F7-f21" firstAttribute="top" secondItem="lv1-lu-3Y5" secondAttribute="top" id="p6F-Dr-xt8"/>
                             <constraint firstItem="lv1-lu-3Y5" firstAttribute="bottom" secondItem="AWR-F7-f21" secondAttribute="bottom" id="q8z-4W-D5j"/>
                             <constraint firstItem="AWR-F7-f21" firstAttribute="leading" secondItem="lv1-lu-3Y5" secondAttribute="leading" id="up0-Xq-CDx"/>
+                            <constraint firstItem="lv1-lu-3Y5" firstAttribute="bottom" secondItem="m20-OT-KY8" secondAttribute="bottom" id="xbQ-D9-JoL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="lv1-lu-3Y5"/>
                     </view>
@@ -496,13 +516,15 @@
                         <outlet property="discardChangesButton" destination="sDg-y8-DYy" id="RWD-vH-5IY"/>
                         <outlet property="filesLabel" destination="V6w-GD-emF" id="7CM-bq-Pmm"/>
                         <outlet property="filesTableView" destination="txg-WZ-Jft" id="oSf-cf-55I"/>
+                        <outlet property="progressContainer" destination="m20-OT-KY8" id="DOr-mH-6rO"/>
+                        <outlet property="progressView" destination="8s7-CG-Rwl" id="GXl-yy-Dms"/>
                         <outlet property="submissionActionStackView" destination="oyg-Kf-auO" id="fBk-DR-1GC"/>
                         <outlet property="tableViewHeightConstraint" destination="wS3-Vg-ZcU" id="LCS-4G-Yo3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="odJ-th-S26" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5225" y="-306"/>
+            <point key="canvasLocation" x="5224.8000000000002" y="-306.74662668665667"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

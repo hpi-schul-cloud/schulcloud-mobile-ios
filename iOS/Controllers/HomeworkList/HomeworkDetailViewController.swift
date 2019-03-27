@@ -29,7 +29,8 @@ class HomeworkDetailViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        SubmissionHelper.syncSubmission(studentId: Globals.currentUser!.id, homeworkId: homework!.id).onComplete(DispatchQueue.main.context) { result in
+        SubmissionHelper.syncSubmission(studentId: Globals.currentUser!.id,
+                                        homeworkId: homework!.id).onComplete(DispatchQueue.main.context) { _ in
             self.homework = CoreDataHelper.viewContext.typedObject(with: self.homework!.objectID)
             self.configure(for: self.homework!)
         }
@@ -47,14 +48,14 @@ class HomeworkDetailViewController: UIViewController {
             "studentId": Globals.currentUser!.id,
             "homeworkId": self.homework!.id,
             "teamMembers": [Globals.currentUser!.id] as Any,
-            ]
+        ]
 
         SubmissionHelper.syncSubmission(studentId: Globals.currentUser!.id,
                                         homeworkId: homework!.id).flatMap { submissions -> Future<Submission, SCError> in
             if submissions.objectIds.isEmpty {
-                return SubmissionHelper.createSubmission(json: json).map({ result -> Submission in
+                return SubmissionHelper.createSubmission(json: json).map { result -> Submission in
                     return CoreDataHelper.viewContext.typedObject(with: result.objectId) as Submission
-                })
+                }
             }
 
             if submissions.objectIds.count > 1 {
@@ -62,10 +63,12 @@ class HomeworkDetailViewController: UIViewController {
             }
 
             return Future(value: CoreDataHelper.viewContext.typedObject(with: submissions.objectIds.first!))
-        }.onSuccess(DispatchQueue.main.context) { submission in
+        }.onSuccess(DispatchQueue.main.context) { _ in
             self.performSegue(withIdentifier: "showSubmission", sender: nil)
         }.onFailure(DispatchQueue.main.context) { error in
-            let alertController = UIAlertController(title: "Error", message: "Failed to create submission:\(error.localizedDescription)", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "Error",
+                                                    message: "Failed to create submission:\(error.localizedDescription)",
+                                                    preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "Ok", style: .cancel))
             self.present(alertController, animated: true)
         }
@@ -83,13 +86,12 @@ class HomeworkDetailViewController: UIViewController {
         let canEdit = Globals.currentUser!.permissions.contains(.submissionsEdit)
         let canCreate = Globals.currentUser!.permissions.contains(.submissionsCreate)
 
-        let canInteract = [canView, canEdit, canCreate].reduce(true) { $0  && $1}
-
+        let canInteract = [canView, canEdit, canCreate].reduce(true) { $0 && $1 }
 
         if canInteract {
             var title = ""
             if homework.dueDate > Date() {
-                if let _ = homework.submission {
+                if homework.submission != nil {
                     if canEdit {
                         title = "Update Submission"
                     } else {
@@ -109,6 +111,7 @@ class HomeworkDetailViewController: UIViewController {
                     self.submitHomeworkButton.isHidden = true
                 }
             }
+
             [UIControl.State.normal, .highlighted, .focused, .disabled].forEach { self.submitHomeworkButton.setTitle(title, for: $0) }
         } else {
             self.submitHomeworkButton.isHidden = true
@@ -122,6 +125,7 @@ class HomeworkDetailViewController: UIViewController {
             let controller = segue.destination as? HomeworkSubmitViewController else {
                 return
         }
+
         controller.submission = self.homework?.submission
     }
 }
