@@ -70,7 +70,6 @@ final class HomeworkSubmitViewController: UIViewController {
         }
         self.applyChangesButton.backgroundColor = tintColor
 
-
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
         self.contentView.addGestureRecognizer(tapRecognizer)
 

@@ -294,7 +294,7 @@ public class FileSync: NSObject {
     }
 
     // TODO: split this into specialized upload/download signedURL function, or request building at leasts
-    public func downloadSignedURL(fileId: String, completionHandler: @escaping (Result<SignedURLInfo, SCError>) -> Void) -> URLSessionTask? {
+    public func downloadSignedURL(fileId: String, completionHandler: @escaping (Result<URL, SCError>) -> Void) -> URLSessionTask? {
 
         var component = URLComponents(url: fileStorageURL.appendingPathComponent("signedUrl"), resolvingAgainstBaseURL: false)!
         component.queryItems = [URLQueryItem(name: "file", value: fileId)]
@@ -310,16 +310,7 @@ public class FileSync: NSObject {
                 }
 
                 let signedURL: URL = try json.value(for: "url")
-                let signedURLHeader: [String: String] = try json.value(for: "header")
-                var headers = [SignedURLInfo.HeaderKeys: String]()
-                for (key, value) in signedURLHeader {
-                    guard let header_key = SignedURLInfo.HeaderKeys(rawValue: key) else {
-                        fatalError()
-                    }
-                    headers[header_key] = value
-                }
-                let signedURLInfo = SignedURLInfo(url: signedURL, header: headers)
-                completionHandler(.success( signedURLInfo))
+                completionHandler(.success(signedURL))
             } catch SCError.apiError(401, let message) {
                 SyncHelper.authenticationChallengerHandler?()
                 completionHandler(.failure(.apiError(401, message)))
@@ -530,8 +521,8 @@ public class FileSync: NSObject {
         task?.resume()
     }
 
-    private func downloadSignedURL(fileId: String) -> (URLSessionTask?, Future<SignedURLInfo, SCError>) {
-        let promise = Promise<SignedURLInfo, SCError>()
+    private func downloadSignedURL(fileId: String) -> (URLSessionTask?, Future<URL, SCError>) {
+        let promise = Promise<URL, SCError>()
         let task = self.downloadSignedURL(fileId: fileId) { promise.complete($0) }
         return (task, promise.future)
     }

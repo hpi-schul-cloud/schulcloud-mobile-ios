@@ -70,7 +70,7 @@ class LoadingViewController: UIViewController {
                 return
             }
 
-            let tasko = self?.fileSync.download(id: "filedownload__\(fileID)", at: signedURL.url, moveTo: localURL, backgroundSession: false) { result in
+            let tasko = self?.fileSync.download(id: "filedownload__\(fileID)", at: signedURL, moveTo: localURL, backgroundSession: false) { result in
                 if #available(iOS 11.0, *) {
                 } else {
                     progress.becomeCurrent(withPendingUnitCount: 0)

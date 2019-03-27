@@ -111,7 +111,7 @@ class FileProviderExtension: NSFileProviderExtension {
 
                 case .success(let signedURL):
                     let task = self.fileSync.download(id: "filedownload__\(identifier.rawValue)",
-                                                      at: signedURL.url,
+                                                      at: signedURL,
                                                       moveTo: url,
                                                       backgroundSession: true) { result in
                             DispatchQueue.main.async {
