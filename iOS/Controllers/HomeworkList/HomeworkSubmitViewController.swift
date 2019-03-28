@@ -159,7 +159,14 @@ final class HomeworkSubmitViewController: UIViewController {
         self.filesTableView.reloadData()
         self.tableViewHeightConstraint.constant = self.filesTableView.contentSize.height
         self.contentView.setNeedsLayout()
+    }
 
+    func show(error: Error) {
+        let alertController = UIAlertController(title: "Something unexpected occured", message: error.localizedDescription, preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alertController.addAction(cancelAction)
+
+        self.present(alertController, animated: true)
     }
 }
 
@@ -286,6 +293,9 @@ extension HomeworkSubmitViewController: UIImagePickerControllerDelegate {
                 switch result {
                 case .failure(let error):
                     try? FileManager.default.removeItem(at: destURL)
+                    DispatchQueue.main.async {
+                        self.show(error: error)
+                    }
                 case .success(let file):
                     try? FileManager.default.moveItem(at: destURL, to: file.localURL)
                     self.link(file: file, to: self.submission)
