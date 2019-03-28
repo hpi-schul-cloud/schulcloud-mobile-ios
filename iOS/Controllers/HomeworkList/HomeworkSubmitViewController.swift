@@ -273,39 +273,42 @@ extension HomeworkSubmitViewController: UIImagePickerControllerDelegate {
             fatalError("Need image URL")
         }
 
-        let destURL: URL
-        do {
-            destURL = try FileManager.default.url(for: .cachesDirectory,
-                                                  in: .userDomainMask,
-                                                  appropriateFor: nil,
-                                                  create: true).appendingPathComponent(imageURL.lastPathComponent)
-            try FileManager.default.copyItem(at: imageURL, to: destURL)
-        } catch let error {
-            print("Error dealing with image file: \(error)")
-            picker.dismiss(animated: true)
-            return
-        }
-
         picker.dismiss(animated: true) {
-            self.progressContainer.isHidden = false
-            self.view.bringSubviewToFront(self.progressContainer)
-            let progress = self.fileSync.postFile(at: destURL, owner: nil, parentId: nil) { [unowned self] result in
-                switch result {
-                case .failure(let error):
-                    try? FileManager.default.removeItem(at: destURL)
-                    DispatchQueue.main.async {
-                        self.show(error: error)
+
+            self.showRenameAlertController(originalName: imageURL.deletingPathExtension().lastPathComponent) { newName in
+                let destURL: URL
+                do {
+                    destURL = try FileManager.default.url(for: .cachesDirectory,
+                                                          in: .userDomainMask,
+                                                          appropriateFor: nil,
+                                                          create: true).appendingPathComponent(newName).appendingPathExtension(imageURL.pathExtension)
+                    try FileManager.default.copyItem(at: imageURL, to: destURL)
+                } catch let error {
+                    print("Error dealing with image file: \(error)")
+                    picker.dismiss(animated: true)
+                    return
+                }
+
+                self.progressContainer.isHidden = false
+                self.view.bringSubviewToFront(self.progressContainer)
+                let progress = self.fileSync.postFile(at: destURL, owner: nil, parentId: nil) { [unowned self] result in
+                    switch result {
+                    case .failure(let error):
+                        try? FileManager.default.removeItem(at: destURL)
+                        DispatchQueue.main.async {
+                            self.show(error: error)
+                        }
+                    case .success(let file):
+                        try? FileManager.default.moveItem(at: destURL, to: file.localURL)
+                        self.link(file: file, to: self.submission)
                     }
-                case .success(let file):
-                    try? FileManager.default.moveItem(at: destURL, to: file.localURL)
-                    self.link(file: file, to: self.submission)
+                    DispatchQueue.main.async {
+                        self.updateState()
+                        self.progressContainer.isHidden = true
+                    }
                 }
-                DispatchQueue.main.async {
-                    self.updateState()
-                    self.progressContainer.isHidden = true
-                }
+                self.progressView.observedProgress = progress
             }
-            self.progressView.observedProgress = progress
         }
     }
 }
@@ -339,6 +342,24 @@ extension HomeworkSubmitViewController {
     fileprivate func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default))
+        self.present(alert, animated: true)
+    }
+
+    fileprivate func showRenameAlertController(originalName: String, completionHandler: @escaping (String) -> Void) {
+        let alert = UIAlertController(title: "Enter a filename", message: nil, preferredStyle: .alert)
+        alert.addTextField { textField in
+            textField.text = originalName
+            textField.selectAll(nil)
+            textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
+        }
+        let renameAction = UIAlertAction(title: "Done", style: .default) { _ in
+            completionHandler(alert.textFields?.first?.text ?? originalName)
+        }
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { alert in
+            completionHandler(originalName)
+        }
+        [renameAction, cancelAction].forEach { alert.addAction($0) }
         self.present(alert, animated: true)
     }
 }
