@@ -382,7 +382,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="490"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0tz-yn-qMl" userLabel="ContentView">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="523.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="435.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comments" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UqV-yH-Qiv">
                                                 <rect key="frame" x="8" y="4" width="359" height="20.5"/>
@@ -403,7 +403,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="txg-WZ-Jft">
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" allowsSelectionDuringEditing="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="txg-WZ-Jft">
                                                 <rect key="frame" x="0.0" y="252.5" width="375" height="137"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
@@ -420,7 +420,7 @@
                                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DGB-PW-DNM">
                                                                     <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
                                                                     <autoresizingMask key="autoresizingMask"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
@@ -439,35 +439,11 @@
                                                     <action selector="submitFile:" destination="7EW-bo-Vz6" eventType="touchUpInside" id="orM-dd-F2P"/>
                                                 </connections>
                                             </button>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="oyg-Kf-auO" userLabel="Action Stack View">
-                                                <rect key="frame" x="8" y="443.5" width="359" height="64"/>
-                                                <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A90-zN-wxk">
-                                                        <rect key="frame" x="0.0" y="0.0" width="359" height="30"/>
-                                                        <color key="backgroundColor" red="0.082408033311367035" green="0.53868627548217773" blue="0.0053953370079398155" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <state key="normal" title="Apply changes">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="applyChanges:" destination="7EW-bo-Vz6" eventType="touchUpInside" id="qwd-mM-tKg"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sDg-y8-DYy">
-                                                        <rect key="frame" x="0.0" y="34" width="359" height="30"/>
-                                                        <state key="normal" title="DiscardChanges"/>
-                                                        <connections>
-                                                            <action selector="discardChanges:" destination="7EW-bo-Vz6" eventType="touchUpInside" id="tgw-29-OdX"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
-                                            </stackView>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="V6w-GD-emF" firstAttribute="top" secondItem="w1r-Tc-D8S" secondAttribute="bottom" constant="8" id="4ia-w7-7cT"/>
-                                            <constraint firstAttribute="bottom" secondItem="oyg-Kf-auO" secondAttribute="bottom" constant="16" id="7f0-hJ-a4W"/>
                                             <constraint firstItem="txg-WZ-Jft" firstAttribute="top" secondItem="V6w-GD-emF" secondAttribute="bottom" constant="8" id="8gb-l5-Ae6"/>
                                             <constraint firstItem="w1r-Tc-D8S" firstAttribute="leading" secondItem="0tz-yn-qMl" secondAttribute="leading" id="EK5-A7-3yP"/>
-                                            <constraint firstItem="oyg-Kf-auO" firstAttribute="leading" secondItem="7ZA-kp-2Li" secondAttribute="leading" id="JKX-P9-udw"/>
                                             <constraint firstItem="7ZA-kp-2Li" firstAttribute="top" secondItem="txg-WZ-Jft" secondAttribute="bottom" constant="8" id="MqJ-8y-bL6"/>
                                             <constraint firstAttribute="trailing" secondItem="txg-WZ-Jft" secondAttribute="trailing" id="OnC-Rx-ZAD"/>
                                             <constraint firstItem="w1r-Tc-D8S" firstAttribute="top" secondItem="UqV-yH-Qiv" secondAttribute="bottom" constant="8" id="PpM-oV-2PX"/>
@@ -477,9 +453,8 @@
                                             <constraint firstItem="txg-WZ-Jft" firstAttribute="leading" secondItem="0tz-yn-qMl" secondAttribute="leading" id="YvY-mk-D5s"/>
                                             <constraint firstItem="UqV-yH-Qiv" firstAttribute="top" secondItem="0tz-yn-qMl" secondAttribute="top" constant="4" id="dKw-Lg-Kxu"/>
                                             <constraint firstItem="7ZA-kp-2Li" firstAttribute="leading" secondItem="0tz-yn-qMl" secondAttribute="leading" constant="8" id="h90-sa-Hi8"/>
-                                            <constraint firstItem="oyg-Kf-auO" firstAttribute="top" secondItem="7ZA-kp-2Li" secondAttribute="bottom" constant="16" id="jSd-go-WkY"/>
                                             <constraint firstItem="V6w-GD-emF" firstAttribute="leading" secondItem="0tz-yn-qMl" secondAttribute="leading" constant="8" id="omg-2A-PAm"/>
-                                            <constraint firstItem="oyg-Kf-auO" firstAttribute="trailing" secondItem="7ZA-kp-2Li" secondAttribute="trailing" id="xYU-x2-8yG"/>
+                                            <constraint firstAttribute="bottom" secondItem="7ZA-kp-2Li" secondAttribute="bottom" constant="8" id="yXw-k1-vWn"/>
                                             <constraint firstAttribute="trailing" secondItem="w1r-Tc-D8S" secondAttribute="trailing" id="zkh-z5-BKi"/>
                                         </constraints>
                                     </view>
@@ -509,16 +484,13 @@
                     </view>
                     <connections>
                         <outlet property="addFilesButton" destination="7ZA-kp-2Li" id="fei-T3-ifS"/>
-                        <outlet property="applyChangesButton" destination="A90-zN-wxk" id="6rp-O9-9Ly"/>
                         <outlet property="commentField" destination="w1r-Tc-D8S" id="WVQ-cT-UOl"/>
                         <outlet property="commentLabel" destination="UqV-yH-Qiv" id="V92-qw-N4F"/>
                         <outlet property="contentView" destination="AWR-F7-f21" id="gMB-Mw-wIH"/>
-                        <outlet property="discardChangesButton" destination="sDg-y8-DYy" id="RWD-vH-5IY"/>
                         <outlet property="filesLabel" destination="V6w-GD-emF" id="7CM-bq-Pmm"/>
                         <outlet property="filesTableView" destination="txg-WZ-Jft" id="oSf-cf-55I"/>
                         <outlet property="progressContainer" destination="m20-OT-KY8" id="DOr-mH-6rO"/>
                         <outlet property="progressView" destination="8s7-CG-Rwl" id="GXl-yy-Dms"/>
-                        <outlet property="submissionActionStackView" destination="oyg-Kf-auO" id="fBk-DR-1GC"/>
                         <outlet property="tableViewHeightConstraint" destination="wS3-Vg-ZcU" id="LCS-4G-Yo3"/>
                     </connections>
                 </viewController>

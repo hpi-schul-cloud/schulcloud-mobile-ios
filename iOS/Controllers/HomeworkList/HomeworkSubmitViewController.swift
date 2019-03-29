@@ -23,9 +23,6 @@ final class HomeworkSubmitViewController: UIViewController {
     @IBOutlet private weak var filesTableView: UITableView!
 
     @IBOutlet private weak var addFilesButton: UIButton!
-    @IBOutlet private weak var applyChangesButton: UIButton!
-    @IBOutlet private weak var discardChangesButton: UIButton!
-    @IBOutlet private weak var submissionActionStackView: UIStackView!
 
     @IBOutlet private weak var tableViewHeightConstraint: NSLayoutConstraint!
 
@@ -47,30 +44,17 @@ final class HomeworkSubmitViewController: UIViewController {
         self.filesTableView.dataSource = self
 
         self.commentField.delegate = self
-        self.commentField.textContainerInset = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
+        self.commentField.textContainerInset = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0)
 
         self.writableSubmission = self.writingContext.typedObject(with: self.submission.objectID)
 
         if self.submission.homework.dueDate <= Date() {
-            self.submissionActionStackView.isHidden = true
             self.addFilesButton.isHidden = true
             self.commentField.isEditable = false
         }
 
-        let tintColor = UIApplication.shared.delegate!.window!!.tintColor
-
-        var (r, g, b): (CGFloat, CGFloat, CGFloat) = (0, 0, 0)
-        tintColor?.getRed(&r, green: &g, blue: &b, alpha: nil)
-
         self.addFilesButton.layer.cornerRadius = 4.0
-        self.addFilesButton.backgroundColor = UIColor(red: r, green: g, blue: b, alpha: 0.3)
-
-        self.submissionActionStackView.arrangedSubviews.forEach { button in
-            button.layer.cornerRadius = 4.0
-            button.clipsToBounds = true
-        }
-
-        self.applyChangesButton.backgroundColor = tintColor
+        self.addFilesButton.backgroundColor = Brand.default.colors.primary.withAlphaComponent(0.3)
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
         self.contentView.addGestureRecognizer(tapRecognizer)
@@ -88,7 +72,7 @@ final class HomeworkSubmitViewController: UIViewController {
         self.commentField.resignFirstResponder()
     }
 
-    @IBAction func applyChanges(_ sender: Any) {
+    @objc func applyChanges(_ sender: Any) {
         self.commentField.resignFirstResponder()
         SubmissionHelper.saveSubmission(item: self.writableSubmission).onSuccess(DispatchQueue.main.context) {[unowned self] _ in
             // TODO: deal with save result
@@ -108,7 +92,7 @@ final class HomeworkSubmitViewController: UIViewController {
         }
     }
 
-    @IBAction func discardChanges(_ sender: Any) {
+    @objc func discardChanges(_ sender: Any) {
         let alertController = UIAlertController(title: "Are you sure?",
                                                 message: "You will discard all the changes made to your submission.",
                                                 preferredStyle: .alert)
@@ -155,6 +139,15 @@ final class HomeworkSubmitViewController: UIViewController {
         fileIDs.formUnion(self.writableSubmission.files.map { $0.id })
         self.files = [String](fileIDs).sorted()
 
+        if !self.writableSubmission.changedValues().isEmpty {
+            self.navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(applyChanges(_:))),
+                                                  animated: true)
+            self.navigationItem.setLeftBarButton(UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(discardChanges(_:))), animated: true)
+        } else {
+            self.navigationItem.setRightBarButton(nil, animated: true)
+            self.navigationItem.setLeftBarButton(nil, animated: true)
+        }
+
         self.commentField.text = self.writableSubmission.comment ?? placeholder
         self.filesTableView.reloadData()
         self.tableViewHeightConstraint.constant = self.filesTableView.contentSize.height
@@ -176,39 +169,34 @@ extension HomeworkSubmitViewController: UITableViewDelegate {
 
 extension HomeworkSubmitViewController: UITableViewDataSource {
 
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.files.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let fileId = self.files[indexPath.row]
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "fileCell") {
-            let color: UIColor
-            let filename: String
+        let cell = tableView.dequeueReusableCell(withIdentifier: "fileCell", for: indexPath)
+        let image: UIImage
+        let filename: String
 
-            if let file = self.writableSubmission.files.first(where: { $0.id == fileId }) {
-                if self.submission.files.contains(where: { $0.id == fileId }) {
-                    color = UIColor.black
-                } else {
-                    color = UIColor.green
-                }
-
-                filename = file.name
+        if let file = self.writableSubmission.files.first(where: { $0.id == fileId }) {
+            if self.submission.files.contains(where: { $0.id == fileId }) {
+                image = UIImage(named: "cloud-done")!
             } else {
-                color = UIColor.red
-                filename = self.submission.files.first { $0.id == fileId }?.name ?? ""
+                image = UIImage(named: "cloud-upload")!
             }
 
-            cell.textLabel?.text = filename
-            cell.textLabel?.textColor = color
-            return cell
+            filename = file.name
+        } else {
+            image = UIImage(named: "cloud-outline")!
+            filename = self.submission.files.first { $0.id == fileId }?.name ?? ""
         }
 
-        fatalError("No cell found")
+        cell.textLabel?.text = filename
+        cell.imageView?.image = image.withRenderingMode(.alwaysTemplate)
+        cell.imageView?.tintColor = Brand.default.colors.primary
+        cell.setEditing(true, animated: false)
+        return cell
     }
 
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
@@ -275,39 +263,44 @@ extension HomeworkSubmitViewController: UIImagePickerControllerDelegate {
 
         picker.dismiss(animated: true) {
 
-            self.showRenameAlertController(originalName: imageURL.deletingPathExtension().lastPathComponent) { newName in
-                let destURL: URL
-                do {
-                    destURL = try FileManager.default.url(for: .cachesDirectory,
-                                                          in: .userDomainMask,
-                                                          appropriateFor: nil,
-                                                          create: true).appendingPathComponent(newName).appendingPathExtension(imageURL.pathExtension)
-                    try FileManager.default.copyItem(at: imageURL, to: destURL)
-                } catch let error {
-                    print("Error dealing with image file: \(error)")
-                    picker.dismiss(animated: true)
-                    return
-                }
+            self.showRenameAlertController(originalName: imageURL.deletingPathExtension().lastPathComponent) { renameResult in
+                switch renameResult {
+                case .cancel:
+                    break
+                case.change(let newName):
+                    let destURL: URL
+                    do {
+                        destURL = try FileManager.default.url(for: .cachesDirectory,
+                                                              in: .userDomainMask,
+                                                              appropriateFor: nil,
+                                                              create: true).appendingPathComponent(newName).appendingPathExtension(imageURL.pathExtension)
+                        try FileManager.default.copyItem(at: imageURL, to: destURL)
+                    } catch let error {
+                        print("Error dealing with image file: \(error)")
+                        picker.dismiss(animated: true)
+                        return
+                    }
 
-                self.progressContainer.isHidden = false
-                self.view.bringSubviewToFront(self.progressContainer)
-                let progress = self.fileSync.postFile(at: destURL, owner: nil, parentId: nil) { [unowned self] result in
-                    switch result {
-                    case .failure(let error):
-                        try? FileManager.default.removeItem(at: destURL)
-                        DispatchQueue.main.async {
-                            self.show(error: error)
+                    self.progressContainer.isHidden = false
+                    self.view.bringSubviewToFront(self.progressContainer)
+                    let progress = self.fileSync.postFile(at: destURL, owner: nil, parentId: nil) { [unowned self] result in
+                        switch result {
+                        case .failure(let error):
+                            try? FileManager.default.removeItem(at: destURL)
+                            DispatchQueue.main.async {
+                                self.show(error: error)
+                            }
+                        case .success(let file):
+                            try? FileManager.default.moveItem(at: destURL, to: file.localURL)
+                            self.link(file: file, to: self.submission)
                         }
-                    case .success(let file):
-                        try? FileManager.default.moveItem(at: destURL, to: file.localURL)
-                        self.link(file: file, to: self.submission)
+                        DispatchQueue.main.async {
+                            self.updateState()
+                            self.progressContainer.isHidden = true
+                        }
                     }
-                    DispatchQueue.main.async {
-                        self.updateState()
-                        self.progressContainer.isHidden = true
-                    }
+                    self.progressView.observedProgress = progress
                 }
-                self.progressView.observedProgress = progress
             }
         }
     }
@@ -331,9 +324,7 @@ extension HomeworkSubmitViewController: UITextViewDelegate {
             write(content: content, to: submission)
         }
 
-        if content == "" {
-            textView.text = placeholder
-        }
+        self.updateState()
     }
 }
 
@@ -345,17 +336,22 @@ extension HomeworkSubmitViewController {
         self.present(alert, animated: true)
     }
 
-    fileprivate func showRenameAlertController(originalName: String, completionHandler: @escaping (String) -> Void) {
+    enum RenameAlertResult {
+        case cancel
+        case change(name: String)
+    }
+
+    fileprivate func showRenameAlertController(originalName: String, completionHandler: @escaping (RenameAlertResult) -> Void) {
         let alert = UIAlertController(title: "Enter a filename", message: nil, preferredStyle: .alert)
         alert.addTextField { textField in
             textField.setMarkedText(originalName, selectedRange: NSRange(location: 0, length: originalName.count))
         }
-        let renameAction = UIAlertAction(title: "Done", style: .default) { _ in
-            completionHandler(alert.textFields?.first?.text ?? originalName)
+        let renameAction = UIAlertAction(title: "Ok", style: .default) { _ in
+            completionHandler(.change(name:alert.textFields?.first?.text ?? originalName))
         }
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { alert in
-            completionHandler(originalName)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+            completionHandler(.cancel)
         }
         [renameAction, cancelAction].forEach { alert.addAction($0) }
         self.present(alert, animated: true)

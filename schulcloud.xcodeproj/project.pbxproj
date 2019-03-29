@@ -42,8 +42,6 @@
 		CE1EAE8C20E500F800C66DDD /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1EAE8B20E500F800C66DDD /* Brand.swift */; };
 		CE1EAE8E20E5036E00C66DDD /* BrandColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1EAE8D20E5036E00C66DDD /* BrandColors.swift */; };
 		CE1EAE9020E503C600C66DDD /* BrandServers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1EAE8F20E503C600C66DDD /* BrandServers.swift */; };
-		CE25A12921FF3E9C0094E3B7 /* HomeworkSubmitFileFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE25A12821FF3E9C0094E3B7 /* HomeworkSubmitFileFooterView.swift */; };
-		CE25A12E22019BC40094E3B7 /* HomeworkSubmitFileButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE25A12D22019BC40094E3B7 /* HomeworkSubmitFileButton.xib */; };
 		CE2AD3F921C92CB400FC1F5E /* HTMLHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2AD3F821C92CB400FC1F5E /* HTMLHelper.swift */; };
 		CE323E5C215D11D90028A088 /* FileEnumerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE323E5A215D11A60028A088 /* FileEnumerator.swift */; };
 		CE323E5E215D11F10028A088 /* OnlineFolderEnumerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE323E5D215D11F10028A088 /* OnlineFolderEnumerator.swift */; };
@@ -344,8 +342,6 @@
 		CE1EAE9D20E516BB00C66DDD /* n21-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "n21-Release.xcconfig"; sourceTree = "<group>"; };
 		CE1EAE9E20E516BB00C66DDD /* n21-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "n21-Debug.xcconfig"; sourceTree = "<group>"; };
 		CE23F10D2056B01C00E79E64 /* DashboardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardLayout.swift; sourceTree = "<group>"; };
-		CE25A12821FF3E9C0094E3B7 /* HomeworkSubmitFileFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkSubmitFileFooterView.swift; sourceTree = "<group>"; };
-		CE25A12D22019BC40094E3B7 /* HomeworkSubmitFileButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeworkSubmitFileButton.xib; sourceTree = "<group>"; };
 		CE2AD3F821C92CB400FC1F5E /* HTMLHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLHelper.swift; sourceTree = "<group>"; };
 		CE2FF7792045A15900D5AF8E /* UserPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPermissions.swift; sourceTree = "<group>"; };
 		CE323E5A215D11A60028A088 /* FileEnumerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileEnumerator.swift; sourceTree = "<group>"; };
@@ -533,7 +529,6 @@
 				CEBE154A207B9BE900238D1F /* HomeworkByCourseCell.swift */,
 				C3165F1C1EDC1BAE005F5B8E /* HomeworkByDateCell.swift */,
 				CEBE154C207B9D0300238D1F /* HomeworkHeaderView.swift */,
-				CE25A12821FF3E9C0094E3B7 /* HomeworkSubmitFileFooterView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -806,7 +801,6 @@
 			children = (
 				CE39DD6E222D5A7800C374F5 /* Homework.storyboard */,
 				CEBE1546207B63DC00238D1F /* HomeworkHeaderView.xib */,
-				CE25A12D22019BC40094E3B7 /* HomeworkSubmitFileButton.xib */,
 			);
 			path = Homework;
 			sourceTree = "<group>";
@@ -1169,7 +1163,6 @@
 				C3418B671ED335F400280E62 /* PreviewTransitionViewController.xib in Resources */,
 				C3A5A90D1EBCC17600825DBF /* Assets.xcassets in Resources */,
 				C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */,
-				CE25A12E22019BC40094E3B7 /* HomeworkSubmitFileButton.xib in Resources */,
 				CEBE1547207B63DC00238D1F /* HomeworkHeaderView.xib in Resources */,
 				CE39DD6F222D5A7800C374F5 /* Homework.storyboard in Resources */,
 				503A5F011F3DC6C700A7695B /* TabDashboard.storyboard in Resources */,
@@ -1493,7 +1486,6 @@
 				CE41528D20DBD9F000739CE2 /* HomeworkOverviewViewController.swift in Sources */,
 				CE41529C20DBD9F900739CE2 /* HomeworkDetailViewController.swift in Sources */,
 				CE4152A520DBDA3300739CE2 /* NewsArticleOverviewCell.swift in Sources */,
-				CE25A12921FF3E9C0094E3B7 /* HomeworkSubmitFileFooterView.swift in Sources */,
 				CE41529820DBD9F900739CE2 /* SettingsViewController.swift in Sources */,
 				CE4152A320DBDA3300739CE2 /* NotificationCell.swift in Sources */,
 				CE41529720DBD9F900739CE2 /* LoginViewController.swift in Sources */,
