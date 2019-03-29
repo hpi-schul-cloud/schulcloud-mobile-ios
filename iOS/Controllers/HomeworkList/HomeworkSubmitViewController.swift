@@ -348,9 +348,7 @@ extension HomeworkSubmitViewController {
     fileprivate func showRenameAlertController(originalName: String, completionHandler: @escaping (String) -> Void) {
         let alert = UIAlertController(title: "Enter a filename", message: nil, preferredStyle: .alert)
         alert.addTextField { textField in
-            textField.text = originalName
-            textField.selectAll(nil)
-            textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
+            textField.setMarkedText(originalName, selectedRange: NSRange(location: 0, length: originalName.count))
         }
         let renameAction = UIAlertAction(title: "Done", style: .default) { _ in
             completionHandler(alert.textFields?.first?.text ?? originalName)
