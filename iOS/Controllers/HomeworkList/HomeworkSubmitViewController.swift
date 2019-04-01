@@ -40,6 +40,8 @@ final class HomeworkSubmitViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.filesTableView.register(UINib(nibName: "HomeworkSubmitFileCell", bundle: nil), forCellReuseIdentifier: "fileCell")
+
         self.filesTableView.delegate = self
         self.filesTableView.dataSource = self
 
@@ -175,7 +177,7 @@ extension HomeworkSubmitViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let fileId = self.files[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "fileCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "fileCell", for: indexPath) as! HomeworkSubmitFileCell
         let image: UIImage
         let filename: String
 
@@ -192,10 +194,9 @@ extension HomeworkSubmitViewController: UITableViewDataSource {
             filename = self.submission.files.first { $0.id == fileId }?.name ?? ""
         }
 
-        cell.textLabel?.text = filename
-        cell.imageView?.image = image.withRenderingMode(.alwaysTemplate)
-        cell.imageView?.tintColor = Brand.default.colors.primary
-        cell.setEditing(true, animated: false)
+        cell.fileName.text = filename
+        cell.fileStateImageView?.image = image.withRenderingMode(.alwaysTemplate)
+        cell.fileStateImageView?.tintColor = Brand.default.colors.primary
         return cell
     }
 

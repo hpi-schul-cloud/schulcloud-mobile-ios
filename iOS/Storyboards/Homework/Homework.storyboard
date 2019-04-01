@@ -410,7 +410,7 @@
                                                     <constraint firstAttribute="height" constant="137" id="wS3-Vg-ZcU"/>
                                                 </constraints>
                                                 <prototypes>
-                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="fileCell" textLabel="DGB-PW-DNM" style="IBUITableViewCellStyleDefault" id="YZL-U2-a1x">
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="fileCell" textLabel="DGB-PW-DNM" style="IBUITableViewCellStyleDefault" id="YZL-U2-a1x" customClass="HomeworkSubmitFileCell" customModule="iOS" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="YZL-U2-a1x" id="slx-0F-Uko">
