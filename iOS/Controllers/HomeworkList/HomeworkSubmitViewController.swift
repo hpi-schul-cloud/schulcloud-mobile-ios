@@ -47,6 +47,7 @@ final class HomeworkSubmitViewController: UIViewController {
 
         self.commentField.delegate = self
         self.commentField.textContainerInset = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0)
+        self.commentField.textContainer.lineFragmentPadding = 0
 
         self.writableSubmission = self.writingContext.typedObject(with: self.submission.objectID)
 
