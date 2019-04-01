@@ -382,7 +382,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="490"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0tz-yn-qMl" userLabel="ContentView">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="456.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="462.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" text="Comments" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UqV-yH-Qiv">
                                                 <rect key="frame" x="16" y="8" width="343" height="20.5"/>
@@ -404,15 +404,18 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" insetsLayoutMarginsFromSafeArea="NO" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" allowsSelectionDuringEditing="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="txg-WZ-Jft">
-                                                <rect key="frame" x="0.0" y="273.5" width="375" height="137"/>
+                                                <rect key="frame" x="0.0" y="265.5" width="375" height="137"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="137" id="wS3-Vg-ZcU"/>
                                                 </constraints>
                                             </tableView>
                                             <button opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7ZA-kp-2Li">
-                                                <rect key="frame" x="16" y="418.5" width="343" height="30"/>
+                                                <rect key="frame" x="16" y="410.5" width="343" height="44"/>
                                                 <color key="backgroundColor" red="0.84829163549999997" green="0.1188072786" blue="0.0008757433388" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="WNZ-bc-jSh"/>
+                                                </constraints>
                                                 <state key="normal" title="Add files">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -422,7 +425,7 @@
                                             </button>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="txg-WZ-Jft" firstAttribute="top" secondItem="V6w-GD-emF" secondAttribute="bottom" constant="8" symbolic="YES" id="9II-GK-mTD"/>
+                                            <constraint firstItem="txg-WZ-Jft" firstAttribute="top" secondItem="V6w-GD-emF" secondAttribute="bottom" id="9II-GK-mTD"/>
                                             <constraint firstAttribute="trailing" secondItem="txg-WZ-Jft" secondAttribute="trailing" id="AX1-VU-knO"/>
                                             <constraint firstItem="7ZA-kp-2Li" firstAttribute="leading" secondItem="0tz-yn-qMl" secondAttribute="leadingMargin" id="Agf-zk-LNr"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="V6w-GD-emF" secondAttribute="trailing" id="BMJ-9u-Xg5"/>

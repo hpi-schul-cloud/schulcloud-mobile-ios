@@ -57,7 +57,7 @@ final class HomeworkSubmitViewController: UIViewController {
         }
 
         self.addFilesButton.layer.cornerRadius = 4.0
-        self.addFilesButton.backgroundColor = Brand.default.colors.primary.withAlphaComponent(0.3)
+        self.addFilesButton.backgroundColor = Brand.default.colors.primary
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
         self.contentView.addGestureRecognizer(tapRecognizer)
