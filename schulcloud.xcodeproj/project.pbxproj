@@ -216,6 +216,7 @@
 /* Begin PBXFileReference section */
 		060453293998EF378CE1C45F /* Pods_Common_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Common_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		09D7CC393E1856DD7EF9B21F /* Pods_schulcloud.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloud.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1810D0636AC306D8848177F1 /* Pods-iOS.schulcloud-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS.schulcloud-release.xcconfig"; path = "Pods/Target Support Files/Pods-iOS/Pods-iOS.schulcloud-release.xcconfig"; sourceTree = "<group>"; };
 		270BA83590B5166B5A30D6B3 /* Pods_schulcloudUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloudUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DA157DAB96C8A89714682BC /* Pods-iOS-fileprovider.n21-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-fileprovider.n21-release.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-fileprovider/Pods-iOS-fileprovider.n21-release.xcconfig"; sourceTree = "<group>"; };
 		33FB39722356922361DF3BBB /* Pods-Common.schulcloud-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common.schulcloud-debug.xcconfig"; path = "Pods/Target Support Files/Pods-Common/Pods-Common.schulcloud-debug.xcconfig"; sourceTree = "<group>"; };
@@ -283,12 +284,14 @@
 		6A95051FD2A0A46DC119427B /* Pods_schulcloudTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloudTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		79A5D305E558DF616795C230 /* Pods-Common.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common.release.xcconfig"; path = "Pods/Target Support Files/Pods-Common/Pods-Common.release.xcconfig"; sourceTree = "<group>"; };
 		804DC65950E7657EC6EB9C04 /* Pods-iOS-fileprovider.n21-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-fileprovider.n21-debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-fileprovider/Pods-iOS-fileprovider.n21-debug.xcconfig"; sourceTree = "<group>"; };
+		87EB0859FB97A8807628FAB4 /* Pods-iOS.n21-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS.n21-debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOS/Pods-iOS.n21-debug.xcconfig"; sourceTree = "<group>"; };
 		8CCDA3AA9E624277711AFAF9 /* Pods-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOS/Pods-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		92E038C781E17DADCECC73FA /* Pods-Common-Tests.n21-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common-Tests.n21-release.xcconfig"; path = "Pods/Target Support Files/Pods-Common-Tests/Pods-Common-Tests.n21-release.xcconfig"; sourceTree = "<group>"; };
 		995426AC92C9452D1ED0246A /* Pods_schulcloud_schulcloudUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloud_schulcloudUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7453D6B0608647AAC1BEDAB /* Pods_Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC75A60F2C693E09AA1B869E /* Pods-Common-Tests.schulcloud-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common-Tests.schulcloud-release.xcconfig"; path = "Pods/Target Support Files/Pods-Common-Tests/Pods-Common-Tests.schulcloud-release.xcconfig"; sourceTree = "<group>"; };
 		AFC8C574D284EB0B69BA4899 /* Pods_schulcloud_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloud_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEF30D06CF6B60EFAECFD843 /* Pods-iOS.n21-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS.n21-release.xcconfig"; path = "Pods/Target Support Files/Pods-iOS/Pods-iOS.n21-release.xcconfig"; sourceTree = "<group>"; };
 		BF3058195EEE67AAE27872AC /* Pods-Common.n21-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common.n21-release.xcconfig"; path = "Pods/Target Support Files/Pods-Common/Pods-Common.n21-release.xcconfig"; sourceTree = "<group>"; };
 		BFBD1AD7CC68AD6AE57843C4 /* Pods_schulcloud_schulcloudTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloud_schulcloudTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3165F1C1EDC1BAE005F5B8E /* HomeworkByDateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeworkByDateCell.swift; sourceTree = "<group>"; };
@@ -328,6 +331,7 @@
 		C3C2AC351EC5AC460060AECA /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		C3C3CAB01EF5CBB6009601AE /* SingleLessonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleLessonViewController.swift; sourceTree = "<group>"; };
 		C519C974B5E6B997A0F19C57 /* Pods_Common_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Common_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD16B465C3F59A4992834002 /* Pods-iOS.schulcloud-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS.schulcloud-debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOS/Pods-iOS.schulcloud-debug.xcconfig"; sourceTree = "<group>"; };
 		CD400EC3BD251E35484218B4 /* Pods-Common.n21-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common.n21-debug.xcconfig"; path = "Pods/Target Support Files/Pods-Common/Pods-Common.n21-debug.xcconfig"; sourceTree = "<group>"; };
 		CE0F83CA20653C3F00F847D7 /* NewsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController.swift; sourceTree = "<group>"; };
 		CE1253322181D92800CA2213 /* TableViewFetchedControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewFetchedControllerDelegate.swift; sourceTree = "<group>"; };
@@ -482,6 +486,10 @@
 				804DC65950E7657EC6EB9C04 /* Pods-iOS-fileprovider.n21-debug.xcconfig */,
 				52F61E0023AD46769781F48A /* Pods-iOS-fileprovider.schulcloud-release.xcconfig */,
 				2DA157DAB96C8A89714682BC /* Pods-iOS-fileprovider.n21-release.xcconfig */,
+				CD16B465C3F59A4992834002 /* Pods-iOS.schulcloud-debug.xcconfig */,
+				87EB0859FB97A8807628FAB4 /* Pods-iOS.n21-debug.xcconfig */,
+				1810D0636AC306D8848177F1 /* Pods-iOS.schulcloud-release.xcconfig */,
+				BEF30D06CF6B60EFAECFD843 /* Pods-iOS.n21-release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -951,7 +959,6 @@
 				50C9C78C20FDD25D00AC914F /* Sources */,
 				50C9C78D20FDD25D00AC914F /* Frameworks */,
 				50C9C78E20FDD25D00AC914F /* Resources */,
-				068B1B87A0FE34F5638581A9 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1204,44 +1211,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		068B1B87A0FE34F5638581A9 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Common-Tests/Pods-Common-Tests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/BrightFutures/BrightFutures.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/HTMLStyler/HTMLStyler.framework",
-				"${BUILT_PRODUCTS_DIR}/JWTDecode/JWTDecode.framework",
-				"${BUILT_PRODUCTS_DIR}/Locksmith/Locksmith.framework",
-				"${BUILT_PRODUCTS_DIR}/Marshal/Marshal.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
-				"${BUILT_PRODUCTS_DIR}/SyncEngine/SyncEngine.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BrightFutures.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HTMLStyler.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JWTDecode.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Locksmith.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Marshal.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SyncEngine.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Common-Tests/Pods-Common-Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		17AEB00AB8868F2452232A67 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1404,42 +1373,20 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-iOS/Pods-iOS-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-iOS/Pods-iOS-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/CalendarKit/CalendarKit.framework",
 				"${BUILT_PRODUCTS_DIR}/DateToolsSwift/DateToolsSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Neon/Neon.framework",
-				"${BUILT_PRODUCTS_DIR}/BrightFutures/BrightFutures.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/HTMLStyler/HTMLStyler.framework",
-				"${BUILT_PRODUCTS_DIR}/JWTDecode/JWTDecode.framework",
-				"${BUILT_PRODUCTS_DIR}/Locksmith/Locksmith.framework",
-				"${BUILT_PRODUCTS_DIR}/Marshal/Marshal.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
-				"${BUILT_PRODUCTS_DIR}/SyncEngine/SyncEngine.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CalendarKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateToolsSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Neon.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BrightFutures.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HTMLStyler.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JWTDecode.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Locksmith.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Marshal.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SyncEngine.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOS/Pods-iOS-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-iOS/Pods-iOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
