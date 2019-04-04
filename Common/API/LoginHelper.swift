@@ -148,12 +148,11 @@ public class LoginHelper {
             return nil
         }
 
-        guard let expiration = jwt.body["exp"] as? Int64, let interval = TimeInterval(exactly: expiration) else {
+        guard let expirationDate = jwt.expiresAt else {
             log.error("Could not find experiation date - better fail")
             return nil
         }
 
-        let expirationDate = Date(timeIntervalSince1970: interval)
         let threeHourBuffer: TimeInterval = 60 * 60 * 3
         let isValid = Date() < expirationDate - threeHourBuffer
         return isValid ? account : nil
