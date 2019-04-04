@@ -20,7 +20,7 @@ public final class Submission: NSManagedObject {
 
     @NSManaged public var files: Set<File>
     @NSManaged public var homework: Homework
-    
+
     @nonobjc public static func fetchRequest() -> NSFetchRequest<Submission> {
         return NSFetchRequest<Submission>(entityName: "Submission")
     }
@@ -73,7 +73,7 @@ extension Submission: Pullable {
 }
 
 extension Submission: Pushable {
-    public func resourceRelationships() -> [String : AnyObject]? {
+    public func resourceRelationships() -> [String: AnyObject]? {
         return nil
     }
 
@@ -90,14 +90,14 @@ extension Submission: Pushable {
         self.objectState = .unchanged
     }
 
-    public func resourceAttributes() -> [String : Any] {
+    public func resourceAttributes() -> [String: Any] {
         return [
             "comment": self.comment,
             "grade": self.grade,
             "gradeComment": self.gradeComment,
             "createdAt": Homework.dateFormatter.string(from: self.createdAt),
             "updatedAt": Homework.dateFormatter.string(from: self.updatedAt),
-            "fileIds": self.files.map { $0.id }
+            "fileIds": self.files.map { $0.id },
         ]
     }
 }

@@ -52,7 +52,7 @@ class LoadingViewController: UIViewController {
             self.showFile()
             return
         }
-        
+
         let fileID = self.file.id
         let itemIdentifier = NSFileProviderItemIdentifier(fileID)
         let signedURLTask = self.fileSync.downloadSignedURL(fileId: fileID) { [weak self] result in

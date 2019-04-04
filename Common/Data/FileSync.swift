@@ -93,7 +93,6 @@ public class FileSync: NSObject {
         return urlComponent.url
     }
 
-
     private func authenticatedURLRequest(for url: URL) -> URLRequest {
         var request = URLRequest(url: url)
         request.setValue(Globals.account!.accessToken!, forHTTPHeaderField: "Authorization")
@@ -170,7 +169,7 @@ public class FileSync: NSObject {
 
                 let result = CoreDataHelper.viewContext.fetchMultiple(fetchRequest)
                 return Future(result: result)
-                }.onComplete { completionBlock($0) }
+            }.onComplete { completionBlock($0) }
             return nil
         case FileHelper.sharedDirectoryID:
             return self.downloadSharedFiles(completionBlock: taskCompletionBlock)
@@ -247,7 +246,7 @@ public class FileSync: NSObject {
         var parameters: [String: Any] = [
             "filename": filename,
             "fileType": mimeType,
-            ]
+        ]
 
         if let parentId = parentId,
             parentId != FileHelper.rootDirectoryID,
@@ -299,7 +298,7 @@ public class FileSync: NSObject {
         var component = URLComponents(url: fileStorageURL.appendingPathComponent("signedUrl"), resolvingAgainstBaseURL: false)!
         component.queryItems = [URLQueryItem(name: "file", value: fileId)]
 
-        var request = self.authenticatedURLRequest(for:  component.url!)
+        var request = self.authenticatedURLRequest(for: component.url!)
         request.httpMethod = "GET"
 
         return metadataSession.dataTask(with: request) { data, response, error in
@@ -409,7 +408,7 @@ public class FileSync: NSObject {
                 parameters["refOwnerModel"] = "course"
             case .team:
                 fatalError("Unsupported feature")
-            case .user(_):
+            case .user:
                 break
             }
         }
@@ -421,7 +420,7 @@ public class FileSync: NSObject {
 
         var request = self.POSTRequest(for: fileStorageURL)
         request.httpBody = data
-        return self.metadataSession.dataTask(with: request) { (data, response, error) in
+        return self.metadataSession.dataTask(with: request) { data, response, error in
             do {
                 let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
                 guard let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
@@ -446,8 +445,8 @@ public class FileSync: NSObject {
         let parameters: [String: Any] = [
             "name": name,
             "owner": ownerId,
-            "parent": parentId ?? ""
-            ]
+            "parent": parentId ?? "",
+        ]
 
         guard let jsonData = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) else {
             completionHandler( .failure(.jsonSerialization("Failed serielizing json")))
@@ -470,7 +469,6 @@ public class FileSync: NSObject {
             }
         }
     }
-
 
     public func postFile(at url: URL,
                          owner: File.Owner?,
@@ -510,7 +508,7 @@ public class FileSync: NSObject {
             return future
         }.flatMap { _ -> Future<[String: Any], SCError> in
                 // Remotely create the file metadtas
-            let (task, future) = self.createFileMetadata(name: name, mimeType: type, size:size, flatName: flatname, owner: owner, parentId: parentId)
+            let (task, future) = self.createFileMetadata(name: name, mimeType: type, size: size, flatName: flatname, owner: owner, parentId: parentId)
             task?.resume()
             if #available(iOS 11.0, *) {
                 progress.addChild(task!.progress, withPendingUnitCount: 1)
@@ -569,7 +567,6 @@ public class FileSync: NSObject {
         return (task, promise.future)
     }
 
-
     func synchronize(id: String, completionHandler: (Result<[String: Any], SCError>) -> Void) -> URLSessionTask? {
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
         guard let file = File.by(id: id, in: context) else { return nil }
@@ -592,7 +589,7 @@ public class FileSync: NSObject {
                 } else {
                     // Fallback on earlier versions
                 }
-            case .failure(_):
+            case .failure:
                 break
             }
         }

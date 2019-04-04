@@ -43,7 +43,7 @@ public struct Logger {
             builtMessage = "%@ ===> Error found: %@"
             builtArgs = [originalMessage, String(reflecting: error)]
         }
-        
+
         self.log(type: .error, file: file, builtMessage, builtArgs)
     }
 

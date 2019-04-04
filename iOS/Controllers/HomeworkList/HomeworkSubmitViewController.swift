@@ -352,7 +352,7 @@ extension HomeworkSubmitViewController {
             completionHandler(.change(name:alert.textFields?.first?.text ?? originalName))
         }
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
             completionHandler(.cancel)
         }
         [renameAction, cancelAction].forEach { alert.addAction($0) }

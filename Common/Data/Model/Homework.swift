@@ -19,7 +19,7 @@ public final class Homework: NSManagedObject {
     @NSManaged public var publicSubmissions: Bool
     @NSManaged public var teacher: User?
     @NSManaged public var course: Course?
-    
+
     @NSManaged public var submission: Submission?
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Homework> {
