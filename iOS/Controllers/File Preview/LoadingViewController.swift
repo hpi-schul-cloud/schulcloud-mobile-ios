@@ -40,7 +40,6 @@ class LoadingViewController: UIViewController {
     }
 
     func startDownload() {
-
         // Count 4, 1/4 is download of signedURL, 3/4 download of the file itself.
         // This gives more importance to the file download in term of progress
         let progress = Progress(totalUnitCount: 4)
@@ -53,11 +52,10 @@ class LoadingViewController: UIViewController {
             self.showFile()
             return
         }
-        
+
         let fileID = self.file.id
         let itemIdentifier = NSFileProviderItemIdentifier(fileID)
-
-        let signedURLTask = self.fileSync.signedURL(for: self.file, upload: false) { [weak self] result in
+        let signedURLTask = self.fileSync.downloadSignedURL(fileId: fileID) { [weak self] result in
             if #available(iOS 11.0, *) {
             } else {
                 progress.becomeCurrent(withPendingUnitCount: 3)

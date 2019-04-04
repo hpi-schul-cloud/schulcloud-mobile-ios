@@ -11,6 +11,7 @@ import SyncEngine
 public final class User: NSManagedObject {
 
     @NSManaged public var id: String
+    @NSManaged public var schoolId: String
     @NSManaged public var email: String?
     @NSManaged public var firstName: String?
     @NSManaged public var lastName: String?
@@ -25,7 +26,6 @@ public final class User: NSManagedObject {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<User> {
         return NSFetchRequest<User>(entityName: "User")
     }
-
 }
 
 public final class PermissionStorage: NSObject, NSCoding {
@@ -77,6 +77,7 @@ extension User: Pullable {
         self.email = try object.value(for: "email")
         self.firstName = try object.value(for: "firstName")
         self.lastName = try object.value(for: "lastName")
+        self.schoolId = try object.value(for: "schoolId")
         self.roles = try object.value(for: "roles")
 
         let permissions: [String] = (try? object.value(for: "permissions")) ?? []

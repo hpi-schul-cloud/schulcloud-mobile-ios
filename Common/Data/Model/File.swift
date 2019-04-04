@@ -41,6 +41,7 @@ public final class File: NSManagedObject {
 
     @NSManaged public var parentDirectory: File?
     @NSManaged public var contents: Set<File>
+    @NSManaged public var includedIn: Submission?
 
     var owner: Owner {
         get {
@@ -193,8 +194,7 @@ extension File {
         return file
     }
 
-    static func createOrUpdate(inContext context: NSManagedObjectContext, parentFolder: File, data: MarshaledObject) throws -> File {
-        let name: String = try data.value(for: "name")
+    public static func createOrUpdate(inContext context: NSManagedObjectContext, parentFolder: File, data: MarshaledObject) throws -> File {
         let id: String = try data.value(for: "_id")
 
         let fetchRequest = NSFetchRequest<File>(entityName: "File")
@@ -207,18 +207,31 @@ extension File {
             throw SCError.coreDataMoreThanOneObjectFound
         }
 
-        let existed = !result.isEmpty
-
         let file = result.first ?? File(context: context)
-        file.id = id
+        file.isDirectory = try data.value(for: "isDirectory")
+        file.parentDirectory = parentFolder
+
+        if !result.isEmpty && file.isDirectory {
+            file.downloadState = .downloaded
+        }
+
+        try self.update(file: file, with: data)
+
+        return file
+    }
+
+    public static func update(file: File, with data: MarshaledObject) throws {
+
+        file.id = try data.value(for: "_id")
 
         let allowedCharacters = CharacterSet.whitespacesAndNewlines.inverted
         let thumbnailRemoteURLString = try? data.value(for: "thumbnail") as String
         let percentEncodedThumbnailURLString = thumbnailRemoteURLString?.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
         file.thumbnailRemoteURL = URL(string: percentEncodedThumbnailURLString ?? "")
 
-        file.name = name
+        file.name = try data.value(for: "name")
         file.isDirectory = try data.value(for: "isDirectory")
+
         file.mimeType = file.isDirectory ? "public.folder" : try? data.value(for: "type")
         file.size = file.isDirectory ? 0 : try data.value(for: "size")
         file.createdAt = try data.value(for: "createdAt")
@@ -231,16 +244,10 @@ extension File {
         file.ownerId = try data.value(for: "owner")
         file.ownerTypeStorage = try data.value(for: "refOwnerModel")
 
-        file.lastReadAt = file.createdAt
-        if existed && file.isDirectory {
-            file.downloadState = .downloaded
-        }
-
+        //TODO(Florian): Manage here when uploading works
         file.uploadState = .uploaded
 
-        file.parentDirectory = parentFolder
-
-        let user = context.typedObject(with: Globals.currentUser!.objectID) as User
+        let user = file.managedObjectContext!.typedObject(with: Globals.currentUser!.objectID) as User
 
         let permissionsObject: [MarshaledObject]? = try? data.value(for: "permissions")
         let rolePermission = try permissionsObject?.filter { try $0.value(for: "refPermModel") == "role" }.first(where: { user.roles.contains(try $0.value(for: "refId")) })
@@ -251,8 +258,6 @@ extension File {
         } else if let rolePermission = rolePermission {
             file.permissions = try Permissions(json: rolePermission)
         }
-
-        return file
     }
 }
 
@@ -315,7 +320,7 @@ extension File {
         return File.mimeToUTI(mime: mimeType)
     }
 
-    private static func mimeToUTI(mime: String) -> String? {
+    public static func mimeToUTI(mime: String) -> String? {
         let cfMime = mime as CFString
         guard let strPtr = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, cfMime, nil) else {
             return nil
@@ -323,6 +328,23 @@ extension File {
 
         let cfUTI = Unmanaged<CFString>.fromOpaque(strPtr.toOpaque()).takeUnretainedValue() as CFString
         return cfUTI as String
+    }
+
+    public static func UTItoMime(uti: String) -> String {
+        let cfUti = uti as CFString
+        if let mimetype = UTTypeCopyPreferredTagWithClass(cfUti, kUTTagClassMIMEType)?.takeRetainedValue() {
+            return mimetype as String
+        }
+        return "application/octet-stream"
+    }
+
+    public static func UTIForFile(at url: URL) -> String? {
+        let pathExtension = url.pathExtension
+
+        if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue() {
+            return uti as String
+        }
+        return nil
     }
 }
 
@@ -335,7 +357,7 @@ extension File {
 
         let result = context.fetchSingle(fetchRequest)
         guard let value = result.value else {
-            log.error("Didn't find file with id: %@", id, error: result.error)
+            log.error("Didn't find file with id: \(id)")
             return nil
         }
 
@@ -350,7 +372,7 @@ extension File {
 
         let result = context.fetchMultiple(fetchRequest)
         guard let value = result.value else {
-            log.error("Error looking for item with parentID: %@", id, error: result.error)
+            log.error("Error looking for item with parentID: \(id)")
             return nil
         }
 
@@ -366,7 +388,7 @@ extension File {
 
         let result = context.fetchMultiple(fetchRequest)
         guard let value = result.value else {
-            log.error("Fetching ids failed", error: result.error)
+            log.error("Error looking with ids")
             return nil
         }
 

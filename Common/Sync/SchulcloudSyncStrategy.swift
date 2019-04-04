@@ -83,7 +83,13 @@ extension SchulcloudSyncStrategy {
     }
 
     func resourceData(for resource: Pushable) -> Result<Data, SyncError> {
-        fatalError("This needs to be implemented")
+        let json = resource.resourceAttributes()
+        do {
+            let data = try JSONSerialization.data(withJSONObject: json, options: [])
+            return .success(data)
+        } catch let error {
+            return .failure(SyncError.unknown(error))
+        }
     }
 
 }

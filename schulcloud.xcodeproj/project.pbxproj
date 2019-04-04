@@ -21,7 +21,6 @@
 		506D7E28210616B30018D9E2 /* NewsOverview.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E27210616B30018D9E2 /* NewsOverview.storyboard */; };
 		506D7E2A210616C40018D9E2 /* MissingPermission.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E29210616C40018D9E2 /* MissingPermission.storyboard */; };
 		506D7E2C210618220018D9E2 /* NotificationList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E2B210618220018D9E2 /* NotificationList.storyboard */; };
-		506D7E30210618440018D9E2 /* Homework.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E2F210618440018D9E2 /* Homework.storyboard */; };
 		506D7E32210618640018D9E2 /* NewsList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E31210618640018D9E2 /* NewsList.storyboard */; };
 		506D7E342106186F0018D9E2 /* NewsDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 506D7E332106186F0018D9E2 /* NewsDetail.storyboard */; };
 		506E5DA42199864D004DFBD7 /* LoadingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506E5DA32199864D004DFBD7 /* LoadingButton.swift */; };
@@ -43,11 +42,14 @@
 		CE1EAE8C20E500F800C66DDD /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1EAE8B20E500F800C66DDD /* Brand.swift */; };
 		CE1EAE8E20E5036E00C66DDD /* BrandColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1EAE8D20E5036E00C66DDD /* BrandColors.swift */; };
 		CE1EAE9020E503C600C66DDD /* BrandServers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1EAE8F20E503C600C66DDD /* BrandServers.swift */; };
+		CE1F6059225200C10043320F /* HomeworkSubmitFileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE1F6058225200C10043320F /* HomeworkSubmitFileCell.xib */; };
+		CE1F605B225201330043320F /* HomeworkSubmitFileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1F605A225201330043320F /* HomeworkSubmitFileCell.swift */; };
 		CE2AD3F921C92CB400FC1F5E /* HTMLHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2AD3F821C92CB400FC1F5E /* HTMLHelper.swift */; };
 		CE323E5C215D11D90028A088 /* FileEnumerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE323E5A215D11A60028A088 /* FileEnumerator.swift */; };
 		CE323E5E215D11F10028A088 /* OnlineFolderEnumerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE323E5D215D11F10028A088 /* OnlineFolderEnumerator.swift */; };
 		CE323E60215D12280028A088 /* WorkingSetEnumerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE323E5F215D12280028A088 /* WorkingSetEnumerator.swift */; };
 		CE323E62215D12C00028A088 /* WorkingSetSyncAnchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE323E61215D12C00028A088 /* WorkingSetSyncAnchor.swift */; };
+		CE39DD6F222D5A7800C374F5 /* Homework.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE39DD6E222D5A7800C374F5 /* Homework.storyboard */; };
 		CE3C5573206BD6BB00B79034 /* MissingPermissionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE3C5572206BD6BB00B79034 /* MissingPermissionView.xib */; };
 		CE41521720D9370000739CE2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9021EBCC17600825DBF /* AppDelegate.swift */; };
 		CE41528920DBD9F000739CE2 /* DashboardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE23F10D2056B01C00E79E64 /* DashboardLayout.swift */; };
@@ -87,6 +89,7 @@
 		CE4152AC20DBDA4D00739CE2 /* LessonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32870C11EE0250500ABA348 /* LessonsViewController.swift */; };
 		CE4152AD20DBDA4D00739CE2 /* SingleLessonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3CAB01EF5CBB6009601AE /* SingleLessonViewController.swift */; };
 		CE4152B620E2854900739CE2 /* Assets-ios-brand.generated.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE4152B520E2854900739CE2 /* Assets-ios-brand.generated.xcassets */; };
+		CE68A2F521F89B1700E26B6B /* HomeworkSubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE68A2F421F89B1700E26B6B /* HomeworkSubmitViewController.swift */; };
 		CE7BFC15212DA2E200C1B871 /* Assets-ios-brand.generated.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE4152B520E2854900739CE2 /* Assets-ios-brand.generated.xcassets */; };
 		CE85F0AF210091B700112085 /* FileSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE85F0AE210091B700112085 /* FileSync.swift */; };
 		CE95A4AE2111FEDA0061BCDD /* FileProviderExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95A4AD2111FEDA0061BCDD /* FileProviderExtension.swift */; };
@@ -135,6 +138,8 @@
 		CEEE0A4F20D2ADB300B0C2CE /* SchulcloudSyncConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50359DA8203F159300D24E0F /* SchulcloudSyncConfig.swift */; };
 		CEEE0A8020D2AF9200B0C2CE /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEE0A7F20D2AF9200B0C2CE /* Logger.swift */; };
 		CEFAFEE02158ED270029B9E2 /* Bundle+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFAFEDF2158ED270029B9E2 /* Bundle+.swift */; };
+		CEFF036021F077A700DD8A56 /* Submission.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF035F21F077A700DD8A56 /* Submission.swift */; };
+		CEFF036221F0910900DD8A56 /* SubmissionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFF036121F0910900DD8A56 /* SubmissionHelper.swift */; };
 		FD018E513AAFA100CC2BA7E3 /* Pods_Common_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C519C974B5E6B997A0F19C57 /* Pods_Common_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -243,7 +248,6 @@
 		506D7E27210616B30018D9E2 /* NewsOverview.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NewsOverview.storyboard; sourceTree = "<group>"; };
 		506D7E29210616C40018D9E2 /* MissingPermission.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MissingPermission.storyboard; sourceTree = "<group>"; };
 		506D7E2B210618220018D9E2 /* NotificationList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NotificationList.storyboard; sourceTree = "<group>"; };
-		506D7E2F210618440018D9E2 /* Homework.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Homework.storyboard; sourceTree = "<group>"; };
 		506D7E31210618640018D9E2 /* NewsList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NewsList.storyboard; sourceTree = "<group>"; };
 		506D7E332106186F0018D9E2 /* NewsDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NewsDetail.storyboard; sourceTree = "<group>"; };
 		506E5DA32199864D004DFBD7 /* LoadingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingButton.swift; sourceTree = "<group>"; };
@@ -339,6 +343,8 @@
 		CE1EAE9B20E5139800C66DDD /* BrandConfiguration.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = BrandConfiguration.plist; path = "Assets-ios-brand.xcassets/BrandConfiguration.dataset/BrandConfiguration.plist"; sourceTree = "<group>"; };
 		CE1EAE9D20E516BB00C66DDD /* n21-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "n21-Release.xcconfig"; sourceTree = "<group>"; };
 		CE1EAE9E20E516BB00C66DDD /* n21-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "n21-Debug.xcconfig"; sourceTree = "<group>"; };
+		CE1F6058225200C10043320F /* HomeworkSubmitFileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeworkSubmitFileCell.xib; sourceTree = "<group>"; };
+		CE1F605A225201330043320F /* HomeworkSubmitFileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkSubmitFileCell.swift; sourceTree = "<group>"; };
 		CE23F10D2056B01C00E79E64 /* DashboardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardLayout.swift; sourceTree = "<group>"; };
 		CE2AD3F821C92CB400FC1F5E /* HTMLHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLHelper.swift; sourceTree = "<group>"; };
 		CE2FF7792045A15900D5AF8E /* UserPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPermissions.swift; sourceTree = "<group>"; };
@@ -346,6 +352,7 @@
 		CE323E5D215D11F10028A088 /* OnlineFolderEnumerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineFolderEnumerator.swift; sourceTree = "<group>"; };
 		CE323E5F215D12280028A088 /* WorkingSetEnumerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkingSetEnumerator.swift; sourceTree = "<group>"; };
 		CE323E61215D12C00028A088 /* WorkingSetSyncAnchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkingSetSyncAnchor.swift; sourceTree = "<group>"; };
+		CE39DD6E222D5A7800C374F5 /* Homework.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Homework.storyboard; sourceTree = "<group>"; };
 		CE3C5572206BD6BB00B79034 /* MissingPermissionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MissingPermissionView.xib; sourceTree = "<group>"; };
 		CE3C5574206BE07200B79034 /* MissingPermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissingPermissionView.swift; sourceTree = "<group>"; };
 		CE3C5576206BE0DA00B79034 /* PermissionManagmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManagmentViewController.swift; sourceTree = "<group>"; };
@@ -360,6 +367,7 @@
 		CE43B49820594E5D00950EA0 /* DashboardNoPermissionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardNoPermissionViewController.swift; sourceTree = "<group>"; };
 		CE443936205BDEDD00CC3311 /* UIAlertController+Permission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Permission.swift"; sourceTree = "<group>"; };
 		CE644E8820232710003AE700 /* UIColor+hexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+hexString.swift"; sourceTree = "<group>"; };
+		CE68A2F421F89B1700E26B6B /* HomeworkSubmitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkSubmitViewController.swift; sourceTree = "<group>"; };
 		CE6F9AB62153DCED007B8C20 /* Schulcloud-FileProvider_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Schulcloud-FileProvider_Debug.xcconfig"; sourceTree = "<group>"; };
 		CE6F9AB72153DE5F007B8C20 /* Schulcloud-FileProvider_Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Schulcloud-FileProvider_Release.xcconfig"; sourceTree = "<group>"; };
 		CE6F9AB82153E560007B8C20 /* n21-FileProvider_Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "n21-FileProvider_Release.xcconfig"; sourceTree = "<group>"; };
@@ -395,6 +403,8 @@
 		CEFAFEDF2158ED270029B9E2 /* Bundle+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+.swift"; sourceTree = "<group>"; };
 		CEFAFEE121590BB70029B9E2 /* Schulcloud-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Schulcloud-Common.xcconfig"; sourceTree = "<group>"; };
 		CEFAFEE2215919D70029B9E2 /* n21-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "n21-Common.xcconfig"; sourceTree = "<group>"; };
+		CEFF035F21F077A700DD8A56 /* Submission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Submission.swift; sourceTree = "<group>"; };
+		CEFF036121F0910900DD8A56 /* SubmissionHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmissionHelper.swift; sourceTree = "<group>"; };
 		D32E014BC215A558A2D90EA8 /* Pods_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA5FD4AAA12B9AE0C7D50FD8 /* Pods-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOS/Pods-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		ED071A035430C1620C387C71 /* Pods-Common-Tests.n21-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common-Tests.n21-debug.xcconfig"; path = "Pods/Target Support Files/Pods-Common-Tests/Pods-Common-Tests.n21-debug.xcconfig"; sourceTree = "<group>"; };
@@ -523,6 +533,7 @@
 				CEBE154A207B9BE900238D1F /* HomeworkByCourseCell.swift */,
 				C3165F1C1EDC1BAE005F5B8E /* HomeworkByDateCell.swift */,
 				CEBE154C207B9D0300238D1F /* HomeworkHeaderView.swift */,
+				CE1F605A225201330043320F /* HomeworkSubmitFileCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -550,6 +561,7 @@
 				50B44D84203AAEE1009DC2D3 /* NewsArticle.swift */,
 				50B44D7F203AAEE0009DC2D3 /* User.swift */,
 				CE323E61215D12C00028A088 /* WorkingSetSyncAnchor.swift */,
+				CEFF035F21F077A700DD8A56 /* Submission.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -669,10 +681,10 @@
 			isa = PBXGroup;
 			children = (
 				CED9E59E218B173C0020FC7A /* HomeworkList */,
-				CE1253322181D92800CA2213 /* TableViewFetchedControllerDelegate.swift */,
 				CE23F10C2056B00800E79E64 /* Dashboard */,
 				C31C84281ECF550C00FA070C /* File Preview */,
 				C3B7DB151EF5EB2200A2F2B5 /* Lesson */,
+				CE1253322181D92800CA2213 /* TableViewFetchedControllerDelegate.swift */,
 				C3418B611ECEE6FB00280E62 /* FilesViewController.swift */,
 				C32870BB1EDF32C600ABA348 /* CoursesViewController.swift */,
 				C3A5A9331EBCCE3B00825DBF /* LoginViewController.swift */,
@@ -689,6 +701,7 @@
 		C3A5A9361EBCD06200825DBF /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				CE25A12A2200A73A0094E3B7 /* Homework */,
 				506D7E20210615FC0018D9E2 /* Dashboard */,
 				C3A5A90E1EBCC17600825DBF /* LaunchScreen.storyboard */,
 				C3A5A9061EBCC17600825DBF /* Main.storyboard */,
@@ -697,13 +710,11 @@
 				503A5EFC1F3DC5DC00A7695B /* TabCourses.storyboard */,
 				503A5EF91F3DB86C00A7695B /* TabSettings.storyboard */,
 				506D7E2B210618220018D9E2 /* NotificationList.storyboard */,
-				506D7E2F210618440018D9E2 /* Homework.storyboard */,
 				506D7E31210618640018D9E2 /* NewsList.storyboard */,
 				506D7E332106186F0018D9E2 /* NewsDetail.storyboard */,
 				C3418B651ED335F300280E62 /* PreviewTransitionViewController.xib */,
 				C3418B661ED335F300280E62 /* WebviewPreviewViewContoller.xib */,
 				CE3C5572206BD6BB00B79034 /* MissingPermissionView.xib */,
-				CEBE1546207B63DC00238D1F /* HomeworkHeaderView.xib */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -744,6 +755,7 @@
 				5083AB58203D517F002E6E47 /* UserHelper.swift */,
 				50604581206BA401009569D1 /* schulcloud.xcdatamodeld */,
 				CE85F0AE210091B700112085 /* FileSync.swift */,
+				CEFF036121F0910900DD8A56 /* SubmissionHelper.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -787,6 +799,16 @@
 				CE3C5576206BE0DA00B79034 /* PermissionManagmentViewController.swift */,
 			);
 			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		CE25A12A2200A73A0094E3B7 /* Homework */ = {
+			isa = PBXGroup;
+			children = (
+				CE39DD6E222D5A7800C374F5 /* Homework.storyboard */,
+				CEBE1546207B63DC00238D1F /* HomeworkHeaderView.xib */,
+				CE1F6058225200C10043320F /* HomeworkSubmitFileCell.xib */,
+			);
+			path = Homework;
 			sourceTree = "<group>";
 		};
 		CE41528520DBCF0200739CE2 /* Configurations */ = {
@@ -855,6 +877,7 @@
 				CED9E59F218B17640020FC7A /* HomeworkListCourseSortedViewController.swift */,
 				CED9E5A1218B177B0020FC7A /* HomeworkListDateSortedViewController.swift */,
 				507684BF1F5D9AAF00EEC7FA /* HomeworkDetailViewController.swift */,
+				CE68A2F421F89B1700E26B6B /* HomeworkSubmitViewController.swift */,
 			);
 			path = HomeworkList;
 			sourceTree = "<group>";
@@ -1131,6 +1154,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				506D7E342106186F0018D9E2 /* NewsDetail.storyboard in Resources */,
+				CE1F6059225200C10043320F /* HomeworkSubmitFileCell.xib in Resources */,
 				C3418B681ED335F400280E62 /* WebviewPreviewViewContoller.xib in Resources */,
 				506D7E24210616910018D9E2 /* HomeworkOverview.storyboard in Resources */,
 				50094E66219DCFCC007A40B9 /* Settings.bundle in Resources */,
@@ -1146,8 +1170,8 @@
 				C3418B671ED335F400280E62 /* PreviewTransitionViewController.xib in Resources */,
 				C3A5A90D1EBCC17600825DBF /* Assets.xcassets in Resources */,
 				C3A5A9081EBCC17600825DBF /* Main.storyboard in Resources */,
-				506D7E30210618440018D9E2 /* Homework.storyboard in Resources */,
 				CEBE1547207B63DC00238D1F /* HomeworkHeaderView.xib in Resources */,
+				CE39DD6F222D5A7800C374F5 /* Homework.storyboard in Resources */,
 				503A5F011F3DC6C700A7695B /* TabDashboard.storyboard in Resources */,
 				506D7E32210618640018D9E2 /* NewsList.storyboard in Resources */,
 				506D7E26210616A50018D9E2 /* NotificationOverview.storyboard in Resources */,
@@ -1476,10 +1500,12 @@
 				CE4152A620DBDA3300739CE2 /* HtmlTableViewCell.swift in Sources */,
 				CE4152A020DBD9FE00739CE2 /* UIView+shake.swift in Sources */,
 				CE41529E20DBD9F900739CE2 /* NewsListViewController.swift in Sources */,
+				CE68A2F521F89B1700E26B6B /* HomeworkSubmitViewController.swift in Sources */,
 				CE4152AA20DBDA3300739CE2 /* HomeworkByDateCell.swift in Sources */,
 				CE41529320DBD9F500739CE2 /* LoadingViewController.swift in Sources */,
 				CE4152AD20DBDA4D00739CE2 /* SingleLessonViewController.swift in Sources */,
 				CED9E5A0218B17640020FC7A /* HomeworkListCourseSortedViewController.swift in Sources */,
+				CE1F605B225201330043320F /* HomeworkSubmitFileCell.swift in Sources */,
 				CE4152AC20DBDA4D00739CE2 /* LessonsViewController.swift in Sources */,
 				CE41529B20DBD9F900739CE2 /* NotificationOverviewViewController.swift in Sources */,
 				CE41529620DBD9F900739CE2 /* CoursesViewController.swift in Sources */,
@@ -1521,6 +1547,7 @@
 				CEEE0A3D20D2AD9000B0C2CE /* LessonHelper.swift in Sources */,
 				CEEE0A4320D2AD9000B0C2CE /* UserPermissions.swift in Sources */,
 				CE2AD3F921C92CB400FC1F5E /* HTMLHelper.swift in Sources */,
+				CEFF036021F077A700DD8A56 /* Submission.swift in Sources */,
 				CEEE0A3120D2AD8400B0C2CE /* Course.swift in Sources */,
 				CEAF17A22187137800146C46 /* Optional+require.swift in Sources */,
 				CEEE0A3720D2AD8400B0C2CE /* NewsArticle.swift in Sources */,
@@ -1548,6 +1575,7 @@
 				CEEE0A4C20D2ADAD00B0C2CE /* UIColor+hexString.swift in Sources */,
 				CEEE0A3A20D2AD9000B0C2CE /* CoreDataObserver.swift in Sources */,
 				CEEE0A8020D2AF9200B0C2CE /* Logger.swift in Sources */,
+				CEFF036221F0910900DD8A56 /* SubmissionHelper.swift in Sources */,
 				CEEE0A2B20D2AB5A00B0C2CE /* Account.swift in Sources */,
 				CE1EAE9020E503C600C66DDD /* BrandServers.swift in Sources */,
 				CEEE0A4920D2ADAD00B0C2CE /* String+.swift in Sources */,
