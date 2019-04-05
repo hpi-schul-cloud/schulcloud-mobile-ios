@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		197EC25ADE53536DC7304C1A /* Pods_Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7453D6B0608647AAC1BEDAB /* Pods_Common.framework */; };
+		220E8D9C2257A4A300CC57BC /* NonSelectableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220E8D9B2257A4A300CC57BC /* NonSelectableView.swift */; };
 		3E64DABF207A8D6F5DB59E59 /* Pods_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D32E014BC215A558A2D90EA8 /* Pods_iOS.framework */; };
 		4496FDB03C08BA952EBA4CD1 /* Pods_iOS_fileprovider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C87D60CBBCD0804B5A1870B /* Pods_iOS_fileprovider.framework */; };
 		50094E66219DCFCC007A40B9 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 50094E65219DCFCC007A40B9 /* Settings.bundle */; };
@@ -216,6 +217,7 @@
 /* Begin PBXFileReference section */
 		060453293998EF378CE1C45F /* Pods_Common_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Common_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		09D7CC393E1856DD7EF9B21F /* Pods_schulcloud.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloud.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		220E8D9B2257A4A300CC57BC /* NonSelectableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NonSelectableView.swift; sourceTree = "<group>"; };
 		270BA83590B5166B5A30D6B3 /* Pods_schulcloudUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloudUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DA157DAB96C8A89714682BC /* Pods-iOS-fileprovider.n21-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-fileprovider.n21-release.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-fileprovider/Pods-iOS-fileprovider.n21-release.xcconfig"; sourceTree = "<group>"; };
 		33FB39722356922361DF3BBB /* Pods-Common.schulcloud-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Common.schulcloud-debug.xcconfig"; path = "Pods/Target Support Files/Pods-Common/Pods-Common.schulcloud-debug.xcconfig"; sourceTree = "<group>"; };
@@ -534,6 +536,7 @@
 				C3165F1C1EDC1BAE005F5B8E /* HomeworkByDateCell.swift */,
 				CEBE154C207B9D0300238D1F /* HomeworkHeaderView.swift */,
 				CE1F605A225201330043320F /* HomeworkSubmitFileCell.swift */,
+				220E8D9B2257A4A300CC57BC /* NonSelectableView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1489,6 +1492,7 @@
 				506E5DA42199864D004DFBD7 /* LoadingButton.swift in Sources */,
 				CE4152A120DBD9FE00739CE2 /* UIAlertController+Permission.swift in Sources */,
 				CE41529520DBD9F900739CE2 /* HomeworkListViewController.swift in Sources */,
+				220E8D9C2257A4A300CC57BC /* NonSelectableView.swift in Sources */,
 				CE41529A20DBD9F900739CE2 /* NotificationViewController.swift in Sources */,
 				CE41528D20DBD9F000739CE2 /* HomeworkOverviewViewController.swift in Sources */,
 				CE41529C20DBD9F900739CE2 /* HomeworkDetailViewController.swift in Sources */,

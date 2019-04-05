@@ -11,7 +11,7 @@ class HomeworkByDateCell: UITableViewCell {
     @IBOutlet private var subjectLabel: UILabel!
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var contentLabel: UILabel!
-    @IBOutlet private var coloredStrip: UIView!
+    @IBOutlet private var coloredStrip: NonSelectableView!
     @IBOutlet private var dueLabel: UILabel!
 
     override func awakeFromNib() {
