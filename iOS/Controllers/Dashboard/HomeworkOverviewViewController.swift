@@ -142,7 +142,7 @@ extension HomeworkOverviewViewController: NSFetchedResultsControllerDelegate {
             result[course] = (result[course] ?? 0) + 1
         }
 
-        organizedHomeworkData =  [Course: Int](pairs: result.sorted { $0.0.name < $1.0.name })
+        organizedHomeworkData =  [Course: Int](uniqueKeysWithValues: result.sorted { $0.0.name < $1.0.name })
         self.updateHomeworkCount()
         tableView.reloadData()
         self.delegate?.heightDidChange(height: self.height)

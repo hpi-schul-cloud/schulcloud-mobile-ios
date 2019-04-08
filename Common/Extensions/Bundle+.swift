@@ -9,4 +9,8 @@ public extension Bundle {
     public var appGroupIdentifier: String? {
         return self.infoDictionary?["APP_GROUP_IDENTIFIER"] as? String
     }
+
+    public var keychainGroupIdentifier: String? {
+        return self.infoDictionary?["KEYCHAIN_GROUP"] as? String
+    }
 }
