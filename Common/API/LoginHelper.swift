@@ -6,7 +6,6 @@
 import BrightFutures
 import Foundation
 import JWTDecode
-import Locksmith
 import Result
 
 public extension UserDefaults {
@@ -132,7 +131,7 @@ public class LoginHelper {
         }
 
         var account = SchulCloudAccount(userId: userId, accountId: accountId, accessToken: nil)
-        account.loadAccessTokenFromKeychain()
+        try? account.readFromSecureStore()
 
         return account
     }

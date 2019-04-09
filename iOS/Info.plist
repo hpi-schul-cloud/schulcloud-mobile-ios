@@ -26,6 +26,8 @@
 	<true/>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
+	<key>KEYCHAIN_GROUP</key>
+	<string>$(KEYCHAIN_GROUP)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCalendarsUsageDescription</key>

@@ -5,17 +5,32 @@
 
 import CoreData
 import Foundation
-import Locksmith
+import Security
 
-public struct SchulCloudAccount: ReadableSecureStorable, DeleteableSecureStorable, SecureStorableResultType {
+public struct SchulCloudAccount {
 
     public var userId: String
     public var accountId: String
     public var accessToken: String?
 
-    mutating func loadAccessTokenFromKeychain() {
-        let result = self.readFromSecureStore()
-        self.accessToken = result?.data?["accessToken"] as? String
+    private let service: String = "Schul-Cloud" // TODO(Florian): Brand this
+
+    fileprivate enum KeychainError: Error{
+        case itemAlreadyExists
+        case itemDoesNotExist
+
+        case unknown
+
+        init(osstatus: OSStatus) {
+            switch osstatus {
+            case errSecDuplicateItem:
+                self = KeychainError.itemAlreadyExists
+            case errSecItemNotFound:
+                self = KeychainError.itemDoesNotExist
+            default:
+                self = KeychainError.unknown
+            }
+        }
     }
 
     func saveCredentials() throws {
@@ -30,27 +45,72 @@ public struct SchulCloudAccount: ReadableSecureStorable, DeleteableSecureStorabl
             try self.updateInSecureStore()
         }
     }
-
 }
 
-extension SchulCloudAccount: GenericPasswordSecureStorable {
+//MARK: Keychain struff
+extension SchulCloudAccount {
 
-    public var service: String {
-        return "Schul-Cloud"
+    func createInSecureStore() throws {
+        guard let accessToken = accessToken else {
+            return
+        }
+
+        let accessTokenData = accessToken.data(using: .utf8)
+
+        var query = self.keychainQuery()
+        query[kSecValueData as String] = accessTokenData as AnyObject
+
+        let osstatus = SecItemAdd(query as CFDictionary, nil)
+        guard osstatus == noErr else { throw KeychainError(osstatus: osstatus)}
     }
 
-    public var account: String {
-        return self.userId
+    func updateInSecureStore() throws {
+        guard let accessToken = accessToken else {
+            return
+        }
+
+        let accessTokenData = accessToken.data(using: .utf8)
+
+        let query = self.keychainQuery()
+        let attributeToUpdate: [String: AnyObject?] = [kSecValueData as String: accessTokenData as AnyObject]
+
+        let osstatus = SecItemUpdate(query as CFDictionary, attributeToUpdate as CFDictionary)
+        guard osstatus == noErr else { throw KeychainError(osstatus: osstatus)}
     }
 
-}
+    mutating func readFromSecureStore() throws {
+        var query = self.keychainQuery()
+        query[kSecMatchLimit as String] = kSecMatchLimitOne as AnyObject
+        query[kSecReturnData as String] = kCFBooleanTrue as AnyObject
+        query[kSecReturnAttributes as String] = kCFBooleanTrue as AnyObject
 
-extension SchulCloudAccount: CreateableSecureStorable {
+        var result: AnyObject?
+        let osstatus = withUnsafeMutablePointer(to: &result) {
+            return SecItemCopyMatching(query as CFDictionary, $0)
+        }
 
-    public var data: [String: Any] {
-        return ["accessToken": self.accessToken as AnyObject]
+        guard osstatus == noErr else { throw KeychainError(osstatus: osstatus) }
+        guard let entry = result as? [String: AnyObject],
+              let accessTokenData = entry[kSecValueData as String] as? Data,
+              let accessToken = String(data: accessTokenData, encoding: .utf8) else {
+                throw KeychainError.unknown
+        }
+
+        self.accessToken = accessToken
     }
 
+    func deleteFromSecureStore() throws {
+        let query = self.keychainQuery()
+        let osstatus = SecItemDelete(query as CFDictionary)
+        guard osstatus == noErr else { throw KeychainError(osstatus: osstatus) }
+    }
+
+    private func keychainQuery() -> [String: AnyObject?] {
+        return [kSecClass as String: kSecClassGenericPassword,
+                kSecAttrAccount as String: self.userId as AnyObject,
+                kSecAttrService as String: self.service as AnyObject,
+                kSecAttrAccessGroup as String: Bundle.main.keychainGroupIdentifier as AnyObject]
+    }
 }
 
 public class Globals {

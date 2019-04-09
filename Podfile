@@ -11,7 +11,6 @@ target 'Common' do
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
   pod 'JWTDecode', '~> 2.0'
-  pod 'Locksmith', '~> 3.0'
   pod 'SyncEngine', :path => './Frameworks/SyncEngine'
   pod 'HTMLStyler', :path => './Frameworks/HTMLStyler'
 
