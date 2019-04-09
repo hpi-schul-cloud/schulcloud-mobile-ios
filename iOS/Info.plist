@@ -30,10 +30,10 @@
 	<true/>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Um Kalenderdaten lokal zu speichern</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Um Fotos zu speichern</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Um Fotos hochzuladen</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Um Fotos zu speichern</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>PT_Sans-Web-Regular.ttf</string>
