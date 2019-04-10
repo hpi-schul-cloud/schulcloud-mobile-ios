@@ -79,6 +79,8 @@ class CoreDataTableViewDataSource<Delegate: CoreDataTableViewDataSourceDelegate>
             break
         case .update:
             break
+        @unknown default:
+            fatalError()
         }
     }
 
@@ -102,6 +104,8 @@ class CoreDataTableViewDataSource<Delegate: CoreDataTableViewDataSourceDelegate>
             let newIndexPath = newIndexPath.require(hint: "newIndexPath is required for table view cell move")
             self.tableView?.deleteRows(at: [indexPath], with: .fade)
             self.tableView?.insertRows(at: [newIndexPath], with: .fade)
+        @unknown default:
+            fatalError()
         }
     }
 

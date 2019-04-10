@@ -67,8 +67,9 @@ class FileProviderItem: NSObject, NSFileProviderItem {
         self.lastUsedDate = file.lastReadAt
 
         if file.isDirectory,
-            let rankValueData = file.favoriteRankData {
-            let rankValue: UInt64 = rankValueData.withUnsafeBytes { $0.pointee }
+            let rankValueData = file.favoriteRankData,
+            let rankValue: UInt64 = rankValueData.withUnsafeBytes({ $0.baseAddress?.load(as: UInt64.self) })
+        {
             self.favoriteRank = file.isDirectory ? NSNumber(value: rankValue) : nil
         } else {
             self.favoriteRank = nil

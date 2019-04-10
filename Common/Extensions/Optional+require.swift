@@ -6,7 +6,7 @@
 import Foundation
 
 public extension Optional {
-    public func require(hint msg: String) -> Wrapped {
+    func require(hint msg: String) -> Wrapped {
         guard let result = self else {
             fatalError(msg)
         }

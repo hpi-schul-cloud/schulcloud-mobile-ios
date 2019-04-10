@@ -75,7 +75,7 @@ public final class File: NSManagedObject {
 
 public extension File {
 
-    public struct Permissions: OptionSet {
+    struct Permissions: OptionSet {
         public let rawValue: Int64
 
         static let read = Permissions(rawValue: 1 << 0)
@@ -122,14 +122,14 @@ public extension File {
 }
 
 public extension File {
-    public enum DownloadState: Int64 {
+    enum DownloadState: Int64 {
         case notDownloaded = 0
         case downloading = 1
         case downloaded = 2
         case downloadFailed = 3
     }
 
-    public var downloadState: DownloadState {
+    var downloadState: DownloadState {
         get {
             guard !FileManager.default.fileExists(atPath: self.localURL.path) else {
                 return .downloaded
@@ -145,14 +145,14 @@ public extension File {
 }
 
 public extension File {
-    public enum UploadState: Int64 {
+    enum UploadState: Int64 {
         case notUploaded = 0
         case uploading = 1
         case uploaded = 2
         case uploadError = 3
     }
 
-    public var uploadState: UploadState {
+    var uploadState: UploadState {
         get {
             return UploadState(rawValue: self.uploadStateValue) ?? .notUploaded
         }
