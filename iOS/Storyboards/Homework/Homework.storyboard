@@ -162,7 +162,7 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" spacingType="standard" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VuY-si-SZy">
                                                     <rect key="frame" x="0.0" y="0.0" width="317" height="18"/>
                                                     <subviews>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ETr-B4-Z2x" customClass="NonSelectableView" customModule="iOS" customModuleProvider="target">
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ETr-B4-Z2x" customClass="FixedBackgroundColorView" customModule="iOS" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="18" height="18"/>
                                                             <color key="backgroundColor" red="0.69411764710000001" green="0.015686274510000001" blue="0.21960784310000001" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
