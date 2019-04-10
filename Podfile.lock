@@ -81,7 +81,7 @@ PODS:
   - Neon (0.4.0)
   - Protobuf (3.6.1)
   - Result (4.0.0)
-  - SwiftLint (0.27.0)
+  - SwiftLint (0.31.0)
   - SyncEngine (0.1.0):
     - BrightFutures (~> 7.0)
     - Marshal (~> 1.2)
@@ -149,7 +149,7 @@ SPEC CHECKSUMS:
   Neon: 7fb5a9327e7e57911843f608e08f4893a74deaf9
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   Result: 7645bb3f50c2ce726dd0ff2fa7b6f42bbe6c3713
-  SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
+  SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
   SyncEngine: c4e7460de4fd06a73ccd2d9f63a220a107fd749f
 
 PODFILE CHECKSUM: 3f6afc6c24a07a5321f028520d42da9b8adfb010
