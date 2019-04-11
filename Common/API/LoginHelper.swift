@@ -9,7 +9,7 @@ import JWTDecode
 import Result
 
 public extension UserDefaults {
-    public static var appGroupDefaults: UserDefaults? {
+    static var appGroupDefaults: UserDefaults? {
         guard let suiteName = Bundle.main.appGroupIdentifier else { return nil }
         return UserDefaults(suiteName: suiteName)
     }

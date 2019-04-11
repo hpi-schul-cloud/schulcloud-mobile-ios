@@ -40,6 +40,8 @@ final class TableViewFetchedControllerDelegate: NSObject, NSFetchedResultsContro
         case .move:
             guard let newIndexPath = newIndexPath else { return }
             self.tableView?.moveRow(at: indexPath, to: newIndexPath)
+        @unknown default:
+            break
         }
     }
 
@@ -55,6 +57,8 @@ final class TableViewFetchedControllerDelegate: NSObject, NSFetchedResultsContro
         case .move:
             break
         case .update:
+            break
+        @unknown default:
             break
         }
     }

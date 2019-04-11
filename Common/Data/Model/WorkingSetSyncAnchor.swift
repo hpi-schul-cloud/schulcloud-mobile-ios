@@ -12,13 +12,13 @@ public final class WorkingSetSyncAnchor: NSManagedObject {
 
 public extension WorkingSetSyncAnchor {
 
-    public static let mainId: String = "WorkingSetSyncAnchor"
+    static let mainId: String = "WorkingSetSyncAnchor"
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<WorkingSetSyncAnchor> {
+    @nonobjc class func fetchRequest() -> NSFetchRequest<WorkingSetSyncAnchor> {
         return NSFetchRequest<WorkingSetSyncAnchor>(entityName: "WorkingSetSyncAnchor")
     }
 
-    public static var mainAnchorFetchRequest: NSFetchRequest<WorkingSetSyncAnchor> {
+    static var mainAnchorFetchRequest: NSFetchRequest<WorkingSetSyncAnchor> {
         let result = WorkingSetSyncAnchor.fetchRequest() as NSFetchRequest<WorkingSetSyncAnchor>
         result.predicate = NSPredicate(format: "id == %@", WorkingSetSyncAnchor.mainId)
         return result
