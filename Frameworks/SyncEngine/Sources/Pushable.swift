@@ -5,7 +5,6 @@
 
 import CoreData
 import Foundation
-import Result
 
 public enum ObjectState: Int16 {
     case unchanged = 0

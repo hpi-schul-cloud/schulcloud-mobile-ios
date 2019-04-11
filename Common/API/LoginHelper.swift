@@ -6,7 +6,6 @@
 import BrightFutures
 import Foundation
 import JWTDecode
-import Result
 
 public extension UserDefaults {
     static var appGroupDefaults: UserDefaults? {

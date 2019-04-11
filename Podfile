@@ -6,7 +6,7 @@ platform :ios, '10.0'
 pod 'SwiftLint', '~> 0.25'
 
 target 'Common' do
-  pod 'BrightFutures', '~> 7.0'
+  pod 'BrightFutures', '~> 8.0'
   pod 'Firebase/Auth'
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'

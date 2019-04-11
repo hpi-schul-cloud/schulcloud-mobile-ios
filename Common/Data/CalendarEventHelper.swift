@@ -6,7 +6,6 @@
 import BrightFutures
 import CoreData
 import Foundation
-import Result
 import SyncEngine
 
 public struct CalendarEventHelper {

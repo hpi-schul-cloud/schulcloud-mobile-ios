@@ -5,7 +5,6 @@
 import BrightFutures
 import Common
 import Marshal
-import Result
 import UIKit
 
 class HomeworkDetailViewController: UIViewController {

@@ -8,7 +8,6 @@ import CoreData
 import CoreServices
 import Foundation
 import Marshal
-import Result
 
 public struct SignedURLInfo {
     public let url: URL

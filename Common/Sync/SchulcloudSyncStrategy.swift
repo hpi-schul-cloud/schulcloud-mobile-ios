@@ -3,7 +3,6 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-import Result
 import SyncEngine
 
 protocol SchulcloudSyncStrategy: SyncStrategy {}
