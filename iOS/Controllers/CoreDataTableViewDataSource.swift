@@ -80,7 +80,7 @@ class CoreDataTableViewDataSource<Delegate: CoreDataTableViewDataSourceDelegate>
         case .update:
             break
         @unknown default:
-            fatalError()
+            break
         }
     }
 
@@ -105,7 +105,7 @@ class CoreDataTableViewDataSource<Delegate: CoreDataTableViewDataSourceDelegate>
             self.tableView?.deleteRows(at: [indexPath], with: .fade)
             self.tableView?.insertRows(at: [newIndexPath], with: .fade)
         @unknown default:
-            fatalError()
+            break
         }
     }
 
