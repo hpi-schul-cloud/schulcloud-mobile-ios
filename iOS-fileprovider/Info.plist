@@ -22,6 +22,8 @@
 	<string>1.0.0</string>
 	<key>CFBundleVersion</key>
 	<string>0</string>
+	<key>KEYCHAIN_GROUP</key>
+	<string>$(KEYCHAIN_GROUP)</string>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSExtensionFileProviderDocumentGroup</key>

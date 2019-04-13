@@ -210,6 +210,7 @@ extension File {
         let file = result.first ?? File(context: context)
         file.isDirectory = try data.value(for: "isDirectory")
         file.parentDirectory = parentFolder
+        file.lastReadAt = Date()
 
         if !result.isEmpty && file.isDirectory {
             file.downloadState = .downloaded
