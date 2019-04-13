@@ -8,7 +8,8 @@ import CoreData
 import Foundation
 import Marshal
 
-public class FileHelper {
+public enum FileHelper {
+
     public static var rootDirectoryID = "root"
     public static var coursesDirectoryID = "courses"
     public static var sharedDirectoryID = "shared"
@@ -122,9 +123,11 @@ public class FileHelper {
                 let isDownloadedPredicate = NSPredicate(format: "downloadStateValue == \(File.DownloadState.downloaded.rawValue)")
 
                 let locallyCachedFiles = NSFetchRequest<File>(entityName: "File")
-                locallyCachedFiles.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [notOnServerPredicate,
-                                                                                                   parentFolderPredicate,
-                                                                                                   isDownloadedPredicate, ])
+                locallyCachedFiles.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
+                    notOnServerPredicate,
+                    parentFolderPredicate,
+                    isDownloadedPredicate,
+                ])
 
                 let coordinator = NSFileCoordinator()
                 let deletedFilesWithLocalCache = context.fetchMultiple(locallyCachedFiles).value ?? []

@@ -8,7 +8,7 @@ import CoreData
 import Foundation
 import SyncEngine
 
-public struct CalendarEventHelper {
+public enum CalendarEventHelper {
 
     static let syncStrategy = CalendarSchulcloudSyncStrategy()
 

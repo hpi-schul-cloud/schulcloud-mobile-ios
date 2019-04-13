@@ -9,7 +9,7 @@ import DateToolsSwift
 import SyncEngine
 import UIKit
 
-protocol HomeworkOverviewDelegate: class {
+protocol HomeworkOverviewDelegate: AnyObject {
     func heightDidChange(height: CGFloat)
 }
 

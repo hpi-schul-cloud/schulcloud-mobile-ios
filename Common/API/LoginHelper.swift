@@ -14,7 +14,7 @@ public extension UserDefaults {
     }
 }
 
-public class LoginHelper {
+public enum LoginHelper {
 
     /// Setup the sync engine with the callback needed when an authentication error happens
     public static func setupAuthentication(authenticationHandler: @escaping () -> Void) {
@@ -96,7 +96,7 @@ public class LoginHelper {
     public static func login(username: String, password: String) -> Future<Void, SCError> {
         return self.authenticate(username: username, password: password).flatMap { _ in
             return UserHelper.syncUser(withId: Globals.account!.userId)
-        }.onSuccess{ (_) in
+        }.onSuccess { _ in
             FileHelper.createBaseStructure()
         }.asVoid()
     }

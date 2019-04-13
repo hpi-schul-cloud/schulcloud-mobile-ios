@@ -15,7 +15,7 @@ public struct SchulCloudAccount {
 
     private let service: String = "Schul-Cloud" // TODO(Florian): Brand this
 
-    fileprivate enum KeychainError: Error{
+    fileprivate enum KeychainError: Error {
         case itemAlreadyExists
         case itemDoesNotExist
 
@@ -47,7 +47,7 @@ public struct SchulCloudAccount {
     }
 }
 
-//MARK: Keychain struff
+// MARK: Keychain stuff
 extension SchulCloudAccount {
 
     func createInSecureStore() throws {
@@ -61,7 +61,7 @@ extension SchulCloudAccount {
         query[kSecValueData as String] = accessTokenData as AnyObject
 
         let osstatus = SecItemAdd(query as CFDictionary, nil)
-        guard osstatus == noErr else { throw KeychainError(osstatus: osstatus)}
+        guard osstatus == noErr else { throw KeychainError(osstatus: osstatus) }
     }
 
     func updateInSecureStore() throws {
@@ -75,7 +75,7 @@ extension SchulCloudAccount {
         let attributeToUpdate: [String: AnyObject?] = [kSecValueData as String: accessTokenData as AnyObject]
 
         let osstatus = SecItemUpdate(query as CFDictionary, attributeToUpdate as CFDictionary)
-        guard osstatus == noErr else { throw KeychainError(osstatus: osstatus)}
+        guard osstatus == noErr else { throw KeychainError(osstatus: osstatus) }
     }
 
     mutating func readFromSecureStore() throws {
@@ -106,14 +106,16 @@ extension SchulCloudAccount {
     }
 
     private func keychainQuery() -> [String: AnyObject?] {
-        return [kSecClass as String: kSecClassGenericPassword,
-                kSecAttrAccount as String: self.userId as AnyObject,
-                kSecAttrService as String: self.service as AnyObject,
-                kSecAttrAccessGroup as String: Bundle.main.keychainGroupIdentifier as AnyObject]
+        return [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: self.userId as AnyObject,
+            kSecAttrService as String: self.service as AnyObject,
+            kSecAttrAccessGroup as String: Bundle.main.keychainGroupIdentifier as AnyObject,
+        ]
     }
 }
 
-public class Globals {
+public enum Globals {
     public static var account: SchulCloudAccount?
 
     public static var currentUser: User? {

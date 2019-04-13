@@ -10,17 +10,17 @@ import Foundation
 // MARK: Extension with EvenKit convenience
 extension CalendarEventHelper {
 
-    private static var eventStore: EKEventStore = EKEventStore()
+    private static var eventStore = EKEventStore()
     private static var calendar: EKCalendar?
 
-    private struct Keys {
+    private enum Keys {
         static let shouldSynchronize = "org.schul-cloud.calendar.eventKitShouldSynchronize"
         static let calendarIdentifier = "org.schul-cloud.calendar.identifier"
     }
 
     public struct EventKitSettings {
 
-        public static var current: EventKitSettings = EventKitSettings()
+        public static var current = EventKitSettings()
         public var shouldSynchonize: Bool {
             get {
                 return UserDefaults.standard.bool(forKey: Keys.shouldSynchronize)

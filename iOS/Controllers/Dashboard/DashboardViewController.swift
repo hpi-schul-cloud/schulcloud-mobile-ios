@@ -6,7 +6,7 @@
 import Common
 import UIKit
 
-protocol ViewHeightDataSource: class {
+protocol ViewHeightDataSource: AnyObject {
     var height: CGFloat { get }
 }
 
@@ -75,20 +75,20 @@ public final class DashboardViewController: UICollectionViewController {
 
     }
 
-    public override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         guard let layout = collectionView?.collectionViewLayout as? DashboardLayout else { return }
         self.addViewControllers()
         layout.dataSource = self
     }
 
-    public override func viewDidLayoutSubviews() {
+    override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let itemIsVisible = self.currentDesign == .reduced && Globals.currentUser!.canDisplayNotification
         self.navigationItem.rightBarButtonItem = itemIsVisible ? self.notificationBarItem : nil
     }
 
-    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         self.collectionView?.collectionViewLayout.invalidateLayout()
     }
@@ -115,7 +115,7 @@ public final class DashboardViewController: UICollectionViewController {
         return viewController
     }
 
-    public override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override public func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showNewsDetail" {
             guard let detailNewsViewController = segue.destination as? NewsDetailViewController,
                   let newsArticle = sender as? NewsArticle else { return }
@@ -123,25 +123,25 @@ public final class DashboardViewController: UICollectionViewController {
         }
     }
 
-    @IBAction func tappedOnNotificationButton(_ sender: UIBarButtonItem) {
+    @IBAction private func tappedOnNotificationButton(_ sender: UIBarButtonItem) {
         self.performSegue(withIdentifier: "showNotifications", sender: self)
     }
 
 }
 
 extension DashboardViewController {
-    public override func numberOfSections(in collectionView: UICollectionView) -> Int {
+    override public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
-    public override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.currentDesign == .extended ? viewControllers.count : viewControllers.filter { viewController -> Bool in
             guard let viewController = viewController as? PermissionManagmentViewController<NotificationOverviewViewController> else { return true }
             return viewController.hasPermission
         }.count
     }
 
-    public override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    override public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let viewController = self.viewControllers[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DashboardCollectionCell", for: indexPath) as! DashboardCollectionViewControllerCell
         cell.configure(for: viewController)
@@ -158,7 +158,7 @@ extension DashboardViewController {
         return cell
     }
 
-    public override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    override public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let viewController = (viewControllers[indexPath.row])
         if let viewController = viewController as? PermissionManagmentViewController<CalendarOverviewViewController>,
                viewController.hasPermission {

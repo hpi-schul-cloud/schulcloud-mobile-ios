@@ -41,7 +41,7 @@ final class HomeworkListCourseSortedViewController: UITableViewController {
         self.updateData()
     }
 
-    @IBAction func didTriggerRefresh() {
+    @IBAction private func didTriggerRefresh() {
         self.updateData()
     }
 

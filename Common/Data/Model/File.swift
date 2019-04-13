@@ -222,7 +222,6 @@ extension File {
     }
 
     public static func update(file: File, with data: MarshaledObject) throws {
-
         file.id = try data.value(for: "_id")
 
         let allowedCharacters = CharacterSet.whitespacesAndNewlines.inverted
@@ -245,14 +244,24 @@ extension File {
         file.ownerId = try data.value(for: "owner")
         file.ownerTypeStorage = try data.value(for: "refOwnerModel")
 
-        //TODO(Florian): Manage here when uploading works
+        // TODO(Florian): Manage here when uploading works
         file.uploadState = .uploaded
 
         let user = file.managedObjectContext!.typedObject(with: Globals.currentUser!.objectID) as User
 
         let permissionsObject: [MarshaledObject]? = try? data.value(for: "permissions")
-        let rolePermission = try permissionsObject?.filter { try $0.value(for: "refPermModel") == "role" }.first(where: { user.roles.contains(try $0.value(for: "refId")) })
-        let userPermission = try permissionsObject?.filter { try $0.value(for: "refPermModel") == "user" }.first(where: { try $0.value(for: "refId") == user.id })
+
+        let rolePermission = try permissionsObject?.first {
+            let permissionModel = try $0.value(for: "refPermModel") as String
+            let referenceId = try $0.value(for: "refId") as String
+            return permissionModel == "role" && user.roles.contains(referenceId)
+        }
+
+        let userPermission = try permissionsObject?.first {
+            let permissionModel = try $0.value(for: "refPermModel") as String
+            let referenceId = try $0.value(for: "refId") as String
+            return permissionModel == "user" && referenceId == user.id
+        }
 
         if let userPermission = userPermission {
             file.permissions = try Permissions(json: userPermission)
@@ -260,6 +269,7 @@ extension File {
             file.permissions = try Permissions(json: rolePermission)
         }
     }
+
 }
 
 // MARK: computed properties
@@ -333,19 +343,20 @@ extension File {
 
     public static func UTItoMime(uti: String) -> String {
         let cfUti = uti as CFString
-        if let mimetype = UTTypeCopyPreferredTagWithClass(cfUti, kUTTagClassMIMEType)?.takeRetainedValue() {
-            return mimetype as String
+        guard let mimetype = UTTypeCopyPreferredTagWithClass(cfUti, kUTTagClassMIMEType)?.takeRetainedValue() else {
+            return "application/octet-stream"
         }
-        return "application/octet-stream"
+
+        return mimetype as String
     }
 
     public static func UTIForFile(at url: URL) -> String? {
         let pathExtension = url.pathExtension
-
-        if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue() {
-            return uti as String
+        guard let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue() else {
+            return nil
         }
-        return nil
+
+        return uti as String
     }
 }
 

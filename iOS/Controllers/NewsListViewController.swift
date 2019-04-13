@@ -21,7 +21,7 @@ public class NewsListViewController: UITableViewController {
     }()
 
     // MARK: - UI Methods
-    public override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         self.coreDataTableViewDataSource = CoreDataTableViewDataSource(self.tableView,
                                                                        fetchedResultsController: self.fetchedResultController,
@@ -32,11 +32,11 @@ public class NewsListViewController: UITableViewController {
         self.synchronizeNewsArticle()
     }
 
-    @IBAction func didTriggerRefresh(_ sender: Any) {
+    @IBAction private func didTriggerRefresh(_ sender: Any) {
         self.synchronizeNewsArticle()
     }
 
-    fileprivate func synchronizeNewsArticle() {
+    private func synchronizeNewsArticle() {
         NewsArticleHelper.syncNewsArticles().onFailure { error in
             log.error("Failed to sync news article", error: error)
         }.onComplete { _ in
@@ -44,7 +44,7 @@ public class NewsListViewController: UITableViewController {
         }
     }
 
-    fileprivate func fetchNewsArticle() {
+    private func fetchNewsArticle() {
         do {
             try self.fetchedResultController.performFetch()
         } catch let fetchError as NSError {
@@ -52,7 +52,7 @@ public class NewsListViewController: UITableViewController {
         }
     }
 
-    @IBAction func donePressed() {
+    @IBAction private func donePressed() {
         self.dismiss(animated: true)
     }
 }

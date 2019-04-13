@@ -10,7 +10,7 @@ import SyncEngine
 
 // swiftlint:disable line_length
 
-struct SyncHelper {
+enum SyncHelper {
 
     private static let syncConfiguration = SchulcloudSyncConfig()
     private static let syncStrategy: SyncStrategy = MainSchulcloudSyncStrategy()

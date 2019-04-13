@@ -24,7 +24,7 @@ public class LessonsViewController: UITableViewController {
         return fetchedResultsController
     }()
 
-    public override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         self.coreDataTableViewDataSource = CoreDataTableViewDataSource(self.tableView,
                                                                        fetchedResultsController: self.fetchedResultsController,
@@ -34,11 +34,11 @@ public class LessonsViewController: UITableViewController {
         tableView.rowHeight = UITableView.automaticDimension
         self.title = course.name
         performFetch()
-        updateData()
+        self.updateData()
     }
 
-    @IBAction func didTriggerRefresh() {
-        updateData()
+    @IBAction private func didTriggerRefresh() {
+        self.updateData()
     }
 
     func updateData() {
@@ -58,7 +58,7 @@ public class LessonsViewController: UITableViewController {
     }
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    public override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override public func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case .some("singleLesson"):
             guard let currentUser = Globals.currentUser, currentUser.permissions.contains(.contentView) else {

@@ -7,7 +7,7 @@ import BrightFutures
 import CoreData
 import SyncEngine
 
-public struct UserHelper {
+public enum UserHelper {
 
     public static func syncUser(withId id: String) -> Future<SyncEngine.SyncSingleResult, SCError> {
         let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
@@ -15,4 +15,5 @@ public struct UserHelper {
         let query = SingleResourceQuery(type: User.self, id: id)
         return SyncHelper.syncResource(withFetchRequest: fetchRequest, withQuery: query)
     }
+
 }

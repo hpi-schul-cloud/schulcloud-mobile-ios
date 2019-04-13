@@ -24,7 +24,7 @@ public struct SignedURLInfo {
 
 public class FileSync: NSObject {
 
-    static public var `default`: FileSync = {
+    public static var `default`: FileSync = {
         let identifier = (Bundle.main.bundleIdentifier ?? "") + ".background"
         return FileSync(backgroundSessionIdentifier: identifier)
     }()
@@ -84,10 +84,12 @@ public class FileSync: NSObject {
     private func getQueryURL(for file: File) -> URL? {
         var urlComponent = URLComponents(url: fileStorageURL, resolvingAgainstBaseURL: false)!
         var queryItem = [URLQueryItem(name: "owner", value: file.ownerId)]
+
         if file.parentDirectory!.id != FileHelper.rootDirectoryID,
            file.parentDirectory!.id != FileHelper.coursesDirectoryID {
             queryItem.append(URLQueryItem(name: "parent", value: file.id))
         }
+
         urlComponent.queryItems = queryItem
         return urlComponent.url
     }
@@ -273,11 +275,10 @@ public class FileSync: NSObject {
                 let signedURLHeader: [String: String] = try json.value(for: "header")
                 var headers = [SignedURLInfo.HeaderKeys: String]()
                 for (key, value) in signedURLHeader {
-                    guard let header_key = SignedURLInfo.HeaderKeys(rawValue: key) else {
-                        fatalError()
-                    }
-                    headers[header_key] = value
+                    guard let headerKey = SignedURLInfo.HeaderKeys(rawValue: key) else { fatalError() }
+                    headers[headerKey] = value
                 }
+
                 let signedURLInfo = SignedURLInfo(url: signedURL, header: headers)
                 completionHandler(.success( signedURLInfo))
             } catch SCError.apiError(401, let message) {
@@ -334,10 +335,10 @@ public class FileSync: NSObject {
         }
 
         return self.download(id: "thumbnail__\(file.id)",
-            at: url,
-            moveTo: file.localThumbnailURL,
-            backgroundSession: background,
-            completionHandler: completionHandler)
+                             at: url,
+                             moveTo: file.localThumbnailURL,
+                             backgroundSession: background,
+                             completionHandler: completionHandler)
     }
 
     public func download(id: String,
@@ -435,8 +436,10 @@ public class FileSync: NSObject {
         }
     }
 
-    public func createDirectory(name: String, ownerId: String, parentId: String?,
-                       completionHandler: @escaping (Result<[String: Any], SCError>) -> Void) -> URLSessionTask? {
+    public func createDirectory(name: String,
+                                ownerId: String,
+                                parentId: String?,
+                                completionHandler: @escaping (Result<[String: Any], SCError>) -> Void) -> URLSessionTask? {
 
         fatalError("Change implementation")
         var request = self.POSTRequest(for: fileStorageURL.appendingPathComponent("directories") )
@@ -473,15 +476,14 @@ public class FileSync: NSObject {
                          owner: File.Owner?,
                          parentId: String?,
                          completionHandler: @escaping (Result<File, SCError>) -> Void) -> Progress {
-
         var flatname: String = ""
         let name = url.lastPathComponent
         let size = try! FileManager.default.attributesOfItem(atPath: url.path)[.size]! as! Int
 
         var type = "application/octet-stream"
-        if url.pathExtension != "" {
-            let pathExtension = url.pathExtension
-            if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue() {
+        if !url.pathExtension.isEmpty {
+            let pathExtension = url.pathExtension as NSString
+            if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension, nil)?.takeRetainedValue() {
                 if let mimetype = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {
                     type = mimetype as String
                 }
@@ -491,29 +493,35 @@ public class FileSync: NSObject {
         let progress = Progress(totalUnitCount: 3)
 
         let (task, future) = self.uploadSignedURL(filename: name, mimeType: type, parentId: parentId)
+
         if #available(iOS 11.0, *) {
             progress.addChild(task!.progress, withPendingUnitCount: 3)
         }
+
         future.flatMap { signedURL -> Future<Void, SCError> in
             flatname = signedURL.header[.flatName]!
 
             let (task, future) = self.upload(fileAt: url, to: signedURL.url, mimeType: type)
             task.resume()
+
             if #available(iOS 11.0, *) {
                 progress.addChild(task.progress, withPendingUnitCount: 2)
             } else {
                 progress.becomeCurrent(withPendingUnitCount: 2)
             }
+
             return future
         }.flatMap { _ -> Future<[String: Any], SCError> in
                 // Remotely create the file metadtas
             let (task, future) = self.createFileMetadata(name: name, mimeType: type, size: size, flatName: flatname, owner: owner, parentId: parentId)
             task?.resume()
+
             if #available(iOS 11.0, *) {
                 progress.addChild(task!.progress, withPendingUnitCount: 1)
             } else {
                 progress.becomeCurrent(withPendingUnitCount: 1)
             }
+
             return future
         }.flatMap { json -> Result<File, SCError> in
             // Create the local file metadata
@@ -524,6 +532,7 @@ public class FileSync: NSObject {
                 guard let userDirectory = File.by(id: FileHelper.userDirectoryID, in: context) else {
                     return .failure(SCError.coreDataMoreThanOneObjectFound)
                 }
+
                 do {
                     let file = try File.createOrUpdate(inContext: context, parentFolder: userDirectory, data: json)
                     context.saveWithResult()
@@ -557,6 +566,7 @@ public class FileSync: NSObject {
         let task = self.upload(id: "upload_\(url.lastPathComponent)", remoteURL: remoteURL, fileToUploadURL: url, mimeType: mimeType) {
             promise.complete($0)
         }
+
         return (task, promise.future)
     }
 

@@ -23,7 +23,7 @@ public class CoreDataObserver {
     }
 
     @objc public func managedObjectContextObjectsDidChange(notification: NSNotification) {
-        guard let _ = Globals.currentUser else { return } //do no process if not logged in
+        guard Globals.currentUser != nil else { return } // do no process if not logged in
         guard let userInfo = notification.userInfo else { return }
 
         var courseChanges: [String: [(id: String, name: String)]] = [:]

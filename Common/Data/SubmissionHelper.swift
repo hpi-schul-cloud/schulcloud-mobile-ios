@@ -7,7 +7,7 @@ import BrightFutures
 import CoreData
 import SyncEngine
 
-public struct SubmissionHelper {
+public enum SubmissionHelper {
 
     public static func syncAllSubmissions() -> Future<SyncEngine.SyncMultipleResult, SCError> {
         let fetchRequest: NSFetchRequest<Submission> = Submission.fetchRequest()
@@ -44,8 +44,10 @@ public struct SubmissionHelper {
                 result = Future(error: .coreDataObjectNotFound)
                 return
             }
+
             result = SyncHelper.saveResource(submission)
         }
+
         return result
     }
 
@@ -57,6 +59,8 @@ public struct SubmissionHelper {
         guard let data = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted) else {
             return Future(error: .jsonSerialization("Can't serialize Submission"))
         }
+
         return SyncHelper.createResource(ofType: Submission.self, withData: data)
     }
+
 }

@@ -64,7 +64,7 @@ class SettingsViewController: UITableViewController {
         }
     }
 
-    @IBAction func synchronizeToCalendar(_ sender: UISwitch) {
+    @IBAction private func synchronizeToCalendar(_ sender: UISwitch) {
         if sender.isOn {
             CalendarEventHelper.requestCalendarPermission().flatMap { _ in
                    return CalendarEventHelper.fetchCalendarEvents(inContext: CoreDataHelper.viewContext)

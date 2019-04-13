@@ -37,7 +37,7 @@ public class FilesViewController: UITableViewController {
                                           cacheName: nil)
     }()
 
-    public override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
 
         self.coreDataTableViewDataSource = CoreDataTableViewDataSource(self.tableView,
@@ -51,7 +51,7 @@ public class FilesViewController: UITableViewController {
         didTriggerRefresh()
     }
 
-    @IBAction func didTriggerRefresh() {
+    @IBAction private func didTriggerRefresh() {
         self.fileSync.updateContent(of: self.currentFolder) { result in
             defer {
                 DispatchQueue.main.async {
@@ -79,7 +79,7 @@ public class FilesViewController: UITableViewController {
 
 extension FilesViewController {
 
-    public override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    override public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         guard let currentUser = Globals.currentUser else { return false }
         let file = self.fetchedResultsController.object(at: indexPath)
         guard file.id != FileHelper.rootDirectoryID,
@@ -89,7 +89,7 @@ extension FilesViewController {
         return currentUser.permissions.contains(.movingFiles) || currentUser.permissions.contains(.deletingFiles) // && file.permissions.contains(.write)
     }
 
-    public override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+    override public func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         guard let currentUser = Globals.currentUser else { return nil }
         var actions: [UITableViewRowAction] = []
 
@@ -129,7 +129,7 @@ extension FilesViewController {
         return actions
     }
 
-    public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         defer {
             tableView.deselectRow(at: indexPath, animated: true)
         }

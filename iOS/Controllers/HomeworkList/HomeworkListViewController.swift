@@ -53,7 +53,7 @@ final class HomeworkListViewController: UIViewController {
         }
     }
 
-    @IBAction func sortOptionPressed(_ sender: UIBarButtonItem) {
+    @IBAction private func sortOptionPressed(_ sender: UIBarButtonItem) {
         let controller = UIAlertController(title: "Aufgaben sortieren nach", message: nil, preferredStyle: .actionSheet)
 
         for sortingStyle in SortingMode.allCases {
