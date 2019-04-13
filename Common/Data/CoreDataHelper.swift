@@ -5,7 +5,6 @@
 
 import BrightFutures
 import CoreData
-import Result
 
 public class CoreDataHelper {
 

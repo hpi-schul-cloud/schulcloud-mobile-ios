@@ -7,7 +7,6 @@ import BrightFutures
 import CoreData
 import Foundation
 import Marshal
-import Result
 
 public struct SyncEngine {
 

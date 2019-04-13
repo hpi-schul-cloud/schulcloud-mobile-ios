@@ -5,7 +5,6 @@
 
 import BrightFutures
 import Common
-import Result
 import UIKit
 
 let placeholder = "Enter your comment here"

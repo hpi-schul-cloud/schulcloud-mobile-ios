@@ -40,7 +40,7 @@ public struct SubmissionHelper {
         context.performAndWait {
             let fetchrequest: NSFetchRequest<Submission> = Submission.fetchRequest()
             fetchrequest.predicate = NSPredicate(format: "id == %@", id)
-            guard let submission = context.fetchSingle(fetchrequest).value else {
+            guard case let .success(submission) = context.fetchSingle(fetchrequest) else {
                 result = Future(error: .coreDataObjectNotFound)
                 return
             }

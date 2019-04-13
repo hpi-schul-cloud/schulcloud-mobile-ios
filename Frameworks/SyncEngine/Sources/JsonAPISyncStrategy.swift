@@ -5,7 +5,6 @@
 
 import Foundation
 import Marshal
-import Result
 
 struct JsonAPISyncStrategy: SyncStrategy {
 

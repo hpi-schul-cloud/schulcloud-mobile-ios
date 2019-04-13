@@ -357,7 +357,7 @@ extension File {
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
 
         let result = context.fetchSingle(fetchRequest)
-        guard let value = result.value else {
+        guard case let .success(value) = result else {
             log.error("Didn't find file with id: \(id)")
             return nil
         }
@@ -372,7 +372,7 @@ extension File {
         fetchRequest.predicate = NSPredicate(format: "parentDirectory.id == %@", id)
 
         let result = context.fetchMultiple(fetchRequest)
-        guard let value = result.value else {
+        guard case let .success(value) = result else {
             log.error("Error looking for item with parentID: \(id)")
             return nil
         }
@@ -388,7 +388,7 @@ extension File {
         fetchRequest.predicate = NSPredicate(format: "id IN %@", ids)
 
         let result = context.fetchMultiple(fetchRequest)
-        guard let value = result.value else {
+        guard case let .success(value) = result else {
             log.error("Error looking with ids")
             return nil
         }

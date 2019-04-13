@@ -1,6 +1,5 @@
 PODS:
-  - BrightFutures (7.0.0):
-    - Result (~> 4.0.0)
+  - BrightFutures (8.0.0)
   - CalendarKit (0.5.1):
     - DateToolsSwift
     - Neon
@@ -80,14 +79,13 @@ PODS:
   - nanopb/encode (0.3.901)
   - Neon (0.4.0)
   - Protobuf (3.6.1)
-  - Result (4.0.0)
   - SwiftLint (0.31.0)
   - SyncEngine (0.1.0):
-    - BrightFutures (~> 7.0)
+    - BrightFutures (~> 8.0)
     - Marshal (~> 1.2)
 
 DEPENDENCIES:
-  - BrightFutures (~> 7.0)
+  - BrightFutures (~> 8.0)
   - CalendarKit (~> 0.2)
   - Firebase/Auth
   - Firebase/Core
@@ -118,7 +116,6 @@ SPEC REPOS:
     - nanopb
     - Neon
     - Protobuf
-    - Result
     - SwiftLint
 
 EXTERNAL SOURCES:
@@ -128,7 +125,7 @@ EXTERNAL SOURCES:
     :path: "./Frameworks/SyncEngine"
 
 SPEC CHECKSUMS:
-  BrightFutures: 7d7436e937dfc83d814c11920f157fc2a53f5bd5
+  BrightFutures: f8427b46feabaf73c5e71ace7d86d65dfbb47696
   CalendarKit: c9d69204e97226a2da3e6b99dfbe35a57f205c1e
   DateToolsSwift: 875d97ff9e3a5d54abdd67a269b3f51c757b71ab
   Firebase: 9190018e296139d938b99521cde0c15a6e8d2946
@@ -148,10 +145,9 @@ SPEC CHECKSUMS:
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Neon: 7fb5a9327e7e57911843f608e08f4893a74deaf9
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
-  Result: 7645bb3f50c2ce726dd0ff2fa7b6f42bbe6c3713
   SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
-  SyncEngine: c4e7460de4fd06a73ccd2d9f63a220a107fd749f
+  SyncEngine: 0fab380dfe56fa2e25079161d7ba46b45a985507
 
-PODFILE CHECKSUM: 3f6afc6c24a07a5321f028520d42da9b8adfb010
+PODFILE CHECKSUM: 437a2366f58b3fe731a4427c4108dd3e3149a437
 
 COCOAPODS: 1.5.3

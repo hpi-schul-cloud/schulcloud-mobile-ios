@@ -7,7 +7,6 @@ import BrightFutures
 import CoreData
 import Foundation
 import Marshal
-import Result
 
 public class FileHelper {
     public static var rootDirectoryID = "root"
@@ -103,7 +102,7 @@ public class FileHelper {
             do {
                 guard let parentFolder = context.existingTypedObject(with: parentFolderObjectId) as? File else {
                     log.error("Unable to find parent folder")
-                    return Result(error: .coreDataObjectNotFound)
+                    return .failure(.coreDataObjectNotFound)
                 }
 
                 var createdItem = [File]()
@@ -143,12 +142,12 @@ public class FileHelper {
 
                 try context.save()
                 // TODO(FileProvider): Signal changes in the parent folder here
-                return Result(value: createdItem)
+                return .success(createdItem)
             } catch let error as MarshalError {
-                return Result(error: .jsonDeserialization(error.localizedDescription))
+                return .failure(.jsonDeserialization(error.localizedDescription))
             } catch {
                 log.error("Error updating directory content", error: error)
-                return Result(error: .coreData(error))
+                return .failure(.coreData(error))
             }
         }
     }
