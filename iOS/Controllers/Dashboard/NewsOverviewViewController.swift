@@ -7,7 +7,7 @@ import Common
 import CoreData
 import UIKit
 
-protocol NewsOverviewViewControllerDelegate: class {
+protocol NewsOverviewViewControllerDelegate: AnyObject {
     func heightDidChange(_ height: CGFloat)
     func showMorePressed()
     func didSelect(news: NewsArticle)
@@ -83,7 +83,7 @@ final class NewsOverviewViewController: UITableViewController {
         self.tableView.deselectRow(at: indexPath, animated: true)
     }
 
-    @IBAction func showMorePressed() {
+    @IBAction private func showMorePressed() {
         self.delegate?.showMorePressed()
     }
 }

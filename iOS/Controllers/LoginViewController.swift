@@ -44,7 +44,7 @@ class LoginViewController: UIViewController {
         }
     }
 
-    @IBAction func login() {
+    @IBAction private func login() {
         guard let username = self.usernameInput.text, let password = self.passwordInput.text else {
             self.showLoginError()
             return
@@ -54,11 +54,11 @@ class LoginViewController: UIViewController {
         self.login(username: username, password: password)
     }
 
-    @IBAction func loginAsTestStudent() {
+    @IBAction private func loginAsTestStudent() {
         self.login(account: Brand.default.testAccounts.student)
     }
 
-    @IBAction func loginAsTestTeacher() {
+    @IBAction private func loginAsTestTeacher() {
         self.login(account: Brand.default.testAccounts.teacher)
     }
 
@@ -120,7 +120,7 @@ class LoginViewController: UIViewController {
         }
     }
 
-    @IBAction func tapOnBackground(_ sender: UITapGestureRecognizer) {
+    @IBAction private func tapOnBackground(_ sender: UITapGestureRecognizer) {
         self.usernameInput.resignFirstResponder()
         self.passwordInput.resignFirstResponder()
     }

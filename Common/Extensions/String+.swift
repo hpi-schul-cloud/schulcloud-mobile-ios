@@ -12,7 +12,6 @@ extension String {
     }
 }
 
-
 extension String {
     public func removeCharacters(set: CharacterSet) -> String {
         let result = self.unicodeScalars.filter { !set.contains($0) }

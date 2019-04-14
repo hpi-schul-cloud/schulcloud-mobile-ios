@@ -12,7 +12,7 @@ import FirebaseInstanceID
 import FirebaseMessaging
 import UserNotifications
 
-public class SCNotifications {
+public enum SCNotifications {
 
     public static func checkRegistration() -> Future<Void, SCError> {
         return Future(value: ())
@@ -34,7 +34,7 @@ public class SCNotifications {
 //        }
     }
 
-    static internal func connectFirMessaging() -> Future<String, SCError> {
+    internal static func connectFirMessaging() -> Future<String, SCError> {
         let promise = Promise<String, SCError>()
         Messaging.messaging().disconnect()
         Messaging.messaging().connect { error in

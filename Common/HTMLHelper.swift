@@ -10,6 +10,7 @@ public struct HTMLHelper {
     public static let `default` = HTMLHelper()
 
     private var parser = Parser()
+
     init(style: StyleCollection = DefaultStyleCollection(tintColor: Brand.default.colors.primary)) {
         parser.styleCollection = style
     }
@@ -25,6 +26,6 @@ public struct HTMLHelper {
      * This func renders the HTML as a NSAttributedString
      */
     public func attributedString(for html: String) -> NSAttributedString {
-        return parser.attributedString(for:html)
+        return parser.attributedString(for: html)
     }
 }

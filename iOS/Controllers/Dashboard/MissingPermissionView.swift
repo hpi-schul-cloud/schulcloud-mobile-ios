@@ -10,7 +10,7 @@ final class MissingPermissionView: UIView {
 
     @IBOutlet private var label: UILabel!
 
-    var missingPermission: UserPermissions = UserPermissions.none {
+    var missingPermission = UserPermissions.none {
         didSet {
             if label != nil {
                 label.text = "Fehlende Berechtigung \(missingPermission)"

@@ -35,7 +35,7 @@ class LoadingViewController: UIViewController {
         super.viewWillDisappear(animated)
     }
 
-    @IBAction func cancelButtonTapped(_ sender: Any) {
+    @IBAction private func cancelButtonTapped(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
 

@@ -35,8 +35,7 @@ class HomeworkDetailViewController: UIViewController {
         }
     }
 
-    @IBAction func submissionPressed(_ sender: UIButton!) {
-
+    @IBAction private func submissionPressed(_ sender: UIButton) {
         guard self.homework!.submission == nil else {
             self.performSegue(withIdentifier: "showSubmission", sender: nil)
             return

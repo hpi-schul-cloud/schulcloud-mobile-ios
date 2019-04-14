@@ -25,12 +25,12 @@ class CoursesViewController: UICollectionViewController, UICollectionViewDelegat
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        performFetch()
-        updateData()
+        self.performFetch()
+        self.updateData()
     }
 
-    @IBAction func didTriggerRefresh() {
-        updateData()
+    @IBAction private func didTriggerRefresh() {
+        self.updateData()
     }
 
     func updateData() {

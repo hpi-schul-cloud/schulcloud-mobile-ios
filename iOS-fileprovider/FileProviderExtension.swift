@@ -158,6 +158,7 @@ class FileProviderExtension: NSFileProviderExtension {
                 // TODO: handle any error, do any necessary cleanup
             })
         }
+
         */
     }
 

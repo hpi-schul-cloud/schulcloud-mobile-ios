@@ -7,7 +7,7 @@ import Foundation
 
 let log = Logger(subsystem: "org.schulcloud.common", category: "Common")
 
-public class Constants {
+public enum Constants {
     public static var textStyleHtml: String {
         var style: String = "<style>"
         style += "body { font: -apple-system-body; }"

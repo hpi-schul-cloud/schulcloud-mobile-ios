@@ -10,7 +10,7 @@ final class DashboardNoPermissionViewController: UIViewController, ViewHeightDat
 
     @IBOutlet private var label: UILabel!
 
-    var missingPermission: UserPermissions = UserPermissions.none {
+    var missingPermission = UserPermissions.none {
         didSet {
             self.label?.text?.append("\n(\(missingPermission))")
         }

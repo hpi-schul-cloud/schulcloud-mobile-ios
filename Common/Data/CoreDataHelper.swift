@@ -6,6 +6,8 @@
 import BrightFutures
 import CoreData
 
+// In order to be able to use `Bundle(for:)` for creating the persistentContainer, this needs to be a class.
+// swiftlint:disable:next convenience_type
 public class CoreDataHelper {
 
     public static var persistentContainer: NSPersistentContainer = {

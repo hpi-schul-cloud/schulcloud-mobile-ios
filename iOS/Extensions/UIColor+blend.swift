@@ -17,7 +17,7 @@ extension UIColor {
         self.getRed(&r1, green: &g1, blue: &b1, alpha: &a1)
         otherColor.getRed(&r2, green: &g2, blue: &b2, alpha: &a2)
 
-        return UIColor(red: l1*r1 + l2*r2, green: l1*g1 + l2*g2, blue: l1*b1 + l2*b2, alpha: l1*a1 + l2*a2)
+        return UIColor(red: l1 * r1 + l2 * r2, green: l1 * g1 + l2 * g2, blue: l1 * b1 + l2 * b2, alpha: l1 * a1 + l2 * a2)
     }
 
 }

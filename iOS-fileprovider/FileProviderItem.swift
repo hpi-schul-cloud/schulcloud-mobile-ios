@@ -68,8 +68,7 @@ class FileProviderItem: NSObject, NSFileProviderItem {
 
         if file.isDirectory,
             let rankValueData = file.favoriteRankData,
-            let rankValue: UInt64 = rankValueData.withUnsafeBytes({ $0.baseAddress?.load(as: UInt64.self) })
-        {
+            let rankValue: UInt64 = rankValueData.withUnsafeBytes({ $0.baseAddress?.load(as: UInt64.self) }) {
             self.favoriteRank = file.isDirectory ? NSNumber(value: rankValue) : nil
         } else {
             self.favoriteRank = nil

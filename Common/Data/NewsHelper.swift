@@ -7,7 +7,7 @@ import BrightFutures
 import CoreData
 import SyncEngine
 
-public struct NewsArticleHelper {
+public enum NewsArticleHelper {
 
     public static func syncNewsArticles() -> Future<SyncEngine.SyncMultipleResult, SCError> {
         let fetchRequest = NewsArticle.fetchRequest() as NSFetchRequest<NewsArticle>

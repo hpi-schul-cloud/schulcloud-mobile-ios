@@ -7,7 +7,7 @@ import BrightFutures
 import CoreData
 import SyncEngine
 
-public struct LessonHelper {
+public enum LessonHelper {
 
     public static func syncLessons(for course: Course) -> Future<SyncEngine.SyncMultipleResult, SCError> {
         let fetchRequest = Lesson.fetchRequest() as NSFetchRequest<Lesson>

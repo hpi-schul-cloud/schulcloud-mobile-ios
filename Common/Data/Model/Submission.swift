@@ -45,6 +45,7 @@ extension Submission: Pullable {
             guard let userDirectory = File.by(id: FileHelper.userDirectoryID, in: context) else {
                 throw SCError.unknown
             }
+
             for file in files {
                 if let toUpdate = try self.files.first { $0.id == (try file.value(for: "_id")) } {
                     try File.update(file: toUpdate, with: file)

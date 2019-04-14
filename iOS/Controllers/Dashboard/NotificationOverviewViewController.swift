@@ -82,7 +82,7 @@ class NotificationOverviewViewController: UITableViewController {
         return UITableView.automaticDimension
     }
 
-    @IBAction func tappedViewMore() {
+    @IBAction private func tappedViewMore() {
         self.delegate?.didPressViewMoreButton()
     }
 }
@@ -103,7 +103,7 @@ extension NotificationOverviewViewController: PermissionInfoDataSource {
     static let requiredPermission = UserPermissions.notificationView
 }
 
-protocol ShortNotificationViewControllerDelegate: class {
+protocol ShortNotificationViewControllerDelegate: AnyObject {
 
     func viewHeightDidChange(to newHeight: CGFloat)
     func didPressViewMoreButton()

@@ -13,6 +13,7 @@ class CourseCell: UICollectionViewCell {
     @IBOutlet private weak var teacherLabel: UILabel!
 
     override func awakeFromNib() {
+        super.awakeFromNib()
         self.layer.masksToBounds = true
         self.layer.cornerRadius = 6.0
         self.layer.borderWidth = 0.5

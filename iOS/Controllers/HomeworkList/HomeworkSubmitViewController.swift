@@ -109,7 +109,7 @@ final class HomeworkSubmitViewController: UIViewController {
         self.present(alertController, animated: true)
     }
 
-    @IBAction func submitFile(_ sender: Any) {
+    @IBAction private func submitFile(_ sender: Any) {
         let picker = UIImagePickerController()
         picker.delegate = self
 
@@ -178,25 +178,24 @@ extension HomeworkSubmitViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let fileId = self.files[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "fileCell", for: indexPath) as! HomeworkSubmitFileCell
-        let image: UIImage
-        let filename: String
+        let image: UIImage?
+        let filename: String?
 
         if let file = self.writableSubmission.files.first(where: { $0.id == fileId }) {
             if self.submission.files.contains(where: { $0.id == fileId }) {
-                image = UIImage(named: "cloud-done")!
+                image = UIImage(named: "cloud-done")
             } else {
-                image = UIImage(named: "cloud-upload")!
+                image = UIImage(named: "cloud-upload")
             }
 
             filename = file.name
         } else {
-            image = UIImage(named: "cloud-outline")!
-            filename = self.submission.files.first { $0.id == fileId }?.name ?? ""
+            image = UIImage(named: "cloud-outline")
+            filename = self.submission.files.first { $0.id == fileId }?.name
         }
 
-        cell.fileName.text = filename
-        cell.fileStateImageView?.image = image.withRenderingMode(.alwaysTemplate)
-        cell.fileStateImageView?.tintColor = Brand.default.colors.primary
+        cell.configure(withTitle: filename, image: image)
+
         return cell
     }
 
@@ -295,11 +294,13 @@ extension HomeworkSubmitViewController: UIImagePickerControllerDelegate {
                             try? FileManager.default.moveItem(at: destURL, to: file.localURL)
                             self.link(file: file, to: self.submission)
                         }
+
                         DispatchQueue.main.async {
                             self.updateState()
                             self.progressContainer.isHidden = true
                         }
                     }
+
                     self.progressView.observedProgress = progress
                 }
             }
@@ -344,9 +345,11 @@ extension HomeworkSubmitViewController {
 
     fileprivate func showRenameAlertController(originalName: String, completionHandler: @escaping (RenameAlertResult) -> Void) {
         let alert = UIAlertController(title: "Enter a filename", message: nil, preferredStyle: .alert)
+
         alert.addTextField { textField in
             textField.setMarkedText(originalName, selectedRange: NSRange(location: 0, length: originalName.count))
         }
+
         let renameAction = UIAlertAction(title: "Ok", style: .default) { _ in
             completionHandler(.change(name:alert.textFields?.first?.text ?? originalName))
         }
@@ -354,7 +357,9 @@ extension HomeworkSubmitViewController {
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
             completionHandler(.cancel)
         }
+
         [renameAction, cancelAction].forEach { alert.addAction($0) }
         self.present(alert, animated: true)
     }
+
 }

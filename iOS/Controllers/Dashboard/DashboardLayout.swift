@@ -5,7 +5,7 @@
 
 import UIKit
 
-protocol DashboardLayoutDataSource: class {
+protocol DashboardLayoutDataSource: AnyObject {
     func contentHeightForItem(at indexPath: IndexPath) -> CGFloat
 }
 
