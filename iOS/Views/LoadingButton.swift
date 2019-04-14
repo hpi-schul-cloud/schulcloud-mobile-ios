@@ -12,8 +12,10 @@ class LoadingButton: UIButton {
     private lazy var spinner: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .white)
         indicator.translatesAutoresizingMaskIntoConstraints = false
-            return indicator
+        return indicator
     }()
+
+
 
     override func awakeFromNib() {
         super.awakeFromNib()
