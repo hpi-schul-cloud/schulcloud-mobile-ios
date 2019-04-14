@@ -15,8 +15,6 @@ class LoadingButton: UIButton {
         return indicator
     }()
 
-
-
     override func awakeFromNib() {
         super.awakeFromNib()
         self.addSubview(self.spinner)
