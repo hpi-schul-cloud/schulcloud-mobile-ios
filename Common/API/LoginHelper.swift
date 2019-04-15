@@ -162,7 +162,7 @@ public enum LoginHelper {
 
         do {
             CoreDataHelper.clearCoreDataStorage()
-            try Globals.account!.deleteFromSecureStore()
+            try Globals.account?.deleteFromSecureStore()
             Globals.account = nil
             try CalendarEventHelper.deleteSchulcloudCalendar()
         } catch {
