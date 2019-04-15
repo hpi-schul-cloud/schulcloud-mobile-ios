@@ -89,46 +89,6 @@ extension FilesViewController {
         return currentUser.permissions.contains(.movingFiles) || currentUser.permissions.contains(.deletingFiles) // && file.permissions.contains(.write)
     }
 
-    override public func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        guard let currentUser = Globals.currentUser else { return nil }
-        var actions: [UITableViewRowAction] = []
-
-        // TODO: Implement!
-        if false && currentUser.permissions.contains(.deletingFiles) {
-            actions.append(UITableViewRowAction(style: .destructive, title: "Delete") { _, _ in
-                // TODO: Implement!
-                /*
-                guard let file = self.fetchedResultsController.sections?[indexPath.section].objects?[indexPath.row] as? File else { return }
-
-                FileHelper.delete(file: file).onSuccess { _ in
-                    CoreDataHelper.persistentContainer.performBackgroundTask { context in
-                        context.delete(file)
-                        try! context.save()
-                        DispatchQueue.main.async {
-                            try! self.fetchedResultsController.performFetch()
-                            tableView.deleteRows(at: [indexPath], with: .automatic)
-                        }
-                    }
-                }.onFailure { error in
-                    DispatchQueue.main.async {
-                        let alertVC = UIAlertController(title: "Something unexpected happened", message: error.localizedDescription, preferredStyle: .alert)
-                        let dismissAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                        alertVC.addAction(dismissAction)
-                        self.present(alertVC, animated: true) {}
-                    }
-                }*/
-            })
-        }
-
-        // TODO: Implement!
-        if false && currentUser.permissions.contains(.movingFiles) {
-            actions.append(UITableViewRowAction(style: .normal, title: "Move") { _, _ in
-            })
-        }
-
-        return actions
-    }
-
     override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         defer {
             tableView.deselectRow(at: indexPath, animated: true)
