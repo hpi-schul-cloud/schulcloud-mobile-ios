@@ -3,14 +3,12 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-/// TODO: Cancel request when poping
-
 import BrightFutures
 import Common
 import Foundation
 import QuickLook
 
-class LoadingViewController: UIViewController {
+class FilePreviewViewController: UIViewController {
     // MARK: Lifecycle
 
     @IBOutlet private var progressView: UIProgressView!
@@ -157,9 +155,6 @@ class LoadingViewController: UIViewController {
             viewControllers.removeLast(1)
             viewControllers.append(controller)
             nav.setViewControllers(viewControllers, animated: false)
-            nav.setToolbarHidden(false, animated: false)
-            let item = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: nil)
-            nav.setToolbarItems([item], animated: false)
         } else {
             self.present(controller, animated: false, completion: nil)
         }
@@ -176,5 +171,9 @@ class LoadingViewController: UIViewController {
         self.progressView.isHidden = true
         self.errorLabel.text = error.localizedDescription
         self.errorLabel.isHidden = false
+    }
+
+    @IBAction func save() {
+
     }
 }

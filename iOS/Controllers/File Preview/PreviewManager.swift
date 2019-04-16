@@ -17,6 +17,8 @@ class PreviewManager: NSObject, QLPreviewControllerDataSource {
 
     lazy var previewViewController: UIViewController = {
 
+        let viewController: UIViewController
+
         switch self.file.localURL.pathExtension.lowercased() {
         case "plist", "json", "txt":
             let webviewPreviewViewContoller = WebviewPreviewViewContoller(nibName: "WebviewPreviewViewContoller",
@@ -27,13 +29,18 @@ class PreviewManager: NSObject, QLPreviewControllerDataSource {
             }
 
             webviewPreviewViewContoller.file = self.file
-            return webviewPreviewViewContoller
+            viewController = webviewPreviewViewContoller
         default:
             let quickLookPreviewController = QLPreviewController()
             quickLookPreviewController.dataSource = self
             quickLookPreviewController.title = self.file.name
-            return quickLookPreviewController
+            quickLookPreviewController.navigationItem.rightBarButtonItem = nil
+            viewController = quickLookPreviewController
         }
+
+        viewController.setToolbarItems([UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: nil)], animated: false)
+
+        return viewController
     }()
 
     // MARK: delegate methods

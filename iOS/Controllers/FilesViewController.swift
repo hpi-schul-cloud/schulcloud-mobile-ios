@@ -19,10 +19,15 @@ import Common
 import CoreData
 import UIKit
 
+protocol SomeDelegate {
+    func displayController(for item: File) -> UIViewController
+}
+
 public class FilesViewController: UITableViewController {
 
     lazy var currentFolder: File = FileHelper.rootFolder
     var fileSync = FileSync.default
+    var delegate: SomeDelegate? = nil
 
     private var coreDataTableViewDataSource: CoreDataTableViewDataSource<FilesViewController>?
 
@@ -73,6 +78,10 @@ public class FilesViewController: UITableViewController {
             log.error("Unable to perform File FetchRequest", error: error)
         }
     }
+
+    @objc public func dismissController() {
+        self.dismiss(animated: true)
+    }
 }
 
 // MARK: TableView Delegate/DataSource
@@ -103,14 +112,22 @@ extension FilesViewController {
             }
 
             folderVC.currentFolder = item
+            folderVC.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem
+            folderVC.delegate = self.delegate
+
             self.navigationController?.pushViewController(folderVC, animated: true)
         } else {
-            guard let fileVC = storyboard.instantiateViewController(withIdentifier: "FileVC") as? LoadingViewController else {
-                return
-            }
+            if let vc = self.delegate?.displayController(for: item) {
 
-            fileVC.file = item
-            self.navigationController?.pushViewController(fileVC, animated: true)
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else {
+                guard let fileVC = storyboard.instantiateViewController(withIdentifier: "FileVC") as? LoadingViewController else {
+                    return
+                }
+
+                fileVC.file = item
+                self.navigationController?.pushViewController(fileVC, animated: true)
+            }
         }
     }
 }

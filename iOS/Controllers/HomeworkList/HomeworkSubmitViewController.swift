@@ -110,34 +110,51 @@ final class HomeworkSubmitViewController: UIViewController {
     }
 
     @IBAction private func submitFile(_ sender: Any) {
-        let picker = UIImagePickerController()
-        picker.delegate = self
 
         let actionController = UIAlertController()
         let cameraAction = UIAlertAction(title: "Taking a picture", style: .default) { [unowned self] _ in
-                picker.sourceType = .camera
+            let picker = UIImagePickerController()
+            picker.delegate = self
+            picker.sourceType = .camera
             picker.allowsEditing = true
             picker.cameraCaptureMode = .photo
             picker.cameraDevice = .rear
             picker.showsCameraControls = true
+
             self.present(picker, animated: true)
         }
 
         let libraryAction = UIAlertAction(title: "Photo Library", style: .default) { [unowned self] _ in
+            let picker = UIImagePickerController()
+            picker.delegate = self
             picker.sourceType = .savedPhotosAlbum
             picker.allowsEditing = false
-
             self.present(picker, animated: true)
         }
 
+
+        let addFileAction = UIAlertAction(title: "Personal files", style: .default) { [unowned self] _ in
+            let fileStoryboard = UIStoryboard(name: "TabFiles", bundle: nil)
+            let userFilesStoryboard = fileStoryboard.instantiateViewController(withIdentifier: "FolderVC") as! FilesViewController
+
+            userFilesStoryboard.currentFolder = File.by(id: FileHelper.userDirectoryID, in: CoreDataHelper.viewContext)!
+            userFilesStoryboard.delegate = self
+
+            let navigationController = UINavigationController(rootViewController: userFilesStoryboard)
+            userFilesStoryboard.navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .cancel, target: userFilesStoryboard, action: #selector(FilesViewController.dismissController)), animated: false)
+
+            self.present(navigationController, animated: true)
+        }
+
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        [cameraAction, libraryAction, cancelAction].forEach { actionController.addAction($0) }
+        [cameraAction, libraryAction, addFileAction, cancelAction].forEach { actionController.addAction($0) }
 
         self.present(actionController, animated: true)
     }
 
     fileprivate func updateState() {
         var fileIDs = Set<String>(self.submission.files.map { $0.id })
+
         fileIDs.formUnion(self.writableSubmission.files.map { $0.id })
         self.files = [String](fileIDs).sorted()
 
@@ -164,6 +181,17 @@ final class HomeworkSubmitViewController: UIViewController {
         self.present(alertController, animated: true)
     }
 }
+
+extension HomeworkSubmitViewController: SomeDelegate {
+    // TODO(Florian): 
+    func displayController(for item: File) -> UIViewController {
+        let fileStoryboard = UIStoryboard(name: "TabFiles", bundle: nil)
+        let vc = fileStoryboard.instantiateViewController(withIdentifier: "FilePreviewVC") as! FilePreviewViewController
+        vc.file = item
+        return vc
+    }
+}
+
 
 extension HomeworkSubmitViewController: UITableViewDelegate {
 
