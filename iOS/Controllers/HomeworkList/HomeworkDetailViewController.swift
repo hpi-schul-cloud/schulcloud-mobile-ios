@@ -24,6 +24,9 @@ class HomeworkDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.coloredStrip.layer.cornerRadius = self.coloredStrip.frame.size.height / 2.0
+        if let homework = self.homework {
+            self.configure(for: homework)
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
