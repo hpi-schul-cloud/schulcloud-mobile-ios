@@ -10,6 +10,10 @@ import Common
 import Foundation
 import QuickLook
 
+protocol LoadingViewControllerDelegate: class {
+    func controllerDidFinishLoading(error: SCError?)
+}
+
 class LoadingViewController: UIViewController {
     // MARK: Lifecycle
 
@@ -19,6 +23,7 @@ class LoadingViewController: UIViewController {
 
     let fileSync = FileSync.default
     var file: File!
+    weak var delegate: LoadingViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,11 +33,14 @@ class LoadingViewController: UIViewController {
         }
 
         progressView.setProgress(0, animated: false)
-        startDownload()
+        if self.delegate != nil {
+            cancelButton.isHidden = true
+        }
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        startDownload()
     }
 
     @IBAction private func cancelButtonTapped(_ sender: Any) {
@@ -49,7 +57,11 @@ class LoadingViewController: UIViewController {
         let localURL = self.file.localURL
         guard !FileManager.default.fileExists(atPath: localURL.path) else {
             progress.becomeCurrent(withPendingUnitCount: 0)
-            self.showFile()
+            if let delegate = self.delegate {
+                delegate.controllerDidFinishLoading(error: nil)
+            } else {
+                self.showFile()
+            }
             return
         }
 
@@ -70,7 +82,7 @@ class LoadingViewController: UIViewController {
                 return
             }
 
-            let tasko = self?.fileSync.download(id: "filedownload__\(fileID)", at: signedURL, moveTo: localURL, backgroundSession: false) { result in
+            let tasko = self?.fileSync.download(id: "filedownload__\(fileID)", at: signedURL, moveTo: localURL, backgroundSession: false) { [weak self] result in
                 if #available(iOS 11.0, *) {
                 } else {
                     progress.becomeCurrent(withPendingUnitCount: 0)
@@ -79,12 +91,20 @@ class LoadingViewController: UIViewController {
                 switch result {
                 case .success:
                     DispatchQueue.main.async {
-                        self?.showFile()
+                        if let delegate = self?.delegate {
+                            delegate.controllerDidFinishLoading(error: nil)
+                        } else {
+                            self?.showFile()
+                        }
                     }
 
                 case .failure(let error):
                     DispatchQueue.main.async {
-                        self?.show(error: error)
+                        if let delegate = self?.delegate {
+                            delegate.controllerDidFinishLoading(error: error)
+                        } else {
+                            self?.show(error: error)
+                        }
                     }
                 }
             }

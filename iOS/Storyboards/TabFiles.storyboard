@@ -163,66 +163,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="84m-KI-iJ8">
-                                <rect key="frame" x="32" y="332.5" width="311" height="2"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="2" id="uJc-3h-Onv"/>
-                                </constraints>
-                            </progressView>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error: The operation could not be completed" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dcH-QA-x6f">
-                                <rect key="frame" x="16" y="581" width="343" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zny-gH-Gvs">
-                                <rect key="frame" x="16" y="375.5" width="343" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="zxz-8J-bjS"/>
-                                </constraints>
-                                <state key="normal" title="Abbrechen"/>
-                                <connections>
-                                    <action selector="cancelButtonTapped:" destination="2dq-s1-gtr" eventType="touchUpInside" id="GUy-nl-ImE"/>
-                                </connections>
-                            </button>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QE2-V5-wkG">
-                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
-                                <items>
-                                    <barButtonItem systemItem="done" id="WTb-LP-bls">
-                                        <connections>
-                                            <action selector="save" destination="2dq-s1-gtr" id="c3f-XP-BXe"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wBG-mf-M7P">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="Zny-gH-Gvs" secondAttribute="trailing" id="0un-v3-b2v"/>
-                            <constraint firstItem="Zny-gH-Gvs" firstAttribute="top" secondItem="84m-KI-iJ8" secondAttribute="bottom" constant="41" id="2h5-8B-6hm"/>
-                            <constraint firstItem="QE2-V5-wkG" firstAttribute="top" secondItem="dcH-QA-x6f" secondAttribute="bottom" constant="21.5" id="48H-V4-7ZE"/>
-                            <constraint firstItem="OHN-fc-HYb" firstAttribute="bottom" secondItem="QE2-V5-wkG" secondAttribute="bottom" id="81h-IK-onw"/>
-                            <constraint firstItem="QE2-V5-wkG" firstAttribute="leading" secondItem="OHN-fc-HYb" secondAttribute="leading" id="8ZP-b1-2Xr"/>
-                            <constraint firstItem="84m-KI-iJ8" firstAttribute="centerY" secondItem="tJ4-TU-jIH" secondAttribute="centerY" id="Ila-dm-s05"/>
-                            <constraint firstItem="Zny-gH-Gvs" firstAttribute="leading" secondItem="tJ4-TU-jIH" secondAttribute="leadingMargin" id="Kz0-iT-fZB"/>
-                            <constraint firstItem="dcH-QA-x6f" firstAttribute="trailing" secondItem="tJ4-TU-jIH" secondAttribute="trailingMargin" id="RLx-Ja-zDC"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="84m-KI-iJ8" secondAttribute="trailing" constant="16" id="Z5L-lQ-61P"/>
-                            <constraint firstItem="OHN-fc-HYb" firstAttribute="trailing" secondItem="QE2-V5-wkG" secondAttribute="trailing" id="cNU-Nq-Rr9"/>
-                            <constraint firstItem="dcH-QA-x6f" firstAttribute="leading" secondItem="tJ4-TU-jIH" secondAttribute="leadingMargin" id="pRM-DG-uyT"/>
-                            <constraint firstItem="84m-KI-iJ8" firstAttribute="leading" secondItem="tJ4-TU-jIH" secondAttribute="leadingMargin" constant="16" id="w3Q-ID-V0k"/>
+                            <constraint firstItem="wBG-mf-M7P" firstAttribute="leading" secondItem="OHN-fc-HYb" secondAttribute="leading" id="4bN-GN-eoG"/>
+                            <constraint firstItem="OHN-fc-HYb" firstAttribute="bottom" secondItem="wBG-mf-M7P" secondAttribute="bottom" id="jBm-Dp-VGo"/>
+                            <constraint firstItem="OHN-fc-HYb" firstAttribute="trailing" secondItem="wBG-mf-M7P" secondAttribute="trailing" id="oYF-Qh-ALS"/>
+                            <constraint firstItem="wBG-mf-M7P" firstAttribute="top" secondItem="OHN-fc-HYb" secondAttribute="top" id="vh7-a6-IOx"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="OHN-fc-HYb"/>
                     </view>
                     <navigationItem key="navigationItem" id="YCN-ts-53x"/>
                     <connections>
-                        <outlet property="cancelButton" destination="Zny-gH-Gvs" id="OY7-Hl-xil"/>
-                        <outlet property="errorLabel" destination="dcH-QA-x6f" id="Sjt-FE-p5i"/>
-                        <outlet property="progressView" destination="84m-KI-iJ8" id="o3Y-mS-Rfg"/>
+                        <outlet property="containerView" destination="wBG-mf-M7P" id="kJk-uK-i7s"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eTM-BF-Z4k" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4036" y="483"/>
+            <point key="canvasLocation" x="4036" y="482.60869565217394"/>
         </scene>
     </scenes>
     <resources>

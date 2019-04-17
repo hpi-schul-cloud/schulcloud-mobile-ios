@@ -19,15 +19,11 @@ import Common
 import CoreData
 import UIKit
 
-protocol SomeDelegate {
-    func displayController(for item: File) -> UIViewController
-}
-
 public class FilesViewController: UITableViewController {
 
     lazy var currentFolder: File = FileHelper.rootFolder
     var fileSync = FileSync.default
-    var delegate: SomeDelegate? = nil
+    weak var delegate: FilePickerDelegate?
 
     private var coreDataTableViewDataSource: CoreDataTableViewDataSource<FilesViewController>?
 
@@ -85,9 +81,7 @@ public class FilesViewController: UITableViewController {
 }
 
 // MARK: TableView Delegate/DataSource
-
 extension FilesViewController {
-
     override public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         guard let currentUser = Globals.currentUser else { return false }
         let file = self.fetchedResultsController.object(at: indexPath)
@@ -117,17 +111,11 @@ extension FilesViewController {
 
             self.navigationController?.pushViewController(folderVC, animated: true)
         } else {
-            if let vc = self.delegate?.displayController(for: item) {
-
-                self.navigationController?.pushViewController(vc, animated: true)
-            } else {
-                guard let fileVC = storyboard.instantiateViewController(withIdentifier: "FileVC") as? LoadingViewController else {
-                    return
-                }
-
-                fileVC.file = item
-                self.navigationController?.pushViewController(fileVC, animated: true)
-            }
+            guard let previewController = storyboard.instantiateViewController(withIdentifier: "FilePreviewVC") as? FilePreviewViewController else { return }
+            previewController.item = item
+            previewController.pickerDelegate = self.delegate
+            previewController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem
+            self.navigationController?.pushViewController(previewController, animated: true)
         }
     }
 }

@@ -8,172 +8,102 @@ import Common
 import Foundation
 import QuickLook
 
+protocol FilePickerDelegate: class {
+    func picked(item: File)
+}
+
 class FilePreviewViewController: UIViewController {
     // MARK: Lifecycle
+    @IBOutlet private var containerView: UIView!
 
-    @IBOutlet private var progressView: UIProgressView!
-    @IBOutlet private var errorLabel: UILabel!
-    @IBOutlet private var cancelButton: UIButton!
+    var item: File?
+    weak var pickerDelegate: FilePickerDelegate?
 
-    let fileSync = FileSync.default
-    var file: File!
+    lazy var loadingViewController: LoadingViewController = {
+        let storyboard = UIStoryboard(name: "TabFiles", bundle: nil)
+        let loadingController = storyboard.instantiateViewController(withIdentifier: "FileVC") as! LoadingViewController
+        loadingController.file = item
+        loadingController.delegate = self
+        loadingController.view.translatesAutoresizingMaskIntoConstraints = false
+        return loadingController
+    }()
+
+    lazy var quicklookViewController: QLPreviewController = {
+        let previewController = QLPreviewController()
+        previewController.dataSource = self
+        previewController.title = self.item?.name
+        previewController.view.translatesAutoresizingMaskIntoConstraints = false
+        return previewController
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.setToolbarHidden(true, animated: false)
+        let doneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(filePicked(_:)))
+        self.setToolbarItems([doneItem], animated: false)
 
-        if #available(iOS 11, *) {
-            self.navigationItem.largeTitleDisplayMode = .never
-        }
-
-        progressView.setProgress(0, animated: false)
-        startDownload()
+        self.addChild(self.loadingViewController)
+        self.loadingViewController.didMove(toParent: self)
+        self.containerView.addSubview(self.loadingViewController.view)
+        self.containerView.addConstraints(self.fullscrennConstraints(for: self.loadingViewController.view))
     }
 
     override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.setToolbarHidden(true, animated: true)
         super.viewWillDisappear(animated)
     }
 
-    @IBAction private func cancelButtonTapped(_ sender: Any) {
-        navigationController?.popViewController(animated: true)
+    @objc func filePicked(_ sender: Any) {
+        guard let item = self.item else { return }
+        self.pickerDelegate?.picked(item: item)
+        self.dismiss(animated: true)
     }
 
-    func startDownload() {
-        // Count 4, 1/4 is download of signedURL, 3/4 download of the file itself.
-        // This gives more importance to the file download in term of progress
-        let progress = Progress(totalUnitCount: 4)
-        progress.isCancellable = true
-        progress.cancellationHandler = { }
-
-        let localURL = self.file.localURL
-        guard !FileManager.default.fileExists(atPath: localURL.path) else {
-            progress.becomeCurrent(withPendingUnitCount: 0)
-            self.showFile()
-            return
-        }
-
-        let fileID = self.file.id
-        let itemIdentifier = NSFileProviderItemIdentifier(fileID)
-        let signedURLTask = self.fileSync.downloadSignedURL(fileId: fileID) { [weak self] result in
-            if #available(iOS 11.0, *) {
-            } else {
-                progress.becomeCurrent(withPendingUnitCount: 3)
-            }
-
-            guard let signedURL = result.value else {
-                progress.becomeCurrent(withPendingUnitCount: 0)
-                DispatchQueue.main.async {
-                    self?.show(error: result.error!)
-                }
-
-                return
-            }
-
-            let tasko = self?.fileSync.download(id: "filedownload__\(fileID)", at: signedURL, moveTo: localURL, backgroundSession: false) { result in
-                if #available(iOS 11.0, *) {
-                } else {
-                    progress.becomeCurrent(withPendingUnitCount: 0)
-                }
-
-                switch result {
-                case .success:
-                    DispatchQueue.main.async {
-                        self?.showFile()
-                    }
-
-                case .failure(let error):
-                    DispatchQueue.main.async {
-                        self?.show(error: error)
-                    }
-                }
-            }
-
-            guard let task = tasko else {
-                progress.becomeCurrent(withPendingUnitCount: 0)
-                return
-            }
-
-            if #available(iOS 11.0, *) {
-                NSFileProviderManager.default.register(task, forItemWithIdentifier: itemIdentifier) { _ in }
-                progress.addChild(task.progress, withPendingUnitCount: 3)
-            }
-
-            task.resume()
-        }
-
-        if #available(iOS 11.0, *) {
-            progress.addChild(signedURLTask!.progress, withPendingUnitCount: 1)
-        }
-
-        signedURLTask?.resume()
-        self.progressView.observedProgress = progress
+    fileprivate func fullscrennConstraints(for view: UIView) -> [NSLayoutConstraint] {
+        return NSLayoutConstraint.constraints(withVisualFormat: "H:|-(0)-[view]-(0)-|", options: [], metrics: nil, views: ["view": view]) +
+            NSLayoutConstraint.constraints(withVisualFormat: "V:|-(0)-[view]-(0)-|", options: [], metrics: nil, views: ["view": view])
     }
+}
 
-    func showFile() {
-
-        let objectID = file.objectID
-        let context = CoreDataHelper.persistentContainer.newBackgroundContext()
-        context.performAndWait {
-            let file = context.typedObject(with: objectID) as File
-            file.lastReadAt = Date()
-
-            guard let syncAnchor = context.fetchSingle(WorkingSetSyncAnchor.mainAnchorFetchRequest).value else {
-                return
-            }
-
-            syncAnchor.value += 1
-
-            _ = context.saveWithResult()
-        }
-
-        if #available(iOS 11.0, *) {
-            NSFileProviderManager.default.signalEnumerator(for: NSFileProviderItemIdentifier(file.id)) { _ in }
-            if let parent = file.parentDirectory {
-                NSFileProviderManager.default.signalEnumerator(for: NSFileProviderItemIdentifier(parent.id)) { _ in }
-            }
-
-            NSFileProviderManager.default.signalEnumerator(for: NSFileProviderItemIdentifier.workingSet) { error in
-                if let error = error {
-                    print("Error signaling to working set: \(error)")
-                } else {
-                    print("WorkingSet signaled")
-                }
-            }
-        }
-
-        let previewManager = PreviewManager(file: file)
-        let controller = previewManager.previewViewController
-        controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
-        controller.navigationItem.leftItemsSupplementBackButton = true
-
-        if #available(iOS 11, *) {
-            controller.navigationItem.largeTitleDisplayMode = .never
-        }
-
-        if let nav = self.navigationController {
-            // TODO: add as subview
-            var viewControllers = nav.viewControllers
-            viewControllers.removeLast(1)
-            viewControllers.append(controller)
-            nav.setViewControllers(viewControllers, animated: false)
+extension FilePreviewViewController: LoadingViewControllerDelegate {
+    func controllerDidFinishLoading(error: SCError?) {
+        if let error = error {
+            print("erro: \(error)")
         } else {
-            self.present(controller, animated: false, completion: nil)
-        }
+            self.loadingViewController.removeFromParent()
+            self.loadingViewController.didMove(toParent: nil)
+            self.loadingViewController.view.removeFromSuperview()
+            self.containerView.removeConstraints(self.loadingViewController.view.constraints)
 
-        if let quickLook = controller as? QLPreviewController {
-            // fix for dataSource magically disappearing because hey let's store it in a weak variable in QLPreviewController
-            quickLook.dataSource = previewManager
-            quickLook.reloadData()
+            self.addChild(self.quicklookViewController)
+            self.quicklookViewController.didMove(toParent: self)
+            self.containerView.addSubview(self.quicklookViewController.view)
+            self.containerView.addConstraints(self.fullscrennConstraints(for: self.quicklookViewController.view))
+
+            self.navigationController?.setToolbarHidden(false, animated: true)
+        }
+    }
+}
+
+extension FilePreviewViewController: QLPreviewControllerDataSource {
+
+    private class FilePreviewItem: NSObject, QLPreviewItem {
+        let previewItemTitle: String?
+        let previewItemURL: URL?
+
+        init(name: String?, url: URL?) {
+            self.previewItemURL = url
+            self.previewItemTitle = name
+            super.init()
         }
     }
 
-    func show(error: Error) {
-        self.cancelButton.isHidden = true
-        self.progressView.isHidden = true
-        self.errorLabel.text = error.localizedDescription
-        self.errorLabel.isHidden = false
+    func numberOfPreviewItems(in controller: QLPreviewController) -> Int {
+        guard self.item != nil else { return 0 }
+        return 1
     }
 
-    @IBAction func save() {
-
+    func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
+        return FilePreviewItem(name: self.item?.name, url: self.item?.localURL)
     }
 }

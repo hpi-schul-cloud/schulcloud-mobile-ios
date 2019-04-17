@@ -77,11 +77,11 @@ final class HomeworkSubmitViewController: UIViewController {
     @objc func applyChanges(_ sender: Any) {
         self.commentField.resignFirstResponder()
         SubmissionHelper.saveSubmission(item: self.writableSubmission).onSuccess(DispatchQueue.main.context) {[unowned self] _ in
-            // TODO: deal with save result
             switch self.writingContext.saveWithResult() {
             case .success:
                 self.showAlert(title: "Success", message: "Your submission has been updated successfuly")
             case .failure(let error):
+                
                 print("error saving submission: \(error)")
             }
 
@@ -182,13 +182,10 @@ final class HomeworkSubmitViewController: UIViewController {
     }
 }
 
-extension HomeworkSubmitViewController: SomeDelegate {
-    // TODO(Florian): 
-    func displayController(for item: File) -> UIViewController {
-        let fileStoryboard = UIStoryboard(name: "TabFiles", bundle: nil)
-        let vc = fileStoryboard.instantiateViewController(withIdentifier: "FilePreviewVC") as! FilePreviewViewController
-        vc.file = item
-        return vc
+extension HomeworkSubmitViewController: FilePickerDelegate {
+    func picked(item: File) {
+        self.link(file: item, to: self.writableSubmission)
+        self.updateState()
     }
 }
 
