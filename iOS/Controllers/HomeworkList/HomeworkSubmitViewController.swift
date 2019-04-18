@@ -81,7 +81,6 @@ final class HomeworkSubmitViewController: UIViewController {
             case .success:
                 self.showAlert(title: "Success", message: "Your submission has been updated successfuly")
             case .failure(let error):
-                
                 print("error saving submission: \(error)")
             }
 
@@ -132,7 +131,6 @@ final class HomeworkSubmitViewController: UIViewController {
             self.present(picker, animated: true)
         }
 
-
         let addFileAction = UIAlertAction(title: "Personal files", style: .default) { [unowned self] _ in
             let fileStoryboard = UIStoryboard(name: "TabFiles", bundle: nil)
             let userFilesStoryboard = fileStoryboard.instantiateViewController(withIdentifier: "FolderVC") as! FilesViewController
@@ -141,8 +139,10 @@ final class HomeworkSubmitViewController: UIViewController {
             userFilesStoryboard.delegate = self
 
             let navigationController = UINavigationController(rootViewController: userFilesStoryboard)
-            userFilesStoryboard.navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .cancel, target: userFilesStoryboard, action: #selector(FilesViewController.dismissController)), animated: false)
-
+            let cancelItem = UIBarButtonItem(barButtonSystemItem: .cancel,
+                                             target: userFilesStoryboard,
+                                             action: #selector(FilesViewController.dismissController))
+            userFilesStoryboard.navigationItem.setRightBarButton(cancelItem, animated: false)
             self.present(navigationController, animated: true)
         }
 
@@ -154,14 +154,14 @@ final class HomeworkSubmitViewController: UIViewController {
 
     fileprivate func updateState() {
         var fileIDs = Set<String>(self.submission.files.map { $0.id })
-
         fileIDs.formUnion(self.writableSubmission.files.map { $0.id })
         self.files = [String](fileIDs).sorted()
 
         if !self.writableSubmission.changedValues().isEmpty {
-            self.navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(applyChanges(_:))),
-                                                  animated: true)
-            self.navigationItem.setLeftBarButton(UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(discardChanges(_:))), animated: true)
+            let saveItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(applyChanges(_:)))
+            let cancelItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(discardChanges(_:)))
+            self.navigationItem.setRightBarButton(saveItem, animated: true)
+            self.navigationItem.setLeftBarButton(cancelItem, animated: true)
         } else {
             self.navigationItem.setRightBarButton(nil, animated: true)
             self.navigationItem.setLeftBarButton(nil, animated: true)
@@ -188,7 +188,6 @@ extension HomeworkSubmitViewController: FilePickerDelegate {
         self.updateState()
     }
 }
-
 
 extension HomeworkSubmitViewController: UITableViewDelegate {
 

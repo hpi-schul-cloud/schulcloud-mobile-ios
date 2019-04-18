@@ -3,14 +3,12 @@
 //  Copyright © HPI. All rights reserved.
 //
 
-/// TODO: Cancel request when poping
-
 import BrightFutures
 import Common
 import Foundation
 import QuickLook
 
-protocol LoadingViewControllerDelegate: class {
+protocol LoadingViewControllerDelegate: AnyObject {
     func controllerDidFinishLoading(error: SCError?)
 }
 
@@ -44,6 +42,7 @@ class LoadingViewController: UIViewController {
     }
 
     @IBAction private func cancelButtonTapped(_ sender: Any) {
+        self.progressView.observedProgress?.cancel()
         navigationController?.popViewController(animated: true)
     }
 
@@ -78,7 +77,10 @@ class LoadingViewController: UIViewController {
                 return
             }
 
-            let tasko = self?.fileSync.download(id: "filedownload__\(fileID)", at: signedURL, moveTo: localURL, backgroundSession: false) { [weak self] result in
+            let tasko = self?.fileSync.download(id: "filedownload__\(fileID)",
+                                                at: signedURL,
+                                                moveTo: localURL,
+                                                backgroundSession: false) { [weak self] result in
                 if #available(iOS 11.0, *) {
                 } else {
                     progress.becomeCurrent(withPendingUnitCount: 0)

@@ -8,7 +8,7 @@ import Common
 import Foundation
 import QuickLook
 
-protocol FilePickerDelegate: class {
+protocol FilePickerDelegate: AnyObject {
     func picked(item: File)
 }
 
@@ -69,10 +69,13 @@ class FilePreviewViewController: UIViewController {
 extension FilePreviewViewController: LoadingViewControllerDelegate {
     func controllerDidFinishLoading(error: SCError?) {
         if let error = error {
-            let alertController = UIAlertController(title: "Failed to show file", message: "Something went wrong finding your file: \(error.debugDescription)", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "Failed to show file",
+                                                    message: "Something went wrong finding your file: \(error.debugDescription)",
+                                                    preferredStyle: .alert)
             let okAction = UIAlertAction(title: "Ok", style: .default) { [unowned self] _ in
                 self.navigationController?.popViewController(animated: true)
             }
+
             alertController.addAction(okAction)
             self.present(alertController, animated: true)
         } else {
