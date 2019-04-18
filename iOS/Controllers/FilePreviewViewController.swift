@@ -21,7 +21,7 @@ class FilePreviewViewController: UIViewController {
 
     lazy var loadingViewController: LoadingViewController = {
         let storyboard = UIStoryboard(name: "TabFiles", bundle: nil)
-        let loadingController = storyboard.instantiateViewController(withIdentifier: "FileVC") as! LoadingViewController
+        let loadingController = storyboard.instantiateViewController(withIdentifier: "LoadingVC") as! LoadingViewController
         loadingController.file = item
         loadingController.delegate = self
         loadingController.view.translatesAutoresizingMaskIntoConstraints = false
@@ -38,6 +38,7 @@ class FilePreviewViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.title = item?.name
         self.navigationController?.setToolbarHidden(true, animated: false)
         let doneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(filePicked(_:)))
         self.setToolbarItems([doneItem], animated: false)
@@ -68,7 +69,12 @@ class FilePreviewViewController: UIViewController {
 extension FilePreviewViewController: LoadingViewControllerDelegate {
     func controllerDidFinishLoading(error: SCError?) {
         if let error = error {
-            print("erro: \(error)")
+            let alertController = UIAlertController(title: "Failed to show file", message: "Something went wrong finding your file: \(error.debugDescription)", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Ok", style: .default) { [unowned self] _ in
+                self.navigationController?.popViewController(animated: true)
+            }
+            alertController.addAction(okAction)
+            self.present(alertController, animated: true)
         } else {
             self.loadingViewController.removeFromParent()
             self.loadingViewController.didMove(toParent: nil)
@@ -80,7 +86,9 @@ extension FilePreviewViewController: LoadingViewControllerDelegate {
             self.containerView.addSubview(self.quicklookViewController.view)
             self.containerView.addConstraints(self.fullscrennConstraints(for: self.quicklookViewController.view))
 
-            self.navigationController?.setToolbarHidden(false, animated: true)
+            if self.pickerDelegate != nil {
+                self.navigationController?.setToolbarHidden(false, animated: true)
+            }
         }
     }
 }

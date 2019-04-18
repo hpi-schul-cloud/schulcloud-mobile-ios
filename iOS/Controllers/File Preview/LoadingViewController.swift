@@ -57,11 +57,7 @@ class LoadingViewController: UIViewController {
         let localURL = self.file.localURL
         guard !FileManager.default.fileExists(atPath: localURL.path) else {
             progress.becomeCurrent(withPendingUnitCount: 0)
-            if let delegate = self.delegate {
-                delegate.controllerDidFinishLoading(error: nil)
-            } else {
-                self.showFile()
-            }
+            self.delegate?.controllerDidFinishLoading(error: nil)
             return
         }
 
@@ -76,7 +72,7 @@ class LoadingViewController: UIViewController {
             guard let signedURL = result.value else {
                 progress.becomeCurrent(withPendingUnitCount: 0)
                 DispatchQueue.main.async {
-                    self?.show(error: result.error!)
+                    self?.delegate?.controllerDidFinishLoading(error: result.error)
                 }
 
                 return
@@ -91,20 +87,12 @@ class LoadingViewController: UIViewController {
                 switch result {
                 case .success:
                     DispatchQueue.main.async {
-                        if let delegate = self?.delegate {
-                            delegate.controllerDidFinishLoading(error: nil)
-                        } else {
-                            self?.showFile()
-                        }
+                        self?.delegate?.controllerDidFinishLoading(error: nil)
                     }
 
                 case .failure(let error):
                     DispatchQueue.main.async {
-                        if let delegate = self?.delegate {
-                            delegate.controllerDidFinishLoading(error: error)
-                        } else {
-                            self?.show(error: error)
-                        }
+                        self?.delegate?.controllerDidFinishLoading(error: error)
                     }
                 }
             }
@@ -128,73 +116,5 @@ class LoadingViewController: UIViewController {
 
         signedURLTask?.resume()
         self.progressView.observedProgress = progress
-    }
-
-    func showFile() {
-
-        let objectID = file.objectID
-        let context = CoreDataHelper.persistentContainer.newBackgroundContext()
-        context.performAndWait {
-            let file = context.typedObject(with: objectID) as File
-            file.lastReadAt = Date()
-
-            guard let syncAnchor = context.fetchSingle(WorkingSetSyncAnchor.mainAnchorFetchRequest).value else {
-                return
-            }
-
-            syncAnchor.value += 1
-
-            _ = context.saveWithResult()
-        }
-
-        if #available(iOS 11.0, *) {
-            NSFileProviderManager.default.signalEnumerator(for: NSFileProviderItemIdentifier(file.id)) { _ in }
-            if let parent = file.parentDirectory {
-                NSFileProviderManager.default.signalEnumerator(for: NSFileProviderItemIdentifier(parent.id)) { _ in }
-            }
-
-            NSFileProviderManager.default.signalEnumerator(for: NSFileProviderItemIdentifier.workingSet) { error in
-                if let error = error {
-                    print("Error signaling to working set: \(error)")
-                } else {
-                    print("WorkingSet signaled")
-                }
-            }
-        }
-
-        let previewManager = PreviewManager(file: file)
-        let controller = previewManager.previewViewController
-        controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
-        controller.navigationItem.leftItemsSupplementBackButton = true
-
-        if #available(iOS 11, *) {
-            controller.navigationItem.largeTitleDisplayMode = .never
-        }
-
-        if let nav = self.navigationController {
-            // TODO: add as subview
-            var viewControllers = nav.viewControllers
-            viewControllers.removeLast(1)
-            viewControllers.append(controller)
-            nav.setViewControllers(viewControllers, animated: false)
-            nav.setToolbarHidden(false, animated: false)
-            let item = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: nil)
-            nav.setToolbarItems([item], animated: false)
-        } else {
-            self.present(controller, animated: false, completion: nil)
-        }
-
-        if let quickLook = controller as? QLPreviewController {
-            // fix for dataSource magically disappearing because hey let's store it in a weak variable in QLPreviewController
-            quickLook.dataSource = previewManager
-            quickLook.reloadData()
-        }
-    }
-
-    func show(error: Error) {
-        self.cancelButton.isHidden = true
-        self.progressView.isHidden = true
-        self.errorLabel.text = error.localizedDescription
-        self.errorLabel.isHidden = false
     }
 }
