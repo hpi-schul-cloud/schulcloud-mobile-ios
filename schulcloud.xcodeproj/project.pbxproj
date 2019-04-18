@@ -63,7 +63,6 @@
 		CE41528F20DBD9F000739CE2 /* MissingPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C5574206BE07200B79034 /* MissingPermissionView.swift */; };
 		CE41529020DBD9F000739CE2 /* PermissionManagmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C5576206BE0DA00B79034 /* PermissionManagmentViewController.swift */; };
 		CE41529120DBD9F500739CE2 /* WebviewPreviewViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31C84261ECF546E00FA070C /* WebviewPreviewViewContoller.swift */; };
-		CE41529220DBD9F500739CE2 /* PreviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31C84291ECF553700FA070C /* PreviewManager.swift */; };
 		CE41529320DBD9F500739CE2 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31C842D1ECF586500FA070C /* LoadingViewController.swift */; };
 		CE41529420DBD9F900739CE2 /* FilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3418B611ECEE6FB00280E62 /* FilesViewController.swift */; };
 		CE41529520DBD9F900739CE2 /* HomeworkListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB48991EDAE8A800692505 /* HomeworkListViewController.swift */; };
@@ -296,7 +295,6 @@
 		BFBD1AD7CC68AD6AE57843C4 /* Pods_schulcloud_schulcloudTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_schulcloud_schulcloudTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3165F1C1EDC1BAE005F5B8E /* HomeworkByDateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeworkByDateCell.swift; sourceTree = "<group>"; };
 		C31C84261ECF546E00FA070C /* WebviewPreviewViewContoller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebviewPreviewViewContoller.swift; sourceTree = "<group>"; };
-		C31C84291ECF553700FA070C /* PreviewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewManager.swift; sourceTree = "<group>"; };
 		C31C842D1ECF586500FA070C /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		C32870BB1EDF32C600ABA348 /* CoursesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursesViewController.swift; sourceTree = "<group>"; };
 		C32870BD1EDF356800ABA348 /* CourseHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseHelper.swift; sourceTree = "<group>"; };
@@ -619,7 +617,6 @@
 			isa = PBXGroup;
 			children = (
 				C31C84261ECF546E00FA070C /* WebviewPreviewViewContoller.swift */,
-				C31C84291ECF553700FA070C /* PreviewManager.swift */,
 				C31C842D1ECF586500FA070C /* LoadingViewController.swift */,
 			);
 			path = "File Preview";
@@ -1466,7 +1463,6 @@
 				CE057CCA2136B85C00D0D4AF /* FileProviderItem.swift in Sources */,
 				CE4152A820DBDA3300739CE2 /* HomeworkOverviewCell.swift in Sources */,
 				CE41529120DBD9F500739CE2 /* WebviewPreviewViewContoller.swift in Sources */,
-				CE41529220DBD9F500739CE2 /* PreviewManager.swift in Sources */,
 				CE41529020DBD9F000739CE2 /* PermissionManagmentViewController.swift in Sources */,
 				CE4152A420DBDA3300739CE2 /* NewsArticleCell.swift in Sources */,
 				CE41528920DBD9F000739CE2 /* DashboardLayout.swift in Sources */,
