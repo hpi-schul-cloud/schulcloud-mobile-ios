@@ -39,14 +39,19 @@ class FilePreviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = item?.name
+        if #available(iOS 11.0, *) {
+            self.navigationItem.largeTitleDisplayMode = .never
+        }
         self.navigationController?.setToolbarHidden(true, animated: false)
+        let flexibleFrontItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let flexibleBackItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(filePicked(_:)))
-        self.setToolbarItems([doneItem], animated: false)
+        self.setToolbarItems([flexibleFrontItem, doneItem, flexibleBackItem], animated: false)
 
         self.addChild(self.loadingViewController)
         self.loadingViewController.didMove(toParent: self)
         self.containerView.addSubview(self.loadingViewController.view)
-        self.containerView.addConstraints(self.fullscrennConstraints(for: self.loadingViewController.view))
+        self.containerView.addConstraints(self.fullscreenConstraints(for: self.loadingViewController.view))
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -60,7 +65,7 @@ class FilePreviewViewController: UIViewController {
         self.dismiss(animated: true)
     }
 
-    fileprivate func fullscrennConstraints(for view: UIView) -> [NSLayoutConstraint] {
+    private func fullscreenConstraints(for view: UIView) -> [NSLayoutConstraint] {
         return NSLayoutConstraint.constraints(withVisualFormat: "H:|-(0)-[view]-(0)-|", options: [], metrics: nil, views: ["view": view]) +
             NSLayoutConstraint.constraints(withVisualFormat: "V:|-(0)-[view]-(0)-|", options: [], metrics: nil, views: ["view": view])
     }
@@ -87,17 +92,29 @@ extension FilePreviewViewController: LoadingViewControllerDelegate {
             self.addChild(self.quicklookViewController)
             self.quicklookViewController.didMove(toParent: self)
             self.containerView.addSubview(self.quicklookViewController.view)
-            self.containerView.addConstraints(self.fullscrennConstraints(for: self.quicklookViewController.view))
+            self.containerView.addConstraints(self.fullscreenConstraints(for: self.quicklookViewController.view))
 
             if self.pickerDelegate != nil {
                 self.navigationController?.setToolbarHidden(false, animated: true)
+            } else {
+                let shareButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(sharePressed(_:)))
+                self.navigationItem.setRightBarButton(shareButton, animated: true)
             }
         }
+    }
+
+    @objc private func sharePressed(_ sender: Any) {
+        guard let URL = self.quicklookViewController.currentPreviewItem?.previewItemURL,
+            let data = try? Data(contentsOf: URL) ,
+            let image = UIImage(data: data) else { return }
+
+        let shareController = UIActivityViewController(activityItems: [image as Any], applicationActivities: nil)
+        shareController.excludedActivityTypes = [.postToFacebook, .postToVimeo, .postToWeibo, .postToFlickr, .postToTwitter, .postToTencentWeibo]
+        self.present(shareController, animated: true)
     }
 }
 
 extension FilePreviewViewController: QLPreviewControllerDataSource {
-
     private class FilePreviewItem: NSObject, QLPreviewItem {
         let previewItemTitle: String?
         let previewItemURL: URL?
@@ -110,8 +127,7 @@ extension FilePreviewViewController: QLPreviewControllerDataSource {
     }
 
     func numberOfPreviewItems(in controller: QLPreviewController) -> Int {
-        guard self.item != nil else { return 0 }
-        return 1
+        return self.item == nil ? 0 : 1
     }
 
     func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {

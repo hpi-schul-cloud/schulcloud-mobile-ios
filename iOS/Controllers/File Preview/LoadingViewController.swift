@@ -38,7 +38,7 @@ class LoadingViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        startDownload()
+        self.startDownload()
     }
 
     @IBAction private func cancelButtonTapped(_ sender: Any) {
