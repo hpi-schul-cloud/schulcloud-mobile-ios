@@ -42,11 +42,12 @@ class FilePreviewViewController: UIViewController {
         if #available(iOS 11.0, *) {
             self.navigationItem.largeTitleDisplayMode = .never
         }
-        self.navigationController?.setToolbarHidden(true, animated: false)
+
         let flexibleFrontItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let flexibleBackItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(filePicked(_:)))
         self.setToolbarItems([flexibleFrontItem, doneItem, flexibleBackItem], animated: false)
+        self.navigationController?.setToolbarHidden(true, animated: false)
 
         self.addChild(self.loadingViewController)
         self.loadingViewController.didMove(toParent: self)
@@ -104,9 +105,9 @@ extension FilePreviewViewController: LoadingViewControllerDelegate {
     }
 
     @objc private func sharePressed(_ sender: Any) {
-        guard let URL = self.quicklookViewController.currentPreviewItem?.previewItemURL,
-            let data = try? Data(contentsOf: URL) ,
-            let image = UIImage(data: data) else { return }
+        guard let url = self.quicklookViewController.currentPreviewItem?.previewItemURL  else { return }
+        guard let data = try? Data(contentsOf: url) else { return }
+        guard let image = UIImage(data: data) else { return }
 
         let shareController = UIActivityViewController(activityItems: [image as Any], applicationActivities: nil)
         shareController.excludedActivityTypes = [.postToFacebook, .postToVimeo, .postToWeibo, .postToFlickr, .postToTwitter, .postToTencentWeibo]
