@@ -77,7 +77,6 @@ final class HomeworkSubmitViewController: UIViewController {
     @objc func applyChanges(_ sender: Any) {
         self.commentField.resignFirstResponder()
         SubmissionHelper.saveSubmission(item: self.writableSubmission).onSuccess(DispatchQueue.main.context) {[unowned self] _ in
-            // TODO: deal with save result
             switch self.writingContext.saveWithResult() {
             case .success:
                 self.showAlert(title: "Success", message: "Your submission has been updated successfuly")
@@ -110,28 +109,45 @@ final class HomeworkSubmitViewController: UIViewController {
     }
 
     @IBAction private func submitFile(_ sender: Any) {
-        let picker = UIImagePickerController()
-        picker.delegate = self
 
         let actionController = UIAlertController()
         let cameraAction = UIAlertAction(title: "Taking a picture", style: .default) { [unowned self] _ in
-                picker.sourceType = .camera
+            let picker = UIImagePickerController()
+            picker.delegate = self
+            picker.sourceType = .camera
             picker.allowsEditing = true
             picker.cameraCaptureMode = .photo
             picker.cameraDevice = .rear
             picker.showsCameraControls = true
+
             self.present(picker, animated: true)
         }
 
         let libraryAction = UIAlertAction(title: "Photo Library", style: .default) { [unowned self] _ in
+            let picker = UIImagePickerController()
+            picker.delegate = self
             picker.sourceType = .savedPhotosAlbum
             picker.allowsEditing = false
-
             self.present(picker, animated: true)
         }
 
+        let addFileAction = UIAlertAction(title: "Personal files", style: .default) { [unowned self] _ in
+            let fileStoryboard = UIStoryboard(name: "TabFiles", bundle: nil)
+            let userFilesStoryboard = fileStoryboard.instantiateViewController(withIdentifier: "FolderVC") as! FilesViewController
+
+            userFilesStoryboard.currentFolder = File.by(id: FileHelper.userDirectoryID, in: CoreDataHelper.viewContext)!
+            userFilesStoryboard.delegate = self
+
+            let navigationController = UINavigationController(rootViewController: userFilesStoryboard)
+            let cancelItem = UIBarButtonItem(barButtonSystemItem: .cancel,
+                                             target: userFilesStoryboard,
+                                             action: #selector(FilesViewController.dismissController))
+            userFilesStoryboard.navigationItem.setRightBarButton(cancelItem, animated: false)
+            self.present(navigationController, animated: true)
+        }
+
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        [cameraAction, libraryAction, cancelAction].forEach { actionController.addAction($0) }
+        [cameraAction, libraryAction, addFileAction, cancelAction].forEach { actionController.addAction($0) }
 
         self.present(actionController, animated: true)
     }
@@ -142,9 +158,10 @@ final class HomeworkSubmitViewController: UIViewController {
         self.files = [String](fileIDs).sorted()
 
         if !self.writableSubmission.changedValues().isEmpty {
-            self.navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(applyChanges(_:))),
-                                                  animated: true)
-            self.navigationItem.setLeftBarButton(UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(discardChanges(_:))), animated: true)
+            let saveItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(applyChanges(_:)))
+            let cancelItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(discardChanges(_:)))
+            self.navigationItem.setRightBarButton(saveItem, animated: true)
+            self.navigationItem.setLeftBarButton(cancelItem, animated: true)
         } else {
             self.navigationItem.setRightBarButton(nil, animated: true)
             self.navigationItem.setLeftBarButton(nil, animated: true)
@@ -162,6 +179,13 @@ final class HomeworkSubmitViewController: UIViewController {
         alertController.addAction(cancelAction)
 
         self.present(alertController, animated: true)
+    }
+}
+
+extension HomeworkSubmitViewController: FilePickerDelegate {
+    func picked(item: File) {
+        self.link(file: item, to: self.writableSubmission)
+        self.updateState()
     }
 }
 

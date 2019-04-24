@@ -23,6 +23,7 @@ public class FilesViewController: UITableViewController {
 
     lazy var currentFolder: File = FileHelper.rootFolder
     var fileSync = FileSync.default
+    weak var delegate: FilePickerDelegate?
 
     private var coreDataTableViewDataSource: CoreDataTableViewDataSource<FilesViewController>?
 
@@ -73,12 +74,14 @@ public class FilesViewController: UITableViewController {
             log.error("Unable to perform File FetchRequest", error: error)
         }
     }
+
+    @objc public func dismissController() {
+        self.dismiss(animated: true)
+    }
 }
 
 // MARK: TableView Delegate/DataSource
-
 extension FilesViewController {
-
     override public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         guard let currentUser = Globals.currentUser else { return false }
         let file = self.fetchedResultsController.object(at: indexPath)
@@ -87,46 +90,6 @@ extension FilesViewController {
             file.parentDirectory?.id != FileHelper.coursesDirectoryID else { return false }
 
         return currentUser.permissions.contains(.movingFiles) || currentUser.permissions.contains(.deletingFiles) // && file.permissions.contains(.write)
-    }
-
-    override public func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        guard let currentUser = Globals.currentUser else { return nil }
-        var actions: [UITableViewRowAction] = []
-
-        // TODO: Implement!
-        if false && currentUser.permissions.contains(.deletingFiles) {
-            actions.append(UITableViewRowAction(style: .destructive, title: "Delete") { _, _ in
-                // TODO: Implement!
-                /*
-                guard let file = self.fetchedResultsController.sections?[indexPath.section].objects?[indexPath.row] as? File else { return }
-
-                FileHelper.delete(file: file).onSuccess { _ in
-                    CoreDataHelper.persistentContainer.performBackgroundTask { context in
-                        context.delete(file)
-                        try! context.save()
-                        DispatchQueue.main.async {
-                            try! self.fetchedResultsController.performFetch()
-                            tableView.deleteRows(at: [indexPath], with: .automatic)
-                        }
-                    }
-                }.onFailure { error in
-                    DispatchQueue.main.async {
-                        let alertVC = UIAlertController(title: "Something unexpected happened", message: error.localizedDescription, preferredStyle: .alert)
-                        let dismissAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                        alertVC.addAction(dismissAction)
-                        self.present(alertVC, animated: true) {}
-                    }
-                }*/
-            })
-        }
-
-        // TODO: Implement!
-        if false && currentUser.permissions.contains(.movingFiles) {
-            actions.append(UITableViewRowAction(style: .normal, title: "Move") { _, _ in
-            })
-        }
-
-        return actions
     }
 
     override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -143,14 +106,16 @@ extension FilesViewController {
             }
 
             folderVC.currentFolder = item
+            folderVC.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem
+            folderVC.delegate = self.delegate
+
             self.navigationController?.pushViewController(folderVC, animated: true)
         } else {
-            guard let fileVC = storyboard.instantiateViewController(withIdentifier: "FileVC") as? LoadingViewController else {
-                return
-            }
-
-            fileVC.file = item
-            self.navigationController?.pushViewController(fileVC, animated: true)
+            guard let previewController = storyboard.instantiateViewController(withIdentifier: "FilePreviewVC") as? FilePreviewViewController else { return }
+            previewController.item = item
+            previewController.pickerDelegate = self.delegate
+            previewController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem
+            self.navigationController?.pushViewController(previewController, animated: true)
         }
     }
 }
