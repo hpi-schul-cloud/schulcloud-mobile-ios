@@ -59,6 +59,7 @@ final class HomeworkSubmitViewController: UIViewController {
         self.addFilesButton.backgroundColor = Brand.default.colors.primary
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
+        tapRecognizer.cancelsTouchesInView = false
         self.contentView.addGestureRecognizer(tapRecognizer)
 
         self.updateState()
@@ -191,6 +192,16 @@ extension HomeworkSubmitViewController: FilePickerDelegate {
 
 extension HomeworkSubmitViewController: UITableViewDelegate {
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        defer { tableView.deselectRow(at: indexPath, animated: true) }
+
+        let fileId = self.files[indexPath.row]
+        let file = File.by(id: fileId, in: self.writingContext) ?? File.by(id: fileId, in: self.submission.managedObjectContext!)!
+        let storyboard = UIStoryboard(name: "TabFiles", bundle: nil)
+        let previewVC = storyboard.instantiateViewController(withIdentifier: "FilePreviewVC") as! FilePreviewViewController
+        previewVC.item = file
+        self.navigationController?.pushViewController(previewVC, animated: true)
+    }
 }
 
 extension HomeworkSubmitViewController: UITableViewDataSource {
