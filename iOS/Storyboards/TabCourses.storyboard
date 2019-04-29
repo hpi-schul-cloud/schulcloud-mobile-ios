@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3Wt-WC-Ly3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3Wt-WC-Ly3">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -25,7 +24,7 @@
                             <inset key="sectionInset" minX="16" minY="16" maxX="16" maxY="18"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="courseCell" id="miQ-oh-DD6" customClass="CourseCell" customModule="iOS" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="courseCell" id="miQ-oh-DD6" customClass="CourseCell" customModule="iOS" customModuleProvider="target">
                                 <rect key="frame" x="16" y="16" width="140" height="140"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -33,17 +32,17 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lgb-WZ-UxN">
-                                            <rect key="frame" x="0.0" y="0.0" width="140" height="8"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="140" height="46.666666666666664"/>
                                             <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Mathematik" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ikC-ib-QfB">
-                                            <rect key="frame" x="0.0" y="8" width="140" height="20"/>
+                                            <rect key="frame" x="0.0" y="46.666666666666664" width="140" height="67.333333333333343"/>
                                             <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="L. Ehrer" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.75" translatesAutoresizingMaskIntoConstraints="NO" id="aHW-0P-UoN">
-                                            <rect key="frame" x="8" y="28" width="124" height="18"/>
+                                            <rect key="frame" x="8" y="114" width="124" height="18"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="18" id="51q-c7-DbA"/>
                                                 <constraint firstAttribute="height" constant="18" id="LdU-db-wL2"/>
@@ -104,7 +103,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="Zni-aX-KFj" kind="show" identifier="singleLesson" id="zzR-GR-9Ji"/>
+                                    <segue destination="b85-h7-t4P" kind="show" identifier="singleLesson" id="YRs-B2-iKg"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -117,6 +116,60 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vp0-kK-IVF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5015.1999999999998" y="1088.9055472263869"/>
+        </scene>
+        <!--Single Lesson View Controller-->
+        <scene sceneID="VMw-RU-vn7">
+            <objects>
+                <tableViewController id="b85-h7-t4P" customClass="SingleLessonViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="ZAo-es-UWn">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="620"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TextCell" id="bHU-iI-6XN" customClass="LessonContentTextCell" customModule="iOS" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bHU-iI-6XN" id="SGD-gP-uVr">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="iXA-Go-KxK">
+                                            <rect key="frame" x="20" y="10.000000000000002" width="374" height="23.666666666666671"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        </textView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="iXA-Go-KxK" firstAttribute="top" secondItem="SGD-gP-uVr" secondAttribute="top" constant="10" id="1cf-4K-pAy"/>
+                                        <constraint firstItem="iXA-Go-KxK" firstAttribute="leading" secondItem="SGD-gP-uVr" secondAttribute="leadingMargin" id="4pj-N6-5V4"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="iXA-Go-KxK" secondAttribute="trailing" id="QYZ-HX-5cC"/>
+                                        <constraint firstAttribute="bottom" secondItem="iXA-Go-KxK" secondAttribute="bottom" constant="10" id="lBT-0S-oAg"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="textView" destination="iXA-Go-KxK" id="Sy5-XI-Syr"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="UnknownCell" id="LS0-6N-wxZ">
+                                <rect key="frame" x="0.0" y="72" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="LS0-6N-wxZ" id="w0x-tr-lmD">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="b85-h7-t4P" id="aab-jF-sFU"/>
+                            <outlet property="delegate" destination="b85-h7-t4P" id="5aD-rk-2az"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="40m-Vp-vYv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6186.9565217391309" y="1087.5"/>
         </scene>
         <!--Kurse-->
         <scene sceneID="kvK-sq-wPL">
@@ -137,22 +190,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YDl-L1-upg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3039.1999999999998" y="1088.9055472263869"/>
-        </scene>
-        <!--Single Lesson View Controller-->
-        <scene sceneID="kz0-YB-959">
-            <objects>
-                <viewController extendedLayoutIncludesOpaqueBars="YES" id="Zni-aX-KFj" customClass="SingleLessonViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ZOH-6R-SMS">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <viewLayoutGuide key="safeArea" id="Voh-T8-PgS"/>
-                    </view>
-                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="CPW-2D-lpF"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="PQ8-F3-MNP" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="6049" y="1089"/>
         </scene>
     </scenes>
     <resources>

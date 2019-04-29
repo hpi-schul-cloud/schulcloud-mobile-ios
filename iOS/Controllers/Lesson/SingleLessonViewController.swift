@@ -5,66 +5,52 @@
 
 import Common
 import UIKit
-import WebKit
 
 /// TODO(permissions):
 ///     contentView? Should we not display the content of lesson if no permission? Seems off
-class SingleLessonViewController: UIViewController, WKUIDelegate {
 
-    var lesson: Lesson!
+fileprivate extension LessonContent.ContentType {
+    var cellIdentifier: String {
+        switch self {
+        case .text:
+            return "TextCell"
+        case .other:
+            fallthrough
+        @unknown default:
+            return "UnknownCell"
+        }
+    }
+}
 
-    var webView: WKWebView!
+class SingleLessonViewController: UITableViewController {
+
+    var content: [LessonContent] = []
+    let htmlHelper = HTMLHelper.default
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let userContentController = WKUserContentController()
-        let cookieScriptSource = "document.cookie = 'jwt=\(Globals.account!.accessToken!)'"
-        let cookieScript = WKUserScript(source: cookieScriptSource, injectionTime: .atDocumentStart, forMainFrameOnly: false)
-        userContentController.addUserScript(cookieScript)
-        let webConfiguration = WKWebViewConfiguration()
-        webConfiguration.userContentController = userContentController
-        webView = WKWebView(frame: .zero, configuration: webConfiguration)
-        webView.uiDelegate = self
-
-        self.view.addSubview(webView)
-
-        webView.translatesAutoresizingMaskIntoConstraints = false
-        webView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        webView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-        let guide = self.view.readableContentGuide
-        guide.leadingAnchor.constraint(equalTo: webView.leadingAnchor).isActive = true
-        guide.trailingAnchor.constraint(equalTo: webView.trailingAnchor).isActive = true
-
-        self.title = lesson.name
-
-        self.loadContents(lesson.contents)
     }
 
-    func loadContents(_ contents: Set<LessonContent>) {
-        let rendered = contents.map(htmlForElement)
-        let concatenated = """
-        <html>
-        <head>\(Constants.textStyleHtml)<meta name=\"viewport\" content=\"initial-scale=1.0\"></head>
-        <body>\(rendered.joined(separator: "<hr>"))</body>
-        </html>
-        """
-        webView.loadHTMLString(concatenated, baseURL: Brand.default.servers.web)
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.content.count
     }
 
-    func htmlForElement(_ content: LessonContent) -> String {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let content = self.content[indexPath.row]
+        let cellIdentifier = content.type.cellIdentifier
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
         switch content.type {
-        case .text:
-            var rendered = ""
-            if let title = content.title, !title.isEmpty {
-                rendered += "<h1>\(title)</h1>"
-            }
-
-            rendered += content.text ?? ""
-            return rendered
         case .other:
-            return "<span class=\"not-supported\">Dieser Typ wird leider noch nicht unterstützt.</span>"
+            let font = UIFont.italicSystemFont(ofSize: 15.0)
+            cell.textLabel?.attributedText = NSAttributedString(string: "This content type isn't supported yet",
+                                                      attributes: [NSAttributedString.Key.font: font])
+        case .text:
+            guard let textCell = cell as? LessonContentTextCell else { fatalError("Unrecognized cell type   ") }
+            textCell.textView.attributedText = self.htmlHelper.attributedString(for: content.text!)
+            textCell.textView.sizeToFit()
         }
+
+        return cell
     }
 
 }

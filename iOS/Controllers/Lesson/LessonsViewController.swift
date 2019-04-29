@@ -71,7 +71,8 @@ public class LessonsViewController: UITableViewController {
             guard let indexPath = tableView.indexPath(for: selectedCell) else { return }
             guard let destination = segue.destination as? SingleLessonViewController else { return }
             let selectedLesson = fetchedResultsController.object(at: indexPath)
-            destination.lesson = selectedLesson
+            destination.content = Array(selectedLesson.contents)
+            destination.title = selectedLesson.name
         default:
             break
         }
