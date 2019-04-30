@@ -25,6 +25,7 @@ public class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotification
     }
 
     public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        try! R.validate()
         self.customizeAppearance()
 
         if !isUnitTesting() {

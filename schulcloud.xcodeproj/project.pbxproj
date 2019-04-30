@@ -91,6 +91,7 @@
 		CE4152AD20DBDA4D00739CE2 /* SingleLessonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C3CAB01EF5CBB6009601AE /* SingleLessonViewController.swift */; };
 		CE4152B620E2854900739CE2 /* Assets-ios-brand.generated.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE4152B520E2854900739CE2 /* Assets-ios-brand.generated.xcassets */; };
 		CE68A2F521F89B1700E26B6B /* HomeworkSubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE68A2F421F89B1700E26B6B /* HomeworkSubmitViewController.swift */; };
+		CE7AC3EC22784011009079FD /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7AC3EB22784011009079FD /* R.generated.swift */; };
 		CE7BFC15212DA2E200C1B871 /* Assets-ios-brand.generated.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE4152B520E2854900739CE2 /* Assets-ios-brand.generated.xcassets */; };
 		CE85F0AF210091B700112085 /* FileSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE85F0AE210091B700112085 /* FileSync.swift */; };
 		CE95A4AE2111FEDA0061BCDD /* FileProviderExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95A4AD2111FEDA0061BCDD /* FileProviderExtension.swift */; };
@@ -376,6 +377,7 @@
 		CE6F9AB92153E561007B8C20 /* n21-FileProvider_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "n21-FileProvider_Debug.xcconfig"; sourceTree = "<group>"; };
 		CE737A4D1FFE65B0006DAB54 /* NewsArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsArticleCell.swift; sourceTree = "<group>"; };
 		CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListViewController.swift; sourceTree = "<group>"; };
+		CE7AC3EB22784011009079FD /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		CE829316204EB6B3009D2C84 /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		CE85F0AE210091B700112085 /* FileSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSync.swift; sourceTree = "<group>"; };
 		CE95A4AB2111FEDA0061BCDD /* schulcloud.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = schulcloud.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -659,6 +661,7 @@
 				C3A5A9361EBCD06200825DBF /* Storyboards */,
 				C3A5A9351EBCD03600825DBF /* Controllers */,
 				50739CC91F56B9C600CD68C7 /* Views */,
+				CE7AC3EB22784011009079FD /* R.generated.swift */,
 				C3A5A9021EBCC17600825DBF /* AppDelegate.swift */,
 				C3A5A9111EBCC17600825DBF /* Info.plist */,
 				CE4152B520E2854900739CE2 /* Assets-ios-brand.generated.xcassets */,
@@ -971,6 +974,7 @@
 			buildConfigurationList = C3A5A92A1EBCC17600825DBF /* Build configuration list for PBXNativeTarget "iOS" */;
 			buildPhases = (
 				92AF1094A1614F30A8A8E107 /* [CP] Check Pods Manifest.lock */,
+				CE7AC3EA22783EC3009079FD /* ShellScript */,
 				50B44D7A203A0328009DC2D3 /* Set Build number */,
 				C3A5A8FB1EBCC17600825DBF /* Sources */,
 				C3A5A8FC1EBCC17600825DBF /* Frameworks */,
@@ -1222,6 +1226,7 @@
 				"${BUILT_PRODUCTS_DIR}/JWTDecode/JWTDecode.framework",
 				"${BUILT_PRODUCTS_DIR}/Marshal/Marshal.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/R.swift.Library/Rswift.framework",
 				"${BUILT_PRODUCTS_DIR}/SyncEngine/SyncEngine.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -1234,6 +1239,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JWTDecode.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Marshal.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rswift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SyncEngine.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -1384,6 +1390,25 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		CE7AC3EA22783EC3009079FD /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$TEMP_DIR/rswift-lastrun",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				$SRCROOT/R.generated.swift,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"$PODS_ROOT/R.swift/rswift\" generate \"$SRCROOT/R.generated.swift\"\n";
+		};
 		CEA702F5215BAB9400AA8919 /* Copy brand Assets */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1405,6 +1430,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-iOS/Pods-iOS-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/R.swift.Library/Rswift.framework",
 				"${BUILT_PRODUCTS_DIR}/CalendarKit/CalendarKit.framework",
 				"${BUILT_PRODUCTS_DIR}/DateToolsSwift/DateToolsSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Neon/Neon.framework",
@@ -1420,6 +1446,7 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rswift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CalendarKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateToolsSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Neon.framework",
@@ -1471,6 +1498,7 @@
 				CED9E5A2218B177B0020FC7A /* HomeworkListDateSortedViewController.swift in Sources */,
 				CE41529D20DBD9F900739CE2 /* NewsDetailViewController.swift in Sources */,
 				CE1253332181D92800CA2213 /* TableViewFetchedControllerDelegate.swift in Sources */,
+				CE7AC3EC22784011009079FD /* R.generated.swift in Sources */,
 				CE4152A720DBDA3300739CE2 /* DashboardViewControllerCell.swift in Sources */,
 				CE41529920DBD9F900739CE2 /* CalendarViewController.swift in Sources */,
 				CE41529420DBD9F900739CE2 /* FilesViewController.swift in Sources */,

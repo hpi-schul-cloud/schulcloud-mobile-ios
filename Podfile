@@ -4,6 +4,7 @@ inhibit_all_warnings!
 platform :ios, '10.0'
 
 pod 'SwiftLint', '~> 0.25'
+pod 'R.swift'
 
 target 'Common' do
   pod 'BrightFutures', '~> 8.0'
