@@ -30,12 +30,11 @@ final class HomeworkListCourseSortedViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let nib = UINib(nibName: "HomeworkHeaderView", bundle: nil)
-        self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: "HomeworkHeaderView")
-
+        self.tableView.register(UINib(resource: R.nib.homeworkHeaderView),
+                                forHeaderFooterViewReuseIdentifier: R.nib.homeworkHeaderView.name)
         self.coreDataTableViewDataSource = CoreDataTableViewDataSource(self.tableView,
                                                                        fetchedResultsController: self.fetchedResultsController,
-                                                                       cellReuseIdentifier: "courseTask",
+                                                                       cellReuseIdentifier: R.reuseIdentifier.courseTask.identifier,
                                                                        delegate: self)
         try? self.fetchedResultsController.performFetch()
         self.updateData()
@@ -59,7 +58,7 @@ final class HomeworkListCourseSortedViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sectionInfo = self.fetchedResultsController.sections![section]
-        guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HomeworkHeaderView") as? HomeworkHeaderView else {
+        guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: R.nib.homeworkHeaderView.name) as? HomeworkHeaderView else {
             return nil
         }
 
@@ -80,20 +79,18 @@ final class HomeworkListCourseSortedViewController: UITableViewController {
             tableView.deselectRow(at: indexPath, animated: false)
         }
 
-        self.performSegue(withIdentifier: "taskDetail", sender: self.fetchedResultsController.object(at: indexPath))
+        self.performSegue(withIdentifier: R.segue.homeworkListCourseSortedViewController.taskDetail,
+                          sender: self.fetchedResultsController.object(at: indexPath))
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case "taskDetail"?:
-            guard let detailVC = segue.destination as? HomeworkDetailViewController else { return }
-            guard let homework = sender as? Homework else { return }
-            detailVC.homework = homework
-        default:
+        guard let info = R.segue.homeworkListCourseSortedViewController.taskDetail(segue: segue) else {
             super.prepare(for: segue, sender: sender)
+            return
         }
-    }
 
+        info.destination.homework = sender as? Homework
+    }
 }
 
 extension HomeworkListCourseSortedViewController: CoreDataTableViewDataSourceDelegate {

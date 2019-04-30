@@ -20,8 +20,7 @@ class FilePreviewViewController: UIViewController {
     weak var pickerDelegate: FilePickerDelegate?
 
     lazy var loadingViewController: LoadingViewController = {
-        let storyboard = UIStoryboard(name: "TabFiles", bundle: nil)
-        let loadingController = storyboard.instantiateViewController(withIdentifier: "LoadingVC") as! LoadingViewController
+        let loadingController = R.storyboard.tabFiles.loadingVC()!
         loadingController.file = item
         loadingController.delegate = self
         loadingController.view.translatesAutoresizingMaskIntoConstraints = false
