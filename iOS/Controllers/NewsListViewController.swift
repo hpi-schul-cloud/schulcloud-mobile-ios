@@ -25,7 +25,7 @@ public final class NewsListViewController: UITableViewController {
         super.viewDidLoad()
         self.coreDataTableViewDataSource = CoreDataTableViewDataSource(self.tableView,
                                                                        fetchedResultsController: self.fetchedResultController,
-                                                                       cellReuseIdentifier: "newsCell",
+                                                                       cellReuseIdentifier: R.reuseIdentifier.newsArticleCell.identifier,
                                                                        delegate: self)
 
         self.fetchNewsArticle()
