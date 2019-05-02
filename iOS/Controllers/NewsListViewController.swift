@@ -7,7 +7,7 @@ import Common
 import CoreData
 import UIKit
 
-public class NewsListViewController: UITableViewController {
+public final class NewsListViewController: UITableViewController {
 
     private var coreDataTableViewDataSource: CoreDataTableViewDataSource<NewsListViewController>?
 

@@ -27,12 +27,8 @@ class NotificationViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "notificationCell", for: indexPath)
-
-        if let notificationCell = cell as? NotificationCell {
-            notificationCell.notification = self.notifications[indexPath.row]
-        }
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.notificationCell, for: indexPath)!
+        cell.notification = self.notifications[indexPath.row]
         return cell
     }
 

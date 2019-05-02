@@ -16,14 +16,14 @@ class NewsArticleCell: UITableViewCell {
         super.awakeFromNib()
         self.content.textContainerInset = .zero
         self.content.textContainer.lineFragmentPadding = 0
+        self.content.translatesAutoresizingMaskIntoConstraints = true
+        self.content.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
     }
 
     func configure(for newsArticle: NewsArticle) {
         self.title.text = newsArticle.title
         self.timeSinceCreated.text = NewsArticle.displayDateFormatter.string(for: newsArticle.displayAt)
         self.content.attributedText = HTMLHelper.default.attributedString(for: newsArticle.content)
-        self.content.translatesAutoresizingMaskIntoConstraints = true
-        self.content.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
         self.content.sizeToFit()
     }
 
