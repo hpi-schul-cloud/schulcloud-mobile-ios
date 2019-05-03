@@ -12,7 +12,13 @@ class LessonContentTextCell: UITableViewCell {
         super.awakeFromNib()
         self.textView.textContainerInset = .zero
         self.textView.textContainer.lineFragmentPadding = 0
+    }
+
+    func configure(text: NSAttributedString) {
+        self.textView.attributedText = text
         self.textView.translatesAutoresizingMaskIntoConstraints = true
         self.textView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+        self.textView.sizeToFit()
+
     }
 }

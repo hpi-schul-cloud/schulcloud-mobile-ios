@@ -16,8 +16,6 @@ fileprivate extension LessonContent.ContentType {
             return "TextCell"
         case .other:
             return "UnknownCell"
-        @unknown default:
-            return "UnknownCell"
         }
     }
 }
@@ -25,6 +23,7 @@ fileprivate extension LessonContent.ContentType {
 class SingleLessonViewController: UITableViewController {
 
     var content: [LessonContent] = []
+
     let htmlHelper = HTMLHelper.default
 
     override func viewDidLoad() {
@@ -46,11 +45,8 @@ class SingleLessonViewController: UITableViewController {
                                                                 attributes: [NSAttributedString.Key.font: font])
         case .text:
             guard let textCell = cell as? LessonContentTextCell else { fatalError("Unrecognized cell type") }
-            textCell.textView.attributedText = self.htmlHelper.attributedString(for: content.text!)
-            textCell.textView.sizeToFit()
+            textCell.configure(text: self.htmlHelper.attributedString(for: content.text!))
         }
-
         return cell
     }
-
 }
