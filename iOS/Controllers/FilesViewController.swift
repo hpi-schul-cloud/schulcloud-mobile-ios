@@ -43,7 +43,7 @@ public class FilesViewController: UITableViewController {
 
         self.coreDataTableViewDataSource = CoreDataTableViewDataSource(self.tableView,
                                                                        fetchedResultsController: self.fetchedResultsController,
-                                                                       cellReuseIdentifier: R.reuseIdentifier.itemDetail.identifier ,
+                                                                       cellReuseIdentifier: R.reuseIdentifier.itemDetail.identifier,
                                                                        delegate: self)
 
         self.navigationItem.title = self.currentFolder.name

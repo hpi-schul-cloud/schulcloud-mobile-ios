@@ -133,7 +133,7 @@ final class HomeworkSubmitViewController: UIViewController {
         }
 
         let addFileAction = UIAlertAction(title: "Personal files", style: .default) { [unowned self] _ in
-            guard let userFilesStoryboard = R.storyboard.tabFiles.folderVC() else { fatalError() }
+            let userFilesStoryboard = R.storyboard.tabFiles.folderVC()!
 
             userFilesStoryboard.currentFolder = File.by(id: FileHelper.userDirectoryID, in: CoreDataHelper.viewContext)!
             userFilesStoryboard.delegate = self
