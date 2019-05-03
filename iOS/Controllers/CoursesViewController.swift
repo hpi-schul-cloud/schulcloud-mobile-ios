@@ -98,7 +98,7 @@ class CoursesViewController: UICollectionViewController, UICollectionViewDelegat
             super.prepare(for: segue, sender: nil)
             return
         }
-        
+
         guard let selectedCell = sender as? UICollectionViewCell else { return }
         guard let indexPath = self.collectionView?.indexPath(for: selectedCell) else { return }
 
