@@ -40,7 +40,7 @@ class HomeworkDetailViewController: UIViewController {
 
     @IBAction private func submissionPressed(_ sender: UIButton) {
         guard self.homework!.submission == nil else {
-            self.performSegue(withIdentifier: "showSubmission", sender: nil)
+            self.performSegue(withIdentifier: R.segue.homeworkDetailViewController.showSubmission, sender: nil)
             return
         }
 
@@ -65,7 +65,7 @@ class HomeworkDetailViewController: UIViewController {
 
             return Future(value: CoreDataHelper.viewContext.typedObject(with: submissions.objectIds.first!))
         }.onSuccess(DispatchQueue.main.context) { _ in
-            self.performSegue(withIdentifier: "showSubmission", sender: nil)
+            self.performSegue(withIdentifier: R.segue.homeworkDetailViewController.showSubmission, sender: nil)
         }.onFailure(DispatchQueue.main.context) { error in
             let alertController = UIAlertController(title: "Error",
                                                     message: "Failed to create submission:\(error.localizedDescription)",
@@ -122,11 +122,7 @@ class HomeworkDetailViewController: UIViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == "showSubmission",
-            let controller = segue.destination as? HomeworkSubmitViewController else {
-                return
-        }
-
-        controller.submission = self.homework?.submission
+        guard let segueInfo = R.segue.homeworkDetailViewController.showSubmission(segue: segue) else { return }
+        segueInfo.destination.submission = self.homework?.submission
     }
 }

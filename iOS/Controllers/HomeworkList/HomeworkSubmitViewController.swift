@@ -39,7 +39,7 @@ final class HomeworkSubmitViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.filesTableView.register(UINib(nibName: "HomeworkSubmitFileCell", bundle: nil), forCellReuseIdentifier: "fileCell")
+        self.filesTableView.register(R.nib.homeworkSubmitFileCell)
 
         self.filesTableView.delegate = self
         self.filesTableView.dataSource = self
@@ -133,8 +133,7 @@ final class HomeworkSubmitViewController: UIViewController {
         }
 
         let addFileAction = UIAlertAction(title: "Personal files", style: .default) { [unowned self] _ in
-            let fileStoryboard = UIStoryboard(name: "TabFiles", bundle: nil)
-            let userFilesStoryboard = fileStoryboard.instantiateViewController(withIdentifier: "FolderVC") as! FilesViewController
+            let userFilesStoryboard = R.storyboard.tabFiles.folderVC()!
 
             userFilesStoryboard.currentFolder = File.by(id: FileHelper.userDirectoryID, in: CoreDataHelper.viewContext)!
             userFilesStoryboard.delegate = self
@@ -197,8 +196,7 @@ extension HomeworkSubmitViewController: UITableViewDelegate {
 
         let fileId = self.files[indexPath.row]
         let file = File.by(id: fileId, in: self.writingContext) ?? File.by(id: fileId, in: self.submission.managedObjectContext!)!
-        let storyboard = UIStoryboard(name: "TabFiles", bundle: nil)
-        let previewVC = storyboard.instantiateViewController(withIdentifier: "FilePreviewVC") as! FilePreviewViewController
+        let previewVC = R.storyboard.tabFiles.filePreviewVC()!
         previewVC.item = file
         self.navigationController?.pushViewController(previewVC, animated: true)
     }
@@ -212,20 +210,20 @@ extension HomeworkSubmitViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let fileId = self.files[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "fileCell", for: indexPath) as! HomeworkSubmitFileCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.fileCell, for: indexPath)!
         let image: UIImage?
         let filename: String?
 
         if let file = self.writableSubmission.files.first(where: { $0.id == fileId }) {
             if self.submission.files.contains(where: { $0.id == fileId }) {
-                image = UIImage(named: "cloud-done")
+                image = R.image.cloudDone()
             } else {
-                image = UIImage(named: "cloud-upload")
+                image = R.image.cloudUpload()
             }
 
             filename = file.name
         } else {
-            image = UIImage(named: "cloud-outline")
+            image = R.image.cloudOutline()
             filename = self.submission.files.first { $0.id == fileId }?.name
         }
 

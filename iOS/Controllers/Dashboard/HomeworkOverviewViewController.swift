@@ -113,7 +113,7 @@ extension HomeworkOverviewViewController: UITableViewDelegate, UITableViewDataSo
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "HomeworkOverviewCell") as! HomeworkOverviewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.homeworkOverviewCell, for: indexPath)!
 
         var index = organizedHomeworkData.keys.startIndex
         organizedHomeworkData.formIndex(&index, offsetBy: indexPath.row)
