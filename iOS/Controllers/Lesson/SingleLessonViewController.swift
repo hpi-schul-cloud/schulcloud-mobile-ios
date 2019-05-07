@@ -8,7 +8,6 @@ import UIKit
 
 /// TODO(permissions):
 ///     contentView? Should we not display the content of lesson if no permission? Seems off
-
 fileprivate extension LessonContent.ContentType {
     var cellIdentifier: String {
         switch self {
@@ -22,9 +21,18 @@ fileprivate extension LessonContent.ContentType {
 
 class SingleLessonViewController: UITableViewController {
 
-    var content: [LessonContent] = []
-
+    var content: [LessonContent] = [] {
+        didSet {
+            for content in self.content {
+                guard content.type == .text else { return }
+                self.renderedHTMLCache[content.id] = self.htmlHelper.attributedString(for: content.text!)
+            }
+        }
+    }
     let htmlHelper = HTMLHelper.default
+    private var renderedHTMLCache: [String: NSAttributedString] = [:]
+
+    let textCellVerticalMargin: CGFloat = 25
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +40,19 @@ class SingleLessonViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.content.count
+    }
+
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let content = self.content[indexPath.row]
+        switch content.type {
+        case .text:
+            let attrText = self.renderedHTMLCache[content.id]!
+            let width = tableView.readableContentGuide.layoutFrame.width
+            let context = NSStringDrawingContext()
+            return attrText.boundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin], context: context).height + textCellVerticalMargin
+        default:
+            return 44
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -44,8 +65,8 @@ class SingleLessonViewController: UITableViewController {
             cell.textLabel?.attributedText = NSAttributedString(string: "This content type isn't supported yet",
                                                                 attributes: [NSAttributedString.Key.font: font])
         case .text:
-            guard let textCell = cell as? LessonContentTextCell else { fatalError("Unrecognized cell type") }
-            textCell.configure(text: self.htmlHelper.attributedString(for: content.text!))
+            let textCell = cell as! LessonContentTextCell
+            textCell.configure(text: self.renderedHTMLCache[content.id]!)
         }
         return cell
     }
