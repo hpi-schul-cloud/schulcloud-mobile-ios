@@ -21,29 +21,33 @@ fileprivate extension LessonContent.ContentType {
 
 class SingleLessonViewController: UITableViewController {
 
-    var content: [LessonContent] = [] {
+    var lesson: Lesson! {
         didSet {
-            for content in self.content {
-                guard content.type == .text else { return }
+            self.contents = self.lesson!.contents.sorted { $0.id > $1.id }
+            for content in self.contents {
+                guard content.type == .text else { continue }
                 self.renderedHTMLCache[content.id] = self.htmlHelper.attributedString(for: content.text!)
             }
         }
     }
+
     let htmlHelper = HTMLHelper.default
     private var renderedHTMLCache: [String: NSAttributedString] = [:]
+    private var contents: [LessonContent] = []
 
     let textCellVerticalMargin: CGFloat = 25
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = lesson.name
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.content.count
+        return self.contents.count
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let content = self.content[indexPath.row]
+        let content = self.contents[indexPath.row]
         switch content.type {
         case .text:
             let attrText = self.renderedHTMLCache[content.id]!
@@ -56,7 +60,7 @@ class SingleLessonViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let content = self.content[indexPath.row]
+        let content = self.contents[indexPath.row]
         let cellIdentifier = content.type.cellIdentifier
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
         switch content.type {
