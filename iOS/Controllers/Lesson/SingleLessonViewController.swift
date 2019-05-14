@@ -23,7 +23,7 @@ class SingleLessonViewController: UITableViewController {
 
     var lesson: Lesson! {
         didSet {
-            self.contents = self.lesson!.contents.sorted { $0.id > $1.id }
+            self.contents = self.lesson!.contents.sorted { $0.insertDate < $1.insertDate }
             for content in self.contents {
                 guard content.type == .text else { continue }
                 self.renderedHTMLCache[content.id] = self.htmlHelper.attributedString(for: content.text!)

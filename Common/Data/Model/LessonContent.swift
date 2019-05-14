@@ -16,6 +16,9 @@ public final class LessonContent: NSManagedObject {
     @NSManaged public var hidden: Bool
     @NSManaged public var lesson: Lesson?
 
+    @NSManaged public var insertDate: Date
+
+
     @nonobjc public class func fetchRequest() -> NSFetchRequest<LessonContent> {
         return NSFetchRequest<LessonContent>(entityName: "LessonContent")
     }
@@ -28,6 +31,11 @@ public final class LessonContent: NSManagedObject {
     public var type: ContentType {
         guard let component = self.component else { return .other }
         return ContentType(rawValue: component) ?? .other
+    }
+
+    public override func awakeFromInsert() {
+        super.awakeFromInsert()
+        self.insertDate = Date()
     }
 
 }
