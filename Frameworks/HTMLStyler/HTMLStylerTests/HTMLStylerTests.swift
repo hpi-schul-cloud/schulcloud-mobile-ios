@@ -517,4 +517,16 @@ class HTMLStylerTests: XCTestCase {
         XCTAssertEqual(testAttachment?.image, referenceAttachment?.image)
     }
 
+    func testThatTheParserFunctionAsExpectedWithMalformatedUTF8Strings() {
+        // the faulty character is before </strong>
+        let html = "<strong>Grundlagen der Augenbewegung </strong>(<a href=\"http://de.wikipedia.org/wiki/Augenbewegung\">Wikipedia</a>)"
+        var parser = Parser()
+        parser.styleCollection = BoldAndItalicStyleCollection()
+        let result = parser.attributedString(for: html)
+
+        let expectedString = NSMutableAttributedString(string: "Grundlagen der Augenbewegung (Wikipedia)")
+        expectedString.addAttributes(parser.styleCollection!.style(for: .bold, isLastSibling: false)!, range: NSRange(location: 0, length: 29))
+        expectedString.addAttributes(parser.styleCollection!.style(for: .link(url: URL(string: "http://de.wikipedia.org/wiki/Augenbewegung")!)!, isLastSibling: true)!, range: NSRange(location: 30, length: 9))
+        XCTAssertEqual(result, expectedString)
+    }
 }

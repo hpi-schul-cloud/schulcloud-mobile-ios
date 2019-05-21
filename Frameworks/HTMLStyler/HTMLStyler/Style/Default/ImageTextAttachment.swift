@@ -5,9 +5,9 @@
 
 import Foundation
 
-public class ImageTextAttachment: NSTextAttachment {
+class ImageTextAttachment: NSTextAttachment {
 
-    override public func attachmentBounds(for textContainer: NSTextContainer?,
+    override func attachmentBounds(for textContainer: NSTextContainer?,
                                    proposedLineFragment lineFrag: CGRect,
                                    glyphPosition position: CGPoint,
                                    characterIndex charIndex: Int) -> CGRect {

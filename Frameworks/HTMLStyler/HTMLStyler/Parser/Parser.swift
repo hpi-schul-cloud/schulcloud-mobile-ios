@@ -51,13 +51,13 @@ public struct Parser {
     public var styleCollection: StyleCollection?
 
     public func string(for html: String) -> String {
-        let singleLineHtml = html.components(separatedBy: .newlines).joined()
+        let singleLineHtml = html.replacingOccurrences(of: "\n", with: "")
         let (transformedHtml, _) = self.detectAndTransformTags(in: singleLineHtml)
-        return transformedHtml.trimmingCharacters(in: .whitespacesAndNewlines)
+        return transformedHtml
     }
 
     public func attributedString(for html: String) -> NSMutableAttributedString {
-        let singleLineHtml = html.components(separatedBy: .newlines).joined()
+        let singleLineHtml = html.replacingOccurrences(of: "\n", with: "")
         let (transformedHtml, detections) = self.detectAndTransformTags(in: singleLineHtml)
         let attributedHtml = NSMutableAttributedString(string: transformedHtml)
 
@@ -93,7 +93,12 @@ public struct Parser {
 
         while !scanner.isAtEnd {
             if let textString = scanner.scanUpToCharacters(from: CharacterSet(charactersIn: "<&")) {
-                resultString += textString
+                var validString: String? = nil
+                textString.utf8CString.withUnsafeBufferPointer {
+                    validString = String(validatingUTF8: $0.baseAddress!)
+                }
+
+                resultString += validString!
             } else {
                 if scanner.scanString("<") != nil {
                     let isStartTag = scanner.scanString("/") == nil
@@ -102,6 +107,7 @@ public struct Parser {
                             let tag = Tag.from(rawTag, in: parseContext)
 
                             var resultTextEndIndex = resultString.endIndex
+
 
                             if let tag = tag, let textString = isStartTag ? tag.prefix : tag.suffix {
                                 resultString += textString
