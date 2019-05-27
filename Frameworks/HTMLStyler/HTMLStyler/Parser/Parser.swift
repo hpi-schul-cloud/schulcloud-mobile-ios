@@ -108,7 +108,6 @@ public struct Parser {
 
                             var resultTextEndIndex = resultString.endIndex
 
-
                             if let tag = tag, let textString = isStartTag ? tag.prefix : tag.suffix {
                                 resultString += textString
                             }
