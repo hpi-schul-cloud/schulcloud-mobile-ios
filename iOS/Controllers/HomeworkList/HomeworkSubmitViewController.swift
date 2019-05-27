@@ -357,7 +357,7 @@ extension HomeworkSubmitViewController: UITextViewDelegate {
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
-        let content = textView.text ?? ""
+        let content = textView.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
 
         if let comment = submission.comment {
             if comment != content { write(content: content, to: submission) }
