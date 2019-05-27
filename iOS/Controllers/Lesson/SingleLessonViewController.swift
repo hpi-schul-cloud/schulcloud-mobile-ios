@@ -53,7 +53,8 @@ class SingleLessonViewController: UITableViewController {
             let attrText = self.renderedHTMLCache[content.id]!
             let width = tableView.readableContentGuide.layoutFrame.width
             let context = NSStringDrawingContext()
-            return attrText.boundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin], context: context).height + textCellVerticalMargin
+            let size = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+            return attrText.boundingRect(with: size, options: [.usesLineFragmentOrigin], context: context).height + textCellVerticalMargin
         default:
             return 44
         }
@@ -63,6 +64,7 @@ class SingleLessonViewController: UITableViewController {
         let content = self.contents[indexPath.row]
         let cellIdentifier = content.type.cellIdentifier
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+
         switch content.type {
         case .other:
             let font = UIFont.italicSystemFont(ofSize: 15.0)
@@ -72,6 +74,7 @@ class SingleLessonViewController: UITableViewController {
             let textCell = cell as! LessonContentTextCell
             textCell.configure(text: self.renderedHTMLCache[content.id]!)
         }
+
         return cell
     }
 }
