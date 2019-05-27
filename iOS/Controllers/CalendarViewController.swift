@@ -89,7 +89,12 @@ extension CalendarEvent {
         let event = Event()
         event.startDate = self.start
         event.endDate = self.end
-        event.text = self.title ?? "Unknown"
+        var eventText = "\(self.title ?? "Unknown")"
+        if let location = self.location {
+            eventText += " - \(location)"
+        }
+
+        event.text = eventText
         event.color = Brand.default.colors.primary
         return event
     }
