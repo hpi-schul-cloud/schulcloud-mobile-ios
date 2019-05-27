@@ -167,7 +167,13 @@ final class HomeworkSubmitViewController: UIViewController {
             self.navigationItem.setLeftBarButton(nil, animated: true)
         }
 
-        self.commentField.text = self.writableSubmission.comment ?? placeholder
+        if let comment = self.writableSubmission.comment,
+            !comment.isEmpty {
+            self.commentField.text = comment
+        } else {
+            self.commentField.text = placeholder
+        }
+
         self.filesTableView.reloadData()
         self.tableViewHeightConstraint.constant = self.filesTableView.contentSize.height
         self.contentView.setNeedsLayout()
