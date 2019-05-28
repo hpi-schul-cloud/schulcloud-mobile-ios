@@ -59,8 +59,7 @@ class CoursesViewController: UICollectionViewController, UICollectionViewDelegat
 
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let reuseIdentifier = "courseCell"
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CourseCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.courseCell, for: indexPath)!
 
         let course = fetchedResultsController.object(at: indexPath)
         cell.configure(for: course)
@@ -94,18 +93,16 @@ class CoursesViewController: UICollectionViewController, UICollectionViewDelegat
     }
 
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case .some("courseDetail"):
-            guard let selectedCell = sender as? UICollectionViewCell else { return }
-            guard let indexPath = self.collectionView?.indexPath(for: selectedCell) else { return }
-            guard let destination = segue.destination as? LessonsViewController else { return }
-            destination.course = self.fetchedResultsController.object(at: indexPath)
-        default:
-            break
+        guard let segueInfo = R.segue.coursesViewController.courseDetail(segue: segue) else {
+            super.prepare(for: segue, sender: nil)
+            return
         }
+
+        guard let selectedCell = sender as? UICollectionViewCell else { return }
+        guard let indexPath = self.collectionView?.indexPath(for: selectedCell) else { return }
+
+        segueInfo.destination.course = self.fetchedResultsController.object(at: indexPath)
     }
 }
 

@@ -7,7 +7,7 @@ import Common
 import CoreData
 import UIKit
 
-public class NewsListViewController: UITableViewController {
+public final class NewsListViewController: UITableViewController {
 
     private var coreDataTableViewDataSource: CoreDataTableViewDataSource<NewsListViewController>?
 
@@ -25,7 +25,7 @@ public class NewsListViewController: UITableViewController {
         super.viewDidLoad()
         self.coreDataTableViewDataSource = CoreDataTableViewDataSource(self.tableView,
                                                                        fetchedResultsController: self.fetchedResultController,
-                                                                       cellReuseIdentifier: "newsCell",
+                                                                       cellReuseIdentifier: R.reuseIdentifier.newsArticleCell.identifier,
                                                                        delegate: self)
 
         self.fetchNewsArticle()

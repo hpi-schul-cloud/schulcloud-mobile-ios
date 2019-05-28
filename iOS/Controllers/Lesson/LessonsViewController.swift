@@ -28,7 +28,7 @@ public class LessonsViewController: UITableViewController {
         super.viewDidLoad()
         self.coreDataTableViewDataSource = CoreDataTableViewDataSource(self.tableView,
                                                                        fetchedResultsController: self.fetchedResultsController,
-                                                                       cellReuseIdentifier: "lessonCell",
+                                                                       cellReuseIdentifier: R.reuseIdentifier.lessonCell.identifier,
                                                                        delegate: self)
 
         tableView.rowHeight = UITableView.automaticDimension
@@ -59,22 +59,20 @@ public class LessonsViewController: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override public func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case .some("singleLesson"):
-            guard let currentUser = Globals.currentUser, currentUser.permissions.contains(.contentView) else {
-                let controller = UIAlertController(forMissingPermission: .contentView)
-                self.present(controller, animated: true)
-                return
-            }
-
-            guard let selectedCell = sender as? UITableViewCell else { return }
-            guard let indexPath = tableView.indexPath(for: selectedCell) else { return }
-            guard let destination = segue.destination as? SingleLessonViewController else { return }
-            let selectedLesson = fetchedResultsController.object(at: indexPath)
-            destination.lesson = selectedLesson
-        default:
-            break
+        guard let segueInfo = R.segue.lessonsViewController.singleLesson(segue: segue) else {
+            super.prepare(for: segue, sender: nil)
+            return
         }
+
+        guard let currentUser = Globals.currentUser, currentUser.permissions.contains(.contentView) else {
+            let controller = UIAlertController(forMissingPermission: .contentView)
+            self.present(controller, animated: true)
+            return
+        }
+
+        guard let selectedCell = sender as? UITableViewCell else { return }
+        guard let indexPath = tableView.indexPath(for: selectedCell) else { return }
+        segueInfo.destination.lesson = self.fetchedResultsController.object(at: indexPath)
     }
 }
 

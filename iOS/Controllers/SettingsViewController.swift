@@ -59,8 +59,8 @@ class SettingsViewController: UITableViewController {
         let selectedCell = tableView.cellForRow(at: indexPath)
         if selectedCell == logoutCell {
             LoginHelper.logout()
-            let loginViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "login")
-            present(loginViewController, animated: true, completion: nil)
+            let loginViewController = R.storyboard.main.login()!
+            self.present(loginViewController, animated: true, completion: nil)
         }
     }
 

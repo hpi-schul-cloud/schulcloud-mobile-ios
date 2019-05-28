@@ -71,3 +71,7 @@ iOSUITests/Credentials.plist
 
 #generated branded assets
 iOS/Assets-ios-brand.generated.xcassets
+
+#r.swift generated files
+*.generated.swift
+

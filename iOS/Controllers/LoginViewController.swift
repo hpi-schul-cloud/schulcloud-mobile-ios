@@ -73,7 +73,7 @@ class LoginViewController: UIViewController {
                 if self.isBeingPresented {
                     self.dismiss(animated: true)
                 } else {
-                    self.performSegue(withIdentifier: "loginDidSucceed", sender: nil)
+                    self.performSegue(withIdentifier: R.segue.loginViewController.loginDidSucceed, sender: nil)
                 }
             }
         }.onFailure { _ in

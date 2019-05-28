@@ -43,7 +43,7 @@ public class FilesViewController: UITableViewController {
 
         self.coreDataTableViewDataSource = CoreDataTableViewDataSource(self.tableView,
                                                                        fetchedResultsController: self.fetchedResultsController,
-                                                                       cellReuseIdentifier: "item detail",
+                                                                       cellReuseIdentifier: R.reuseIdentifier.itemDetail.identifier,
                                                                        delegate: self)
 
         self.navigationItem.title = self.currentFolder.name
@@ -98,10 +98,9 @@ extension FilesViewController {
         }
 
         let item = fetchedResultsController.object(at: indexPath)
-        let storyboard = UIStoryboard(name: "TabFiles", bundle: nil)
 
         if item.isDirectory {
-            guard let folderVC = storyboard.instantiateViewController(withIdentifier: "FolderVC") as? FilesViewController else {
+            guard let folderVC = R.storyboard.tabFiles.folderVC() else {
                 return
             }
 
@@ -111,7 +110,7 @@ extension FilesViewController {
 
             self.navigationController?.pushViewController(folderVC, animated: true)
         } else {
-            guard let previewController = storyboard.instantiateViewController(withIdentifier: "FilePreviewVC") as? FilePreviewViewController else { return }
+            guard let previewController = R.storyboard.tabFiles.filePreviewVC() else { return }
             previewController.item = item
             previewController.pickerDelegate = self.delegate
             previewController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem
@@ -125,7 +124,7 @@ extension FilesViewController: CoreDataTableViewDataSourceDelegate {
         cell.textLabel?.text = object.name
         cell.detailTextLabel?.text = object.detail
         cell.accessoryType = object.isDirectory ? .disclosureIndicator : .none
-        cell.imageView?.image = object.isDirectory ? UIImage(named: "folder") : UIImage(named: "document")
+        cell.imageView?.image = UIImage(resource: object.isDirectory ? R.image.folder : R.image.document)
         cell.imageView?.tintColor = object.isDirectory ? Brand.default.colors.secondary : Brand.default.colors.primary
         cell.imageView?.contentMode = .scaleAspectFit
         if #available(iOS 11.0, *) {

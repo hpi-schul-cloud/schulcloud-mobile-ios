@@ -72,7 +72,7 @@ final class NewsOverviewViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let newsArticle = self.fetchedController.object(at: indexPath)
-        let newsCell = tableView.dequeueReusableCell(withIdentifier: "NewsCell") as! NewsArticleOverviewCell
+        let newsCell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.newsOverviewCell, for: indexPath)!
         newsCell.configure(for: newsArticle)
         return newsCell
     }

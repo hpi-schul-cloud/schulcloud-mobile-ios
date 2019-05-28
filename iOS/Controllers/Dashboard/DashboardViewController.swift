@@ -27,10 +27,19 @@ public final class DashboardViewController: UICollectionViewController {
 
     @IBOutlet private var notificationBarItem: UIBarButtonItem!
 
-    lazy var calendarOverview: CalendarOverviewViewController = self.initialViewControllerOfStoryboard(named: "CalendarOverview")
-    lazy var homeworkOverview: HomeworkOverviewViewController = self.initialViewControllerOfStoryboard(named: "HomeworkOverview")
-    lazy var notificationOverview = self.buildNotificationOverviewFromStroyboard()
-    lazy var newsOverview = self.buildNewsOverviewFromStoryboard()
+    lazy var calendarOverview = R.storyboard.calendarOverview.calendarOverview()!
+    lazy var homeworkOverview = R.storyboard.homeworkOverview.homeworkOverview()!
+    lazy var notificationOverview: NotificationOverviewViewController = {
+        let notificationOverview: NotificationOverviewViewController = R.storyboard.notificationOverview.notificationOverview()!
+        notificationOverview.delegate = self
+        return notificationOverview
+    }()
+
+    lazy var newsOverview: NewsOverviewViewController = {
+        let viewController: NewsOverviewViewController = R.storyboard.newsOverview.newsOverview()!
+        viewController.delegate = self
+        return viewController
+    }()
 
     var viewControllers: [DynamicHeightViewController] = []
 
@@ -42,7 +51,7 @@ public final class DashboardViewController: UICollectionViewController {
         guard let currentUser = Globals.currentUser else { return }
 
         func makeNoPermissionController(missingPermission: UserPermissions) -> DashboardNoPermissionViewController {
-            let viewController: DashboardNoPermissionViewController = self.initialViewControllerOfStoryboard(named: "MissingPermission")
+            let viewController = R.storyboard.missingPermission.noPermissionViewController()!
             viewController.view.translatesAutoresizingMaskIntoConstraints = false
             self.addChild(viewController)
             viewController.missingPermission = missingPermission
@@ -93,40 +102,15 @@ public final class DashboardViewController: UICollectionViewController {
         self.collectionView?.collectionViewLayout.invalidateLayout()
     }
 
-    private func initialViewControllerOfStoryboard<T>(named storyboardName: String) -> T {
-        let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
-
-        guard let viewController = storyboard.instantiateInitialViewController() as? T else {
-            fatalError("Initial view controller of storyboard '\(storyboardName)' is not of type '\(T.self)'")
-        }
-
-        return viewController
-    }
-
-    private func buildNotificationOverviewFromStroyboard() -> NotificationOverviewViewController {
-        let notificationOverview: NotificationOverviewViewController = self.initialViewControllerOfStoryboard(named: "NotificationOverview")
-        notificationOverview.delegate = self
-        return notificationOverview
-    }
-
-    private func buildNewsOverviewFromStoryboard() -> NewsOverviewViewController {
-        let viewController: NewsOverviewViewController = self.initialViewControllerOfStoryboard(named: "NewsOverview")
-        viewController.delegate = self
-        return viewController
-    }
-
     override public func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showNewsDetail" {
-            guard let detailNewsViewController = segue.destination as? NewsDetailViewController,
-                  let newsArticle = sender as? NewsArticle else { return }
-            detailNewsViewController.newsArticle = newsArticle
+        if let segueInfo = R.segue.dashboardViewController.showNewsDetail(segue: segue) {
+            segueInfo.destination.newsArticle = sender as? NewsArticle
         }
     }
 
     @IBAction private func tappedOnNotificationButton(_ sender: UIBarButtonItem) {
-        self.performSegue(withIdentifier: "showNotifications", sender: self)
+        self.performSegue(withIdentifier: R.segue.dashboardViewController.showNotifications, sender: self)
     }
-
 }
 
 extension DashboardViewController {
@@ -143,7 +127,7 @@ extension DashboardViewController {
 
     override public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let viewController = self.viewControllers[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DashboardCollectionCell", for: indexPath) as! DashboardCollectionViewControllerCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.dashboardCollectionCell, for: indexPath)!
         cell.configure(for: viewController)
         viewController.didMove(toParent: self)
 
@@ -165,10 +149,10 @@ extension DashboardViewController {
             self.navigationController?.show(CalendarViewController(), sender: nil)
         } else if let viewController = viewController as? PermissionManagmentViewController<NotificationOverviewViewController>,
                       viewController.hasPermission {
-            self.performSegue(withIdentifier: "showNotifications", sender: nil)
+            self.performSegue(withIdentifier: R.segue.dashboardViewController.showNotifications, sender: nil)
         } else if let viewController = viewController as? PermissionManagmentViewController<HomeworkOverviewViewController>,
                       viewController.hasPermission {
-            self.performSegue(withIdentifier: "showHomework", sender: nil)
+            self.performSegue(withIdentifier: R.segue.dashboardViewController.showHomework, sender: nil)
         }
     }
 }
@@ -179,7 +163,7 @@ extension DashboardViewController: ShortNotificationViewControllerDelegate {
     }
 
     func didPressViewMoreButton() {
-        self.performSegue(withIdentifier: "showNotifications", sender: self)
+        self.performSegue(withIdentifier: R.segue.dashboardViewController.showNotifications, sender: self)
     }
 }
 
@@ -195,11 +179,11 @@ extension DashboardViewController: NewsOverviewViewControllerDelegate {
     }
 
     func didSelect(news: NewsArticle) {
-        self.performSegue(withIdentifier: "showNewsDetail", sender: news)
+        self.performSegue(withIdentifier: R.segue.dashboardViewController.showNewsDetail, sender: news)
     }
 
     func showMorePressed() {
-        self.performSegue(withIdentifier: "showNewsList", sender: self)
+        self.performSegue(withIdentifier: R.segue.dashboardViewController.showNewsList, sender: self)
     }
 }
 

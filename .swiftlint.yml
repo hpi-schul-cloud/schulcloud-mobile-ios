@@ -49,6 +49,7 @@ disabled_rules:
 
 excluded:
 - iOS-UITests/SnapshotHelper.swift
+- iOS/R.generated.swift
 - Pods
 - Frameworks
 

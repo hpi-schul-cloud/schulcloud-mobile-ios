@@ -79,6 +79,9 @@ PODS:
   - nanopb/encode (0.3.901)
   - Neon (0.4.0)
   - Protobuf (3.6.1)
+  - R.swift (5.0.3):
+    - R.swift.Library (~> 5.0.0)
+  - R.swift.Library (5.0.1)
   - SwiftLint (0.31.0)
   - SyncEngine (0.1.0):
     - BrightFutures (~> 8.0)
@@ -92,6 +95,7 @@ DEPENDENCIES:
   - Firebase/Messaging
   - HTMLStyler (from `./Frameworks/HTMLStyler`)
   - JWTDecode (~> 2.0)
+  - R.swift
   - SwiftLint (~> 0.25)
   - SyncEngine (from `./Frameworks/SyncEngine`)
 
@@ -116,6 +120,8 @@ SPEC REPOS:
     - nanopb
     - Neon
     - Protobuf
+    - R.swift
+    - R.swift.Library
     - SwiftLint
 
 EXTERNAL SOURCES:
@@ -145,9 +151,11 @@ SPEC CHECKSUMS:
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Neon: 7fb5a9327e7e57911843f608e08f4893a74deaf9
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
+  R.swift: f5a87643b91ea569d23d6afb3eee9c743edde239
+  R.swift.Library: cfe85d569d9bae6cb262922db130e7c3a7a5fad1
   SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
   SyncEngine: 0fab380dfe56fa2e25079161d7ba46b45a985507
 
-PODFILE CHECKSUM: 437a2366f58b3fe731a4427c4108dd3e3149a437
+PODFILE CHECKSUM: bd9ebde83692d55003808ba9a916bd9f1924cf81
 
 COCOAPODS: 1.5.3
