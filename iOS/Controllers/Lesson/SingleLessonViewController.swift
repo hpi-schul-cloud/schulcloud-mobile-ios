@@ -8,17 +8,6 @@ import UIKit
 
 /// TODO(permissions):
 ///     contentView? Should we not display the content of lesson if no permission? Seems off
-fileprivate extension LessonContent.ContentType {
-    var cellIdentifier: String {
-        switch self {
-        case .text:
-            return "TextCell"
-        case .other:
-            return "UnknownCell"
-        }
-    }
-}
-
 class SingleLessonViewController: UITableViewController {
 
     var lesson: Lesson! {
@@ -62,19 +51,18 @@ class SingleLessonViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let content = self.contents[indexPath.row]
-        let cellIdentifier = content.type.cellIdentifier
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
 
         switch content.type {
         case .other:
+            let cell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.unknownCell, for: indexPath)!
             let font = UIFont.italicSystemFont(ofSize: 15.0)
             cell.textLabel?.attributedText = NSAttributedString(string: "This content type isn't supported yet",
                                                                 attributes: [NSAttributedString.Key.font: font])
+            return cell
         case .text:
-            let textCell = cell as! LessonContentTextCell
+            let textCell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.textCell, for: indexPath)!
             textCell.configure(text: self.renderedHTMLCache[content.id]!)
+            return textCell
         }
-
-        return cell
     }
 }
