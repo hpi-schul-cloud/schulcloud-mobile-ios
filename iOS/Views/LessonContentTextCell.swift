@@ -6,7 +6,8 @@
 import UIKit
 
 class LessonContentTextCell: UITableViewCell {
-    @IBOutlet weak var textView: UITextView!
+
+    @IBOutlet private weak var textView: UITextView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -20,4 +21,5 @@ class LessonContentTextCell: UITableViewCell {
         self.textView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
         self.textView.sizeToFit()
     }
+
 }
