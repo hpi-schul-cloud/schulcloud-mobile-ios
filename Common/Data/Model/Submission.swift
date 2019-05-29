@@ -32,7 +32,7 @@ extension Submission: Pullable {
     }
 
     public func update(from object: ResourceData, with context: SynchronizationContext) throws {
-        self.comment = try? object.value(for: "comment")
+        self.comment = (try? object.value(for: "comment")  as String)?.trimmingCharacters(in: .whitespacesAndNewlines)
         self.grade = (try? object.value(for: "grade")) ?? 0
         self.gradeComment = try? object.value(for: "gradeComment")
         self.createdAt = try object.value(for: "createdAt")
