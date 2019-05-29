@@ -50,5 +50,4 @@ extension LessonContent: Pullable {
         self.component = try object.value(for: "component")
         self.hidden = try object.value(for: "hidden")
     }
-
 }

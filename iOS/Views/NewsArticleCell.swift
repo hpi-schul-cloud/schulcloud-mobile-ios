@@ -23,7 +23,7 @@ class NewsArticleCell: UITableViewCell {
     func configure(for newsArticle: NewsArticle) {
         self.title.text = newsArticle.title
         self.timeSinceCreated.text = NewsArticle.displayDateFormatter.string(for: newsArticle.displayAt)
-        self.content.attributedText = HTMLHelper.default.attributedString(for: newsArticle.content)
+        self.content.attributedText = HTMLHelper.default.attributedString(for: newsArticle.content).value
         self.content.sizeToFit()
     }
 

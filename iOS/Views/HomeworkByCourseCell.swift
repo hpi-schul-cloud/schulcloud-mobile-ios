@@ -16,6 +16,6 @@ final class HomeworkByCourseCell: UITableViewCell {
         self.title.text = homework.name
         self.dueDate.text = Homework.dateTimeFormatter.string(from: homework.dueDate)
 
-        self.descriptionText.text = HTMLHelper.default.stringContent(of: homework.descriptionText)
+        self.descriptionText.text = HTMLHelper.default.stringContent(of: homework.descriptionText).value
     }
 }

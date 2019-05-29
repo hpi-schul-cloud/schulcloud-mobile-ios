@@ -32,6 +32,6 @@ class HomeworkByDateCell: UITableViewCell {
         self.dueLabel.text = Homework.timeFormatter.string(from: homework.dueDate)
         self.coloredStrip.backgroundColor = homework.color
 
-        self.contentLabel.text = HTMLHelper.default.stringContent(of: homework.descriptionText)
+        self.contentLabel.text = HTMLHelper.default.stringContent(of: homework.descriptionText).value
     }
 }

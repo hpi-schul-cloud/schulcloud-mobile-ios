@@ -5,6 +5,10 @@
 
 import Foundation
 
+public enum ParseError: Error {
+    case invalidUTF8Content
+}
+
 public struct Parser {
 
     struct Context {
@@ -50,38 +54,42 @@ public struct Parser {
 
     public var styleCollection: StyleCollection?
 
-    public func string(for html: String) -> String {
+    public func string(for html: String) -> Result<String, ParseError> {
         let singleLineHtml = html.components(separatedBy: .newlines).joined()
-        let (transformedHtml, _) = self.detectAndTransformTags(in: singleLineHtml)
-        return transformedHtml
+        return self.detectAndTransformTags(in: singleLineHtml).map { $0.0 }
     }
 
-    public func attributedString(for html: String) -> NSMutableAttributedString {
+    public func attributedString(for html: String) -> Result<NSAttributedString, ParseError> {
         let singleLineHtml = html.components(separatedBy: .newlines).joined()
-        let (transformedHtml, detections) = self.detectAndTransformTags(in: singleLineHtml)
-        let attributedHtml = NSMutableAttributedString(string: transformedHtml)
 
-        guard let styleCollection = self.styleCollection else {
-            return attributedHtml.trimmedAttributedString(set: .whitespacesAndNewlines)
-        }
+        switch self.detectAndTransformTags(in: singleLineHtml) {
+        case .failure(let error):
+            return .failure(error)
+        case .success(let (transformedHtml, detections)):
+            let attributedHtml = NSMutableAttributedString(string: transformedHtml)
 
-        attributedHtml.addAttributes(styleCollection.baseStyle, range: NSRange(location: 0, length: attributedHtml.length))
-
-        for detection in detections.reversed() {
-            if let attributes = styleCollection.style(for: detection.type, isLastSibling: detection.isLastSibling) {
-                attributedHtml.addAttributes(attributes, range: NSRange(detection.range, in: transformedHtml))
+            guard let styleCollection = self.styleCollection else {
+                return .success(attributedHtml.trimmedAttributedString(set: .whitespacesAndNewlines))
             }
 
-            if let replacement = styleCollection.replacement(for: detection.type) {
-                attributedHtml.replaceCharacters(in: NSRange(detection.range, in: transformedHtml), with: replacement)
-            }
-        }
+            attributedHtml.addAttributes(styleCollection.baseStyle, range: NSRange(location: 0, length: attributedHtml.length))
 
-        // This has to be done on the NSAttributedString in order to prevent out of bounds detections
-        return attributedHtml.trimmedAttributedString(set: .whitespacesAndNewlines)
+            for detection in detections.reversed() {
+                if let attributes = styleCollection.style(for: detection.type, isLastSibling: detection.isLastSibling) {
+                    attributedHtml.addAttributes(attributes, range: NSRange(detection.range, in: transformedHtml))
+                }
+
+                if let replacement = styleCollection.replacement(for: detection.type) {
+                    attributedHtml.replaceCharacters(in: NSRange(detection.range, in: transformedHtml), with: replacement)
+                }
+            }
+
+            // This has to be done on the NSAttributedString in order to prevent out of bounds detections
+            return .success(attributedHtml.trimmedAttributedString(set: .whitespacesAndNewlines))
+        }
     }
 
-    func detectAndTransformTags(in html: String) -> (String, [Detection]) {
+    func detectAndTransformTags(in html: String) -> Result<(String, [Detection]), ParseError> {
         let scanner = Scanner(string: html)
         scanner.charactersToBeSkipped = nil
         var resultString: String = ""
@@ -93,12 +101,16 @@ public struct Parser {
 
         while !scanner.isAtEnd {
             if let textString = scanner.scanUpToCharacters(from: CharacterSet(charactersIn: "<&")) {
-                var validString: String? = nil
+                var validatedString: String? = nil
                 textString.utf8CString.withUnsafeBufferPointer {
-                    validString = String(validatingUTF8: $0.baseAddress!)
+                    validatedString = String(validatingUTF8: $0.baseAddress!)
                 }
 
-                resultString += validString!
+                guard let validString = validatedString else {
+                    return .failure(ParseError.invalidUTF8Content)
+                }
+
+                resultString += validString
             } else {
                 if scanner.scanString("<") != nil {
                     let isStartTag = scanner.scanString("/") == nil
@@ -160,7 +172,7 @@ public struct Parser {
             detections.append(previousDetection)
         }
 
-        return (resultString, detections)
+        return .success((resultString, detections))
     }
 
     private static let specials = [

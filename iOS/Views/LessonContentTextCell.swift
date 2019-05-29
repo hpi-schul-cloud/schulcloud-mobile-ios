@@ -7,6 +7,7 @@ import UIKit
 
 class LessonContentTextCell: UITableViewCell {
 
+    @IBOutlet private weak var title: UILabel!
     @IBOutlet private weak var textView: UITextView!
 
     override func awakeFromNib() {
@@ -16,10 +17,10 @@ class LessonContentTextCell: UITableViewCell {
         self.textView.translatesAutoresizingMaskIntoConstraints = false
     }
 
-    func configure(text: NSAttributedString) {
+    func configure(title: String, text: NSAttributedString) {
+        self.title.text = title
         self.textView.attributedText = text
         self.textView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
         self.textView.sizeToFit()
     }
-
 }

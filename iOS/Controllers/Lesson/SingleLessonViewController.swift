@@ -15,7 +15,7 @@ class SingleLessonViewController: UITableViewController {
             self.contents = self.lesson!.contents.sorted { $0.insertDate < $1.insertDate }
             for content in self.contents {
                 guard content.type == .text else { continue }
-                self.renderedHTMLCache[content.id] = self.htmlHelper.attributedString(for: content.text!)
+                self.renderedHTMLCache[content.id] = self.htmlHelper.attributedString(for: content.text!).value
             }
         }
     }
@@ -25,6 +25,7 @@ class SingleLessonViewController: UITableViewController {
     private var contents: [LessonContent] = []
 
     let textCellVerticalMargin: CGFloat = 25
+    let textCellLabelHeight: CGFloat = 20
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +44,7 @@ class SingleLessonViewController: UITableViewController {
             let width = tableView.readableContentGuide.layoutFrame.width
             let context = NSStringDrawingContext()
             let size = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
-            return attrText.boundingRect(with: size, options: [.usesLineFragmentOrigin], context: context).height + textCellVerticalMargin
+            return attrText.boundingRect(with: size, options: [.usesLineFragmentOrigin], context: context).height + textCellVerticalMargin + textCellLabelHeight
         default:
             return 44
         }
@@ -56,13 +57,23 @@ class SingleLessonViewController: UITableViewController {
         case .other:
             let cell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.unknownCell, for: indexPath)!
             let font = UIFont.italicSystemFont(ofSize: 15.0)
-            cell.textLabel?.attributedText = NSAttributedString(string: "This content type isn't supported yet",
-                                                                attributes: [NSAttributedString.Key.font: font])
+            cell.textLabel?.text = content.title
+            cell.detailTextLabel?.attributedText = NSAttributedString(string: "This content type isn't supported yet",
+                                                                      attributes: [NSAttributedString.Key.font: font])
             return cell
         case .text:
-            let textCell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.textCell, for: indexPath)!
-            textCell.configure(text: self.renderedHTMLCache[content.id]!)
-            return textCell
+
+            if let renderedHTML = self.renderedHTMLCache[content.id] {
+                let textCell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.textCell, for: indexPath)!
+                textCell.configure(title: content.title ?? "", text: renderedHTML)
+                return textCell
+            } else {
+                let errorCell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.errorCell, for: indexPath)!;
+                let font = UIFont.italicSystemFont(ofSize: 15.0)
+                errorCell.textLabel?.attributedText = NSAttributedString(string: "An error was found processing the content",
+                                                                         attributes: [NSAttributedString.Key.font: font])
+                return errorCell;
+            }
         }
     }
 }
