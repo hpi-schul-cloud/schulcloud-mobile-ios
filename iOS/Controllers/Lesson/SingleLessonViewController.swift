@@ -68,11 +68,11 @@ class SingleLessonViewController: UITableViewController {
                 textCell.configure(title: content.title ?? "", text: renderedHTML)
                 return textCell
             } else {
-                let errorCell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.errorCell, for: indexPath)!;
+                let errorCell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.errorCell, for: indexPath)!
                 let font = UIFont.italicSystemFont(ofSize: 15.0)
                 errorCell.textLabel?.attributedText = NSAttributedString(string: "An error was found processing the content",
                                                                          attributes: [NSAttributedString.Key.font: font])
-                return errorCell;
+                return errorCell
             }
         }
     }
