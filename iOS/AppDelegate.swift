@@ -86,7 +86,7 @@ public class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotification
         #if DEBUG
         if let modelEntities = UserDefaults.standard.dictionary(forKey: "entityHashes") as? [String: Data]{
             let currentEntityHashes = CoreDataHelper.managedObjectModel.entityVersionHashesByName
-            if modelEntities.keys == currentEntityHashes.keys {
+            if modelEntities.keys.sorted() == currentEntityHashes.keys.sorted() {
                 for key in modelEntities.keys {
                     if modelEntities[key] != currentEntityHashes[key] {
                         UserDefaults.standard.set(currentEntityHashes, forKey: "entityHashes")
