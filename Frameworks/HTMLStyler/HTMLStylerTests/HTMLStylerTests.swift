@@ -517,4 +517,14 @@ class HTMLStylerTests: XCTestCase {
         XCTAssertEqual(testAttachment?.image, referenceAttachment?.image)
     }
 
+    func testBooleanAttribute() {
+        let html = "<p disabled> Some text </p>"
+        let styleCollection = BoldAndItalicStyleCollection()
+
+        var parser = Parser()
+        parser.styleCollection = styleCollection
+
+        let attributedString = parser.attributedString(for: html)
+        XCTAssert(!attributedString.string.isEmpty)
+    }
 }

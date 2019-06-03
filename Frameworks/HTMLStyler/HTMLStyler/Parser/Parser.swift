@@ -177,8 +177,13 @@ public struct Parser {
 
         while isStartTag && !tagScanner.isAtEnd {
 
-            guard let name = tagScanner.scanUpTo("=") else {
+            guard let name = tagScanner.scanCharacters(from: .alphanumerics) else {
                 break
+            }
+
+            if tagScanner.scanString(" ") != nil { // boolean tag
+                attributes[name] = ""
+                continue
             }
 
             guard tagScanner.scanString("=") != nil else {
