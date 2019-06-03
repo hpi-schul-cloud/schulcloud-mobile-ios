@@ -33,34 +33,6 @@ public enum Tag {
     case newline
     case paragraph
 
-    static let booleanTags: [String: Void] = [
-        "allowfullscreen": (),
-        "allowpaymentrequest": (),
-        "async": (),
-        "autofocus": (),
-        "autoplay": (),
-        "checked": (),
-        "controls": (),
-        "default": (),
-        "defer": (),
-        "disabled": (),
-        "formnovalidate": (),
-        "hidden": (),
-        "ismap": (),
-        "itemscope": (),
-        "loop": (),
-        "multiple": (),
-        "muted": (),
-        "nomodule": (),
-        "novalidate": (),
-        "open": (),
-        "readonly": (),
-        "required": (),
-        "reversed": (),
-        "selected": (),
-        "typemustmatch": (),
-    ];
-
     static func from(_ rawTag: RawTag, in context: Parser.Context) -> Tag? {
         switch rawTag.name {
         case "h1":
