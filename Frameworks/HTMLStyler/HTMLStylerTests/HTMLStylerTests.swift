@@ -527,4 +527,20 @@ class HTMLStylerTests: XCTestCase {
         let attributedString = parser.attributedString(for: html)
         XCTAssert(!attributedString.string.isEmpty)
     }
+
+    func testImageAlt() {
+
+        var parser = Parser()
+        parser.styleCollection = DefaultStyleCollection(tintColor: UIColor.blue)
+
+        let testHTML = "<img alt=\"Roberto\" src=\"path/to/test-image.png\" />!!!"
+        let test = parser.attributedString(for: testHTML)
+
+        let reference = NSMutableAttributedString(string: "Roberto!!!")
+
+        XCTAssertEqual(test.string, reference.string)
+
+        let testAttachment = test.attribute(.attachment, at: 0, longestEffectiveRange: nil, in: NSRange(location: 0, length: 0)) as? ImageTextAttachment
+        XCTAssertNil(testAttachment)
+    }
 }

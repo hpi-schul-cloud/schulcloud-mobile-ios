@@ -23,7 +23,7 @@ public enum Tag {
     case headline5
     case headline6
     case link(url: URL)
-    case image(url: URL)
+    case image(url: URL, alt: String?)
     case bold
     case italic
     case code
@@ -81,7 +81,12 @@ public enum Tag {
             return .link(url: url)
         case "img":
             guard let urlString = rawTag.attributes["src"], let url = URL(string: urlString) else { return nil }
-            return .image(url: url)
+            var alt: String? = nil
+            if let altString = rawTag.attributes["alt"], !altString.isEmpty {
+                alt = altString
+            }
+
+            return .image(url: url, alt: alt)
         case "b", "strong":
             return .bold
         case "i", "em":
