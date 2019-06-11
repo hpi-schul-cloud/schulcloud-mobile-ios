@@ -175,12 +175,11 @@ public struct Parser {
 
         var attributes: [String: String] = [:]
         while isStartTag && !tagScanner.isAtEnd {
-
             guard let name = tagScanner.scanCharacters(from: .letters) else {
                 break
             }
 
-            if tagScanner.isAtEnd || tagScanner.scanCharacters(from: CharacterSet(charactersIn: " /")) != nil { // boolean tag
+            if tagScanner.isAtEnd || tagScanner.scanCharacters(from: CharacterSet(charactersIn: " /")) != nil { // only attribute name? -> boolean tag?
                 attributes[name] = ""
                 continue
             }

@@ -528,15 +528,6 @@ class HTMLStylerTests: XCTestCase {
         XCTAssert(!attributedString.string.isEmpty)
     }
 
-    func testParseTagBooleanAttributeEndWithSlash() {
-        let html = "img alt=\"Yo\" hidden/"
-
-        let parser = Parser()
-
-        let rawTag = parser.parseTag(html, isStartTag: true, context: Parser.Context())
-        XCTAssertNotNil(rawTag?.attributes["hidden"])
-    }
-
     func testParseTagBooleanAttribute() {
         let html = "img hidden"
 
@@ -546,8 +537,8 @@ class HTMLStylerTests: XCTestCase {
         XCTAssertNotNil(rawTag?.attributes["hidden"])
     }
 
-    func testParseTagBooleanAttributeEndWithSpace() {
-        let html = "img alt=\"Yo\" hidden "
+    func testParseTagBooleanAttributeEndsWithSlash() {
+        let html = "img alt=\"Yo\" hidden/"
 
         let parser = Parser()
 
@@ -555,6 +546,14 @@ class HTMLStylerTests: XCTestCase {
         XCTAssertNotNil(rawTag?.attributes["hidden"])
     }
 
+    func testParseTagBooleanAttributeEndsWithSpace() {
+        let html = "img alt=\"Yo\" hidden "
+
+        let parser = Parser()
+
+        let rawTag = parser.parseTag(html, isStartTag: true, context: Parser.Context())
+        XCTAssertNotNil(rawTag?.attributes["hidden"])
+    }
 
     func testImageAlt() {
 
