@@ -95,7 +95,7 @@ extension CalendarEvent {
         }
 
         event.text = eventText
-        event.color = Brand.default.colors.primary
+        event.color = self.eventColor ?? Brand.default.colors.primary
         return event
     }
 }
