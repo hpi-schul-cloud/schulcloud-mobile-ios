@@ -166,26 +166,26 @@ public struct Parser {
         "gt":">",
     ]
 
-    private func parseTag(_ tagString: String, isStartTag: Bool, context: Context) -> RawTag? {
+    func parseTag(_ tagString: String, isStartTag: Bool, context: Context) -> RawTag? {
         let tagScanner = Scanner(string: tagString)
 
-        guard let tagName = tagScanner.scanCharacters(from: CharacterSet.alphanumerics) else {
+        guard let tagName = tagScanner.scanCharacters(from: .letters) else {
             return nil
         }
 
         var attributes: [String: String] = [:]
-
         while isStartTag && !tagScanner.isAtEnd {
 
-            guard let name = tagScanner.scanCharacters(from: .alphanumerics) else {
+            guard let name = tagScanner.scanCharacters(from: .letters) else {
                 break
             }
 
-            if tagScanner.scanString(" ") != nil { // boolean tag
+            if tagScanner.isAtEnd || tagScanner.scanCharacters(from: CharacterSet(charactersIn: " /")) != nil { // boolean tag
                 attributes[name] = ""
                 continue
             }
 
+            // Parse attribute value
             guard tagScanner.scanString("=") != nil else {
                 break
             }
