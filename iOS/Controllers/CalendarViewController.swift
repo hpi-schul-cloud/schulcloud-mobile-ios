@@ -82,6 +82,35 @@ class CalendarViewController: DayViewController {
 
         return self.calendarEvents.filter(inInterval: interval).map { $0.calendarKitEvent }
     }
+
+    override func dayViewDidSelectEventView(_ eventView: EventView) {
+        guard let eventDesc = eventView.descriptor as? Event else { return }
+        guard let userInfo = eventDesc.userInfo as? [String: String] else { return }
+        guard let id = userInfo["objectID"] else { return }
+        guard let event = self.calendarEvents.first(where: { $0.id == id }) else {
+            return
+        }
+
+        switch self.traitCollection.horizontalSizeClass {
+        case .regular:
+            self.performSegue(withIdentifier: R.segue.calendarViewController.showEventPopup, sender: (event, eventView))
+        case .compact:
+            self.performSegue(withIdentifier: R.segue.calendarViewController.showEventDesc, sender: (event, eventView))
+        default:
+            fatalError("WHAT?!")
+        }
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let (event, view) = sender as? (CalendarEvent, UIView) else { return }
+        segue.destination.popoverPresentationController?.barButtonItem = nil
+        segue.destination.popoverPresentationController?.sourceView = view
+        if let popupInfo = R.segue.calendarViewController.showEventPopup(segue: segue) {
+            popupInfo.destination.event = event
+        } else if let descInfo = R.segue.calendarViewController.showEventDesc(segue: segue) {
+            descInfo.destination.event = event
+        }
+    }
 }
 
 extension CalendarEvent {
@@ -96,6 +125,7 @@ extension CalendarEvent {
 
         event.text = eventText
         event.color = self.eventColor ?? Brand.default.colors.primary
+        event.userInfo = ["objectID": self.id]
         return event
     }
 }

@@ -67,11 +67,20 @@
                         <segue destination="taN-yI-LWh" kind="show" identifier="showHomework" id="U4b-8g-jsE"/>
                         <segue destination="XAe-9N-Ivm" kind="show" identifier="showNewsList" id="zaP-fG-06R"/>
                         <segue destination="uGy-Wf-mVJ" kind="show" identifier="showNewsDetail" id="qDA-Te-VR0"/>
+                        <segue destination="aXG-JG-gs9" kind="show" identifier="showCalendar" id="MeY-VM-rj6"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OCa-F0-3BU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2669" y="-649"/>
+        </scene>
+        <!--Calendar-->
+        <scene sceneID="ZWg-hH-KHI">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Calendar" id="aXG-JG-gs9" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uUV-Ix-gsp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3460" y="-960"/>
         </scene>
         <!--NotificationList-->
         <scene sceneID="nrp-cg-Z74">
@@ -79,7 +88,7 @@
                 <viewControllerPlaceholder storyboardName="NotificationList" id="4Se-lK-mW8" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hcZ-Vr-prj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3314" y="-890"/>
+            <point key="canvasLocation" x="3491" y="-822"/>
         </scene>
         <!--Homework-->
         <scene sceneID="Khm-d8-agL">

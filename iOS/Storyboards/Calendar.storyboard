@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="yTR-Pc-oZ8">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Calendar View Controller-->
+        <scene sceneID="TKb-FC-xdt">
+            <objects>
+                <viewController id="yTR-Pc-oZ8" customClass="CalendarViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ihz-xs-Ayl">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="I5B-Cx-fEi"/>
+                    </view>
+                    <connections>
+                        <segue destination="rGN-MH-02v" kind="show" identifier="showEventDesc" id="lWl-Ym-5RY"/>
+                        <segue destination="eas-LI-qJR" kind="popoverPresentation" identifier="showEventPopup" popoverAnchorView="ihz-xs-Ayl" id="4R0-Sg-77w">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DaS-HK-YQb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="309" y="145"/>
+        </scene>
+        <!--Event Description Controller-->
+        <scene sceneID="6c9-GG-Xqd">
+            <objects>
+                <viewController id="rGN-MH-02v" customClass="EventDescriptionController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="IWA-XV-E6h">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Ysz-rk-IPf"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jgy-Wb-t7Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1299" y="-253"/>
+        </scene>
+        <!--Popup Event Description Controller-->
+        <scene sceneID="c76-3l-xKj">
+            <objects>
+                <viewController id="eas-LI-qJR" customClass="PopupEventDescriptionController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="TFK-FS-xe0">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="hTF-JL-UGd">
+                                <rect key="frame" x="5" y="25" width="404" height="706"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Course title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfG-4W-kBx">
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="31.333333333333332"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NmR-Cc-JfB">
+                                        <rect key="frame" x="0.0" y="31.333333333333336" width="54.333333333333336" height="18"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ehm-4Q-HsC">
+                                        <rect key="frame" x="0.0" y="49.333333333333314" width="85.666666666666671" height="656.66666666666674"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                        <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="hTF-JL-UGd" firstAttribute="leading" secondItem="VT0-mc-Yji" secondAttribute="leading" constant="5" id="Vgc-NT-QuF"/>
+                            <constraint firstItem="hTF-JL-UGd" firstAttribute="top" secondItem="VT0-mc-Yji" secondAttribute="top" constant="5" id="c7e-pO-Tn4"/>
+                            <constraint firstItem="VT0-mc-Yji" firstAttribute="bottom" secondItem="hTF-JL-UGd" secondAttribute="bottom" constant="5" id="dE4-IR-cEC"/>
+                            <constraint firstItem="VT0-mc-Yji" firstAttribute="trailing" secondItem="hTF-JL-UGd" secondAttribute="trailing" constant="5" id="hNh-hr-1Yr"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="VT0-mc-Yji"/>
+                    </view>
+                    <size key="freeformSize" width="414" height="736"/>
+                    <connections>
+                        <outlet property="eventDescription" destination="ehm-4Q-HsC" id="1we-r0-Z9e"/>
+                        <outlet property="eventLocation" destination="NmR-Cc-JfB" id="8xu-7E-bG3"/>
+                        <outlet property="eventTitle" destination="bfG-4W-kBx" id="Fga-Rs-MF2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Aw1-P1-rLQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1299" y="444"/>
+        </scene>
+    </scenes>
+</document>
