@@ -93,21 +93,33 @@ class CalendarViewController: DayViewController {
 
         switch self.traitCollection.horizontalSizeClass {
         case .regular:
-            self.performSegue(withIdentifier: R.segue.calendarViewController.showEventPopup, sender: (event, eventView))
+            guard let popupEvent = R.storyboard.calendar.popupEvent() else { return }
+            popupEvent.preferredContentSize = CGSize(width: 500, height: 200)
+            popupEvent.event = event
+            popupEvent.modalPresentationStyle = .popover
+
+            self.present(popupEvent, animated: true)
+
+            let popup = popupEvent.popoverPresentationController
+            popup?.permittedArrowDirections = .left
+            popup?.sourceView = self.view
+
+            var rect = eventView.convert(eventView.bounds, to: self.view)
+            rect.size.width = 200
+            popup?.sourceRect = rect
+
         case .compact:
-            self.performSegue(withIdentifier: R.segue.calendarViewController.showEventDesc, sender: (event, eventView))
+            self.performSegue(withIdentifier: R.segue.calendarViewController.showEventDesc, sender: event)
         default:
             fatalError("WHAT?!")
         }
     }
 
+
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let (event, view) = sender as? (CalendarEvent, UIView) else { return }
-        segue.destination.popoverPresentationController?.barButtonItem = nil
-        segue.destination.popoverPresentationController?.sourceView = view
-        if let popupInfo = R.segue.calendarViewController.showEventPopup(segue: segue) {
-            popupInfo.destination.event = event
-        } else if let descInfo = R.segue.calendarViewController.showEventDesc(segue: segue) {
+        guard let event = sender as? CalendarEvent else { return }
+        if let descInfo = R.segue.calendarViewController.showEventDesc(segue: segue) {
             descInfo.destination.event = event
         }
     }

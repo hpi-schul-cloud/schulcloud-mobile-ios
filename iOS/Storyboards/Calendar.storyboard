@@ -22,9 +22,6 @@
                     </view>
                     <connections>
                         <segue destination="rGN-MH-02v" kind="show" identifier="showEventDesc" id="lWl-Ym-5RY"/>
-                        <segue destination="eas-LI-qJR" kind="popoverPresentation" identifier="showEventPopup" popoverAnchorView="ihz-xs-Ayl" id="4R0-Sg-77w">
-                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                        </segue>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DaS-HK-YQb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -49,45 +46,45 @@
         <!--Popup Event Description Controller-->
         <scene sceneID="c76-3l-xKj">
             <objects>
-                <viewController id="eas-LI-qJR" customClass="PopupEventDescriptionController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PopupEvent" id="eas-LI-qJR" customClass="PopupEventDescriptionController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TFK-FS-xe0">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="500" height="206"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="hTF-JL-UGd">
-                                <rect key="frame" x="5" y="25" width="404" height="706"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Course title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfG-4W-kBx">
-                                        <rect key="frame" x="0.0" y="0.0" width="128" height="31.333333333333332"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NmR-Cc-JfB">
-                                        <rect key="frame" x="0.0" y="31.333333333333336" width="54.333333333333336" height="18"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ehm-4Q-HsC">
-                                        <rect key="frame" x="0.0" y="49.333333333333314" width="85.666666666666671" height="656.66666666666674"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                        <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Course title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfG-4W-kBx">
+                                <rect key="frame" x="20" y="19" width="460" height="31"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NmR-Cc-JfB">
+                                <rect key="frame" x="20.000000000000004" y="53" width="54.333333333333343" height="18"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="adshdkajhsdasjhdhasjdkahsjdkasjdasjdkasjdkahsjdkhjasdkjahsdkjahsdkjasdasdfhskasjasjakdhsaksjakdhjaskdskdjasd" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ehm-4Q-HsC">
+                                <rect key="frame" x="20" y="95" width="460" height="91"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="hTF-JL-UGd" firstAttribute="leading" secondItem="VT0-mc-Yji" secondAttribute="leading" constant="5" id="Vgc-NT-QuF"/>
-                            <constraint firstItem="hTF-JL-UGd" firstAttribute="top" secondItem="VT0-mc-Yji" secondAttribute="top" constant="5" id="c7e-pO-Tn4"/>
-                            <constraint firstItem="VT0-mc-Yji" firstAttribute="bottom" secondItem="hTF-JL-UGd" secondAttribute="bottom" constant="5" id="dE4-IR-cEC"/>
-                            <constraint firstItem="VT0-mc-Yji" firstAttribute="trailing" secondItem="hTF-JL-UGd" secondAttribute="trailing" constant="5" id="hNh-hr-1Yr"/>
+                            <constraint firstItem="bfG-4W-kBx" firstAttribute="leading" secondItem="VT0-mc-Yji" secondAttribute="leading" constant="20" id="2UN-rI-OAc"/>
+                            <constraint firstItem="VT0-mc-Yji" firstAttribute="trailing" secondItem="bfG-4W-kBx" secondAttribute="trailing" constant="20" id="3b8-8P-CEg"/>
+                            <constraint firstItem="ehm-4Q-HsC" firstAttribute="top" secondItem="NmR-Cc-JfB" secondAttribute="bottom" constant="24" id="JFF-pR-zlf"/>
+                            <constraint firstItem="NmR-Cc-JfB" firstAttribute="firstBaseline" secondItem="bfG-4W-kBx" secondAttribute="baseline" constant="24" symbolType="layoutAnchor" id="MKW-Ef-VaG"/>
+                            <constraint firstItem="NmR-Cc-JfB" firstAttribute="leading" secondItem="bfG-4W-kBx" secondAttribute="leading" id="RkM-sH-S4C"/>
+                            <constraint firstItem="ehm-4Q-HsC" firstAttribute="leading" secondItem="NmR-Cc-JfB" secondAttribute="leading" id="YFo-ff-wZZ"/>
+                            <constraint firstItem="ehm-4Q-HsC" firstAttribute="trailing" secondItem="bfG-4W-kBx" secondAttribute="trailing" id="YrB-a6-YzU"/>
+                            <constraint firstItem="bfG-4W-kBx" firstAttribute="top" secondItem="VT0-mc-Yji" secondAttribute="top" constant="19" id="bX7-Ii-YpZ"/>
+                            <constraint firstItem="VT0-mc-Yji" firstAttribute="bottom" secondItem="ehm-4Q-HsC" secondAttribute="bottom" constant="20" id="fvp-5s-kLC"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="VT0-mc-Yji"/>
                     </view>
-                    <size key="freeformSize" width="414" height="736"/>
+                    <size key="freeformSize" width="500" height="206"/>
                     <connections>
                         <outlet property="eventDescription" destination="ehm-4Q-HsC" id="1we-r0-Z9e"/>
                         <outlet property="eventLocation" destination="NmR-Cc-JfB" id="8xu-7E-bG3"/>
@@ -96,7 +93,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Aw1-P1-rLQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1299" y="444"/>
+            <point key="canvasLocation" x="1398.5507246376812" y="430.43478260869568"/>
         </scene>
     </scenes>
 </document>
