@@ -517,4 +517,57 @@ class HTMLStylerTests: XCTestCase {
         XCTAssertEqual(testAttachment?.image, referenceAttachment?.image)
     }
 
+    func testBooleanAttribute() {
+        let html = "<p disabled> Some text </p>"
+        let styleCollection = BoldAndItalicStyleCollection()
+
+        var parser = Parser()
+        parser.styleCollection = styleCollection
+
+        let attributedString = parser.attributedString(for: html)
+        XCTAssert(!attributedString.string.isEmpty)
+    }
+
+    func testParseTagBooleanAttribute() {
+        let html = "img hidden"
+
+        let parser = Parser()
+
+        let rawTag = parser.parseTag(html, isStartTag: true, context: Parser.Context())
+        XCTAssertNotNil(rawTag?.attributes["hidden"])
+    }
+
+    func testParseTagBooleanAttributeEndsWithSlash() {
+        let html = "img alt=\"Yo\" hidden/"
+
+        let parser = Parser()
+
+        let rawTag = parser.parseTag(html, isStartTag: true, context: Parser.Context())
+        XCTAssertNotNil(rawTag?.attributes["hidden"])
+    }
+
+    func testParseTagBooleanAttributeEndsWithSpace() {
+        let html = "img alt=\"Yo\" hidden "
+
+        let parser = Parser()
+
+        let rawTag = parser.parseTag(html, isStartTag: true, context: Parser.Context())
+        XCTAssertNotNil(rawTag?.attributes["hidden"])
+    }
+
+    func testImageAlt() {
+
+        var parser = Parser()
+        parser.styleCollection = DefaultStyleCollection(tintColor: UIColor.blue)
+
+        let testHTML = "<img alt=\"Roberto\" src=\"path/to/test-image.png\" />!!!"
+        let test = parser.attributedString(for: testHTML)
+
+        let reference = NSMutableAttributedString(string: "Roberto!!!")
+
+        XCTAssertEqual(test.string, reference.string)
+
+        let testAttachment = test.attribute(.attachment, at: 0, longestEffectiveRange: nil, in: NSRange(location: 0, length: 0)) as? ImageTextAttachment
+        XCTAssertNil(testAttachment)
+    }
 }
