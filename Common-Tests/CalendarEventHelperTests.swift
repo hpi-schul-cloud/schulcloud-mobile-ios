@@ -15,6 +15,7 @@ extension CalendarEvent {
                   startDate: start,
                   endDate: end,
                   rule: rule,
+                  color: UIColor.green,
                   coreDataID: nil,
                   ekEventID: nil)
     }
