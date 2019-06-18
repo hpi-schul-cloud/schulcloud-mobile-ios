@@ -105,7 +105,6 @@
 		CED9E5A2218B177B0020FC7A /* HomeworkListDateSortedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED9E5A1218B177B0020FC7A /* HomeworkListDateSortedViewController.swift */; };
 		CEE05CCD22B1481A003644DE /* Calendar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEE05CCC22B1481A003644DE /* Calendar.storyboard */; };
 		CEE05CD022B231BA003644DE /* PopupEventDescriptionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE05CCF22B231BA003644DE /* PopupEventDescriptionController.swift */; };
-		CEE05CD222B23272003644DE /* EventDescriptionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE05CD122B23272003644DE /* EventDescriptionController.swift */; };
 		CEEE0A1220D2AA7C00B0C2CE /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE0A0B20D2AA7C00B0C2CE /* Common.framework */; };
 		CEEE0A1420D2AA7C00B0C2CE /* Common.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE0A0B20D2AA7C00B0C2CE /* Common.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CEEE0A2A20D2AB5500B0C2CE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A5A9381EBCD0C600825DBF /* Constants.swift */; };
@@ -402,7 +401,6 @@
 		CED9E5A1218B177B0020FC7A /* HomeworkListDateSortedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkListDateSortedViewController.swift; sourceTree = "<group>"; };
 		CEE05CCC22B1481A003644DE /* Calendar.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Calendar.storyboard; sourceTree = "<group>"; };
 		CEE05CCF22B231BA003644DE /* PopupEventDescriptionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupEventDescriptionController.swift; sourceTree = "<group>"; };
-		CEE05CD122B23272003644DE /* EventDescriptionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDescriptionController.swift; sourceTree = "<group>"; };
 		CEEE0A0B20D2AA7C00B0C2CE /* Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEEE0A0D20D2AA7C00B0C2CE /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		CEEE0A0E20D2AA7C00B0C2CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -900,7 +898,6 @@
 			isa = PBXGroup;
 			children = (
 				CEE05CCF22B231BA003644DE /* PopupEventDescriptionController.swift */,
-				CEE05CD122B23272003644DE /* EventDescriptionController.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -1534,7 +1531,6 @@
 				220E8D9C2257A4A300CC57BC /* FixedBackgroundColorView.swift in Sources */,
 				CE41529A20DBD9F900739CE2 /* NotificationViewController.swift in Sources */,
 				CE3CF70F2264CC01005F4C84 /* FilePreviewViewController.swift in Sources */,
-				CEE05CD222B23272003644DE /* EventDescriptionController.swift in Sources */,
 				CE41528D20DBD9F000739CE2 /* HomeworkOverviewViewController.swift in Sources */,
 				CE41529C20DBD9F900739CE2 /* HomeworkDetailViewController.swift in Sources */,
 				CE4152A520DBDA3300739CE2 /* NewsArticleOverviewCell.swift in Sources */,
