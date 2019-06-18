@@ -84,44 +84,38 @@ class CalendarViewController: DayViewController {
     }
 
     override func dayViewDidSelectEventView(_ eventView: EventView) {
-        guard let eventDesc = eventView.descriptor as? Event else { return }
-        guard let userInfo = eventDesc.userInfo as? [String: String] else { return }
+        guard let eventDescriptor = eventView.descriptor as? Event else { return }
+        guard let userInfo = eventDescriptor.userInfo as? [String: String] else { return }
         guard let id = userInfo["objectID"] else { return }
         guard let event = self.calendarEvents.first(where: { $0.id == id }) else {
             return
         }
 
-        switch self.traitCollection.horizontalSizeClass {
-        case .regular:
-            guard let popupEvent = R.storyboard.calendar.popupEvent() else { return }
-            popupEvent.preferredContentSize = CGSize(width: 500, height: 200)
-            popupEvent.event = event
-            popupEvent.modalPresentationStyle = .popover
+        func clampMax(_ a: CGFloat, _ b: CGFloat) -> CGFloat { return min(a, b) }
 
-            self.present(popupEvent, animated: true)
+        guard let popupEvent = R.storyboard.calendar.popupEvent() else { return }
+        let preferedHeight = popupEvent.preferredContentHeight(width: 500, for: event.description ?? "")
+        let height = clampMax(preferedHeight, 500)
+        popupEvent.preferredContentSize = CGSize(width: 500, height: height)
+        popupEvent.event = event
+        popupEvent.modalPresentationStyle = .popover
 
-            let popup = popupEvent.popoverPresentationController
-            popup?.permittedArrowDirections = .left
-            popup?.sourceView = self.view
+        self.present(popupEvent, animated: true)
 
-            var rect = eventView.convert(eventView.bounds, to: self.view)
-            rect.size.width = 200
-            popup?.sourceRect = rect
+        let popup = popupEvent.popoverPresentationController
+        popup?.permittedArrowDirections = [.left, .down, .up]
+        popup?.sourceView = self.view
+        popup?.delegate = self
 
-        case .compact:
-            self.performSegue(withIdentifier: R.segue.calendarViewController.showEventDesc, sender: event)
-        default:
-            fatalError("WHAT?!")
-        }
+        var rect = eventView.convert(eventView.bounds, to: self.view)
+        rect.size.width = 200 // makes the popover show on top of the event, since so much horizontal space 
+        popup?.sourceRect = rect
     }
+}
 
-
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let event = sender as? CalendarEvent else { return }
-        if let descInfo = R.segue.calendarViewController.showEventDesc(segue: segue) {
-            descInfo.destination.event = event
-        }
+extension CalendarViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return traitCollection.horizontalSizeClass == .compact ? .fullScreen : .popover
     }
 }
 
@@ -131,7 +125,7 @@ extension CalendarEvent {
         event.startDate = self.start
         event.endDate = self.end
         var eventText = "\(self.title ?? "Unknown")"
-        if let location = self.location {
+        if let location = self.location, !location.isEmpty {
             eventText += " - \(location)"
         }
 
