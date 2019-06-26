@@ -82,7 +82,12 @@ public class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotification
             self.window?.rootViewController = self.loginViewController
             return
         }
-
+        guard !ProcessInfo.processInfo.arguments.contains("-DropDB") else {
+            LoginHelper.logout()
+            self.window?.rootViewController = self.loginViewController
+            return
+        }
+        
         if let modelEntities = UserDefaults.standard.dictionary(forKey: "entityHashes") as? [String: Data] {
             let currentEntityHashes = CoreDataHelper.managedObjectModel.entityVersionHashesByName
             if modelEntities.keys.sorted() == currentEntityHashes.keys.sorted() {
