@@ -10,11 +10,16 @@ import CoreData
 // swiftlint:disable:next convenience_type
 public class CoreDataHelper {
 
-    public static var persistentContainer: NSPersistentContainer = {
+    public static var managedObjectModel: NSManagedObjectModel = {
         let bundle = Bundle(for: CoreDataHelper.self)
         let modelURL = bundle.url(forResource: "schulcloud", withExtension: "momd")
         let model = NSManagedObjectModel(contentsOf: modelURL!)
-        let container = NSPersistentContainer(name: "schulcloud", managedObjectModel: model!)
+        return model!
+    }()
+
+    public static var persistentContainer: NSPersistentContainer = {
+
+        let container = NSPersistentContainer(name: "schulcloud", managedObjectModel: CoreDataHelper.managedObjectModel)
 
         let mainBundle = Bundle.main.appGroupIdentifier!
         let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: mainBundle)!.appendingPathComponent("schulclouddb")

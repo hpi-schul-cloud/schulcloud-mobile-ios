@@ -89,6 +89,28 @@ public class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotification
             return
         }
 
+        if let modelEntities = UserDefaults.standard.dictionary(forKey: "entityHashes") as? [String: Data] {
+            let currentEntityHashes = CoreDataHelper.managedObjectModel.entityVersionHashesByName
+
+            func logoutAndStoreHashes() {
+                UserDefaults.standard.set(currentEntityHashes, forKey: "entityHashes")
+                LoginHelper.logout()
+                self.window?.rootViewController = self.loginViewController
+            }
+
+            if modelEntities.keys.sorted() == currentEntityHashes.keys.sorted() {
+                for key in modelEntities.keys where modelEntities[key] != currentEntityHashes[key] {
+                    logoutAndStoreHashes()
+                    return
+                }
+            } else {
+                logoutAndStoreHashes()
+                return
+            }
+        } else {
+            UserDefaults.standard.set(CoreDataHelper.managedObjectModel.entityVersionHashesByName, forKey: "entityHashes")
+        }
+
         // skip login
         Globals.account = validAccount
         SCNotifications.initializeMessaging()
