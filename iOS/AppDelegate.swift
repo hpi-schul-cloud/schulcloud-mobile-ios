@@ -83,7 +83,6 @@ public class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotification
             return
         }
 
-        #if DEBUG
         if let modelEntities = UserDefaults.standard.dictionary(forKey: "entityHashes") as? [String: Data] {
             let currentEntityHashes = CoreDataHelper.managedObjectModel.entityVersionHashesByName
             if modelEntities.keys.sorted() == currentEntityHashes.keys.sorted() {
@@ -97,7 +96,6 @@ public class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotification
         } else {
             UserDefaults.standard.set(CoreDataHelper.managedObjectModel.entityVersionHashesByName, forKey: "entityHashes")
         }
-        #endif
 
         // skip login
         Globals.account = validAccount
