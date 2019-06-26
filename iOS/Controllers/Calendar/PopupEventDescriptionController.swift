@@ -8,15 +8,18 @@ import UIKit
 
 final class PopupEventDescriptionController: UIViewController {
 
-    @IBOutlet var eventTitle: UILabel!
-    @IBOutlet var eventLocation: UILabel!
-    @IBOutlet var eventDescription: UITextView!
+    @IBOutlet private var eventTitle: UILabel!
+    @IBOutlet private var eventLocation: UILabel!
+    @IBOutlet private var eventDescription: UITextView!
 
-    var event: CalendarEvent? = nil
+    var event: CalendarEvent?
+
+    private static let horizontalMargin: CGFloat = 40.0
+    private static let staticVerticalHeight: CGFloat = 110.0
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.eventTitle.text = self.event?.title
         self.eventLocation.text = self.event?.location
         self.eventDescription.text = self.event?.description
@@ -26,18 +29,18 @@ final class PopupEventDescriptionController: UIViewController {
 
     func preferredContentHeight(width: CGFloat, for text: String) -> CGFloat {
 
-        let textViewWidth = width - 40.0
+        let textViewWidth = width - PopupEventDescriptionController.horizontalMargin
         guard textViewWidth > 0.0 else { return .zero }
 
         let attr = NSMutableAttributedString(string: text)
-        attr.setAttributes([.font : UIFont.preferredFont(forTextStyle: .body)], range: NSRange(location: 0, length: text.count))
-        let size = attr.boundingRect(with: CGSize(width: textViewWidth,height: CGFloat.greatestFiniteMagnitude),
+        attr.setAttributes([.font: UIFont.preferredFont(forTextStyle: .body)], range: NSRange(location: 0, length: text.count))
+        let size = attr.boundingRect(with: CGSize(width: textViewWidth, height: CGFloat.greatestFiniteMagnitude),
                                      options: [.usesLineFragmentOrigin],
                                      context: nil).size
-        return size.height + 110
+        return size.height + PopupEventDescriptionController.staticVerticalHeight
     }
 
-    @IBAction func dismissController(_ sender: Any?) {
+    @IBAction private func dismissController(_ sender: Any?) {
         self.dismiss(animated: true)
     }
 }

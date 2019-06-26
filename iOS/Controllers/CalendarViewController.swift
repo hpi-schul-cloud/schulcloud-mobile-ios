@@ -115,7 +115,7 @@ class CalendarViewController: DayViewController {
 
 extension CalendarViewController: UIPopoverPresentationControllerDelegate {
     func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
-        return traitCollection.horizontalSizeClass == .compact ? .fullScreen : .popover
+        return .popover
     }
 }
 
