@@ -25,4 +25,5 @@ public enum CalendarEventHelper {
             return eventData.map { $0.calendarEvent }
         }
     }
+
 }
