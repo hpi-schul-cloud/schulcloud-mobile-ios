@@ -83,6 +83,12 @@ public class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotification
             return
         }
 
+        guard !ProcessInfo.processInfo.arguments.contains("-DropDB") else {
+            LoginHelper.logout()
+            self.window?.rootViewController = self.loginViewController
+            return
+        }
+
         // skip login
         Globals.account = validAccount
         SCNotifications.initializeMessaging()

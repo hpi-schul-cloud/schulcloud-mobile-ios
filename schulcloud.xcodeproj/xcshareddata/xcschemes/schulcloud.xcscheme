@@ -76,6 +76,10 @@
             argument = "-UIViewLayoutFeedbackLoopDebuggingThreshold 100"
             isEnabled = "NO">
          </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-DropDB"
+            isEnabled = "NO">
+         </CommandLineArgument>
       </CommandLineArguments>
       <EnvironmentVariables>
          <EnvironmentVariable

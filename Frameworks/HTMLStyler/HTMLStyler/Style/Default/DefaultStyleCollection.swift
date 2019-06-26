@@ -96,13 +96,19 @@ public struct DefaultStyleCollection: StyleCollection {
 
     public func replacement(for tag: Tag) -> NSAttributedString? {
         switch tag {
-        case let .image(url):
-            let attachment = ImageTextAttachment()
-            attachment.image = self.imageLoader.load(for: url)
-            let attachmentString = NSAttributedString(attachment: attachment)
-            let attributedString = NSMutableAttributedString(attributedString: attachmentString)
-            attributedString.append(NSAttributedString(string: "\n"))
-            return attributedString
+        case let .image(url, alt):
+            if let image = self.imageLoader.load(for: url) {
+                let attachment = ImageTextAttachment()
+                attachment.image = image
+                let attachmentString = NSAttributedString(attachment: attachment)
+                let attributedString = NSMutableAttributedString(attributedString: attachmentString)
+                attributedString.append(NSAttributedString(string: "\n"))
+                return attributedString
+            } else if let altString = alt {
+                return NSAttributedString(string: altString)
+            }
+
+            return nil
         default:
             return nil
         }
