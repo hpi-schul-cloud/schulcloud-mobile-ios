@@ -74,7 +74,10 @@ class HTMLStylerTests: XCTestCase {
         let parser = Parser()
 
         let testHTML = "Fizz Buzz!!!"
-        let test = parser.attributedString(for: testHTML)
+        guard let test = try? parser.attributedString(for: testHTML).get() else {
+            XCTFail()
+            return
+        }
 
         let reference = NSMutableAttributedString(string: "Fizz Buzz!!!")
 
@@ -86,7 +89,10 @@ class HTMLStylerTests: XCTestCase {
         parser.styleCollection = BaseStyleCollection()
 
         let testHTML = "Fizz Buzz!!!"
-        let test = parser.attributedString(for: testHTML)
+        guard let test = try? parser.attributedString(for: testHTML).get() else {
+            XCTFail()
+            return
+        }
 
         let reference = NSMutableAttributedString(string: "Fizz Buzz!!!")
         reference.addAttributes(parser.styleCollection!.baseStyle, range: NSRange(location: 0, length: 12))
@@ -99,7 +105,10 @@ class HTMLStylerTests: XCTestCase {
         parser.styleCollection = BoldAndItalicStyleCollection()
 
         let testHTML = "Fi<i>zz</i> <b>Buzz</b>!!!"
-        let test = parser.attributedString(for: testHTML)
+        guard let test = try? parser.attributedString(for: testHTML).get() else {
+            XCTFail()
+            return
+        }
 
         let reference = NSMutableAttributedString(string: "Fizz Buzz!!!")
         reference.addAttributes(parser.styleCollection!.style(for: .italic, isLastSibling: true)!, range: NSRange(location: 2, length: 2))
@@ -113,7 +122,10 @@ class HTMLStylerTests: XCTestCase {
         parser.styleCollection = BoldStyleCollection()
 
         let testHTML = "Fi<b>zz</b> <b>Buzz</b>!!!"
-        let test = parser.attributedString(for: testHTML)
+        guard let test = try? parser.attributedString(for: testHTML).get() else {
+            XCTFail()
+            return
+        }
 
         let reference = NSMutableAttributedString(string: "Fizz Buzz!!!")
         reference.addAttributes(parser.styleCollection!.style(for: .bold, isLastSibling: true)!, range: NSRange(location: 2, length: 2))
@@ -127,7 +139,10 @@ class HTMLStylerTests: XCTestCase {
         parser.styleCollection = BoldAndItalicStyleCollection()
 
         let testHTML = "Fizz <b>B<i>uzz</i>!!!</b>"
-        let test = parser.attributedString(for: testHTML)
+        guard let test = try? parser.attributedString(for: testHTML).get() else {
+            XCTFail()
+            return
+        }
 
         let reference = NSMutableAttributedString(string: "Fizz Buzz!!!")
         reference.addAttributes(parser.styleCollection!.style(for: .bold, isLastSibling: true)!, range: NSRange(location: 5, length: 1))
@@ -142,7 +157,10 @@ class HTMLStylerTests: XCTestCase {
         parser.styleCollection = BoldStyleCollection()
 
         let testHTML = "Fizz <b>Buzz!!!"
-        let test = parser.attributedString(for: testHTML)
+        guard let test = try? parser.attributedString(for: testHTML).get() else {
+            XCTFail()
+            return
+        }
 
         let reference = NSMutableAttributedString(string: "Fizz Buzz!!!")
 
@@ -154,7 +172,10 @@ class HTMLStylerTests: XCTestCase {
         parser.styleCollection = BoldStyleCollection()
 
         let testHTML = "Fizz </b>Buzz!!!"
-        let test = parser.attributedString(for: testHTML)
+        guard let test = try? parser.attributedString(for: testHTML).get() else {
+            XCTFail()
+            return
+        }
 
         let reference = NSMutableAttributedString(string: "Fizz Buzz!!!")
 
@@ -166,7 +187,10 @@ class HTMLStylerTests: XCTestCase {
         parser.styleCollection = BoldStyleCollection()
 
         let testHTML = "Fizz <b>Buzz</b>!!!"
-        let test = parser.attributedString(for: testHTML)
+        guard let test = try? parser.attributedString(for: testHTML).get() else {
+            XCTFail()
+            return
+        }
 
         let reference = NSMutableAttributedString(string: "Fizz Buzz!!!")
         reference.addAttributes(parser.styleCollection!.style(for: .bold, isLastSibling: true)!, range: NSRange(location: 5, length: 4))
@@ -179,7 +203,10 @@ class HTMLStylerTests: XCTestCase {
         parser.styleCollection = BoldStyleCollection()
 
         let testHTML = "<p>Fizz</p>Buzz!!!"
-        let test = parser.attributedString(for: testHTML)
+        guard let test = try? parser.attributedString(for: testHTML).get() else {
+            XCTFail()
+            return
+        }
 
         let reference = NSMutableAttributedString(string: "Fizz\nBuzz!!!")
         reference.addAttributes(parser.styleCollection!.style(for: .bold, isLastSibling: true)!, range: NSRange(location: 0, length: 5))
@@ -192,7 +219,10 @@ class HTMLStylerTests: XCTestCase {
         parser.styleCollection = BoldStyleCollection()
 
         let testHTML = "Fizz<br>Buzz!!!"
-        let test = parser.attributedString(for: testHTML)
+        guard let test = try? parser.attributedString(for: testHTML).get() else {
+            XCTFail()
+            return
+        }
 
         let reference = NSAttributedString(string: "Fizz\nBuzz!!!")
 
@@ -204,7 +234,10 @@ class HTMLStylerTests: XCTestCase {
         parser.styleCollection = BoldStyleCollection()
 
         let testHTML = "Fizz<br />Buzz!!!"
-        let test = parser.attributedString(for: testHTML)
+        guard let test = try? parser.attributedString(for: testHTML).get() else {
+            XCTFail()
+            return
+        }
 
         let reference = NSAttributedString(string: "Fizz\nBuzz!!!")
 
@@ -216,7 +249,10 @@ class HTMLStylerTests: XCTestCase {
         parser.styleCollection = LinkStyleCollection()
 
         let testHTML = "Link to <a href=\"http://google.com\">Google</a>"
-        let test = parser.attributedString(for: testHTML)
+        guard let test = try? parser.attributedString(for: testHTML).get() else {
+            XCTFail()
+            return
+        }
 
         let tag = Tag.link(url: URL(string: "http://google.com")!)
         let reference = NSMutableAttributedString(string: "Link to Google")
@@ -235,7 +271,10 @@ class HTMLStylerTests: XCTestCase {
         <li>Item 2</li>
         </ul>
         """
-        let test = parser.attributedString(for: testHTML)
+        guard let test = try? parser.attributedString(for: testHTML).get() else {
+            XCTFail()
+            return
+        }
 
         let referenceText = """
         •\tItem 1
@@ -261,7 +300,10 @@ class HTMLStylerTests: XCTestCase {
         <li>Item <b>2</b></li>
         </ul>
         """
-        let test = parser.attributedString(for: testHTML)
+        guard let test = try? parser.attributedString(for: testHTML).get() else {
+            XCTFail()
+            return
+        }
 
         let referenceText = """
         •\tItem 1
@@ -292,7 +334,10 @@ class HTMLStylerTests: XCTestCase {
         </ul>
         """
 
-        let test = parser.attributedString(for: testHTML)
+        guard let test = try? parser.attributedString(for: testHTML).get() else {
+            XCTFail()
+            return
+        }
 
         let referenceText = """
         •\tItem 1
@@ -321,7 +366,10 @@ class HTMLStylerTests: XCTestCase {
         <li>Item 2</li>
         </ul>
         """
-        let test = parser.attributedString(for: testHTML)
+        guard let test = try? parser.attributedString(for: testHTML).get() else {
+            XCTFail()
+            return
+        }
 
         let referenceText = """
         •\tItem 1
@@ -353,7 +401,10 @@ class HTMLStylerTests: XCTestCase {
         <li>Item 8</li>
         </ul>
         """
-        let test = parser.attributedString(for: testHTML)
+        guard let test = try? parser.attributedString(for: testHTML).get() else {
+            XCTFail()
+            return
+        }
 
         let referenceText = """
         •\tItem 1
@@ -379,7 +430,10 @@ class HTMLStylerTests: XCTestCase {
         <li>Item 2</li>
         </ol>
         """
-        let test = parser.attributedString(for: testHTML)
+        guard let test = try? parser.attributedString(for: testHTML).get() else {
+            XCTFail()
+            return
+        }
 
         let referenceText = """
         1.\tItem 1
@@ -411,7 +465,10 @@ class HTMLStylerTests: XCTestCase {
         <li>Item 8</li>
         </ol>
         """
-        let test = parser.attributedString(for: testHTML)
+        guard let test = try? parser.attributedString(for: testHTML).get() else {
+            XCTFail()
+            return
+        }
 
         let referenceText = """
         1.\tItem 1
@@ -449,7 +506,10 @@ class HTMLStylerTests: XCTestCase {
         <li>Item 8</li>
         </ol>
         """
-        let test = parser.attributedString(for: testHTML)
+        guard let test = try? parser.attributedString(for: testHTML).get() else {
+            XCTFail()
+            return
+        }
 
         let referenceText = """
         1.\tItem 1
@@ -471,7 +531,10 @@ class HTMLStylerTests: XCTestCase {
         parser.styleCollection = BoldStyleCollection()
 
         let testHTML = "Fizz <b>B🤘zz</b>!!!"
-        let test = parser.attributedString(for: testHTML)
+        guard let test = try? parser.attributedString(for: testHTML).get() else {
+            XCTFail()
+            return
+        }
 
         let reference = NSMutableAttributedString(string: "Fizz B🤘zz!!!")
         reference.addAttributes(parser.styleCollection!.style(for: .bold, isLastSibling: true)!, range: NSRange(location: 5, length: 5))
@@ -498,7 +561,10 @@ class HTMLStylerTests: XCTestCase {
         parser.styleCollection = ImageStyleCollection(image: image)
 
         let testHTML = "<img src=\"path/to/test-image.png\" />!!!"
-        let test = parser.attributedString(for: testHTML)
+        guard let test = try? parser.attributedString(for: testHTML).get() else {
+            XCTFail()
+            return
+        }
 
         let attachment = ImageTextAttachment()
         attachment.image = image
@@ -517,6 +583,22 @@ class HTMLStylerTests: XCTestCase {
         XCTAssertEqual(testAttachment?.image, referenceAttachment?.image)
     }
 
+    func testThatTheParserFunctionAsExpectedWithMalformatedUTF8Strings() {
+        // the faulty character is before </strong>
+        let html = "<strong>Grundlagen der Augenbewegung </strong>(<a href=\"http://de.wikipedia.org/wiki/Augenbewegung\">Wikipedia</a>)"
+        var parser = Parser()
+        parser.styleCollection = BoldAndItalicStyleCollection()
+        guard let test = try? parser.attributedString(for: html).get() else {
+            XCTFail()
+            return
+        }
+
+        let expectedString = NSMutableAttributedString(string: "Grundlagen der Augenbewegung (Wikipedia)")
+        expectedString.addAttributes(parser.styleCollection!.style(for: .bold, isLastSibling: false)!, range: NSRange(location: 0, length: 29))
+        expectedString.addAttributes(parser.styleCollection!.style(for: .link(url: URL(string: "http://de.wikipedia.org/wiki/Augenbewegung")!)!, isLastSibling: true)!, range: NSRange(location: 30, length: 9))
+        XCTAssertEqual(test, expectedString)
+    }
+    
     func testBooleanAttribute() {
         let html = "<p disabled> Some text </p>"
         let styleCollection = BoldAndItalicStyleCollection()
@@ -524,8 +606,11 @@ class HTMLStylerTests: XCTestCase {
         var parser = Parser()
         parser.styleCollection = styleCollection
 
-        let attributedString = parser.attributedString(for: html)
-        XCTAssert(!attributedString.string.isEmpty)
+        guard let test = try? parser.attributedString(for: html).get() else {
+            XCTFail()
+            return
+        }
+        XCTAssert(!test.string.isEmpty)
     }
 
     func testParseTagBooleanAttribute() {
@@ -561,7 +646,10 @@ class HTMLStylerTests: XCTestCase {
         parser.styleCollection = DefaultStyleCollection(tintColor: UIColor.blue)
 
         let testHTML = "<img alt=\"Roberto\" src=\"path/to/test-image.png\" />!!!"
-        let test = parser.attributedString(for: testHTML)
+        guard let test = try? parser.attributedString(for: testHTML).get() else {
+            XCTFail()
+            return
+        }
 
         let reference = NSMutableAttributedString(string: "Roberto!!!")
 

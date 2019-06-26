@@ -92,6 +92,7 @@
 		CE4152B620E2854900739CE2 /* Assets-ios-brand.generated.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE4152B520E2854900739CE2 /* Assets-ios-brand.generated.xcassets */; };
 		CE55351E227AEA6A00501D1C /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE55351D227AEA6A00501D1C /* R.generated.swift */; };
 		CE68A2F521F89B1700E26B6B /* HomeworkSubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE68A2F421F89B1700E26B6B /* HomeworkSubmitViewController.swift */; };
+		CE7AC3E92276FBAA009079FD /* LessonContentTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7AC3E82276FBAA009079FD /* LessonContentTextCell.swift */; };
 		CE7BFC15212DA2E200C1B871 /* Assets-ios-brand.generated.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE4152B520E2854900739CE2 /* Assets-ios-brand.generated.xcassets */; };
 		CE85F0AF210091B700112085 /* FileSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE85F0AE210091B700112085 /* FileSync.swift */; };
 		CE95A4AE2111FEDA0061BCDD /* FileProviderExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95A4AD2111FEDA0061BCDD /* FileProviderExtension.swift */; };
@@ -380,6 +381,7 @@
 		CE6F9AB92153E561007B8C20 /* n21-FileProvider_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "n21-FileProvider_Debug.xcconfig"; sourceTree = "<group>"; };
 		CE737A4D1FFE65B0006DAB54 /* NewsArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsArticleCell.swift; sourceTree = "<group>"; };
 		CE737A4F1FFE6929006DAB54 /* NewsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListViewController.swift; sourceTree = "<group>"; };
+		CE7AC3E82276FBAA009079FD /* LessonContentTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonContentTextCell.swift; sourceTree = "<group>"; };
 		CE829316204EB6B3009D2C84 /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		CE85F0AE210091B700112085 /* FileSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSync.swift; sourceTree = "<group>"; };
 		CE95A4AB2111FEDA0061BCDD /* schulcloud.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = schulcloud.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -543,6 +545,7 @@
 				CEBE154C207B9D0300238D1F /* HomeworkHeaderView.swift */,
 				CE1F605A225201330043320F /* HomeworkSubmitFileCell.swift */,
 				220E8D9B2257A4A300CC57BC /* FixedBackgroundColorView.swift */,
+				CE7AC3E82276FBAA009079FD /* LessonContentTextCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1513,6 +1516,7 @@
 				CE41528C20DBD9F000739CE2 /* CalendarOverviewViewController.swift in Sources */,
 				CED9E5A2218B177B0020FC7A /* HomeworkListDateSortedViewController.swift in Sources */,
 				CE41529D20DBD9F900739CE2 /* NewsDetailViewController.swift in Sources */,
+				CE7AC3E92276FBAA009079FD /* LessonContentTextCell.swift in Sources */,
 				CE1253332181D92800CA2213 /* TableViewFetchedControllerDelegate.swift in Sources */,
 				CE55351E227AEA6A00501D1C /* R.generated.swift in Sources */,
 				CE4152A720DBDA3300739CE2 /* DashboardViewControllerCell.swift in Sources */,

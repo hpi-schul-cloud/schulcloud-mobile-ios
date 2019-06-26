@@ -5,66 +5,75 @@
 
 import Common
 import UIKit
-import WebKit
 
 /// TODO(permissions):
 ///     contentView? Should we not display the content of lesson if no permission? Seems off
-class SingleLessonViewController: UIViewController, WKUIDelegate {
+class SingleLessonViewController: UITableViewController {
 
-    var lesson: Lesson!
-
-    var webView: WKWebView!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        let userContentController = WKUserContentController()
-        let cookieScriptSource = "document.cookie = 'jwt=\(Globals.account!.accessToken!)'"
-        let cookieScript = WKUserScript(source: cookieScriptSource, injectionTime: .atDocumentStart, forMainFrameOnly: false)
-        userContentController.addUserScript(cookieScript)
-        let webConfiguration = WKWebViewConfiguration()
-        webConfiguration.userContentController = userContentController
-        webView = WKWebView(frame: .zero, configuration: webConfiguration)
-        webView.uiDelegate = self
-
-        self.view.addSubview(webView)
-
-        webView.translatesAutoresizingMaskIntoConstraints = false
-        webView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        webView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-        let guide = self.view.readableContentGuide
-        guide.leadingAnchor.constraint(equalTo: webView.leadingAnchor).isActive = true
-        guide.trailingAnchor.constraint(equalTo: webView.trailingAnchor).isActive = true
-
-        self.title = lesson.name
-
-        self.loadContents(lesson.contents)
-    }
-
-    func loadContents(_ contents: Set<LessonContent>) {
-        let rendered = contents.map(htmlForElement)
-        let concatenated = """
-        <html>
-        <head>\(Constants.textStyleHtml)<meta name=\"viewport\" content=\"initial-scale=1.0\"></head>
-        <body>\(rendered.joined(separator: "<hr>"))</body>
-        </html>
-        """
-        webView.loadHTMLString(concatenated, baseURL: Brand.default.servers.web)
-    }
-
-    func htmlForElement(_ content: LessonContent) -> String {
-        switch content.type {
-        case .text:
-            var rendered = ""
-            if let title = content.title, !title.isEmpty {
-                rendered += "<h1>\(title)</h1>"
+    var lesson: Lesson! {
+        didSet {
+            self.contents = self.lesson!.contents.sorted { $0.insertDate < $1.insertDate }
+            for content in self.contents {
+                guard content.type == .text else { continue }
+                self.renderedHTMLCache[content.id] = self.htmlHelper.attributedString(for: content.text!).value
             }
-
-            rendered += content.text ?? ""
-            return rendered
-        case .other:
-            return "<span class=\"not-supported\">Dieser Typ wird leider noch nicht unterstützt.</span>"
         }
     }
 
+    let htmlHelper = HTMLHelper.default
+    private var renderedHTMLCache: [String: NSAttributedString] = [:]
+    private var contents: [LessonContent] = []
+
+    let textCellVerticalMargin: CGFloat = 25
+    let textCellLabelHeight: CGFloat = 20
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.title = lesson.name
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.contents.count
+    }
+
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let content = self.contents[indexPath.row]
+        switch content.type {
+        case .text:
+            let attrText = self.renderedHTMLCache[content.id]!
+            let width = tableView.readableContentGuide.layoutFrame.width
+            let context = NSStringDrawingContext()
+            let size = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+            return attrText.boundingRect(with: size, options: [.usesLineFragmentOrigin], context: context).height + textCellVerticalMargin + textCellLabelHeight
+        default:
+            return 44
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let content = self.contents[indexPath.row]
+
+        switch content.type {
+        case .other:
+            let cell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.unknownCell, for: indexPath)!
+            let font = UIFont.italicSystemFont(ofSize: 15.0)
+            cell.textLabel?.text = content.title
+            cell.detailTextLabel?.attributedText = NSAttributedString(string: "This content type isn't supported yet",
+                                                                      attributes: [NSAttributedString.Key.font: font])
+            return cell
+        case .text:
+
+            if let renderedHTML = self.renderedHTMLCache[content.id] {
+                let textCell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.textCell, for: indexPath)!
+                textCell.configure(title: content.title ?? "", text: renderedHTML)
+                return textCell
+            } else {
+                let errorCell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.errorCell, for: indexPath)!
+                let font = UIFont.italicSystemFont(ofSize: 15.0)
+                errorCell.textLabel?.attributedText = NSAttributedString(string: "An error was found processing the content",
+                                                                         attributes: [NSAttributedString.Key.font: font])
+                return errorCell
+            }
+        }
+    }
 }

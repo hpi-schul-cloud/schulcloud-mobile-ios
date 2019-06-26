@@ -118,7 +118,7 @@ class HomeworkDetailViewController: UIViewController {
             self.submitHomeworkButton.isHidden = true
         }
 
-        self.contentLabel.attributedText = HTMLHelper.default.attributedString(for: homework.descriptionText)
+        self.contentLabel.attributedText = HTMLHelper.default.attributedString(for: homework.descriptionText).value
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
