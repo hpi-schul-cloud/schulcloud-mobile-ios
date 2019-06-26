@@ -21,7 +21,7 @@ extension SchulcloudSyncStrategy {
         for (key, value) in query.filters {
             let stringValue: String
             if let valueArray = value as? [Any] {
-                stringValue = valueArray.map { String(describing: $0) }.joined(separator: ",")
+                stringValue = valueArray.map(String.init(describing:)).joined(separator: ",")
             } else if let value = value {
                 stringValue = String(describing: value)
             } else {

@@ -82,6 +82,39 @@ class CalendarViewController: DayViewController {
 
         return self.calendarEvents.filter(inInterval: interval).map { $0.calendarKitEvent }
     }
+
+    override func dayViewDidSelectEventView(_ eventView: EventView) {
+        guard let eventDescriptor = eventView.descriptor as? Event else { return }
+        guard let userInfo = eventDescriptor.userInfo as? [String: String] else { return }
+        guard let id = userInfo["objectID"] else { return }
+        guard let event = self.calendarEvents.first(where: { $0.id == id }) else {
+            return
+        }
+
+        guard let popupEvent = R.storyboard.calendar.popupEvent() else { return }
+        let preferedHeight = popupEvent.preferredContentHeight(width: 500, for: event.description ?? "")
+        let height = min(preferedHeight, 500)
+        popupEvent.preferredContentSize = CGSize(width: 500, height: height)
+        popupEvent.event = event
+        popupEvent.modalPresentationStyle = .popover
+
+        self.present(popupEvent, animated: true)
+
+        let popup = popupEvent.popoverPresentationController
+        popup?.permittedArrowDirections = [.left, .down, .up]
+        popup?.sourceView = self.view
+        popup?.delegate = self
+
+        var rect = eventView.convert(eventView.bounds, to: self.view)
+        rect.size.width = 200 // makes the popover show on top of the event, since so much horizontal space
+        popup?.sourceRect = rect
+    }
+}
+
+extension CalendarViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return .popover
+    }
 }
 
 extension CalendarEvent {
@@ -89,8 +122,14 @@ extension CalendarEvent {
         let event = Event()
         event.startDate = self.start
         event.endDate = self.end
-        event.text = self.title ?? "Unknown"
-        event.color = Brand.default.colors.primary
+        var eventText = "\(self.title ?? "Unknown")"
+        if let location = self.location, !location.isEmpty {
+            eventText += " - \(location)"
+        }
+
+        event.text = eventText
+        event.color = self.eventColor ?? Brand.default.colors.primary
+        event.userInfo = ["objectID": self.id]
         return event
     }
 }

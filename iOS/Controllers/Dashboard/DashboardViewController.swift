@@ -146,7 +146,7 @@ extension DashboardViewController {
         let viewController = (viewControllers[indexPath.row])
         if let viewController = viewController as? PermissionManagmentViewController<CalendarOverviewViewController>,
                viewController.hasPermission {
-            self.navigationController?.show(CalendarViewController(), sender: nil)
+            self.performSegue(withIdentifier: R.segue.dashboardViewController.showCalendar, sender: nil)
         } else if let viewController = viewController as? PermissionManagmentViewController<NotificationOverviewViewController>,
                       viewController.hasPermission {
             self.performSegue(withIdentifier: R.segue.dashboardViewController.showNotifications, sender: nil)

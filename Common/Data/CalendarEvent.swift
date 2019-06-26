@@ -23,6 +23,7 @@ public struct CalendarEvent {
     public let start: Date
     public let end: Date
     public let recurrenceRule: RecurrenceRule?
+    public let eventColor: UIColor?
 
     let coreDataID: NSManagedObjectID?
 
@@ -66,6 +67,7 @@ public struct CalendarEvent {
          startDate: Date,
          endDate: Date,
          rule: RecurrenceRule?,
+         color: UIColor?,
          coreDataID: NSManagedObjectID?,
          ekEventID: String?) {
         self.id = id
@@ -75,6 +77,7 @@ public struct CalendarEvent {
         self.start = startDate
         self.end = endDate
         self.recurrenceRule = rule
+        self.eventColor = color
         self.coreDataID = coreDataID
         eventKitID = ekEventID
     }
@@ -142,6 +145,7 @@ public struct CalendarEvent {
                   startDate: startDate,
                   endDate: endDate,
                   rule: rule,
+                  color: UIColor(hexString: eventData.course?.colorString ?? ""),
                   coreDataID: eventData.objectID,
                   ekEventID: eventData.ekIdentifier)
     }
@@ -217,6 +221,7 @@ extension CalendarEvent {
                                        startDate: computedStartDate,
                                        endDate: computedEndDate,
                                        rule: event.recurrenceRule,
+                                       color: event.eventColor,
                                        coreDataID: event.coreDataID,
                                        ekEventID: event.eventKitID)
 

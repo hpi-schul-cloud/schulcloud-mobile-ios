@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="yTR-Pc-oZ8">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Calendar View Controller-->
+        <scene sceneID="TKb-FC-xdt">
+            <objects>
+                <viewController id="yTR-Pc-oZ8" customClass="CalendarViewController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ihz-xs-Ayl">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="I5B-Cx-fEi"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DaS-HK-YQb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="309" y="145"/>
+        </scene>
+        <!--Popup Event Description Controller-->
+        <scene sceneID="c76-3l-xKj">
+            <objects>
+                <viewController storyboardIdentifier="PopupEvent" id="eas-LI-qJR" customClass="PopupEventDescriptionController" customModule="iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="TFK-FS-xe0">
+                        <rect key="frame" x="0.0" y="0.0" width="500" height="206"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Course title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfG-4W-kBx">
+                                <rect key="frame" x="20" y="20" width="378" height="31"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NmR-Cc-JfB">
+                                <rect key="frame" x="20.000000000000004" y="59" width="54.333333333333343" height="18"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qnL-h4-gsP">
+                                <rect key="frame" x="408" y="19" width="70" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="3Ds-6i-r7I"/>
+                                    <constraint firstAttribute="width" constant="70" id="src-fL-UT5"/>
+                                </constraints>
+                                <state key="normal" title="Close"/>
+                                <connections>
+                                    <action selector="dismissController:" destination="eas-LI-qJR" eventType="touchUpInside" id="fIH-HY-WCb"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5yL-J8-wlL">
+                                <rect key="frame" x="20" y="85" width="460" height="101"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="bfG-4W-kBx" firstAttribute="leading" secondItem="VT0-mc-Yji" secondAttribute="leading" constant="20" id="2UN-rI-OAc"/>
+                            <constraint firstItem="5yL-J8-wlL" firstAttribute="leading" secondItem="VT0-mc-Yji" secondAttribute="leading" constant="20" id="E9F-hD-kNf"/>
+                            <constraint firstItem="VT0-mc-Yji" firstAttribute="bottom" secondItem="5yL-J8-wlL" secondAttribute="bottom" constant="20" id="Gln-Ng-Xl3"/>
+                            <constraint firstItem="NmR-Cc-JfB" firstAttribute="top" secondItem="bfG-4W-kBx" secondAttribute="bottom" constant="8" symbolType="layoutAnchor" id="MKW-Ef-VaG"/>
+                            <constraint firstItem="NmR-Cc-JfB" firstAttribute="leading" secondItem="bfG-4W-kBx" secondAttribute="leading" id="RkM-sH-S4C"/>
+                            <constraint firstItem="bfG-4W-kBx" firstAttribute="top" secondItem="VT0-mc-Yji" secondAttribute="top" constant="20" id="bX7-Ii-YpZ"/>
+                            <constraint firstItem="VT0-mc-Yji" firstAttribute="trailing" secondItem="5yL-J8-wlL" secondAttribute="trailing" constant="20" id="c7a-sl-z8k"/>
+                            <constraint firstItem="VT0-mc-Yji" firstAttribute="trailing" secondItem="qnL-h4-gsP" secondAttribute="trailing" constant="22" id="jbf-Pl-XTv"/>
+                            <constraint firstItem="5yL-J8-wlL" firstAttribute="top" secondItem="NmR-Cc-JfB" secondAttribute="bottom" constant="8" symbolic="YES" id="jhJ-z8-Zxh"/>
+                            <constraint firstItem="qnL-h4-gsP" firstAttribute="top" secondItem="VT0-mc-Yji" secondAttribute="top" constant="19" id="qgu-kd-8Gc"/>
+                            <constraint firstItem="qnL-h4-gsP" firstAttribute="leading" secondItem="bfG-4W-kBx" secondAttribute="trailing" constant="10" id="sjV-n0-wNI"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="VT0-mc-Yji"/>
+                    </view>
+                    <size key="freeformSize" width="500" height="206"/>
+                    <connections>
+                        <outlet property="eventDescription" destination="5yL-J8-wlL" id="jRt-ke-sKW"/>
+                        <outlet property="eventLocation" destination="NmR-Cc-JfB" id="8xu-7E-bG3"/>
+                        <outlet property="eventTitle" destination="bfG-4W-kBx" id="Fga-Rs-MF2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Aw1-P1-rLQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1724.6376811594205" y="492.39130434782612"/>
+        </scene>
+    </scenes>
+</document>
