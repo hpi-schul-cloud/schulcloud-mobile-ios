@@ -91,11 +91,9 @@ class CalendarViewController: DayViewController {
             return
         }
 
-        func clampMax(_ a: CGFloat, _ b: CGFloat) -> CGFloat { return min(a, b) }
-
         guard let popupEvent = R.storyboard.calendar.popupEvent() else { return }
         let preferedHeight = popupEvent.preferredContentHeight(width: 500, for: event.description ?? "")
-        let height = clampMax(preferedHeight, 500)
+        let height = min(preferedHeight, 500)
         popupEvent.preferredContentSize = CGSize(width: 500, height: height)
         popupEvent.event = event
         popupEvent.modalPresentationStyle = .popover
@@ -108,7 +106,7 @@ class CalendarViewController: DayViewController {
         popup?.delegate = self
 
         var rect = eventView.convert(eventView.bounds, to: self.view)
-        rect.size.width = 200 // makes the popover show on top of the event, since so much horizontal space 
+        rect.size.width = 200 // makes the popover show on top of the event, since so much horizontal space
         popup?.sourceRect = rect
     }
 }
