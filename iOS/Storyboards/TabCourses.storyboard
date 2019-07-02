@@ -36,7 +36,7 @@
                                             <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Mathematik" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ikC-ib-QfB">
-                                            <rect key="frame" x="0.0" y="46.666666666666664" width="140" height="67.333333333333343"/>
+                                            <rect key="frame" x="4" y="46.666666666666664" width="132" height="67.333333333333343"/>
                                             <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
@@ -57,8 +57,8 @@
                                 <constraints>
                                     <constraint firstItem="aHW-0P-UoN" firstAttribute="top" secondItem="ikC-ib-QfB" secondAttribute="bottom" id="15l-Bx-Q0q"/>
                                     <constraint firstAttribute="trailing" secondItem="aHW-0P-UoN" secondAttribute="trailing" constant="8" id="3Dj-YJ-Rfs"/>
-                                    <constraint firstAttribute="trailing" secondItem="ikC-ib-QfB" secondAttribute="trailing" id="C5R-xh-yi0"/>
-                                    <constraint firstItem="ikC-ib-QfB" firstAttribute="leading" secondItem="miQ-oh-DD6" secondAttribute="leading" id="CSv-m4-i1e"/>
+                                    <constraint firstAttribute="trailing" secondItem="ikC-ib-QfB" secondAttribute="trailing" constant="4" id="C5R-xh-yi0"/>
+                                    <constraint firstItem="ikC-ib-QfB" firstAttribute="leading" secondItem="miQ-oh-DD6" secondAttribute="leading" constant="4" id="CSv-m4-i1e"/>
                                     <constraint firstItem="lgb-WZ-UxN" firstAttribute="leading" secondItem="miQ-oh-DD6" secondAttribute="leading" id="YVn-Rb-9dm"/>
                                     <constraint firstItem="lgb-WZ-UxN" firstAttribute="top" secondItem="miQ-oh-DD6" secondAttribute="top" id="eZC-Vw-kQE"/>
                                     <constraint firstAttribute="trailing" secondItem="lgb-WZ-UxN" secondAttribute="trailing" id="iti-hj-JPm"/>
