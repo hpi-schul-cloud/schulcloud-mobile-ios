@@ -16,6 +16,7 @@ class NewsArticleCell: UITableViewCell {
         super.awakeFromNib()
         self.content.textContainerInset = .zero
         self.content.textContainer.lineFragmentPadding = 0
+
     }
 
     func configure(for newsArticle: NewsArticle) {
