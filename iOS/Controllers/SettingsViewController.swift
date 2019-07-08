@@ -16,6 +16,8 @@ class SettingsViewController: UITableViewController {
     @IBOutlet private weak var userNameLabel: UILabel!
     @IBOutlet private var calendarSyncSwitch: UISwitch!
 
+    private var observer: NSObjectProtocol?
+
     private var user: User? {
         didSet {
             if self.user != oldValue {
@@ -48,11 +50,23 @@ class SettingsViewController: UITableViewController {
 
             self.user = user
         }
+
+        NotificationCenter.default.removeObserver(self.tableView, name: UIContentSizeCategory.didChangeNotification, object: nil)
+        self.observer = NotificationCenter.default.addObserver(forName: UIContentSizeCategory.didChangeNotification,
+                                               object: nil,
+                                               queue: .main) { _ in
+            self.tableView.reloadData()
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.calendarSyncSwitch.isOn = currentEventKitSettings.shouldSynchonize && CalendarEventHelper.currentCalenderPermissionStatus == .authorized
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self.observer)
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
