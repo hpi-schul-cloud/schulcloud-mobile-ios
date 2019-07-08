@@ -40,7 +40,9 @@ class SingleLessonViewController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.observer = NotificationCenter.default.addObserver(forName: UIContentSizeCategory.didChangeNotification, object: nil, queue: .main) { [unowned self] _ in
+        self.observer = NotificationCenter.default.addObserver(forName: UIContentSizeCategory.didChangeNotification,
+                                                               object: nil,
+                                                               queue: .main) { [unowned self] _ in
             self.buildContentCache()
         }
     }
@@ -49,8 +51,6 @@ class SingleLessonViewController: UITableViewController {
         NotificationCenter.default.removeObserver(self.observer)
         super.viewDidDisappear(animated)
     }
-
-
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.contents.count
