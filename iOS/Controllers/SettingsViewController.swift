@@ -52,21 +52,16 @@ class SettingsViewController: UITableViewController {
         }
 
         NotificationCenter.default.removeObserver(self.tableView, name: UIContentSizeCategory.didChangeNotification, object: nil)
-        self.observer = NotificationCenter.default.addObserver(forName: UIContentSizeCategory.didChangeNotification,
-                                               object: nil,
-                                               queue: .main) { _ in
-            self.tableView.reloadData()
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableViewData), name: UIContentSizeCategory.didChangeNotification,object: nil)
+    }
+
+    @objc func reloadTableViewData() {
+        self.tableView.reloadData()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.calendarSyncSwitch.isOn = currentEventKitSettings.shouldSynchonize && CalendarEventHelper.currentCalenderPermissionStatus == .authorized
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self.observer)
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import UIKit
 
 public struct DefaultStyleCollection: StyleCollection {
 
@@ -84,13 +85,13 @@ public struct DefaultStyleCollection: StyleCollection {
             let font = UIFont.preferredFont(forTextStyle: .body)
             let descriptor = font.fontDescriptor.withSymbolicTraits(.traitBold)
             return [
-                .font:  wrappedFont(textStyle: .body, font: UIFont(descriptor: descriptor!, size: font.pointSize))
+                .font: wrappedFont(textStyle: .body, font: UIFont(descriptor: descriptor!, size: font.pointSize))
             ]
         case .italic:
             let font = UIFont.preferredFont(forTextStyle: .body)
             let descriptor = font.fontDescriptor.withSymbolicTraits(.traitItalic)
             return [
-                .font:  wrappedFont(textStyle: .body, font: UIFont(descriptor: descriptor!, size: font.pointSize))
+                .font: wrappedFont(textStyle: .body, font: UIFont(descriptor: descriptor!, size: font.pointSize))
             ]
         case let .link(url):
             return [

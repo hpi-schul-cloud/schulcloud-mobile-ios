@@ -17,7 +17,7 @@ class SingleLessonViewController: UITableViewController {
         }
     }
 
-    private func buildContentCache() {
+    @objc private func buildContentCache() {
         for content in self.contents {
             guard content.type == .text else { continue }
             self.renderedHTMLCache[content.id] = self.htmlHelper.attributedString(for: content.text!).value
@@ -36,20 +36,8 @@ class SingleLessonViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = lesson.name
-    }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.observer = NotificationCenter.default.addObserver(forName: UIContentSizeCategory.didChangeNotification,
-                                                               object: nil,
-                                                               queue: .main) { [unowned self] _ in
-            self.buildContentCache()
-        }
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        NotificationCenter.default.removeObserver(self.observer)
-        super.viewDidDisappear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(buildContentCache), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

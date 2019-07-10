@@ -84,21 +84,18 @@ public final class DashboardViewController: UICollectionViewController {
 
     }
 
-    private var observer: NSObjectProtocol?
-
     override public func viewDidLoad() {
         super.viewDidLoad()
         guard let layout = collectionView?.collectionViewLayout as? DashboardLayout else { return }
         self.addViewControllers()
         layout.dataSource = self
-        self.observer = NotificationCenter.default.addObserver(forName: UIContentSizeCategory.didChangeNotification, object: nil, queue: .main) { [unowned self] _ in
-            self.collectionViewLayout.invalidateLayout()
-        }
+
+        NotificationCenter.default.addObserver(self, selector: #selector(invalidateCollectionViewLayout), name: UIContentSizeCategory.didChangeNotification, object: nil)
+
     }
 
-    public override func viewWillDisappear(_ animated: Bool) {
-        NotificationCenter.default.removeObserver(self.observer as Any)
-        super.viewWillDisappear(animated)
+    @objc func invalidateCollectionViewLayout() {
+        self.collectionViewLayout.invalidateLayout()
     }
 
     override public func viewDidLayoutSubviews() {
