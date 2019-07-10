@@ -46,7 +46,6 @@ public struct DefaultStyleCollection: StyleCollection {
             }
         }
 
-        let defaultPointSize = UIFont.preferredFont(forTextStyle: .body).pointSize
         switch tag {
         case .headline1:
 
@@ -58,27 +57,27 @@ public struct DefaultStyleCollection: StyleCollection {
             }
 
             return [
-                .font: wrappedFont(textStyle: style, font: UIFont.preferredFont(forTextStyle: style))
+                .font: UIFont.preferredFont(forTextStyle: style)
             ]
         case .headline2:
             return [
-                .font: wrappedFont(textStyle: .title1, font: UIFont.preferredFont(forTextStyle: .title1))
+                .font: UIFont.preferredFont(forTextStyle: .title1)
             ]
         case .headline3:
             return [
-                .font: wrappedFont(textStyle: .title2, font: UIFont.preferredFont(forTextStyle: .title2))
+                .font:UIFont.preferredFont(forTextStyle: .title2)
             ]
         case .headline4:
             return [
-                .font: wrappedFont(textStyle: .title2, font: UIFont.preferredFont(forTextStyle: .title2))
+                .font: UIFont.preferredFont(forTextStyle: .title2)
             ]
         case .headline5:
             return [
-                .font: wrappedFont(textStyle: .title3, font: UIFont.preferredFont(forTextStyle: .title3))
+                .font: UIFont.preferredFont(forTextStyle: .title3)
             ]
         case .headline6:
             return [
-                .font: wrappedFont(textStyle: .headline, font: UIFont.preferredFont(forTextStyle: .headline))
+                .font: UIFont.preferredFont(forTextStyle: .headline)
             ]
         case .bold:
 
@@ -99,6 +98,7 @@ public struct DefaultStyleCollection: StyleCollection {
                 .foregroundColor: self.tintColor,
             ]
         case .code:
+            let defaultPointSize = UIFont.preferredFont(forTextStyle: .body).pointSize
             return [
                 .font: wrappedFont(textStyle: .body, font: UIFont(name: "Courier New", size: defaultPointSize)!),
             ]
