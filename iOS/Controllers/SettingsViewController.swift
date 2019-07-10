@@ -52,7 +52,7 @@ class SettingsViewController: UITableViewController {
         }
 
         NotificationCenter.default.removeObserver(self.tableView, name: UIContentSizeCategory.didChangeNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableViewData), name: UIContentSizeCategory.didChangeNotification,object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableViewData), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
     @objc func reloadTableViewData() {
