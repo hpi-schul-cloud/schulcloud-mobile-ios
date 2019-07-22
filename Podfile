@@ -6,7 +6,7 @@ platform :ios, '10.0'
 pod 'SwiftLint', '~> 0.25'
 pod 'R.swift'
 
-target 'Common' do
+def common_pods
   pod 'BrightFutures', '~> 8.0'
   pod 'Firebase/Auth'
   pod 'Firebase/Core'
@@ -14,18 +14,22 @@ target 'Common' do
   pod 'JWTDecode', '~> 2.0'
   pod 'SyncEngine', :path => './Frameworks/SyncEngine'
   pod 'HTMLStyler', :path => './Frameworks/HTMLStyler'
+end
 
-  target 'Common-Tests' do
-    inherit! :search_paths
-  end
-
-  target 'iOS-fileprovider' do
-    inherit! :search_paths
-  end
+target 'Common' do
+  common_pods
 end
 
 target 'iOS' do
   pod 'CalendarKit', '~> 0.2'
+end
+
+target 'iOS-fileprovider' do
+  common_pods
+end
+
+target 'Common-Tests' do
+  common_pods
 end
 
 
