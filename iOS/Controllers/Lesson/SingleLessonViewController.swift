@@ -13,10 +13,14 @@ class SingleLessonViewController: UITableViewController {
     var lesson: Lesson! {
         didSet {
             self.contents = self.lesson!.contents.sorted { $0.insertDate < $1.insertDate }
-            for content in self.contents {
-                guard content.type == .text else { continue }
-                self.renderedHTMLCache[content.id] = self.htmlHelper.attributedString(for: content.text!).value
-            }
+            self.buildContentCache()
+        }
+    }
+
+    @objc private func buildContentCache() {
+        for content in self.contents {
+            guard content.type == .text else { continue }
+            self.renderedHTMLCache[content.id] = self.htmlHelper.attributedString(for: content.text!).value
         }
     }
 
@@ -24,30 +28,20 @@ class SingleLessonViewController: UITableViewController {
     private var renderedHTMLCache: [String: NSAttributedString] = [:]
     private var contents: [LessonContent] = []
 
+    private var observer: NSObjectProtocol?
+
     let textCellVerticalMargin: CGFloat = 25
     let textCellLabelHeight: CGFloat = 20
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = lesson.name
+
+        NotificationCenter.default.addObserver(self, selector: #selector(buildContentCache), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.contents.count
-    }
-
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let content = self.contents[indexPath.row]
-        switch content.type {
-        case .text:
-            let attrText = self.renderedHTMLCache[content.id]!
-            let width = tableView.readableContentGuide.layoutFrame.width
-            let context = NSStringDrawingContext()
-            let size = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
-            return attrText.boundingRect(with: size, options: [.usesLineFragmentOrigin], context: context).height + textCellVerticalMargin + textCellLabelHeight
-        default:
-            return 44
-        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

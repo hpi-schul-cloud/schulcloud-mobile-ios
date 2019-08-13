@@ -52,10 +52,6 @@ final class HomeworkListCourseSortedViewController: UITableViewController {
         }
     }
 
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 44
-    }
-
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sectionInfo = self.fetchedResultsController.sections![section]
         guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: R.nib.homeworkHeaderView.name) as? HomeworkHeaderView else {

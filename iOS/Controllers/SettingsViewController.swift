@@ -16,6 +16,8 @@ class SettingsViewController: UITableViewController {
     @IBOutlet private weak var userNameLabel: UILabel!
     @IBOutlet private var calendarSyncSwitch: UISwitch!
 
+    private var observer: NSObjectProtocol?
+
     private var user: User? {
         didSet {
             if self.user != oldValue {
@@ -48,6 +50,13 @@ class SettingsViewController: UITableViewController {
 
             self.user = user
         }
+
+        NotificationCenter.default.removeObserver(self.tableView, name: UIContentSizeCategory.didChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableViewData), name: UIContentSizeCategory.didChangeNotification, object: nil)
+    }
+
+    @objc func reloadTableViewData() {
+        self.tableView.reloadData()
     }
 
     override func viewDidAppear(_ animated: Bool) {

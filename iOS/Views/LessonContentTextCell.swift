@@ -15,6 +15,8 @@ class LessonContentTextCell: UITableViewCell {
         self.textView.textContainerInset = .zero
         self.textView.textContainer.lineFragmentPadding = 0
         self.textView.translatesAutoresizingMaskIntoConstraints = false
+        self.textView.adjustsFontForContentSizeCategory = true
+        self.title.adjustsFontForContentSizeCategory = true
     }
 
     func configure(title: String, text: NSAttributedString) {

@@ -12,6 +12,11 @@ class NewsArticleOverviewCell: UITableViewCell {
     @IBOutlet private weak var timeSinceCreated: UILabel!
     @IBOutlet private weak var content: UILabel!
 
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.content.adjustsFontForContentSizeCategory = true
+    }
+
     func configure(for newsArticle: NewsArticle) {
         self.title.text = newsArticle.title
         self.timeSinceCreated.text = NewsArticle.displayDateFormatter.string(for: newsArticle.displayAt)

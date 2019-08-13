@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import UIKit
 
 public struct DefaultStyleCollection: StyleCollection {
 
@@ -23,48 +24,73 @@ public struct DefaultStyleCollection: StyleCollection {
     }
 
     public var baseStyle: Style {
+        let font: UIFont
+        if #available(iOS 11, *) {
+            font = UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.preferredFont(forTextStyle: .body))
+        } else {
+            font = UIFont.preferredFont(forTextStyle: .body)
+        }
         return [
-            .font: UIFont.systemFont(ofSize: UIFont.labelFontSize),
+            .font: font,
             .paragraphStyle: self.paragraphStyle,
         ]
     }
 
     public func style(for tag: Tag, isLastSibling: Bool) -> Style? {
+
+        func wrappedFont(textStyle: UIFont.TextStyle, font: UIFont) -> UIFont {
+            if #available(iOS 11, *) {
+                return UIFontMetrics(forTextStyle: textStyle).scaledFont(for: font)
+            } else {
+                return font
+            }
+        }
+
         switch tag {
         case .headline1:
-            let paragraphStyle = self.paragraphStyle
-            paragraphStyle.paragraphSpacingBefore = UIFont.labelFontSize
+
+            let style: UIFont.TextStyle
+            if #available(iOS 11, *) {
+                style = .largeTitle
+            } else {
+                style = .title1
+            }
+
             return [
-                .font: UIFont.systemFont(ofSize: UIFont.labelFontSize * 1.30, weight: .bold),
-                .paragraphStyle: paragraphStyle,
+                .font: UIFont.preferredFont(forTextStyle: style)
             ]
         case .headline2:
             return [
-                .font: UIFont.systemFont(ofSize: UIFont.labelFontSize * 1.25, weight: .bold)
+                .font: UIFont.preferredFont(forTextStyle: .title1)
             ]
         case .headline3:
             return [
-                .font: UIFont.systemFont(ofSize: UIFont.labelFontSize * 1.20, weight: .bold)
+                .font:UIFont.preferredFont(forTextStyle: .title2)
             ]
         case .headline4:
             return [
-                .font: UIFont.systemFont(ofSize: UIFont.labelFontSize * 1.15, weight: .bold)
+                .font: UIFont.preferredFont(forTextStyle: .title2)
             ]
         case .headline5:
             return [
-                .font: UIFont.systemFont(ofSize: UIFont.labelFontSize * 1.10, weight: .bold)
+                .font: UIFont.preferredFont(forTextStyle: .title3)
             ]
         case .headline6:
             return [
-                .font: UIFont.systemFont(ofSize: UIFont.labelFontSize * 1.05, weight: .bold)
+                .font: UIFont.preferredFont(forTextStyle: .headline)
             ]
         case .bold:
+
+            let font = UIFont.preferredFont(forTextStyle: .body)
+            let descriptor = font.fontDescriptor.withSymbolicTraits(.traitBold)
             return [
-                .font: UIFont.boldSystemFont(ofSize: UIFont.labelFontSize)
+                .font: wrappedFont(textStyle: .body, font: UIFont(descriptor: descriptor!, size: font.pointSize))
             ]
         case .italic:
+            let font = UIFont.preferredFont(forTextStyle: .body)
+            let descriptor = font.fontDescriptor.withSymbolicTraits(.traitItalic)
             return [
-                .font: UIFont.italicSystemFont(ofSize: UIFont.labelFontSize)
+                .font: wrappedFont(textStyle: .body, font: UIFont(descriptor: descriptor!, size: font.pointSize))
             ]
         case let .link(url):
             return [
@@ -72,8 +98,9 @@ public struct DefaultStyleCollection: StyleCollection {
                 .foregroundColor: self.tintColor,
             ]
         case .code:
+            let defaultPointSize = UIFont.preferredFont(forTextStyle: .body).pointSize
             return [
-                .font: UIFont(name: "Courier New", size: UIFont.labelFontSize) as Any,
+                .font: wrappedFont(textStyle: .body, font: UIFont(name: "Courier New", size: defaultPointSize)!),
             ]
         case .listItem(style: _, depth: _):
             let paragraphStyle = self.paragraphStyle
@@ -113,5 +140,4 @@ public struct DefaultStyleCollection: StyleCollection {
             return nil
         }
     }
-
 }
