@@ -15,6 +15,8 @@ class CalendarOverviewViewController: UIViewController {
         case noEvents(String)
     }
 
+    @IBOutlet private weak var topLevelStackView: UIStackView!
+
     @IBOutlet private weak var currentEventName: UILabel!
     @IBOutlet private weak var currentEventLocation: UILabel!
     @IBOutlet private weak var currentEventDate: UILabel!
@@ -159,7 +161,9 @@ class CalendarOverviewViewController: UIViewController {
 }
 
 extension CalendarOverviewViewController: ViewHeightDataSource {
-    var height: CGFloat { return 200 }
+    var height: CGFloat {
+        return self.eventsOverview.frame.maxY + 32
+    }
 }
 
 extension CalendarOverviewViewController: PermissionInfoDataSource {

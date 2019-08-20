@@ -152,7 +152,7 @@ extension HomeworkOverviewViewController: NSFetchedResultsControllerDelegate {
 
 extension HomeworkOverviewViewController: ViewHeightDataSource {
     var height: CGFloat {
-        return tableView.frame.minY + tableView.contentSize.height + 16.0
+        return self.tableView.frame.minY + self.tableView.contentSize.height + self.showAllHomework.height
     }
 }
 
