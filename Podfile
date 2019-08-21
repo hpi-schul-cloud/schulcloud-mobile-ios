@@ -1,7 +1,7 @@
 use_frameworks!
 inhibit_all_warnings!
 
-platform :ios, '10.0'
+platform :ios, '11.0'
 
 pod 'SwiftLint', '~> 0.25'
 pod 'R.swift'
