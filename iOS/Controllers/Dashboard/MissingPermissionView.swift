@@ -22,6 +22,6 @@ final class MissingPermissionView: UIView {
 
 extension MissingPermissionView: ViewHeightDataSource {
     var height: CGFloat {
-        return 100.0
+        return self.label.intrinsicContentSize.height + self.label.layoutMargins.top + self.label.layoutMargins.bottom
     }
 }
