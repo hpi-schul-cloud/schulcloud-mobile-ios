@@ -31,6 +31,9 @@ class CalendarOverviewViewController: UIViewController {
     @IBOutlet private weak var currentEventLabelstackView: UIStackView!
     @IBOutlet private weak var nextEventstackView: UIStackView!
 
+    @IBOutlet private weak var topMarginConstaint: NSLayoutConstraint!
+    @IBOutlet private weak var bottomMarginConstraint: NSLayoutConstraint!
+
     @IBOutlet private weak var noEventsView: UILabel!
 
     static let noEventsMessage = "Für heute gibt es keine weiteren Termine."
@@ -162,7 +165,13 @@ class CalendarOverviewViewController: UIViewController {
 
 extension CalendarOverviewViewController: ViewHeightDataSource {
     var height: CGFloat {
-        return self.eventsOverview.frame.maxY + 32
+        let marginsHeight = self.topMarginConstaint.constant + self.bottomMarginConstraint.constant
+        switch self.state {
+        case .events(_, _):
+            return self.eventsOverview.frame.height + marginsHeight
+        case .noEvents(_):
+            return self.noEventsView.intrinsicContentSize.height + marginsHeight
+        }
     }
 }
 

@@ -17,6 +17,6 @@ final class DashboardNoPermissionViewController: UIViewController, ViewHeightDat
     }
 
     var height: CGFloat {
-        return self.label.yMax
+        return self.label.height + self.label.layoutMargins.bottom + self.label.layoutMargins.top
     }
 }
