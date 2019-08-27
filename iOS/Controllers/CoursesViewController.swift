@@ -23,8 +23,6 @@ class CoursesViewController: UICollectionViewController, UICollectionViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(contentSizeDidChanged), name: UIContentSizeCategory.didChangeNotification, object: nil)
-
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         self.performFetch()
@@ -35,7 +33,7 @@ class CoursesViewController: UICollectionViewController, UICollectionViewDelegat
         self.updateData()
     }
 
-    @objc func contentSizeDidChanged() {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         self.collectionView.collectionViewLayout.invalidateLayout()
     }
 
