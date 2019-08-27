@@ -23,6 +23,8 @@ class CoursesViewController: UICollectionViewController, UICollectionViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        NotificationCenter.default.addObserver(self, selector: #selector(contentSizeDidChanged), name: UIContentSizeCategory.didChangeNotification, object: nil)
+
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         self.performFetch()
@@ -31,6 +33,10 @@ class CoursesViewController: UICollectionViewController, UICollectionViewDelegat
 
     @IBAction private func didTriggerRefresh() {
         self.updateData()
+    }
+
+    @objc func contentSizeDidChanged() {
+        self.collectionView.collectionViewLayout.invalidateLayout()
     }
 
     func updateData() {
@@ -73,7 +79,8 @@ class CoursesViewController: UICollectionViewController, UICollectionViewDelegat
             return CGSize.zero
         }
 
-        let minimumCellWidth = CGFloat(136.0)
+
+        let minimumCellWidth = CourseCell.minimalWidth(for: self.traitCollection.preferredContentSizeCategory)
         let cellHeight = minimumCellWidth
 
         let viewWidth = collectionView.bounds.size.width
