@@ -37,6 +37,8 @@ class CourseCell: UICollectionViewCell {
 }
 
 extension CourseCell {
+
+    // swiftlint:disable:next cyclomatic_complexity
     static func minimalWidth(for contentSizeCategory: UIContentSizeCategory) -> CGFloat {
         switch contentSizeCategory {
         case .extraSmall:
@@ -64,7 +66,6 @@ extension CourseCell {
             return 290
         case .accessibilityExtraExtraExtraLarge:
             return 320
-
 
         default:
             return 200

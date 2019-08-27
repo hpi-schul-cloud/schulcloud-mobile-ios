@@ -79,7 +79,6 @@ class CoursesViewController: UICollectionViewController, UICollectionViewDelegat
             return CGSize.zero
         }
 
-
         let minimumCellWidth = CourseCell.minimalWidth(for: self.traitCollection.preferredContentSizeCategory)
         let cellHeight = minimumCellWidth
 
