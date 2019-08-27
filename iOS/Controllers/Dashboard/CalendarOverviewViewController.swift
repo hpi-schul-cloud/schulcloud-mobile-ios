@@ -15,8 +15,6 @@ class CalendarOverviewViewController: UIViewController {
         case noEvents(String)
     }
 
-    @IBOutlet private weak var topLevelStackView: UIStackView!
-
     @IBOutlet private weak var currentEventName: UILabel!
     @IBOutlet private weak var currentEventLocation: UILabel!
     @IBOutlet private weak var currentEventDate: UILabel!
@@ -167,9 +165,9 @@ extension CalendarOverviewViewController: ViewHeightDataSource {
     var height: CGFloat {
         let marginsHeight = self.topMarginConstaint.constant + self.bottomMarginConstraint.constant
         switch self.state {
-        case .events(_, _):
+        case .events:
             return self.eventsOverview.frame.height + marginsHeight
-        case .noEvents(_):
+        case .noEvents:
             return self.noEventsView.intrinsicContentSize.height + marginsHeight
         }
     }
