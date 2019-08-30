@@ -34,6 +34,7 @@ class CoursesViewController: UICollectionViewController, UICollectionViewDelegat
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
         self.collectionView.collectionViewLayout.invalidateLayout()
     }
 
