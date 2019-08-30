@@ -91,7 +91,6 @@ public final class DashboardViewController: UICollectionViewController {
         layout.dataSource = self
 
         NotificationCenter.default.addObserver(self, selector: #selector(invalidateCollectionViewLayout), name: UIContentSizeCategory.didChangeNotification, object: nil)
-
     }
 
     @objc func invalidateCollectionViewLayout() {
