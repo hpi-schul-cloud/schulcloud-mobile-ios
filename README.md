@@ -16,6 +16,7 @@ The following tools will be installed via bundler:
 - clone this repository
 - run `bundle install`
 - run `bundle exec pod repo update` and `bundle exec pod install`
+- run `cp -R ./iOS/Branding/schulcloud/assets-ios-brand.xcassets ./iOS/assets-ios-brand.generated.xcassets`
 - open `schulcloud.xcworkspace` in Xcode
 
 #### Setup fastlane
