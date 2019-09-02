@@ -128,7 +128,6 @@
                         <outlet property="nextEventName" destination="KqY-nX-pFX" id="u7e-mX-pm9"/>
                         <outlet property="nextEventstackView" destination="H97-wE-Egl" id="Fux-6m-t85"/>
                         <outlet property="noEventsView" destination="m9d-FI-m1h" id="gS1-2w-dwX"/>
-                        <outlet property="topLevelStackView" destination="pI9-TD-aT8" id="bJV-bv-snH"/>
                         <outlet property="topMarginConstaint" destination="qta-0S-kqB" id="dJR-Ut-Ozd"/>
                     </connections>
                 </viewController>
