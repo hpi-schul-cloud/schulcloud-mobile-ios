@@ -33,6 +33,11 @@ class CoursesViewController: UICollectionViewController, UICollectionViewDelegat
         self.updateData()
     }
 
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        self.collectionView.collectionViewLayout.invalidateLayout()
+    }
+
     func updateData() {
         CourseHelper.syncCourses().onFailure { error in
             log.error("Failed syncing courses", error: error)
@@ -73,7 +78,7 @@ class CoursesViewController: UICollectionViewController, UICollectionViewDelegat
             return CGSize.zero
         }
 
-        let minimumCellWidth = CGFloat(136.0)
+        let minimumCellWidth = CourseCell.minimalWidth(for: self.traitCollection.preferredContentSizeCategory)
         let cellHeight = minimumCellWidth
 
         let viewWidth = collectionView.bounds.size.width

@@ -34,5 +34,41 @@ class CourseCell: UICollectionViewCell {
         let courseColor = course.colorString.flatMap { UIColor(hexString: $0) }
         self.colorView.backgroundColor = courseColor ?? .white
     }
+}
 
+extension CourseCell {
+
+    // swiftlint:disable:next cyclomatic_complexity
+    static func minimalWidth(for contentSizeCategory: UIContentSizeCategory) -> CGFloat {
+        switch contentSizeCategory {
+        case .extraSmall:
+            return 100
+        case .small:
+            return 110
+        case .medium:
+            return 120
+        case .large:
+            return 130
+        case .extraLarge:
+            return 140
+        case .extraExtraLarge:
+            return 150
+        case .extraExtraExtraLarge:
+            return 160
+
+        case .accessibilityMedium:
+            return 200
+        case .accessibilityLarge:
+            return 230
+        case .accessibilityExtraLarge:
+            return 260
+        case .accessibilityExtraExtraLarge:
+            return 290
+        case .accessibilityExtraExtraExtraLarge:
+            return 320
+
+        default:
+            return 200
+        }
+    }
 }

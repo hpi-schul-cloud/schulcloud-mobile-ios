@@ -20,9 +20,8 @@ extension PermissionInfoDataSource where Self: UIViewController {
     }
 
     static var missingPermissionView: MissingPermissionView {
-        return UINib(nibName: "MissingPermissionView", bundle: nil).instantiate(withOwner: nil, options: nil).first as! MissingPermissionView
+        return R.nib.missingPermissionView(owner: nil)!
     }
-
 }
 
 typealias PermissionAbleViewController = UIViewController & ViewHeightDataSource & PermissionInfoDataSource
