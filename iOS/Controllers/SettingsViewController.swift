@@ -69,6 +69,9 @@ class SettingsViewController: UITableViewController {
         if selectedCell == logoutCell {
             LoginHelper.logout()
             let loginViewController = R.storyboard.main.login()!
+            if #available(iOS 13, *) {
+                loginViewController.modalPresentationStyle = .fullScreen
+            }
             self.present(loginViewController, animated: true, completion: nil)
         }
     }
