@@ -30,9 +30,9 @@ class LoadingViewController: UIViewController {
             self.navigationItem.largeTitleDisplayMode = .never
         }
 
-        progressView.setProgress(0, animated: false)
+        self.progressView.setProgress(0, animated: false)
         if self.delegate != nil {
-            cancelButton.isHidden = true
+            self.cancelButton.isHidden = true
         }
     }
 
@@ -43,7 +43,7 @@ class LoadingViewController: UIViewController {
 
     @IBAction private func cancelButtonTapped(_ sender: Any) {
         self.progressView.observedProgress?.cancel()
-        navigationController?.popViewController(animated: true)
+        self.navigationController?.popViewController(animated: true)
     }
 
     func startDownload() {
@@ -63,10 +63,6 @@ class LoadingViewController: UIViewController {
         let fileID = self.file.id
         let itemIdentifier = NSFileProviderItemIdentifier(fileID)
         let signedURLTask = self.fileSync.downloadSignedURL(fileId: fileID) { [weak self] result in
-            if #available(iOS 11.0, *) {
-            } else {
-                progress.becomeCurrent(withPendingUnitCount: 3)
-            }
 
             guard let signedURL = result.value else {
                 progress.becomeCurrent(withPendingUnitCount: 0)
@@ -81,11 +77,6 @@ class LoadingViewController: UIViewController {
                                                 at: signedURL,
                                                 moveTo: localURL,
                                                 backgroundSession: false) { [weak self] result in
-                if #available(iOS 11.0, *) {
-                } else {
-                    progress.becomeCurrent(withPendingUnitCount: 0)
-                }
-
                 switch result {
                 case .success:
                     DispatchQueue.main.async {
@@ -104,17 +95,13 @@ class LoadingViewController: UIViewController {
                 return
             }
 
-            if #available(iOS 11.0, *) {
-                NSFileProviderManager.default.register(task, forItemWithIdentifier: itemIdentifier) { _ in }
-                progress.addChild(task.progress, withPendingUnitCount: 3)
-            }
+            NSFileProviderManager.default.register(task, forItemWithIdentifier: itemIdentifier) { _ in }
+            progress.addChild(task.progress, withPendingUnitCount: 3)
 
             task.resume()
         }
 
-        if #available(iOS 11.0, *) {
-            progress.addChild(signedURLTask!.progress, withPendingUnitCount: 1)
-        }
+        progress.addChild(signedURLTask!.progress, withPendingUnitCount: 1)
 
         signedURLTask?.resume()
         self.progressView.observedProgress = progress
