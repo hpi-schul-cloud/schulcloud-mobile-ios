@@ -41,16 +41,24 @@ public class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotification
 
     private func customizeAppearance() {
         self.window?.tintColor = Brand.default.colors.primary
-
-        let navigationBarAppearance = UINavigationBar.appearance()
         let offWhite = UIColor(white: 0.98, alpha: 1.0)
-        navigationBarAppearance.barTintColor = Brand.default.colors.primary
-        navigationBarAppearance.tintColor = offWhite
-        navigationBarAppearance.titleTextAttributes = [.foregroundColor: offWhite]
-        navigationBarAppearance.shadowImage = UIImage()
+        let navigationBarAppearance = UINavigationBar.appearance()
 
-        if #available(iOS 11, *) {
-            navigationBarAppearance.largeTitleTextAttributes = [.foregroundColor: offWhite]
+        if #available(iOS 13, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = Brand.default.colors.primary
+            appearance.largeTitleTextAttributes = [.foregroundColor: offWhite]
+            appearance.titleTextAttributes = [.foregroundColor: offWhite]
+            appearance.backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: offWhite]
+            navigationBarAppearance.standardAppearance = appearance
+            navigationBarAppearance.scrollEdgeAppearance = appearance
+
+        } else {
+            navigationBarAppearance.barTintColor = Brand.default.colors.primary
+            navigationBarAppearance.tintColor = offWhite
+            navigationBarAppearance.titleTextAttributes = [.foregroundColor: offWhite]
+            navigationBarAppearance.shadowImage = UIImage()
         }
     }
 

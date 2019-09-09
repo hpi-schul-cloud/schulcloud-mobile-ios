@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="H3U-6P-sHm">
-    <device id="retina5_5" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14865.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="H3U-6P-sHm">
+    <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14819.2"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-text" translatesAutoresizingMaskIntoConstraints="NO" id="EkE-xb-OPh">
-                                <rect key="frame" x="132" y="90.666666666666686" width="150" height="125"/>
+                                <rect key="frame" x="132" y="80.666666666666686" width="150" height="125"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="EkE-xb-OPh" secondAttribute="height" multiplier="300:250" id="OSJ-GI-tsa"/>
                                     <constraint firstAttribute="width" constant="150" id="aeB-07-XO3">
@@ -28,7 +26,7 @@
                                 </constraints>
                             </imageView>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cjn-ZM-xZc" userLabel="Spacer View">
-                                <rect key="frame" x="0.0" y="20" width="20" height="266"/>
+                                <rect key="frame" x="0.0" y="0.0" width="20" height="286"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="9AA-kJ-c5Z"/>
@@ -42,13 +40,11 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="mci-Z4-1J1"/>
                                         </constraints>
-                                        <nil key="textColor"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Passwort" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="0tD-mH-BRy">
                                         <rect key="frame" x="0.0" y="52" width="382" height="44"/>
-                                        <nil key="textColor"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="go" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
                                     </textField>
@@ -160,7 +156,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="lto-Qp-3hu">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="H3U-6P-sHm" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="H3U-6P-sHm" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="G7G-HC-vi1">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
