@@ -81,7 +81,6 @@
 		CE4152A320DBDA3300739CE2 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A1CDE51F501AC5006E9B69 /* NotificationCell.swift */; };
 		CE4152A420DBDA3300739CE2 /* NewsArticleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE737A4D1FFE65B0006DAB54 /* NewsArticleCell.swift */; };
 		CE4152A520DBDA3300739CE2 /* NewsArticleOverviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5060457F206A452C009569D1 /* NewsArticleOverviewCell.swift */; };
-		CE4152A620DBDA3300739CE2 /* HtmlTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B7DB131EF5EB1800A2F2B5 /* HtmlTableViewCell.swift */; };
 		CE4152A720DBDA3300739CE2 /* DashboardViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43B4962057E4D200950EA0 /* DashboardViewControllerCell.swift */; };
 		CE4152A820DBDA3300739CE2 /* HomeworkOverviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE99358A2074F667008E7EB0 /* HomeworkOverviewCell.swift */; };
 		CE4152A920DBDA3300739CE2 /* HomeworkByCourseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE154A207B9BE900238D1F /* HomeworkByCourseCell.swift */; };
@@ -328,7 +327,6 @@
 		C3A5A93A1EC0766F00825DBF /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		C3AB48991EDAE8A800692505 /* HomeworkListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeworkListViewController.swift; sourceTree = "<group>"; };
 		C3AB489B1EDAE97600692505 /* HomeworkHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeworkHelper.swift; sourceTree = "<group>"; };
-		C3B7DB131EF5EB1800A2F2B5 /* HtmlTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HtmlTableViewCell.swift; sourceTree = "<group>"; };
 		C3C080541EE607F6005FA7C3 /* CourseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCell.swift; sourceTree = "<group>"; };
 		C3C2AC211EC3A7E90060AECA /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		C3C2AC231EC3AAA80060AECA /* LoginHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHelper.swift; sourceTree = "<group>"; };
@@ -545,7 +543,6 @@
 				50A1CDE51F501AC5006E9B69 /* NotificationCell.swift */,
 				CE737A4D1FFE65B0006DAB54 /* NewsArticleCell.swift */,
 				5060457F206A452C009569D1 /* NewsArticleOverviewCell.swift */,
-				C3B7DB131EF5EB1800A2F2B5 /* HtmlTableViewCell.swift */,
 				CE43B4962057E4D200950EA0 /* DashboardViewControllerCell.swift */,
 				CE99358A2074F667008E7EB0 /* HomeworkOverviewCell.swift */,
 				CEBE154A207B9BE900238D1F /* HomeworkByCourseCell.swift */,
@@ -1550,7 +1547,6 @@
 				CE4152A320DBDA3300739CE2 /* NotificationCell.swift in Sources */,
 				CE41529720DBD9F900739CE2 /* LoginViewController.swift in Sources */,
 				CE41528E20DBD9F000739CE2 /* NewsOverviewViewController.swift in Sources */,
-				CE4152A620DBDA3300739CE2 /* HtmlTableViewCell.swift in Sources */,
 				CEE05CD022B231BA003644DE /* PopupEventDescriptionController.swift in Sources */,
 				CE4152A020DBD9FE00739CE2 /* UIView+shake.swift in Sources */,
 				CE41529E20DBD9F900739CE2 /* NewsListViewController.swift in Sources */,
