@@ -135,7 +135,7 @@ extension NSManagedObjectContext {
         return object
     }
 
-    @discardableResult public func saveWithResult() -> Result<Void, SCError> {
+    public func saveWithResult() -> Result<Void, SCError> {
         do {
             if self.hasChanges {
                 try self.save()
