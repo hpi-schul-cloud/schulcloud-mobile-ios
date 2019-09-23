@@ -6,6 +6,7 @@
 import BrightFutures
 import Common
 import CoreData
+import SafariServices
 import UIKit
 
 private var currentEventKitSettings = CalendarEventHelper.EventKitSettings.current
@@ -15,6 +16,9 @@ class SettingsViewController: UITableViewController {
     @IBOutlet private var logoutCell: UITableViewCell!
     @IBOutlet private weak var userNameLabel: UILabel!
     @IBOutlet private var calendarSyncSwitch: UISwitch!
+
+    @IBOutlet private weak var imprintCell: UITableViewCell!
+    @IBOutlet private weak var dataUsageCell: UITableViewCell!
 
     private var observer: NSObjectProtocol?
 
@@ -65,14 +69,24 @@ class SettingsViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedCell = tableView.cellForRow(at: indexPath)
-        if selectedCell == logoutCell {
+        guard let selectedCell = tableView.cellForRow(at: indexPath) else { return }
+
+        switch selectedCell {
+        case logoutCell:
             LoginHelper.logout()
             let loginViewController = R.storyboard.main.login()!
             if #available(iOS 13, *) {
                 loginViewController.modalPresentationStyle = .fullScreen
             }
             self.present(loginViewController, animated: true, completion: nil)
+        case imprintCell:
+            let safariViewController = SFSafariViewController(url: Brand.default.servers.imprint)
+            self.present(safariViewController, animated: true)
+        case dataUsageCell:
+            let safariViewController = SFSafariViewController(url: Brand.default.servers.dataPrivacy)
+            self.present(safariViewController, animated: true)
+        default:
+            break
         }
     }
 
