@@ -38,9 +38,7 @@ class FilePreviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = item?.name
-        if #available(iOS 11.0, *) {
-            self.navigationItem.largeTitleDisplayMode = .never
-        }
+        self.navigationItem.largeTitleDisplayMode = .never
 
         let flexibleFrontItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let flexibleBackItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)

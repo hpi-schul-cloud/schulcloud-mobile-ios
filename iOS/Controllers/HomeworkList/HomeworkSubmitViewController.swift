@@ -290,11 +290,7 @@ extension HomeworkSubmitViewController: UIImagePickerControllerDelegate {
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         let urlKey: UIImagePickerController.InfoKey
-        if #available(iOS 11.0, *) {
-            urlKey = .imageURL
-        } else {
-            urlKey = .referenceURL
-        }
+        urlKey = .imageURL
 
         guard let imageURL = info[urlKey] as? URL else {
             fatalError("Need image URL")

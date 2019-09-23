@@ -494,33 +494,21 @@ public class FileSync: NSObject {
 
         let (task, future) = self.uploadSignedURL(filename: name, mimeType: type, parentId: parentId)
 
-        if #available(iOS 11.0, *) {
-            progress.addChild(task!.progress, withPendingUnitCount: 3)
-        }
+        progress.addChild(task!.progress, withPendingUnitCount: 3)
 
         future.flatMap { signedURL -> Future<Void, SCError> in
             flatname = signedURL.header[.flatName]!
 
             let (task, future) = self.upload(fileAt: url, to: signedURL.url, mimeType: type)
             task.resume()
-
-            if #available(iOS 11.0, *) {
-                progress.addChild(task.progress, withPendingUnitCount: 2)
-            } else {
-                progress.becomeCurrent(withPendingUnitCount: 2)
-            }
+            progress.addChild(task.progress, withPendingUnitCount: 2)
 
             return future
         }.flatMap { _ -> Future<[String: Any], SCError> in
-                // Remotely create the file metadtas
+            // Remotely create the file metadtas
             let (task, future) = self.createFileMetadata(name: name, mimeType: type, size: size, flatName: flatname, owner: owner, parentId: parentId)
             task?.resume()
-
-            if #available(iOS 11.0, *) {
-                progress.addChild(task!.progress, withPendingUnitCount: 1)
-            } else {
-                progress.becomeCurrent(withPendingUnitCount: 1)
-            }
+            progress.addChild(task!.progress, withPendingUnitCount: 1)
 
             return future
         }.flatMap { json -> Result<File, SCError> in
@@ -593,11 +581,7 @@ public class FileSync: NSObject {
                     return file.parentDirectory!.id
                 }
 
-                if #available(iOS 11.0, *) {
-                    NSFileProviderManager.default.signalEnumerator(for: NSFileProviderItemIdentifier(rawValue: parentId)) { _ in }
-                } else {
-                    // Fallback on earlier versions
-                }
+                NSFileProviderManager.default.signalEnumerator(for: NSFileProviderItemIdentifier(rawValue: parentId)) { _ in }
             case .failure:
                 break
             }
