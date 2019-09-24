@@ -21,10 +21,3 @@ public struct BrandServers: Decodable {
         backend = try container.decodeURL(for: .backend)
     }
 }
-
-private extension KeyedDecodingContainer {
-    func decodeURL(for key: K) throws -> URL {
-        let value = try self.decode(String.self, forKey: key)
-        return URL(string: value)!
-    }
-}
