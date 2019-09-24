@@ -127,8 +127,6 @@ extension FilesViewController: CoreDataTableViewDataSourceDelegate {
         cell.imageView?.image = UIImage(resource: object.isDirectory ? R.image.folder : R.image.document)
         cell.imageView?.tintColor = object.isDirectory ? Brand.default.colors.secondary : Brand.default.colors.primary
         cell.imageView?.contentMode = .scaleAspectFit
-        if #available(iOS 11.0, *) {
-            cell.imageView?.adjustsImageSizeForAccessibilityContentSizeCategory = true
-        }
+        cell.imageView?.adjustsImageSizeForAccessibilityContentSizeCategory = true
     }
 }

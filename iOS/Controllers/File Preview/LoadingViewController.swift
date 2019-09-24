@@ -26,9 +26,7 @@ class LoadingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if #available(iOS 11, *) {
-            self.navigationItem.largeTitleDisplayMode = .never
-        }
+        self.navigationItem.largeTitleDisplayMode = .never
 
         self.progressView.setProgress(0, animated: false)
         if self.delegate != nil {

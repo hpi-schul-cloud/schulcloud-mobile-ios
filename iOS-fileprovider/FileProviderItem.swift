@@ -35,17 +35,11 @@ class FileProviderItem: NSObject, NSFileProviderItem {
     let isShared: Bool
 
     init(file: File) {
-        if #available(iOS 11.0, *) {
-            self.itemIdentifier = file.id == FileHelper.rootDirectoryID ? NSFileProviderItemIdentifier.rootContainer : NSFileProviderItemIdentifier(file.id)
-            if let parent = file.parentDirectory {
-                self.parentItemIdentifier = parent.id == FileHelper.rootDirectoryID ? NSFileProviderItemIdentifier.rootContainer : NSFileProviderItemIdentifier(parent.id)
-            } else {
-                self.parentItemIdentifier = NSFileProviderItemIdentifier("")
-            }
-
+        self.itemIdentifier = file.id == FileHelper.rootDirectoryID ? NSFileProviderItemIdentifier.rootContainer : NSFileProviderItemIdentifier(file.id)
+        if let parent = file.parentDirectory {
+            self.parentItemIdentifier = parent.id == FileHelper.rootDirectoryID ? NSFileProviderItemIdentifier.rootContainer : NSFileProviderItemIdentifier(parent.id)
         } else {
-            self.itemIdentifier = NSFileProviderItemIdentifier(file.id)
-            self.parentItemIdentifier = file.parentDirectory != nil ? NSFileProviderItemIdentifier(file.parentDirectory!.id) : NSFileProviderItemIdentifier("")
+            self.parentItemIdentifier = NSFileProviderItemIdentifier("")
         }
 
         self.capabilities = .allowsReading

@@ -275,12 +275,7 @@ extension File {
 // MARK: computed properties
 extension File {
     static var localContainerURL: URL {
-        if #available(iOS 11.0, *) {
-            return NSFileProviderManager.default.documentStorageURL
-        } else {
-            // This returns the same URL as the iOS 11.0 documentStorageURL
-            return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Bundle.main.appGroupIdentifier!)!.appendingPathComponent("File Provider Storage")
-        }
+        return NSFileProviderManager.default.documentStorageURL
     }
 
     static var thumbnailContainerURL: URL {

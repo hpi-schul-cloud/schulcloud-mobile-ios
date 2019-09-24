@@ -17,9 +17,7 @@ class CalendarViewController: DayViewController {
         super.viewDidLoad()
 
         self.navigationItem.title = "Kalender"
-        if #available(iOS 11, *) {
-            self.navigationItem.largeTitleDisplayMode = .never
-        }
+        self.navigationItem.largeTitleDisplayMode = .never
 
         self.customizeCalendarView()
 
