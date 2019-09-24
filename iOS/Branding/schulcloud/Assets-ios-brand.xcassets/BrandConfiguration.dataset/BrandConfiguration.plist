@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>dataPrivacyURL</key>
+	<string>https://schul-cloud.org/datenschutz</string>
+	<key>imprintURL</key>
+	<string>https://schul-cloud.org/impressum</string>
 	<key>colors</key>
 	<dict>
 		<key>primary</key>
@@ -13,10 +17,6 @@
 	</dict>
 	<key>servers</key>
 	<dict>
-		<key>dataPrivacy</key>
-		<string>https://schul-cloud.org/datenschutz</string>
-		<key>imprint</key>
-		<string>https://schul-cloud.org/impressum</string>
 		<key>web</key>
 		<string>https://schul-cloud.org</string>
 		<key>backend</key>

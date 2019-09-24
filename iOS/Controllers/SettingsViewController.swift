@@ -80,10 +80,12 @@ class SettingsViewController: UITableViewController {
             }
             self.present(loginViewController, animated: true, completion: nil)
         case imprintCell:
-            let safariViewController = SFSafariViewController(url: Brand.default.servers.imprint)
+            let safariViewController = SFSafariViewController(url: Brand.default.imprintURL)
+            safariViewController.preferredControlTintColor = Brand.default.colors.primary
             self.present(safariViewController, animated: true)
         case dataUsageCell:
-            let safariViewController = SFSafariViewController(url: Brand.default.servers.dataPrivacy)
+            let safariViewController = SFSafariViewController(url: Brand.default.dataPrivacyURL)
+            safariViewController.preferredControlTintColor = Brand.default.colors.primary
             self.present(safariViewController, animated: true)
         default:
             break
