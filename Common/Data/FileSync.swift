@@ -254,6 +254,12 @@ public class FileSync: NSObject {
     }
 
     // MARK: File materialization
+
+    /// Request a signedURL to upload a file
+    /// - Parameter filename: Filename of the file to upload
+    /// - Parameter mimeType: Mime Type of the file to upload
+    /// - Parameter parentId: ID of the parent directory of the file
+    /// - Parameter completionHandler: Handler of giving the signedURL info or an error
     public func uploadSignedURL(filename: String, mimeType: String, parentId: String?, completionHandler: @escaping (Result<SignedURLInfo, SCError>) -> Void) -> URLSessionTask? {
         var request = self.authenticatedURLRequest(for: fileStorageURL.appendingPathComponent("signedUrl") )
         request.httpMethod = "POST"
@@ -307,6 +313,9 @@ public class FileSync: NSObject {
         }
     }
 
+    /// Request the signedURL to download the file
+    /// - Parameter fileId: ID of the file you want to download
+    /// - Parameter completionHandler: handler giving the URL or an error
     public func downloadSignedURL(fileId: String, completionHandler: @escaping (Result<URL, SCError>) -> Void) -> URLSessionTask? {
 
         var component = URLComponents(url: fileStorageURL.appendingPathComponent("signedUrl"), resolvingAgainstBaseURL: false)!
@@ -335,9 +344,11 @@ public class FileSync: NSObject {
         }
     }
 
-    /**
-     Download the thumbnail of a file
-     */
+
+    /// Download the thumbnail of a file
+    /// - Parameter file: The file that needs thumbnail
+    /// - Parameter background: Background or not?
+    /// - Parameter completionHandler: Handler giving the result of the download
     public func downloadThumbnail(from file: File,
                                   background: Bool = false,
                                   completionHandler: @escaping FileDownloadHandler) -> URLSessionTask? {
@@ -358,13 +369,12 @@ public class FileSync: NSObject {
                              completionHandler: completionHandler)
     }
 
-    /**
-     - Parameter id identifier of of the download
-     - Parameter at URL of the resource to downlaod
-     - Parameter moveTo Local URL where to move the download resource to
-     - Parameter backgroundSession Whether to use the background or not for download
-     - Parameter completionHandler block to execute once done
-     */
+    /// Download the files linked by the target URL
+    /// - Parameter id: identifier of of the download
+    /// - Parameter remoteURL: identifier of of the download
+    /// - Parameter localURL: Local URL where to move the download resource to
+    /// - Parameter backgroundSession: Local URL where to move the download resource to
+    /// - Parameter completionHandler: block to execute once done
     public func download(id: String,
                          at remoteURL: URL,
                          moveTo localURL: URL,
@@ -384,13 +394,12 @@ public class FileSync: NSObject {
         return task
     }
 
-    /**
-     - Parameter id identifier of the upload
-     - Parameter remoteURL upload destination
-     - Parameter fileToUploadURL URL of the resource to uplaod
-     - Parameter mimeType Strign of the mimeType
-     - Parameter completionHandler block to execute once done
-     */
+    /// Upload the file
+    /// - Parameter id identifier of the upload
+    /// - Parameter remoteURL upload destination
+    /// - Parameter fileToUploadURL URL of the resource to uplaod
+    /// - Parameter mimeType Strign of the mimeType
+    /// - Parameter completionHandler block to execute once done
     public func upload(id: String,
                        remoteURL: URL,
                        fileToUploadURL: URL,
@@ -414,6 +423,14 @@ public class FileSync: NSObject {
         return runningTask[id]?.task
     }
 
+    /// Create file metadata on ser
+    /// - Parameter name: The filename
+    /// - Parameter mimeType: The mime type
+    /// - Parameter size: The file size
+    /// - Parameter flatName: Flatname, given when uploading file
+    /// - Parameter owner: The file owner
+    /// - Parameter parentId: ID of the parent directory
+    /// - Parameter completionHandler: completionHandler, containaing the JSON metadata of the file just created or an error
     public func createFileMetadata(name: String,
                                    mimeType: String,
                                    size: Int,
@@ -468,6 +485,7 @@ public class FileSync: NSObject {
         }
     }
 
+    /// DEPRICATED: implementation needs to fit the new API
     public func createDirectory(name: String,
                                 ownerId: String,
                                 parentId: String?,
@@ -504,7 +522,12 @@ public class FileSync: NSObject {
         }
     }
 
-    // upload a file
+
+    /// Upload the local file at URL.
+    /// - Parameter url: URL of file to upload
+    /// - Parameter owner: the group owner of the file. `nil` is your personal folder
+    /// - Parameter parentId: ID of the parent directory. `nil` puts it at the root of the owner directory
+    /// - Parameter completionHandler: handler for the finished request, containing either the uploaded file metadata or an error
     public func postFile(at url: URL,
                          owner: File.Owner?,
                          parentId: String?,
