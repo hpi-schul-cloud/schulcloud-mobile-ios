@@ -8,6 +8,7 @@ import CoreData
 import Foundation
 import Marshal
 
+// MARK: Helper to manage FileMetadata and local files
 public enum FileHelper {
 
     public static var rootDirectoryID = "root"
@@ -58,7 +59,14 @@ public enum FileHelper {
             anchor.id = WorkingSetSyncAnchor.mainId
             anchor.value = 0
         }
-
+        /** Root
+            |
+            |_ Personal Directory
+            |
+            |_ Courses Directory
+            |
+            |_ Shared Directory
+        */
         let rootFolderObjectId: NSManagedObjectID = context.performAndWait {
             let rootFolder = File.createLocal(context: context,
                                               id: rootDirectoryID,
@@ -112,10 +120,6 @@ public enum FileHelper {
                     createdItem.append( try File.createOrUpdate(inContext: context, parentFolder: parentFolder, data: data))
                 }
 
-//                let createdItem = try contents.map {
-//                    try File.createOrUpdate(inContext: context, parentFolder: parentFolder, data: $0)
-//                }
-
                 // remove deleted files or folders
                 let currentItemsIDs: [String] =  createdItem.map { $0.id }
                 let parentFolderPredicate = NSPredicate(format: "parentDirectory == %@", parentFolder)
@@ -158,6 +162,8 @@ public enum FileHelper {
 
 // MARK: Course folder structure management
 extension FileHelper {
+
+    // Update the courses directory stucture with courses changes
     public static func processCourseUpdates(changes: [String: [(id: String, name: String)]]) {
         let objectID = FileHelper.rootFolder.contents.first { $0.id == FileHelper.coursesDirectoryID }!.objectID
 
@@ -206,6 +212,11 @@ extension FileHelper {
 }
 
 extension FileHelper {
+
+    /**
+
+     Predicate for file that belongs to the [workingSet](https://developer.apple.com/documentation/fileprovider/content_and_change_tracking/defining_your_file_provider_s_content#2897861)
+    */
     public static var workingSetPredicate: NSPredicate {
         let todayCompo = Calendar.current.dateComponents([.year, .month, .day], from: Date())
         let today = Calendar.current.date(from: todayCompo)
