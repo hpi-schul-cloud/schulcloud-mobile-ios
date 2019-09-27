@@ -22,6 +22,11 @@ public struct SignedURLInfo {
     }
 }
 
+
+/**
+ Entry point for file / fileStorage related network operation. We use a separate sync entry point because we want tight control on
+ file manipulation (fetch / create / delete / update).
+ */
 public class FileSync: NSObject {
 
     public static var `default`: FileSync = {
@@ -47,10 +52,17 @@ public class FileSync: NSObject {
         }
     }
 
+
+    /// Session used in FileProvider and for Uploading files
     private var backgroundSession: URLSession!
+
+    /// Session used for download in the main app
     private var foregroundSession: URLSession!
+
+    /// Session for fetching metadata
     private let metadataSession: URLSession
 
+    // File Download - Upload Info. Used for session delegates
     private struct FileTransferInfo {
         let task: URLSessionTask
         let completionHandler: FileTransferCompletionType
@@ -149,7 +161,6 @@ public class FileSync: NSObject {
     }
 
     // MARK: Directory download management
-
     public func updateContent(of directory: File, completionBlock: @escaping (Result<[File], SCError>) -> Void) -> URLSessionTask? {
         guard FileHelper.rootDirectoryID != directory.id else {
             completionBlock(.success( Array(directory.contents)))
@@ -162,8 +173,10 @@ public class FileSync: NSObject {
             })
         }
 
+        // Courses, Personal and Shared directory uses different method to get their content
         switch directory.id {
         case FileHelper.coursesDirectoryID:
+            // fetch all courses, make / remove directories bases on which courses remains
             CourseHelper.syncCourses().flatMap { _ -> Future<[File], SCError> in
                 let fetchRequest = File.fetchRequest() as NSFetchRequest<File>
                 fetchRequest.predicate = NSPredicate(format: "parentDirectory.id == %@", FileHelper.coursesDirectoryID)
@@ -173,8 +186,10 @@ public class FileSync: NSObject {
             }.onComplete { completionBlock($0) }
             return nil
         case FileHelper.sharedDirectoryID:
+            // Downloads all files then filter for the shared files
             return self.downloadSharedFiles(completionBlock: taskCompletionBlock)
         default:
+            // get content of directory
             return self.downloadContent(of: directory, completionBlock: taskCompletionBlock)
         }
     }
@@ -292,7 +307,6 @@ public class FileSync: NSObject {
         }
     }
 
-    // TODO: split this into specialized upload/download signedURL function, or request building at leasts
     public func downloadSignedURL(fileId: String, completionHandler: @escaping (Result<URL, SCError>) -> Void) -> URLSessionTask? {
 
         var component = URLComponents(url: fileStorageURL.appendingPathComponent("signedUrl"), resolvingAgainstBaseURL: false)!
@@ -321,6 +335,9 @@ public class FileSync: NSObject {
         }
     }
 
+    /**
+     Download the thumbnail of a file
+     */
     public func downloadThumbnail(from file: File,
                                   background: Bool = false,
                                   completionHandler: @escaping FileDownloadHandler) -> URLSessionTask? {
@@ -341,6 +358,13 @@ public class FileSync: NSObject {
                              completionHandler: completionHandler)
     }
 
+    /**
+     - Parameter id identifier of of the download
+     - Parameter at URL of the resource to downlaod
+     - Parameter moveTo Local URL where to move the download resource to
+     - Parameter backgroundSession Whether to use the background or not for download
+     - Parameter completionHandler block to execute once done
+     */
     public func download(id: String,
                          at remoteURL: URL,
                          moveTo localURL: URL,
@@ -360,6 +384,13 @@ public class FileSync: NSObject {
         return task
     }
 
+    /**
+     - Parameter id identifier of the upload
+     - Parameter remoteURL upload destination
+     - Parameter fileToUploadURL URL of the resource to uplaod
+     - Parameter mimeType Strign of the mimeType
+     - Parameter completionHandler block to execute once done
+     */
     public func upload(id: String,
                        remoteURL: URL,
                        fileToUploadURL: URL,
@@ -378,6 +409,7 @@ public class FileSync: NSObject {
         return task
     }
 
+    // get a running upload / download task
     public func task(id: String) -> URLSessionTask? {
         return runningTask[id]?.task
     }
@@ -472,6 +504,7 @@ public class FileSync: NSObject {
         }
     }
 
+    // upload a file
     public func postFile(at url: URL,
                          owner: File.Owner?,
                          parentId: String?,
@@ -536,6 +569,7 @@ public class FileSync: NSObject {
         return progress
     }
 
+    // MARK: Wrapped function using Future
     private func downloadSignedURL(fileId: String) -> (URLSessionTask?, Future<URL, SCError>) {
         let promise = Promise<URL, SCError>()
         let task = self.downloadSignedURL(fileId: fileId) { promise.complete($0) }
@@ -595,6 +629,7 @@ public class FileSync: NSObject {
     }
 }
 
+// MARK: URLSession Delegate
 extension FileSync: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDownloadDelegate, URLSessionDataDelegate {
     public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         guard let id = downloadTask.taskDescription else {
