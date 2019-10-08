@@ -7,6 +7,9 @@ import CoreData
 import Foundation
 import SyncEngine
 
+/**
+ CoreData Storage class for calendar events.
+ */
 final class EventData: NSManagedObject {
 
     @NSManaged var id: String
