@@ -103,8 +103,6 @@ public struct CalendarEvent {
             // e.g. Start date set to monday 28.08.2017 with dayOfTheWeek == Tuesday, the event effectively starting Tuesday 29.08.2017
             //
             // For convenience, when a recurring rule is given, we align the start date to be the actual starting date of the event
-
-            // TODO: Find better default value
             let internalEventWeekDay = Calendar.current.dateComponents([.weekday], from: startDate).weekday ?? 0
 
             // we manually assign weekday indexes for each day, sunday being exception because in a german week sunday is the last day and not the first
@@ -158,6 +156,9 @@ extension CalendarEvent {
         return EventSequence(calendarEvent: self, calculatedDate: [])
     }
 
+    /**
+     Correspond to a list of all of occurrences of an event, based on its recurence rules.
+     */
     struct EventSequence: Sequence {
 
         var calendarEvent: CalendarEvent
@@ -168,9 +169,12 @@ extension CalendarEvent {
         }
     }
 
+    /**
+     Iterator for EventSequence
+     */
     struct EventDateIterator: IteratorProtocol {
         var sequence: EventSequence
-        var iteration: Int = 0
+        var iteration: Int = 0 // work as an index, to avoid recalculating all intermediate date
 
         init(_ sequence: EventSequence) {
             self.sequence = sequence
@@ -235,6 +239,9 @@ extension CalendarEvent {
 
 extension Array where Array.Element == CalendarEvent {
 
+    /// Return the all occurences of a certain event given an interval.
+    /// - Parameter interval: the open-ended interval
+    /// - Returns: The list of occurences of an event in the open-ended interval.
     public func filter(inInterval interval: DateInterval) -> [CalendarEvent] {
         return self.map { event in
             var dateIterator = event.dates.makeIterator()
