@@ -8,6 +8,7 @@ import CoreData
 import Foundation
 import Marshal
 
+// MARK: Helper to manage FileMetadata and local files
 public enum FileHelper {
 
     public static var rootDirectoryID = "root"
@@ -43,7 +44,7 @@ public enum FileHelper {
         }
     }
 
-    /// Create the basic folder structure and return main Root
+    /// Create the basic folder structure and return the root
     static func createBaseStructure() -> File {
         do {
             try FileManager.default.createDirectory(at: File.localContainerURL, withIntermediateDirectories: true, attributes: nil)
@@ -58,7 +59,14 @@ public enum FileHelper {
             anchor.id = WorkingSetSyncAnchor.mainId
             anchor.value = 0
         }
-
+        /** Root
+            |
+            |_ Personal Directory
+            |
+            |_ Courses Directory
+            |
+            |_ Shared Directory
+        */
         let rootFolderObjectId: NSManagedObjectID = context.performAndWait {
             let rootFolder = File.createLocal(context: context,
                                               id: rootDirectoryID,
@@ -96,6 +104,9 @@ public enum FileHelper {
         return CoreDataHelper.viewContext.typedObject(with: rootFolderObjectId) as File
     }
 
+    /// Update content of directory with new content, inserting, updating or deleting files when needed
+    /// - Parameter parentFolder: the folder of which we want to update the content of
+    /// - Parameter contents: the new content
     public static func updateDatabase(contentsOf parentFolder: File, using contents: [[String: Any]]) -> Result<[File], SCError> {
         let parentFolderObjectId = parentFolder.objectID
         let context = CoreDataHelper.persistentContainer.newBackgroundContext()
@@ -111,10 +122,6 @@ public enum FileHelper {
                 for data in contents {
                     createdItem.append( try File.createOrUpdate(inContext: context, parentFolder: parentFolder, data: data))
                 }
-
-//                let createdItem = try contents.map {
-//                    try File.createOrUpdate(inContext: context, parentFolder: parentFolder, data: $0)
-//                }
 
                 // remove deleted files or folders
                 let currentItemsIDs: [String] =  createdItem.map { $0.id }
@@ -158,6 +165,9 @@ public enum FileHelper {
 
 // MARK: Course folder structure management
 extension FileHelper {
+
+    /// Update the courses directory stucture with courses changes
+    /// - Parameter changes: A list of changes to the course directory (keys [NSInsertedObjectsKey, NSUpdatedObjectsKey, NSDeletedObjectsKey], value: id, name tuple)
     public static func processCourseUpdates(changes: [String: [(id: String, name: String)]]) {
         let objectID = FileHelper.rootFolder.contents.first { $0.id == FileHelper.coursesDirectoryID }!.objectID
 
@@ -206,6 +216,8 @@ extension FileHelper {
 }
 
 extension FileHelper {
+
+    /// Predicate for file that belongs to the [workingSet](https://developer.apple.com/documentation/fileprovider/content_and_change_tracking/defining_your_file_provider_s_content#2897861)
     public static var workingSetPredicate: NSPredicate {
         let todayCompo = Calendar.current.dateComponents([.year, .month, .day], from: Date())
         let today = Calendar.current.date(from: todayCompo)
