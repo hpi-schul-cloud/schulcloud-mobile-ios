@@ -193,7 +193,6 @@ extension CalendarEvent {
 
             if let recurrenceRule = event.recurrenceRule {
 
-
                 let addedValue = Int(recurrenceRule.interval) * self.iteration
 
                 switch recurrenceRule.frequency {
@@ -238,9 +237,7 @@ extension CalendarEvent {
     }
 }
 
-
 extension Array where Array.Element == CalendarEvent {
-
 
     /// Return the all occurences of a certain event given an interval.
     /// - Parameter interval: the open-ended interval
