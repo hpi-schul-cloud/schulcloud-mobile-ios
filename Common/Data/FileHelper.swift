@@ -104,7 +104,6 @@ public enum FileHelper {
         return CoreDataHelper.viewContext.typedObject(with: rootFolderObjectId) as File
     }
 
-
     /// Update content of directory with new content, inserting, updating or deleting files when needed
     /// - Parameter parentFolder: the folder of which we want to update the content of
     /// - Parameter contents: the new content

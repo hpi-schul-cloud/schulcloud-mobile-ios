@@ -22,7 +22,6 @@ public struct SignedURLInfo {
     }
 }
 
-
 /**
  Entry point for file / fileStorage related network operation. We use a separate sync entry point because we want tight control on
  file manipulation (fetch / create / delete / update).
@@ -51,7 +50,6 @@ public class FileSync: NSObject {
             }
         }
     }
-
 
     /// Session used in FileProvider and for Uploading files
     private var backgroundSession: URLSession!
@@ -344,7 +342,6 @@ public class FileSync: NSObject {
         }
     }
 
-
     /// Download the thumbnail of a file
     /// - Parameter file: The file that needs thumbnail
     /// - Parameter background: Background or not?
@@ -521,7 +518,6 @@ public class FileSync: NSObject {
             }
         }
     }
-
 
     /// Upload the local file at URL.
     /// - Parameter url: URL of file to upload
