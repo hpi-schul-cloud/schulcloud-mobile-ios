@@ -97,7 +97,7 @@ public enum LoginHelper {
         return self.authenticate(username: username, password: password).flatMap { _ in
             return UserHelper.syncUser(withId: Globals.account!.userId)
         }.onSuccess { _ in
-            FileHelper.createBaseStructure()
+            _ = FileHelper.createBaseStructure()
         }.asVoid()
     }
 
@@ -161,7 +161,7 @@ public enum LoginHelper {
         UserDefaults.appGroupDefaults?.set(nil, forKey: "userId")
 
         do {
-            CoreDataHelper.clearCoreDataStorage()
+            _ = CoreDataHelper.clearCoreDataStorage()
             try Globals.account?.deleteFromSecureStore()
             Globals.account = nil
             try CalendarEventHelper.deleteSchulcloudCalendar()

@@ -51,29 +51,8 @@ public enum SCNotifications {
     }
 
     public static func registerDevice(with deviceToken: String) -> Future<Void, SCError> {
-        log.debug("Registering the device with the notification service...")
-        let parameters = [
-            "service": "firebase",
-            "type": "mobile",
-            "name": "iOS device",
-            "token": Globals.account!.userId,
-            "device_token": deviceToken,
-            "OS": "ios",
-        ]
-
+        log.warning("Unimpleted registration of notification device")
         return Future(value: ())
-//        return ApiHelper.requestBasic("notification/devices", method: .post, parameters: parameters, encoding: JSONEncoding.default)
-//            .flatMap { response -> Future<Void, SCError> in
-//                if let response = response.response, 200 ... 299 ~= response.statusCode {
-//                    Globals.account!.didRegisterForPushNotifications = true
-//                    log.debug("Successfully registered device to receive notifications")
-//                    return Future(value: ())
-//                } else if let afError = response.error {
-//                    return Future(error: SCError.network(afError))
-//                } else {
-//                    return Future(error: SCError(apiResponse: response.data))
-//                }
-//        }
     }
 
     public static func initializeMessaging() {
@@ -95,7 +74,6 @@ public enum SCNotifications {
 
         UNUserNotificationCenter.current().delegate = RemoteMessageDelegate.shared
     }
-
 }
 
 class RemoteMessageDelegate: NSObject, MessagingDelegate, UNUserNotificationCenterDelegate {

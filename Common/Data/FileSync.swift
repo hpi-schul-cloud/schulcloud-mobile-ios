@@ -489,34 +489,6 @@ public class FileSync: NSObject {
                                 completionHandler: @escaping (Result<[String: Any], SCError>) -> Void) -> URLSessionTask? {
 
         fatalError("Change implementation")
-        var request = self.POSTRequest(for: fileStorageURL.appendingPathComponent("directories") )
-
-        let parameters: [String: Any] = [
-            "name": name,
-            "owner": ownerId,
-            "parent": parentId ?? "",
-        ]
-
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) else {
-            completionHandler( .failure(.jsonSerialization("Failed serielizing json")))
-            return nil
-        }
-
-        request.httpBody = jsonData
-        return self.metadataSession.dataTask(with: request) { data, response, error in
-            do {
-                let data = try self.confirmNetworkResponse(data: data, response: response, error: error)
-                guard let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
-                    throw SCError.jsonDeserialization("Unexpected JSON Type")
-                }
-
-                completionHandler(.success(json))
-            } catch let error as SCError {
-                completionHandler(.failure(error))
-            } catch let error {
-                completionHandler(.failure(SCError.other(error.localizedDescription)))
-            }
-        }
     }
 
     /// Upload the local file at URL.
