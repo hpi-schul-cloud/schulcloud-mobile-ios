@@ -9,7 +9,7 @@ import SyncEngine
 
 public enum NewsArticleHelper {
 
-    public static func syncNewsArticles() -> Future<SyncEngine.SyncMultipleResult, SCError> {
+    @discardableResult public static func syncNewsArticles() -> Future<SyncEngine.SyncMultipleResult, SCError> {
         let fetchRequest = NewsArticle.fetchRequest() as NSFetchRequest<NewsArticle>
         let query = MultipleResourcesQuery(type: NewsArticle.self)
         return SyncHelper.syncResources(withFetchRequest: fetchRequest, withQuery: query)

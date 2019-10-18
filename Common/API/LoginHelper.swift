@@ -97,7 +97,7 @@ public enum LoginHelper {
         return self.authenticate(username: username, password: password).flatMap { _ in
             return UserHelper.syncUser(withId: Globals.account!.userId)
         }.onSuccess { _ in
-            _ = FileHelper.createBaseStructure()
+            FileHelper.createBaseStructure()
         }.asVoid()
     }
 
@@ -112,9 +112,6 @@ public enum LoginHelper {
             try account.saveCredentials()
             log.info("Successfully saved login data for user %@ with account %@", userId, accountId)
             Globals.account = account
-//            DispatchQueue.main.async {
-//                SCNotifications.initializeMessaging()
-//            }
 
             return Future(value: Void())
         } catch let error {
@@ -161,7 +158,7 @@ public enum LoginHelper {
         UserDefaults.appGroupDefaults?.set(nil, forKey: "userId")
 
         do {
-            _ = CoreDataHelper.clearCoreDataStorage()
+            CoreDataHelper.clearCoreDataStorage()
             try Globals.account?.deleteFromSecureStore()
             Globals.account = nil
             try CalendarEventHelper.deleteSchulcloudCalendar()

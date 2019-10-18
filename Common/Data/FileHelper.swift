@@ -29,7 +29,10 @@ public enum FileHelper {
     }
 
     public static var rootFolder: File {
-        return fetchRootFolder() ?? createBaseStructure()
+        if let root = fetchRootFolder() { return root }
+        createBaseStructure()
+        return fetchRootFolder()!
+
     }
 
     fileprivate static func fetchRootFolder() -> File? {
@@ -44,8 +47,8 @@ public enum FileHelper {
         }
     }
 
-    /// Create the basic folder structure and return the root
-    static func createBaseStructure() -> File {
+    /// Create the basic folder structure
+    static func createBaseStructure() {
         do {
             try FileManager.default.createDirectory(at: File.localContainerURL, withIntermediateDirectories: true, attributes: nil)
             try FileManager.default.createDirectory(at: File.thumbnailContainerURL, withIntermediateDirectories: true, attributes: nil)
@@ -67,7 +70,7 @@ public enum FileHelper {
             |
             |_ Shared Directory
         */
-        let rootFolderObjectId: NSManagedObjectID = context.performAndWait {
+        context.performAndWait {
             let rootFolder = File.createLocal(context: context,
                                               id: rootDirectoryID,
                                               name: "Dateien",
@@ -97,11 +100,7 @@ public enum FileHelper {
             if case let .failure(error) = context.saveWithResult() {
                 fatalError("Unresolved error \(error)") // TODO: replace this with something more friendly
             }
-
-            return rootFolder.objectID
         }
-
-        return CoreDataHelper.viewContext.typedObject(with: rootFolderObjectId) as File
     }
 
     /// Update content of directory with new content, inserting, updating or deleting files when needed

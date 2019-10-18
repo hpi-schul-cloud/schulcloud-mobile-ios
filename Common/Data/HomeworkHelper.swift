@@ -10,7 +10,7 @@ import SyncEngine
 
 public enum HomeworkHelper {
 
-    public static func syncHomework() -> Future<SyncEngine.SyncMultipleResult, SCError> {
+    @discardableResult public static func syncHomework() -> Future<SyncEngine.SyncMultipleResult, SCError> {
         let fetchRequest = Homework.fetchRequest() as NSFetchRequest<Homework>
         var query = MultipleResourcesQuery(type: Homework.self)
         query.include("courseId")
