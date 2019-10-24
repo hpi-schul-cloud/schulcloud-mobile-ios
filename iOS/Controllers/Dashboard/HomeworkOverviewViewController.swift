@@ -55,7 +55,7 @@ final class HomeworkOverviewViewController: UIViewController {
                                                name: UIContentSizeCategory.didChangeNotification,
                                                object: nil)
 
-        HomeworkHelper.syncHomework()
+        _ = HomeworkHelper.syncHomework()
         try? self.resultController.performFetch()
         self.updateHomeworkCount()
         self.didChangePreferredContentSize()

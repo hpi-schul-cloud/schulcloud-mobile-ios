@@ -112,9 +112,6 @@ public enum LoginHelper {
             try account.saveCredentials()
             log.info("Successfully saved login data for user %@ with account %@", userId, accountId)
             Globals.account = account
-//            DispatchQueue.main.async {
-//                SCNotifications.initializeMessaging()
-//            }
 
             return Future(value: Void())
         } catch let error {

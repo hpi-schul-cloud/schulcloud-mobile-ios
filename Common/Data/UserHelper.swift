@@ -9,7 +9,7 @@ import SyncEngine
 
 public enum UserHelper {
 
-    public static func syncUser(withId id: String) -> Future<SyncEngine.SyncSingleResult, SCError> {
+    @discardableResult public static func syncUser(withId id: String) -> Future<SyncEngine.SyncSingleResult, SCError> {
         let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
         let query = SingleResourceQuery(type: User.self, id: id)

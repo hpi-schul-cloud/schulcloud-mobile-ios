@@ -36,7 +36,7 @@ final class NewsOverviewViewController: UITableViewController {
         super.viewDidLoad()
         try? fetchedController.performFetch()
         tableView.reloadData()
-        NewsArticleHelper.syncNewsArticles()
+        _ = NewsArticleHelper.syncNewsArticles()
     }
 
     override func viewDidLayoutSubviews() {

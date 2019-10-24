@@ -55,7 +55,7 @@ class SettingsViewController: UITableViewController {
             self.user = user
         }
 
-        NotificationCenter.default.removeObserver(self.tableView, name: UIContentSizeCategory.didChangeNotification, object: nil)
+        NotificationCenter.default.removeObserver(self.tableView as Any, name: UIContentSizeCategory.didChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTableViewData), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
