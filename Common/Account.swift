@@ -13,8 +13,6 @@ public struct SchulCloudAccount {
     public var accountId: String
     public var accessToken: String?
 
-    private let service: String = "Schul-Cloud" // TODO(Florian): Brand this
-
     fileprivate enum KeychainError: Error {
         case itemAlreadyExists
         case itemDoesNotExist
@@ -109,7 +107,7 @@ extension SchulCloudAccount {
         return [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrAccount as String: self.userId as AnyObject,
-            kSecAttrService as String: self.service as AnyObject,
+            kSecAttrService as String: Brand.default.name as AnyObject,
             kSecAttrAccessGroup as String: Bundle.main.keychainGroupIdentifier as AnyObject,
         ]
     }

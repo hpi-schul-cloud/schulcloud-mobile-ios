@@ -1,1 +1,1 @@
-Der mobile Client des Schul-Cloud-Projektes.
+Der mobile Client der HPI Schul-Cloud.

@@ -64,7 +64,7 @@ class CalendarViewController: DayViewController {
 
     private func showCalendarPermissionErrorAlert() {
         let alert = UIAlertController(title: "Kalenderfehler",
-                                      message: "Der Schul-Cloud-Kalender konnte nicht geladen werden.",
+                                      message: "Der \(Brand.default.name)-Kalender konnte nicht geladen werden.",
                                       preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default)
         alert.addAction(okAction)

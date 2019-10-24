@@ -34,12 +34,12 @@ class Snapshots: XCTestCase {
     func testSnapshots() {
         let alertDismissals: [String: String] = [
             // english
-            "“Schul-Cloud” Would Like to Access Your Calendar": "OK",
-            "“Schul-Cloud” Would Like to Send You Notifications": "Don’t Allow",
+            "“HPI Schul-Cloud” Would Like to Access Your Calendar": "OK",
+            "“HPI Schul-Cloud” Would Like to Send You Notifications": "Don’t Allow",
 
             // german
-            "“Schul-Cloud” möchte auf deinen Kalendar zugreifen": "OK",
-            "Ein lokaler Schul-Cloud Kalendar existiert bereits.": "Verwerfen",
+            "“HPI Schul-Cloud” möchte auf deinen Kalendar zugreifen": "OK",
+            "Ein lokaler HPI Schul-Cloud Kalendar existiert bereits.": "Verwerfen",
         ]
 
         for (labelText, buttonTitle) in alertDismissals {

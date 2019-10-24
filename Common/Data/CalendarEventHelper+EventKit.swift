@@ -41,8 +41,6 @@ extension CalendarEventHelper {
                 UserDefaults.standard.synchronize()
             }
         }
-
-        public var calendarTitle: String = "Schul-Cloud"
     }
 
     // MARK: Event management
@@ -93,7 +91,7 @@ extension CalendarEventHelper {
             return calendar
         }
 
-        if let calendar = eventStore.calendars(for: .event).first (where: { $0.title == EventKitSettings.current.calendarTitle }) {
+        if let calendar = eventStore.calendars(for: .event).first (where: { $0.title == Brand.default.name }) {
             self.calendar = calendar
             return calendar
         }
@@ -107,7 +105,7 @@ extension CalendarEventHelper {
         }
 
         let calendar = EKCalendar(for: .event, eventStore: self.eventStore)
-        calendar.title = EventKitSettings.current.calendarTitle
+        calendar.title = Brand.default.name
         calendar.source = source
 
         do {

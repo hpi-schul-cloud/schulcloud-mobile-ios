@@ -85,7 +85,7 @@ class RemoteMessageDelegate: NSObject, MessagingDelegate, UNUserNotificationCent
         if let newsString = remoteMessage.appData["news"] as? String,
             let newsData = newsString.data(using: .utf8),
             let parsed = try? JSONSerialization.jsonObject(with: newsData, options: []) as? [String: Any] {
-            content.title = parsed["title"] as? String ?? "Schul-Cloud-Benachrichtigung"
+            content.title = parsed["title"] as? String ?? "\(Brand.default.name)-Benachrichtigung"
             content.body = parsed["body"] as? String ?? ""
 
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.2, repeats: false)
