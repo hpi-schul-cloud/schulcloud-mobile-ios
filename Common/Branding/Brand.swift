@@ -9,6 +9,7 @@ import UIKit
 public struct Brand: Decodable {
 
     private enum CodingKeys: CodingKey {
+        case name
         case imprintURL
         case dataPrivacyURL
 
@@ -25,6 +26,7 @@ public struct Brand: Decodable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        name = try container.decode(String.self, forKey: .name)
         imprintURL = try container.decodeURL(for: .imprintURL)
         dataPrivacyURL = try container.decodeURL(for: .dataPrivacyURL)
 
@@ -33,6 +35,7 @@ public struct Brand: Decodable {
         testAccounts = try container.decode(TestAccounts.self, forKey: .testAccounts)
     }
 
+    public let name: String
     public let imprintURL: URL
     public let dataPrivacyURL: URL
 

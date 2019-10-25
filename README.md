@@ -1,4 +1,4 @@
-# Schul-cloud for iOS
+# HPI Schul-Cloud for iOS
 native iOS application for https://schul-cloud.org/
 
 ### Issues
@@ -28,6 +28,6 @@ The following tools will be installed via bundler:
 
 ### How to release to apps
 - Install git-crypt via `brew install git-crypt`
-- Retrieve the `schulcloud-mobile-ios.key` from the Schul-cloud team and run `git-crypt unlock /path/to/schulcloud-mobile-ios.key`
+- Retrieve the `schulcloud-mobile-ios.key` from the HPI Schul-Cloud team and run `git-crypt unlock /path/to/schulcloud-mobile-ios.key`
 - Use the standard Xcode workflow to upload the app to iTunesConnect (You have to possess the iOS Distribution Certificate)
 
