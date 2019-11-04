@@ -22,12 +22,13 @@ public enum LoginHelper {
     }
 
     public static func getAccessToken(username: String, password: String) -> Future<String, SCError> {
-        let parameters = [
-            "username": username as Any,
-            "password": password as Any,
+        let parameters: [String: String] = [
+            "username": username,
+            "password": password,
+            "strategy": "local",
         ]
 
-        guard let requestBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {
+        guard let requestBody = try? JSONSerialization.data(withJSONObject: parameters as Any, options: []) else {
             return Future(error: SCError.jsonSerialization("Can't serialize login parameter"))
         }
 
